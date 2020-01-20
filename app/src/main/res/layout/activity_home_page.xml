@@ -64,6 +64,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:padding="16dp"
+                    android:background="@drawable/ripple_effect_white"
                     android:orientation="vertical">
 
                     <TextView
