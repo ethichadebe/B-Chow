@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <LinearLayout
@@ -186,6 +185,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:background="@drawable/ripple_effect_white"
                     android:gravity="center"
                     android:padding="16dp"
                     android:orientation="vertical">
@@ -311,6 +311,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:padding="16dp"
+                    android:background="@drawable/ripple_effect_white"
                     android:orientation="vertical">
 
                     <TextView
@@ -433,6 +434,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
+                    android:background="@drawable/ripple_effect_white"
                     android:padding="16dp"
                     android:orientation="vertical">
 
@@ -548,6 +550,7 @@
                 android:layout_height="wrap_content"
                 android:layout_columnWeight="1"
                 android:layout_rowWeight="1"
+                android:background="@drawable/ripple_effect_white"
                 android:layout_margin="5dp"
                 app:cardElevation="6dp"
                 app:cardCornerRadius="12dp">
@@ -556,6 +559,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
+                    android:background="@drawable/ripple_effect_white"
                     android:padding="16dp"
                     android:orientation="vertical">
 
@@ -665,7 +669,6 @@
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
-
         </GridLayout>
     </LinearLayout>
 </ScrollView>

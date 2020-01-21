@@ -9,7 +9,7 @@ import android.widget.LinearLayout;
 
 public class HomePageActivity extends AppCompatActivity {
 
-    LinearLayout llShop;
+    LinearLayout llShop, llBack;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,5 +23,6 @@ public class HomePageActivity extends AppCompatActivity {
                 startActivity(new Intent(HomePageActivity.this, ShopHomeActivity.class));
             }
         });
+
     }
 }
