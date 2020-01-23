@@ -69,15 +69,33 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:gravity="center"
             android:layout_height="150dp">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-condensed-medium"
+                android:layout_centerInParent="true"
                 android:text="Picture"
                 android:textColor="@color/Black"
                 android:textSize="92sp" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_margin="10dp">
+                <ImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:src="@drawable/heart"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="25"
+                    android:textSize="18sp"
+                    android:fontFamily="sans-serif-condensed-medium"/>
+            </LinearLayout>
         </RelativeLayout>
         <LinearLayout
             android:layout_width="match_parent"

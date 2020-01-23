@@ -16,10 +16,11 @@
             android:layout_marginRight="20dp">
 
             <ImageView
+                android:id="@+id/ivProfile"
                 android:layout_width="62dp"
                 android:layout_height="62dp"
                 android:layout_alignParentRight="true"
-                android:src="@drawable/food" />
+                android:src="@drawable/unknown" />
 
             <TextView
                 android:id="@+id/tvName"
