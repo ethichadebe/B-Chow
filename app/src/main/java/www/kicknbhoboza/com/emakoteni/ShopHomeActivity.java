@@ -34,4 +34,9 @@ public class ShopHomeActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    public void onBackPressed() {
+        this.finishAffinity();
+    }
 }
