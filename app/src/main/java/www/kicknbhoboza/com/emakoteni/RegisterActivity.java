@@ -19,11 +19,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.Calendar;
 public class RegisterActivity extends AppCompatActivity {
     RelativeLayout rellay1, rellay2;
-    private Button mButtonRegister;
+    private Button mButtonLogin,mButtonRegister;
     private ImageView mImageLogo;
     private EditText[] mTextBoxes = new EditText[7];
     private TextView mViewError;
     private CheckBox mCBMale, mCBFemale, mCBOther;
+
     private static String UserSex, UserName, UserSurname, UserNumber, UserPassword, UserDOB, UserEmail = "";
     Handler handler = new Handler();
     Runnable runnable = new Runnable() {
@@ -99,6 +100,7 @@ public class RegisterActivity extends AppCompatActivity {
         mTextBoxes[5] = findViewById(R.id.txtCPass);
         mTextBoxes[6] = findViewById(R.id.txtDOB);
 
+        mButtonLogin = findViewById(R.id.btnLogin);
         //Button
         mButtonRegister = findViewById(R.id.btnRegister);
 
@@ -151,6 +153,13 @@ public class RegisterActivity extends AppCompatActivity {
                     mCBOther.setChecked(false);
                     UserSex = "female";
                 }
+            }
+        });
+
+        mButtonLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(RegisterActivity.this, MainActivity.class));
             }
         });
 

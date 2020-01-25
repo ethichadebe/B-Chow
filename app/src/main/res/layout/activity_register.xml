@@ -27,294 +27,301 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/ivLogo">
-        <RelativeLayout
-            android:id="@+id/rellay1"
-            android:layout_width="wrap_content"
-            android:visibility="gone"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/tv_login"
+            <RelativeLayout
+                android:id="@+id/rellay1"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:fontFamily="sans-serif-medium"
-                android:text="@string/let_s_get_you_registered"
-                android:textColor="@color/Black"
-                android:textSize="20sp" />
+                android:visibility="gone"
+                android:layout_height="wrap_content">
 
-            <LinearLayout
-                android:id="@+id/linlay1"
-                android:layout_width="match_parent"
-                android:layout_below="@id/tv_login"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="vertical"
-                >
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-light"
-                        android:text="@string/first_name"
-                        android:textAllCaps="true"
-                        android:textColor="@color/Black"
-                        android:textSize="15sp" />
-
-                    <EditText
-                        android:id="@+id/txtName"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_marginTop="5dp"
-                        android:fontFamily="sans-serif-light"
-                        android:background="@drawable/et_bg"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:textColor="@color/White"
-                        android:textSize="15sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginTop="10dp"
-                    >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-light"
-                        android:text="@string/last_name"
-                        android:textAllCaps="true"
-                        android:textColor="@color/Black"
-                        android:textSize="15sp" />
-
-                    <EditText
-                        android:id="@+id/txtSurname"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_marginTop="5dp"
-                        android:fontFamily="sans-serif-light"
-                        android:background="@drawable/et_bg"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:textColor="@color/White"
-                        android:textSize="15sp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginTop="10dp"
-                    >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-light"
-                        android:text="Date of Birth"
-                        android:textAllCaps="true"
-                        android:textColor="@color/Black"
-                        android:textSize="15sp" />
-
-                    <EditText
-                        android:id="@+id/txtDOB"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_marginTop="5dp"
-                        android:fontFamily="sans-serif-light"
-                        android:background="@drawable/et_bg"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:textColor="@color/White"
-                        android:textSize="15sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-light"
-                        android:text="@string/email_address"
-                        android:layout_marginTop="10dp"
-                        android:textAllCaps="true"
-                        android:textColor="@color/Black"
-                        android:textSize="15sp" />
-
-                </LinearLayout>
-
-                <LinearLayout
+                <TextView
+                    android:id="@+id/tv_login"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <CheckBox
-                        android:id="@+id/cbMale"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        style="@style/Base.TextAppearance.AppCompat.Body1"
-                        android:padding="8dp"
-                        android:text="Male"
-                        android:textColor="#000"
-                        android:textColorHighlight="@color/colorPrimary" />
-
-
-                    <CheckBox
-                        android:id="@+id/cbFemale"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="8dp"
-                        style="@style/Base.TextAppearance.AppCompat.Body1"
-                        android:text="Female"
-                        android:textColor="#000" />
-
-                    <CheckBox
-                        android:id="@+id/cbOther"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="8dp"
-                        style="@style/Base.TextAppearance.AppCompat.Body1"
-                        android:text="Other"
-                        android:textColor="#000" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-light"
-                        android:text="@string/email_address"
-                        android:layout_marginTop="10dp"
-                        android:textAllCaps="true"
-                        android:textColor="@color/Black"
-                        android:textSize="15sp" />
-
-                    <EditText
-                        android:id="@+id/txtEmail"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_marginTop="5dp"
-                        android:fontFamily="sans-serif-light"
-                        android:background="@drawable/et_bg"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:textColor="@color/White"
-                        android:textSize="15sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:layout_marginTop="10dp"
-                    >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-light"
-                        android:text="@string/phone_number"
-                        android:textAllCaps="true"
-                        android:textColor="@color/Black"
-                        android:textSize="15sp" />
-
-                    <EditText
-                        android:id="@+id/txtPhone"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_marginTop="5dp"
-                        android:fontFamily="sans-serif-light"
-                        android:background="@drawable/et_bg"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:textColor="@color/White"
-                        android:textSize="15sp" />
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-light"
-                        android:text="@string/password"
-                        android:textAllCaps="true"
-                        android:layout_marginTop="10dp"
-                        android:textColor="@color/Black"
-                        android:textSize="15sp" />
-
-                    <EditText
-                        android:id="@+id/txtPass"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_marginTop="5dp"
-                        android:fontFamily="sans-serif-light"
-                        android:background="@drawable/et_bg"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:textColor="@color/White"
-                        android:textSize="15sp" />
-                </LinearLayout>
+                    android:fontFamily="sans-serif-medium"
+                    android:text="@string/let_s_get_you_registered"
+                    android:textColor="@color/Black"
+                    android:textSize="20sp" />
 
                 <LinearLayout
+                    android:id="@+id/linlay1"
                     android:layout_width="match_parent"
+                    android:layout_below="@id/tv_login"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:layout_marginTop="10dp"
+                    android:orientation="vertical"
                     >
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-light"
-                        android:text="@string/confirm_password"
-                        android:textAllCaps="true"
-                        android:textColor="@color/Black"
-                        android:textSize="15sp" />
-
-                    <EditText
-                        android:id="@+id/txtCPass"
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_marginTop="5dp"
-                        android:fontFamily="sans-serif-light"
-                        android:background="@drawable/et_bg"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:textColor="@color/White"
-                        android:textSize="15sp" />
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-light"
+                            android:text="@string/first_name"
+                            android:textAllCaps="true"
+                            android:textColor="@color/Black"
+                            android:textSize="15sp" />
+
+                        <EditText
+                            android:id="@+id/txtName"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginTop="5dp"
+                            android:inputType="textPersonName"
+                            android:fontFamily="sans-serif-light"
+                            android:background="@drawable/et_bg"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:textColor="@color/White"
+                            android:textSize="15sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginTop="10dp"
+                        >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-light"
+                            android:text="@string/last_name"
+                            android:textAllCaps="true"
+                            android:textColor="@color/Black"
+                            android:textSize="15sp" />
+
+                        <EditText
+                            android:id="@+id/txtSurname"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginTop="5dp"
+                            android:fontFamily="sans-serif-light"
+                            android:background="@drawable/et_bg"
+                            android:paddingLeft="10dp"
+                            android:inputType="text"
+                            android:paddingRight="10dp"
+                            android:textColor="@color/White"
+                            android:textSize="15sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginTop="10dp"
+                        >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-light"
+                            android:text="Date of Birth"
+                            android:textAllCaps="true"
+                            android:textColor="@color/Black"
+                            android:textSize="15sp" />
+
+                        <EditText
+                            android:id="@+id/txtDOB"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginTop="5dp"
+                            android:inputType="date"
+                            android:fontFamily="sans-serif-light"
+                            android:background="@drawable/et_bg"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:textColor="@color/White"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-light"
+                            android:text="@string/email_address"
+                            android:layout_marginTop="10dp"
+                            android:textAllCaps="true"
+                            android:textColor="@color/Black"
+                            android:textSize="15sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <CheckBox
+                            android:id="@+id/cbMale"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Base.TextAppearance.AppCompat.Body1"
+                            android:padding="8dp"
+                            android:text="Male"
+                            android:textColor="#000"
+                            android:textColorHighlight="@color/colorPrimary" />
+
+
+                        <CheckBox
+                            android:id="@+id/cbFemale"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="8dp"
+                            style="@style/Base.TextAppearance.AppCompat.Body1"
+                            android:text="Female"
+                            android:textColor="#000" />
+
+                        <CheckBox
+                            android:id="@+id/cbOther"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="8dp"
+                            style="@style/Base.TextAppearance.AppCompat.Body1"
+                            android:text="Other"
+                            android:textColor="#000" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-light"
+                            android:text="@string/email_address"
+                            android:layout_marginTop="10dp"
+                            android:textAllCaps="true"
+                            android:textColor="@color/Black"
+                            android:textSize="15sp" />
+
+                        <EditText
+                            android:id="@+id/txtEmail"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginTop="5dp"
+                            android:fontFamily="sans-serif-light"
+                            android:background="@drawable/et_bg"
+                            android:paddingLeft="10dp"
+                            android:inputType="textEmailAddress"
+                            android:paddingRight="10dp"
+                            android:textColor="@color/White"
+                            android:textSize="15sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginTop="10dp"
+                        >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-light"
+                            android:text="@string/phone_number"
+                            android:textAllCaps="true"
+                            android:textColor="@color/Black"
+                            android:textSize="15sp" />
+
+                        <EditText
+                            android:id="@+id/txtPhone"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginTop="5dp"
+                            android:fontFamily="sans-serif-light"
+                            android:background="@drawable/et_bg"
+                            android:paddingLeft="10dp"
+                            android:inputType="phone"
+                            android:paddingRight="10dp"
+                            android:textColor="@color/White"
+                            android:textSize="15sp" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-light"
+                            android:text="@string/password"
+                            android:textAllCaps="true"
+                            android:layout_marginTop="10dp"
+                            android:textColor="@color/Black"
+                            android:textSize="15sp" />
+
+                        <EditText
+                            android:id="@+id/txtPass"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginTop="5dp"
+                            android:fontFamily="sans-serif-light"
+                            android:background="@drawable/et_bg"
+                            android:paddingLeft="10dp"
+                            android:inputType="textPassword"
+                            android:paddingRight="10dp"
+                            android:textColor="@color/White"
+                            android:textSize="15sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginTop="10dp"
+                        >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-light"
+                            android:text="@string/confirm_password"
+                            android:textAllCaps="true"
+                            android:textColor="@color/Black"
+                            android:textSize="15sp" />
+
+                        <EditText
+                            android:id="@+id/txtCPass"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginTop="5dp"
+                            android:fontFamily="sans-serif-light"
+                            android:background="@drawable/et_bg"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:inputType="textPassword"
+                            android:textColor="@color/White"
+                            android:textSize="15sp" />
+                    </LinearLayout>
                 </LinearLayout>
-            </LinearLayout>
 
-            <Button
-                android:id="@+id/btnRegister"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/linlay1"
-                android:layout_marginTop="20dp"
-                android:textAllCaps="false"
-                android:textColor="@color/Black"
-                android:background="@drawable/btn_bg"
-                android:layout_centerHorizontal="true"
-                android:fontFamily="sans-serif-medium"
-                android:text="@string/register"/>
+                <Button
+                    android:id="@+id/btnRegister"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/linlay1"
+                    android:layout_marginTop="20dp"
+                    android:textAllCaps="false"
+                    android:textColor="@color/Black"
+                    android:background="@drawable/btn_bg"
+                    android:layout_centerHorizontal="true"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="@string/register"/>
 
-        </RelativeLayout>
+            </RelativeLayout>
         </ScrollView>
     </RelativeLayout>
 

@@ -1,36 +1,32 @@
 package www.kicknbhoboza.com.emakoteni;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 
-public class ShopHomeActivity extends AppCompatActivity {
+public class MyShopsActivity extends AppCompatActivity {
 
-    CardView cvKota;
-    LinearLayout llBack;
-
+    LinearLayout llEdit, llBack;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_shop_home);
+        setContentView(R.layout.activity_my_shops);
 
-        cvKota = findViewById(R.id.cvKota);
         llBack = findViewById(R.id.llBack);
-
+        llEdit = findViewById(R.id.llEdit);
+        llEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MyShopsActivity.this, REegisterShopActivity.class));
+            }
+        });
         llBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
-            }
-        });
-        cvKota.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(ShopHomeActivity.this, OrderActivity.class));
             }
         });
     }

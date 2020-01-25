@@ -47,7 +47,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/tvEdit"
+            android:id="@+id/tvShops"
             style="@style/Base.TextAppearance.AppCompat.Body1"
             android:layout_width="wrap_content"
             android:background="@drawable/ripple_effect"
@@ -55,6 +55,8 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentTop="true"
             android:gravity="center"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:text="My Shops"
             android:layout_alignParentEnd="true"
             android:padding="10dp"
             android:textColor="@color/White"

@@ -120,13 +120,16 @@
                 android:layout_marginRight="10dp">
 
                 <View
-                    android:layout_width="160dp"
-                    android:layout_alignParentLeft="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="1dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_toStartOf="@id/tvHeading1"
                     android:layout_centerInParent="true"
-                    android:background="@color/Grey"
-                    android:layout_height="1dp"/>
+                    android:layout_marginEnd="5dp"
+                    android:background="@color/Grey"/>
 
                 <TextView
+                    android:id="@+id/tvHeading1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Menu"
@@ -136,9 +139,11 @@
                     android:textColor="@color/Black"/>
 
                 <View
-                    android:layout_width="160dp"
-                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_toEndOf="@id/tvHeading1"
                     android:layout_centerInParent="true"
+                    android:layout_marginStart="5dp"
                     android:background="@color/Grey"
                     android:layout_height="1dp"/>
             </RelativeLayout>
@@ -314,25 +319,30 @@
                 android:layout_marginRight="10dp">
 
                 <View
-                    android:layout_width="160dp"
-                    android:layout_alignParentLeft="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="1dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_toStartOf="@id/tvHeading2"
                     android:layout_centerInParent="true"
-                    android:background="@color/Grey"
-                    android:layout_height="1dp"/>
+                    android:layout_marginEnd="5dp"
+                    android:background="@color/Grey"/>
 
                 <TextView
+                    android:id="@+id/tvHeading2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Add ons"
+                    android:text="More"
                     android:textSize="18sp"
                     android:layout_centerInParent="true"
                     android:fontFamily="sans-serif-medium"
                     android:textColor="@color/Black"/>
 
                 <View
-                    android:layout_width="160dp"
-                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_toEndOf="@id/tvHeading2"
                     android:layout_centerInParent="true"
+                    android:layout_marginStart="5dp"
                     android:background="@color/Grey"
                     android:layout_height="1dp"/>
             </RelativeLayout>
