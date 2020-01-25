@@ -174,10 +174,6 @@
                 android:text="This is a more detailed description of the specific store, they can also provide additional details about their store like other things they serve besides kotas"
                 android:textColor="@color/Black"
                 android:textSize="14sp" />
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/Black"/>
         </LinearLayout>
 
         <RelativeLayout
@@ -186,26 +182,33 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp">
 
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:layout_alignParentStart="true"
+                android:layout_toStartOf="@id/tvHeading1"
+                android:layout_centerInParent="true"
+                android:layout_marginEnd="5dp"
+                android:background="@color/Grey"/>
+
             <TextView
+                android:id="@+id/tvHeading1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Menu"
                 android:textSize="18sp"
+                android:layout_centerInParent="true"
                 android:fontFamily="sans-serif-medium"
                 android:textColor="@color/Black"/>
 
-            <Button
-                android:id="@+id/btnLogin"
+            <View
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:textAllCaps="false"
-                android:textColor="@color/Black"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:background="@drawable/btn_bg"
-                android:fontFamily="sans-serif-medium"
-                android:text="Custom Kota"/>
+                android:layout_alignParentEnd="true"
+                android:layout_toEndOf="@id/tvHeading1"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="5dp"
+                android:background="@color/Grey"
+                android:layout_height="1dp"/>
         </RelativeLayout>
 
 
