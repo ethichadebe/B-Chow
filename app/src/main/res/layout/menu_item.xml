@@ -1,0 +1,60 @@
+<androidx.cardview.widget.CardView android:layout_width="wrap_content"
+    app:cardCornerRadius="12dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_columnWeight="1"
+    android:layout_rowWeight="1"
+    android:background="@drawable/ripple_effect_white"
+    app:cardElevation="6dp"
+    android:layout_marginBottom="5dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ripple_effect_white"
+        android:padding="15dp">
+
+        <TextView
+            android:id="@+id/tvPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="R13"
+            android:textSize="14sp"
+            android:fontFamily="sans-serif-medium"
+            android:textColor="@color/Black"
+            android:layout_marginLeft="5dp"/>
+
+        <TextView
+            android:id="@+id/tvIngredients"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chips, French, Special"
+            android:textSize="14sp"
+            android:layout_toEndOf="@id/tvPrice"
+            android:layout_marginStart="10dp"
+            android:fontFamily="sans-serif-light"
+            android:textColor="@color/Black"/>
+
+        <ImageView
+            android:id="@+id/ivEdit"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:background="@drawable/ripple_effect_white"
+            android:src="@drawable/ic_edit_black_24dp"
+            android:padding="5dp"
+            android:layout_toStartOf="@+id/tvDelete"/>
+
+        <ImageView
+            android:id="@+id/tvDelete"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:background="@drawable/ripple_effect_white"
+            android:padding="5dp"
+            android:src="@drawable/ic_delete_black_24dp"
+            android:layout_marginStart="5dp"
+            android:layout_alignParentEnd="true"/>
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

@@ -92,6 +92,7 @@
         <androidx.cardview.widget.CardView
             android:layout_width="350dp"
             android:layout_height="120dp"
+            android:visibility="gone"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="275dp">
             <LinearLayout

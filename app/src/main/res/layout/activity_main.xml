@@ -118,18 +118,16 @@
                 android:gravity="center"
                 android:padding="16dp"
                 android:textColor="@color/Red"
-                android:layout_below="@+id/lllay"
-                android:layout_above="@id/btnLogin"/>
+                android:layout_below="@+id/linlay1"/>
 
             <Button
                 android:id="@+id/btnLogin"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/linlay1"
-                android:layout_marginTop="50dp"
+                android:layout_height="50dp"
                 android:textAllCaps="false"
                 android:textColor="@color/Black"
                 android:background="@drawable/btn_bg"
+                android:layout_below="@id/lblError"
                 android:layout_centerHorizontal="true"
                 android:fontFamily="sans-serif-medium"
                 android:text="@string/login"/>

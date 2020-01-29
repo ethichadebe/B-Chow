@@ -18,7 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Calendar;
 public class RegisterActivity extends AppCompatActivity {
-    RelativeLayout rellay1, rellay2;
+    RelativeLayout rellay1;
     private Button mButtonLogin,mButtonRegister;
     private ImageView mImageLogo;
     private EditText[] mTextBoxes = new EditText[7];
@@ -31,7 +31,6 @@ public class RegisterActivity extends AppCompatActivity {
         @Override
         public void run() {
             rellay1.setVisibility(View.VISIBLE);
-            rellay2.setVisibility(View.VISIBLE);
         }
     };
 
@@ -84,7 +83,6 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         rellay1 = findViewById(R.id.rellay1);
-        rellay2 = findViewById(R.id.rellay2);
 
         handler.postDelayed(runnable, 500);
 
