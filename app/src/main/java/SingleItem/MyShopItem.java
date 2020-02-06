@@ -1,6 +1,7 @@
 package SingleItem;
 
 public class MyShopItem {
+    private int strID;
     private String strShopName;
     private String strPosition;
     private int intLogo;
@@ -13,8 +14,10 @@ public class MyShopItem {
     private String strDistance;
     private String strAveTime;
 
-    public MyShopItem(String strShopName, String strPosition, int intLogo, String strShortDescript, int int1Star, int int2Star,
-                      int int3Star, int int4Star, int int5Star, String strDistance, String strAveTime) {
+    public MyShopItem(int strID, String strShopName, String strPosition, int intLogo, String strShortDescript,
+                      int int1Star, int int2Star, int int3Star, int int4Star, int int5Star, String strDistance,
+                      String strAveTime) {
+        this.strID = strID;
         this.strShopName = strShopName;
         this.strPosition = strPosition;
         this.intLogo = intLogo;
@@ -26,6 +29,10 @@ public class MyShopItem {
         this.int5Star = int5Star;
         this.strDistance = strDistance;
         this.strAveTime = strAveTime;
+    }
+
+    public int getStrID() {
+        return strID;
     }
 
     public String getStrShopName() {
@@ -71,6 +78,5 @@ public class MyShopItem {
     public String getStrAveTime() {
         return strAveTime;
     }
-
 
 }

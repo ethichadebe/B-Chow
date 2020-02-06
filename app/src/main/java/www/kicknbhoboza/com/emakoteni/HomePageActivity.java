@@ -20,7 +20,7 @@ import SingleItem.ShopItem;
 public class HomePageActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private ShopItemAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
     private ImageView ivProfile;
@@ -29,25 +29,17 @@ public class HomePageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
 
-        ArrayList<ShopItem> shopItems = new ArrayList<>();
+        final ArrayList<ShopItem> shopItems = new ArrayList<>();
 
-        shopItems.add(new ShopItem("Shop name",R.drawable.food,"This is a short description about my shop to attract custommers",
+        shopItems.add(new ShopItem(1,"Shop name",R.drawable.food,"This is a short description about my shop to attract custommers",
                 R.drawable.star,R.drawable.star,R.drawable.star,R.drawable.star,R.drawable.star,"2km","10-15min"));
-        shopItems.add(new ShopItem("Shop name",R.drawable.food,"This is a short description about my shop to attract custommers",
+        shopItems.add(new ShopItem(1,"Shop name",R.drawable.food,"This is a short description about my shop to attract custommers",
                 R.drawable.star,R.drawable.star,R.drawable.star,R.drawable.star,R.drawable.star,"2km","10-15min"));
-        shopItems.add(new ShopItem("Shop name",R.drawable.food,"This is a short description about my shop to attract custommers",
+        shopItems.add(new ShopItem(1,"Shop name",R.drawable.food,"This is a short description about my shop to attract custommers",
                 R.drawable.star,R.drawable.star,R.drawable.star,R.drawable.star,R.drawable.star,"2km","10-15min"));
-        shopItems.add(new ShopItem("Shop name",R.drawable.food,"This is a short description about my shop to attract custommers",
+        shopItems.add(new ShopItem(1,"Shop name",R.drawable.food,"This is a short description about my shop to attract custommers",
                 R.drawable.star,R.drawable.star,R.drawable.star,R.drawable.star,R.drawable.star,"2km","10-15min"));
-        shopItems.add(new ShopItem("Shop name",R.drawable.food,"This is a short description about my shop to attract custommers",
-                R.drawable.star,R.drawable.star,R.drawable.star,R.drawable.star,R.drawable.star,"2km","10-15min"));
-        shopItems.add(new ShopItem("Shop name",R.drawable.food,"This is a short description about my shop to attract custommers",
-                R.drawable.star,R.drawable.star,R.drawable.star,R.drawable.star,R.drawable.star,"2km","10-15min"));
-        shopItems.add(new ShopItem("Shop name",R.drawable.food,"This is a short description about my shop to attract custommers",
-                R.drawable.star,R.drawable.star,R.drawable.star,R.drawable.star,R.drawable.star,"2km","10-15min"));
-        shopItems.add(new ShopItem("Shop name",R.drawable.food,"This is a short description about my shop to attract custommers",
-                R.drawable.star,R.drawable.star,R.drawable.star,R.drawable.star,R.drawable.star,"2km","10-15min"));
-        shopItems.add(new ShopItem("Shop name",R.drawable.food,"This is a short description about my shop to attract custommers",
+        shopItems.add(new ShopItem(1,"Shop name",R.drawable.food,"This is a short description about my shop to attract custommers",
                 R.drawable.star,R.drawable.star,R.drawable.star,R.drawable.star,R.drawable.star,"2km","10-15min"));
         mRecyclerView = findViewById(R.id.recyclerView);
         mRecyclerView.setHasFixedSize(true);
@@ -57,6 +49,14 @@ public class HomePageActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
 
+        mAdapter.setOnItemClickListener(new ShopItemAdapter.OnItemClickListener() {
+            @Override
+            public void OnItemClick(int position) {
+                /*shopItems.get(position)*/
+                startActivity(new Intent(HomePageActivity.this, ShopHomeActivity.class));
+            }
+        });
+
         ivProfile = findViewById(R.id.ivProfile);
 
         ivProfile.setOnClickListener(new View.OnClickListener() {
@@ -65,7 +65,6 @@ public class HomePageActivity extends AppCompatActivity {
                 startActivity(new Intent(HomePageActivity.this, UserProfileActivity.class));
             }
         });
-
     }
 
     @Override

@@ -6,15 +6,15 @@
     android:layout_height="wrap_content"
     android:layout_columnWeight="1"
     android:layout_rowWeight="1"
-    android:background="@drawable/ripple_effect_white"
     app:cardElevation="6dp"
     android:layout_marginBottom="5dp"
     app:cardCornerRadius="12dp">
 
     <CheckBox
         android:id="@+id/tvIngredientName"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/ripple_effect_white"
         android:text="French"
         android:textSize="14sp"
         android:layout_centerVertical="true"

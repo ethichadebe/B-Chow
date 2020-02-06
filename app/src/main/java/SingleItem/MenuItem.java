@@ -1,20 +1,28 @@
 package SingleItem;
 
 public class MenuItem {
-    private String strPrice;
+    private int strID;
+    private Double dblPrice;
     private String strMenu;
     private int intEdit;
     private int intDelete;
+    private int intVisibility;
 
-    public MenuItem(String strPrice, String strMenu, int intEdit, int intDelete) {
-        this.strPrice = strPrice;
+    public MenuItem(int strID, Double strPrice, String strMenu, int intEdit, int intDelete, int intVisibility) {
+        this.strID = strID;
+        this.dblPrice = strPrice;
         this.strMenu = strMenu;
         this.intEdit = intEdit;
         this.intDelete = intDelete;
+        this.intVisibility = intVisibility;
     }
 
-    public String getStrPrice() {
-        return strPrice;
+    public int getStrID() {
+        return strID;
+    }
+
+    public Double getDblPrice() {
+        return dblPrice;
     }
 
     public String getStrMenu() {
@@ -27,5 +35,9 @@ public class MenuItem {
 
     public int getIntDelete() {
         return intDelete;
+    }
+
+    public int getIntVisibility() {
+        return intVisibility;
     }
 }

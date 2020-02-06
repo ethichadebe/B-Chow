@@ -1,10 +1,11 @@
 package SingleItem;
 
-public class IngredientItem {
+public class IngredientItemCheckbox {
     private int strID;
     private String strIngredientName;
+    private Boolean isChecked = true;
 
-    public IngredientItem(int strID, String strIngredientName) {
+    public IngredientItemCheckbox(int strID, String strIngredientName) {
         this.strID = strID;
         this.strIngredientName = strIngredientName;
     }
@@ -16,4 +17,13 @@ public class IngredientItem {
     public String getStrIngredientName() {
         return strIngredientName;
     }
+
+    public Boolean getChecked() {
+        return isChecked;
+    }
+
+    public void setChecked(Boolean checked) {
+        isChecked = checked;
+    }
+
 }

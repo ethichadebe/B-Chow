@@ -18,6 +18,15 @@ import www.kicknbhoboza.com.emakoteni.R;
 public class MyShopItemAdapter extends RecyclerView.Adapter<MyShopItemAdapter.ShopViewHolder> {
 
     private ArrayList<MyShopItem> myShopList;
+    private OnItemClickListener mListener;
+
+    public interface OnItemClickListener{
+        void onItemClick(int position);
+    }
+
+    public void setOnItemClickListerner(OnItemClickListener listerner) {
+        mListener = listerner;
+    }
 
     public static class ShopViewHolder extends RecyclerView.ViewHolder{
 
@@ -33,7 +42,7 @@ public class MyShopItemAdapter extends RecyclerView.Adapter<MyShopItemAdapter.Sh
         private TextView tvDistance;
         private TextView tvAveTime;
 
-        public ShopViewHolder(@NonNull View itemView) {
+        public ShopViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
             tvShopName = itemView.findViewById(R.id.tvShopName);
             tvPosition = itemView.findViewById(R.id.tvPosition);
@@ -46,6 +55,18 @@ public class MyShopItemAdapter extends RecyclerView.Adapter<MyShopItemAdapter.Sh
             ivStar5 = itemView.findViewById(R.id.ivStar5);
             tvDistance = itemView.findViewById(R.id.tvDistance);
             tvAveTime = itemView.findViewById(R.id.tvAveTime);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(listener != null){
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION){
+                            listener.onItemClick(position);
+                        }
+                    }
+                }
+            });
         }
     }
 
@@ -57,7 +78,7 @@ public class MyShopItemAdapter extends RecyclerView.Adapter<MyShopItemAdapter.Sh
     @Override
     public ShopViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.my_shop_item, parent, false);
-        ShopViewHolder svh = new ShopViewHolder(v);
+        ShopViewHolder svh = new ShopViewHolder(v, mListener);
 
         return  svh;
     }

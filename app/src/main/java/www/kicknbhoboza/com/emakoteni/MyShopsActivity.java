@@ -19,7 +19,7 @@ import SingleItem.ShopItem;
 public class MyShopsActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private MyShopItemAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
 
@@ -45,17 +45,17 @@ public class MyShopsActivity extends AppCompatActivity {
             }
         });
 
-        ArrayList<MyShopItem> shopItems = new ArrayList<>();
+        final ArrayList<MyShopItem> shopItems = new ArrayList<>();
 
-        shopItems.add(new MyShopItem("Shop name","Owner",R.drawable.food,"This is a short description about my shop to attract custommers",
+        shopItems.add(new MyShopItem(1,"Shop name","Owner",R.drawable.food,"This is a short description about my shop to attract custommers",
                 R.drawable.star,R.drawable.star,R.drawable.star,R.drawable.star,R.drawable.star,"2km","10-15min"));
-        shopItems.add(new MyShopItem("Shop name","Owner",R.drawable.food,"This is a short description about my shop to attract custommers",
+        shopItems.add(new MyShopItem(1,"Shop name","Owner",R.drawable.food,"This is a short description about my shop to attract custommers",
                 R.drawable.star,R.drawable.star,R.drawable.star,R.drawable.star,R.drawable.star,"2km","10-15min"));
-        shopItems.add(new MyShopItem("Shop name","Employee",R.drawable.food,"This is a short description about my shop to attract custommers",
+        shopItems.add(new MyShopItem(1,"Shop name","Owner",R.drawable.food,"This is a short description about my shop to attract custommers",
                 R.drawable.star,R.drawable.star,R.drawable.star,R.drawable.star,R.drawable.star,"2km","10-15min"));
-        shopItems.add(new MyShopItem("Shop name","Employee",R.drawable.food,"This is a short description about my shop to attract custommers",
+        shopItems.add(new MyShopItem(1,"Shop name","Owner",R.drawable.food,"This is a short description about my shop to attract custommers",
                 R.drawable.star,R.drawable.star,R.drawable.star,R.drawable.star,R.drawable.star,"2km","10-15min"));
-        shopItems.add(new MyShopItem("Shop name","Employee",R.drawable.food,"This is a short description about my shop to attract custommers",
+        shopItems.add(new MyShopItem(1,"Shop name","Owner",R.drawable.food,"This is a short description about my shop to attract custommers",
                 R.drawable.star,R.drawable.star,R.drawable.star,R.drawable.star,R.drawable.star,"2km","10-15min"));
 
         mRecyclerView = findViewById(R.id.recyclerView);
@@ -65,5 +65,12 @@ public class MyShopsActivity extends AppCompatActivity {
 
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
+        mAdapter.setOnItemClickListerner(new MyShopItemAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                //shopItems.get(position).
+                startActivity(new Intent(MyShopsActivity.this, OrdersActivity.class));
+            }
+        });
     }
 }

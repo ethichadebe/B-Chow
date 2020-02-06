@@ -20,6 +20,16 @@ public class MenuItemAdapter extends RecyclerView.Adapter<MenuItemAdapter.MenuVi
 
     private ArrayList<MenuItem> menuList;
 
+    private OnItemClickListener mListerner;
+
+    public interface OnItemClickListener{
+        void onItemClick(int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener){
+        mListerner = listener;
+    }
+
     public static class MenuViewHolder extends RecyclerView.ViewHolder{
 
         private TextView tvPrice;
@@ -27,12 +37,24 @@ public class MenuItemAdapter extends RecyclerView.Adapter<MenuItemAdapter.MenuVi
         private ImageView ivEdit;
         private ImageView tvDelete;
 
-        public MenuViewHolder(@NonNull View itemView) {
+        public MenuViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
             tvPrice = itemView.findViewById(R.id.tvPrice);
             tvIngredients = itemView.findViewById(R.id.tvIngredients);
             ivEdit = itemView.findViewById(R.id.ivEdit);
-            tvDelete = itemView.findViewById(R.id.tvDelete);
+            tvDelete = itemView.findViewById(R.id.ivDelete);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION){
+                            listener.onItemClick(position);
+                        }
+                    }
+                }
+            });
         }
     }
 
@@ -44,7 +66,7 @@ public class MenuItemAdapter extends RecyclerView.Adapter<MenuItemAdapter.MenuVi
     @Override
     public MenuViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.menu_item, parent, false);
-        MenuViewHolder svh = new MenuViewHolder(v);
+        MenuViewHolder svh = new MenuViewHolder(v, mListerner);
 
         return  svh;
     }
@@ -53,10 +75,12 @@ public class MenuItemAdapter extends RecyclerView.Adapter<MenuItemAdapter.MenuVi
     public void onBindViewHolder(@NonNull MenuViewHolder holder, int position) {
         MenuItem item = menuList.get(position);
 
-        holder.tvPrice.setText(item.getStrPrice());
+        holder.tvPrice.setText(String.valueOf(item.getDblPrice()));
         holder.tvIngredients.setText(item.getStrMenu());
         holder.ivEdit.setImageResource(item.getIntEdit());
         holder.tvDelete.setImageResource(item.getIntDelete());
+        holder.ivEdit.setVisibility(item.getIntVisibility());
+        holder.tvDelete.setVisibility(item.getIntVisibility());
     }
 
     @Override

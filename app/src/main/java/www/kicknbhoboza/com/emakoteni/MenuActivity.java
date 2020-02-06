@@ -15,13 +15,16 @@ import java.util.ArrayList;
 import Adapter.MenuItemAdapter;
 import SingleItem.MenuItem;
 
+import static www.kicknbhoboza.com.emakoteni.MenuCreationActivity.getMenuItems;
+
 public class MenuActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    private ArrayList<MenuItem> MenuItems;
 
-    LinearLayout llBack;
+    LinearLayout llBack, llAddMenu;
     Button btnOder;
 
     @Override
@@ -29,13 +32,15 @@ public class MenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
-        ArrayList<MenuItem> MenuItems = new ArrayList<>();
+        MenuItems = new ArrayList<>();
 
-        MenuItems.add(new MenuItem("R13","Chips, French, Eggs", R.drawable.ic_edit_black_24dp, R.drawable.ic_delete_black_24dp) );
-        MenuItems.add(new MenuItem("R13","Chips, French, Eggs", R.drawable.ic_edit_black_24dp, R.drawable.ic_delete_black_24dp) );
-        MenuItems.add(new MenuItem("R13","Chips, French, Eggs", R.drawable.ic_edit_black_24dp, R.drawable.ic_delete_black_24dp) );
-        MenuItems.add(new MenuItem("R13","Chips, French, Eggs", R.drawable.ic_edit_black_24dp, R.drawable.ic_delete_black_24dp) );
-        MenuItems.add(new MenuItem("R13","Chips, French, Eggs", R.drawable.ic_edit_black_24dp, R.drawable.ic_delete_black_24dp) );
+        MenuItems = getMenuItems();
+        /*if (getMenuItems() != null){
+            for (int i=0; i< getMenuItems().size(); i++){
+                MenuItems.add(new MenuItem(1,getMenuItems().get(i).getDblPrice(),getMenuItems().get(i).getStrMenu(), R.drawable.ic_edit_black_24dp,
+                        R.drawable.ic_delete_black_24dp, View.VISIBLE) );
+            }
+        }*/
             mRecyclerView = findViewById(R.id.recyclerView);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
@@ -46,10 +51,17 @@ public class MenuActivity extends AppCompatActivity {
 
         llBack = findViewById(R.id.llBack);
         btnOder = findViewById(R.id.btnOder);
+        llAddMenu = findViewById(R.id.llAddMenu);
         btnOder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(MenuActivity.this, HomePageActivity.class));
+            }
+        });
+        llAddMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MenuActivity.this, NewMenuItemActivity.class));
             }
         });
         llBack.setOnClickListener(new View.OnClickListener() {
@@ -59,4 +71,5 @@ public class MenuActivity extends AppCompatActivity {
             }
         });
     }
+
 }

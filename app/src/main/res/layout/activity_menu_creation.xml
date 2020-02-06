@@ -62,36 +62,40 @@
 
     </RelativeLayout>
 
-    <LinearLayout
-        android:id="@+id/llAddOption"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/llHead"
-        android:background="@drawable/ripple_effect_white"
-        android:gravity="center">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:id="@+id/rlTotal"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/ic_add_black_24dp"
-            android:layout_gravity="top"
-            android:textSize="14sp"
-            android:fontFamily="sans-serif-medium"
-            android:textColor="@color/Black"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="5dp"/>
+            android:layout_below="@+id/llHead"
+            android:padding="10dp">
 
-        <TextView
-            android:id="@+id/tvPicture"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:fontFamily="sans-serif-condensed-medium"
-            android:text="Add Ingredient"
-            android:textColor="@color/Black"
-            android:textSize="18sp" />
-
-    </LinearLayout>
+            <EditText
+                android:id="@+id/txtName"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_toStartOf="@+id/btnAddOption"
+                android:background="@drawable/et_bg"
+                android:hint="Enter new Ingredient name"
+                android:layout_alignParentStart="true"
+                android:fontFamily="sans-serif-light"
+                android:inputType="text"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:textColor="@color/Black"
+                android:textSize="14sp" />
+            <Button
+                android:id="@+id/btnAddOption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/ripple_effect"
+                android:textColor="@color/White"/>
+        </RelativeLayout>
 
 
     <RelativeLayout
@@ -99,7 +103,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:layout_below="@id/llAddOption"
+        android:layout_below="@id/rlTotal"
         android:layout_marginRight="10dp">
 
         <View
@@ -133,13 +137,13 @@
             android:layout_height="1dp"/>
     </RelativeLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/rlHeading1"
-            android:padding="4dp"
-            android:scrollbars="horizontal"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/rlHeading1"
+        android:padding="4dp"
+        android:scrollbars="horizontal"/>
 
     <Button
         android:id="@+id/btnOder"
