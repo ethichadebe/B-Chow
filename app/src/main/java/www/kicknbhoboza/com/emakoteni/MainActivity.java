@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import util.User;
 
@@ -30,7 +31,8 @@ public class MainActivity extends AppCompatActivity {
     private EditText mTextPassword, mTextUsername;
     private TextView mViewError;
     private ImageView mImageLogo;
-    private Button mButtonLogin,mButtonRegister;
+    private CardView mButtonLogin;
+    private Button mButtonRegister;
     public static User user;
 
     @Override

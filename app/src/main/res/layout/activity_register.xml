@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:animateLayoutChanges="true"
-    android:background="@drawable/grad_bg">
+    android:animateLayoutChanges="true">
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -76,7 +75,7 @@
                             android:background="@drawable/et_bg"
                             android:paddingLeft="10dp"
                             android:paddingRight="10dp"
-                            android:textColor="@color/White"
+                            android:textColor="@color/Black"
                             android:textSize="15sp" />
                     </LinearLayout>
 
@@ -106,7 +105,7 @@
                             android:paddingLeft="10dp"
                             android:inputType="text"
                             android:paddingRight="10dp"
-                            android:textColor="@color/White"
+                            android:textColor="@color/Black"
                             android:textSize="15sp" />
 
                     </LinearLayout>
@@ -137,7 +136,7 @@
                             android:background="@drawable/et_bg"
                             android:paddingLeft="10dp"
                             android:paddingRight="10dp"
-                            android:textColor="@color/White"
+                            android:textColor="@color/Black"
                             android:textSize="15sp" />
 
                         <TextView
@@ -163,8 +162,8 @@
                             style="@style/Base.TextAppearance.AppCompat.Body1"
                             android:padding="8dp"
                             android:text="Male"
-                            android:textColor="#000"
-                            android:textColorHighlight="@color/colorPrimary" />
+                            android:textColor="@color/Black"
+                            android:textColorHighlight="@color/Black" />
 
 
                         <CheckBox
@@ -213,7 +212,7 @@
                             android:paddingLeft="10dp"
                             android:inputType="textEmailAddress"
                             android:paddingRight="10dp"
-                            android:textColor="@color/White"
+                            android:textColor="@color/Black"
                             android:textSize="15sp" />
                     </LinearLayout>
 
@@ -243,7 +242,7 @@
                             android:paddingLeft="10dp"
                             android:inputType="phone"
                             android:paddingRight="10dp"
-                            android:textColor="@color/White"
+                            android:textColor="@color/Black"
                             android:textSize="15sp" />
                     </LinearLayout>
                     <LinearLayout
@@ -272,7 +271,7 @@
                             android:paddingLeft="10dp"
                             android:inputType="textPassword"
                             android:paddingRight="10dp"
-                            android:textColor="@color/White"
+                            android:textColor="@color/Black"
                             android:textSize="15sp" />
                     </LinearLayout>
 
@@ -302,7 +301,7 @@
                             android:paddingLeft="10dp"
                             android:paddingRight="10dp"
                             android:inputType="textPassword"
-                            android:textColor="@color/White"
+                            android:textColor="@color/Black"
                             android:textSize="15sp" />
                     </LinearLayout>
                 </LinearLayout>
@@ -317,17 +316,31 @@
                     android:layout_below="@+id/linlay1"
                     android:textColor="#ff1717" />
 
-                <Button
+                <androidx.cardview.widget.CardView
                     android:id="@+id/btnRegister"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:layout_columnWeight="1"
+                    android:layout_rowWeight="1"
                     android:layout_below="@+id/lblError"
-                    android:textAllCaps="false"
-                    android:textColor="@color/Black"
-                    android:background="@drawable/btn_bg"
+                    app:cardElevation="6dp"
                     android:layout_centerHorizontal="true"
                     android:fontFamily="sans-serif-medium"
-                    android:text="@string/register"/>
+                    android:background="@drawable/btn_bg"
+                    android:padding="50dp"
+                    app:cardCornerRadius="12dp">
+                    <TextView
+                        android:id="@+id/tvPrice"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textSize="14sp"
+                        android:background="@drawable/ripple_effect"
+                        android:gravity="center"
+                        android:fontFamily="sans-serif-medium"
+                        android:textAllCaps="false"
+                        android:text="@string/register"
+                        android:textColor="@color/White"/>
+                </androidx.cardview.widget.CardView>
 
                 <Button
                     android:id="@+id/btnLogin"

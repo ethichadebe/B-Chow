@@ -15,11 +15,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import java.util.Calendar;
 public class RegisterActivity extends AppCompatActivity {
     RelativeLayout rellay1;
-    private Button mButtonLogin,mButtonRegister;
+    private CardView mButtonRegister;
+    private Button mButtonLogin;
     private ImageView mImageLogo;
     private EditText[] mTextBoxes = new EditText[7];
     private TextView mViewError;

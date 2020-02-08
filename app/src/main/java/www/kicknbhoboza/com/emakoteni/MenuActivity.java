@@ -1,6 +1,7 @@
 package www.kicknbhoboza.com.emakoteni;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,8 +27,8 @@ public class MenuActivity extends AppCompatActivity {
     private ArrayList<MenuItem> MenuItems;
     private static String[] Ingredients = null;
     private static int intPosition;
+    private CardView llAddMenu, llBack;
 
-    LinearLayout llBack, llAddMenu;
     Button btnOder;
 
     @Override

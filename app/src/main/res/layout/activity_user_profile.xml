@@ -9,8 +9,7 @@
     <RelativeLayout
         android:id="@+id/llHead"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary">
+        android:layout_height="?attr/actionBarSize">
 
         <TextView
             android:id="@+id/tvType"
@@ -23,11 +22,10 @@
             android:layout_marginStart="0dp"
             android:layout_marginTop="0dp"
             android:layout_marginBottom="0dp"
-            android:background="@color/colorPrimary"
             android:gravity="center"
             android:padding="10dp"
             android:text="User Profile"
-            android:textColor="@color/White"
+            android:textColor="@color/Black"
             android:textSize="12sp"
             android:textStyle="bold" />
 
@@ -36,7 +34,7 @@
             android:layout_width="?attr/actionBarSize"
             android:layout_alignParentBottom="true"
             android:layout_alignParentTop="true"
-            android:background="@drawable/ripple_effect"
+            android:background="@drawable/ripple_effect_white"
             android:gravity="center"
             android:layout_height="?attr/actionBarSize">
             <TextView
@@ -50,7 +48,7 @@
             android:id="@+id/tvShops"
             style="@style/Base.TextAppearance.AppCompat.Body1"
             android:layout_width="wrap_content"
-            android:background="@drawable/ripple_effect"
+            android:background="@drawable/ripple_effect_white"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentTop="true"
@@ -59,7 +57,7 @@
             android:text="My Shops"
             android:layout_alignParentEnd="true"
             android:padding="10dp"
-            android:textColor="@color/White"
+            android:textColor="@color/Black"
             android:textSize="12sp"
             android:textStyle="bold" />
 
@@ -67,8 +65,18 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="405dp">
+        <androidx.cardview.widget.CardView android:layout_width="match_parent"
+            app:cardCornerRadius="12dp"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_height="wrap_content"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:background="@drawable/ripple_effect_white"
+            app:cardElevation="5dp"
+            android:layout_margin="5dp">
+
         <LinearLayout
-            android:background="@drawable/gradientbackground"
             android:layout_width="match_parent"
             android:layout_height="350dp"
             android:orientation="vertical">
@@ -84,16 +92,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Wiliam Snoe"
-                android:textColor="#fff"
+                android:textColor="@color/Black"
                 android:textStyle="bold"
                 android:textSize="21sp"/>
         </LinearLayout>
+        </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:layout_width="350dp"
             android:layout_height="120dp"
-            android:visibility="gone"
             android:layout_centerHorizontal="true"
+            app:cardElevation="5dp"
             android:layout_marginTop="275dp">
             <LinearLayout
                 android:layout_width="match_parent"
@@ -110,6 +119,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Photos"
+                        android:textColor="@color/Black"
                         android:textSize="20sp"
                         />
                     <TextView
@@ -119,7 +129,7 @@
                         android:textStyle="bold"
                         android:textSize="20sp"
                         android:paddingTop="10dp"
-                        android:textColor="@color/colorPrimary"/>
+                        android:textColor="@color/Black"/>
 
                 </LinearLayout>
                 <LinearLayout
@@ -133,6 +143,7 @@
                         android:layout_height="wrap_content"
                         android:text="Followers"
                         android:textSize="20sp"
+                        android:textColor="@color/Black"
                         />
                     <TextView
                         android:layout_width="wrap_content"
@@ -141,7 +152,7 @@
                         android:textStyle="bold"
                         android:textSize="20sp"
                         android:paddingTop="10dp"
-                        android:textColor="@color/colorPrimary"/>
+                        android:textColor="@color/Black"/>
 
                 </LinearLayout>
                 <LinearLayout
@@ -155,6 +166,7 @@
                         android:layout_height="wrap_content"
                         android:text="Following"
                         android:textSize="20sp"
+                        android:textColor="@color/Black"
                         />
                     <TextView
                         android:layout_width="wrap_content"
@@ -163,7 +175,7 @@
                         android:textStyle="bold"
                         android:textSize="20sp"
                         android:paddingTop="10dp"
-                        android:textColor="@color/colorPrimary"/>
+                        android:textColor="@color/Black"/>
 
                 </LinearLayout>
             </LinearLayout>
