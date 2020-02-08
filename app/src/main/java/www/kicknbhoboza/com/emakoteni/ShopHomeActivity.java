@@ -25,6 +25,7 @@ public class ShopHomeActivity extends AppCompatActivity {
     private MenuItemAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private static ArrayList<MenuItem> MenuItems;
+    private static String[] ingredients;
 
     LinearLayout llBack;
 
@@ -44,14 +45,14 @@ public class ShopHomeActivity extends AppCompatActivity {
 
         MenuItems = new ArrayList<>();
 
-        MenuItems.add(new MenuItem(1,10.5,"Chips, French, Eggs", R.drawable.ic_edit_black_24dp,
-                R.drawable.ic_delete_black_24dp, View.GONE) );
-        MenuItems.add(new MenuItem(1,10.0,"Chips, French, Eggs", R.drawable.ic_edit_black_24dp,
-                R.drawable.ic_delete_black_24dp, View.GONE) );
-        MenuItems.add(new MenuItem(1,17.0,"Chips, French, Eggs", R.drawable.ic_edit_black_24dp,
-                R.drawable.ic_delete_black_24dp, View.GONE) );
-        MenuItems.add(new MenuItem(1,10.5,"Chips, French, Eggs", R.drawable.ic_edit_black_24dp,
-                R.drawable.ic_delete_black_24dp, View.GONE) );
+        MenuItems.add(new MenuItem(1, 10.5, "Chips, French, Eggs", R.drawable.ic_edit_black_24dp,
+                R.drawable.ic_delete_black_24dp, View.GONE));
+        MenuItems.add(new MenuItem(1, 10.0, "Chips, French, Eggs", R.drawable.ic_edit_black_24dp,
+                R.drawable.ic_delete_black_24dp, View.GONE));
+        MenuItems.add(new MenuItem(1, 17.0, "Chips, French, Eggs", R.drawable.ic_edit_black_24dp,
+                R.drawable.ic_delete_black_24dp, View.GONE));
+        MenuItems.add(new MenuItem(1, 10.5, "Chips, French, Eggs, Burger", R.drawable.ic_edit_black_24dp,
+                R.drawable.ic_delete_black_24dp, View.GONE));
         mRecyclerView = findViewById(R.id.recyclerView);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
@@ -63,10 +64,22 @@ public class ShopHomeActivity extends AppCompatActivity {
         mAdapter.setOnItemClickListener(new MenuItemAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
+                ingredients = MenuItems.get(position).getStrMenu().split(", ");
                 startActivity(new Intent(ShopHomeActivity.this, OrderActivity.class));
             }
+
+            @Override
+            public void onEditClick(int position) {
+            }
+
+            @Override
+            public void onDeleteClick(int position) {
+
+            }
         });
+    }
 
-
+    public static String[] getIngredients() {
+        return ingredients;
     }
 }

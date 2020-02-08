@@ -40,4 +40,9 @@ public class MenuItem {
     public int getIntVisibility() {
         return intVisibility;
     }
+
+    public void EditPriceNMenu(Double price, String Menu){
+        strMenu = Menu;
+        dblPrice = price;
+    }
 }

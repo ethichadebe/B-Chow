@@ -3,11 +3,12 @@ package SingleItem;
 public class IngredientItemCheckbox {
     private int strID;
     private String strIngredientName;
-    private Boolean isChecked = true;
+    private Boolean isChecked;
 
-    public IngredientItemCheckbox(int strID, String strIngredientName) {
+    public IngredientItemCheckbox(int strID, String strIngredientName, Boolean isChecked) {
         this.strID = strID;
         this.strIngredientName = strIngredientName;
+        this.isChecked = isChecked;
     }
 
     public int getStrID() {

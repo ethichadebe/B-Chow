@@ -26,20 +26,21 @@ public class MenuCreationActivity extends AppCompatActivity {
 
     private static ArrayList<IngredientItem> ingredientItems;
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private IngredientItemAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private static ArrayList<MenuItem> MenuItems;
 
     LinearLayout llBack;
     Button btnOder, btnAddOption;
     EditText txtName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_creation);
 
-        MenuItems = new ArrayList<>();
         ingredientItems = new ArrayList<>();
+        MenuItems= new ArrayList<>();
         btnOder = findViewById(R.id.btnOder);
         llBack = findViewById(R.id.llBack);
         txtName = findViewById(R.id.txtName);
@@ -60,34 +61,15 @@ public class MenuCreationActivity extends AppCompatActivity {
         btnAddOption.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (txtName.getText().toString().isEmpty()){
+                if (txtName.getText().toString().isEmpty()) {
 
                     txtName.setBackground(getResources().getDrawable(R.drawable.et_bg_err));
                 } else {
                     txtName.setBackground(getResources().getDrawable(R.drawable.et_bg));
-                    ingredientItems.add(new IngredientItem(1,txtName.getText().toString()));
+                    ingredientItems.add(new IngredientItem(1, txtName.getText().toString()));
                     mAdapter.notifyItemInserted(ingredientItems.size());
                     txtName.setText("");
                 }
-            }
-        });
-
-        txtName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
-                    //do what you want on the press of 'done'
-                    if (txtName.getText().toString().isEmpty()){
-
-                        txtName.setBackground(getResources().getDrawable(R.drawable.et_bg_err));
-                    } else {
-                        txtName.setBackground(getResources().getDrawable(R.drawable.et_bg));
-                        ingredientItems.add(new IngredientItem(1,txtName.getText().toString()));
-                        mAdapter.notifyItemInserted(ingredientItems.size());
-                        txtName.setText("");
-                    }
-                    btnAddOption.performClick();
-                }
-                return false;
             }
         });
 
@@ -99,16 +81,30 @@ public class MenuCreationActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
 
+
+        mAdapter.setOnIngredientClickListener(new IngredientItemAdapter.OnIngredientClickListener() {
+            @Override
+            public void onRemoveClick(int position) {
+                ingredientItems.remove(position);
+                mAdapter.notifyItemRemoved(ingredientItems.size());
+            }
+        });
+
     }
 
     public static ArrayList<IngredientItem> getIngredientItems() {
         return ingredientItems;
     }
+
     public static ArrayList<MenuItem> getMenuItems() {
         return MenuItems;
     }
-    public static void addToList(Double Price, String ingredients){
-        MenuItems.add(new MenuItem(1,Price, ingredients, R.drawable.ic_edit_black_24dp,
+
+    public static void addToList(Double Price, String ingredients) {
+        MenuItems.add(new MenuItem(1, Price, ingredients, R.drawable.ic_edit_black_24dp,
                 R.drawable.ic_delete_black_24dp, View.VISIBLE));
+    }
+    public static void EditMenu(int position, Double Price, String ingredients) {
+        MenuItems.get(position).EditPriceNMenu(Price, ingredients);
     }
 }

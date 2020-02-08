@@ -22,35 +22,57 @@ public class MenuItemAdapter extends RecyclerView.Adapter<MenuItemAdapter.MenuVi
 
     private OnItemClickListener mListerner;
 
-    public interface OnItemClickListener{
+    public interface OnItemClickListener {
         void onItemClick(int position);
+        void onEditClick(int position);
+        void onDeleteClick(int position);
     }
 
-    public void setOnItemClickListener(OnItemClickListener listener){
+    public void setOnItemClickListener(OnItemClickListener listener) {
         mListerner = listener;
     }
 
-    public static class MenuViewHolder extends RecyclerView.ViewHolder{
+    public static class MenuViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView tvPrice;
-        private TextView tvIngredients;
-        private ImageView ivEdit;
-        private ImageView tvDelete;
+        private TextView tvPrice, tvIngredients;
+        private ImageView ivEdit, ivDelete;
 
         public MenuViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
             tvPrice = itemView.findViewById(R.id.tvPrice);
             tvIngredients = itemView.findViewById(R.id.tvIngredients);
             ivEdit = itemView.findViewById(R.id.ivEdit);
-            tvDelete = itemView.findViewById(R.id.ivDelete);
+            ivDelete = itemView.findViewById(R.id.ivDelete);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (listener != null) {
                         int position = getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION){
+                        if (position != RecyclerView.NO_POSITION) {
                             listener.onItemClick(position);
+                        }
+                    }
+                }
+            });
+            ivEdit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onEditClick(position);
+                        }
+                    }
+                }
+            });
+            ivDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onDeleteClick(position);
                         }
                     }
                 }
@@ -58,7 +80,7 @@ public class MenuItemAdapter extends RecyclerView.Adapter<MenuItemAdapter.MenuVi
         }
     }
 
-    public MenuItemAdapter(ArrayList<MenuItem> menuList){
+    public MenuItemAdapter(ArrayList<MenuItem> menuList) {
         this.menuList = menuList;
     }
 
@@ -68,7 +90,7 @@ public class MenuItemAdapter extends RecyclerView.Adapter<MenuItemAdapter.MenuVi
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.menu_item, parent, false);
         MenuViewHolder svh = new MenuViewHolder(v, mListerner);
 
-        return  svh;
+        return svh;
     }
 
     @Override
@@ -78,9 +100,11 @@ public class MenuItemAdapter extends RecyclerView.Adapter<MenuItemAdapter.MenuVi
         holder.tvPrice.setText(String.valueOf(item.getDblPrice()));
         holder.tvIngredients.setText(item.getStrMenu());
         holder.ivEdit.setImageResource(item.getIntEdit());
-        holder.tvDelete.setImageResource(item.getIntDelete());
+        holder.ivDelete.setImageResource(item.getIntDelete());
         holder.ivEdit.setVisibility(item.getIntVisibility());
-        holder.tvDelete.setVisibility(item.getIntVisibility());
+        holder.ivDelete.setVisibility(item.getIntVisibility());
+
+
     }
 
     @Override

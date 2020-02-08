@@ -21,16 +21,16 @@ public class IngredientItemCheckboxAdapter extends RecyclerView.Adapter<Ingredie
     private ArrayList<IngredientItemCheckbox> ingredientList;
     private OnItemClickListener mListener;
 
-    public interface OnItemClickListener{
+    public interface OnItemClickListener {
         void OnItemClick(int position);
     }
 
-    public void setOnItemClickListener(OnItemClickListener listener){
+    public void setOnItemClickListener(OnItemClickListener listener) {
         mListener = listener;
 
     }
 
-    public static class IngredientCheckboxViewHolder extends RecyclerView.ViewHolder{
+    public static class IngredientCheckboxViewHolder extends RecyclerView.ViewHolder {
 
         private CheckBox tvIngredientName;
 
@@ -38,12 +38,12 @@ public class IngredientItemCheckboxAdapter extends RecyclerView.Adapter<Ingredie
             super(itemView);
             tvIngredientName = itemView.findViewById(R.id.tvIngredientName);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
+            tvIngredientName.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (listener != null){
-                        int position =getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION){
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
                             listener.OnItemClick(position);
                         }
                     }
@@ -53,7 +53,7 @@ public class IngredientItemCheckboxAdapter extends RecyclerView.Adapter<Ingredie
         }
     }
 
-    public IngredientItemCheckboxAdapter(ArrayList<IngredientItemCheckbox> shopList){
+    public IngredientItemCheckboxAdapter(ArrayList<IngredientItemCheckbox> shopList) {
         this.ingredientList = shopList;
     }
 
@@ -63,15 +63,16 @@ public class IngredientItemCheckboxAdapter extends RecyclerView.Adapter<Ingredie
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.ingredient_item_checkbox, parent, false);
         IngredientCheckboxViewHolder svh = new IngredientCheckboxViewHolder(v, mListener);
 
-        return  svh;
+        return svh;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull IngredientCheckboxViewHolder holder, int position) {
-        IngredientItemCheckbox item = ingredientList.get(position);
+    public void onBindViewHolder(@NonNull final IngredientCheckboxViewHolder holder, int position) {
+        final IngredientItemCheckbox item = ingredientList.get(position);
 
         holder.tvIngredientName.setText(item.getStrIngredientName());
         holder.tvIngredientName.setId(item.getStrID());
+        holder.tvIngredientName.setChecked(item.getChecked());
     }
 
     @Override

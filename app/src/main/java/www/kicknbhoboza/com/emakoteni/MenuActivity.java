@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -20,9 +21,11 @@ import static www.kicknbhoboza.com.emakoteni.MenuCreationActivity.getMenuItems;
 public class MenuActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private MenuItemAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<MenuItem> MenuItems;
+    private static String[] Ingredients = null;
+    private static int intPosition;
 
     LinearLayout llBack, llAddMenu;
     Button btnOder;
@@ -35,13 +38,8 @@ public class MenuActivity extends AppCompatActivity {
         MenuItems = new ArrayList<>();
 
         MenuItems = getMenuItems();
-        /*if (getMenuItems() != null){
-            for (int i=0; i< getMenuItems().size(); i++){
-                MenuItems.add(new MenuItem(1,getMenuItems().get(i).getDblPrice(),getMenuItems().get(i).getStrMenu(), R.drawable.ic_edit_black_24dp,
-                        R.drawable.ic_delete_black_24dp, View.VISIBLE) );
-            }
-        }*/
-            mRecyclerView = findViewById(R.id.recyclerView);
+
+        mRecyclerView = findViewById(R.id.recyclerView);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
         mAdapter = new MenuItemAdapter(MenuItems);
@@ -70,6 +68,37 @@ public class MenuActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        mAdapter.setOnItemClickListener(new MenuItemAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+            }
+
+            @Override
+            public void onEditClick(int position) {
+                intPosition = position;
+                Ingredients = MenuItems.get(position).getStrMenu().split(", ");
+                startActivity(new Intent(MenuActivity.this, NewMenuItemActivity.class));
+            }
+
+            @Override
+            public void onDeleteClick(int position) {
+                MenuItems.remove(position);
+                mAdapter.notifyItemRemoved(position);
+            }
+        });
+
     }
 
+    public static String[] getIngredients() {
+        return Ingredients;
+    }
+
+    public static void setIngredients(String[] ingredients) {
+        Ingredients = ingredients;
+    }
+
+    public static int getIntPosition() {
+        return intPosition;
+    }
 }

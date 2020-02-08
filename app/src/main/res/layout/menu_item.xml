@@ -7,13 +7,13 @@
     android:layout_rowWeight="1"
     android:background="@drawable/ripple_effect_white"
     app:cardElevation="6dp"
-    android:layout_marginBottom="5dp">
+    android:layout_margin="5dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/ripple_effect_white"
-        android:padding="15dp">
+        android:padding="5dp">
 
         <TextView
             android:id="@+id/tvPrice"
@@ -21,6 +21,7 @@
             android:layout_height="wrap_content"
             android:textSize="14sp"
             android:fontFamily="sans-serif-medium"
+            android:layout_centerVertical="true"
             android:textColor="@color/Black"
             android:layout_marginStart="5dp"/>
 
@@ -29,6 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp"
+            android:layout_centerVertical="true"
             android:layout_toEndOf="@id/tvPrice"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
@@ -38,20 +40,22 @@
 
         <ImageView
             android:id="@+id/ivEdit"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:background="@drawable/ripple_effect_white"
             android:src="@drawable/ic_edit_black_24dp"
             android:padding="5dp"
+            android:layout_centerVertical="true"
             android:layout_toStartOf="@+id/ivDelete"
             android:contentDescription="Edit" />
 
         <ImageView
             android:id="@+id/ivDelete"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:background="@drawable/ripple_effect_white"
             android:padding="5dp"
+            android:layout_centerVertical="true"
             android:src="@drawable/ic_delete_black_24dp"
             android:layout_marginStart="5dp"
             android:layout_alignParentEnd="true"

@@ -15,10 +15,10 @@ import java.util.ArrayList;
 import Adapter.IngredientItemCheckboxAdapter;
 import SingleItem.IngredientItemCheckbox;
 
-import static www.kicknbhoboza.com.emakoteni.MenuCreationActivity.getIngredientItems;
+import static www.kicknbhoboza.com.emakoteni.ShopHomeActivity.getIngredients;
 
 public class OrderActivity extends AppCompatActivity {
-    private  ArrayList<IngredientItemCheckbox> ingredientItems;
+    private ArrayList<IngredientItemCheckbox> ingredientItems;
     private RecyclerView mRecyclerView;
     private IngredientItemCheckboxAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -26,6 +26,7 @@ public class OrderActivity extends AppCompatActivity {
 
     private LinearLayout llBack;
     private Button btnOder;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,10 +51,8 @@ public class OrderActivity extends AppCompatActivity {
 
         ingredientItems = new ArrayList<>();
 
-        if (getIngredientItems() != null){
-            for (int i=0; i< getIngredientItems().size(); i++){
-                ingredientItems.add(new IngredientItemCheckbox(1,getIngredientItems().get(i).getStrIngredientName()));
-            }
+        for (int i = 0; i < getIngredients().length; i++) {
+            ingredientItems.add(new IngredientItemCheckbox(1, getIngredients()[i], true));
         }
 
         mRecyclerView = findViewById(R.id.recyclerView);

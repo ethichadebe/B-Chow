@@ -1,5 +1,7 @@
 package SingleItem;
 
+import android.graphics.drawable.Drawable;
+
 public class IngredientItem {
     private int strID;
     private String strIngredientName;

@@ -18,13 +18,36 @@ public class IngredientItemAdapter extends RecyclerView.Adapter<IngredientItemAd
 
     private ArrayList<IngredientItem> ingredientList;
 
+    private IngredientItemAdapter.OnIngredientClickListener mListerner;
+
+    public interface OnIngredientClickListener {
+        void onRemoveClick(int position);
+    }
+
+    public void setOnIngredientClickListener(IngredientItemAdapter.OnIngredientClickListener listener) {
+        mListerner = listener;
+    }
+
     public static class IngredientViewHolder extends RecyclerView.ViewHolder{
 
-        private TextView tvIngredientName;
+        private TextView tvIngredientName, tvRemove;
 
-        public IngredientViewHolder(@NonNull View itemView) {
+        public IngredientViewHolder(@NonNull View itemView, final IngredientItemAdapter.OnIngredientClickListener listener) {
             super(itemView);
             tvIngredientName = itemView.findViewById(R.id.tvIngredientName);
+            tvRemove = itemView.findViewById(R.id.tvRemove);
+
+            tvRemove.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onRemoveClick(position);
+                        }
+                    }
+                }
+            });
         }
     }
 
@@ -36,7 +59,7 @@ public class IngredientItemAdapter extends RecyclerView.Adapter<IngredientItemAd
     @Override
     public IngredientViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.ingredient_item, parent, false);
-        IngredientViewHolder svh = new IngredientViewHolder(v);
+        IngredientViewHolder svh = new IngredientViewHolder(v, mListerner);
 
         return  svh;
     }
