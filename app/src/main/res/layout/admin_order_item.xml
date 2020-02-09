@@ -1,0 +1,119 @@
+<androidx.cardview.widget.CardView android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_columnWeight="1"
+    android:layout_rowWeight="1"
+    android:layout_margin="5dp"
+    app:cardElevation="6dp"
+    app:cardCornerRadius="12dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout
+        android:id="@+id/llShop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/tvOrderNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="#347"
+            android:textSize="24sp"
+            android:fontFamily="sans-serif-medium"
+            android:textColor="@color/Black"
+            android:layout_marginTop="12dp"/>
+
+        <TextView
+            android:id="@+id/tvTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="13:10"
+            android:textSize="14sp"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="sans-serif-light"
+            android:textColor="@color/Black"
+            android:layout_marginTop="12dp"/>
+
+        <TextView
+            android:id="@+id/tvPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="R 15.50"
+            android:layout_alignParentEnd="true"
+            android:textSize="24sp"
+            android:fontFamily="sans-serif-medium"
+            android:textColor="@color/Black"
+            android:layout_marginTop="12dp"/>
+
+        <TextView
+            android:id="@+id/tvMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="French, Russian, Cheese, Vienna, Egg"
+            android:textSize="24sp"
+            android:gravity="center"
+            android:layout_below="@id/tvTime"
+            android:fontFamily="sans-serif-light"
+            android:textColor="@color/Black"
+            android:layout_marginTop="12dp"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvMenu">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cvDone"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+                app:cardElevation="6dp"
+                android:layout_centerVertical="true"
+                android:fontFamily="sans-serif-medium"
+                android:layout_margin="10dp"
+                android:padding="50dp"
+                app:cardCornerRadius="12dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textSize="14sp"
+                    android:background="@drawable/ripple_effect_done"
+                    android:gravity="center"
+                    android:fontFamily="sans-serif-medium"
+                    android:textAllCaps="false"
+                    android:text="DONE"
+                    android:textColor="@color/White"/>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cvCancel"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+                app:cardElevation="6dp"
+                android:layout_centerVertical="true"
+                android:fontFamily="sans-serif-medium"
+                android:padding="50dp"
+                android:layout_alignParentEnd="true"
+                android:layout_margin="10dp"
+                app:cardCornerRadius="12dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textSize="14sp"
+                    android:background="@drawable/ripple_effect_cancel"
+                    android:gravity="center"
+                    android:fontFamily="sans-serif-medium"
+                    android:textAllCaps="false"
+                    android:text="CANCEL"
+                    android:textColor="@color/White"/>
+            </androidx.cardview.widget.CardView>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

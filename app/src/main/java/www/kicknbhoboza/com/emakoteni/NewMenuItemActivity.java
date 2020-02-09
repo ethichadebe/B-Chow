@@ -30,6 +30,7 @@ public class NewMenuItemActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private IngredientItemCheckboxAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    private Double dblPrice = 0.0;
 
     LinearLayout llBack;
     Button btnOder;
@@ -100,14 +101,14 @@ public class NewMenuItemActivity extends AppCompatActivity {
                     }
                 }
                 if (!isThere){
-                    ingredientItems.add(new IngredientItemCheckbox(1, getIngredientItems().get(i).getStrIngredientName(), 15.0, false));
+                    ingredientItems.add(new IngredientItemCheckbox(1, getIngredientItems().get(i).getStrIngredientName(), getIngredientItems().get(i).getDblPrice(), false));
                 }
             }
 
         } else if (getIngredientItems() != null) {
             ingredientItems = new ArrayList<>();
             for (int i = 0; i < getIngredientItems().size(); i++) {
-                ingredientItems.add(new IngredientItemCheckbox(1, getIngredientItems().get(i).getStrIngredientName(), 13.0, false));
+                ingredientItems.add(new IngredientItemCheckbox(1, getIngredientItems().get(i).getStrIngredientName(), getIngredientItems().get(i).getDblPrice(), false));
             }
         }
 
@@ -121,8 +122,12 @@ public class NewMenuItemActivity extends AppCompatActivity {
             public void OnItemClick(int position) {
                 if (!ingredientItems.get(position).getChecked()) {
                     ingredientItems.get(position).setChecked(true);
+                    dblPrice += ingredientItems.get(position).getDblPrice();
+                    etPrice.setText(String.valueOf(dblPrice));
                 } else {
                     ingredientItems.get(position).setChecked(false);
+                    dblPrice += ingredientItems.get(position).getDblPrice();
+                    etPrice.setText(String.valueOf(dblPrice));
                 }
             }
         });
