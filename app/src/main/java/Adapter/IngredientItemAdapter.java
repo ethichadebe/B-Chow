@@ -70,7 +70,7 @@ public class IngredientItemAdapter extends RecyclerView.Adapter<IngredientItemAd
         IngredientItem item = ingredientList.get(position);
 
         holder.tvIngredientName.setText(item.getStrIngredientName());
-        holder.tvIngredientName.setId(item.getStrID());
+        holder.tvIngredientName.setId(item.getIntID());
         holder.tvPrice.setText("R"+item.getDblPrice());
     }
 

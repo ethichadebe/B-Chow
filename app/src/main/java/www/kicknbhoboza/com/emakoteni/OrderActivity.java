@@ -1,10 +1,14 @@
 package www.kicknbhoboza.com.emakoteni;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -24,15 +28,17 @@ public class OrderActivity extends AppCompatActivity {
     private IngredientItemCheckboxAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private TextView tvTotal;
-    private  Double dblPrice = 0.0;
+    private Double dblPrice = 0.0;
     private LinearLayout llBack;
     private Button btnOder;
+    private Dialog myDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
 
+        myDialog = new Dialog(this);
         btnOder = findViewById(R.id.btnOder);
         llBack = findViewById(R.id.llBack);
         tvTotal = findViewById(R.id.tvTotal);
@@ -40,7 +46,19 @@ public class OrderActivity extends AppCompatActivity {
         btnOder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(OrderActivity.this, OrderConfirmationActivity.class));
+                boolean isChecked = false;
+                for (int i = 0; i < ingredientItems.size(); i++){
+                    if (ingredientItems.get(i).getChecked()){
+                        isChecked = true;
+                    }
+                }
+
+                if (isChecked){
+                    startActivity(new Intent(OrderActivity.this, OrderConfirmationActivity.class));
+                }else {
+                    ShowNotificationPopup();
+                }
+
             }
         });
 
@@ -89,5 +107,33 @@ public class OrderActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void ShowNotificationPopup(){
+        TextView tvCancel, tvMessage;
+        CardView cvOkay;
+        myDialog.setContentView(R.layout.notification_popup);
+
+        tvCancel = myDialog.findViewById(R.id.tvCancel);
+        tvMessage = myDialog.findViewById(R.id.tvMessage);
+        cvOkay = myDialog.findViewById(R.id.cvOkay);
+
+        tvCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                myDialog.dismiss();
+            }
+        });
+
+        tvMessage.setText("You need to add at least one Ingredient to complete your order");
+
+        cvOkay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                myDialog.dismiss();
+            }
+        });
+        myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        myDialog.show();
     }
 }

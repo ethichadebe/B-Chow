@@ -5,12 +5,14 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -28,6 +30,7 @@ public class MenuActivity extends AppCompatActivity {
     private static String[] Ingredients = null;
     private static int intPosition;
     private static Double dblPrice;
+    private Dialog myDialog;
     private CardView llAddMenu, llBack;
 
     Button btnOder;
@@ -38,7 +41,7 @@ public class MenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_menu);
 
         MenuItems = new ArrayList<>();
-
+        myDialog = new Dialog(this);
         MenuItems = getMenuItems();
 
         mRecyclerView = findViewById(R.id.recyclerView);
@@ -55,7 +58,11 @@ public class MenuActivity extends AppCompatActivity {
         btnOder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MenuActivity.this, HomePageActivity.class));
+                if (MenuItems.isEmpty()){
+                    ShowNotificationPopup();
+                }else {
+                    startActivity(new Intent(MenuActivity.this, HomePageActivity.class));
+                }
             }
         });
         llAddMenu.setOnClickListener(new View.OnClickListener() {
@@ -67,7 +74,11 @@ public class MenuActivity extends AppCompatActivity {
         llBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                if (MenuItems.isEmpty()){
+                    finish();
+                }else {
+                    ShowConfirmationPopup();
+                }
             }
         });
 
@@ -108,4 +119,71 @@ public class MenuActivity extends AppCompatActivity {
     public static Double getDblPrice() {
         return dblPrice;
     }
+
+    public void ShowConfirmationPopup(){
+        TextView tvCancel, tvMessage;
+        CardView cvYes, cvNo;
+        myDialog.setContentView(R.layout.confirmation_popup);
+
+        tvCancel = myDialog.findViewById(R.id.tvCancel);
+        tvMessage = myDialog.findViewById(R.id.tvMessage);
+        cvYes = myDialog.findViewById(R.id.cvYes);
+        cvNo = myDialog.findViewById(R.id.cvNo);
+
+        tvCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                myDialog.dismiss();
+            }
+        });
+
+        tvMessage.setText("All entered ingredients and Menu items will be lost.\nAre you sure?");
+
+        cvYes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                myDialog.dismiss();
+                startActivity(new Intent(MenuActivity.this, MenuCreationActivity.class));
+            }
+        });
+
+        cvNo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                myDialog.dismiss();
+            }
+        });
+        myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        myDialog.show();
+    }
+
+    public void ShowNotificationPopup(){
+        TextView tvCancel, tvMessage;
+        CardView cvOkay;
+        myDialog.setContentView(R.layout.notification_popup);
+
+        tvCancel = myDialog.findViewById(R.id.tvCancel);
+        tvMessage = myDialog.findViewById(R.id.tvMessage);
+        cvOkay = myDialog.findViewById(R.id.cvOkay);
+
+        tvCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                myDialog.dismiss();
+            }
+        });
+
+        tvMessage.setText("You need to add at least one menu item to continue");
+
+        cvOkay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                myDialog.dismiss();
+            }
+        });
+        myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        myDialog.show();
+    }
+
+
 }

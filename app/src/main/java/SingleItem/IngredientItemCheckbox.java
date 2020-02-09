@@ -1,28 +1,40 @@
 package SingleItem;
 
 public class IngredientItemCheckbox {
-    private int strID;
+    private int intID;
     private String strIngredientName;
     private Double dblPrice;
     private Boolean isChecked;
 
-    public IngredientItemCheckbox(int strID, String strIngredientName, Double dblPrice, Boolean isChecked) {
-        this.strID = strID;
+    public IngredientItemCheckbox(int intID, String strIngredientName, Double dblPrice, Boolean isChecked) {
+        this.intID = intID;
         this.strIngredientName = strIngredientName;
         this.dblPrice = dblPrice;
         this.isChecked = isChecked;
     }
 
-    public int getStrID() {
-        return strID;
+    public int getIntID() {
+        return intID;
+    }
+
+    public void setIntID(int intID) {
+        this.intID = intID;
     }
 
     public String getStrIngredientName() {
         return strIngredientName;
     }
 
+    public void setStrIngredientName(String strIngredientName) {
+        this.strIngredientName = strIngredientName;
+    }
+
     public Double getDblPrice() {
         return dblPrice;
+    }
+
+    public void setDblPrice(Double dblPrice) {
+        this.dblPrice = dblPrice;
     }
 
     public Boolean getChecked() {

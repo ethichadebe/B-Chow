@@ -45,6 +45,7 @@ public class ShopHomeActivity extends AppCompatActivity {
 
         MenuItems = new ArrayList<>();
 
+        //Load menu items starting with the Cheapest
         MenuItems.add(new MenuItem(1, 10.5, "Chips, French, Eggs", R.drawable.ic_edit_black_24dp,
                 R.drawable.ic_delete_black_24dp, View.GONE));
         MenuItems.add(new MenuItem(1, 10.0, "Chips, French, Eggs", R.drawable.ic_edit_black_24dp,

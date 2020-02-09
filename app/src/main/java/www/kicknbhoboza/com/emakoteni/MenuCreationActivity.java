@@ -5,7 +5,10 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -32,6 +35,7 @@ public class MenuCreationActivity extends AppCompatActivity {
     private static ArrayList<MenuItem> MenuItems;
     private CardView btnAddOption;
     private EditText etName, etPrice;
+    private Dialog myDialog;
 
     LinearLayout llBack;
     Button btnOder;
@@ -41,6 +45,7 @@ public class MenuCreationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_creation);
 
+        myDialog = new Dialog(this);
         ingredientItems = new ArrayList<>();
         MenuItems= new ArrayList<>();
         btnOder = findViewById(R.id.btnOder);
@@ -52,13 +57,21 @@ public class MenuCreationActivity extends AppCompatActivity {
         btnOder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MenuCreationActivity.this, MenuActivity.class));
+                if (ingredientItems.isEmpty()){
+                    ShowNotificationPopup();
+                }else {
+                    startActivity(new Intent(MenuCreationActivity.this, MenuActivity.class));
+                }
             }
         });
         llBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                if (!ingredientItems.isEmpty()){
+                    ShowConfirmationPopup();
+                }else {
+                    finish();
+                }
             }
         });
         btnAddOption.setOnClickListener(new View.OnClickListener() {
@@ -118,4 +131,70 @@ public class MenuCreationActivity extends AppCompatActivity {
     public static void EditMenu(int position, Double Price, String ingredients) {
         MenuItems.get(position).EditPriceNMenu(Price, ingredients);
     }
+
+    public void ShowConfirmationPopup(){
+        TextView tvCancel, tvMessage;
+        CardView cvYes, cvNo;
+        myDialog.setContentView(R.layout.confirmation_popup);
+
+        tvCancel = myDialog.findViewById(R.id.tvCancel);
+        tvMessage = myDialog.findViewById(R.id.tvMessage);
+        cvYes = myDialog.findViewById(R.id.cvYes);
+        cvNo = myDialog.findViewById(R.id.cvNo);
+
+        tvCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                myDialog.dismiss();
+            }
+        });
+
+        tvMessage.setText("All entered ingredients will be lost\nAre you sure?");
+
+        cvYes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                myDialog.dismiss();
+                finish();
+            }
+        });
+
+        cvNo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                myDialog.dismiss();
+            }
+        });
+        myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        myDialog.show();
+    }
+
+    public void ShowNotificationPopup(){
+        TextView tvCancel, tvMessage;
+        CardView cvOkay;
+        myDialog.setContentView(R.layout.notification_popup);
+
+        tvCancel = myDialog.findViewById(R.id.tvCancel);
+        tvMessage = myDialog.findViewById(R.id.tvMessage);
+        cvOkay = myDialog.findViewById(R.id.cvOkay);
+
+        tvCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                myDialog.dismiss();
+            }
+        });
+
+        tvMessage.setText("You need to add at least one ingredient to continue");
+
+        cvOkay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                myDialog.dismiss();
+            }
+        });
+        myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        myDialog.show();
+    }
+
 }

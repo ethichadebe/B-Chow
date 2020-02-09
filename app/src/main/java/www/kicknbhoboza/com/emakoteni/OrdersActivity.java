@@ -1,13 +1,20 @@
 package www.kicknbhoboza.com.emakoteni;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -20,7 +27,8 @@ public class OrdersActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private AdminOrderItemAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-
+    private final ArrayList<AdminOrderItem> OrderItems = new ArrayList<>();;
+    private Dialog myDialog;
 
     LinearLayout llBack;
     @Override
@@ -28,6 +36,7 @@ public class OrdersActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_orders);
 
+        myDialog = new Dialog(this);
         llBack = findViewById(R.id.llBack);
         llBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -35,8 +44,6 @@ public class OrdersActivity extends AppCompatActivity {
                 finish();
             }
         });
-
-        final ArrayList<AdminOrderItem> OrderItems = new ArrayList<>();
 
         OrderItems.add(new AdminOrderItem(1,73,"13:24",17.50,
                 "Chips, Burger, French, egg"));
@@ -58,8 +65,7 @@ public class OrdersActivity extends AppCompatActivity {
 
             @Override
             public void onCancelClick(int position) {
-                OrderItems.remove(position);
-                mAdapter.notifyItemRemoved(position);
+                ShowPopup(position);
             }
 
             @Override
@@ -71,5 +77,43 @@ public class OrdersActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    public void ShowPopup(final int position){
+        TextView tvCancel, tvMessage;
+        CardView cvYes, cvNo;
+        myDialog.setContentView(R.layout.confirmation_popup);
+
+        tvCancel = myDialog.findViewById(R.id.tvCancel);
+        tvMessage = myDialog.findViewById(R.id.tvMessage);
+        cvYes = myDialog.findViewById(R.id.cvYes);
+        cvNo = myDialog.findViewById(R.id.cvNo);
+
+        tvCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                myDialog.dismiss();
+            }
+        });
+
+        tvMessage.setText("Are you sure?");
+
+        cvYes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                myDialog.dismiss();
+                OrderItems.remove(position);
+                mAdapter.notifyItemRemoved(position);
+            }
+        });
+
+        cvNo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                myDialog.dismiss();
+            }
+        });
+        myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        myDialog.show();
     }
 }
