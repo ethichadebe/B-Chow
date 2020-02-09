@@ -26,8 +26,7 @@
             android:id="@+id/rellay1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:paddingBottom="20dp"
+                android:visibility="gone"
             android:layout_below="@id/imgView_logo">
 
             <TextView
@@ -130,6 +129,7 @@
                 android:layout_below="@id/lblError"
                 android:layout_centerHorizontal="true"
                 android:fontFamily="sans-serif-medium"
+                android:layout_marginBottom="20dp"
                 android:background="@drawable/btn_bg"
                 android:padding="50dp"
                 app:cardCornerRadius="12dp">
@@ -153,30 +153,55 @@
         android:id="@+id/rellay2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
         android:visibility="gone"
         android:layout_alignParentBottom="true">
 
-        <Button
+        <androidx.cardview.widget.CardView
             android:id="@+id/btnRegister"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/trasparent"
-            android:text="@string/sign_up"
-            android:textColor="@color/Black"
-            android:fontFamily="sans-serif-medium"
-            android:textAllCaps="true"/>
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            app:cardElevation="6dp"
+            android:background="@drawable/empty_btn_bg"
+            android:padding="50dp"
+            android:layout_margin="10dp"
+            app:cardCornerRadius="12dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="14sp"
+                android:gravity="center"
+                android:background="@drawable/ripple_effect_white"
+                android:fontFamily="sans-serif-medium"
+                android:textAllCaps="true"
+                android:text="@string/sign_up"
+                android:textColor="@color/Black"
+                />
+        </androidx.cardview.widget.CardView>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/trasparent"
-            android:text="Forgot Password"
-            android:layout_alignParentRight="true"
-            android:textColor="@color/Black"
-            android:fontFamily="sans-serif-medium"
-            android:textAllCaps="true"/>
-
+        <androidx.cardview.widget.CardView
+            android:layout_width="160dp"
+            android:layout_height="40dp"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:layout_alignParentEnd="true"
+            app:cardElevation="6dp"
+            android:background="@drawable/empty_btn_bg"
+            android:padding="50dp"
+            android:layout_margin="10dp"
+            app:cardCornerRadius="12dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="14sp"
+                android:background="@drawable/ripple_effect_white"
+                android:gravity="center"
+                android:fontFamily="sans-serif-medium"
+                android:textAllCaps="true"
+                android:text="Forgot Password"
+                android:textColor="@color/Black"
+                />
+        </androidx.cardview.widget.CardView>
     </RelativeLayout>
 </RelativeLayout>

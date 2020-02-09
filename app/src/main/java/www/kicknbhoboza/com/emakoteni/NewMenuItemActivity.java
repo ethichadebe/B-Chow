@@ -18,6 +18,7 @@ import SingleItem.IngredientItemCheckbox;
 
 import static www.kicknbhoboza.com.emakoteni.MenuActivity.getIngredients;
 import static www.kicknbhoboza.com.emakoteni.MenuActivity.getIntPosition;
+import static www.kicknbhoboza.com.emakoteni.MenuActivity.getDblPrice;
 import static www.kicknbhoboza.com.emakoteni.MenuActivity.setIngredients;
 import static www.kicknbhoboza.com.emakoteni.MenuCreationActivity.addToList;
 import static www.kicknbhoboza.com.emakoteni.MenuCreationActivity.getIngredientItems;
@@ -32,7 +33,7 @@ public class NewMenuItemActivity extends AppCompatActivity {
 
     LinearLayout llBack;
     Button btnOder;
-    EditText txtPrice;
+    EditText etPrice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +42,7 @@ public class NewMenuItemActivity extends AppCompatActivity {
 
         btnOder = findViewById(R.id.btnOder);
         llBack = findViewById(R.id.llBack);
-        txtPrice = findViewById(R.id.txtPrice);
+        etPrice = findViewById(R.id.txtPrice);
 
         btnOder.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,21 +58,20 @@ public class NewMenuItemActivity extends AppCompatActivity {
                     }
                 }
 
-                //get price
-                if (txtPrice.getText().toString().isEmpty()) {
-
-                    txtPrice.setBackground(getResources().getDrawable(R.drawable.et_bg_err));
+                //validate ingredient name and price price
+                if (etPrice.getText().toString().isEmpty()) {
+                    etPrice.setBackground(getResources().getDrawable(R.drawable.et_bg_err));
                 } else {
-                    txtPrice.setBackground(getResources().getDrawable(R.drawable.et_bg));
+                    etPrice.setBackground(getResources().getDrawable(R.drawable.et_bg));
                     if (getIngredients() != null) {
                         //Edit item
-                        EditMenu(getIntPosition(), Double.valueOf(txtPrice.getText().toString()), MenuList.toString());
+                        EditMenu(getIntPosition(), Double.valueOf(etPrice.getText().toString()), MenuList.toString());
                         setIngredients(null);
                     } else {
                         //Add new item
-                        addToList(Double.valueOf(txtPrice.getText().toString()), MenuList.toString());
+                        addToList(Double.valueOf(etPrice.getText().toString()), MenuList.toString());
                     }
-                    txtPrice.setText("");
+                    etPrice.setText("");
                     startActivity(new Intent(NewMenuItemActivity.this, MenuActivity.class));
                 }
             }
@@ -87,8 +87,9 @@ public class NewMenuItemActivity extends AppCompatActivity {
 
         if (getIngredients() != null) {
             ingredientItems = new ArrayList<>();
+            etPrice.setText(String.valueOf(getDblPrice()));
             for (int i = 0; i < getIngredients().length; i++) {
-                ingredientItems.add(new IngredientItemCheckbox(1, getIngredients()[i], true));
+                ingredientItems.add(new IngredientItemCheckbox(1, getIngredients()[i], 12.5, true));
             }
 
             for (int i = 0; i < getIngredientItems().size(); i++) {
@@ -99,14 +100,14 @@ public class NewMenuItemActivity extends AppCompatActivity {
                     }
                 }
                 if (!isThere){
-                    ingredientItems.add(new IngredientItemCheckbox(1, getIngredientItems().get(i).getStrIngredientName(), false));
+                    ingredientItems.add(new IngredientItemCheckbox(1, getIngredientItems().get(i).getStrIngredientName(), 15.0, false));
                 }
             }
 
         } else if (getIngredientItems() != null) {
             ingredientItems = new ArrayList<>();
             for (int i = 0; i < getIngredientItems().size(); i++) {
-                ingredientItems.add(new IngredientItemCheckbox(1, getIngredientItems().get(i).getStrIngredientName(), false));
+                ingredientItems.add(new IngredientItemCheckbox(1, getIngredientItems().get(i).getStrIngredientName(), 13.0, false));
             }
         }
 

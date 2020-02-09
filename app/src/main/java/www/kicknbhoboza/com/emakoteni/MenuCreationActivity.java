@@ -1,6 +1,7 @@
 package www.kicknbhoboza.com.emakoteni;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -29,10 +30,11 @@ public class MenuCreationActivity extends AppCompatActivity {
     private IngredientItemAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private static ArrayList<MenuItem> MenuItems;
+    private CardView btnAddOption;
+    private EditText etName, etPrice;
 
     LinearLayout llBack;
-    Button btnOder, btnAddOption;
-    EditText txtName;
+    Button btnOder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +45,9 @@ public class MenuCreationActivity extends AppCompatActivity {
         MenuItems= new ArrayList<>();
         btnOder = findViewById(R.id.btnOder);
         llBack = findViewById(R.id.llBack);
-        txtName = findViewById(R.id.txtName);
+        etName = findViewById(R.id.etName);
         btnAddOption = findViewById(R.id.btnAddOption);
+        etPrice = findViewById(R.id.etPrice);
 
         btnOder.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,14 +64,22 @@ public class MenuCreationActivity extends AppCompatActivity {
         btnAddOption.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (txtName.getText().toString().isEmpty()) {
-
-                    txtName.setBackground(getResources().getDrawable(R.drawable.et_bg_err));
+                if (etName.getText().toString().isEmpty() && etPrice.getText().toString().isEmpty()) {
+                    etName.setBackground(getResources().getDrawable(R.drawable.et_bg_err));
+                    etPrice.setBackground(getResources().getDrawable(R.drawable.et_bg_err));
+                } else if (etName.getText().toString().isEmpty()) {
+                    etName.setBackground(getResources().getDrawable(R.drawable.et_bg_err));
+                    etPrice.setBackground(getResources().getDrawable(R.drawable.et_bg));
+                } else if (etPrice.getText().toString().isEmpty()) {
+                    etPrice.setBackground(getResources().getDrawable(R.drawable.et_bg_err));
+                    etName.setBackground(getResources().getDrawable(R.drawable.et_bg));
                 } else {
-                    txtName.setBackground(getResources().getDrawable(R.drawable.et_bg));
-                    ingredientItems.add(new IngredientItem(1, txtName.getText().toString()));
+                    etName.setBackground(getResources().getDrawable(R.drawable.et_bg));
+                    etPrice.setBackground(getResources().getDrawable(R.drawable.et_bg));
+                    ingredientItems.add(new IngredientItem(1, etName.getText().toString(), Double.valueOf(etPrice.getText().toString())));
                     mAdapter.notifyItemInserted(ingredientItems.size());
-                    txtName.setText("");
+                    etName.setText("");
+                    etPrice.setText("");
                 }
             }
         });
@@ -86,7 +97,7 @@ public class MenuCreationActivity extends AppCompatActivity {
             @Override
             public void onRemoveClick(int position) {
                 ingredientItems.remove(position);
-                mAdapter.notifyItemRemoved(ingredientItems.size());
+                mAdapter.notifyItemRemoved(position);
             }
         });
 

@@ -87,7 +87,6 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:padding="5dp"
-                    android:background="@drawable/ripple_effect_white"
                     android:orientation="vertical">
                     <TextView
                         android:id="@+id/tvHeading1"
@@ -118,6 +117,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
                         android:layout_weight="0.5"
                         android:orientation="horizontal">
 
@@ -127,7 +127,7 @@
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
                             android:background="@drawable/ripple_effect_white"
-                            android:layout_marginTop="5dp"
+                            android:layout_marginEnd="5dp"
                             android:layout_weight="0.5"
                             android:orientation="vertical">
 
@@ -154,13 +154,13 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="0.5"
+                            android:layout_marginStart="5dp"
                             android:orientation="vertical">
 
                             <EditText
                                 android:id="@+id/txtShortDescription"
                                 android:layout_width="match_parent"
                                 android:layout_height="80dp"
-                                android:layout_marginTop="5dp"
                                 android:background="@drawable/et_bg"
                                 android:fontFamily="sans-serif-light"
                                 android:hint="Short description"
@@ -174,7 +174,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:background="@drawable/ripple_effect_white"
-                                android:layout_marginTop="5dp"
+                                android:layout_marginTop="10dp"
                                 android:orientation="horizontal">
 
                                 <ImageView
@@ -286,76 +286,7 @@
                     </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cvPass"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/cvShop2"
-                android:layout_columnWeight="1"
-                android:layout_rowWeight="1"
-                android:layout_margin="5dp"
-                android:layout_marginBottom="10dp"
-                app:cardElevation="6dp"
-                app:cardCornerRadius="12dp">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/tvHeading2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:layout_gravity="center"
-                        android:fontFamily="sans-serif-medium"
-                        android:text="Now Lets secure your shop"
-                        android:textColor="@color/Black"
-                        android:textSize="14sp" />
-
-                    <EditText
-                        android:id="@+id/txtPassword"
-                        android:layout_width="match_parent"
-                        android:layout_height="35dp"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="10dp"
-                        android:background="@drawable/et_bg"
-                        android:fontFamily="sans-serif-light"
-                        android:inputType="textPassword"
-                        android:hint="Password"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginStart="10dp"
-                        android:paddingStart="10dp"
-                        android:textColor="@color/Black"
-                        android:textSize="15sp" />
-
-                    <EditText
-                        android:id="@+id/txtCPassword"
-                        android:layout_width="match_parent"
-                        android:layout_height="35dp"
-                        android:layout_marginTop="10dp"
-                        android:background="@drawable/et_bg"
-                        android:fontFamily="sans-serif-light"
-                        android:inputType="textPassword"
-                        android:hint="Re-Enter password"
-                        android:paddingStart="10dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginBottom="10dp"
-                        android:textColor="@color/Black"
-                        android:textSize="15sp" />
-                    <TextView
-                        android:id="@+id/lblError"
-                        style="@style/TextAppearance.AppCompat.Body1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:layout_margin="2dp"
-                        android:textColor="#ff1717"/>
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
         </GridLayout>
-
     </ScrollView>
 
     <Button

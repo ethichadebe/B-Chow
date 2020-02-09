@@ -33,10 +33,12 @@ public class IngredientItemCheckboxAdapter extends RecyclerView.Adapter<Ingredie
     public static class IngredientCheckboxViewHolder extends RecyclerView.ViewHolder {
 
         private CheckBox tvIngredientName;
+        private TextView tvPrice;
 
         public IngredientCheckboxViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
             tvIngredientName = itemView.findViewById(R.id.tvIngredientName);
+            tvPrice = itemView.findViewById(R.id.tvPrice);
 
             tvIngredientName.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -73,6 +75,7 @@ public class IngredientItemCheckboxAdapter extends RecyclerView.Adapter<Ingredie
         holder.tvIngredientName.setText(item.getStrIngredientName());
         holder.tvIngredientName.setId(item.getStrID());
         holder.tvIngredientName.setChecked(item.getChecked());
+        holder.tvPrice.setText("R" + String.valueOf(item.getDblPrice()));
     }
 
     @Override

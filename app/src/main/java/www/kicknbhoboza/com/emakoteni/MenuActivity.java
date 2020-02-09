@@ -27,6 +27,7 @@ public class MenuActivity extends AppCompatActivity {
     private ArrayList<MenuItem> MenuItems;
     private static String[] Ingredients = null;
     private static int intPosition;
+    private static Double dblPrice;
     private CardView llAddMenu, llBack;
 
     Button btnOder;
@@ -79,6 +80,7 @@ public class MenuActivity extends AppCompatActivity {
             public void onEditClick(int position) {
                 intPosition = position;
                 Ingredients = MenuItems.get(position).getStrMenu().split(", ");
+                dblPrice = MenuItems.get(position).getDblPrice();
                 startActivity(new Intent(MenuActivity.this, NewMenuItemActivity.class));
             }
 
@@ -101,5 +103,9 @@ public class MenuActivity extends AppCompatActivity {
 
     public static int getIntPosition() {
         return intPosition;
+    }
+
+    public static Double getDblPrice() {
+        return dblPrice;
     }
 }

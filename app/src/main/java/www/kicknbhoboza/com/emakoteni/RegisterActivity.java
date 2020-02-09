@@ -20,8 +20,7 @@ import androidx.cardview.widget.CardView;
 import java.util.Calendar;
 public class RegisterActivity extends AppCompatActivity {
     RelativeLayout rellay1;
-    private CardView mButtonRegister;
-    private Button mButtonLogin;
+    private CardView mButtonRegister, mButtonLogin;
     private ImageView mImageLogo;
     private EditText[] mTextBoxes = new EditText[7];
     private TextView mViewError;

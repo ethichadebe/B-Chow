@@ -30,12 +30,13 @@ public class IngredientItemAdapter extends RecyclerView.Adapter<IngredientItemAd
 
     public static class IngredientViewHolder extends RecyclerView.ViewHolder{
 
-        private TextView tvIngredientName, tvRemove;
+        private TextView tvIngredientName, tvRemove, tvPrice;
 
         public IngredientViewHolder(@NonNull View itemView, final IngredientItemAdapter.OnIngredientClickListener listener) {
             super(itemView);
             tvIngredientName = itemView.findViewById(R.id.tvIngredientName);
             tvRemove = itemView.findViewById(R.id.tvRemove);
+            tvPrice = itemView.findViewById(R.id.tvPrice);
 
             tvRemove.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -70,6 +71,7 @@ public class IngredientItemAdapter extends RecyclerView.Adapter<IngredientItemAd
 
         holder.tvIngredientName.setText(item.getStrIngredientName());
         holder.tvIngredientName.setId(item.getStrID());
+        holder.tvPrice.setText("R"+item.getDblPrice());
     }
 
     @Override

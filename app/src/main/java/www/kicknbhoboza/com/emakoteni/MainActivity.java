@@ -31,8 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText mTextPassword, mTextUsername;
     private TextView mViewError;
     private ImageView mImageLogo;
-    private CardView mButtonLogin;
-    private Button mButtonRegister;
+    private CardView mButtonLogin, mButtonRegister;
     public static User user;
 
     @Override

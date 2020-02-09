@@ -342,16 +342,30 @@
                         android:textColor="@color/White"/>
                 </androidx.cardview.widget.CardView>
 
-                <Button
+                <androidx.cardview.widget.CardView
                     android:id="@+id/btnLogin"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@color/trasparent"
-                    android:text="@string/login"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:layout_columnWeight="1"
+                    android:layout_rowWeight="1"
+                    app:cardElevation="6dp"
+                    android:background="@drawable/empty_btn_bg"
+                    android:padding="50dp"
+                    android:layout_margin="10dp"
                     android:layout_below="@id/btnRegister"
-                    android:textColor="@color/Black"
-                    android:fontFamily="sans-serif-medium"
-                    android:textAllCaps="true"/>
+                    app:cardCornerRadius="12dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textSize="14sp"
+                        android:gravity="center"
+                        android:background="@drawable/ripple_effect_white"
+                        android:fontFamily="sans-serif-medium"
+                        android:textAllCaps="true"
+                        android:text="@string/login"
+                        android:textColor="@color/Black"
+                        />
+                </androidx.cardview.widget.CardView>
             </RelativeLayout>
         </ScrollView>
     </RelativeLayout>
