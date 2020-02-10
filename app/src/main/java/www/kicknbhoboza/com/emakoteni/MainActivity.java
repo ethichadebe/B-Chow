@@ -17,7 +17,8 @@ import androidx.cardview.widget.CardView;
 import util.User;
 
 public class MainActivity extends AppCompatActivity {
-    RelativeLayout rellay1, rellay2;
+    private View vLeft, vRight, vBottomRight, vBottomLeft;
+    RelativeLayout rellay1, rellay2, rlLeft, rlRight;
     Handler handler = new Handler();
     Runnable runnable = new Runnable() {
         @Override
@@ -41,6 +42,30 @@ public class MainActivity extends AppCompatActivity {
         rellay1 = findViewById(R.id.rellay1);
         rellay2 = findViewById(R.id.rellay2);
         handler.postDelayed(runnable, 500);
+
+        vBottomLeft = findViewById(R.id.vBottomLeft);
+        vBottomRight = findViewById(R.id.vBottomRight);
+        vLeft = findViewById(R.id.vLeft);
+        vRight = findViewById(R.id.vRight);
+
+        rlLeft = findViewById(R.id.rlLeft);
+        rlRight = findViewById(R.id.rlRight);
+
+        setVisibility(View.VISIBLE, View.GONE);
+
+        rlLeft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setVisibility(View.VISIBLE, View.GONE);
+            }
+        });
+        rlRight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setVisibility(View.GONE  , View.VISIBLE);
+            }
+        });
+
 
         myDialog = new Dialog(this);
         mTextUsername = findViewById(R.id.txtUsername);
@@ -86,5 +111,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         this.finishAffinity();
+    }
+
+    private void setVisibility(int Left,int Right){
+        vRight.setVisibility(Right);
+        vLeft.setVisibility(Left);
+        vBottomLeft.setVisibility(Left);
+        vBottomRight.setVisibility(Right);
     }
 }

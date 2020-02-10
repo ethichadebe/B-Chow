@@ -104,6 +104,7 @@
                         android:background="@drawable/et_bg"
                         android:paddingLeft="15dp"
                         android:paddingRight="15dp"
+
                         android:textColor="@color/Black"
                         android:textSize="15sp" />
                 </LinearLayout>
@@ -145,6 +146,68 @@
                         android:text="@string/login"
                         android:textColor="@color/White"/>
             </androidx.cardview.widget.CardView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/btnLogin"
+                android:orientation="horizontal">
+                <RelativeLayout
+                    android:id="@+id/rlLeft"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/ripple_effect_white"
+                    android:layout_weight="5">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:layout_centerInParent="true"
+                        android:fontFamily="sans-serif-medium"
+                        android:textAllCaps="false"
+                        android:text="@string/login"
+                        android:textColor="@color/Black"/>
+                    <View
+                        android:id="@+id/vLeft"
+                        android:layout_width="5dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/colorPrimary"/>
+                    <View
+                        android:id="@+id/vBottomLeft"
+                        android:layout_width="match_parent"
+                        android:layout_height="3dp"
+                        android:background="@drawable/grad_bg"
+                        android:layout_alignParentBottom="true"/>
+                </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/rlRight"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/ripple_effect_white"
+                    android:layout_weight="5">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:layout_centerInParent="true"
+                        android:fontFamily="sans-serif-medium"
+                        android:textAllCaps="false"
+                        android:text="@string/login"
+                        android:textColor="@color/Black"/>
+                    <View
+                        android:id="@+id/vRight"
+                        android:layout_width="5dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/colorPrimary"
+                        android:layout_alignParentEnd="true"/>
+                    <View
+                        android:id="@+id/vBottomRight"
+                        android:layout_width="match_parent"
+                        android:layout_height="3dp"
+                        android:background="@drawable/grad_bg_reverse"
+                        android:layout_alignParentBottom="true"/>
+                </RelativeLayout>
+            </LinearLayout>
         </RelativeLayout>
 
     </RelativeLayout>

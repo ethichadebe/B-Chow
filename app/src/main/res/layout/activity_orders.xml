@@ -44,7 +44,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/tvEdit"
+            android:id="@+id/llSettings"
             android:layout_width="?attr/actionBarSize"
             android:layout_height="?attr/actionBarSize"
             android:layout_alignParentBottom="true"

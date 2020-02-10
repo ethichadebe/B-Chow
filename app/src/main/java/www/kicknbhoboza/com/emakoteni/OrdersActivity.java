@@ -29,8 +29,7 @@ public class OrdersActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager mLayoutManager;
     private final ArrayList<AdminOrderItem> OrderItems = new ArrayList<>();;
     private Dialog myDialog;
-
-    LinearLayout llBack;
+    private LinearLayout llBack, llSettings;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +37,13 @@ public class OrdersActivity extends AppCompatActivity {
 
         myDialog = new Dialog(this);
         llBack = findViewById(R.id.llBack);
+        llSettings = findViewById(R.id.llSettings);
+        llSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(OrdersActivity.this, ShopSettingsActivity.class));
+            }
+        });
         llBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

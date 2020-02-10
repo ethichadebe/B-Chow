@@ -73,7 +73,7 @@ public class OrderActivity extends AppCompatActivity {
 
         //Display menu
         for (int i = 0; i < getIngredients().length; i++) {
-            ingredientItems.add(new IngredientItemCheckbox(1, getIngredients()[i], 12.5, true));
+            ingredientItems.add(new IngredientItemCheckbox(1, getIngredients()[i], 12.5, true, false));
         }
 
         //Add initial total price

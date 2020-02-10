@@ -340,6 +340,26 @@
                         android:textAllCaps="false"
                         android:text="@string/register"
                         android:textColor="@color/White"/>
+                    <View
+                        android:layout_width="3dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/colorPrimary"
+                        android:layout_gravity="start"/>
+                    <View
+                        android:layout_width="3dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/White"
+                        android:layout_gravity="end"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="5dp"
+                        android:background="@drawable/grad_bg"
+                        android:layout_gravity="start"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="5dp"
+                        android:background="@drawable/grad_bg"
+                        android:layout_gravity="bottom"/>
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView

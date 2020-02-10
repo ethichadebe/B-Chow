@@ -2,10 +2,12 @@
 <resources>
     <color name="colorPrimaryDark">#C45A26</color>
     <color name="colorPrimary">#C45A26</color>
+    <color name="colorPrimaryGrad">#C28162</color>
     <color name="colorAccent">#C45A26</color>
     <color name="White">#ffffff</color>
     <color name="Orange">#E05700</color>
     <color name="Black">#000000</color>
+    <color name="DarkGrey">#464545</color>
     <color name="Grey">#CCCCCC</color>
     <color name="Green">#98FF3E</color>
     <color name="Yellow">#FFBF3E</color>

@@ -90,7 +90,7 @@ public class NewMenuItemActivity extends AppCompatActivity {
             ingredientItems = new ArrayList<>();
             etPrice.setText(String.valueOf(getDblPrice()));
             for (int i = 0; i < getIngredients().length; i++) {
-                ingredientItems.add(new IngredientItemCheckbox(1, getIngredients()[i], 12.5, true));
+                ingredientItems.add(new IngredientItemCheckbox(1, getIngredients()[i], 12.5, true, true));
             }
 
             for (int i = 0; i < getIngredientItems().size(); i++) {
@@ -101,14 +101,14 @@ public class NewMenuItemActivity extends AppCompatActivity {
                     }
                 }
                 if (!isThere){
-                    ingredientItems.add(new IngredientItemCheckbox(1, getIngredientItems().get(i).getStrIngredientName(), getIngredientItems().get(i).getDblPrice(), false));
+                    ingredientItems.add(new IngredientItemCheckbox(1, getIngredientItems().get(i).getStrIngredientName(), getIngredientItems().get(i).getDblPrice(), false, true));
                 }
             }
 
         } else if (getIngredientItems() != null) {
             ingredientItems = new ArrayList<>();
             for (int i = 0; i < getIngredientItems().size(); i++) {
-                ingredientItems.add(new IngredientItemCheckbox(1, getIngredientItems().get(i).getStrIngredientName(), getIngredientItems().get(i).getDblPrice(), false));
+                ingredientItems.add(new IngredientItemCheckbox(1, getIngredientItems().get(i).getStrIngredientName(), getIngredientItems().get(i).getDblPrice(), false, true));
             }
         }
 
