@@ -7,9 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -17,12 +15,14 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import com.rengwuxian.materialedittext.MaterialEditText;
+
 import java.util.Calendar;
 public class RegisterActivity extends AppCompatActivity {
     RelativeLayout rellay1;
     private CardView mButtonRegister, mButtonLogin;
     private ImageView mImageLogo;
-    private EditText[] mTextBoxes = new EditText[7];
+    private MaterialEditText[] mTextBoxes = new MaterialEditText[7];
     private TextView mViewError;
     private CheckBox mCBMale, mCBFemale, mCBOther;
 
@@ -181,14 +181,14 @@ public class RegisterActivity extends AppCompatActivity {
                             mCBOther.setTextColor(Color.argb(255, 255, 23, 23));
                         }
 
-                        MakeBlack(mTextBoxes, i, getResources().getDrawable(R.drawable.et_bg));
+                        MakeBlack(mTextBoxes, i, getResources().getColor(R.color.Black));
                         mViewError.setText(R.string.enter_all_required_details);
-                        mTextBoxes[i].setBackground(getResources().getDrawable(R.drawable.et_bg_err));
+                        mTextBoxes[i].setUnderlineColor(getResources().getColor(R.color.Red));
                     } else if (!mTextBoxes[4].getText().toString().equals(mTextBoxes[5].getText().toString())) {
                         //Check if password matches
                         mViewError.setText("");
-                        MakeBlack(mTextBoxes, i, getResources().getDrawable(R.drawable.et_bg));
-                        mTextBoxes[i].setBackground(getResources().getDrawable(R.drawable.et_bg_err));
+                        MakeBlack(mTextBoxes, i, getResources().getColor(R.color.Black));
+                        mTextBoxes[i].setUnderlineColor(getResources().getColor(R.color.Red));
                         mViewError.setText(R.string.password_does_not_match);
                     } /*else if(!Member.UserExists(requestQueue, mTextBoxes[4].getText().toString())){
                     //Check if username already exists
@@ -196,7 +196,7 @@ public class RegisterActivity extends AppCompatActivity {
                     mViewError.setText("User already exists");
                 }*/ else if (mTextBoxes[2].getText().toString().length() != 10) {
                         //Check if username already exists
-                        mTextBoxes[2].setBackground(getResources().getDrawable(R.drawable.et_bg_err));
+                        mTextBoxes[2].setUnderlineColor(getResources().getColor(R.color.Red));
                         mViewError.setText("Phone number should be a 10 digit value");
                     }
                 }
@@ -211,13 +211,13 @@ public class RegisterActivity extends AppCompatActivity {
                         (mCBMale.isChecked() || mCBFemale.isChecked() ||
                                 mCBOther.isChecked())) {
                     mViewError.setText("");
-                    MakeBlack(mTextBoxes, 0, getResources().getDrawable(R.drawable.et_bg));
-                    MakeBlack(mTextBoxes, 1, getResources().getDrawable(R.drawable.et_bg));
-                    MakeBlack(mTextBoxes, 2, getResources().getDrawable(R.drawable.et_bg));
-                    MakeBlack(mTextBoxes, 3, getResources().getDrawable(R.drawable.et_bg));
-                    MakeBlack(mTextBoxes, 4, getResources().getDrawable(R.drawable.et_bg));
-                    MakeBlack(mTextBoxes, 5, getResources().getDrawable(R.drawable.et_bg));
-                    MakeBlack(mTextBoxes, 6, getResources().getDrawable(R.drawable.et_bg));
+                    MakeBlack(mTextBoxes, 0, getResources().getColor(R.color.Black));
+                    MakeBlack(mTextBoxes, 1, getResources().getColor(R.color.Black));
+                    MakeBlack(mTextBoxes, 2, getResources().getColor(R.color.Black));
+                    MakeBlack(mTextBoxes, 3, getResources().getColor(R.color.Black));
+                    MakeBlack(mTextBoxes, 4, getResources().getColor(R.color.Black));
+                    MakeBlack(mTextBoxes, 5, getResources().getColor(R.color.Black));
+                    MakeBlack(mTextBoxes, 6, getResources().getColor(R.color.Black));
 
                     UserName = mTextBoxes[0].getText().toString();
                     UserSurname = mTextBoxes[1].getText().toString();
@@ -239,11 +239,11 @@ public class RegisterActivity extends AppCompatActivity {
      * @param index    index of Textbox to make underline blue
      * @param clr      Colour
      */
-    public static void MakeBlack(EditText[] txtBoxes, int index, Drawable clr) {
+    public static void MakeBlack(MaterialEditText[] txtBoxes, int index, int clr) {
         for (int i = 0; i < txtBoxes.length; i++) {
             if (i != index) {
                 if (!txtBoxes[i].getText().toString().isEmpty()) {
-                    txtBoxes[i].setBackground(clr);
+                    txtBoxes[i].setUnderlineColor(clr);
                 }
             }
         }

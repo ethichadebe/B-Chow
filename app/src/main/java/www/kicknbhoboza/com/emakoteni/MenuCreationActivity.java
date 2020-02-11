@@ -18,6 +18,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.rengwuxian.materialedittext.MaterialEditText;
+
 import java.util.ArrayList;
 
 import Adapter.IngredientItemAdapter;
@@ -34,7 +36,7 @@ public class MenuCreationActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager mLayoutManager;
     private static ArrayList<MenuItem> MenuItems;
     private CardView btnAddOption;
-    private EditText etName, etPrice;
+    private MaterialEditText etName, etPrice;
     private Dialog myDialog;
 
     LinearLayout llBack;
@@ -78,17 +80,17 @@ public class MenuCreationActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (etName.getText().toString().isEmpty() && etPrice.getText().toString().isEmpty()) {
-                    etName.setBackground(getResources().getDrawable(R.drawable.et_bg_err));
-                    etPrice.setBackground(getResources().getDrawable(R.drawable.et_bg_err));
+                    etName.setUnderlineColor(getResources().getColor(R.color.Red));
+                    etPrice.setUnderlineColor(getResources().getColor(R.color.Red));
                 } else if (etName.getText().toString().isEmpty()) {
-                    etName.setBackground(getResources().getDrawable(R.drawable.et_bg_err));
-                    etPrice.setBackground(getResources().getDrawable(R.drawable.et_bg));
+                    etName.setUnderlineColor(getResources().getColor(R.color.Red));
+                    etPrice.setUnderlineColor(getResources().getColor(R.color.Black));
                 } else if (etPrice.getText().toString().isEmpty()) {
-                    etPrice.setBackground(getResources().getDrawable(R.drawable.et_bg_err));
-                    etName.setBackground(getResources().getDrawable(R.drawable.et_bg));
+                    etName.setUnderlineColor(getResources().getColor(R.color.Black));
+                    etPrice.setUnderlineColor(getResources().getColor(R.color.Red));
                 } else {
-                    etName.setBackground(getResources().getDrawable(R.drawable.et_bg));
-                    etPrice.setBackground(getResources().getDrawable(R.drawable.et_bg));
+                    etName.setUnderlineColor(getResources().getColor(R.color.Black));
+                    etPrice.setUnderlineColor(getResources().getColor(R.color.Black));
                     ingredientItems.add(new IngredientItem(1, etName.getText().toString(), Double.valueOf(etPrice.getText().toString())));
                     mAdapter.notifyItemInserted(ingredientItems.size());
                     etName.setText("");

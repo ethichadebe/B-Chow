@@ -50,94 +50,32 @@
                     android:orientation="vertical"
                     >
 
-                    <LinearLayout
+                    <com.rengwuxian.materialedittext.MaterialEditText
+                        android:id="@+id/txtName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        >
+                        android:ems="10"
+                        android:hint="@string/first_name"
+                        android:inputType="textPersonName"
+                        app:met_floatingLabel="highlight" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="sans-serif-light"
-                            android:text="@string/first_name"
-                            android:textAllCaps="true"
-                            android:textColor="@color/Black"
-                            android:textSize="15sp" />
-
-                        <EditText
-                            android:id="@+id/txtName"
-                            android:layout_width="match_parent"
-                            android:layout_height="40dp"
-                            android:layout_marginTop="5dp"
-                            android:inputType="textPersonName"
-                            android:fontFamily="sans-serif-light"
-                            android:background="@drawable/et_bg"
-                            android:paddingLeft="10dp"
-                            android:paddingRight="10dp"
-                            android:textColor="@color/Black"
-                            android:textSize="15sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
+                    <com.rengwuxian.materialedittext.MaterialEditText
+                        android:id="@+id/txtSurname"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginTop="10dp"
-                        >
+                        android:ems="10"
+                        android:hint="@string/last_name"
+                        android:inputType="textPersonName"
+                        app:met_floatingLabel="highlight" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="sans-serif-light"
-                            android:text="@string/last_name"
-                            android:textAllCaps="true"
-                            android:textColor="@color/Black"
-                            android:textSize="15sp" />
-
-                        <EditText
-                            android:id="@+id/txtSurname"
-                            android:layout_width="match_parent"
-                            android:layout_height="40dp"
-                            android:layout_marginTop="5dp"
-                            android:fontFamily="sans-serif-light"
-                            android:background="@drawable/et_bg"
-                            android:paddingLeft="10dp"
-                            android:inputType="text"
-                            android:paddingRight="10dp"
-                            android:textColor="@color/Black"
-                            android:textSize="15sp" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
+                    <com.rengwuxian.materialedittext.MaterialEditText
+                        android:id="@+id/txtDOB"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginTop="10dp"
-                        >
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="sans-serif-light"
-                            android:text="Date of Birth"
-                            android:textAllCaps="true"
-                            android:textColor="@color/Black"
-                            android:textSize="15sp" />
-
-                        <EditText
-                            android:id="@+id/txtDOB"
-                            android:layout_width="match_parent"
-                            android:layout_height="40dp"
-                            android:layout_marginTop="5dp"
-                            android:inputType="date"
-                            android:fontFamily="sans-serif-light"
-                            android:background="@drawable/et_bg"
-                            android:paddingLeft="10dp"
-                            android:paddingRight="10dp"
-                            android:textColor="@color/Black"
-                            android:textSize="15sp" />
+                        android:ems="10"
+                        android:hint="Date of Birth"
+                        android:inputType="textPersonName"
+                        app:met_floatingLabel="highlight" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -148,8 +86,6 @@
                             android:textAllCaps="true"
                             android:textColor="@color/Black"
                             android:textSize="15sp" />
-
-                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -161,9 +97,7 @@
                             android:layout_height="wrap_content"
                             style="@style/Base.TextAppearance.AppCompat.Body1"
                             android:padding="8dp"
-                            android:text="Male"
-                            android:textColor="@color/Black"
-                            android:textColorHighlight="@color/Black" />
+                            android:text="Male"/>
 
 
                         <CheckBox
@@ -172,8 +106,7 @@
                             android:layout_height="wrap_content"
                             android:padding="8dp"
                             style="@style/Base.TextAppearance.AppCompat.Body1"
-                            android:text="Female"
-                            android:textColor="#000" />
+                            android:text="Female"/>
 
                         <CheckBox
                             android:id="@+id/cbOther"
@@ -181,129 +114,45 @@
                             android:layout_height="wrap_content"
                             android:padding="8dp"
                             style="@style/Base.TextAppearance.AppCompat.Body1"
-                            android:text="Other"
-                            android:textColor="#000" />
+                            android:text="Other"/>
 
                     </LinearLayout>
 
-                    <LinearLayout
+                    <com.rengwuxian.materialedittext.MaterialEditText
+                        android:id="@+id/txtEmail"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        >
+                        android:ems="10"
+                        android:hint="@string/email_address"
+                        android:inputType="textPersonName"
+                        app:met_floatingLabel="highlight" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="sans-serif-light"
-                            android:text="@string/email_address"
-                            android:layout_marginTop="10dp"
-                            android:textAllCaps="true"
-                            android:textColor="@color/Black"
-                            android:textSize="15sp" />
-
-                        <EditText
-                            android:id="@+id/txtEmail"
-                            android:layout_width="match_parent"
-                            android:layout_height="40dp"
-                            android:layout_marginTop="5dp"
-                            android:fontFamily="sans-serif-light"
-                            android:background="@drawable/et_bg"
-                            android:paddingLeft="10dp"
-                            android:inputType="textEmailAddress"
-                            android:paddingRight="10dp"
-                            android:textColor="@color/Black"
-                            android:textSize="15sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
+                    <com.rengwuxian.materialedittext.MaterialEditText
+                        android:id="@+id/txtPhone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginTop="10dp"
-                        >
+                        android:ems="10"
+                        android:hint="@string/phone_number"
+                        android:inputType="textPersonName"
+                        app:met_floatingLabel="highlight" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="sans-serif-light"
-                            android:text="@string/phone_number"
-                            android:textAllCaps="true"
-                            android:textColor="@color/Black"
-                            android:textSize="15sp" />
-
-                        <EditText
-                            android:id="@+id/txtPhone"
-                            android:layout_width="match_parent"
-                            android:layout_height="40dp"
-                            android:layout_marginTop="5dp"
-                            android:fontFamily="sans-serif-light"
-                            android:background="@drawable/et_bg"
-                            android:paddingLeft="10dp"
-                            android:inputType="phone"
-                            android:paddingRight="10dp"
-                            android:textColor="@color/Black"
-                            android:textSize="15sp" />
-                    </LinearLayout>
-                    <LinearLayout
+                    <com.rengwuxian.materialedittext.MaterialEditText
+                        android:id="@+id/txtPass"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        >
+                        android:ems="10"
+                        android:hint="@string/password"
+                        android:inputType="textPersonName"
+                        app:met_floatingLabel="highlight" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="sans-serif-light"
-                            android:text="@string/password"
-                            android:textAllCaps="true"
-                            android:layout_marginTop="10dp"
-                            android:textColor="@color/Black"
-                            android:textSize="15sp" />
-
-                        <EditText
-                            android:id="@+id/txtPass"
-                            android:layout_width="match_parent"
-                            android:layout_height="40dp"
-                            android:layout_marginTop="5dp"
-                            android:fontFamily="sans-serif-light"
-                            android:background="@drawable/et_bg"
-                            android:paddingLeft="10dp"
-                            android:inputType="textPassword"
-                            android:paddingRight="10dp"
-                            android:textColor="@color/Black"
-                            android:textSize="15sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
+                    <com.rengwuxian.materialedittext.MaterialEditText
+                        android:id="@+id/txtCPass"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginTop="10dp"
-                        >
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="sans-serif-light"
-                            android:text="@string/confirm_password"
-                            android:textAllCaps="true"
-                            android:textColor="@color/Black"
-                            android:textSize="15sp" />
-
-                        <EditText
-                            android:id="@+id/txtCPass"
-                            android:layout_width="match_parent"
-                            android:layout_height="40dp"
-                            android:layout_marginTop="5dp"
-                            android:fontFamily="sans-serif-light"
-                            android:background="@drawable/et_bg"
-                            android:paddingLeft="10dp"
-                            android:paddingRight="10dp"
-                            android:inputType="textPassword"
-                            android:textColor="@color/Black"
-                            android:textSize="15sp" />
-                    </LinearLayout>
+                        android:ems="10"
+                        android:hint="@string/confirm_password"
+                        android:inputType="textPersonName"
+                        app:met_floatingLabel="highlight" />
                 </LinearLayout>
 
                 <TextView
@@ -340,26 +189,6 @@
                         android:textAllCaps="false"
                         android:text="@string/register"
                         android:textColor="@color/White"/>
-                    <View
-                        android:layout_width="3dp"
-                        android:layout_height="match_parent"
-                        android:background="@color/colorPrimary"
-                        android:layout_gravity="start"/>
-                    <View
-                        android:layout_width="3dp"
-                        android:layout_height="match_parent"
-                        android:background="@color/White"
-                        android:layout_gravity="end"/>
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="5dp"
-                        android:background="@drawable/grad_bg"
-                        android:layout_gravity="start"/>
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="5dp"
-                        android:background="@drawable/grad_bg"
-                        android:layout_gravity="bottom"/>
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView

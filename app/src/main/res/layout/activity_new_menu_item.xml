@@ -110,19 +110,16 @@
             android:textColor="@color/Black"
             android:textSize="20sp" />
 
-        <EditText
+        <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/txtPrice"
             android:layout_width="80dp"
-            android:layout_height="30dp"
-            android:inputType="number"
-            android:fontFamily="sans-serif-light"
-            android:background="@drawable/et_bg"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_alignParentEnd="true"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:textColor="@color/Black"
-            android:textSize="14sp" />
+            android:ems="10"
+            android:hint="Price"
+            android:inputType="textPersonName"
+            app:met_floatingLabel="highlight" />
     </RelativeLayout>
     </androidx.cardview.widget.CardView>
 

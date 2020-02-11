@@ -86,25 +86,16 @@
                 android:textColor="@color/Black"
                 android:textSize="14sp" />
 
-            <EditText
+            <com.rengwuxian.materialedittext.MaterialEditText
                 android:id="@+id/etName"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_centerInParent="true"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="5dp"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
                 android:layout_below="@id/tvHeading2"
-                android:background="@drawable/et_bg"
-                android:hint="Enter new Ingredient name"
-                android:layout_alignParentStart="true"
-                android:fontFamily="sans-serif-light"
-                android:inputType="text"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:textColor="@color/Black"
-                android:textSize="14sp" />
+                android:ems="10"
+                android:hint="Ingredient name"
+                android:inputType="textPersonName"
+                app:met_floatingLabel="highlight" />
 
             <RelativeLayout
                 android:id="@+id/rlTotal"
@@ -116,21 +107,9 @@
                 android:layout_below="@+id/etName">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerVertical="true"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-medium"
-                    android:gravity="center"
-                    android:text="Enter Price"
-                    android:textColor="@color/Black"
-                    android:textSize="14sp" />
-
-                <TextView
                     android:id="@+id/tvHeading1"
                     android:layout_width="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_toStartOf="@+id/etPrice"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-medium"
                     android:gravity="center"
@@ -139,20 +118,17 @@
                     android:textColor="@color/Black"
                     android:textSize="20sp" />
 
-                <EditText
+                <com.rengwuxian.materialedittext.MaterialEditText
                     android:id="@+id/etPrice"
                     android:layout_width="80dp"
-                    android:layout_height="30dp"
-                    android:inputType="number"
-                    android:fontFamily="sans-serif-light"
-                    android:background="@drawable/et_bg"
+                    android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginEnd="10dp"
-                    android:layout_toStartOf="@id/btnAddOption"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:textColor="@color/Black"
-                    android:textSize="14sp" />
+                    android:ems="10"
+                    android:layout_toEndOf="@id/tvHeading1"
+                    android:hint="Price"
+                    android:inputType="textPersonName"
+                    app:met_floatingLabel="highlight" />
+
                 <androidx.cardview.widget.CardView
                     android:id="@+id/btnAddOption"
                     android:layout_width="100dp"

@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import com.rengwuxian.materialedittext.MaterialEditText;
+
 import java.util.ArrayList;
 
 import Adapter.IngredientItemCheckboxAdapter;
@@ -31,10 +33,10 @@ public class NewMenuItemActivity extends AppCompatActivity {
     private IngredientItemCheckboxAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private Double dblPrice = 0.0;
+    private MaterialEditText etPrice;
 
     LinearLayout llBack;
     Button btnOder;
-    EditText etPrice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,9 +63,9 @@ public class NewMenuItemActivity extends AppCompatActivity {
 
                 //validate ingredient name and price price
                 if (etPrice.getText().toString().isEmpty()) {
-                    etPrice.setBackground(getResources().getDrawable(R.drawable.et_bg_err));
+                    etPrice.setUnderlineColor(getResources().getColor(R.color.Red));
                 } else {
-                    etPrice.setBackground(getResources().getDrawable(R.drawable.et_bg));
+                    etPrice.setUnderlineColor(getResources().getColor(R.color.Black));
                     if (getIngredients() != null) {
                         //Edit item
                         EditMenu(getIntPosition(), Double.valueOf(etPrice.getText().toString()), MenuList.toString());

@@ -99,20 +99,14 @@
                         android:textColor="@color/Black"
                         android:textSize="14sp" />
 
-                    <EditText
+                    <com.rengwuxian.materialedittext.MaterialEditText
                         android:id="@+id/txtName"
                         android:layout_width="200dp"
-                        android:layout_height="35dp"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="5dp"
-                        android:background="@drawable/et_bg"
-                        android:fontFamily="sans-serif-light"
-                        android:inputType="text"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
                         android:hint="Shop name"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:textColor="@color/Black"
-                        android:textSize="15sp" />
+                        android:inputType="textPersonName"
+                        app:met_floatingLabel="highlight" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -157,18 +151,14 @@
                             android:layout_marginStart="5dp"
                             android:orientation="vertical">
 
-                            <EditText
+                            <com.rengwuxian.materialedittext.MaterialEditText
                                 android:id="@+id/txtShortDescription"
                                 android:layout_width="match_parent"
                                 android:layout_height="80dp"
-                                android:background="@drawable/et_bg"
-                                android:fontFamily="sans-serif-light"
+                                android:ems="10"
                                 android:hint="Short description"
-                                android:paddingLeft="10dp"
-                                android:paddingRight="10dp"
-                                android:textColor="@color/Black"
-                                android:textSize="15sp" />
-
+                                android:inputType="textImeMultiLine"
+                                app:met_floatingLabel="highlight" />
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
@@ -270,19 +260,15 @@
                                 android:layout_marginTop="12dp"/>
                         </LinearLayout>
 
-                        <EditText
+                        <com.rengwuxian.materialedittext.MaterialEditText
                             android:id="@+id/txtFullDescription"
                             android:layout_width="match_parent"
                             android:layout_height="80dp"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="5dp"
-                            android:background="@drawable/et_bg"
-                            android:fontFamily="sans-serif-light"
+                            android:ems="10"
                             android:hint="Full description"
-                            android:paddingLeft="10dp"
-                            android:paddingRight="10dp"
-                            android:textColor="@color/Black"
-                            android:textSize="15sp" />
+                            android:inputType="textImeMultiLine"
+                            app:met_floatingLabel="highlight" />
+
                     </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>

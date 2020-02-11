@@ -15,15 +15,17 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.rengwuxian.materialedittext.MaterialEditText;
+
 public class REegisterShopActivity extends AppCompatActivity {
 
+    private MaterialEditText txtName, txtShortDescription, txtFullDescription;
     private Dialog myDialog;
     Button btnOder;
     LinearLayout llBack;
     RelativeLayout rlPicture;
     TextView tvHeading, lblError;
     CardView cvShop2;
-    EditText txtName, txtShortDescription, txtFullDescription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,9 +60,9 @@ public class REegisterShopActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
             if (txtName.getText().toString().isEmpty()){
-                txtName.setBackground(getResources().getDrawable(R.drawable.et_bg_err));
+                txtName.setUnderlineColor(getResources().getColor(R.color.Red));
             } else {
-                txtName.setBackground(getResources().getDrawable(R.drawable.et_bg));
+                txtName.setUnderlineColor(getResources().getColor(R.color.Black));
                 startActivity(new Intent(REegisterShopActivity.this, MenuCreationActivity.class));
             }
             }
