@@ -36,7 +36,7 @@
             android:layout_columnWeight="1"
             android:layout_rowWeight="1"
             android:background="@drawable/ripple_effect_white"
-            app:cardElevation="6dp">
+            app:cardElevation="3dp">
 
             <LinearLayout
                 android:layout_width="?attr/actionBarSize"
@@ -77,7 +77,7 @@
         android:layout_columnWeight="1"
         android:layout_rowWeight="1"
         android:background="@drawable/ripple_effect_white"
-        app:cardElevation="6dp"
+        app:cardElevation="3dp"
         android:layout_margin="5dp">
 
     <LinearLayout

@@ -7,7 +7,7 @@
     android:layout_columnWeight="1"
     android:layout_rowWeight="1"
     android:layout_gravity="center"
-    app:cardElevation="6dp"
+    app:cardElevation="3dp"
     app:cardCornerRadius="12dp">
 <RelativeLayout
     android:layout_width="300dp"
@@ -57,7 +57,7 @@
                 android:layout_height="40dp"
                 android:layout_columnWeight="1"
                 android:layout_rowWeight="1"
-                app:cardElevation="6dp"
+                app:cardElevation="3dp"
                 android:fontFamily="sans-serif-medium"
                 android:padding="50dp"
                 android:layout_margin="10dp"

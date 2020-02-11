@@ -128,7 +128,7 @@ public class NewMenuItemActivity extends AppCompatActivity {
                     etPrice.setText(String.valueOf(dblPrice));
                 } else {
                     ingredientItems.get(position).setChecked(false);
-                    dblPrice += ingredientItems.get(position).getDblPrice();
+                    dblPrice -= ingredientItems.get(position).getDblPrice();
                     etPrice.setText(String.valueOf(dblPrice));
                 }
             }

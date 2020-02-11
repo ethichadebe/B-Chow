@@ -8,7 +8,7 @@
     android:background="@drawable/ripple_effect_white"
     android:padding="20dp"
     android:layout_margin="5dp"
-    app:cardElevation="6dp"
+    app:cardElevation="3dp"
     app:cardCornerRadius="12dp">
 
     <RelativeLayout

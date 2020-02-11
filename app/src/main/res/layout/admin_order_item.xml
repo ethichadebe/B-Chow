@@ -4,7 +4,7 @@
     android:layout_columnWeight="1"
     android:layout_rowWeight="1"
     android:layout_margin="5dp"
-    app:cardElevation="6dp"
+    app:cardElevation="3dp"
     app:cardCornerRadius="12dp"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
@@ -74,7 +74,7 @@
                 android:fontFamily="sans-serif-medium"
                 android:padding="50dp"
                 app:cardCornerRadius="12dp"
-                app:cardElevation="6dp">
+                app:cardElevation="3dp">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -100,7 +100,7 @@
                 android:fontFamily="sans-serif-medium"
                 android:padding="50dp"
                 app:cardCornerRadius="12dp"
-                app:cardElevation="6dp">
+                app:cardElevation="3dp">
 
                 <TextView
                     android:layout_width="match_parent"

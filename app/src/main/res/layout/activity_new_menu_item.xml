@@ -78,7 +78,7 @@
         android:layout_rowWeight="1"
         android:background="@drawable/ripple_effect_white"
         android:layout_above="@+id/btnOder"
-        app:cardElevation="6dp"
+        app:cardElevation="3dp"
         android:layout_margin="5dp">
 
     <RelativeLayout
