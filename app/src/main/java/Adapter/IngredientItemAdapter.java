@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import SingleItem.IngredientItem;
-import www.kicknbhoboza.com.emakoteni.R;
+import www.ethichadebe.com.loxion_beanery.R;
 
 public class IngredientItemAdapter extends RecyclerView.Adapter<IngredientItemAdapter.IngredientViewHolder> {
 

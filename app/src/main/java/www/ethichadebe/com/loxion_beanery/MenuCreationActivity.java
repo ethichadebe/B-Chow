@@ -1,4 +1,4 @@
-package www.kicknbhoboza.com.emakoteni;
+package www.ethichadebe.com.loxion_beanery;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -10,11 +10,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -23,10 +20,8 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 import java.util.ArrayList;
 
 import Adapter.IngredientItemAdapter;
-import Adapter.ShopItemAdapter;
 import SingleItem.IngredientItem;
 import SingleItem.MenuItem;
-import SingleItem.ShopItem;
 
 public class MenuCreationActivity extends AppCompatActivity {
 

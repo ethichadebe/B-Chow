@@ -1,4 +1,4 @@
-package www.kicknbhoboza.com.emakoteni;
+package www.ethichadebe.com.loxion_beanery;
 
 import android.content.Context;
 

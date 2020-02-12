@@ -1,4 +1,4 @@
-package www.kicknbhoboza.com.emakoteni;
+package www.ethichadebe.com.loxion_beanery;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import Adapter.MenuItemAdapter;
 import SingleItem.MenuItem;
 
-import static www.kicknbhoboza.com.emakoteni.MenuCreationActivity.getMenuItems;
+import static www.ethichadebe.com.loxion_beanery.MenuCreationActivity.getMenuItems;
 
 public class MenuActivity extends AppCompatActivity {
 

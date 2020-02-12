@@ -1,4 +1,4 @@
-package www.kicknbhoboza.com.emakoteni;
+package www.ethichadebe.com.loxion_beanery;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -6,9 +6,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -16,8 +13,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import com.rengwuxian.materialedittext.MaterialEditText;
-
-import util.User;
 
 public class MainActivity extends AppCompatActivity {
     private View vLeft, vRight, vBottomRight, vBottomLeft;
@@ -34,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private Dialog myDialog;
     private MaterialEditText mTextPassword, mTextUsername;
     private TextView mViewError;
-    private ImageView mImageLogo;
+    private CardView mImageLogo;
     private CardView mButtonLogin, mButtonRegister;
     public static final String SHARED_PREFS = "sharedPrefs";
     public static final String USERNAME = "Username";
@@ -77,9 +72,9 @@ public class MainActivity extends AppCompatActivity {
 
         //Check if shared prefs are empty
         loadData();
-        if (!mTextUsername.getText().toString().isEmpty() && !mTextPassword.getText().toString().isEmpty()) {
+        /*if (!mTextUsername.getText().toString().isEmpty() && !mTextPassword.getText().toString().isEmpty()) {
             startActivity(new Intent(MainActivity.this, HomePageActivity.class));
-        }
+        }*/
         //Image
         mImageLogo = findViewById(R.id.ivLogo);
 

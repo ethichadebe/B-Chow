@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import SingleItem.ShopItem;
-import www.kicknbhoboza.com.emakoteni.R;
+import www.ethichadebe.com.loxion_beanery.R;
 
 public class ShopItemAdapter extends RecyclerView.Adapter<ShopItemAdapter.ShopViewHolder> {
 

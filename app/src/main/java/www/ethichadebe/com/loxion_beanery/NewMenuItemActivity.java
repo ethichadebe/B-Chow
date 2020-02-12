@@ -1,4 +1,4 @@
-package www.kicknbhoboza.com.emakoteni;
+package www.ethichadebe.com.loxion_beanery;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.rengwuxian.materialedittext.MaterialEditText;
@@ -18,13 +17,13 @@ import java.util.ArrayList;
 import Adapter.IngredientItemCheckboxAdapter;
 import SingleItem.IngredientItemCheckbox;
 
-import static www.kicknbhoboza.com.emakoteni.MenuActivity.getIngredients;
-import static www.kicknbhoboza.com.emakoteni.MenuActivity.getIntPosition;
-import static www.kicknbhoboza.com.emakoteni.MenuActivity.getDblPrice;
-import static www.kicknbhoboza.com.emakoteni.MenuActivity.setIngredients;
-import static www.kicknbhoboza.com.emakoteni.MenuCreationActivity.addToList;
-import static www.kicknbhoboza.com.emakoteni.MenuCreationActivity.getIngredientItems;
-import static www.kicknbhoboza.com.emakoteni.MenuCreationActivity.EditMenu;
+import static www.ethichadebe.com.loxion_beanery.MenuActivity.getIngredients;
+import static www.ethichadebe.com.loxion_beanery.MenuActivity.getIntPosition;
+import static www.ethichadebe.com.loxion_beanery.MenuActivity.getDblPrice;
+import static www.ethichadebe.com.loxion_beanery.MenuActivity.setIngredients;
+import static www.ethichadebe.com.loxion_beanery.MenuCreationActivity.addToList;
+import static www.ethichadebe.com.loxion_beanery.MenuCreationActivity.getIngredientItems;
+import static www.ethichadebe.com.loxion_beanery.MenuCreationActivity.EditMenu;
 
 public class NewMenuItemActivity extends AppCompatActivity {
 

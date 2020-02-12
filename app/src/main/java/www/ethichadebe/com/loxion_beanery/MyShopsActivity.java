@@ -1,4 +1,4 @@
-package www.kicknbhoboza.com.emakoteni;
+package www.ethichadebe.com.loxion_beanery;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,9 +12,7 @@ import android.widget.LinearLayout;
 import java.util.ArrayList;
 
 import Adapter.MyShopItemAdapter;
-import Adapter.ShopItemAdapter;
 import SingleItem.MyShopItem;
-import SingleItem.ShopItem;
 
 public class MyShopsActivity extends AppCompatActivity {
 

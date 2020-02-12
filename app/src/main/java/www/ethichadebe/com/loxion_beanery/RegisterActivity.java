@@ -1,14 +1,12 @@
-package www.kicknbhoboza.com.emakoteni;
+package www.ethichadebe.com.loxion_beanery;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.CheckBox;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -21,7 +19,7 @@ import java.util.Calendar;
 public class RegisterActivity extends AppCompatActivity {
     RelativeLayout rellay1;
     private CardView mButtonRegister, mButtonLogin;
-    private ImageView mImageLogo;
+    private CardView mImageLogo;
     private MaterialEditText[] mTextBoxes = new MaterialEditText[7];
     private TextView mViewError;
     private CheckBox mCBMale, mCBFemale, mCBOther;

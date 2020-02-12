@@ -1,7 +1,6 @@
-package www.kicknbhoboza.com.emakoteni;
+package www.ethichadebe.com.loxion_beanery;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,11 +12,7 @@ import android.widget.LinearLayout;
 import java.util.ArrayList;
 
 import Adapter.MenuItemAdapter;
-import Adapter.MyShopItemAdapter;
-import Adapter.ShopItemAdapter;
 import SingleItem.MenuItem;
-import SingleItem.MyShopItem;
-import SingleItem.ShopItem;
 
 public class ShopHomeActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package www.kicknbhoboza.com.emakoteni;
+package www.ethichadebe.com.loxion_beanery;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -14,14 +14,10 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 
 import Adapter.AdminOrderItemAdapter;
-import Adapter.ShopItemAdapter;
 import SingleItem.AdminOrderItem;
-import SingleItem.ShopItem;
 
 public class OrdersActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;

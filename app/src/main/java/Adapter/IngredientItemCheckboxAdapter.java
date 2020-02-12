@@ -12,9 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-import SingleItem.IngredientItem;
 import SingleItem.IngredientItemCheckbox;
-import www.kicknbhoboza.com.emakoteni.R;
+import www.ethichadebe.com.loxion_beanery.R;
 
 public class IngredientItemCheckboxAdapter extends RecyclerView.Adapter<IngredientItemCheckboxAdapter.IngredientCheckboxViewHolder> {
 

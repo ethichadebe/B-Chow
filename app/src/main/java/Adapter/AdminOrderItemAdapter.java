@@ -13,8 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import SingleItem.AdminOrderItem;
-import SingleItem.IngredientItem;
-import www.kicknbhoboza.com.emakoteni.R;
+import www.ethichadebe.com.loxion_beanery.R;
 
 public class AdminOrderItemAdapter extends RecyclerView.Adapter<AdminOrderItemAdapter.AdminOrderViewHolder> {
 

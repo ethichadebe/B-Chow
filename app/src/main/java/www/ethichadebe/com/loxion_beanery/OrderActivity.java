@@ -1,4 +1,4 @@
-package www.kicknbhoboza.com.emakoteni;
+package www.ethichadebe.com.loxion_beanery;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import Adapter.IngredientItemCheckboxAdapter;
 import SingleItem.IngredientItemCheckbox;
 
-import static www.kicknbhoboza.com.emakoteni.ShopHomeActivity.getIngredients;
+import static www.ethichadebe.com.loxion_beanery.ShopHomeActivity.getIngredients;
 
 public class OrderActivity extends AppCompatActivity {
     private ArrayList<IngredientItemCheckbox> ingredientItems;

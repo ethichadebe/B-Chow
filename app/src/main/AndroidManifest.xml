@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="www.kicknbhoboza.com.emakoteni">
+    package="www.ethichadebe.com.loxion_beanery">
 
     <application
         android:allowBackup="true"
@@ -9,20 +9,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ShopSettingsActivity"></activity>
-        <activity android:name=".NewMenuItemActivity" />
-        <activity android:name=".OrdersActivity" />
-        <activity android:name=".MenuActivity" />
-        <activity android:name=".MenuCreationActivity" />
-        <activity android:name=".REegisterShopActivity" />
-        <activity android:name=".MyShopsActivity" />
-        <activity android:name=".OrderConfirmationActivity" />
-        <activity android:name=".UserProfileActivity" />
-        <activity android:name=".OrderActivity" />
-        <activity android:name=".ShopHomeActivity" />
-        <activity android:name=".HomePageActivity" />
-        <activity android:name=".RegisterActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name="www.ethichadebe.com.loxion_beanery.ShopSettingsActivity"></activity>
+        <activity android:name="www.ethichadebe.com.loxion_beanery.NewMenuItemActivity" />
+        <activity android:name="www.ethichadebe.com.loxion_beanery.OrdersActivity" />
+        <activity android:name="www.ethichadebe.com.loxion_beanery.MenuActivity" />
+        <activity android:name="www.ethichadebe.com.loxion_beanery.MenuCreationActivity" />
+        <activity android:name="www.ethichadebe.com.loxion_beanery.REegisterShopActivity" />
+        <activity android:name="www.ethichadebe.com.loxion_beanery.MyShopsActivity" />
+        <activity android:name="www.ethichadebe.com.loxion_beanery.OrderConfirmationActivity" />
+        <activity android:name="www.ethichadebe.com.loxion_beanery.UserProfileActivity" />
+        <activity android:name="www.ethichadebe.com.loxion_beanery.OrderActivity" />
+        <activity android:name="www.ethichadebe.com.loxion_beanery.ShopHomeActivity" />
+        <activity android:name="www.ethichadebe.com.loxion_beanery.HomePageActivity" />
+        <activity android:name="www.ethichadebe.com.loxion_beanery.RegisterActivity" />
+        <activity android:name="www.ethichadebe.com.loxion_beanery.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
