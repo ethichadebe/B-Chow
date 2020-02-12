@@ -8,7 +8,7 @@
     android:layout_rowWeight="1"
     app:cardElevation="3dp"
     android:layout_margin="5dp"
-    app:cardCornerRadius="12dp">
+    app:cardCornerRadius="10dp">
 
     <RelativeLayout
         android:layout_width="match_parent"

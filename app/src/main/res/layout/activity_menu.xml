@@ -31,7 +31,7 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/llBack"
             android:layout_width="wrap_content"
-            app:cardCornerRadius="12dp"
+            app:cardCornerRadius="10dp"
             android:layout_height="wrap_content"
             android:layout_columnWeight="1"
             android:layout_rowWeight="1"
@@ -71,7 +71,7 @@
 
     <androidx.cardview.widget.CardView android:layout_width="match_parent"
         android:id="@+id/llAddMenu"
-        app:cardCornerRadius="12dp"
+        app:cardCornerRadius="10dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/llHead"
         android:layout_columnWeight="1"

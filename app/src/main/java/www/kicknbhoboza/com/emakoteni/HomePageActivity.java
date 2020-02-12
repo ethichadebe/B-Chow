@@ -9,9 +9,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.luseen.spacenavigation.SpaceItem;
 import com.luseen.spacenavigation.SpaceNavigationView;
+import com.luseen.spacenavigation.SpaceOnClickListener;
 
 import java.util.ArrayList;
 
@@ -25,17 +27,34 @@ public class HomePageActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private ShopItemAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-
-    private ImageView ivProfile;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
 
-        SpaceNavigationView spaceNavigationView = (SpaceNavigationView) findViewById(R.id.space);
+        final SpaceNavigationView spaceNavigationView = findViewById(R.id.space);
         spaceNavigationView.initWithSaveInstanceState(savedInstanceState);
-        spaceNavigationView.addSpaceItem(new SpaceItem("ORDER", R.drawable.ic_reorder_black_24dp));
+        spaceNavigationView.addSpaceItem(new SpaceItem("ORDERs", R.drawable.ic_reorder_black_24dp));
         spaceNavigationView.addSpaceItem(new SpaceItem("PROFILE", R.drawable.ic_person_black_24dp));
+
+        spaceNavigationView.setCentreButtonSelectable(true);
+        spaceNavigationView.setCentreButtonSelected();
+        spaceNavigationView.setSpaceOnClickListener(new SpaceOnClickListener() {
+            @Override
+            public void onCentreButtonClick() {
+            }
+
+            @Override
+            public void onItemClick(int itemIndex, String itemName) {
+                if (itemIndex == 1){
+                    startActivity(new Intent(HomePageActivity.this, UserProfileActivity.class));
+                }
+            }
+
+            @Override
+            public void onItemReselected(int itemIndex, String itemName) {
+            }
+        });
 
         final ArrayList<ShopItem> shopItems = new ArrayList<>();
 
@@ -66,14 +85,6 @@ public class HomePageActivity extends AppCompatActivity {
             }
         });
 
-        ivProfile = findViewById(R.id.ivProfile);
-
-        ivProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(HomePageActivity.this, UserProfileActivity.class));
-            }
-        });
     }
 
     @Override

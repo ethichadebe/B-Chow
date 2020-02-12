@@ -177,7 +177,7 @@
                     android:fontFamily="sans-serif-medium"
                     android:background="@drawable/btn_bg"
                     android:padding="50dp"
-                    app:cardCornerRadius="12dp">
+                    app:cardCornerRadius="10dp">
                     <TextView
                         android:id="@+id/tvPrice"
                         android:layout_width="match_parent"
@@ -202,7 +202,7 @@
                     android:padding="50dp"
                     android:layout_margin="10dp"
                     android:layout_below="@id/btnRegister"
-                    app:cardCornerRadius="12dp">
+                    app:cardCornerRadius="10dp">
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
