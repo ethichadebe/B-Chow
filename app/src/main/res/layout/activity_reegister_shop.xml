@@ -159,7 +159,6 @@
                                 android:ems="10"
                                 android:textSize="14sp"
                                 android:hint="Short description"
-                                android:inputType="textImeMultiLine"
                                 app:met_floatingLabel="highlight" />
 
                             <LinearLayout
@@ -269,7 +268,6 @@
                             android:ems="10"
                             android:hint="Full description"
                             android:textSize="14sp"
-                            android:inputType="textImeMultiLine"
                             app:met_floatingLabel="highlight" />
 
                     </LinearLayout>
@@ -311,6 +309,7 @@
                                 android:textColor="@color/Black"
                                 android:textSize="14sp" />
                             <View
+                                android:id="@+id/llMonLine"
                                 android:layout_width="match_parent"
                                 android:layout_height="3dp"
                                 android:background="@drawable/grad_bg_backnforth"
@@ -333,6 +332,7 @@
                                 android:textColor="@color/Black"
                                 android:textSize="14sp" />
                             <View
+                                android:id="@+id/llTueLine"
                                 android:layout_width="match_parent"
                                 android:layout_height="3dp"
                                 android:background="@drawable/grad_bg_backnforth"
@@ -355,6 +355,7 @@
                                 android:textColor="@color/Black"
                                 android:textSize="14sp" />
                             <View
+                                android:id="@+id/llWedLine"
                                 android:layout_width="match_parent"
                                 android:layout_height="3dp"
                                 android:background="@drawable/grad_bg_backnforth"
@@ -377,6 +378,7 @@
                                 android:textColor="@color/Black"
                                 android:textSize="14sp" />
                             <View
+                                android:id="@+id/llThuLine"
                                 android:layout_width="match_parent"
                                 android:layout_height="3dp"
                                 android:background="@drawable/grad_bg_backnforth"
@@ -399,6 +401,7 @@
                                 android:textColor="@color/Black"
                                 android:textSize="14sp" />
                             <View
+                                android:id="@+id/llFriLine"
                                 android:layout_width="match_parent"
                                 android:layout_height="3dp"
                                 android:background="@drawable/grad_bg_backnforth"
@@ -421,6 +424,7 @@
                                 android:textColor="@color/Black"
                                 android:textSize="14sp" />
                             <View
+                                android:id="@+id/llSatLine"
                                 android:layout_width="match_parent"
                                 android:layout_height="3dp"
                                 android:background="@drawable/grad_bg_backnforth"
@@ -443,6 +447,7 @@
                                 android:textColor="@color/Black"
                                 android:textSize="14sp" />
                             <View
+                                android:id="@+id/llSunLine"
                                 android:layout_width="match_parent"
                                 android:layout_height="3dp"
                                 android:background="@drawable/grad_bg_backnforth"
@@ -465,6 +470,7 @@
                                 android:textColor="@color/Black"
                                 android:textSize="14sp" />
                             <View
+                                android:id="@+id/llPHLine"
                                 android:layout_width="match_parent"
                                 android:layout_height="3dp"
                                 android:background="@drawable/grad_bg_backnforth"
@@ -511,7 +517,7 @@
                             app:met_floatingLabel="highlight" />
 
                         <androidx.cardview.widget.CardView
-                            android:id="@+id/btnAdd"
+                            android:id="@+id/cvAdd"
                             android:layout_width="100dp"
                             android:layout_height="40dp"
                             app:cardElevation="3dp"
@@ -527,8 +533,7 @@
                                 android:background="@drawable/ripple_effect"
                                 android:gravity="center"
                                 android:fontFamily="sans-serif-medium"
-                                android:textAllCaps="false"
-                                android:text="@string/login"
+                                android:textAllCaps="false" android:text="Add"
                                 android:textColor="@color/White"/>
                         </androidx.cardview.widget.CardView>
                     </LinearLayout>

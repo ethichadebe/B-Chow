@@ -21,7 +21,7 @@ public class OrderConfirmationActivity extends AppCompatActivity {
         btFinish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(OrderConfirmationActivity.this, HomePageActivity.class));
+                startActivity(new Intent(OrderConfirmationActivity.this, MainActivity.class));
             }
         });
     }

@@ -1,54 +1,33 @@
 package www.ethichadebe.com.loxion_beanery;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
-import com.luseen.spacenavigation.SpaceItem;
-import com.luseen.spacenavigation.SpaceNavigationView;
-import com.luseen.spacenavigation.SpaceOnClickListener;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
 import Adapter.ShopItemAdapter;
 import SingleItem.ShopItem;
 
-public class HomePageActivity extends AppCompatActivity {
-
+public class HomeFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private ShopItemAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home_page);
-
-        final SpaceNavigationView spaceNavigationView = findViewById(R.id.space);
-        spaceNavigationView.initWithSaveInstanceState(savedInstanceState);
-        spaceNavigationView.addSpaceItem(new SpaceItem("ORDERs", R.drawable.ic_reorder_black_24dp));
-        spaceNavigationView.addSpaceItem(new SpaceItem("PROFILE", R.drawable.ic_person_black_24dp));
-
-        spaceNavigationView.setCentreButtonSelectable(true);
-        spaceNavigationView.setCentreButtonSelected();
-        spaceNavigationView.setSpaceOnClickListener(new SpaceOnClickListener() {
-            @Override
-            public void onCentreButtonClick() {
-            }
-
-            @Override
-            public void onItemClick(int itemIndex, String itemName) {
-                if (itemIndex == 1){
-                    startActivity(new Intent(HomePageActivity.this, UserProfileActivity.class));
-                }
-            }
-
-            @Override
-            public void onItemReselected(int itemIndex, String itemName) {
-            }
-        });
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.frame_home,container, false);
 
         final ArrayList<ShopItem> shopItems = new ArrayList<>();
 
@@ -63,9 +42,9 @@ public class HomePageActivity extends AppCompatActivity {
                 R.drawable.star,R.drawable.star,R.drawable.star,R.drawable.star,R.drawable.star,"2km","10-15min"));
         shopItems.add(new ShopItem(1,"Shop name",R.drawable.food,"This is a short description about my shop to attract custommers",
                 R.drawable.star,R.drawable.star,R.drawable.star,R.drawable.star,R.drawable.star,"2km","10-15min"));
-        mRecyclerView = findViewById(R.id.recyclerView);
+        mRecyclerView = v.findViewById(R.id.recyclerView);
         mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(this);
+        mLayoutManager = new LinearLayoutManager(getActivity());
         mAdapter = new ShopItemAdapter(shopItems);
 
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -75,14 +54,11 @@ public class HomePageActivity extends AppCompatActivity {
             @Override
             public void OnItemClick(int position) {
                 /*shopItems.get(position)*/
-                startActivity(new Intent(HomePageActivity.this, ShopHomeActivity.class));
+                startActivity(new Intent(getActivity(), ShopHomeActivity.class));
             }
         });
 
-    }
 
-    @Override
-    public void onBackPressed() {
-        this.finishAffinity();
+        return v;
     }
 }

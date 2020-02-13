@@ -17,12 +17,12 @@
         <activity android:name="www.ethichadebe.com.loxion_beanery.REegisterShopActivity" />
         <activity android:name="www.ethichadebe.com.loxion_beanery.MyShopsActivity" />
         <activity android:name="www.ethichadebe.com.loxion_beanery.OrderConfirmationActivity" />
-        <activity android:name="www.ethichadebe.com.loxion_beanery.UserProfileActivity" />
+        <activity android:name="www.ethichadebe.com.loxion_beanery.ProfileFragment" />
         <activity android:name="www.ethichadebe.com.loxion_beanery.OrderActivity" />
         <activity android:name="www.ethichadebe.com.loxion_beanery.ShopHomeActivity" />
-        <activity android:name="www.ethichadebe.com.loxion_beanery.HomePageActivity" />
+        <activity android:name="www.ethichadebe.com.loxion_beanery.MainActivity" />
         <activity android:name="www.ethichadebe.com.loxion_beanery.RegisterActivity" />
-        <activity android:name="www.ethichadebe.com.loxion_beanery.MainActivity">
+        <activity android:name="www.ethichadebe.com.loxion_beanery.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

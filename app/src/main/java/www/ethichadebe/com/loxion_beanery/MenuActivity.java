@@ -61,7 +61,7 @@ public class MenuActivity extends AppCompatActivity {
                 if (MenuItems.isEmpty()){
                     ShowNotificationPopup();
                 }else {
-                    startActivity(new Intent(MenuActivity.this, HomePageActivity.class));
+                    startActivity(new Intent(MenuActivity.this, MainActivity.class));
                 }
             }
         });

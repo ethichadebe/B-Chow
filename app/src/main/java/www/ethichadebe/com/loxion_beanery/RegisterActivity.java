@@ -156,7 +156,7 @@ public class RegisterActivity extends AppCompatActivity {
         mButtonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+                startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
             }
         });
 
@@ -224,7 +224,7 @@ public class RegisterActivity extends AppCompatActivity {
                     UserPassword = mTextBoxes[4].getText().toString();
                     UserDOB = mTextBoxes[6].getText().toString();
 
-                    startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+                    startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
                     //Manipulate loading and button disabling
                     //startActivity(new Intent(RegistrationActivity.this, AcountAuthActivity.class));
                 }
