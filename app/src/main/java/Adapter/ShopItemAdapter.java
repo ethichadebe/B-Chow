@@ -89,11 +89,38 @@ public class ShopItemAdapter extends RecyclerView.Adapter<ShopItemAdapter.ShopVi
         holder.tvShopName.setText(item.getStrShopName());
         holder.ivLogo.setImageResource(item.getIntLogo());
         holder.tvShortDescript.setText(item.getStrShortDescript());
-        holder.ivStar1.setImageResource(item.getInt1Star());
-        holder.ivStar2.setImageResource(item.getInt2Star());
-        holder.ivStar3.setImageResource(item.getInt3Star());
-        holder.ivStar4.setImageResource(item.getInt4Star());
-        holder.ivStar5.setImageResource(item.getInt5Star());
+        switch (item.getIntRating()){
+            case 1:
+                holder.ivStar1.setVisibility(View.VISIBLE);
+                holder.ivStar2.setVisibility(View.GONE);
+                holder.ivStar3.setVisibility(View.GONE);
+                holder.ivStar4.setVisibility(View.GONE);
+                holder.ivStar5.setVisibility(View.GONE);
+            case 2:
+                holder.ivStar1.setVisibility(View.VISIBLE);
+                holder.ivStar2.setVisibility(View.VISIBLE);
+                holder.ivStar3.setVisibility(View.GONE);
+                holder.ivStar4.setVisibility(View.GONE);
+                holder.ivStar5.setVisibility(View.GONE);
+            case 3:
+                holder.ivStar1.setVisibility(View.VISIBLE);
+                holder.ivStar2.setVisibility(View.VISIBLE);
+                holder.ivStar3.setVisibility(View.VISIBLE);
+                holder.ivStar4.setVisibility(View.GONE);
+                holder.ivStar5.setVisibility(View.GONE);
+            case 4:
+                holder.ivStar1.setVisibility(View.VISIBLE);
+                holder.ivStar2.setVisibility(View.VISIBLE);
+                holder.ivStar3.setVisibility(View.VISIBLE);
+                holder.ivStar4.setVisibility(View.VISIBLE);
+                holder.ivStar5.setVisibility(View.GONE);
+            case 5:
+                holder.ivStar1.setVisibility(View.VISIBLE);
+                holder.ivStar2.setVisibility(View.VISIBLE);
+                holder.ivStar3.setVisibility(View.VISIBLE);
+                holder.ivStar4.setVisibility(View.VISIBLE);
+                holder.ivStar5.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

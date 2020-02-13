@@ -5,24 +5,17 @@ public class ShopItem {
     private String strShopName;
     private int intLogo;
     private String strShortDescript;
-    private int int1Star;
-    private int int2Star;
-    private int int3Star;
-    private int int4Star;
-    private int int5Star;
+    private int intRating;
     private String strDistance;
     private String strAveTime;
 
-    public ShopItem(int intID, String strShopName, int intLogo, String strShortDescript, int int1Star, int int2Star, int int3Star, int int4Star, int int5Star, String strDistance, String strAveTime) {
+    public ShopItem(int intID, String strShopName, int intLogo, String strShortDescript, int intRating,
+                    String strDistance, String strAveTime) {
         this.intID = intID;
         this.strShopName = strShopName;
         this.intLogo = intLogo;
         this.strShortDescript = strShortDescript;
-        this.int1Star = int1Star;
-        this.int2Star = int2Star;
-        this.int3Star = int3Star;
-        this.int4Star = int4Star;
-        this.int5Star = int5Star;
+        this.intRating = intRating;
         this.strDistance = strDistance;
         this.strAveTime = strAveTime;
     }
@@ -59,44 +52,12 @@ public class ShopItem {
         this.strShortDescript = strShortDescript;
     }
 
-    public int getInt1Star() {
-        return int1Star;
+    public int getIntRating() {
+        return intRating;
     }
 
-    public void setInt1Star(int int1Star) {
-        this.int1Star = int1Star;
-    }
-
-    public int getInt2Star() {
-        return int2Star;
-    }
-
-    public void setInt2Star(int int2Star) {
-        this.int2Star = int2Star;
-    }
-
-    public int getInt3Star() {
-        return int3Star;
-    }
-
-    public void setInt3Star(int int3Star) {
-        this.int3Star = int3Star;
-    }
-
-    public int getInt4Star() {
-        return int4Star;
-    }
-
-    public void setInt4Star(int int4Star) {
-        this.int4Star = int4Star;
-    }
-
-    public int getInt5Star() {
-        return int5Star;
-    }
-
-    public void setInt5Star(int int5Star) {
-        this.int5Star = int5Star;
+    public void setIntRating(int intRating) {
+        this.intRating = intRating;
     }
 
     public String getStrDistance() {

@@ -12,10 +12,22 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
+
+import Adapter.OrderItemAdapter;
+import Adapter.ShopItemAdapter;
+import SingleItem.OrderItem;
+import SingleItem.ShopItem;
 
 public class OrdersFragment extends Fragment {
     private View vLeft, vRight, vBottomRight, vBottomLeft;
     private RelativeLayout rlLeft, rlRight;
+    private RecyclerView mRecyclerView;
+    private OrderItemAdapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
 
     @Nullable
     @Override
@@ -27,6 +39,32 @@ public class OrdersFragment extends Fragment {
         vRight = v.findViewById(R.id.vRight);
         rlLeft = v.findViewById(R.id.rlLeft);
         rlRight = v.findViewById(R.id.rlRight);
+
+        final ArrayList<OrderItem> orderItems = new ArrayList<>();
+
+        //Loads shops starting with the one closest to user
+        orderItems.add(new OrderItem(1, "Shop name",315,"13 Jan 2020,15:45","French, bacon, egg, russian",
+                19.50,3));
+        orderItems.add(new OrderItem(1, "Shop name",315,"03 Feb 2020, 15:45","French, bacon, egg, russian",
+                19.50,-1));
+        orderItems.add(new OrderItem(1, "Shop name",315,"13 Feb 2020, 15:45","French, bacon, egg, russian",
+                19.50,1));
+        mRecyclerView = v.findViewById(R.id.recyclerView);
+        mRecyclerView.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(getActivity());
+        mAdapter = new OrderItemAdapter(orderItems);
+
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setAdapter(mAdapter);
+
+        mAdapter.setOnItemClickListener(new OrderItemAdapter.OnItemClickListener() {
+            @Override
+            public void OnItemClick(int position) {
+                /*shopItems.get(position)*/
+                startActivity(new Intent(getActivity(), ShopHomeActivity.class));
+            }
+        });
+
 
         setVisibility(View.VISIBLE, View.GONE);
 

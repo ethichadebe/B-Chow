@@ -18,6 +18,8 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView bottomNav= findViewById(R.id.bottom_navigation );
 
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                new HomeFragment()).commit();
         bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
