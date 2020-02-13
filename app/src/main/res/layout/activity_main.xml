@@ -18,16 +18,17 @@
             android:layout_height="wrap_content"
             android:layout_columnWeight="1"
             android:layout_rowWeight="1"
-            app:cardElevation="3dp"
+            app:cardElevation="6dp"
             android:layout_centerHorizontal="true"
             android:fontFamily="sans-serif-medium"
+            android:outlineSpotShadowColor="@color/colorPrimary"
             android:layout_marginBottom="20dp"
             android:padding="50dp"
             app:cardCornerRadius="10dp">
 
             <ImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
                 android:src="@drawable/loxion_beanery_logo"
@@ -65,6 +66,7 @@
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:hint="@string/username"
+                    android:textSize="14sp"
                     android:inputType="textPersonName"
                     app:met_floatingLabel="highlight" />
 
@@ -73,6 +75,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
+                    android:textSize="14sp"
                     android:hint="Password"
                     android:inputType="textPersonName"
                     app:met_floatingLabel="highlight" />

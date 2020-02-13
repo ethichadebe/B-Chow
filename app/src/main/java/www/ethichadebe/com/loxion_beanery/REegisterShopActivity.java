@@ -104,4 +104,8 @@ public class REegisterShopActivity extends AppCompatActivity {
         myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         myDialog.show();
     }
+
+    private void setHighlight(MaterialEditText etDay){
+
+    }
 }
