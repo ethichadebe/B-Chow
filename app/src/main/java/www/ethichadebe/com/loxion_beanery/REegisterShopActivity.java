@@ -2,8 +2,10 @@ package www.ethichadebe.com.loxion_beanery;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.DialogFragment;
 
 import android.app.Dialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -13,16 +15,18 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import com.rengwuxian.materialedittext.MaterialEditText;
 
-public class REegisterShopActivity extends AppCompatActivity {
+public class REegisterShopActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
 
     private MaterialEditText txtName, txtShortDescription, txtFullDescription, etOpen, etClose;
     private LinearLayout[] llDay = new LinearLayout[8];
     private View[] vDayLine = new View[8];
     private String[] strTimes = new String[8];
     private Dialog myDialog;
+    private Boolean isOpen;
     Button btnOder;
     LinearLayout llBack;
     RelativeLayout rlPicture;
@@ -75,6 +79,24 @@ public class REegisterShopActivity extends AppCompatActivity {
                 } else {
                     finish();
                 }
+            }
+        });
+
+        etOpen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DialogFragment timePicker = new TimePickerFragmaent();
+                timePicker.show(getSupportFragmentManager(), "time picker");
+                isOpen = true;
+            }
+        });
+
+        etClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DialogFragment timePicker = new TimePickerFragmaent();
+                timePicker.show(getSupportFragmentManager(), "time picker");
+                isOpen = false;
             }
         });
 
@@ -211,6 +233,15 @@ public class REegisterShopActivity extends AppCompatActivity {
             } else {
                 this.vDayLine[i].setVisibility(View.GONE);
             }
+        }
+    }
+
+    @Override
+    public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
+        if (isOpen){
+            etOpen.setText(hourOfDay + ":" + minute);
+        }else {
+            etClose.setText(hourOfDay + ":" + minute);
         }
     }
 }

@@ -7,16 +7,21 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.DialogFragment;
 
 import com.rengwuxian.materialedittext.MaterialEditText;
 
+import java.text.DateFormat;
 import java.util.Calendar;
-public class RegisterActivity extends AppCompatActivity {
+import java.util.Date;
+
+public class RegisterActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
     RelativeLayout rellay1;
     private CardView mButtonRegister, mButtonLogin;
     private CardView mImageLogo;
@@ -36,12 +41,11 @@ public class RegisterActivity extends AppCompatActivity {
 
     /*0 Name
     1 Surname
-    2 Address
-    3 Number
-    4 Email
-    5 Password
-    6 CPassword
-    7 DOB*/
+    2 Number
+    3 Email
+    4 Password
+    5 CPassword
+    6 DOB*/
     public static String getUserSex() {
         return UserSex;
     }
@@ -111,16 +115,14 @@ public class RegisterActivity extends AppCompatActivity {
 
 
         //Date p[icker
-       /* mTextBoxes[6].setOnClickListener(view -> {
-            calendar = Calendar.getInstance();
-            int day = calendar.get(Calendar.DAY_OF_MONTH);
-            int month = calendar.get(Calendar.MONTH);
-            int year = calendar.get(Calendar.YEAR);
-
-            datePickerDialog = new DatePickerDialog(RegisterActivity.this, R.style.DialogTheme, (datePicker, mYear, mMonth, mDay) -> mTextBoxes[7].setText(mYear + "-" + (mMonth + 1) + "-" + mDay), year, month, day);
-            datePickerDialog.show();
+        mTextBoxes[6].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DialogFragment datePickeer = new DatePickerFragment();
+                datePickeer.show(getSupportFragmentManager(), "date picker");
+             }
         });
-*/
+
         //Handling Checkbox click events
         mCBMale.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -250,5 +252,17 @@ public class RegisterActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         this.finishAffinity();
+    }
+
+    @Override
+    public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+        calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, i);
+        calendar.set(Calendar.MONTH, i1);
+        calendar.set(Calendar.DAY_OF_MONTH, i2);
+
+        String strCurrentDate = DateFormat.getDateInstance(DateFormat.DATE_FIELD).format(calendar.getTime());
+        mTextBoxes[6].setText(strCurrentDate);
+
     }
 }

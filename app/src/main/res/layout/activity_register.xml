@@ -90,6 +90,7 @@
                         android:ems="10"
                         android:hint="Date of Birth"
                         android:textSize="14sp"
+                        android:focusable="false"
                         android:inputType="textPersonName"
                         app:met_floatingLabel="highlight" />
 

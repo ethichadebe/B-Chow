@@ -500,9 +500,9 @@
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
                             android:hint="Open time"
+                            android:focusable="false"
                             android:textSize="14sp"
                             android:layout_marginEnd="5dp"
-                            android:inputType="textImeMultiLine"
                             app:met_floatingLabel="highlight" />
 
                         <com.rengwuxian.materialedittext.MaterialEditText
@@ -511,9 +511,9 @@
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
                             android:hint="Close time"
+                            android:focusable="false"
                             android:textSize="14sp"
                             android:layout_marginEnd="5dp"
-                            android:inputType="textImeMultiLine"
                             app:met_floatingLabel="highlight" />
 
                         <androidx.cardview.widget.CardView
@@ -533,7 +533,8 @@
                                 android:background="@drawable/ripple_effect"
                                 android:gravity="center"
                                 android:fontFamily="sans-serif-medium"
-                                android:textAllCaps="false" android:text="Add"
+                                android:textAllCaps="false"
+                                android:text="Add"
                                 android:textColor="@color/White"/>
                         </androidx.cardview.widget.CardView>
                     </LinearLayout>
