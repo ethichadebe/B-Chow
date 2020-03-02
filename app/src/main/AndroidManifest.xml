@@ -13,8 +13,8 @@
         <activity android:name="www.ethichadebe.com.loxion_beanery.NewMenuItemActivity" />
         <activity android:name="www.ethichadebe.com.loxion_beanery.OrdersActivity" />
         <activity android:name="www.ethichadebe.com.loxion_beanery.MenuActivity" />
-        <activity android:name="www.ethichadebe.com.loxion_beanery.MenuCreationActivity" />
-        <activity android:name="www.ethichadebe.com.loxion_beanery.REegisterShopActivity" />
+        <activity android:name="www.ethichadebe.com.loxion_beanery.IngredientsActivity" />
+        <activity android:name="www.ethichadebe.com.loxion_beanery.RegisterShopActivity" />
         <activity android:name="www.ethichadebe.com.loxion_beanery.MyShopsActivity" />
         <activity android:name="www.ethichadebe.com.loxion_beanery.OrderConfirmationActivity" />
         <activity android:name="www.ethichadebe.com.loxion_beanery.ProfileFragment" />

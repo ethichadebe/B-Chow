@@ -19,7 +19,8 @@ import java.util.ArrayList;
 import Adapter.MenuItemAdapter;
 import SingleItem.MenuItem;
 
-import static www.ethichadebe.com.loxion_beanery.MenuCreationActivity.getMenuItems;
+import static www.ethichadebe.com.loxion_beanery.IngredientsActivity.getMenuItems;
+import static www.ethichadebe.com.loxion_beanery.RegisterShopActivity.getNewShop;
 
 public class MenuActivity extends AppCompatActivity {
 
@@ -33,7 +34,7 @@ public class MenuActivity extends AppCompatActivity {
     private Dialog myDialog;
     private CardView llAddMenu, llBack;
 
-    Button btnOder;
+    Button btnFinish;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,24 +54,27 @@ public class MenuActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(mAdapter);
 
         llBack = findViewById(R.id.llBack);
-        btnOder = findViewById(R.id.btnOder);
+        btnFinish = findViewById(R.id.btnFinish);
         llAddMenu = findViewById(R.id.llAddMenu);
-        btnOder.setOnClickListener(new View.OnClickListener() {
+
+        //Set Button Visibility False if no menu item
+        finishButtonVisibility();
+
+        btnFinish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (MenuItems.isEmpty()){
-                    ShowNotificationPopup();
-                }else {
-                    startActivity(new Intent(MenuActivity.this, MainActivity.class));
-                }
+                getNewShop().setMenuItems(getMenuItems());
+                startActivity(new Intent(MenuActivity.this, MainActivity.class));
             }
         });
+
         llAddMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(MenuActivity.this, NewMenuItemActivity.class));
             }
         });
+
         llBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -99,6 +103,7 @@ public class MenuActivity extends AppCompatActivity {
             public void onDeleteClick(int position) {
                 MenuItems.remove(position);
                 mAdapter.notifyItemRemoved(position);
+                finishButtonVisibility();
             }
         });
 
@@ -143,7 +148,7 @@ public class MenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 myDialog.dismiss();
-                startActivity(new Intent(MenuActivity.this, MenuCreationActivity.class));
+                startActivity(new Intent(MenuActivity.this, IngredientsActivity.class));
             }
         });
 
@@ -157,33 +162,14 @@ public class MenuActivity extends AppCompatActivity {
         myDialog.show();
     }
 
-    public void ShowNotificationPopup(){
-        TextView tvCancel, tvMessage;
-        CardView cvOkay;
-        myDialog.setContentView(R.layout.notification_popup);
-
-        tvCancel = myDialog.findViewById(R.id.tvCancel);
-        tvMessage = myDialog.findViewById(R.id.tvMessage);
-        cvOkay = myDialog.findViewById(R.id.cvOkay);
-
-        tvCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                myDialog.dismiss();
-            }
-        });
-
-        tvMessage.setText("You need to add at least one menu item to continue");
-
-        cvOkay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                myDialog.dismiss();
-            }
-        });
-        myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        myDialog.show();
+    /**
+     * Only display finish button when there's a menu item added
+     */
+    private void finishButtonVisibility(){
+        if (MenuItems.isEmpty()){
+            btnFinish.setVisibility(View.GONE);
+        }else {
+            btnFinish.setVisibility(View.VISIBLE);
+        }
     }
-
-
 }

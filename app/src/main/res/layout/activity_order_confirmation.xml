@@ -5,54 +5,64 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/llHead"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize">
-
-        <TextView
-            android:id="@+id/tvType"
-            android:layout_width="match_parent"
-            style="@style/Base.TextAppearance.AppCompat.Body1"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="0dp"
-            android:layout_marginBottom="0dp"
-            android:gravity="center"
-            android:padding="10dp"
-            android:text="Shop name"
-            android:textColor="@color/Black"
-            android:textSize="12sp"
-            android:textStyle="bold" />
-
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
         <LinearLayout
-            android:id="@+id/llBack"
-            android:layout_width="?attr/actionBarSize"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentTop="true"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:layout_height="?attr/actionBarSize">
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/tvEdit"
-            style="@style/Base.TextAppearance.AppCompat.Body1"
-            android:layout_width="wrap_content"
+            android:id="@+id/llThu"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentTop="true"
-            android:gravity="center"
-            android:layout_alignParentEnd="true"
-            android:padding="10dp"
-            android:textColor="@color/White"
-            android:textSize="12sp"
-            android:textStyle="bold" />
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginStart="12dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="Thu"
+                android:textColor="@color/Black"
+                android:textSize="14sp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <View
+                android:id="@+id/llFriLine"
+                android:layout_width="0dp"
+                android:layout_height="3dp"
+                android:layout_weight="1"
+                android:layout_margin="2dp"
+                android:background="@color/colorPrimary"
+                android:layout_gravity="bottom"/>
+            <View
+                android:id="@+id/llSatLine"
+                android:layout_width="0dp"
+                android:layout_height="3dp"
+                android:layout_weight="1"
+                android:layout_margin="2dp"
+                android:background="@color/colorPrimary"
+                android:layout_gravity="bottom"/>
+            <View
+                android:id="@+id/llSunLine"
+                android:layout_width="0dp"
+                android:layout_height="3dp"
+                android:layout_weight="1"
+                android:layout_margin="2dp"
+                android:background="@color/colorPrimary"
+                android:layout_gravity="bottom"/>
+            <View
+                android:id="@+id/llPHLine"
+                android:layout_width="0dp"
+                android:layout_height="3dp"
+                android:layout_weight="1"
+                android:layout_margin="2dp"
+                android:background="@color/colorPrimary"
+                android:layout_gravity="bottom"/>
+        </LinearLayout>
+    </LinearLayout>
 
-    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"

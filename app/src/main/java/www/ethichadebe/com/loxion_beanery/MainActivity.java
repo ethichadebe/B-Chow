@@ -66,8 +66,12 @@ public class MainActivity extends AppCompatActivity {
 
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     selectedFragment).commit();
-
             return true;
         }
     };
+
+    @Override
+    public void onBackPressed() {
+        this.finishAffinity();
+    }
 }

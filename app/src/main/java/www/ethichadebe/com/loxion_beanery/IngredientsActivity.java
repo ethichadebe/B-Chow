@@ -23,7 +23,9 @@ import Adapter.IngredientItemAdapter;
 import SingleItem.IngredientItem;
 import SingleItem.MenuItem;
 
-public class MenuCreationActivity extends AppCompatActivity {
+import static www.ethichadebe.com.loxion_beanery.RegisterShopActivity.getNewShop;
+
+public class IngredientsActivity extends AppCompatActivity {
 
     private static ArrayList<IngredientItem> ingredientItems;
     private RecyclerView mRecyclerView;
@@ -35,38 +37,37 @@ public class MenuCreationActivity extends AppCompatActivity {
     private Dialog myDialog;
 
     LinearLayout llBack;
-    Button btnOder;
+    private Button btnNext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_menu_creation);
+        setContentView(R.layout.activity_ingredients);
 
         myDialog = new Dialog(this);
         ingredientItems = new ArrayList<>();
-        MenuItems= new ArrayList<>();
-        btnOder = findViewById(R.id.btnOder);
+        MenuItems = new ArrayList<>();
+        btnNext = findViewById(R.id.btnNext);
         llBack = findViewById(R.id.llBack);
         etName = findViewById(R.id.etName);
         btnAddOption = findViewById(R.id.btnAddOption);
         etPrice = findViewById(R.id.etPrice);
 
-        btnOder.setOnClickListener(new View.OnClickListener() {
+        finishButtonVisibility();
+        btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (ingredientItems.isEmpty()){
-                    ShowNotificationPopup();
-                }else {
-                    startActivity(new Intent(MenuCreationActivity.this, MenuActivity.class));
-                }
+                getNewShop().setIngredientItems(ingredientItems);
+                startActivity(new Intent(IngredientsActivity.this, MenuActivity.class));
             }
         });
+
         llBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!ingredientItems.isEmpty()){
+                if (!ingredientItems.isEmpty()) {
                     ShowConfirmationPopup();
-                }else {
+                } else {
                     finish();
                 }
             }
@@ -90,6 +91,7 @@ public class MenuCreationActivity extends AppCompatActivity {
                     mAdapter.notifyItemInserted(ingredientItems.size());
                     etName.setText("");
                     etPrice.setText("");
+                    finishButtonVisibility();
                 }
             }
         });
@@ -108,6 +110,7 @@ public class MenuCreationActivity extends AppCompatActivity {
             public void onRemoveClick(int position) {
                 ingredientItems.remove(position);
                 mAdapter.notifyItemRemoved(position);
+                finishButtonVisibility();
             }
         });
 
@@ -125,11 +128,12 @@ public class MenuCreationActivity extends AppCompatActivity {
         MenuItems.add(new MenuItem(1, Price, ingredients, R.drawable.ic_edit_black_24dp,
                 R.drawable.ic_delete_black_24dp, View.VISIBLE));
     }
+
     public static void EditMenu(int position, Double Price, String ingredients) {
         MenuItems.get(position).EditPriceNMenu(Price, ingredients);
     }
 
-    public void ShowConfirmationPopup(){
+    public void ShowConfirmationPopup() {
         TextView tvCancel, tvMessage;
         CardView cvYes, cvNo;
         myDialog.setContentView(R.layout.confirmation_popup);
@@ -166,32 +170,17 @@ public class MenuCreationActivity extends AppCompatActivity {
         myDialog.show();
     }
 
-    public void ShowNotificationPopup(){
-        TextView tvCancel, tvMessage;
-        CardView cvOkay;
-        myDialog.setContentView(R.layout.notification_popup);
 
-        tvCancel = myDialog.findViewById(R.id.tvCancel);
-        tvMessage = myDialog.findViewById(R.id.tvMessage);
-        cvOkay = myDialog.findViewById(R.id.cvOkay);
-
-        tvCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                myDialog.dismiss();
-            }
-        });
-
-        tvMessage.setText("You need to add at least one ingredient to continue");
-
-        cvOkay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                myDialog.dismiss();
-            }
-        });
-        myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        myDialog.show();
+    /**
+     * Only display next button when there's an ingredient item added
+     */
+    private void finishButtonVisibility() {
+        if (ingredientItems.isEmpty()) {
+            btnNext.setVisibility(View.GONE);
+        } else {
+            btnNext.setVisibility(View.VISIBLE);
+        }
     }
+
 
 }

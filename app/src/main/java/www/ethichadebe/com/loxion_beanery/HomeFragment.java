@@ -33,16 +33,16 @@ public class HomeFragment extends Fragment {
 
         //Loads shops starting with the one closest to user
         shopItems.add(new ShopItem(1,"Shop name",R.drawable.food,
-                "This is a short description about my shop to attract custommers",3,
+                "This is a short description about my shop to attract customers",1,
                 "2km", "10-15min"));
         shopItems.add(new ShopItem(1,"Shop name",R.drawable.food,
-                "This is a short description about my shop to attract custommers",3,
+                "This is a short description about my shop to attract customers",3,
                 "2km", "10-15min"));
         shopItems.add(new ShopItem(1,"Shop name",R.drawable.food,
-                "This is a short description about my shop to attract custommers",3,
+                "This is a short description about my shop to attract customers",2,
                 "2km", "10-15min"));
         shopItems.add(new ShopItem(1,"Shop name",R.drawable.food,
-                "This is a short description about my shop to attract custommers",3,
+                "This is a short description about my shop to attract customers",5,
                 "2km", "10-15min"));
         mRecyclerView = v.findViewById(R.id.recyclerView);
         mRecyclerView.setHasFixedSize(true);

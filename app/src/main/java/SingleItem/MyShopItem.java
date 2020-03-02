@@ -1,32 +1,105 @@
 package SingleItem;
 
+import android.location.Location;
+
+import java.util.ArrayList;
+
 public class MyShopItem {
     private int intID;
     private String strShopName;
     private String strPosition;
     private int intLogo;
     private String strShortDescript;
-    private int int1Star;
-    private int int2Star;
-    private int int3Star;
-    private int int4Star;
-    private int int5Star;
-    private String strDistance;
+    private String strFullDescript;
+    private Location locLocation;
     private String strAveTime;
+    private int intRating;
+    private String[] strOperatingHRS = new String[8];
+    private ArrayList<IngredientItem> ingredientItems;
+    private ArrayList<MenuItem> menuItems;
 
-    public MyShopItem(int intID, String strShopName, String strPosition, int intLogo, String strShortDescript, int int1Star, int int2Star, int int3Star, int int4Star, int int5Star, String strDistance, String strAveTime) {
+    /**
+     * Standard constructor
+     * @param intID
+     * @param strShopName
+     * @param intLogo
+     * @param strShortDescript
+     * @param strFullDescript
+     * @param locLocation
+     * @param strAveTime
+     * @param intRating
+     */
+    public MyShopItem(int intID, String strShopName, int intLogo, String strShortDescript,
+                      String strFullDescript, Location locLocation, String strAveTime, int intRating) {
+        this.intID = intID;
+        this.strShopName = strShopName;
+        this.intLogo = intLogo;
+        this.strShortDescript = strShortDescript;
+        this.strFullDescript = strFullDescript;
+        this.locLocation = locLocation;
+        this.strAveTime = strAveTime;
+        this.intRating = intRating;
+    }
+
+    /**
+     * Standard constructor + operating Hours
+     * @param intID
+     * @param strShopName
+     * @param strPosition
+     * @param intLogo
+     * @param strShortDescript
+     * @param strFullDescript
+     * @param locLocation
+     * @param strAveTime
+     * @param intRating
+     * @param strOperatingHRS
+     */
+    public MyShopItem(int intID, String strShopName, String strPosition, int intLogo, String strShortDescript,
+                      String strFullDescript, Location locLocation, String strAveTime, int intRating,
+                      String[] strOperatingHRS) {
         this.intID = intID;
         this.strShopName = strShopName;
         this.strPosition = strPosition;
         this.intLogo = intLogo;
         this.strShortDescript = strShortDescript;
-        this.int1Star = int1Star;
-        this.int2Star = int2Star;
-        this.int3Star = int3Star;
-        this.int4Star = int4Star;
-        this.int5Star = int5Star;
-        this.strDistance = strDistance;
+        this.strFullDescript = strFullDescript;
+        this.locLocation = locLocation;
         this.strAveTime = strAveTime;
+        this.intRating = intRating;
+        this.strOperatingHRS = strOperatingHRS;
+    }
+
+    /**
+     * default constructor
+     * @param intID
+     * @param strShopName
+     * @param strPosition
+     * @param intLogo
+     * @param strShortDescript
+     * @param strFullDescript
+     * @param locLocation
+     * @param strAveTime
+     * @param intRating
+     * @param strOperatingHRS
+     * @param ingredientItems
+     * @param menuItems
+     */
+    public MyShopItem(int intID, String strShopName, String strPosition, int intLogo, String strShortDescript,
+                      String strFullDescript, Location locLocation, String strAveTime, int intRating,
+                      String[] strOperatingHRS, ArrayList<IngredientItem> ingredientItems,
+                      ArrayList<MenuItem> menuItems) {
+        this.intID = intID;
+        this.strShopName = strShopName;
+        this.strPosition = strPosition;
+        this.intLogo = intLogo;
+        this.strShortDescript = strShortDescript;
+        this.strFullDescript = strFullDescript;
+        this.locLocation = locLocation;
+        this.strAveTime = strAveTime;
+        this.intRating = intRating;
+        this.strOperatingHRS = strOperatingHRS;
+        this.ingredientItems = ingredientItems;
+        this.menuItems = menuItems;
     }
 
     public int getIntID() {
@@ -69,52 +142,20 @@ public class MyShopItem {
         this.strShortDescript = strShortDescript;
     }
 
-    public int getInt1Star() {
-        return int1Star;
+    public String getStrFullDescript() {
+        return strFullDescript;
     }
 
-    public void setInt1Star(int int1Star) {
-        this.int1Star = int1Star;
+    public void setStrFullDescript(String strFullDescript) {
+        this.strFullDescript = strFullDescript;
     }
 
-    public int getInt2Star() {
-        return int2Star;
+    public Location getLocLocation() {
+        return locLocation;
     }
 
-    public void setInt2Star(int int2Star) {
-        this.int2Star = int2Star;
-    }
-
-    public int getInt3Star() {
-        return int3Star;
-    }
-
-    public void setInt3Star(int int3Star) {
-        this.int3Star = int3Star;
-    }
-
-    public int getInt4Star() {
-        return int4Star;
-    }
-
-    public void setInt4Star(int int4Star) {
-        this.int4Star = int4Star;
-    }
-
-    public int getInt5Star() {
-        return int5Star;
-    }
-
-    public void setInt5Star(int int5Star) {
-        this.int5Star = int5Star;
-    }
-
-    public String getStrDistance() {
-        return strDistance;
-    }
-
-    public void setStrDistance(String strDistance) {
-        this.strDistance = strDistance;
+    public void setLocLocation(Location locLocation) {
+        this.locLocation = locLocation;
     }
 
     public String getStrAveTime() {
@@ -123,5 +164,37 @@ public class MyShopItem {
 
     public void setStrAveTime(String strAveTime) {
         this.strAveTime = strAveTime;
+    }
+
+    public int getIntRating() {
+        return intRating;
+    }
+
+    public void setIntRating(int intRating) {
+        this.intRating = intRating;
+    }
+
+    public String[] getStrOperatingHRS() {
+        return strOperatingHRS;
+    }
+
+    public void setStrOperatingHRS(String[] strOperatingHRS) {
+        this.strOperatingHRS = strOperatingHRS;
+    }
+
+    public ArrayList<IngredientItem> getIngredientItems() {
+        return ingredientItems;
+    }
+
+    public void setIngredientItems(ArrayList<IngredientItem> ingredientItems) {
+        this.ingredientItems = ingredientItems;
+    }
+
+    public ArrayList<MenuItem> getMenuItems() {
+        return menuItems;
+    }
+
+    public void setMenuItems(ArrayList<MenuItem> menuItems) {
+        this.menuItems = menuItems;
     }
 }

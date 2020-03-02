@@ -6,17 +6,17 @@ public class ShopItem {
     private int intLogo;
     private String strShortDescript;
     private int intRating;
-    private String strDistance;
+    private String strLocation;
     private String strAveTime;
 
-    public ShopItem(int intID, String strShopName, int intLogo, String strShortDescript, int intRating,
-                    String strDistance, String strAveTime) {
+    public ShopItem(int intID, String strShopName, int intLogo, String strShortDescript, int intRating, String strLocation,
+                    String strAveTime) {
         this.intID = intID;
         this.strShopName = strShopName;
         this.intLogo = intLogo;
         this.strShortDescript = strShortDescript;
         this.intRating = intRating;
-        this.strDistance = strDistance;
+        this.strLocation = strLocation;
         this.strAveTime = strAveTime;
     }
 
@@ -60,12 +60,12 @@ public class ShopItem {
         this.intRating = intRating;
     }
 
-    public String getStrDistance() {
-        return strDistance;
+    public String getStrLocation() {
+        return strLocation;
     }
 
-    public void setStrDistance(String strDistance) {
-        this.strDistance = strDistance;
+    public void setStrLocation(String strLocation) {
+        this.strLocation = strLocation;
     }
 
     public String getStrAveTime() {

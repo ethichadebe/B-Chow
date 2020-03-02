@@ -130,7 +130,7 @@
                     android:ems="10"
                     android:layout_toEndOf="@id/tvHeading1"
                     android:hint="Price"
-                    android:inputType="textPersonName"
+                    android:inputType="numberDecimal"
                     app:met_floatingLabel="highlight" />
 
                 <androidx.cardview.widget.CardView
@@ -209,7 +209,7 @@
         android:scrollbars="horizontal"/>
 
     <Button
-        android:id="@+id/btnOder"
+        android:id="@+id/btnNext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Next"

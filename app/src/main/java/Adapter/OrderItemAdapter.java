@@ -25,6 +25,7 @@ public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.Orde
 
     public interface OnItemClickListener{
         void OnItemClick(int position);
+        void OnItemClickRate(int position);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener){
@@ -67,6 +68,18 @@ public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.Orde
                     }
                 }
             });
+
+            cvRate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (listener != null){
+                        int position =getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION){
+                            listener.OnItemClickRate(position);
+                        }
+                    }
+                }
+            });
         }
     }
 
@@ -101,29 +114,29 @@ public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.Orde
 
             switch (item.getIntRating()){
                 case 1:
-                    holder.ivStar1.setVisibility(View.VISIBLE);
-                    holder.ivStar2.setVisibility(View.GONE);
-                    holder.ivStar3.setVisibility(View.GONE);
-                    holder.ivStar4.setVisibility(View.GONE);
-                    holder.ivStar5.setVisibility(View.GONE);
+                    holder.ivStar1.setImageResource(0);
+                    holder.ivStar2.setImageResource(0);
+                    holder.ivStar3.setImageResource(0);
+                    holder.ivStar4.setImageResource(0);
+                    holder.ivStar5.setVisibility(View.VISIBLE);
                 case 2:
-                    holder.ivStar1.setVisibility(View.VISIBLE);
-                    holder.ivStar2.setVisibility(View.VISIBLE);
-                    holder.ivStar3.setVisibility(View.GONE);
-                    holder.ivStar4.setVisibility(View.GONE);
-                    holder.ivStar5.setVisibility(View.GONE);
+                    holder.ivStar1.setImageResource(0);
+                    holder.ivStar2.setImageResource(0);
+                    holder.ivStar3.setImageResource(0);
+                    holder.ivStar4.setVisibility(View.VISIBLE);
+                    holder.ivStar5.setVisibility(View.VISIBLE);
                 case 3:
-                    holder.ivStar1.setVisibility(View.VISIBLE);
-                    holder.ivStar2.setVisibility(View.VISIBLE);
+                    holder.ivStar1.setImageResource(0);
+                    holder.ivStar2.setImageResource(0);
                     holder.ivStar3.setVisibility(View.VISIBLE);
-                    holder.ivStar4.setVisibility(View.GONE);
-                    holder.ivStar5.setVisibility(View.GONE);
+                    holder.ivStar4.setVisibility(View.VISIBLE);
+                    holder.ivStar5.setVisibility(View.VISIBLE);
                 case 4:
-                    holder.ivStar1.setVisibility(View.VISIBLE);
+                    holder.ivStar1.setImageResource(0);
                     holder.ivStar2.setVisibility(View.VISIBLE);
                     holder.ivStar3.setVisibility(View.VISIBLE);
                     holder.ivStar4.setVisibility(View.VISIBLE);
-                    holder.ivStar5.setVisibility(View.GONE);
+                    holder.ivStar5.setVisibility(View.VISIBLE);
                 case 5:
                     holder.ivStar1.setVisibility(View.VISIBLE);
                     holder.ivStar2.setVisibility(View.VISIBLE);

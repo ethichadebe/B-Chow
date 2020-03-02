@@ -6,12 +6,15 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 public class LoginActivity extends AppCompatActivity {
@@ -28,7 +31,6 @@ public class LoginActivity extends AppCompatActivity {
     private Dialog myDialog;
     private MaterialEditText mTextPassword, mTextUsername;
     private TextView mViewError;
-    private CardView mImageLogo;
     private CardView mButtonLogin, mButtonRegister;
     public static final String SHARED_PREFS = "sharedPrefs";
     public static final String USERNAME = "Username";
@@ -40,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         rellay1 = findViewById(R.id.rellay1);
         rellay2 = findViewById(R.id.rellay2);
-        handler.postDelayed(runnable, 500);
+        handler.postDelayed(runnable, 3000);
 
 
         myDialog = new Dialog(this);
@@ -53,8 +55,10 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
         }*/
         //Image
-        mImageLogo = findViewById(R.id.ivLogo);
-
+        YoYo.with(Techniques.SlideInUp)
+                .duration(3000)
+                .repeat(1)
+                .playOn(findViewById(R.id.ivLogo));
         mButtonLogin = findViewById(R.id.btnLogin);
         mButtonRegister = findViewById(R.id.btnRegister);
 

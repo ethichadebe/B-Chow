@@ -26,6 +26,9 @@ public class OrdersActivity extends AppCompatActivity {
     private final ArrayList<AdminOrderItem> OrderItems = new ArrayList<>();;
     private Dialog myDialog;
     private LinearLayout llBack, llSettings;
+    private CardView cvOpen, cvUnavailable, cvClosed;
+    private TextView tvOpen, tvUnavailable, tvClosed;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +37,45 @@ public class OrdersActivity extends AppCompatActivity {
         myDialog = new Dialog(this);
         llBack = findViewById(R.id.llBack);
         llSettings = findViewById(R.id.llSettings);
+
+        cvOpen = findViewById(R.id.cvOpen);
+        cvUnavailable = findViewById(R.id.cvUnavailable);
+        cvClosed = findViewById(R.id.cvClosed);
+
+        tvOpen = findViewById(R.id.tvOpen);
+        tvUnavailable = findViewById(R.id.tvUnavailable);
+        tvClosed = findViewById(R.id.tvClosed);
+
+        tvClosed.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
+        tvOpen.setBackground(getResources().getDrawable(R.drawable.ripple_effect_green));
+        tvUnavailable.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
+        cvClosed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tvClosed.setBackground(getResources().getDrawable(R.drawable.ripple_effect_red));
+                tvOpen.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
+                tvUnavailable.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
+            }
+        });
+
+        cvOpen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tvClosed.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
+                tvOpen.setBackground(getResources().getDrawable(R.drawable.ripple_effect_green));
+                tvUnavailable.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
+            }
+        });
+
+        cvUnavailable.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tvClosed.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
+                tvOpen.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
+                tvUnavailable.setBackground(getResources().getDrawable(R.drawable.ripple_effect_yellow));
+            }
+        });
+
         llSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

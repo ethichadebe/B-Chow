@@ -20,7 +20,7 @@ public class MyShopItemAdapter extends RecyclerView.Adapter<MyShopItemAdapter.Sh
     private ArrayList<MyShopItem> myShopList;
     private OnItemClickListener mListener;
 
-    public interface OnItemClickListener{
+    public interface OnItemClickListener {
         void onItemClick(int position);
     }
 
@@ -28,7 +28,7 @@ public class MyShopItemAdapter extends RecyclerView.Adapter<MyShopItemAdapter.Sh
         mListener = listerner;
     }
 
-    public static class ShopViewHolder extends RecyclerView.ViewHolder{
+    public static class ShopViewHolder extends RecyclerView.ViewHolder {
 
         private TextView tvShopName;
         private TextView tvPosition;
@@ -59,9 +59,9 @@ public class MyShopItemAdapter extends RecyclerView.Adapter<MyShopItemAdapter.Sh
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(listener != null){
+                    if (listener != null) {
                         int position = getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION){
+                        if (position != RecyclerView.NO_POSITION) {
                             listener.onItemClick(position);
                         }
                     }
@@ -70,7 +70,7 @@ public class MyShopItemAdapter extends RecyclerView.Adapter<MyShopItemAdapter.Sh
         }
     }
 
-    public MyShopItemAdapter(ArrayList<MyShopItem> shopList){
+    public MyShopItemAdapter(ArrayList<MyShopItem> shopList) {
         this.myShopList = shopList;
     }
 
@@ -80,7 +80,7 @@ public class MyShopItemAdapter extends RecyclerView.Adapter<MyShopItemAdapter.Sh
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.my_shop_item, parent, false);
         ShopViewHolder svh = new ShopViewHolder(v, mListener);
 
-        return  svh;
+        return svh;
     }
 
     @Override
@@ -91,13 +91,52 @@ public class MyShopItemAdapter extends RecyclerView.Adapter<MyShopItemAdapter.Sh
         holder.tvPosition.setText(item.getStrPosition());
         holder.ivLogo.setImageResource(item.getIntLogo());
         holder.tvShortDescript.setText(item.getStrShortDescript());
-        holder.ivStar1.setImageResource(item.getInt1Star());
-        holder.ivStar2.setImageResource(item.getInt2Star());
-        holder.ivStar3.setImageResource(item.getInt3Star());
-        holder.ivStar4.setImageResource(item.getInt4Star());
-        holder.ivStar5.setImageResource(item.getInt5Star());
-        holder.tvDistance.setText(item.getStrDistance());
+        holder.tvDistance.setText(item.getLocLocation().getLatitude() + " " + item.getLocLocation().getLongitude());
         holder.tvAveTime.setText(item.getStrAveTime());
+        switch (item.getIntRating()) {
+            case 0:
+                holder.ivStar1.setImageResource(0);
+                holder.ivStar2.setImageResource(0);
+                holder.ivStar3.setImageResource(0);
+                holder.ivStar4.setImageResource(0);
+                holder.ivStar5.setImageResource(0);
+                break;
+            case 1:
+                holder.ivStar1.setImageResource(0);
+                holder.ivStar2.setImageResource(0);
+                holder.ivStar3.setImageResource(0);
+                holder.ivStar4.setImageResource(0);
+                holder.ivStar5.setVisibility(View.VISIBLE);
+                break;
+            case 2:
+                holder.ivStar1.setImageResource(0);
+                holder.ivStar2.setImageResource(0);
+                holder.ivStar3.setImageResource(0);
+                holder.ivStar4.setVisibility(View.VISIBLE);
+                holder.ivStar5.setVisibility(View.VISIBLE);
+                break;
+            case 3:
+                holder.ivStar1.setImageResource(0);
+                holder.ivStar2.setImageResource(0);
+                holder.ivStar3.setVisibility(View.VISIBLE);
+                holder.ivStar4.setVisibility(View.VISIBLE);
+                holder.ivStar5.setVisibility(View.VISIBLE);
+                break;
+            case 4:
+                holder.ivStar1.setImageResource(0);
+                holder.ivStar2.setVisibility(View.VISIBLE);
+                holder.ivStar3.setVisibility(View.VISIBLE);
+                holder.ivStar4.setVisibility(View.VISIBLE);
+                holder.ivStar5.setVisibility(View.VISIBLE);
+                break;
+            case 5:
+                holder.ivStar1.setVisibility(View.VISIBLE);
+                holder.ivStar2.setVisibility(View.VISIBLE);
+                holder.ivStar3.setVisibility(View.VISIBLE);
+                holder.ivStar4.setVisibility(View.VISIBLE);
+                holder.ivStar5.setVisibility(View.VISIBLE);
+                break;
+        }
     }
 
     @Override

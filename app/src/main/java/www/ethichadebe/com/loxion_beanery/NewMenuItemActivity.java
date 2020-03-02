@@ -1,6 +1,7 @@
 package www.ethichadebe.com.loxion_beanery;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,9 +22,9 @@ import static www.ethichadebe.com.loxion_beanery.MenuActivity.getIngredients;
 import static www.ethichadebe.com.loxion_beanery.MenuActivity.getIntPosition;
 import static www.ethichadebe.com.loxion_beanery.MenuActivity.getDblPrice;
 import static www.ethichadebe.com.loxion_beanery.MenuActivity.setIngredients;
-import static www.ethichadebe.com.loxion_beanery.MenuCreationActivity.addToList;
-import static www.ethichadebe.com.loxion_beanery.MenuCreationActivity.getIngredientItems;
-import static www.ethichadebe.com.loxion_beanery.MenuCreationActivity.EditMenu;
+import static www.ethichadebe.com.loxion_beanery.IngredientsActivity.addToList;
+import static www.ethichadebe.com.loxion_beanery.IngredientsActivity.getIngredientItems;
+import static www.ethichadebe.com.loxion_beanery.IngredientsActivity.EditMenu;
 
 public class NewMenuItemActivity extends AppCompatActivity {
 
@@ -33,20 +34,22 @@ public class NewMenuItemActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager mLayoutManager;
     private Double dblPrice = 0.0;
     private MaterialEditText etPrice;
+    private Button btnAdd;
+    private CardView rlTotal;
 
     LinearLayout llBack;
-    Button btnOder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_menu_item);
 
-        btnOder = findViewById(R.id.btnOder);
+        btnAdd = findViewById(R.id.btnAdd);
         llBack = findViewById(R.id.llBack);
-        etPrice = findViewById(R.id.txtPrice);
+        etPrice = findViewById(R.id.etPrice);
+        rlTotal = findViewById(R.id.rlTotal);
 
-        btnOder.setOnClickListener(new View.OnClickListener() {
+        btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 StringBuilder MenuList = new StringBuilder();
@@ -101,7 +104,7 @@ public class NewMenuItemActivity extends AppCompatActivity {
                         isThere = true;
                     }
                 }
-                if (!isThere){
+                if (!isThere) {
                     ingredientItems.add(new IngredientItemCheckbox(1, getIngredientItems().get(i).getStrIngredientName(), getIngredientItems().get(i).getDblPrice(), false, true));
                 }
             }
@@ -113,6 +116,7 @@ public class NewMenuItemActivity extends AppCompatActivity {
             }
         }
 
+        isChecked();
         mRecyclerView = findViewById(R.id.recyclerView);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
@@ -130,9 +134,30 @@ public class NewMenuItemActivity extends AppCompatActivity {
                     dblPrice -= ingredientItems.get(position).getDblPrice();
                     etPrice.setText(String.valueOf(dblPrice));
                 }
+
+                isChecked();
             }
         });
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
     }
+
+    private void isChecked(){
+        boolean isChecked = false;           //Checks if there's at least one Ingredients checkbox selected
+        for(IngredientItemCheckbox item : ingredientItems){
+            if (item.getChecked()){
+                isChecked = true;
+            }
+        }
+
+        if (isChecked){
+            btnAdd.setVisibility(View.VISIBLE);
+            rlTotal.setVisibility(View.VISIBLE);
+        }else {
+            btnAdd.setVisibility(View.GONE);
+            rlTotal.setVisibility(View.GONE);
+        }
+    }
+
+
 }

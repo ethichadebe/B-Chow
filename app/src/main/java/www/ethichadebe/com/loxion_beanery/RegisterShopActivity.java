@@ -9,6 +9,7 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -19,7 +20,13 @@ import android.widget.TimePicker;
 
 import com.rengwuxian.materialedittext.MaterialEditText;
 
-public class REegisterShopActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
+import java.util.ArrayList;
+
+import SingleItem.IngredientItem;
+import SingleItem.MyShopItem;
+import SingleItem.ShopItem;
+
+public class RegisterShopActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
 
     private MaterialEditText txtName, txtShortDescription, txtFullDescription, etOpen, etClose;
     private LinearLayout[] llDay = new LinearLayout[8];
@@ -27,19 +34,22 @@ public class REegisterShopActivity extends AppCompatActivity implements TimePick
     private String[] strTimes = new String[8];
     private Dialog myDialog;
     private Boolean isOpen;
-    Button btnOder;
+    private Button btnNext;
     LinearLayout llBack;
     RelativeLayout rlPicture;
     TextView tvHeading, lblError;
-    CardView cvAdd;
+    private CardView cvAdd;
+    private static MyShopItem newShop;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_reegister_shop);
+        setContentView(R.layout.activity_register_shop);
 
         llBack = findViewById(R.id.llBack);
-        btnOder = findViewById(R.id.btnOder);
+        btnNext = findViewById(R.id.btnNext);
         rlPicture = findViewById(R.id.rlPicture);
         tvHeading = findViewById(R.id.tvHeading);
         cvAdd = findViewById(R.id.cvAdd);
@@ -55,7 +65,6 @@ public class REegisterShopActivity extends AppCompatActivity implements TimePick
         llDay[5] = findViewById(R.id.llSat);
         llDay[6] = findViewById(R.id.llSun);
         llDay[7] = findViewById(R.id.llPH);
-
         vDayLine[0] = findViewById(R.id.llMonLine);
         vDayLine[1] = findViewById(R.id.llTueLine);
         vDayLine[2] = findViewById(R.id.llWedLine);
@@ -149,6 +158,7 @@ public class REegisterShopActivity extends AppCompatActivity implements TimePick
                 setHighlight(7);
             }
         });
+
         cvAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -166,27 +176,43 @@ public class REegisterShopActivity extends AppCompatActivity implements TimePick
                 } else {
                     etClose.setUnderlineColor(getResources().getColor(R.color.Black));
                     etOpen.setUnderlineColor(getResources().getColor(R.color.Black));
+
+                    int intNextPos = 0;         //index to move the highlighted date
                     for (int i = 0; i < 8; i++) {
                         if (vDayLine[i].getVisibility() == View.VISIBLE) {
                             strTimes[i] = etOpen.getText().toString() + "-" + etClose.getText().toString();
-                            setHighlight(i++);
+
+                            if (i == 7){
+                                intNextPos = 0;
+                            }else {
+                                intNextPos  = i + 1;
+                            }
                         }
                     }
+                    setHighlight(intNextPos);
                 }
             }
         });
 
-        btnOder.setOnClickListener(new View.OnClickListener() {
+        btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (txtName.getText().toString().isEmpty()) {
                     txtName.setUnderlineColor(getResources().getColor(R.color.Red));
                 } else {
                     txtName.setUnderlineColor(getResources().getColor(R.color.Black));
-                    startActivity(new Intent(REegisterShopActivity.this, MenuCreationActivity.class));
+                    newShop = new MyShopItem(1,txtName.getText().toString(),1,
+                            txtShortDescription.getText().toString(),txtFullDescription.getText().toString(),
+                            new Location(""),"0",0);
+
+                    startActivity(new Intent(RegisterShopActivity.this, IngredientsActivity.class));
                 }
             }
         });
+    }
+
+    public static MyShopItem getNewShop() {
+        return newShop;
     }
 
     public void ShowPopup() {
@@ -230,9 +256,24 @@ public class REegisterShopActivity extends AppCompatActivity implements TimePick
         for (int i = 0; i < 8; i++) {
             if (vDayLine == i) {
                 this.vDayLine[i].setVisibility(View.VISIBLE);
+                DisplayTime(i);
             } else {
                 this.vDayLine[i].setVisibility(View.GONE);
             }
+        }
+    }
+
+    //Display time for specific day
+    private void DisplayTime(int intDay){
+        etClose.setUnderlineColor(getResources().getColor(R.color.Black));
+        etOpen.setUnderlineColor(getResources().getColor(R.color.Black));
+        if (strTimes[intDay] != null){
+            String[] times = strTimes[intDay].split("-");
+            etOpen.setText(times[0]);
+            etClose.setText(times[1]);
+        }else{
+            etOpen.setText("");
+            etClose.setText("");
         }
     }
 
