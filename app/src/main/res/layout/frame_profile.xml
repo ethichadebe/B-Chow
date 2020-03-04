@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/White"
     android:orientation="vertical">
+
     <RelativeLayout
         android:id="@+id/llHead"
         android:layout_width="match_parent"
@@ -13,8 +14,8 @@
 
         <TextView
             android:id="@+id/tvType"
-            android:layout_width="match_parent"
             style="@style/Base.TextAppearance.AppCompat.Body1"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
@@ -32,236 +33,189 @@
         <LinearLayout
             android:id="@+id/llBack"
             android:layout_width="?attr/actionBarSize"
-            android:layout_alignParentBottom="true"
+            android:layout_height="?attr/actionBarSize"
             android:layout_alignParentTop="true"
-            android:gravity="center"
-            android:layout_height="?attr/actionBarSize">
+            android:layout_alignParentBottom="true"
+            android:gravity="center">
+
             <TextView
-                android:layout_width="wrap_content"
                 style="@style/Base.TextAppearance.AppCompat.Body1"
-                android:layout_height="wrap_content"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
         </LinearLayout>
 
         <TextView
             android:id="@+id/tvShops"
             style="@style/Base.TextAppearance.AppCompat.Body1"
             android:layout_width="wrap_content"
-            android:background="@drawable/ripple_effect_white"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:layout_alignParentTop="true"
-            android:gravity="center"
-            android:fontFamily="sans-serif-condensed-medium"
-            android:text="My Shops"
             android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/ripple_effect_white"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:gravity="center"
             android:padding="10dp"
+            android:text="My Shops"
             android:textColor="@color/Black"
             android:textSize="12sp"
             android:textStyle="bold" />
 
     </RelativeLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="405dp">
-        <androidx.cardview.widget.CardView android:layout_width="match_parent"
-            app:cardCornerRadius="12dp"
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_height="wrap_content"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:background="@drawable/ripple_effect_white"
-            app:cardElevation="3dp"
-            android:layout_margin="5dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="350dp"
-            android:orientation="vertical">
-            <ImageView
-                android:layout_marginTop="45dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:src="@drawable/unknown"/>
-            <TextView
-                android:id="@+id/tvNamenSur"
-                android:layout_marginTop="10dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Ethic Hadebe"
-                android:textColor="@color/Black"
-                android:textStyle="bold"
-                android:textSize="21sp"/>
-        </LinearLayout>
-        </androidx.cardview.widget.CardView>
+        android:layout_height="wrap_content">
 
         <androidx.cardview.widget.CardView
-            android:layout_width="350dp"
-            android:layout_height="120dp"
-            android:layout_centerHorizontal="true"
-            app:cardElevation="3dp"
-            android:layout_marginTop="275dp">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:layout_margin="5dp"
+            android:background="@drawable/ripple_effect_white"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="3dp">
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:weightSum="3">
-                <LinearLayout
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Photos"
-                        android:textColor="@color/Black"
-                        android:textSize="20sp"
-                        />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="125"
-                        android:textStyle="bold"
-                        android:textSize="20sp"
-                        android:paddingTop="10dp"
-                        android:textColor="@color/Black"/>
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp">
 
-                </LinearLayout>
-                <LinearLayout
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Followers"
-                        android:textSize="20sp"
-                        android:textColor="@color/Black"
-                        />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="1205"
-                        android:textStyle="bold"
-                        android:textSize="20sp"
-                        android:paddingTop="10dp"
-                        android:textColor="@color/Black"/>
+                <ImageView
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="45dp"
+                    android:src="@drawable/unknown" />
 
-                </LinearLayout>
-                <LinearLayout
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Following"
-                        android:textSize="20sp"
-                        android:textColor="@color/Black"
-                        />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="360"
-                        android:textStyle="bold"
-                        android:textSize="20sp"
-                        android:paddingTop="10dp"
-                        android:textColor="@color/Black"/>
-
-                </LinearLayout>
+                <TextView
+                    android:id="@+id/tvNameSur"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="10dp"
+                    android:text="Ethic Hadebe"
+                    android:textColor="@color/Black"
+                    android:textSize="21sp"
+                    android:textStyle="bold" />
             </LinearLayout>
-
-
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cvAdd"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                app:cardElevation="3dp"
+                android:layout_gravity="end"
+                android:fontFamily="sans-serif-medium"
+                android:padding="50dp"
+                app:cardCornerRadius="10dp">
+                <TextView
+                    android:id="@+id/tvPrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textSize="14sp"
+                    android:background="@drawable/ripple_effect"
+                    android:gravity="center"
+                    android:fontFamily="sans-serif-medium"
+                    android:textAllCaps="false"
+                    android:text="Edit profile"
+                    android:textColor="@color/White"/>
+            </androidx.cardview.widget.CardView>
         </androidx.cardview.widget.CardView>
+
     </RelativeLayout>
 
     <LinearLayout
         android:layout_width="360dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_gravity="center"
-        android:layout_marginTop="45dp">
+        android:layout_marginTop="45dp"
+        android:orientation="vertical">
+
         <LinearLayout
-            android:orientation="horizontal"
-            android:paddingLeft="25dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="25dp">
+
             <ImageView
                 android:layout_width="36dp"
                 android:layout_height="36dp"
-                android:src="@drawable/ic_email_black_24dp"/>
+                android:src="@drawable/ic_email_black_24dp" />
+
             <TextView
-                android:textStyle="bold"
-                android:layout_gravity="center_vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:paddingLeft="20dp"
-                android:text="Wiliam@gmail.com"/>
+                android:text="Wiliam@gmail.com"
+                android:textStyle="bold" />
         </LinearLayout>
+
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
             android:orientation="horizontal"
-            android:paddingLeft="25dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:paddingLeft="25dp">
+
             <ImageView
                 android:layout_width="36dp"
                 android:layout_height="36dp"
-                android:src="@drawable/ic_local_phone_black_24dp"/>
-            <TextView
-                android:textStyle="bold"
+                android:src="@drawable/ic_local_phone_black_24dp" />
 
-                android:layout_gravity="center_vertical"
+            <TextView
                 android:layout_width="wrap_content"
+
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:paddingLeft="20dp"
-                android:text="+266 225 225"/>
+                android:text="+266 225 225"
+                android:textStyle="bold" />
         </LinearLayout>
+
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
             android:orientation="horizontal"
-            android:paddingLeft="25dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:paddingLeft="25dp">
+
             <ImageView
                 android:layout_width="36dp"
                 android:layout_height="36dp"
-                android:src="@drawable/food"/>
-            <TextView
-                android:textStyle="bold"
+                android:src="@drawable/ic_date_24dp" />
 
-                android:layout_gravity="center_vertical"
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:paddingLeft="20dp"
-                android:text="Add to group"/>
+                android:text="28/12/1997"
+                android:textStyle="bold" />
         </LinearLayout>
+
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
             android:orientation="horizontal"
-            android:paddingLeft="25dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:paddingLeft="25dp">
+
             <ImageView
                 android:layout_width="36dp"
                 android:layout_height="36dp"
-                android:src="@drawable/food"/>
-            <TextView
-                android:textStyle="bold"
+                android:src="@drawable/ic_person_pin_black_24dp" />
 
-                android:layout_gravity="center_vertical"
+            <TextView
                 android:layout_width="wrap_content"
+
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:paddingLeft="20dp"
-                android:text="Show all comments"/>
+                android:text="male"
+                android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

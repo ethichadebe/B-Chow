@@ -33,6 +33,15 @@ public class MenuActivity extends AppCompatActivity {
     private static Double dblPrice;
     private Dialog myDialog;
     private CardView llAddMenu, llBack;
+    private static boolean  isNew = false;
+
+    public static boolean isNew() {
+        return isNew;
+    }
+
+    public static void setIsNew(boolean isNew) {
+        MenuActivity.isNew = isNew;
+    }
 
     Button btnFinish;
 
@@ -64,7 +73,8 @@ public class MenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 getNewShop().setMenuItems(getMenuItems());
-                startActivity(new Intent(MenuActivity.this, MainActivity.class));
+                isNew = true;
+                startActivity(new Intent(MenuActivity.this, MyShopsActivity.class));
             }
         });
 

@@ -21,20 +21,29 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-import Adapter.OrderItemAdapter;
-import SingleItem.OrderItem;
+import Adapter.PastOrderItemAdapter;
+import Adapter.UpcomingOrderItemAdapter;
+import SingleItem.PastOrderItem;
+import SingleItem.UpcomingOrderItem;
 
 public class OrdersFragment extends Fragment {
     private View vLeft, vRight, vBottomRight, vBottomLeft;
     private RelativeLayout rlLeft, rlRight;
-    private RecyclerView mRecyclerView;
-    private OrderItemAdapter mAdapter;
+
+    private RecyclerView mPastRecyclerView;
+    private PastOrderItemAdapter mPastAdapter;
+    private RecyclerView.LayoutManager mPastLayoutManager;
+
+    private UpcomingOrderItemAdapter mUpcomingAdapter;
+    private RecyclerView.LayoutManager mUpcomingLayoutManager;
+    private RecyclerView mUpcomingRecyclerView;
+
     private Dialog myDialog;
-    private RecyclerView.LayoutManager mLayoutManager;
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.frame_orders, container, false);
         vBottomLeft = v.findViewById(R.id.vBottomLeft);
         vBottomRight = v.findViewById(R.id.vBottomRight);
@@ -42,72 +51,42 @@ public class OrdersFragment extends Fragment {
         vRight = v.findViewById(R.id.vRight);
         rlLeft = v.findViewById(R.id.rlLeft);
         rlRight = v.findViewById(R.id.rlRight);
+        mUpcomingRecyclerView = v.findViewById(R.id.upcomingRecyclerView);
+        mPastRecyclerView = v.findViewById(R.id.pastRecyclerView);
         myDialog = new Dialog(getActivity());
 
-        final ArrayList<OrderItem> orderItems = new ArrayList<>();
-
-        //Loads shops starting with the one closest to user
-        orderItems.add(new OrderItem(1, "Shop name", 315, "13 Jan 2020,15:45", "French, bacon, egg, russian",
-                19.50, 3));
-        orderItems.add(new OrderItem(1, "Shop name", 315, "03 Feb 2020, 15:45", "French, bacon, egg, russian",
-                19.50, -1));
-        orderItems.add(new OrderItem(1, "Shop name", 315, "13 Feb 2020, 15:45", "French, bacon, egg, russian",
-                19.50, 1));
-        orderItems.add(new OrderItem(1, "Shop name", 315, "13 Feb 2020, 15:45", "French, bacon, egg, russian",
-                19.50, 2));
-        orderItems.add(new OrderItem(1, "Shop name", 315, "13 Feb 2020, 15:45", "French, bacon, egg, russian",
-                19.50, 4));
-        orderItems.add(new OrderItem(1, "Shop name", 315, "13 Feb 2020, 15:45", "French, bacon, egg, russian",
-                19.50, 5));
-        mRecyclerView = v.findViewById(R.id.recyclerView);
-        mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(getActivity());
-        mAdapter = new OrderItemAdapter(orderItems);
-
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.setAdapter(mAdapter);
-
-        mAdapter.setOnItemClickListener(new OrderItemAdapter.OnItemClickListener() {
-            @Override
-            public void OnItemClick(int position) {
-                /*shopItems.get(position)*/
-                startActivity(new Intent(getActivity(), ShopHomeActivity.class));
-            }
-
-            @Override
-            public void OnItemClickRate(int position) {
-                ShowRatePopup(orderItems.get(position));
-            }
-        });
-
-
-        setVisibility(View.VISIBLE, View.GONE);
-
+        setVisibility(View.VISIBLE, View.GONE, mUpcomingRecyclerView, mPastRecyclerView);
+        DisplayPastOrders();
         rlLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setVisibility(View.VISIBLE, View.GONE);
+                setVisibility(View.VISIBLE, View.GONE, mUpcomingRecyclerView, mPastRecyclerView);
+                DisplayPastOrders();
             }
         });
+
         rlRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setVisibility(View.GONE, View.VISIBLE);
+                setVisibility(View.GONE, View.VISIBLE, mPastRecyclerView, mUpcomingRecyclerView);
+                DisplayUpcomingOrders();
             }
         });
-
-
         return v;
     }
 
-    private void setVisibility(int Left, int Right) {
+    private void setVisibility(int Left, int Right, RecyclerView recyclerViewGONE,
+                               RecyclerView recyclerViewVISIBLE) {
         vRight.setVisibility(Right);
         vLeft.setVisibility(Left);
         vBottomLeft.setVisibility(Left);
         vBottomRight.setVisibility(Right);
+
+        recyclerViewGONE.setVisibility(View.GONE);
+        recyclerViewVISIBLE.setVisibility(View.VISIBLE);
     }
 
-    public void ShowRatePopup(final OrderItem orderItem) {
+    public void ShowRatePopup(final PastOrderItem pastOrderItem) {
         TextView tvCancel;
         final ImageView ivStar1, ivStar2, ivStar3, ivStar4, ivStar5, testStar;
         CardView cvRate;
@@ -137,7 +116,7 @@ public class OrdersFragment extends Fragment {
                 ivStar3.setImageResource(R.drawable.star_empty);
                 ivStar4.setImageResource(R.drawable.star_empty);
                 ivStar5.setImageResource(R.drawable.star_empty);
-                orderItem.setIntRating(1);
+                pastOrderItem.setIntRating(1);
             }
         });
         ivStar2.setOnClickListener(new View.OnClickListener() {
@@ -148,7 +127,7 @@ public class OrdersFragment extends Fragment {
                 ivStar3.setImageResource(R.drawable.star_empty);
                 ivStar4.setImageResource(R.drawable.star_empty);
                 ivStar5.setImageResource(R.drawable.star_empty);
-                orderItem.setIntRating(2);
+                pastOrderItem.setIntRating(2);
             }
         });
 
@@ -160,7 +139,7 @@ public class OrdersFragment extends Fragment {
                 ivStar3.setImageResource(R.drawable.star);
                 ivStar4.setImageResource(R.drawable.star_empty);
                 ivStar5.setImageResource(R.drawable.star_empty);
-                orderItem.setIntRating(3);
+                pastOrderItem.setIntRating(3);
             }
         });
 
@@ -172,7 +151,7 @@ public class OrdersFragment extends Fragment {
                 ivStar3.setImageResource(R.drawable.star);
                 ivStar4.setImageResource(R.drawable.star);
                 ivStar5.setImageResource(R.drawable.star_empty);
-                orderItem.setIntRating(4);
+                pastOrderItem.setIntRating(4);
             }
         });
 
@@ -184,22 +163,21 @@ public class OrdersFragment extends Fragment {
                 ivStar3.setImageResource(R.drawable.star);
                 ivStar4.setImageResource(R.drawable.star);
                 ivStar5.setImageResource(R.drawable.star);
-                orderItem.setIntRating(5);
+                pastOrderItem.setIntRating(5);
             }
         });
-
 
 
         cvRate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (orderItem.getIntRating() == -1){
+                if (pastOrderItem.getIntRating() == -1) {
                     ivStar1.setImageResource(R.drawable.star_empty_err);
                     ivStar2.setImageResource(R.drawable.star_empty_err);
                     ivStar3.setImageResource(R.drawable.star_empty_err);
                     ivStar4.setImageResource(R.drawable.star_empty_err);
                     ivStar5.setImageResource(R.drawable.star_empty_err);
-                }else {
+                } else {
                     myDialog.dismiss();
                 }
             }
@@ -208,4 +186,71 @@ public class OrdersFragment extends Fragment {
         myDialog.show();
     }
 
+    private void DisplayPastOrders(){
+        final ArrayList<PastOrderItem> pastOrderItems = new ArrayList<>();
+        //Loads past orders
+        pastOrderItems.add(new PastOrderItem(1, "Shop name", 315,
+                "13 Jan 2020,15:45", "French, bacon, egg, russian", 19.50, 3));
+        pastOrderItems.add(new PastOrderItem(3, "Shop name", 315,
+                "13 Jan 2020,15:45", "French, bacon, egg, russian", 19.50, 3));
+        pastOrderItems.add(new PastOrderItem(5, "Shop name", 315,
+                "13 Jan 2020,15:45", "French, bacon, egg, russian", 19.50, 3));
+        pastOrderItems.add(new PastOrderItem(4, "Shop name", 315,
+                "13 Jan 2020,15:45", "French, bacon, egg, russian", 19.50, 3));
+        pastOrderItems.add(new PastOrderItem(2, "Shop name", 315,
+                "13 Jan 2020,15:45", "French, bacon, egg, russian", 19.50, 3));
+        pastOrderItems.add(new PastOrderItem(-1, "Shop name", 315,
+                "13 Jan 2020,15:45", "French, bacon, egg, russian", 19.50, 3));
+        mPastRecyclerView.setHasFixedSize(true);
+        mPastLayoutManager = new LinearLayoutManager(getActivity());
+        mPastAdapter = new PastOrderItemAdapter(pastOrderItems);
+
+        mPastRecyclerView.setLayoutManager(mPastLayoutManager);
+        mPastRecyclerView.setAdapter(mPastAdapter);
+
+        mPastAdapter.setOnItemClickListener(new PastOrderItemAdapter.OnItemClickListener() {
+            @Override
+            public void OnItemClick(int position) {
+                /*shopItems.get(position)*/
+                startActivity(new Intent(getActivity(), ShopHomeActivity.class));
+            }
+
+            @Override
+            public void OnItemClickRate(int position) {
+                ShowRatePopup(pastOrderItems.get(position));
+            }
+        });
+    }
+
+    private void DisplayUpcomingOrders(){
+        final ArrayList<UpcomingOrderItem> upcomingOrderItems = new ArrayList<>();
+
+        upcomingOrderItems.add(new UpcomingOrderItem(1, "Shop name", 315,
+                "15:45", "French, bacon, egg, russian", 19.50));
+        upcomingOrderItems.add(new UpcomingOrderItem(1, "Shop name", 315,
+                "15:45", "French, bacon, egg, russian", 19.50));
+        upcomingOrderItems.add(new UpcomingOrderItem(1, "Shop name", 315,
+                "15:45", "French, bacon, egg, russian", 19.50));
+        upcomingOrderItems.add(new UpcomingOrderItem(1, "Shop name", 315,
+                "15:45", "French, bacon, egg, russian", 19.50));
+        upcomingOrderItems.add(new UpcomingOrderItem(1, "Shop name", 315,
+                "15:45", "French, bacon, egg, russian", 19.50));
+        upcomingOrderItems.add(new UpcomingOrderItem(1, "Shop name", 315,
+                "15:45", "French, bacon, egg, russian", 19.50));
+        upcomingOrderItems.add(new UpcomingOrderItem(1, "Shop name", 315,
+                "15:45", "French, bacon, egg, russian", 19.50));
+        mUpcomingRecyclerView.setHasFixedSize(true);
+        mUpcomingLayoutManager = new LinearLayoutManager(getActivity());
+        mUpcomingAdapter = new UpcomingOrderItemAdapter(upcomingOrderItems);
+
+        mUpcomingRecyclerView.setLayoutManager(mUpcomingLayoutManager);
+        mUpcomingRecyclerView.setAdapter(mUpcomingAdapter);
+
+        mUpcomingAdapter.setOnItemClickListener(new UpcomingOrderItemAdapter.OnItemClickListener() {
+            @Override
+            public void OnItemClickTrack(int position) {
+                startActivity(new Intent(getActivity(), OrderConfirmationActivity.class));
+            }
+        });
+    }
 }

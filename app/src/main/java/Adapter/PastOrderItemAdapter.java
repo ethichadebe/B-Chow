@@ -14,13 +14,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-import SingleItem.OrderItem;
-import SingleItem.ShopItem;
+import SingleItem.PastOrderItem;
 import www.ethichadebe.com.loxion_beanery.R;
 
-public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.OrderViewHolder> {
+public class PastOrderItemAdapter extends RecyclerView.Adapter<PastOrderItemAdapter.OrderViewHolder> {
 
-    private ArrayList<OrderItem> orderList;
+    private ArrayList<PastOrderItem> orderList;
     private OnItemClickListener mListener;
 
     public interface OnItemClickListener{
@@ -83,14 +82,14 @@ public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.Orde
         }
     }
 
-    public OrderItemAdapter(ArrayList<OrderItem> shopList){
+    public PastOrderItemAdapter(ArrayList<PastOrderItem> shopList){
         this.orderList = shopList;
     }
 
     @NonNull
     @Override
     public OrderViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.my_order_item, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.my_past_order_item, parent, false);
         OrderViewHolder svh = new OrderViewHolder(v, mListener);
 
         return  svh;
@@ -98,7 +97,7 @@ public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.Orde
 
     @Override
     public void onBindViewHolder(@NonNull OrderViewHolder holder, int position) {
-        OrderItem item = orderList.get(position);
+        PastOrderItem item = orderList.get(position);
 
         holder.tvShopName.setText(item.getStrShopName());
         holder.tvPrice.setText("R" + item.getDblPrice());

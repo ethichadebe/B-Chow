@@ -41,4 +41,5 @@ dependencies {
     //Animations with the AndroidViewAnimation
     implementation 'com.android.support:support-compat:28.1.1'
     implementation 'com.daimajia.easing:library:2.0@aar'
-    implementation 'com.daimajia.androidanimations:library:2.3@aar'}
+    implementation 'com.daimajia.androidanimations:library:2.3@aar'
+}

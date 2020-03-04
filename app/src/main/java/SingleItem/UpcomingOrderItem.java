@@ -1,22 +1,20 @@
 package SingleItem;
 
-public class OrderItem {
+public class UpcomingOrderItem {
     private int intID;
     private String strShopName;
     private int intOrderNum;
     private String strTime;
     private String strMenu;
     private Double dblPrice;
-    private int intRating;
 
-    public OrderItem(int intID, String strShopName, int intOrderNum, String strTime, String strMenu, Double dblPrice, int intRating) {
+    public UpcomingOrderItem(int intID, String strShopName, int intOrderNum, String strTime, String strMenu, Double dblPrice) {
         this.intID = intID;
         this.strShopName = strShopName;
         this.intOrderNum = intOrderNum;
         this.strTime = strTime;
         this.strMenu = strMenu;
         this.dblPrice = dblPrice;
-        this.intRating = intRating;
     }
 
     public int getIntID() {
@@ -65,13 +63,5 @@ public class OrderItem {
 
     public void setDblPrice(Double dblPrice) {
         this.dblPrice = dblPrice;
-    }
-
-    public int getIntRating() {
-        return intRating;
-    }
-
-    public void setIntRating(int intRating) {
-        this.intRating = intRating;
     }
 }

@@ -7,9 +7,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.View;
 import android.widget.LinearLayout;
+
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 import java.util.ArrayList;
 
@@ -18,11 +21,22 @@ import SingleItem.IngredientItem;
 import SingleItem.MenuItem;
 import SingleItem.MyShopItem;
 
+import static www.ethichadebe.com.loxion_beanery.MenuActivity.isNew;
+import static www.ethichadebe.com.loxion_beanery.MenuActivity.setIsNew;
+
 public class MyShopsActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
     private MyShopItemAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    private BottomSheetBehavior bsbBottomSheetBehavior;
+    Handler handler = new Handler();
+    Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            bsbBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+        }
+    };
 
 
     LinearLayout llEdit, llBack;//, llShop;
@@ -33,6 +47,15 @@ public class MyShopsActivity extends AppCompatActivity {
 
         llBack = findViewById(R.id.llBack);
         llEdit = findViewById(R.id.llEdit);
+        View bsbBottomSheet= findViewById(R.id.bottom_sheet);
+        bsbBottomSheetBehavior = BottomSheetBehavior.from(bsbBottomSheet);
+        bsbBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+        if (isNew()){
+            bsbBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+            handler.postDelayed(runnable, 1500);
+            setIsNew(false);
+        }
+
         llEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -43,7 +66,7 @@ public class MyShopsActivity extends AppCompatActivity {
         llBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                startActivity(new Intent(MyShopsActivity.this, MainActivity.class));
             }
         });
 
@@ -84,5 +107,10 @@ public class MyShopsActivity extends AppCompatActivity {
                 startActivity(new Intent(MyShopsActivity.this, OrdersActivity.class));
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(MyShopsActivity.this, MainActivity.class));
     }
 }
