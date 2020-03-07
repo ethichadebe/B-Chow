@@ -29,7 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <View
-                android:id="@+id/llFriLine"
+                android:id="@+id/vLine1Load"
                 android:layout_width="0dp"
                 android:layout_height="3dp"
                 android:layout_weight="1"
@@ -37,7 +37,24 @@
                 android:background="@color/colorPrimary"
                 android:layout_gravity="bottom"/>
             <View
-                android:id="@+id/llSatLine"
+                android:id="@+id/vLine1"
+                android:layout_width="0dp"
+                android:layout_height="3dp"
+                android:layout_weight="1"
+                android:layout_margin="2dp"
+                android:background="@color/colorPrimary"
+                android:layout_gravity="bottom"/>
+
+            <View
+                android:id="@+id/vLine2Grey"
+                android:layout_width="0dp"
+                android:layout_height="3dp"
+                android:layout_weight="1"
+                android:layout_margin="2dp"
+                android:background="@color/Grey"
+                android:layout_gravity="bottom"/>
+            <View
+                android:id="@+id/vLine2Load"
                 android:layout_width="0dp"
                 android:layout_height="3dp"
                 android:layout_weight="1"
@@ -45,7 +62,7 @@
                 android:background="@color/colorPrimary"
                 android:layout_gravity="bottom"/>
             <View
-                android:id="@+id/llSunLine"
+                android:id="@+id/vLine2"
                 android:layout_width="0dp"
                 android:layout_height="3dp"
                 android:layout_weight="1"
@@ -53,7 +70,47 @@
                 android:background="@color/colorPrimary"
                 android:layout_gravity="bottom"/>
             <View
-                android:id="@+id/llPHLine"
+                android:id="@+id/vLine3Grey"
+                android:layout_width="0dp"
+                android:layout_height="3dp"
+                android:layout_weight="1"
+                android:layout_margin="2dp"
+                android:background="@color/Grey"
+                android:layout_gravity="bottom"/>
+            <View
+                android:id="@+id/vLine3Load"
+                android:layout_width="0dp"
+                android:layout_height="3dp"
+                android:layout_weight="1"
+                android:layout_margin="2dp"
+                android:background="@color/colorPrimary"
+                android:layout_gravity="bottom"/>
+            <View
+                android:id="@+id/vLine3"
+                android:layout_width="0dp"
+                android:layout_height="3dp"
+                android:layout_weight="1"
+                android:layout_margin="2dp"
+                android:background="@color/colorPrimary"
+                android:layout_gravity="bottom"/>
+            <View
+                android:id="@+id/vLine4Grey"
+                android:layout_width="0dp"
+                android:layout_height="3dp"
+                android:layout_weight="1"
+                android:layout_margin="2dp"
+                android:background="@color/Grey"
+                android:layout_gravity="bottom"/>
+            <View
+                android:id="@+id/vLine4Load"
+                android:layout_width="0dp"
+                android:layout_height="3dp"
+                android:layout_weight="1"
+                android:layout_margin="2dp"
+                android:background="@color/colorPrimary"
+                android:layout_gravity="bottom"/>
+            <View
+                android:id="@+id/vLine4"
                 android:layout_width="0dp"
                 android:layout_height="3dp"
                 android:layout_weight="1"

@@ -2,19 +2,14 @@ package www.ethichadebe.com.loxion_beanery;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,8 +18,10 @@ import java.util.ArrayList;
 
 import Adapter.PastOrderItemAdapter;
 import Adapter.UpcomingOrderItemAdapter;
-import SingleItem.PastOrderItem;
 import SingleItem.UpcomingOrderItem;
+
+import static www.ethichadebe.com.loxion_beanery.HomeFragment.DisplayPastOrders;
+import static www.ethichadebe.com.loxion_beanery.HomeFragment.getPastOrderItems;
 
 public class OrdersFragment extends Fragment {
     private View vLeft, vRight, vBottomRight, vBottomLeft;
@@ -37,8 +34,7 @@ public class OrdersFragment extends Fragment {
     private UpcomingOrderItemAdapter mUpcomingAdapter;
     private RecyclerView.LayoutManager mUpcomingLayoutManager;
     private RecyclerView mUpcomingRecyclerView;
-
-    private Dialog myDialog;
+    private static int Position;
 
     @Nullable
     @Override
@@ -53,7 +49,6 @@ public class OrdersFragment extends Fragment {
         rlRight = v.findViewById(R.id.rlRight);
         mUpcomingRecyclerView = v.findViewById(R.id.upcomingRecyclerView);
         mPastRecyclerView = v.findViewById(R.id.pastRecyclerView);
-        myDialog = new Dialog(getActivity());
 
         setVisibility(View.VISIBLE, View.GONE, mUpcomingRecyclerView, mPastRecyclerView);
         DisplayPastOrders();
@@ -72,6 +67,26 @@ public class OrdersFragment extends Fragment {
                 DisplayUpcomingOrders();
             }
         });
+        mPastRecyclerView.setHasFixedSize(true);
+        mPastLayoutManager = new LinearLayoutManager(getActivity());
+        mPastAdapter = new PastOrderItemAdapter(getPastOrderItems());
+
+        mPastRecyclerView.setLayoutManager(mPastLayoutManager);
+        mPastRecyclerView.setAdapter(mPastAdapter);
+
+        mPastAdapter.setOnItemClickListener(new PastOrderItemAdapter.OnItemClickListener() {
+            @Override
+            public void OnItemClick(int position) {
+                /*shopItems.get(position)*/
+                startActivity(new Intent(getActivity(), ShopHomeActivity.class));
+            }
+
+            @Override
+            public void OnItemClickRate(int position) {
+                Position = position;
+                startActivity(new Intent(getActivity(), RatingActivity.class));
+            }
+        });
         return v;
     }
 
@@ -86,143 +101,8 @@ public class OrdersFragment extends Fragment {
         recyclerViewVISIBLE.setVisibility(View.VISIBLE);
     }
 
-    public void ShowRatePopup(final PastOrderItem pastOrderItem) {
-        TextView tvCancel;
-        final ImageView ivStar1, ivStar2, ivStar3, ivStar4, ivStar5, testStar;
-        CardView cvRate;
-        myDialog.setContentView(R.layout.rate_popup);
 
-        ivStar1 = myDialog.findViewById(R.id.ivStar1);
-        ivStar2 = myDialog.findViewById(R.id.ivStar2);
-        ivStar3 = myDialog.findViewById(R.id.ivStar3);
-        ivStar4 = myDialog.findViewById(R.id.ivStar4);
-        testStar = myDialog.findViewById(R.id.testStar);
-        ivStar5 = myDialog.findViewById(R.id.ivStar5);
-        tvCancel = myDialog.findViewById(R.id.tvCancel);
-        cvRate = myDialog.findViewById(R.id.cvRate);
-
-        tvCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                myDialog.dismiss();
-            }
-        });
-
-        ivStar1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ivStar1.setImageResource(R.drawable.star);
-                ivStar2.setImageResource(R.drawable.star_empty);
-                ivStar3.setImageResource(R.drawable.star_empty);
-                ivStar4.setImageResource(R.drawable.star_empty);
-                ivStar5.setImageResource(R.drawable.star_empty);
-                pastOrderItem.setIntRating(1);
-            }
-        });
-        ivStar2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ivStar1.setImageResource(R.drawable.star);
-                ivStar2.setImageResource(R.drawable.star);
-                ivStar3.setImageResource(R.drawable.star_empty);
-                ivStar4.setImageResource(R.drawable.star_empty);
-                ivStar5.setImageResource(R.drawable.star_empty);
-                pastOrderItem.setIntRating(2);
-            }
-        });
-
-        ivStar3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ivStar1.setImageResource(R.drawable.star);
-                ivStar2.setImageResource(R.drawable.star);
-                ivStar3.setImageResource(R.drawable.star);
-                ivStar4.setImageResource(R.drawable.star_empty);
-                ivStar5.setImageResource(R.drawable.star_empty);
-                pastOrderItem.setIntRating(3);
-            }
-        });
-
-        ivStar4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ivStar1.setImageResource(R.drawable.star);
-                ivStar2.setImageResource(R.drawable.star);
-                ivStar3.setImageResource(R.drawable.star);
-                ivStar4.setImageResource(R.drawable.star);
-                ivStar5.setImageResource(R.drawable.star_empty);
-                pastOrderItem.setIntRating(4);
-            }
-        });
-
-        ivStar5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ivStar1.setImageResource(R.drawable.star);
-                ivStar2.setImageResource(R.drawable.star);
-                ivStar3.setImageResource(R.drawable.star);
-                ivStar4.setImageResource(R.drawable.star);
-                ivStar5.setImageResource(R.drawable.star);
-                pastOrderItem.setIntRating(5);
-            }
-        });
-
-
-        cvRate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (pastOrderItem.getIntRating() == -1) {
-                    ivStar1.setImageResource(R.drawable.star_empty_err);
-                    ivStar2.setImageResource(R.drawable.star_empty_err);
-                    ivStar3.setImageResource(R.drawable.star_empty_err);
-                    ivStar4.setImageResource(R.drawable.star_empty_err);
-                    ivStar5.setImageResource(R.drawable.star_empty_err);
-                } else {
-                    myDialog.dismiss();
-                }
-            }
-        });
-        myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        myDialog.show();
-    }
-
-    private void DisplayPastOrders(){
-        final ArrayList<PastOrderItem> pastOrderItems = new ArrayList<>();
-        //Loads past orders
-        pastOrderItems.add(new PastOrderItem(1, "Shop name", 315,
-                "13 Jan 2020,15:45", "French, bacon, egg, russian", 19.50, 3));
-        pastOrderItems.add(new PastOrderItem(3, "Shop name", 315,
-                "13 Jan 2020,15:45", "French, bacon, egg, russian", 19.50, 3));
-        pastOrderItems.add(new PastOrderItem(5, "Shop name", 315,
-                "13 Jan 2020,15:45", "French, bacon, egg, russian", 19.50, 3));
-        pastOrderItems.add(new PastOrderItem(4, "Shop name", 315,
-                "13 Jan 2020,15:45", "French, bacon, egg, russian", 19.50, 3));
-        pastOrderItems.add(new PastOrderItem(2, "Shop name", 315,
-                "13 Jan 2020,15:45", "French, bacon, egg, russian", 19.50, 3));
-        pastOrderItems.add(new PastOrderItem(-1, "Shop name", 315,
-                "13 Jan 2020,15:45", "French, bacon, egg, russian", 19.50, 3));
-        mPastRecyclerView.setHasFixedSize(true);
-        mPastLayoutManager = new LinearLayoutManager(getActivity());
-        mPastAdapter = new PastOrderItemAdapter(pastOrderItems);
-
-        mPastRecyclerView.setLayoutManager(mPastLayoutManager);
-        mPastRecyclerView.setAdapter(mPastAdapter);
-
-        mPastAdapter.setOnItemClickListener(new PastOrderItemAdapter.OnItemClickListener() {
-            @Override
-            public void OnItemClick(int position) {
-                /*shopItems.get(position)*/
-                startActivity(new Intent(getActivity(), ShopHomeActivity.class));
-            }
-
-            @Override
-            public void OnItemClickRate(int position) {
-                ShowRatePopup(pastOrderItems.get(position));
-            }
-        });
-    }
-
-    private void DisplayUpcomingOrders(){
+    private void DisplayUpcomingOrders() {
         final ArrayList<UpcomingOrderItem> upcomingOrderItems = new ArrayList<>();
 
         upcomingOrderItems.add(new UpcomingOrderItem(1, "Shop name", 315,
@@ -252,5 +132,9 @@ public class OrdersFragment extends Fragment {
                 startActivity(new Intent(getActivity(), OrderConfirmationActivity.class));
             }
         });
+    }
+
+    public static int getPosition() {
+        return Position;
     }
 }

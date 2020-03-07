@@ -7,7 +7,6 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,6 +20,7 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 import java.util.ArrayList;
 
 import Adapter.ShopItemAdapter;
+import SingleItem.PastOrderItem;
 import SingleItem.ShopItem;
 
 public class HomeFragment extends Fragment {
@@ -29,26 +29,27 @@ public class HomeFragment extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
     private TextView tvClear;
     private MaterialEditText txtUsername;
+    private static ArrayList<PastOrderItem> pastOrderItems = new ArrayList<>();
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.frame_home,container, false);
+        View v = inflater.inflate(R.layout.frame_home, container, false);
 
         final ArrayList<ShopItem> shopItems = new ArrayList<>();
 
         //Loads shops starting with the one closest to user
-        shopItems.add(new ShopItem(1,"Shop name",R.drawable.food,
-                "This is a short description about my shop to attract customers",1,
+        shopItems.add(new ShopItem(1, "Shop name", R.drawable.food,
+                "This is a short description about my shop to attract customers", 1,
                 "2km", "10-15min"));
-        shopItems.add(new ShopItem(1,"Shop name",R.drawable.food,
-                "This is a short description about my shop to attract customers",3,
+        shopItems.add(new ShopItem(1, "Shop name", R.drawable.food,
+                "This is a short description about my shop to attract customers", 3,
                 "2km", "10-15min"));
-        shopItems.add(new ShopItem(1,"Shop name",R.drawable.food,
-                "This is a short description about my shop to attract customers",2,
+        shopItems.add(new ShopItem(1, "Shop name", R.drawable.food,
+                "This is a short description about my shop to attract customers", 2,
                 "2km", "10-15min"));
-        shopItems.add(new ShopItem(1,"Shop name",R.drawable.food,
-                "This is a short description about my shop to attract customers",5,
+        shopItems.add(new ShopItem(1, "Shop name", R.drawable.food,
+                "This is a short description about my shop to attract customers", 5,
                 "2km", "10-15min"));
         mRecyclerView = v.findViewById(R.id.recyclerView);
         tvClear = v.findViewById(R.id.tvClear);
@@ -85,7 +86,7 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (charSequence.length() != 0){
+                if (charSequence.length() != 0) {
                     tvClear.setVisibility(View.VISIBLE);
                 }
             }
@@ -97,5 +98,28 @@ public class HomeFragment extends Fragment {
         });
 
         return v;
+    }
+
+    static void DisplayPastOrders() {
+        //Loads past orders
+        pastOrderItems.add(new PastOrderItem(1, "Shop name", 315,
+                "13 Jan 2020,15:45", "French, bacon, egg, russian", 19.50, 3));
+        pastOrderItems.add(new PastOrderItem(3, "Shop name", 315,
+                "13 Jan 2020,15:45", "French, bacon, egg, russian", 19.50, 4));
+        pastOrderItems.add(new PastOrderItem(5, "Shop name", 315,
+                "13 Jan 2020,15:45", "French, bacon, egg, russian", 19.50, 1));
+        pastOrderItems.add(new PastOrderItem(4, "Shop name", 315,
+                "13 Jan 2020,15:45", "French, bacon, egg, russian", 19.50, 5));
+        pastOrderItems.add(new PastOrderItem(2, "Shop name", 315,
+                "13 Jan 2020,15:45", "French, bacon, egg, russian", 19.50, -1));
+        pastOrderItems.add(new PastOrderItem(-1, "Shop name", 315,
+                "13 Jan 2020,15:45", "French, bacon, egg, russian", 19.50, -1));
+    }
+
+    static ArrayList<PastOrderItem> getPastOrderItems() {
+        return pastOrderItems;
+    }
+    static PastOrderItem getPastOrderItem( int position) {
+        return pastOrderItems.get(position);
     }
 }

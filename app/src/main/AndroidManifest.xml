@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".EditUserProfileActivity"></activity>
+        <activity android:name=".RatingActivity"></activity>
+        <activity android:name=".EditUserProfileActivity" />
         <activity android:name="www.kicknbhoboza.com.emakoteni.EditProfileActivity" />
         <activity android:name=".ShopSettingsActivity" />
         <activity android:name=".NewMenuItemActivity" />
