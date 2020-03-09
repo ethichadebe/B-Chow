@@ -56,7 +56,7 @@ public class OrderActivity extends AppCompatActivity {
                 if (isChecked){
                     startActivity(new Intent(OrderActivity.this, OrderConfirmationActivity.class));
                 }else {
-                    ShowNotificationPopup();
+                    //ShowNotificationPopup();
                 }
 
             }
@@ -109,31 +109,4 @@ public class OrderActivity extends AppCompatActivity {
 
     }
 
-    public void ShowNotificationPopup(){
-        TextView tvCancel, tvMessage;
-        CardView cvOkay;
-        myDialog.setContentView(R.layout.notification_popup);
-
-        tvCancel = myDialog.findViewById(R.id.tvCancel);
-        tvMessage = myDialog.findViewById(R.id.tvMessage);
-        cvOkay = myDialog.findViewById(R.id.cvOkay);
-
-        tvCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                myDialog.dismiss();
-            }
-        });
-
-        tvMessage.setText("You need to add at least one Ingredient to complete your order");
-
-        cvOkay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                myDialog.dismiss();
-            }
-        });
-        myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        myDialog.show();
-    }
 }

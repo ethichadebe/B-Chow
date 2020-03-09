@@ -8,41 +8,42 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:layout_centerInParent="true">
+        android:layout_centerInParent="true"
+        android:layout_margin="20dp">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/ivLogo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_columnWeight="1"
             android:layout_rowWeight="1"
-            app:cardElevation="3dp"
+            android:layout_columnWeight="1"
             android:layout_centerHorizontal="true"
-            android:fontFamily="sans-serif-medium"
             android:layout_marginBottom="20dp"
-            android:padding="50dp"
+            android:fontFamily="sans-serif-medium"
             android:outlineSpotShadowColor="@color/colorPrimary"
-            app:cardCornerRadius="10dp">
+            android:padding="50dp"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="3dp">
 
             <ImageView
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:adjustViewBounds="true"
+                android:contentDescription="@string/logo"
                 android:scaleType="fitCenter"
-                android:src="@drawable/loxion_beanery_logo"
-                android:contentDescription="@string/logo" />
+                android:src="@drawable/loxion_beanery_logo" />
         </androidx.cardview.widget.CardView>
 
         <ScrollView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/ivLogo">
+
             <RelativeLayout
                 android:id="@+id/rellay1"
                 android:layout_width="wrap_content"
-                android:visibility="gone"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/tv_login"
@@ -57,11 +58,10 @@
                 <LinearLayout
                     android:id="@+id/linlay1"
                     android:layout_width="match_parent"
-                    android:layout_below="@id/tv_login"
                     android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_login"
                     android:layout_marginTop="10dp"
-                    android:orientation="vertical"
-                    >
+                    android:orientation="vertical">
 
                     <com.rengwuxian.materialedittext.MaterialEditText
                         android:id="@+id/txtName"
@@ -69,8 +69,8 @@
                         android:layout_height="wrap_content"
                         android:ems="10"
                         android:hint="@string/first_name"
-                        android:textSize="14sp"
                         android:inputType="textPersonName"
+                        android:textSize="14sp"
                         app:met_floatingLabel="highlight" />
 
                     <com.rengwuxian.materialedittext.MaterialEditText
@@ -79,8 +79,8 @@
                         android:layout_height="wrap_content"
                         android:ems="10"
                         android:hint="@string/last_name"
-                        android:textSize="14sp"
                         android:inputType="textPersonName"
+                        android:textSize="14sp"
                         app:met_floatingLabel="highlight" />
 
                     <com.rengwuxian.materialedittext.MaterialEditText
@@ -88,21 +88,21 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ems="10"
-                        android:hint="Date of Birth"
-                        android:textSize="14sp"
                         android:focusable="false"
+                        android:hint="Date of Birth"
                         android:inputType="textPersonName"
+                        android:textSize="14sp"
                         app:met_floatingLabel="highlight" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="sans-serif-light"
-                            android:text="Gender"
-                            android:layout_marginTop="10dp"
-                            android:textAllCaps="true"
-                            android:textColor="@color/Black"
-                            android:textSize="15sp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="sans-serif-light"
+                        android:text="Gender"
+                        android:textAllCaps="true"
+                        android:textColor="@color/Black"
+                        android:textSize="15sp" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -110,28 +110,28 @@
 
                         <CheckBox
                             android:id="@+id/cbMale"
+                            style="@style/Base.TextAppearance.AppCompat.Body1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            style="@style/Base.TextAppearance.AppCompat.Body1"
                             android:padding="8dp"
-                            android:text="Male"/>
+                            android:text="Male" />
 
 
                         <CheckBox
                             android:id="@+id/cbFemale"
+                            style="@style/Base.TextAppearance.AppCompat.Body1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="8dp"
-                            style="@style/Base.TextAppearance.AppCompat.Body1"
-                            android:text="Female"/>
+                            android:text="Female" />
 
                         <CheckBox
                             android:id="@+id/cbOther"
+                            style="@style/Base.TextAppearance.AppCompat.Body1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="8dp"
-                            style="@style/Base.TextAppearance.AppCompat.Body1"
-                            android:text="Other"/>
+                            android:text="Other" />
 
                     </LinearLayout>
 
@@ -140,9 +140,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ems="10"
-                        android:textSize="14sp"
                         android:hint="@string/email_address"
                         android:inputType="textPersonName"
+                        android:textSize="14sp"
                         app:met_floatingLabel="highlight" />
 
                     <com.rengwuxian.materialedittext.MaterialEditText
@@ -150,9 +150,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ems="10"
-                        android:textSize="14sp"
                         android:hint="@string/phone_number"
                         android:inputType="textPersonName"
+                        android:textSize="14sp"
                         app:met_floatingLabel="highlight" />
 
                     <com.rengwuxian.materialedittext.MaterialEditText
@@ -171,8 +171,8 @@
                         android:layout_height="wrap_content"
                         android:ems="10"
                         android:hint="@string/confirm_password"
-                        android:textSize="14sp"
                         android:inputType="textPersonName"
+                        android:textSize="14sp"
                         app:met_floatingLabel="highlight" />
                 </LinearLayout>
 
@@ -181,59 +181,60 @@
                     style="@style/TextAppearance.AppCompat.Body1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/linlay1"
                     android:gravity="center"
                     android:padding="16dp"
-                    android:layout_below="@+id/linlay1"
                     android:textColor="#ff1717" />
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/btnRegister"
                     android:layout_width="100dp"
                     android:layout_height="40dp"
-                    android:layout_columnWeight="1"
                     android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
                     android:layout_below="@+id/lblError"
-                    app:cardElevation="3dp"
                     android:layout_centerHorizontal="true"
                     android:fontFamily="sans-serif-medium"
                     android:padding="50dp"
-                    app:cardCornerRadius="10dp">
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="3dp">
+
                     <TextView
                         android:id="@+id/tvPrice"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:textSize="14sp"
                         android:background="@drawable/ripple_effect"
-                        android:gravity="center"
                         android:fontFamily="sans-serif-medium"
-                        android:textAllCaps="false"
+                        android:gravity="center"
                         android:text="@string/register"
-                        android:textColor="@color/White"/>
+                        android:textAllCaps="false"
+                        android:textColor="@color/White"
+                        android:textSize="14sp" />
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/btnLogin"
                     android:layout_width="100dp"
                     android:layout_height="40dp"
-                    android:layout_columnWeight="1"
                     android:layout_rowWeight="1"
-                    app:cardElevation="3dp"
+                    android:layout_columnWeight="1"
+                    android:layout_below="@id/btnRegister"
+                    android:layout_margin="10dp"
                     android:background="@drawable/empty_btn_bg"
                     android:padding="50dp"
-                    android:layout_margin="10dp"
-                    android:layout_below="@id/btnRegister"
-                    app:cardCornerRadius="10dp">
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="3dp">
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:textSize="14sp"
-                        android:gravity="center"
                         android:background="@drawable/ripple_effect_white"
                         android:fontFamily="sans-serif-medium"
-                        android:textAllCaps="true"
+                        android:gravity="center"
                         android:text="@string/login"
+                        android:textAllCaps="true"
                         android:textColor="@color/Black"
-                        />
+                        android:textSize="14sp" />
                 </androidx.cardview.widget.CardView>
             </RelativeLayout>
         </ScrollView>

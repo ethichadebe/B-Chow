@@ -110,11 +110,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:gravity="center"
-                    android:fontFamily="sans-serif-medium"
+                    android:fontFamily="sans-serif-light"
                     android:text="Shop registered"
                     android:layout_marginStart="5dp"
                     android:textColor="@color/White"
-                    android:textSize="18sp"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>

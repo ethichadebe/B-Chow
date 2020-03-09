@@ -20,11 +20,7 @@ import android.widget.TimePicker;
 
 import com.rengwuxian.materialedittext.MaterialEditText;
 
-import java.util.ArrayList;
-
-import SingleItem.IngredientItem;
 import SingleItem.MyShopItem;
-import SingleItem.ShopItem;
 
 public class RegisterShopActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
 
@@ -218,7 +214,7 @@ public class RegisterShopActivity extends AppCompatActivity implements TimePicke
     public void ShowPopup() {
         TextView tvCancel, tvMessage;
         CardView cvYes, cvNo;
-        myDialog.setContentView(R.layout.confirmation_popup);
+        myDialog.setContentView(R.layout.popup_confirmation);
 
         tvCancel = myDialog.findViewById(R.id.tvCancel);
         tvMessage = myDialog.findViewById(R.id.tvMessage);

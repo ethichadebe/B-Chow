@@ -154,11 +154,12 @@
                             <com.rengwuxian.materialedittext.MaterialEditText
                                 android:id="@+id/txtShortDescription"
                                 android:layout_width="match_parent"
-                                android:layout_height="80dp"
+                                android:layout_height="wrap_content"
                                 android:ems="10"
                                 android:textSize="14sp"
                                 android:hint="Short description"
-                                app:met_floatingLabel="highlight" />
+                                app:met_floatingLabel="highlight"
+                                app:met_maxCharacters="50"/>
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
@@ -263,11 +264,12 @@
                         <com.rengwuxian.materialedittext.MaterialEditText
                             android:id="@+id/txtFullDescription"
                             android:layout_width="match_parent"
-                            android:layout_height="80dp"
+                            android:layout_height="wrap_content"
                             android:ems="10"
                             android:hint="Full description"
                             android:textSize="14sp"
-                            app:met_floatingLabel="highlight" />
+                            app:met_floatingLabel="highlight"
+                            app:met_maxCharacters="255"/>
 
                     </LinearLayout>
                 </LinearLayout>

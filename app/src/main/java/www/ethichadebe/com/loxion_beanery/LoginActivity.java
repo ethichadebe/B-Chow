@@ -17,6 +17,8 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
+import util.HelperMethods;
+
 public class LoginActivity extends AppCompatActivity {
     RelativeLayout rellay1, rellay2;
     Handler handler = new Handler();
@@ -44,7 +46,6 @@ public class LoginActivity extends AppCompatActivity {
         rellay2 = findViewById(R.id.rellay2);
         handler.postDelayed(runnable, 3000);
 
-
         myDialog = new Dialog(this);
         mTextUsername = findViewById(R.id.txtUsername);
         mTextPassword = findViewById(R.id.txtPassword);
@@ -56,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
         }*/
         //Image
         YoYo.with(Techniques.SlideInUp)
-                .duration(3000)
+                .duration(2000)
                 .repeat(1)
                 .playOn(findViewById(R.id.ivLogo));
         mButtonLogin = findViewById(R.id.btnLogin);
@@ -89,6 +90,7 @@ public class LoginActivity extends AppCompatActivity {
         mButtonRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                HelperMethods.ShowLoadingPopup(myDialog);
                 startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
             }
         });
@@ -115,4 +117,5 @@ public class LoginActivity extends AppCompatActivity {
         mTextPassword.setText(sharedPreferences.getString(PASSWORD, ""));
         mTextUsername.setText(sharedPreferences.getString(USERNAME, ""));
     }
+
 }

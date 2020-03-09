@@ -102,7 +102,7 @@
                     android:textStyle="bold" />
             </LinearLayout>
             <androidx.cardview.widget.CardView
-                android:id="@+id/cvAdd"
+                android:id="@+id/cvEdit"
                 android:layout_width="100dp"
                 android:layout_height="40dp"
                 app:cardElevation="3dp"

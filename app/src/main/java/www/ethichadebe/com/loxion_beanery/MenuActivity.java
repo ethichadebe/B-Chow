@@ -138,7 +138,7 @@ public class MenuActivity extends AppCompatActivity {
     public void ShowConfirmationPopup(){
         TextView tvCancel, tvMessage;
         CardView cvYes, cvNo;
-        myDialog.setContentView(R.layout.confirmation_popup);
+        myDialog.setContentView(R.layout.popup_confirmation);
 
         tvCancel = myDialog.findViewById(R.id.tvCancel);
         tvMessage = myDialog.findViewById(R.id.tvMessage);
