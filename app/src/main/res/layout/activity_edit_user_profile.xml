@@ -35,15 +35,15 @@
             android:layout_width="?attr/actionBarSize"
             android:layout_height="?attr/actionBarSize"
             android:layout_alignParentTop="true"
-            android:background="@drawable/ripple_effect_white"
             android:layout_alignParentBottom="true"
+            android:background="@drawable/ripple_effect_white"
             android:gravity="center">
 
             <TextView
                 style="@style/Base.TextAppearance.AppCompat.Body1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/ic_keyboard_backspace_black_24dp"/>
+                android:background="@drawable/ic_keyboard_backspace_black_24dp" />
         </LinearLayout>
 
         <TextView
@@ -152,7 +152,7 @@
                         android:layout_marginStart="10dp"
                         android:ems="10"
                         android:hint="@string/email_address"
-                        android:inputType="textPersonName"
+                        android:inputType="textEmailAddress"
                         android:textSize="14sp"
                         app:met_floatingLabel="highlight" />
                 </LinearLayout>
@@ -177,7 +177,7 @@
                         android:layout_marginStart="10dp"
                         android:ems="10"
                         android:hint="@string/phone_number"
-                        android:inputType="textPersonName"
+                        android:inputType="number"
                         android:textSize="14sp"
                         app:met_floatingLabel="highlight" />
                 </LinearLayout>
@@ -203,7 +203,6 @@
                         android:ems="10"
                         android:focusable="false"
                         android:hint="Date of Birth"
-                        android:inputType="textPersonName"
                         android:textSize="14sp"
                         app:met_floatingLabel="highlight" />
                 </LinearLayout>
@@ -252,6 +251,18 @@
 
                     </LinearLayout>
                 </LinearLayout>
+
+                <TextView
+                    android:id="@+id/lblError"
+                    style="@style/TextAppearance.AppCompat.Body1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/linlay1"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:textColor="#ff1717" />
+
+
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

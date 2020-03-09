@@ -8,6 +8,7 @@ import android.view.View;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.rengwuxian.materialedittext.MaterialEditText;
 
 import www.ethichadebe.com.loxion_beanery.R;
 
@@ -38,5 +39,22 @@ public class HelperMethods {
 
         return runnable;
     }
+
+    /**
+     * @param txtBoxes Array of Textboxes
+     * @param index    index of Textbox to make underline blue
+     * @param clr      Colour
+     */
+    public static void MakeBlack(MaterialEditText[] txtBoxes, int index, int clr) {
+        for (int i = 0; i < txtBoxes.length; i++) {
+            if (i != index) {
+                if (!txtBoxes[i].getText().toString().isEmpty()) {
+                    txtBoxes[i].setUnderlineColor(clr);
+                }
+            }
+        }
+    }
+
+
 
 }

@@ -21,6 +21,8 @@ import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import static util.HelperMethods.MakeBlack;
+
 public class RegisterActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
     RelativeLayout rellay1;
     private CardView mButtonRegister, mButtonLogin;
@@ -76,8 +78,8 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
 
     //Set up date picker
     //.........................................................................................................
-    Calendar calendar;
-    DatePickerDialog datePickerDialog;
+    private Calendar calendar;
+    private DatePickerDialog datePickerDialog;
     //.................................................................................................
 
     @Override
@@ -232,21 +234,6 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
                 }
             }
         });
-    }
-
-    /**
-     * @param txtBoxes Array of Textboxes
-     * @param index    index of Textbox to make underline blue
-     * @param clr      Colour
-     */
-    public static void MakeBlack(MaterialEditText[] txtBoxes, int index, int clr) {
-        for (int i = 0; i < txtBoxes.length; i++) {
-            if (i != index) {
-                if (!txtBoxes[i].getText().toString().isEmpty()) {
-                    txtBoxes[i].setUnderlineColor(clr);
-                }
-            }
-        }
     }
 
     @Override
