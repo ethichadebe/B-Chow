@@ -1,6 +1,5 @@
 package www.ethichadebe.com.loxion_beanery;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;

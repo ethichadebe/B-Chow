@@ -236,8 +236,9 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
         });
         myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         myDialog.show();
+        myDialog.setCancelable(false);
+        myDialog.setCanceledOnTouchOutside(false);
     }
-
 
     @Override
     public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {

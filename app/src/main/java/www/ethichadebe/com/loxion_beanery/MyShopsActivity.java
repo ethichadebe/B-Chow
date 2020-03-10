@@ -30,16 +30,14 @@ public class MyShopsActivity extends AppCompatActivity {
     private MyShopItemAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private BottomSheetBehavior bsbBottomSheetBehavior;
-    Handler handler = new Handler();
-    Runnable runnable = new Runnable() {
+    private Handler handler = new Handler();
+    private Runnable runnable = new Runnable() {
         @Override
         public void run() {
             bsbBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
         }
     };
-
-
-    LinearLayout llEdit, llBack;//, llShop;
+    private LinearLayout llEdit, llBack;//, llShop;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -31,9 +31,9 @@ public class RegisterShopActivity extends AppCompatActivity implements TimePicke
     private Dialog myDialog;
     private Boolean isOpen;
     private Button btnNext;
-    LinearLayout llBack;
-    RelativeLayout rlPicture;
-    TextView tvHeading, lblError;
+    private LinearLayout llBack;
+    private RelativeLayout rlPicture;
+    private TextView tvHeading, lblError;
     private CardView cvAdd;
     private static MyShopItem newShop;
 

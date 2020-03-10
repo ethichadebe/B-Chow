@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import Adapter.MenuItemAdapter;
 import SingleItem.MenuItem;
 
+import static util.HelperMethods.ButtonVisibility;
 import static www.ethichadebe.com.loxion_beanery.IngredientsActivity.getMenuItems;
 import static www.ethichadebe.com.loxion_beanery.RegisterShopActivity.getNewShop;
 
@@ -32,6 +33,7 @@ public class MenuActivity extends AppCompatActivity {
     private static int intPosition;
     private static Double dblPrice;
     private Dialog myDialog;
+    private Button btnFinish;
     private CardView llAddMenu, llBack;
     private static boolean  isNew = false;
 
@@ -43,7 +45,6 @@ public class MenuActivity extends AppCompatActivity {
         MenuActivity.isNew = isNew;
     }
 
-    Button btnFinish;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +68,7 @@ public class MenuActivity extends AppCompatActivity {
         llAddMenu = findViewById(R.id.llAddMenu);
 
         //Set Button Visibility False if no menu item
-        finishButtonVisibility();
+        ButtonVisibility(MenuItems, btnFinish);
 
         btnFinish.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,7 +114,7 @@ public class MenuActivity extends AppCompatActivity {
             public void onDeleteClick(int position) {
                 MenuItems.remove(position);
                 mAdapter.notifyItemRemoved(position);
-                finishButtonVisibility();
+                ButtonVisibility(MenuItems, btnFinish);
             }
         });
 
@@ -170,16 +171,5 @@ public class MenuActivity extends AppCompatActivity {
         });
         myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         myDialog.show();
-    }
-
-    /**
-     * Only display finish button when there's a menu item added
-     */
-    private void finishButtonVisibility(){
-        if (MenuItems.isEmpty()){
-            btnFinish.setVisibility(View.GONE);
-        }else {
-            btnFinish.setVisibility(View.VISIBLE);
-        }
     }
 }

@@ -109,7 +109,7 @@ public class OrdersActivity extends AppCompatActivity {
 
             @Override
             public void onCancelClick(int position) {
-                ShowPopup(position);
+                ShowConfirmationPopup(position);
             }
 
             @Override
@@ -123,7 +123,7 @@ public class OrdersActivity extends AppCompatActivity {
 
     }
 
-    public void ShowPopup(final int position){
+    public void ShowConfirmationPopup(final int position){
         TextView tvCancel, tvMessage;
         CardView cvYes, cvNo;
         myDialog.setContentView(R.layout.popup_confirmation);

@@ -5,10 +5,13 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
 import android.view.View;
+import android.widget.Button;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.rengwuxian.materialedittext.MaterialEditText;
+
+import java.util.ArrayList;
 
 import www.ethichadebe.com.loxion_beanery.R;
 
@@ -24,10 +27,12 @@ public class HelperMethods {
 
         myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         myDialog.show();
+        myDialog.setCancelable(false);
+        myDialog.setCanceledOnTouchOutside(false);
     }
 
-    private static Runnable LoaderMotion(final View vLine){
-        Runnable runnable = new Runnable() {
+    public static Runnable LoaderMotion(final View vLine) {
+        return new Runnable() {
             @Override
             public void run() {
                 YoYo.with(Techniques.ZoomInRight)
@@ -36,8 +41,6 @@ public class HelperMethods {
                         .playOn(vLine);
             }
         };
-
-        return runnable;
     }
 
     /**
@@ -55,6 +58,15 @@ public class HelperMethods {
         }
     }
 
-
+    /**
+     * Only display finish button when there's a menu item added
+     */
+    public static void ButtonVisibility(ArrayList list, Button btn){
+        if (list.isEmpty()){
+            btn.setVisibility(View.GONE);
+        }else {
+            btn.setVisibility(View.VISIBLE);
+        }
+    }
 
 }

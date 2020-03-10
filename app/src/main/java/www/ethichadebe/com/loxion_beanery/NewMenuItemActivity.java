@@ -36,8 +36,7 @@ public class NewMenuItemActivity extends AppCompatActivity {
     private MaterialEditText etPrice;
     private Button btnAdd;
     private CardView rlTotal;
-
-    LinearLayout llBack;
+    private LinearLayout llBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

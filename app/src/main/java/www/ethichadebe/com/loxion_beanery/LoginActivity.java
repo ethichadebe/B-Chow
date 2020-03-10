@@ -91,7 +91,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 HelperMethods.ShowLoadingPopup(myDialog);
-                startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+                //startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
             }
         });
     }
@@ -100,7 +100,6 @@ public class LoginActivity extends AppCompatActivity {
     public void onBackPressed() {
         this.finishAffinity();
     }
-
 
     private void saveData() {
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);

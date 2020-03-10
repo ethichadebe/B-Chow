@@ -17,8 +17,8 @@ public class OrderConfirmationActivity extends AppCompatActivity {
     private View[] vLineGrey = new View[3];
     private View[] vLineLoad = new View[4];
     private View[] vLine = new View[4];
-    Handler handler = new Handler();
-    Runnable runnable = new Runnable() {
+    private Handler handler = new Handler();
+    private Runnable runnable = new Runnable() {
         @Override
         public void run() {
             vLineGrey[0].setVisibility(View.VISIBLE);
@@ -39,7 +39,7 @@ public class OrderConfirmationActivity extends AppCompatActivity {
         }
     };
 
-    Runnable runnable1 = new Runnable() {
+    private Runnable runnable1 = new Runnable() {
         @Override
         public void run() {
             vLineGrey[0].setVisibility(View.GONE);
@@ -60,7 +60,7 @@ public class OrderConfirmationActivity extends AppCompatActivity {
         }
     };
 
-    Runnable runnable2 = new Runnable() {
+    private Runnable runnable2 = new Runnable() {
         @Override
         public void run() {
             vLineGrey[0].setVisibility(View.GONE);
@@ -81,7 +81,7 @@ public class OrderConfirmationActivity extends AppCompatActivity {
         }
     };
 
-    Runnable runnable3 = new Runnable() {
+    private Runnable runnable3 = new Runnable() {
         @Override
         public void run() {
             vLineGrey[0].setVisibility(View.GONE);
@@ -127,21 +127,6 @@ public class OrderConfirmationActivity extends AppCompatActivity {
         handler.postDelayed(runnable1, 3000);
         handler.postDelayed(runnable2, 6000);
         handler.postDelayed(runnable3, 9000);
-       /* YoyoSlideRight(1);
-        YoyoSlideRight(1);
-        YoyoSlideRight(1);
-        YoyoSlideRight(1);
-        YoyoSlideRight(1);
-        YoyoSlideRight(1);
-        YoyoSlideRight(1);
-        YoyoSlideRight(1);
-        YoyoSlideRight(1);
-        YoyoSlideRight(1);
-        YoyoSlideRight(1);
-        YoyoSlideRight(1);
-        YoyoSlideRight(1);
-        YoyoSlideRight(1);*/
-
         btFinish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

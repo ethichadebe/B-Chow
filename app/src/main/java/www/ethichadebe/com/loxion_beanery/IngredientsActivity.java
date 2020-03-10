@@ -23,6 +23,7 @@ import Adapter.IngredientItemAdapter;
 import SingleItem.IngredientItem;
 import SingleItem.MenuItem;
 
+import static util.HelperMethods.ButtonVisibility;
 import static www.ethichadebe.com.loxion_beanery.RegisterShopActivity.getNewShop;
 
 public class IngredientsActivity extends AppCompatActivity {
@@ -36,7 +37,7 @@ public class IngredientsActivity extends AppCompatActivity {
     private MaterialEditText etName, etPrice;
     private Dialog myDialog;
 
-    LinearLayout llBack;
+    private LinearLayout llBack;
     private Button btnNext;
 
     @Override
@@ -53,7 +54,7 @@ public class IngredientsActivity extends AppCompatActivity {
         btnAddOption = findViewById(R.id.btnAddOption);
         etPrice = findViewById(R.id.etPrice);
 
-        finishButtonVisibility();
+        ButtonVisibility(ingredientItems,btnNext);
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -91,7 +92,7 @@ public class IngredientsActivity extends AppCompatActivity {
                     mAdapter.notifyItemInserted(ingredientItems.size());
                     etName.setText("");
                     etPrice.setText("");
-                    finishButtonVisibility();
+                    ButtonVisibility(ingredientItems,btnNext);
                 }
             }
         });
@@ -110,7 +111,7 @@ public class IngredientsActivity extends AppCompatActivity {
             public void onRemoveClick(int position) {
                 ingredientItems.remove(position);
                 mAdapter.notifyItemRemoved(position);
-                finishButtonVisibility();
+                ButtonVisibility(ingredientItems,btnNext);
             }
         });
 
@@ -169,18 +170,5 @@ public class IngredientsActivity extends AppCompatActivity {
         myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         myDialog.show();
     }
-
-
-    /**
-     * Only display next button when there's an ingredient item added
-     */
-    private void finishButtonVisibility() {
-        if (ingredientItems.isEmpty()) {
-            btnNext.setVisibility(View.GONE);
-        } else {
-            btnNext.setVisibility(View.VISIBLE);
-        }
-    }
-
 
 }

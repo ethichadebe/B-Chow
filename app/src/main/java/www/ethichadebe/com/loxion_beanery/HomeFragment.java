@@ -2,6 +2,7 @@ package www.ethichadebe.com.loxion_beanery;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -23,7 +24,10 @@ import Adapter.ShopItemAdapter;
 import SingleItem.PastOrderItem;
 import SingleItem.ShopItem;
 
+import static util.HelperMethods.LoaderMotion;
+
 public class HomeFragment extends Fragment {
+    private Handler handler = new Handler();
     private RecyclerView mRecyclerView;
     private ShopItemAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -97,6 +101,9 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        handler.postDelayed(LoaderMotion(v.findViewById(R.id.vLineGrey)), 0);
+        handler.postDelayed(LoaderMotion(v.findViewById(R.id.vLine)), 500);
+
         return v;
     }
 
@@ -119,7 +126,8 @@ public class HomeFragment extends Fragment {
     static ArrayList<PastOrderItem> getPastOrderItems() {
         return pastOrderItems;
     }
-    static PastOrderItem getPastOrderItem( int position) {
+
+    static PastOrderItem getPastOrderItem(int position) {
         return pastOrderItems.get(position);
     }
 }

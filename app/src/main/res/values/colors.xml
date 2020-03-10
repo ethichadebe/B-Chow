@@ -6,11 +6,11 @@
     <color name="colorAccent">#C45A26</color>
     <color name="White">#ffffff</color>
     <color name="Black">#000000</color>
-    <color name="Grey">#E4E4E4</color>
+    <color name="Grey">#A5A5A5</color>
     <color name="Green">#98FF3E</color>
     <color name="Yellow">#FFBF3E</color>
     <color name="Red">#FF3E3E</color>
-    <color name="Transparent_Grey">#66E4E4E4</color>
+    <color name="Transparent_Grey">#27C2C2C2</color>
     <color name="done">#009E04</color>
     <color name="cancel">#9E0000</color>
 </resources>
