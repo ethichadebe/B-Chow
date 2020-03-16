@@ -17,9 +17,11 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import Adapter.MenuItemAdapter;
+import SingleItem.IngredientItem;
 import SingleItem.MenuItem;
 
 import static util.HelperMethods.ButtonVisibility;
+import static www.ethichadebe.com.loxion_beanery.IngredientsActivity.getIngredientItems;
 import static www.ethichadebe.com.loxion_beanery.IngredientsActivity.getMenuItems;
 import static www.ethichadebe.com.loxion_beanery.RegisterShopActivity.getNewShop;
 
@@ -35,7 +37,7 @@ public class MenuActivity extends AppCompatActivity {
     private Dialog myDialog;
     private Button btnFinish;
     private CardView llAddMenu, llBack;
-    private static boolean  isNew = false;
+    private static boolean isNew = false;
 
     public static boolean isNew() {
         return isNew;
@@ -70,30 +72,19 @@ public class MenuActivity extends AppCompatActivity {
         //Set Button Visibility False if no menu item
         ButtonVisibility(MenuItems, btnFinish);
 
-        btnFinish.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getNewShop().setMenuItems(getMenuItems());
-                isNew = true;
-                startActivity(new Intent(MenuActivity.this, MyShopsActivity.class));
-            }
+        btnFinish.setOnClickListener(view -> {
+            getNewShop().setMenuItems(getMenuItems());
+            isNew = true;
+            startActivity(new Intent(MenuActivity.this, MyShopsActivity.class));
         });
 
-        llAddMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MenuActivity.this, NewMenuItemActivity.class));
-            }
-        });
+        llAddMenu.setOnClickListener(view -> startActivity(new Intent(MenuActivity.this, NewMenuItemActivity.class)));
 
-        llBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (MenuItems.isEmpty()){
-                    finish();
-                }else {
-                    ShowConfirmationPopup();
-                }
+        llBack.setOnClickListener(view -> {
+            if (MenuItems.isEmpty()) {
+                finish();
+            } else {
+                ShowConfirmationPopup();
             }
         });
 
@@ -136,7 +127,7 @@ public class MenuActivity extends AppCompatActivity {
         return dblPrice;
     }
 
-    public void ShowConfirmationPopup(){
+    public void ShowConfirmationPopup() {
         TextView tvCancel, tvMessage;
         CardView cvYes, cvNo;
         myDialog.setContentView(R.layout.popup_confirmation);
@@ -171,5 +162,39 @@ public class MenuActivity extends AppCompatActivity {
         });
         myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         myDialog.show();
+    }
+
+    private int CheckMenuPrices() {
+        ArrayList<Double> results = new ArrayList<>();
+        ArrayList<MenuItem> menuItems = getMenuItems();
+        ArrayList<IngredientItem> ingredientItems = getIngredientItems();
+
+        if (menuItems.size() >1){
+            //take each menu item's ingredients list and separate them into individual ingredient names
+            for (MenuItem menuItem : menuItems) {
+                String[] ingredient = menuItem.getStrMenu().split(", ");
+
+                int counter = 0;
+                Double TempPrice = menuItem.getDblPrice();
+                while (counter < ingredient.length) {
+                    //Go through each ingredient and deduct its price from the menu's total price
+                    for (IngredientItem ingredientItem : ingredientItems) {
+                        if (ingredient[counter].equals(ingredientItem.getStrIngredientName())) {
+                            TempPrice -= ingredientItem.getDblPrice();
+                        }
+                    }
+                    counter++;
+                }
+                results.add(TempPrice);
+            }
+
+            //Go through all resulting prices and check if they are equal
+            for (int i = 0; i < results.size() - 1; i++) {
+                if (!results.get(i).equals(results.get(i + 1))){
+                    return 0;
+                }
+            }
+        }
+        return 1;
     }
 }

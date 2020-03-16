@@ -17,12 +17,11 @@ import java.util.ArrayList;
 
 import Adapter.PastOrderItemAdapter;
 import Adapter.UpcomingOrderItemAdapter;
+import SingleItem.PastOrderItem;
 import SingleItem.UpcomingOrderItem;
 
-import static www.ethichadebe.com.loxion_beanery.HomeFragment.DisplayPastOrders;
-import static www.ethichadebe.com.loxion_beanery.HomeFragment.getPastOrderItems;
-
 public class OrdersFragment extends Fragment {
+    private static ArrayList<PastOrderItem> pastOrderItems = new ArrayList<>();
     private View vLeft, vRight, vBottomRight, vBottomLeft;
     private RelativeLayout rlLeft, rlRight;
 
@@ -68,7 +67,7 @@ public class OrdersFragment extends Fragment {
         });
         mPastRecyclerView.setHasFixedSize(true);
         mPastLayoutManager = new LinearLayoutManager(getActivity());
-        mPastAdapter = new PastOrderItemAdapter(getPastOrderItems());
+        mPastAdapter = new PastOrderItemAdapter(pastOrderItems);
 
         mPastRecyclerView.setLayoutManager(mPastLayoutManager);
         mPastRecyclerView.setAdapter(mPastAdapter);
@@ -100,6 +99,22 @@ public class OrdersFragment extends Fragment {
         recyclerViewVISIBLE.setVisibility(View.VISIBLE);
     }
 
+
+    static void DisplayPastOrders() {
+        //Loads past orders
+        pastOrderItems.add(new PastOrderItem(1, "Shop name", 315,
+                "13 Jan 2020,15:45", "French, bacon, egg, russian", 19.50, 3));
+        pastOrderItems.add(new PastOrderItem(3, "Shop name", 315,
+                "13 Jan 2020,15:45", "French, bacon, egg, russian", 19.50, 4));
+        pastOrderItems.add(new PastOrderItem(5, "Shop name", 315,
+                "13 Jan 2020,15:45", "French, bacon, egg, russian", 19.50, 1));
+        pastOrderItems.add(new PastOrderItem(4, "Shop name", 315,
+                "13 Jan 2020,15:45", "French, bacon, egg, russian", 19.50, 5));
+        pastOrderItems.add(new PastOrderItem(2, "Shop name", 315,
+                "13 Jan 2020,15:45", "French, bacon, egg, russian", 19.50, -1));
+        pastOrderItems.add(new PastOrderItem(-1, "Shop name", 315,
+                "13 Jan 2020,15:45", "French, bacon, egg, russian", 19.50, -1));
+    }
 
     private void DisplayUpcomingOrders() {
         final ArrayList<UpcomingOrderItem> upcomingOrderItems = new ArrayList<>();

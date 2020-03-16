@@ -17,30 +17,30 @@ import www.ethichadebe.com.loxion_beanery.R;
 
 public class HelperMethods {
 
-    public static void ShowLoadingPopup(final Dialog myDialog) {
-        Handler handler = new Handler();
+    public static void ShowLoadingPopup(final Dialog myDialog, boolean show) {
         myDialog.setContentView(R.layout.popup_loading);
-
-        handler.postDelayed(LoaderMotion(myDialog.findViewById(R.id.vLineGrey)), 0);
-        handler.postDelayed(LoaderMotion(myDialog.findViewById(R.id.vLine)), 500);
-
-
+        handler(myDialog.findViewById(R.id.vLine), myDialog.findViewById(R.id.vLineGrey));
         myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        myDialog.show();
+        if (show){
+            myDialog.show();
+        }else {
+            myDialog.dismiss();
+        }
         myDialog.setCancelable(false);
         myDialog.setCanceledOnTouchOutside(false);
     }
 
     public static Runnable LoaderMotion(final View vLine) {
-        return new Runnable() {
-            @Override
-            public void run() {
-                YoYo.with(Techniques.ZoomInRight)
-                        .duration(1000)
-                        .repeat(5000)
-                        .playOn(vLine);
-            }
-        };
+        return () -> YoYo.with(Techniques.ZoomInRight)
+                .duration(1000)
+                .repeat(5000)
+                .playOn(vLine);
+    }
+
+    public static void handler(final View vLine, final View vLineGrey){
+        Handler handler = new Handler();
+        handler.postDelayed(LoaderMotion(vLine), 0);
+        handler.postDelayed(LoaderMotion(vLineGrey), 500);
     }
 
     /**

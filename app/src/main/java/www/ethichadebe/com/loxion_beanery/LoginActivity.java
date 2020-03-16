@@ -5,24 +5,40 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import util.HelperMethods;
+import util.User;
+
+import static util.Constants.getIpAddress;
 
 public class LoginActivity extends AppCompatActivity {
-    RelativeLayout rellay1, rellay2;
-    Handler handler = new Handler();
-    Runnable runnable = new Runnable() {
+    private RelativeLayout rellay1, rellay2;
+    private Handler handler = new Handler();
+    private Runnable runnable = new Runnable() {
         @Override
         public void run() {
             rellay1.setVisibility(View.VISIBLE);
@@ -30,6 +46,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     };
 
+    private User user;
     private Dialog myDialog;
     private MaterialEditText mTextPassword, mTextUsername;
     private TextView mViewError;
@@ -82,17 +99,14 @@ public class LoginActivity extends AppCompatActivity {
                     mViewError.setText("Enter Password");
                 } else {
                     saveData();
-                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    HelperMethods.ShowLoadingPopup(myDialog, true);
+                    PostLogin();
                 }
             }
         });
 
-        mButtonRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                HelperMethods.ShowLoadingPopup(myDialog);
-                //startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
-            }
+        mButtonRegister.setOnClickListener(view -> {
+            startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
         });
     }
 
@@ -117,4 +131,27 @@ public class LoginActivity extends AppCompatActivity {
         mTextUsername.setText(sharedPreferences.getString(USERNAME, ""));
     }
 
+    private void PostLogin() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,
+                "http://" + getIpAddress() + "/users/Login",
+                response -> {
+                    HelperMethods.ShowLoadingPopup(myDialog, false);
+                    Toast.makeText(LoginActivity.this, response, Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                }, error -> {
+            HelperMethods.ShowLoadingPopup(myDialog, false);
+            Toast.makeText(LoginActivity.this, error.toString(), Toast.LENGTH_LONG).show();
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("uNumber", mTextUsername.getText().toString());
+                params.put("uPassword", mTextPassword.getText().toString());
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
 }

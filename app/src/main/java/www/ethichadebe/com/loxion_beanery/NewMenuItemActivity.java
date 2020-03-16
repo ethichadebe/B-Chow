@@ -48,36 +48,33 @@ public class NewMenuItemActivity extends AppCompatActivity {
         etPrice = findViewById(R.id.etPrice);
         rlTotal = findViewById(R.id.rlTotal);
 
-        btnAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                StringBuilder MenuList = new StringBuilder();
+        btnAdd.setOnClickListener(view -> {
+            StringBuilder MenuList = new StringBuilder();
 
-                //Group all ingredients into one string
-                for (int i = 0; i < ingredientItems.size(); i++) {
-                    if (ingredientItems.get(i).getChecked() && (i == ingredientItems.size() - 1)) {
-                        MenuList.append(ingredientItems.get(i).getStrIngredientName());
-                    } else if (ingredientItems.get(i).getChecked()) {
-                        MenuList.append(ingredientItems.get(i).getStrIngredientName()).append(", ");//MenuLiist.replace(ingredientItems.get(i).getStrIngredientName()+",", "");
-                    }
+            //Group all ingredients into one string
+            for (int i = 0; i < ingredientItems.size(); i++) {
+                if (ingredientItems.get(i).getChecked() && (i == ingredientItems.size() - 1)) {
+                    MenuList.append(ingredientItems.get(i).getStrIngredientName());
+                } else if (ingredientItems.get(i).getChecked()) {
+                    MenuList.append(ingredientItems.get(i).getStrIngredientName()).append(", ");//MenuLiist.replace(ingredientItems.get(i).getStrIngredientName()+",", "");
                 }
+            }
 
-                //validate ingredient name and price price
-                if (etPrice.getText().toString().isEmpty()) {
-                    etPrice.setUnderlineColor(getResources().getColor(R.color.Red));
+            //validate ingredient name and price price
+            if (etPrice.getText().toString().isEmpty()) {
+                etPrice.setUnderlineColor(getResources().getColor(R.color.Red));
+            } else {
+                etPrice.setUnderlineColor(getResources().getColor(R.color.Black));
+                if (getIngredients() != null) {
+                    //Edit item
+                    EditMenu(getIntPosition(), Double.valueOf(etPrice.getText().toString()), MenuList.toString());
+                    setIngredients(null);
                 } else {
-                    etPrice.setUnderlineColor(getResources().getColor(R.color.Black));
-                    if (getIngredients() != null) {
-                        //Edit item
-                        EditMenu(getIntPosition(), Double.valueOf(etPrice.getText().toString()), MenuList.toString());
-                        setIngredients(null);
-                    } else {
-                        //Add new item
-                        addToList(Double.valueOf(etPrice.getText().toString()), MenuList.toString());
-                    }
-                    etPrice.setText("");
-                    startActivity(new Intent(NewMenuItemActivity.this, MenuActivity.class));
+                    //Add new item
+                    addToList(Double.valueOf(etPrice.getText().toString()), MenuList.toString());
                 }
+                etPrice.setText("");
+                startActivity(new Intent(NewMenuItemActivity.this, MenuActivity.class));
             }
         });
 

@@ -55,45 +55,37 @@ public class IngredientsActivity extends AppCompatActivity {
         etPrice = findViewById(R.id.etPrice);
 
         ButtonVisibility(ingredientItems,btnNext);
-        btnNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getNewShop().setIngredientItems(ingredientItems);
-                startActivity(new Intent(IngredientsActivity.this, MenuActivity.class));
+        btnNext.setOnClickListener(view -> {
+            getNewShop().setIngredientItems(ingredientItems);
+            startActivity(new Intent(IngredientsActivity.this, MenuActivity.class));
+        });
+
+        llBack.setOnClickListener(view -> {
+            if (!ingredientItems.isEmpty()) {
+                ShowConfirmationPopup();
+            } else {
+                finish();
             }
         });
 
-        llBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!ingredientItems.isEmpty()) {
-                    ShowConfirmationPopup();
-                } else {
-                    finish();
-                }
-            }
-        });
-        btnAddOption.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (etName.getText().toString().isEmpty() && etPrice.getText().toString().isEmpty()) {
-                    etName.setUnderlineColor(getResources().getColor(R.color.Red));
-                    etPrice.setUnderlineColor(getResources().getColor(R.color.Red));
-                } else if (etName.getText().toString().isEmpty()) {
-                    etName.setUnderlineColor(getResources().getColor(R.color.Red));
-                    etPrice.setUnderlineColor(getResources().getColor(R.color.Black));
-                } else if (etPrice.getText().toString().isEmpty()) {
-                    etName.setUnderlineColor(getResources().getColor(R.color.Black));
-                    etPrice.setUnderlineColor(getResources().getColor(R.color.Red));
-                } else {
-                    etName.setUnderlineColor(getResources().getColor(R.color.Black));
-                    etPrice.setUnderlineColor(getResources().getColor(R.color.Black));
-                    ingredientItems.add(new IngredientItem(1, etName.getText().toString(), Double.valueOf(etPrice.getText().toString())));
-                    mAdapter.notifyItemInserted(ingredientItems.size());
-                    etName.setText("");
-                    etPrice.setText("");
-                    ButtonVisibility(ingredientItems,btnNext);
-                }
+        btnAddOption.setOnClickListener(view -> {
+            if (etName.getText().toString().isEmpty() && etPrice.getText().toString().isEmpty()) {
+                etName.setUnderlineColor(getResources().getColor(R.color.Red));
+                etPrice.setUnderlineColor(getResources().getColor(R.color.Red));
+            } else if (etName.getText().toString().isEmpty()) {
+                etName.setUnderlineColor(getResources().getColor(R.color.Red));
+                etPrice.setUnderlineColor(getResources().getColor(R.color.Black));
+            } else if (etPrice.getText().toString().isEmpty()) {
+                etName.setUnderlineColor(getResources().getColor(R.color.Black));
+                etPrice.setUnderlineColor(getResources().getColor(R.color.Red));
+            } else {
+                etName.setUnderlineColor(getResources().getColor(R.color.Black));
+                etPrice.setUnderlineColor(getResources().getColor(R.color.Black));
+                ingredientItems.add(new IngredientItem(1, etName.getText().toString(), Double.valueOf(etPrice.getText().toString())));
+                mAdapter.notifyItemInserted(ingredientItems.size());
+                etName.setText("");
+                etPrice.setText("");
+                ButtonVisibility(ingredientItems,btnNext);
             }
         });
 
@@ -106,13 +98,10 @@ public class IngredientsActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(mAdapter);
 
 
-        mAdapter.setOnIngredientClickListener(new IngredientItemAdapter.OnIngredientClickListener() {
-            @Override
-            public void onRemoveClick(int position) {
-                ingredientItems.remove(position);
-                mAdapter.notifyItemRemoved(position);
-                ButtonVisibility(ingredientItems,btnNext);
-            }
+        mAdapter.setOnIngredientClickListener(position -> {
+            ingredientItems.remove(position);
+            mAdapter.notifyItemRemoved(position);
+            ButtonVisibility(ingredientItems,btnNext);
         });
 
     }

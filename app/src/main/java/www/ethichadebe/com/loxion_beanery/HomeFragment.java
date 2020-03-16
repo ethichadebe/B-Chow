@@ -8,15 +8,27 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.rengwuxian.materialedittext.MaterialEditText;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -24,65 +36,59 @@ import Adapter.ShopItemAdapter;
 import SingleItem.PastOrderItem;
 import SingleItem.ShopItem;
 
+import static util.Constants.getIpAddress;
 import static util.HelperMethods.LoaderMotion;
+import static util.HelperMethods.handler;
 
 public class HomeFragment extends Fragment {
-    private Handler handler = new Handler();
     private RecyclerView mRecyclerView;
     private ShopItemAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private TextView tvClear;
-    private MaterialEditText txtUsername;
-    private static ArrayList<PastOrderItem> pastOrderItems = new ArrayList<>();
+    private TextView tvClear,tvEmpty;
+    private MaterialEditText tvSearch;
+    private CardView cvRetry;
+    final ArrayList<ShopItem> shopItems = new ArrayList<>();
+
+    private RelativeLayout rlLoad, rlError;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.frame_home, container, false);
 
-        final ArrayList<ShopItem> shopItems = new ArrayList<>();
 
-        //Loads shops starting with the one closest to user
-        shopItems.add(new ShopItem(1, "Shop name", R.drawable.food,
-                "This is a short description about my shop to attract customers", 1,
-                "2km", "10-15min"));
-        shopItems.add(new ShopItem(1, "Shop name", R.drawable.food,
-                "This is a short description about my shop to attract customers", 3,
-                "2km", "10-15min"));
-        shopItems.add(new ShopItem(1, "Shop name", R.drawable.food,
-                "This is a short description about my shop to attract customers", 2,
-                "2km", "10-15min"));
-        shopItems.add(new ShopItem(1, "Shop name", R.drawable.food,
-                "This is a short description about my shop to attract customers", 5,
-                "2km", "10-15min"));
         mRecyclerView = v.findViewById(R.id.recyclerView);
         tvClear = v.findViewById(R.id.tvClear);
-        txtUsername = v.findViewById(R.id.txtUsername);
+        rlLoad = v.findViewById(R.id.rlLoad);
+        rlError = v.findViewById(R.id.rlError);
+        tvEmpty = v.findViewById(R.id.tvEmpty);
+        tvSearch = v.findViewById(R.id.tvSearch);
+        cvRetry = v.findViewById(R.id.cvRetry);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mAdapter = new ShopItemAdapter(shopItems);
-
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
 
-        mAdapter.setOnItemClickListener(new ShopItemAdapter.OnItemClickListener() {
-            @Override
-            public void OnItemClick(int position) {
-                /*shopItems.get(position)*/
-                startActivity(new Intent(getActivity(), ShopHomeActivity.class));
-            }
+        mAdapter.setOnItemClickListener(position -> {
+            /*shopItems.get(position)*/
+            startActivity(new Intent(getActivity(), ShopHomeActivity.class));
         });
 
         tvClear.setVisibility(View.GONE);
-        tvClear.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                txtUsername.setText("");
-                tvClear.setVisibility(View.GONE);
-            }
+        tvClear.setOnClickListener(view -> {
+            tvSearch.setText("");
+            tvClear.setVisibility(View.GONE);
         });
 
-        txtUsername.addTextChangedListener(new TextWatcher() {
+        cvRetry.setOnClickListener(view -> {
+            rlError.setVisibility(View.GONE);
+            handler(v.findViewById(R.id.vLine), v.findViewById(R.id.vLineGrey));
+            rlLoad.setVisibility(View.VISIBLE);
+            GETPassedIMeetings();
+        });
+
+        tvSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -100,34 +106,43 @@ public class HomeFragment extends Fragment {
 
             }
         });
-
-        handler.postDelayed(LoaderMotion(v.findViewById(R.id.vLineGrey)), 0);
-        handler.postDelayed(LoaderMotion(v.findViewById(R.id.vLine)), 500);
-
+        handler(v.findViewById(R.id.vLine), v.findViewById(R.id.vLineGrey));
+        GETPassedIMeetings();
         return v;
     }
 
-    static void DisplayPastOrders() {
-        //Loads past orders
-        pastOrderItems.add(new PastOrderItem(1, "Shop name", 315,
-                "13 Jan 2020,15:45", "French, bacon, egg, russian", 19.50, 3));
-        pastOrderItems.add(new PastOrderItem(3, "Shop name", 315,
-                "13 Jan 2020,15:45", "French, bacon, egg, russian", 19.50, 4));
-        pastOrderItems.add(new PastOrderItem(5, "Shop name", 315,
-                "13 Jan 2020,15:45", "French, bacon, egg, russian", 19.50, 1));
-        pastOrderItems.add(new PastOrderItem(4, "Shop name", 315,
-                "13 Jan 2020,15:45", "French, bacon, egg, russian", 19.50, 5));
-        pastOrderItems.add(new PastOrderItem(2, "Shop name", 315,
-                "13 Jan 2020,15:45", "French, bacon, egg, russian", 19.50, -1));
-        pastOrderItems.add(new PastOrderItem(-1, "Shop name", 315,
-                "13 Jan 2020,15:45", "French, bacon, egg, russian", 19.50, -1));
-    }
+    private void GETPassedIMeetings() {
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
 
-    static ArrayList<PastOrderItem> getPastOrderItems() {
-        return pastOrderItems;
-    }
+        JsonObjectRequest objectRequest = new JsonObjectRequest(
+                Request.Method.GET,
+                "http://" + getIpAddress() + "/users", null,
+                response -> {
+                    //Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
+                    rlLoad.setVisibility(View.GONE);
+                    //Loads shops starting with the one closest to user
+                    try {
+                        JSONArray jsonArray = response.getJSONArray("users");
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject User = jsonArray.getJSONObject(i);
+                            shopItems.add(new ShopItem(1, User.getString("uName"), R.drawable.food,
+                                    "This is a short description about my shop to attract customers", 1,
+                                    "2km", "10-15min"));
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                },
+                error -> {
+                    rlError.setVisibility(View.VISIBLE);
+                    rlLoad.setVisibility(View.GONE);
+                    if (error.toString().equals("com.android.volley.TimeoutError")) {
+                        Toast.makeText(getActivity(), "Connection error. Please retry", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+        requestQueue.add(objectRequest);
 
-    static PastOrderItem getPastOrderItem(int position) {
-        return pastOrderItems.get(position);
     }
 }

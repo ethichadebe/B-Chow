@@ -13,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import static www.ethichadebe.com.loxion_beanery.HomeFragment.getPastOrderItem;
 import static www.ethichadebe.com.loxion_beanery.OrdersFragment.getPosition;
 
 public class RatingActivity extends AppCompatActivity {
@@ -42,7 +41,7 @@ public class RatingActivity extends AppCompatActivity {
                 ivStar3.setImageResource(R.drawable.star_empty);
                 ivStar4.setImageResource(R.drawable.star_empty);
                 ivStar5.setImageResource(R.drawable.star_empty);
-                getPastOrderItem(getPosition()).setIntRating(1);
+                //getPastOrderItem(getPosition()).setIntRating(1);
             }
         });
         ivStar2.setOnClickListener(new View.OnClickListener() {
@@ -53,7 +52,7 @@ public class RatingActivity extends AppCompatActivity {
                 ivStar3.setImageResource(R.drawable.star_empty);
                 ivStar4.setImageResource(R.drawable.star_empty);
                 ivStar5.setImageResource(R.drawable.star_empty);
-                getPastOrderItem(getPosition()).setIntRating(2);
+                //getPastOrderItem(getPosition()).setIntRating(2);
             }
         });
 
@@ -65,7 +64,7 @@ public class RatingActivity extends AppCompatActivity {
                 ivStar3.setImageResource(R.drawable.star);
                 ivStar4.setImageResource(R.drawable.star_empty);
                 ivStar5.setImageResource(R.drawable.star_empty);
-                getPastOrderItem(getPosition()).setIntRating(3);
+               // getPastOrderItem(getPosition()).setIntRating(3);
             }
         });
 
@@ -77,7 +76,7 @@ public class RatingActivity extends AppCompatActivity {
                 ivStar3.setImageResource(R.drawable.star);
                 ivStar4.setImageResource(R.drawable.star);
                 ivStar5.setImageResource(R.drawable.star_empty);
-                getPastOrderItem(getPosition()).setIntRating(4);
+               // getPastOrderItem(getPosition()).setIntRating(4);
             }
         });
 
@@ -89,12 +88,12 @@ public class RatingActivity extends AppCompatActivity {
                 ivStar3.setImageResource(R.drawable.star);
                 ivStar4.setImageResource(R.drawable.star);
                 ivStar5.setImageResource(R.drawable.star);
-                getPastOrderItem(getPosition()).setIntRating(5);
+                //getPastOrderItem(getPosition()).setIntRating(5);
             }
         });
 
 
-        btnNext.setOnClickListener(new View.OnClickListener() {
+       /* btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (getPastOrderItem(getPosition()).getIntRating() == -1) {
@@ -107,6 +106,6 @@ public class RatingActivity extends AppCompatActivity {
                     startActivity(new Intent(RatingActivity.this, MainActivity.class));
                 }
             }
-        });
+        });*/
     }
 }

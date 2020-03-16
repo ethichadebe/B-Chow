@@ -5,22 +5,32 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.SyncStateContract;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.DialogFragment;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
+import static util.Constants.getIpAddress;
 import static util.HelperMethods.MakeBlack;
 
 public class RegisterActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
@@ -122,7 +132,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
             public void onClick(View view) {
                 DialogFragment datePickeer = new DatePickerFragment();
                 datePickeer.show(getSupportFragmentManager(), "date picker");
-             }
+            }
         });
 
         //Handling Checkbox click events
@@ -251,5 +261,31 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
         String strCurrentDate = DateFormat.getDateInstance(DateFormat.DATE_FIELD).format(calendar.getTime());
         mTextBoxes[6].setText(strCurrentDate);
 
+    }
+
+    private void POSTUser() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,
+                "http://" + getIpAddress() + "/users",
+                response -> {
+                    Log.d("debug", response);
+                    startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+                }, error -> {
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("uName", getUserName());
+                params.put("uSurname", getUserSurname());
+                params.put("uDOB", getUserPassword());
+                params.put("uSex", getUserEmail());
+                params.put("uEmail", getUserSex());
+                params.put("uNumber", getUserNumber());
+                params.put("uPassword", getUserDOB());
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
     }
 }
