@@ -1,110 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_columnWeight="1"
     android:layout_rowWeight="1"
+    android:layout_columnWeight="1"
     android:layout_gravity="center"
-    app:cardElevation="6dp"
-    app:cardCornerRadius="10dp">
-<RelativeLayout
-    android:layout_width="300dp"
-    android:layout_height="200dp"
-    android:padding="10dp">
-
-    <TextView
-        android:id="@+id/tvCancel"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:background="@drawable/ripple_effect_white"
-        android:text="X"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:textSize="20sp"
-        android:fontFamily="sans-serif-medium"
-        android:layout_marginStart="5dp"
-        android:layout_alignParentEnd="true"/>
+    app:cardCornerRadius="10dp"
+    app:cardElevation="6dp">
 
     <RelativeLayout
-        android:id="@+id/llShop"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/tvCancel"
-        android:padding="5dp">
+        android:layout_width="300dp"
+        android:layout_height="200dp"
+        android:padding="10dp">
 
         <TextView
-            android:id="@+id/tvMessage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Are You Sure"
-            android:textSize="14sp"
-            android:gravity="center"
+            android:id="@+id/tvCancel"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="5dp"
+            android:background="@drawable/ripple_effect_white"
             android:fontFamily="sans-serif-medium"
-            android:textColor="@color/Black"
-            android:layout_above="@id/rlButtons"
-            android:layout_alignParentTop="true"/>
+            android:gravity="center"
+            android:text="X"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
         <RelativeLayout
-            android:id="@+id/rlButtons"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true">
+            android:id="@+id/llShop"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/tvCancel"
+            android:padding="5dp">
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cvYes"
-                android:layout_width="100dp"
-                android:layout_height="40dp"
-                android:layout_columnWeight="1"
-                android:layout_rowWeight="1"
-                app:cardElevation="3dp"
-                android:layout_centerVertical="true"
+            <TextView
+                android:id="@+id/tvMessage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@id/rlButtons"
+                android:layout_alignParentTop="true"
                 android:fontFamily="sans-serif-medium"
-                android:layout_margin="10dp"
-                android:padding="50dp"
-                app:cardCornerRadius="10dp">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:textSize="14sp"
-                    android:background="@drawable/ripple_effect_white"
-                    android:gravity="center"
-                    android:fontFamily="sans-serif-medium"
-                    android:textAllCaps="false"
-                    android:text="Yes"
-                    android:textColor="@color/Black"/>
-            </androidx.cardview.widget.CardView>
+                android:gravity="center"
+                android:text="Are You Sure"
+                android:textColor="@color/Black"
+                android:textSize="14sp" />
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cvNo"
-                android:layout_width="100dp"
-                android:layout_height="40dp"
-                android:layout_columnWeight="1"
-                android:layout_rowWeight="1"
-                app:cardElevation="3dp"
-                android:layout_centerVertical="true"
-                android:fontFamily="sans-serif-medium"
-                android:padding="50dp"
-                android:layout_alignParentEnd="true"
-                android:layout_margin="10dp"
-                app:cardCornerRadius="10dp">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:textSize="14sp"
-                    android:background="@drawable/ripple_effect_white"
-                    android:gravity="center"
+            <RelativeLayout
+                android:id="@+id/rlButtons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cvYes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="10dp"
                     android:fontFamily="sans-serif-medium"
-                    android:textAllCaps="false"
-                    android:text="No"
-                    android:textColor="@color/Black"/>
-            </androidx.cardview.widget.CardView>
+                    android:padding="50dp"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="3dp">
+
+                    <TextView
+                        android:id="@+id/tvYes"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/ripple_effect_white"
+                        android:fontFamily="sans-serif-medium"
+                        android:gravity="center"
+                        android:text="Yes"
+                        android:textAllCaps="false"
+                        android:textColor="@color/Black"
+                        android:textSize="14sp" />
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cvNo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="10dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:padding="50dp"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="3dp">
+
+                    <TextView
+                        android:id="@+id/tvNo"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/ripple_effect_white"
+                        android:fontFamily="sans-serif-medium"
+                        android:gravity="center"
+                        android:text="No"
+                        android:textAllCaps="false"
+                        android:textColor="@color/Black"
+                        android:textSize="14sp" />
+                </androidx.cardview.widget.CardView>
+
+            </RelativeLayout>
 
         </RelativeLayout>
 
+
     </RelativeLayout>
-
-
-</RelativeLayout>
 </androidx.cardview.widget.CardView>

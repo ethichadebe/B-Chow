@@ -1,12 +1,11 @@
 package www.ethichadebe.com.loxion_beanery;
 
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.SyncStateContract;
-import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
@@ -26,30 +25,18 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.text.DateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
+
+import util.HelperMethods;
 
 import static util.Constants.getIpAddress;
 import static util.HelperMethods.MakeBlack;
 
 public class RegisterActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
-    RelativeLayout rellay1;
-    private CardView mButtonRegister, mButtonLogin;
-    private CardView mImageLogo;
-    private MaterialEditText[] mTextBoxes = new MaterialEditText[7];
-    private TextView mViewError;
-    private CheckBox mCBMale, mCBFemale, mCBOther;
-
-    private static String UserSex, UserName, UserSurname, UserNumber, UserPassword, UserDOB, UserEmail = "";
-    Handler handler = new Handler();
-    Runnable runnable = new Runnable() {
-        @Override
-        public void run() {
-            rellay1.setVisibility(View.VISIBLE);
-        }
-    };
-
+    private RelativeLayout rellay1;
+    private Dialog myDialog;
 
     /*0 Name
     1 Surname
@@ -58,39 +45,18 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
     4 Password
     5 CPassword
     6 DOB*/
-    public static String getUserSex() {
-        return UserSex;
-    }
+    private MaterialEditText[] mTextBoxes = new MaterialEditText[7];
+    private TextView mViewError;
+    private CheckBox mCBMale, mCBFemale, mCBOther;
 
-    public static String getUserName() {
-        return UserName;
-    }
-
-    public static String getUserSurname() {
-        return UserSurname;
-    }
-
-    public static String getUserNumber() {
-        return UserNumber;
-    }
-
-    public static String getUserPassword() {
-        return UserPassword;
-    }
-
-    public static String getUserDOB() {
-        return UserDOB;
-    }
-
-    public static String getUserEmail() {
-        return UserEmail;
-    }
-
-    //Set up date picker
-    //.........................................................................................................
-    private Calendar calendar;
-    private DatePickerDialog datePickerDialog;
-    //.................................................................................................
+    private static String UserSex = "";
+    Handler handler = new Handler();
+    Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            rellay1.setVisibility(View.VISIBLE);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,11 +64,8 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
         setContentView(R.layout.activity_register);
 
         rellay1 = findViewById(R.id.rellay1);
-
+        myDialog = new Dialog(this);
         handler.postDelayed(runnable, 500);
-
-        //Image
-        mImageLogo = findViewById(R.id.ivLogo);
 
         //Textboxes
         mTextBoxes[0] = findViewById(R.id.txtName);
@@ -113,9 +76,9 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
         mTextBoxes[5] = findViewById(R.id.txtCPass);
         mTextBoxes[6] = findViewById(R.id.txtDOB);
 
-        mButtonLogin = findViewById(R.id.btnLogin);
+        CardView mButtonLogin = findViewById(R.id.btnLogin);
         //Button
-        mButtonRegister = findViewById(R.id.btnRegister);
+        CardView mButtonRegister = findViewById(R.id.btnRegister);
 
         //Labels
         mViewError = findViewById(R.id.lblError);
@@ -127,121 +90,48 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
 
 
         //Date p[icker
-        mTextBoxes[6].setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DialogFragment datePickeer = new DatePickerFragment();
-                datePickeer.show(getSupportFragmentManager(), "date picker");
-            }
+        mTextBoxes[6].setOnClickListener(view -> {
+            DialogFragment datePicker = new DatePickerFragment();
+            datePicker.show(getSupportFragmentManager(), "date picker");
         });
 
         //Handling Checkbox click events
-        mCBMale.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mCBMale.isChecked()) {
-                    mCBFemale.setChecked(false);
-                    mCBOther.setChecked(false);
-                    UserSex = "male";
-                }
+        mCBMale.setOnClickListener(view -> {
+            if (mCBMale.isChecked()) {
+                mCBFemale.setChecked(false);
+                mCBOther.setChecked(false);
+                UserSex = "male";
             }
         });
-        mCBOther.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mCBOther.isChecked()) {
-                    mCBMale.setChecked(false);
-                    mCBFemale.setChecked(false);
-                    UserSex = "other";
-                }
+        mCBOther.setOnClickListener(view -> {
+            if (mCBOther.isChecked()) {
+                mCBMale.setChecked(false);
+                mCBFemale.setChecked(false);
+                UserSex = "other";
             }
         });
-        mCBFemale.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mCBFemale.isChecked()) {
-                    mCBMale.setChecked(false);
-                    mCBOther.setChecked(false);
-                    UserSex = "female";
-                }
+        mCBFemale.setOnClickListener(view -> {
+            if (mCBFemale.isChecked()) {
+                mCBMale.setChecked(false);
+                mCBOther.setChecked(false);
+                UserSex = "female";
             }
         });
 
-        mButtonLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
-            }
-        });
+        mButtonLogin.setOnClickListener(view -> startActivity(new Intent(RegisterActivity.this, LoginActivity.class)));
 
-        mButtonRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                for (int i = 0; i < mTextBoxes.length; i++) {
-                    if (mTextBoxes[i].getText().toString().isEmpty() || (!mCBMale.isChecked() && !mCBFemale.isChecked() && !mCBOther.isChecked())) {
-                        //Check if all textboxes are filled in
-                        mViewError.setText("");
+        mButtonRegister.setOnClickListener(view -> {
 
-                        if (mCBMale.isChecked() || mCBFemale.isChecked() || mCBOther.isChecked()) {
-                            mCBMale.setTextColor(getResources().getColor(R.color.Black));
-                            mCBFemale.setTextColor(getResources().getColor(R.color.Black));
-                            mCBOther.setTextColor(getResources().getColor(R.color.Black));
-
-                        } else {
-                            mCBMale.setTextColor(Color.argb(255, 255, 23, 23));
-                            mCBFemale.setTextColor(Color.argb(255, 255, 23, 23));
-                            mCBOther.setTextColor(Color.argb(255, 255, 23, 23));
-                        }
-
-                        MakeBlack(mTextBoxes, i, getResources().getColor(R.color.Black));
-                        mViewError.setText(R.string.enter_all_required_details);
-                        mTextBoxes[i].setUnderlineColor(getResources().getColor(R.color.Red));
-                    } else if (!mTextBoxes[4].getText().toString().equals(mTextBoxes[5].getText().toString())) {
-                        //Check if password matches
-                        mViewError.setText("");
-                        MakeBlack(mTextBoxes, i, getResources().getColor(R.color.Black));
-                        mTextBoxes[i].setUnderlineColor(getResources().getColor(R.color.Red));
-                        mViewError.setText(R.string.password_does_not_match);
-                    } /*else if(!Member.UserExists(requestQueue, mTextBoxes[4].getText().toString())){
-                    //Check if username already exists
-                    mLines[4].setBackgroundColor(Color.argb(255, 255, 23, 23));
-                    mViewError.setText("User already exists");
-                }*/ else if (mTextBoxes[2].getText().toString().length() != 10) {
-                        //Check if username already exists
-                        mTextBoxes[2].setUnderlineColor(getResources().getColor(R.color.Red));
-                        mViewError.setText("Phone number should be a 10 digit value");
-                    }
-                }
-
-                if ((!mTextBoxes[0].getText().toString().isEmpty()) &&
-                        (!mTextBoxes[1].getText().toString().isEmpty()) &&
-                        (!mTextBoxes[2].getText().toString().isEmpty()) &&
-                        (!mTextBoxes[3].getText().toString().isEmpty()) &&
-                        (!mTextBoxes[4].getText().toString().isEmpty()) &&
-                        (!mTextBoxes[5].getText().toString().isEmpty()) &&
-                        (!mTextBoxes[6].getText().toString().isEmpty()) &&
-                        (mCBMale.isChecked() || mCBFemale.isChecked() ||
-                                mCBOther.isChecked())) {
-                    mViewError.setText("");
-                    MakeBlack(mTextBoxes, 0, getResources().getColor(R.color.Black));
-                    MakeBlack(mTextBoxes, 1, getResources().getColor(R.color.Black));
-                    MakeBlack(mTextBoxes, 2, getResources().getColor(R.color.Black));
-                    MakeBlack(mTextBoxes, 3, getResources().getColor(R.color.Black));
-                    MakeBlack(mTextBoxes, 4, getResources().getColor(R.color.Black));
-                    MakeBlack(mTextBoxes, 5, getResources().getColor(R.color.Black));
-                    MakeBlack(mTextBoxes, 6, getResources().getColor(R.color.Black));
-
-                    UserName = mTextBoxes[0].getText().toString();
-                    UserSurname = mTextBoxes[1].getText().toString();
-                    UserNumber = mTextBoxes[2].getText().toString();
-                    UserEmail = mTextBoxes[3].getText().toString();
-                    UserPassword = mTextBoxes[4].getText().toString();
-                    UserDOB = mTextBoxes[6].getText().toString();
-
-                    startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
-                    //Manipulate loading and button disabling
-                    //startActivity(new Intent(RegistrationActivity.this, AcountAuthActivity.class));
-                }
+            if (!allFieldsEntered() && !sexIsChecked()) {
+                mViewError.setText(R.string.enter_all_required_details);
+            } else if (!allFieldsEntered()) {
+                mViewError.setText(R.string.enter_all_required_details);
+            } else if (!sexIsChecked()) {
+                mViewError.setText("Select gender");
+            } else if (!passwordMatches()) {
+                mViewError.setText("Password doesn't match");
+            } else if (allFieldsEntered() && sexIsChecked() && passwordMatches()) {
+                POSTRegister();
             }
         });
     }
@@ -253,7 +143,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
 
     @Override
     public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-        calendar = Calendar.getInstance();
+        Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.YEAR, i);
         calendar.set(Calendar.MONTH, i1);
         calendar.set(Calendar.DAY_OF_MONTH, i2);
@@ -263,24 +153,28 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
 
     }
 
-    private void POSTUser() {
+    private void POSTRegister() {
+        HelperMethods.ShowLoadingPopup(myDialog, true);
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
-                "http://" + getIpAddress() + "/users",
+                "http://" + getIpAddress() + "/users/Register",
                 response -> {
-                    Log.d("debug", response);
+                    HelperMethods.ShowLoadingPopup(myDialog, false);
+                    Toast.makeText(RegisterActivity.this, response, Toast.LENGTH_LONG).show();
                     startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
                 }, error -> {
+            HelperMethods.ShowLoadingPopup(myDialog, false);
+            Toast.makeText(RegisterActivity.this, error.toString(), Toast.LENGTH_LONG).show();
         }) {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                params.put("uName", getUserName());
-                params.put("uSurname", getUserSurname());
-                params.put("uDOB", getUserPassword());
-                params.put("uSex", getUserEmail());
-                params.put("uEmail", getUserSex());
-                params.put("uNumber", getUserNumber());
-                params.put("uPassword", getUserDOB());
+                params.put("uName", Objects.requireNonNull(mTextBoxes[0].getText()).toString());
+                params.put("uSurname", Objects.requireNonNull(mTextBoxes[1].getText()).toString());
+                params.put("uDOB", Objects.requireNonNull(mTextBoxes[6].getText()).toString());
+                params.put("uSex", UserSex);
+                params.put("uEmail", Objects.requireNonNull(mTextBoxes[3].getText()).toString());
+                params.put("uNumber", Objects.requireNonNull(mTextBoxes[2].getText()).toString());
+                params.put("uPassword", Objects.requireNonNull(mTextBoxes[4].getText()).toString());
                 return params;
             }
         };
@@ -288,4 +182,46 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
     }
+
+    private boolean allFieldsEntered() {
+        boolean allEntered = true;
+        for (int i = 0; i < mTextBoxes.length; i++) {
+            if (Objects.requireNonNull(mTextBoxes[i].getText()).toString().isEmpty()) {
+                MakeBlack(mTextBoxes, i, getResources().getColor(R.color.Black));
+                mTextBoxes[i].setUnderlineColor(getResources().getColor(R.color.Red));
+                allEntered = false;
+            }
+        }
+        for (int i = 0; i < mTextBoxes.length; i++) {
+            MakeBlack(mTextBoxes, i, getResources().getColor(R.color.Black));
+        }
+        return allEntered;
+    }
+
+    private boolean sexIsChecked() {
+        if (!mCBMale.isChecked() || !mCBFemale.isChecked() || !mCBOther.isChecked()) {
+            mCBMale.setTextColor(Color.argb(255, 255, 23, 23));
+            mCBFemale.setTextColor(Color.argb(255, 255, 23, 23));
+            mCBOther.setTextColor(Color.argb(255, 255, 23, 23));
+            return false;
+        }
+        mCBMale.setTextColor(getResources().getColor(R.color.Black));
+        mCBFemale.setTextColor(getResources().getColor(R.color.Black));
+        mCBOther.setTextColor(getResources().getColor(R.color.Black));
+
+        return true;
+    }
+
+    private boolean passwordMatches() {
+        if (Objects.requireNonNull(mTextBoxes[4].getText()).toString().equals(Objects.requireNonNull(mTextBoxes[5].getText()).toString())) {
+            mTextBoxes[4].setUnderlineColor(getResources().getColor(R.color.Red));
+            mTextBoxes[5].setUnderlineColor(getResources().getColor(R.color.Red));
+            return false;
+        }
+        MakeBlack(mTextBoxes, 4, getResources().getColor(R.color.Black));
+        MakeBlack(mTextBoxes, 5, getResources().getColor(R.color.Black));
+        return true;
+    }
+
+
 }

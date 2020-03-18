@@ -14,9 +14,11 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
+
 public class ProfileFragment extends Fragment {
     private LinearLayout llBack;
-    private TextView tvShops;
+    private TextView tvShops, tvNameSur, tvEmail, tvNumber, tvDOB, tvSex;
     private CardView cvEdit;
 
     @Nullable
@@ -28,19 +30,21 @@ public class ProfileFragment extends Fragment {
         tvShops = v.findViewById(R.id.tvShops);
         cvEdit = v.findViewById(R.id.cvEdit);
 
-        tvShops.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getActivity(), MyShopsActivity.class));
-            }
-        });
+        tvNameSur = v.findViewById(R.id.tvNameSur);
+        tvEmail = v.findViewById(R.id.tvEmail);
+        tvNumber = v.findViewById(R.id.tvNumber);
+        tvDOB = v.findViewById(R.id.tvDOB);
+        tvSex = v.findViewById(R.id.tvSex);
 
-        cvEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getActivity(), EditUserProfileActivity.class));
-            }
-        });
+        tvNameSur.setText(getUser().getuName() + " " + getUser().getuSurname());
+        tvEmail.setText(getUser().getuEmail());
+        tvNumber.setText(getUser().getuNumber());
+        tvDOB.setText(getUser().getuDOB());
+        tvSex.setText(getUser().getuSex());
+
+        tvShops.setOnClickListener(view -> startActivity(new Intent(getActivity(), MyShopsActivity.class)));
+
+        cvEdit.setOnClickListener(view -> startActivity(new Intent(getActivity(), EditUserProfileActivity.class)));
         return v;
     }
 }

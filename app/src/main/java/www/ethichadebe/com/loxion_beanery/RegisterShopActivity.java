@@ -20,6 +20,8 @@ import android.widget.TimePicker;
 
 import com.rengwuxian.materialedittext.MaterialEditText;
 
+import java.util.Objects;
+
 import SingleItem.MyShopItem;
 
 public class RegisterShopActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
@@ -78,7 +80,7 @@ public class RegisterShopActivity extends AppCompatActivity implements TimePicke
         llBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!txtName.getText().toString().isEmpty() || !txtFullDescription.getText().toString().isEmpty() ||
+                if (!Objects.requireNonNull(txtName.getText()).toString().isEmpty() || !txtFullDescription.getText().toString().isEmpty() ||
                         !txtShortDescription.getText().toString().isEmpty()) {
                     ShowPopup();
                 } else {

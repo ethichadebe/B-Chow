@@ -101,26 +101,28 @@
                     android:textSize="21sp"
                     android:textStyle="bold" />
             </LinearLayout>
+
             <androidx.cardview.widget.CardView
                 android:id="@+id/cvEdit"
                 android:layout_width="100dp"
                 android:layout_height="40dp"
-                app:cardElevation="3dp"
                 android:layout_gravity="end"
                 android:fontFamily="sans-serif-medium"
                 android:padding="50dp"
-                app:cardCornerRadius="10dp">
+                app:cardCornerRadius="10dp"
+                app:cardElevation="3dp">
+
                 <TextView
                     android:id="@+id/tvPrice"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:textSize="14sp"
                     android:background="@drawable/ripple_effect"
-                    android:gravity="center"
                     android:fontFamily="sans-serif-medium"
-                    android:textAllCaps="false"
+                    android:gravity="center"
                     android:text="Edit profile"
-                    android:textColor="@color/White"/>
+                    android:textAllCaps="false"
+                    android:textColor="@color/White"
+                    android:textSize="14sp" />
             </androidx.cardview.widget.CardView>
         </androidx.cardview.widget.CardView>
 
@@ -145,6 +147,7 @@
                 android:src="@drawable/ic_email_black_24dp" />
 
             <TextView
+                android:id="@+id/tvEmail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -166,8 +169,8 @@
                 android:src="@drawable/ic_local_phone_black_24dp" />
 
             <TextView
+                android:id="@+id/tvNumber"
                 android:layout_width="wrap_content"
-
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:paddingLeft="20dp"
@@ -188,6 +191,7 @@
                 android:src="@drawable/ic_date_24dp" />
 
             <TextView
+                android:id="@+id/tvDOB"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -209,8 +213,8 @@
                 android:src="@drawable/ic_person_pin_black_24dp" />
 
             <TextView
+                android:id="@+id/tvSex"
                 android:layout_width="wrap_content"
-
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:paddingLeft="20dp"

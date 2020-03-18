@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
@@ -20,8 +19,10 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.text.DateFormat;
 import java.util.Calendar;
+import java.util.Objects;
 
 import static util.HelperMethods.MakeBlack;
+import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 
 public class EditUserProfileActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
@@ -30,7 +31,7 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
     private TextView tvSave;
     private CheckBox mCBMale, mCBFemale, mCBOther;
     private TextView mViewError;
-    private static String UserSex, UserName, UserSurname, UserNumber, UserPassword, UserDOB, UserEmail = "";
+    private static String UserSex;
     private Dialog myDialog;
 
     /*0 Name
@@ -38,40 +39,6 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
 2 Number
 3 Email
 4 DOB*/
-    public static String getUserSex() {
-        return UserSex;
-    }
-
-    public static String getUserName() {
-        return UserName;
-    }
-
-    public static String getUserSurname() {
-        return UserSurname;
-    }
-
-    public static String getUserNumber() {
-        return UserNumber;
-    }
-
-    public static String getUserPassword() {
-        return UserPassword;
-    }
-
-    public static String getUserDOB() {
-        return UserDOB;
-    }
-
-    public static String getUserEmail() {
-        return UserEmail;
-    }
-
-    //Set up date picker
-    //.........................................................................................................
-    private Calendar calendar;
-    private DatePickerDialog datePickerDialog;
-
-    //.................................................................................................
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,107 +63,88 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
         mCBFemale = findViewById(R.id.cbFemale);
         mCBOther = findViewById(R.id.cbOther);
 
+        mTextBoxes[0].setText(getUser().getuName());
+        mTextBoxes[1].setText(getUser().getuSurname());
+        mTextBoxes[2].setText(getUser().getuNumber());
+        mTextBoxes[3].setText(getUser().getuEmail());
+        mTextBoxes[4].setText(getUser().getuDOB());
+
         //Date p[icker
-        mTextBoxes[4].setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DialogFragment datePickeer = new DatePickerFragment();
-                datePickeer.show(getSupportFragmentManager(), "date picker");
-            }
+        mTextBoxes[4].setOnClickListener(view -> {
+            DialogFragment datePickeer = new DatePickerFragment();
+            datePickeer.show(getSupportFragmentManager(), "date picker");
         });
 
+        setCheck(getUser().getuSex());
         //Handling Checkbox click events
-        mCBMale.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mCBMale.isChecked()) {
-                    mCBFemale.setChecked(false);
-                    mCBOther.setChecked(false);
-                    UserSex = "male";
-                }
+        mCBMale.setOnClickListener(view -> {
+            if (mCBMale.isChecked()) {
+                mCBFemale.setChecked(false);
+                mCBOther.setChecked(false);
+                UserSex = "male";
             }
         });
-        mCBOther.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mCBOther.isChecked()) {
-                    mCBMale.setChecked(false);
-                    mCBFemale.setChecked(false);
-                    UserSex = "other";
-                }
+        mCBOther.setOnClickListener(view -> {
+            if (mCBOther.isChecked()) {
+                mCBMale.setChecked(false);
+                mCBFemale.setChecked(false);
+                UserSex = "other";
             }
         });
-        mCBFemale.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mCBFemale.isChecked()) {
-                    mCBMale.setChecked(false);
-                    mCBOther.setChecked(false);
-                    UserSex = "female";
-                }
+        mCBFemale.setOnClickListener(view -> {
+            if (mCBFemale.isChecked()) {
+                mCBMale.setChecked(false);
+                mCBOther.setChecked(false);
+                UserSex = "female";
             }
         });
 
-        llBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ShowConfirmationPopup();
-            }
-        });
+        llBack.setOnClickListener(view -> ShowConfirmationPopup());
 
-        tvSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                for (int i = 0; i < mTextBoxes.length; i++) {
-                    if (mTextBoxes[i].getText().toString().isEmpty() || (!mCBMale.isChecked() && !mCBFemale.isChecked() && !mCBOther.isChecked())) {
-                        //Check if all textboxes are filled in
-                        mViewError.setText("");
-
-                        if (mCBMale.isChecked() || mCBFemale.isChecked() || mCBOther.isChecked()) {
-                            mCBMale.setTextColor(getResources().getColor(R.color.Black));
-                            mCBFemale.setTextColor(getResources().getColor(R.color.Black));
-                            mCBOther.setTextColor(getResources().getColor(R.color.Black));
-
-                        } else {
-                            mCBMale.setTextColor(Color.argb(255, 255, 23, 23));
-                            mCBFemale.setTextColor(Color.argb(255, 255, 23, 23));
-                            mCBOther.setTextColor(Color.argb(255, 255, 23, 23));
-                        }
-
-                        MakeBlack(mTextBoxes, i, getResources().getColor(R.color.Black));
-                        mViewError.setText(R.string.enter_all_required_details);
-                        mTextBoxes[i].setUnderlineColor(getResources().getColor(R.color.Red));
-                    } else if (mTextBoxes[2].getText().toString().length() != 10) {
-                        //Check if username already exists
-                        mTextBoxes[2].setUnderlineColor(getResources().getColor(R.color.Red));
-                        mViewError.setText("Phone number should be a 10 digit value");
-                    }
-                }
-
-                if ((!mTextBoxes[0].getText().toString().isEmpty()) &&
-                        (!mTextBoxes[1].getText().toString().isEmpty()) &&
-                        (!mTextBoxes[2].getText().toString().isEmpty()) &&
-                        (!mTextBoxes[3].getText().toString().isEmpty()) &&
-                        (!mTextBoxes[4].getText().toString().isEmpty()) &&
-                        (mCBMale.isChecked() || mCBFemale.isChecked() ||
-                                mCBOther.isChecked())) {
+        tvSave.setOnClickListener(view -> {
+            for (int i = 0; i < mTextBoxes.length; i++) {
+                if (Objects.requireNonNull(mTextBoxes[i].getText()).toString().isEmpty() || (!mCBMale.isChecked() && !mCBFemale.isChecked() && !mCBOther.isChecked())) {
+                    //Check if all text boxes are filled in
                     mViewError.setText("");
-                    MakeBlack(mTextBoxes, 0, getResources().getColor(R.color.Black));
-                    MakeBlack(mTextBoxes, 1, getResources().getColor(R.color.Black));
-                    MakeBlack(mTextBoxes, 2, getResources().getColor(R.color.Black));
-                    MakeBlack(mTextBoxes, 3, getResources().getColor(R.color.Black));
-                    MakeBlack(mTextBoxes, 4, getResources().getColor(R.color.Black));
 
-                    UserName = mTextBoxes[0].getText().toString();
-                    UserSurname = mTextBoxes[1].getText().toString();
-                    UserNumber = mTextBoxes[2].getText().toString();
-                    UserEmail = mTextBoxes[3].getText().toString();
-                    UserDOB = mTextBoxes[4].getText().toString();
+                    if (mCBMale.isChecked() || mCBFemale.isChecked() || mCBOther.isChecked()) {
+                        mCBMale.setTextColor(getResources().getColor(R.color.Black));
+                        mCBFemale.setTextColor(getResources().getColor(R.color.Black));
+                        mCBOther.setTextColor(getResources().getColor(R.color.Black));
 
-                    startActivity(new Intent(EditUserProfileActivity.this, MainActivity.class));
-                    //Manipulate loading and button disabling
-                    //startActivity(new Intent(RegistrationActivity.this, AcountAuthActivity.class));
+                    } else {
+                        mCBMale.setTextColor(Color.argb(255, 255, 23, 23));
+                        mCBFemale.setTextColor(Color.argb(255, 255, 23, 23));
+                        mCBOther.setTextColor(Color.argb(255, 255, 23, 23));
+                    }
+
+                    MakeBlack(mTextBoxes, i, getResources().getColor(R.color.Black));
+                    mViewError.setText(R.string.enter_all_required_details);
+                    mTextBoxes[i].setUnderlineColor(getResources().getColor(R.color.Red));
+                } else if (Objects.requireNonNull(mTextBoxes[2].getText()).toString().length() != 10) {
+                    //Check if username already exists
+                    mTextBoxes[2].setUnderlineColor(getResources().getColor(R.color.Red));
+                    mViewError.setText("Phone number should be a 10 digit value");
                 }
+            }
+
+            if ((!Objects.requireNonNull(mTextBoxes[0].getText()).toString().isEmpty()) &&
+                    (!Objects.requireNonNull(mTextBoxes[1].getText()).toString().isEmpty()) &&
+                    (!Objects.requireNonNull(mTextBoxes[2].getText()).toString().isEmpty()) &&
+                    (!Objects.requireNonNull(mTextBoxes[3].getText()).toString().isEmpty()) &&
+                    (!Objects.requireNonNull(mTextBoxes[4].getText()).toString().isEmpty()) &&
+                    (mCBMale.isChecked() || mCBFemale.isChecked() ||
+                            mCBOther.isChecked())) {
+                mViewError.setText("");
+                MakeBlack(mTextBoxes, 0, getResources().getColor(R.color.Black));
+                MakeBlack(mTextBoxes, 1, getResources().getColor(R.color.Black));
+                MakeBlack(mTextBoxes, 2, getResources().getColor(R.color.Black));
+                MakeBlack(mTextBoxes, 3, getResources().getColor(R.color.Black));
+                MakeBlack(mTextBoxes, 4, getResources().getColor(R.color.Black));
+
+                startActivity(new Intent(EditUserProfileActivity.this, MainActivity.class));
+                //Manipulate loading and button disabling
+                //startActivity(new Intent(RegistrationActivity.this, AcountAuthActivity.class));
             }
         });
     }
@@ -211,30 +159,17 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
         cvYes = myDialog.findViewById(R.id.cvYes);
         cvNo = myDialog.findViewById(R.id.cvNo);
 
-        tvCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                myDialog.dismiss();
-            }
-        });
+        tvCancel.setOnClickListener(view -> myDialog.dismiss());
 
         tvMessage.setText("All entered information will be lost\nAre you sure?");
 
-        cvYes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                myDialog.dismiss();
-                finish();
-            }
+        cvYes.setOnClickListener(view -> {
+            myDialog.dismiss();
+            finish();
         });
 
-        cvNo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                myDialog.dismiss();
-            }
-        });
-        myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        cvNo.setOnClickListener(view -> myDialog.dismiss());
+        Objects.requireNonNull(myDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         myDialog.show();
         myDialog.setCancelable(false);
         myDialog.setCanceledOnTouchOutside(false);
@@ -242,7 +177,7 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
 
     @Override
     public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-        calendar = Calendar.getInstance();
+        Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.YEAR, i);
         calendar.set(Calendar.MONTH, i1);
         calendar.set(Calendar.DAY_OF_MONTH, i2);
@@ -252,5 +187,17 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
 
     }
 
-
+    private void setCheck(String Checked) {
+        switch (Checked) {
+            case "mase":
+                mCBMale.setChecked(true);
+                break;
+            case "female":
+                mCBFemale.setChecked(true);
+                break;
+            case "other":
+                mCBOther.setChecked(true);
+                break;
+        }
+    }
 }

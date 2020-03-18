@@ -3,11 +3,11 @@ package www.ethichadebe.com.loxion_beanery;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,11 +24,13 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import util.HelperMethods;
 import util.User;
@@ -46,11 +48,10 @@ public class LoginActivity extends AppCompatActivity {
         }
     };
 
-    private User user;
+    private static User user;
     private Dialog myDialog;
     private MaterialEditText mTextPassword, mTextUsername;
     private TextView mViewError;
-    private CardView mButtonLogin, mButtonRegister;
     public static final String SHARED_PREFS = "sharedPrefs";
     public static final String USERNAME = "Username";
     public static final String PASSWORD = "Password";
@@ -70,38 +71,37 @@ public class LoginActivity extends AppCompatActivity {
         //Check if shared prefs are empty
         loadData();
         /*if (!mTextUsername.getText().toString().isEmpty() && !mTextPassword.getText().toString().isEmpty()) {
-            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            PostLogin();
         }*/
         //Image
         YoYo.with(Techniques.SlideInUp)
                 .duration(2000)
                 .repeat(1)
                 .playOn(findViewById(R.id.ivLogo));
-        mButtonLogin = findViewById(R.id.btnLogin);
-        mButtonRegister = findViewById(R.id.btnRegister);
+        CardView mButtonLogin = findViewById(R.id.btnLogin);
+        CardView mButtonRegister = findViewById(R.id.btnRegister);
 
         mViewError = findViewById(R.id.lblError);
 
-        mButtonLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mTextUsername.getText().toString().isEmpty() && mTextPassword.getText().toString().isEmpty()) {
-                    mTextUsername.setUnderlineColor(getResources().getColor(R.color.Red));
-                    mTextPassword.setUnderlineColor(getResources().getColor(R.color.Red));
-                    mViewError.setText("Enter Both fields");
-                } else if (mTextUsername.getText().toString().isEmpty() && !mTextPassword.getText().toString().isEmpty()) {
-                    mTextUsername.setUnderlineColor(getResources().getColor(R.color.Red));
-                    mTextPassword.setUnderlineColor(getResources().getColor(R.color.Black));
-                    mViewError.setText("Enter Username");
-                } else if (!mTextUsername.getText().toString().isEmpty() && mTextPassword.getText().toString().isEmpty()) {
-                    mTextPassword.setUnderlineColor(getResources().getColor(R.color.Red));
-                    mTextUsername.setUnderlineColor(getResources().getColor(R.color.Black));
-                    mViewError.setText("Enter Password");
-                } else {
-                    saveData();
-                    HelperMethods.ShowLoadingPopup(myDialog, true);
-                    PostLogin();
-                }
+        mButtonLogin.setOnClickListener(view -> {
+            if (Objects.requireNonNull(mTextUsername.getText()).toString().isEmpty() &&
+                    Objects.requireNonNull(mTextPassword.getText()).toString().isEmpty()) {
+                mTextUsername.setUnderlineColor(getResources().getColor(R.color.Red));
+                mTextPassword.setUnderlineColor(getResources().getColor(R.color.Red));
+                mViewError.setText("Enter Both fields");
+            } else if (mTextUsername.getText().toString().isEmpty() &&
+                    !Objects.requireNonNull(mTextPassword.getText()).toString().isEmpty()) {
+                mTextUsername.setUnderlineColor(getResources().getColor(R.color.Red));
+                mTextPassword.setUnderlineColor(getResources().getColor(R.color.Black));
+                mViewError.setText("Enter Username");
+            } else if (!mTextUsername.getText().toString().isEmpty() &&
+                    Objects.requireNonNull(mTextPassword.getText()).toString().isEmpty()) {
+                mTextPassword.setUnderlineColor(getResources().getColor(R.color.Red));
+                mTextUsername.setUnderlineColor(getResources().getColor(R.color.Black));
+                mViewError.setText("Enter Password");
+            } else {
+                saveData();
+                PostLogin();
             }
         });
 
@@ -119,8 +119,8 @@ public class LoginActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        editor.putString(USERNAME, mTextUsername.getText().toString());
-        editor.putString(PASSWORD, mTextPassword.getText().toString());
+        editor.putString(USERNAME, Objects.requireNonNull(mTextUsername.getText()).toString());
+        editor.putString(PASSWORD, Objects.requireNonNull(mTextPassword.getText()).toString());
 
         editor.apply();
     }
@@ -132,12 +132,30 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void PostLogin() {
-        StringRequest stringRequest = new StringRequest(Request.Method.POST,
+        HelperMethods.ShowLoadingPopup(myDialog, true);
+        StringRequest  stringRequest = new StringRequest (Request.Method.POST,
                 "http://" + getIpAddress() + "/users/Login",
                 response -> {
                     HelperMethods.ShowLoadingPopup(myDialog, false);
-                    Toast.makeText(LoginActivity.this, response, Toast.LENGTH_LONG).show();
-                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    try {
+                        JSONObject JSONResponse = new JSONObject(response);
+
+                        if (JSONResponse.getString("data").equals("false")) {
+                            ShowConfirmationPopup();
+                        } else {
+                            JSONObject ObjData = new JSONObject(response);
+                            JSONArray ArrData = ObjData.getJSONArray("data");
+                            JSONObject userData = ArrData.getJSONObject(0);
+                            //Toast.makeText(LoginActivity.this, userData.toString(), Toast.LENGTH_LONG).show();
+                            user = new User(userData.getInt("uID"), userData.getString("uName"),
+                                    userData.getString("uSurname"), userData.getString("uDOB"),
+                                    userData.getString("uSex"), userData.getString("uEmail"),
+                                    userData.getString("uNumber"));
+                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }, error -> {
             HelperMethods.ShowLoadingPopup(myDialog, false);
             Toast.makeText(LoginActivity.this, error.toString(), Toast.LENGTH_LONG).show();
@@ -145,13 +163,47 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                params.put("uNumber", mTextUsername.getText().toString());
-                params.put("uPassword", mTextPassword.getText().toString());
+                params.put("uNumber", Objects.requireNonNull(mTextUsername.getText()).toString());
+                params.put("uPassword", Objects.requireNonNull(mTextPassword.getText()).toString());
                 return params;
             }
         };
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
+    }
+
+    public void ShowConfirmationPopup() {
+        TextView tvCancel, tvMessage, tvYes, tvNo;
+        CardView cvYes, cvNo;
+        myDialog.setContentView(R.layout.popup_confirmation);
+
+        tvCancel = myDialog.findViewById(R.id.tvCancel);
+        tvMessage = myDialog.findViewById(R.id.tvMessage);
+        cvYes = myDialog.findViewById(R.id.cvYes);
+        cvNo = myDialog.findViewById(R.id.cvNo);
+        tvYes = myDialog.findViewById(R.id.tvYes);
+        tvNo = myDialog.findViewById(R.id.tvNo);
+
+        tvCancel.setVisibility(View.GONE);
+
+        tvMessage.setText("Seems like the user does not exist");
+
+        tvYes.setText("Create account");
+        cvYes.setOnClickListener(view -> {
+            myDialog.dismiss();
+            startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+        });
+
+        tvNo.setText("Retry");
+        cvNo.setOnClickListener(view -> myDialog.dismiss());
+        Objects.requireNonNull(myDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        myDialog.show();
+        myDialog.setCancelable(false);
+        myDialog.setCanceledOnTouchOutside(false);
+    }
+
+    public static User getUser() {
+        return user;
     }
 }
