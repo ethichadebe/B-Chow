@@ -24,6 +24,8 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import org.json.JSONArray;
@@ -44,8 +46,8 @@ public class HomeFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private ShopItemAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private TextView tvClear,tvEmpty;
-    private MaterialEditText tvSearch;
+    private TextView tvEmpty, tvSearch;
+    private MaterialEditText etSearch;
     private CardView cvRetry;
     final ArrayList<ShopItem> shopItems = new ArrayList<>();
 
@@ -58,11 +60,11 @@ public class HomeFragment extends Fragment {
 
 
         mRecyclerView = v.findViewById(R.id.recyclerView);
-        tvClear = v.findViewById(R.id.tvClear);
         rlLoad = v.findViewById(R.id.rlLoad);
         rlError = v.findViewById(R.id.rlError);
         tvEmpty = v.findViewById(R.id.tvEmpty);
         tvSearch = v.findViewById(R.id.tvSearch);
+        etSearch = v.findViewById(R.id.etSearch);
         cvRetry = v.findViewById(R.id.cvRetry);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getActivity());
@@ -75,12 +77,6 @@ public class HomeFragment extends Fragment {
             startActivity(new Intent(getActivity(), ShopHomeActivity.class));
         });
 
-        tvClear.setVisibility(View.GONE);
-        tvClear.setOnClickListener(view -> {
-            tvSearch.setText("");
-            tvClear.setVisibility(View.GONE);
-        });
-
         cvRetry.setOnClickListener(view -> {
             rlError.setVisibility(View.GONE);
             handler(v.findViewById(R.id.vLine), v.findViewById(R.id.vLineGrey));
@@ -88,24 +84,16 @@ public class HomeFragment extends Fragment {
             GETPassedIMeetings();
         });
 
-        tvSearch.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (charSequence.length() != 0) {
-                    tvClear.setVisibility(View.VISIBLE);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
+        tvSearch.setOnClickListener(view -> {
+            if (etSearch.getVisibility() == View.GONE){
+                etSearch.setVisibility(View.VISIBLE);
+                YoYo.with(Techniques.SlideInRight)
+                        .duration(1000)
+                        .repeat(0)
+                        .playOn(etSearch);
             }
         });
+
         handler(v.findViewById(R.id.vLine), v.findViewById(R.id.vLineGrey));
         GETPassedIMeetings();
         return v;

@@ -90,7 +90,6 @@
                         android:ems="10"
                         android:focusable="false"
                         android:hint="Date of Birth"
-                        android:inputType="textPersonName"
                         android:textSize="14sp"
                         app:met_floatingLabel="highlight" />
 
@@ -141,8 +140,9 @@
                         android:layout_height="wrap_content"
                         android:ems="10"
                         android:hint="@string/email_address"
-                        android:inputType="textPersonName"
+                        android:inputType="textEmailAddress"
                         android:textSize="14sp"
+                        app:met_helperText=""
                         app:met_floatingLabel="highlight" />
 
                     <com.rengwuxian.materialedittext.MaterialEditText
@@ -151,8 +151,9 @@
                         android:layout_height="wrap_content"
                         android:ems="10"
                         android:hint="@string/phone_number"
-                        android:inputType="textPersonName"
+                        android:inputType="phone"
                         android:textSize="14sp"
+                        app:met_helperText=""
                         app:met_floatingLabel="highlight" />
 
                     <com.rengwuxian.materialedittext.MaterialEditText

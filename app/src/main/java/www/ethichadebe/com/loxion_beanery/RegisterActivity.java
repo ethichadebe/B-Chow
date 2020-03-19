@@ -23,6 +23,9 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -49,7 +52,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
     private TextView mViewError;
     private CheckBox mCBMale, mCBFemale, mCBOther;
 
-    private static String UserSex = "";
+    private String UserSex="";
     Handler handler = new Handler();
     Runnable runnable = new Runnable() {
         @Override
@@ -101,6 +104,8 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
                 mCBFemale.setChecked(false);
                 mCBOther.setChecked(false);
                 UserSex = "male";
+            } else {
+                mCBMale.setChecked(true);
             }
         });
         mCBOther.setOnClickListener(view -> {
@@ -108,6 +113,8 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
                 mCBMale.setChecked(false);
                 mCBFemale.setChecked(false);
                 UserSex = "other";
+            } else {
+                mCBOther.setChecked(true);
             }
         });
         mCBFemale.setOnClickListener(view -> {
@@ -115,6 +122,8 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
                 mCBMale.setChecked(false);
                 mCBOther.setChecked(false);
                 UserSex = "female";
+            } else {
+                mCBFemale.setChecked(true);
             }
         });
 
@@ -160,7 +169,25 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
                 response -> {
                     HelperMethods.ShowLoadingPopup(myDialog, false);
                     Toast.makeText(RegisterActivity.this, response, Toast.LENGTH_LONG).show();
-                    startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+                    try {
+                        JSONObject JSONResponse = new JSONObject(response);
+
+                        if (JSONResponse.getString("data").equals("both")) {
+                            mTextBoxes[2].setError("Already exists");
+                            mTextBoxes[3].setError("Already exists");
+                        } else if (JSONResponse.getString("data").equals("number")) {
+                            mTextBoxes[2].setError("Already exists");
+                        } else if (JSONResponse.getString("data").equals("email")) {
+                            mTextBoxes[3].setError("Already exists");
+                        } else if (JSONResponse.getString("data").equals("Registered")) {
+                            Toast.makeText(RegisterActivity.this, "Registered successfully", Toast.LENGTH_LONG).show();
+                            startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+                        } else {
+                            //Toast.makeText(RegisterActivity.this, "Something went wrong, try again", Toast.LENGTH_LONG).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }, error -> {
             HelperMethods.ShowLoadingPopup(myDialog, false);
             Toast.makeText(RegisterActivity.this, error.toString(), Toast.LENGTH_LONG).show();
@@ -199,7 +226,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
     }
 
     private boolean sexIsChecked() {
-        if (!mCBMale.isChecked() || !mCBFemale.isChecked() || !mCBOther.isChecked()) {
+        if (UserSex.isEmpty()) {
             mCBMale.setTextColor(Color.argb(255, 255, 23, 23));
             mCBFemale.setTextColor(Color.argb(255, 255, 23, 23));
             mCBOther.setTextColor(Color.argb(255, 255, 23, 23));
@@ -208,12 +235,11 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
         mCBMale.setTextColor(getResources().getColor(R.color.Black));
         mCBFemale.setTextColor(getResources().getColor(R.color.Black));
         mCBOther.setTextColor(getResources().getColor(R.color.Black));
-
         return true;
     }
 
     private boolean passwordMatches() {
-        if (Objects.requireNonNull(mTextBoxes[4].getText()).toString().equals(Objects.requireNonNull(mTextBoxes[5].getText()).toString())) {
+        if (!Objects.requireNonNull(mTextBoxes[4].getText()).toString().equals(Objects.requireNonNull(mTextBoxes[5].getText()).toString())) {
             mTextBoxes[4].setUnderlineColor(getResources().getColor(R.color.Red));
             mTextBoxes[5].setUnderlineColor(getResources().getColor(R.color.Red));
             return false;
