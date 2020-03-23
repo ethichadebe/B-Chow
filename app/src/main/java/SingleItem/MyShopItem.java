@@ -15,7 +15,7 @@ public class MyShopItem {
     private Location locLocation;
     private String strAveTime;
     private int intRating;
-    private StringBuilder strOperatingHRS = new StringBuilder();
+    private String strOperatingHRS;
     private ArrayList<IngredientItem> ingredientItems;
     private ArrayList<MenuItem> menuItems;
 
@@ -62,7 +62,7 @@ public class MyShopItem {
      */
     public MyShopItem(int intID, String strShopName, String strPosition, int intLogoSmall, int intLogoBig, String strShortDescript,
                       String strFullDescript, Location locLocation, String strAveTime, int intRating,
-                      StringBuilder strOperatingHRS) {
+                      String strOperatingHRS) {
         this.intID = intID;
         this.strShopName = strShopName;
         this.strPosition = strPosition;
@@ -78,7 +78,6 @@ public class MyShopItem {
 
     /**
      * default constructor
-     *
      * @param intID
      * @param strShopName
      * @param strPosition
@@ -95,7 +94,7 @@ public class MyShopItem {
      */
     public MyShopItem(int intID, String strShopName, String strPosition, int intLogoSmall, int intLogoBig,
                       String strShortDescript, String strFullDescript, Location locLocation, String strAveTime, int intRating,
-                      StringBuilder strOperatingHRS, ArrayList<IngredientItem> ingredientItems, ArrayList<MenuItem> menuItems) {
+                      String strOperatingHRS, ArrayList<IngredientItem> ingredientItems, ArrayList<MenuItem> menuItems) {
         this.intID = intID;
         this.strShopName = strShopName;
         this.strPosition = strPosition;
@@ -196,11 +195,11 @@ public class MyShopItem {
         this.intRating = intRating;
     }
 
-    public StringBuilder getStrOperatingHRS() {
+    public String getStrOperatingHRS() {
         return strOperatingHRS;
     }
 
-    public void setStrOperatingHRS(StringBuilder strOperatingHRS) {
+    public void setStrOperatingHRS(String strOperatingHRS) {
         this.strOperatingHRS = strOperatingHRS;
     }
 

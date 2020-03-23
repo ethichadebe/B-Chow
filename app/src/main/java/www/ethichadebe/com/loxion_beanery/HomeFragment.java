@@ -1,6 +1,7 @@
 package www.ethichadebe.com.loxion_beanery;
 
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -33,6 +34,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import Adapter.ShopItemAdapter;
 import SingleItem.PastOrderItem;
@@ -81,11 +83,11 @@ public class HomeFragment extends Fragment {
             rlError.setVisibility(View.GONE);
             handler(v.findViewById(R.id.vLine), v.findViewById(R.id.vLineGrey));
             rlLoad.setVisibility(View.VISIBLE);
-            GETPassedIMeetings();
+            GETShops();
         });
 
         tvSearch.setOnClickListener(view -> {
-            if (etSearch.getVisibility() == View.GONE){
+            if (etSearch.getVisibility() == View.GONE) {
                 etSearch.setVisibility(View.VISIBLE);
                 YoYo.with(Techniques.SlideInRight)
                         .duration(1000)
@@ -95,27 +97,32 @@ public class HomeFragment extends Fragment {
         });
 
         handler(v.findViewById(R.id.vLine), v.findViewById(R.id.vLineGrey));
-        GETPassedIMeetings();
+        GETShops();
         return v;
     }
 
-    private void GETPassedIMeetings() {
-        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+    private void GETShops() {
+        RequestQueue requestQueue = Volley.newRequestQueue(Objects.requireNonNull(getActivity()));
 
         JsonObjectRequest objectRequest = new JsonObjectRequest(
                 Request.Method.GET,
-                "http://" + getIpAddress() + "/users", null,
+                "http://" + getIpAddress() + "/shops", null,
                 response -> {
                     //Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
                     rlLoad.setVisibility(View.GONE);
                     //Loads shops starting with the one closest to user
                     try {
-                        JSONArray jsonArray = response.getJSONArray("users");
+                        JSONArray jsonArray = response.getJSONArray("shops");
                         for (int i = 0; i < jsonArray.length(); i++) {
-                            JSONObject User = jsonArray.getJSONObject(i);
-                            shopItems.add(new ShopItem(1, User.getString("uName"), R.drawable.food,
-                                    "This is a short description about my shop to attract customers", 1,
-                                    "2km", "10-15min"));
+                            JSONObject Shops = jsonArray.getJSONObject(i);
+                            Location location = new Location("");
+                            String[] strCoord = Shops.getString("sLocation").split(" ");
+                            location.setLatitude(23.4);//Double.parseDouble(strCoord[0]));
+                            location.setLongitude(32.5);//Double.parseDouble(strCoord[1]));
+                            shopItems.add(new ShopItem(Shops.getInt("sID"), Shops.getString("sName"), R.drawable.food,
+                                    R.drawable.biglogo, Shops.getString("sShortDescrption"),
+                                    Shops.getString("sFullDescription"), location, Shops.getString("sLocation"),
+                                    Shops.getInt("sRating"), Shops.getString("sOperatingHrs")));
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();

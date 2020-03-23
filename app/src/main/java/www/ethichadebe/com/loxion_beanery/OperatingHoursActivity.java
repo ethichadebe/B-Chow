@@ -36,7 +36,7 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
     private MaterialEditText[] etOpen = new MaterialEditText[8];
     private MaterialEditText[] etClose = new MaterialEditText[8];
     private String DayOfWeek;
-    StringBuilder strTimes = new StringBuilder();
+    String strTimes = "";
     private CheckBox[] cbDays = new CheckBox[8];
 
     @Override
@@ -173,11 +173,8 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
 
     public void next(View view) {
         if (allFieldsEntered()) {
-            StringBuilder times = new StringBuilder();
             for (int i = 0; i < etOpen.length; i++) {
-                times.append(Objects.requireNonNull(etOpen[i].getText()).toString()).append("-")
-                        .append(Objects.requireNonNull(etClose[i].getText()).toString());
-                strTimes.append(times).append(", ");
+                strTimes += Objects.requireNonNull(etOpen[i].getText()).toString() + "-" + Objects.requireNonNull(etClose[i].getText()).toString() + ", ";
             }
             getNewShop().setStrOperatingHRS(strTimes);      //Set Operating hours
             POSTRegisterShop();

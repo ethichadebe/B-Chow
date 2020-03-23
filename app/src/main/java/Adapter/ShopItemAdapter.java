@@ -87,7 +87,7 @@ public class ShopItemAdapter extends RecyclerView.Adapter<ShopItemAdapter.ShopVi
         ShopItem item = shopList.get(position);
 
         holder.tvShopName.setText(item.getStrShopName());
-        holder.ivLogo.setImageResource(item.getIntLogo());
+        holder.ivLogo.setImageResource(item.getIntLogoSmall());
         holder.tvShortDescript.setText(item.getStrShortDescript());
         switch (item.getIntRating()) {
             case 0:

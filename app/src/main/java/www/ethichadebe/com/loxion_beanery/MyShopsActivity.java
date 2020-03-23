@@ -65,22 +65,21 @@ public class MyShopsActivity extends AppCompatActivity {
         location.setLatitude(0.0);
         location.setLongitude(0.0);
 
-        StringBuilder strOperatingHrs = new StringBuilder();
 
         ArrayList<IngredientItem> ingredientItems = new ArrayList<>();
 
         ArrayList<MenuItem> menuItems = new ArrayList<>();
         shopItems.add(new MyShopItem(1,"Shop name","Owner",R.drawable.food,R.drawable.biglogo,
                 "This is a short descrption","This a full shop description for the specific shop",
-                location,"10-15 mins",3,strOperatingHrs,ingredientItems,menuItems));
+                location,"10-15 mins",3,"strOperatingHrs",ingredientItems,menuItems));
 
         shopItems.add(new MyShopItem(1,"Shop name","Owner",R.drawable.food,R.drawable.biglogo,
                 "This is a short descrption","This a full shop description for the specific shop",
-                location,"10-15 mins",3,strOperatingHrs,ingredientItems,menuItems));
+                location,"10-15 mins",3,"strOperatingHrs",ingredientItems,menuItems));
 
         shopItems.add(new MyShopItem(1,"Shop name","Owner",R.drawable.food,R.drawable.biglogo,
                 "This is a short descrption","This a full shop description for the specific shop",
-                location,"10-15 mins",3,strOperatingHrs,ingredientItems,menuItems));
+                location,"10-15 mins",3,"strOperatingHrs",ingredientItems,menuItems));
 
         mRecyclerView = findViewById(R.id.recyclerView);
         mRecyclerView.setHasFixedSize(true);
