@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
@@ -22,12 +23,12 @@ import java.util.Calendar;
 import java.util.Objects;
 
 import static util.HelperMethods.MakeBlack;
+import static util.HelperMethods.allFieldsEntered;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 
 public class EditUserProfileActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
     private MaterialEditText[] mTextBoxes = new MaterialEditText[5];
-    private LinearLayout llBack;
     private TextView tvSave;
     private CheckBox mCBMale, mCBFemale, mCBOther;
     private TextView mViewError;
@@ -44,7 +45,6 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_user_profile);
 
-        llBack = findViewById(R.id.llBack);
         tvSave = findViewById(R.id.tvSave);
         myDialog = new Dialog(this);
 
@@ -68,6 +68,17 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
         mTextBoxes[2].setText(getUser().getuNumber());
         mTextBoxes[3].setText(getUser().getuEmail());
         mTextBoxes[4].setText(getUser().getuDOB());
+        switch (getUser().getuSex()){
+            case "male":
+                mCBMale.setChecked(true);
+                break;
+            case "female":
+                mCBFemale.setChecked(true);
+                break;
+            case "other":
+                mCBOther.setChecked(true);
+                break;
+        }
 
         //Date p[icker
         mTextBoxes[4].setOnClickListener(view -> {
@@ -76,12 +87,15 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
         });
 
         setCheck(getUser().getuSex());
+
         //Handling Checkbox click events
         mCBMale.setOnClickListener(view -> {
             if (mCBMale.isChecked()) {
                 mCBFemale.setChecked(false);
                 mCBOther.setChecked(false);
                 UserSex = "male";
+            }else {
+                mCBMale.setChecked(true);
             }
         });
         mCBOther.setOnClickListener(view -> {
@@ -89,6 +103,8 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
                 mCBMale.setChecked(false);
                 mCBFemale.setChecked(false);
                 UserSex = "other";
+            }else {
+                mCBOther.setChecked(true);
             }
         });
         mCBFemale.setOnClickListener(view -> {
@@ -96,56 +112,20 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
                 mCBMale.setChecked(false);
                 mCBOther.setChecked(false);
                 UserSex = "female";
+            }else {
+                mCBFemale.setChecked(true);
             }
         });
 
-        llBack.setOnClickListener(view -> ShowConfirmationPopup());
-
         tvSave.setOnClickListener(view -> {
             for (int i = 0; i < mTextBoxes.length; i++) {
-                if (Objects.requireNonNull(mTextBoxes[i].getText()).toString().isEmpty() || (!mCBMale.isChecked() && !mCBFemale.isChecked() && !mCBOther.isChecked())) {
-                    //Check if all text boxes are filled in
-                    mViewError.setText("");
-
-                    if (mCBMale.isChecked() || mCBFemale.isChecked() || mCBOther.isChecked()) {
-                        mCBMale.setTextColor(getResources().getColor(R.color.Black));
-                        mCBFemale.setTextColor(getResources().getColor(R.color.Black));
-                        mCBOther.setTextColor(getResources().getColor(R.color.Black));
-
-                    } else {
-                        mCBMale.setTextColor(Color.argb(255, 255, 23, 23));
-                        mCBFemale.setTextColor(Color.argb(255, 255, 23, 23));
-                        mCBOther.setTextColor(Color.argb(255, 255, 23, 23));
-                    }
-
-                    MakeBlack(mTextBoxes, i, getResources().getColor(R.color.Black));
+                if (!allFieldsEntered(mTextBoxes, getResources().getColor(R.color.Red), getResources().getColor(R.color.Black))) {
                     mViewError.setText(R.string.enter_all_required_details);
-                    mTextBoxes[i].setUnderlineColor(getResources().getColor(R.color.Red));
-                } else if (Objects.requireNonNull(mTextBoxes[2].getText()).toString().length() != 10) {
-                    //Check if username already exists
-                    mTextBoxes[2].setUnderlineColor(getResources().getColor(R.color.Red));
-                    mViewError.setText("Phone number should be a 10 digit value");
+                }else if (allFieldsEntered(mTextBoxes, getResources().getColor(R.color.Red), getResources().getColor(R.color.Black))) {
+                    startActivity(new Intent(EditUserProfileActivity.this, MainActivity.class));
                 }
             }
 
-            if ((!Objects.requireNonNull(mTextBoxes[0].getText()).toString().isEmpty()) &&
-                    (!Objects.requireNonNull(mTextBoxes[1].getText()).toString().isEmpty()) &&
-                    (!Objects.requireNonNull(mTextBoxes[2].getText()).toString().isEmpty()) &&
-                    (!Objects.requireNonNull(mTextBoxes[3].getText()).toString().isEmpty()) &&
-                    (!Objects.requireNonNull(mTextBoxes[4].getText()).toString().isEmpty()) &&
-                    (mCBMale.isChecked() || mCBFemale.isChecked() ||
-                            mCBOther.isChecked())) {
-                mViewError.setText("");
-                MakeBlack(mTextBoxes, 0, getResources().getColor(R.color.Black));
-                MakeBlack(mTextBoxes, 1, getResources().getColor(R.color.Black));
-                MakeBlack(mTextBoxes, 2, getResources().getColor(R.color.Black));
-                MakeBlack(mTextBoxes, 3, getResources().getColor(R.color.Black));
-                MakeBlack(mTextBoxes, 4, getResources().getColor(R.color.Black));
-
-                startActivity(new Intent(EditUserProfileActivity.this, MainActivity.class));
-                //Manipulate loading and button disabling
-                //startActivity(new Intent(RegistrationActivity.this, AcountAuthActivity.class));
-            }
         });
     }
 
@@ -199,5 +179,9 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
                 mCBOther.setChecked(true);
                 break;
         }
+    }
+
+    public void back(View view) {
+        ShowConfirmationPopup();
     }
 }

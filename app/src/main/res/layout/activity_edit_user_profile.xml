@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/White"
@@ -37,6 +36,7 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentBottom="true"
             android:background="@drawable/ripple_effect_white"
+            android:onClick="back"
             android:gravity="center">
 
             <TextView
@@ -133,18 +133,6 @@
                 android:layout_marginTop="45dp"
                 android:orientation="vertical">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingLeft="25dp">
-
-                    <ImageView
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
-                        android:layout_gravity="center_vertical"
-                        android:src="@drawable/ic_email_black_24dp" />
-
                     <com.rengwuxian.materialedittext.MaterialEditText
                         android:id="@+id/txtEmail"
                         android:layout_width="wrap_content"
@@ -153,22 +141,9 @@
                         android:ems="10"
                         android:hint="@string/email_address"
                         android:inputType="textEmailAddress"
+                        app:met_iconLeft="@drawable/ic_email_black_24dp"
                         android:textSize="14sp"
                         app:met_floatingLabel="highlight" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="25dp"
-                    android:orientation="horizontal"
-                    android:paddingLeft="25dp">
-
-                    <ImageView
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
-                        android:layout_gravity="center_vertical"
-                        android:src="@drawable/ic_local_phone_black_24dp" />
 
                     <com.rengwuxian.materialedittext.MaterialEditText
                         android:id="@+id/txtPhone"
@@ -179,21 +154,9 @@
                         android:hint="@string/phone_number"
                         android:inputType="number"
                         android:textSize="14sp"
+                        android:layout_marginTop="25dp"
+                        app:met_iconLeft="@drawable/ic_local_phone_black_24dp"
                         app:met_floatingLabel="highlight" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="25dp"
-                    android:orientation="horizontal"
-                    android:paddingLeft="25dp">
-
-                    <ImageView
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
-                        android:layout_gravity="center_vertical"
-                        android:src="@drawable/ic_date_24dp" />
 
                     <com.rengwuxian.materialedittext.MaterialEditText
                         android:id="@+id/txtDOB"
@@ -203,9 +166,10 @@
                         android:ems="10"
                         android:focusable="false"
                         android:hint="Date of Birth"
+                        app:met_iconLeft="@drawable/ic_date_24dp"
+                        android:layout_marginTop="25dp"
                         android:textSize="14sp"
                         app:met_floatingLabel="highlight" />
-                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"

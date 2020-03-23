@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.Menu;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -21,8 +20,8 @@ import SingleItem.IngredientItem;
 import SingleItem.MenuItem;
 import SingleItem.MyShopItem;
 
-import static www.ethichadebe.com.loxion_beanery.MenuActivity.isNew;
-import static www.ethichadebe.com.loxion_beanery.MenuActivity.setIsNew;
+import static www.ethichadebe.com.loxion_beanery.NewExtrasActivity.isNew;
+import static www.ethichadebe.com.loxion_beanery.NewExtrasActivity.setIsNew;
 
 public class MyShopsActivity extends AppCompatActivity {
 
@@ -37,13 +36,12 @@ public class MyShopsActivity extends AppCompatActivity {
             bsbBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
         }
     };
-    private LinearLayout llEdit, llBack;//, llShop;
+    private LinearLayout llEdit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_shops);
 
-        llBack = findViewById(R.id.llBack);
         llEdit = findViewById(R.id.llEdit);
         View bsbBottomSheet= findViewById(R.id.bottom_sheet);
         bsbBottomSheetBehavior = BottomSheetBehavior.from(bsbBottomSheet);
@@ -61,35 +59,28 @@ public class MyShopsActivity extends AppCompatActivity {
             }
         });
 
-        llBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MyShopsActivity.this, MainActivity.class));
-            }
-        });
-
         final ArrayList<MyShopItem> shopItems = new ArrayList<>();
 
         Location location = new Location("");
         location.setLatitude(0.0);
         location.setLongitude(0.0);
 
-        String[] strOperatingHrs = {"","","","","","",""};
+        StringBuilder strOperatingHrs = new StringBuilder();
 
         ArrayList<IngredientItem> ingredientItems = new ArrayList<>();
 
         ArrayList<MenuItem> menuItems = new ArrayList<>();
-        shopItems.add(new MyShopItem(1,"Shop name","Owner",R.drawable.food,
+        shopItems.add(new MyShopItem(1,"Shop name","Owner",R.drawable.food,R.drawable.biglogo,
                 "This is a short descrption","This a full shop description for the specific shop",
-                location,"time",3,strOperatingHrs,ingredientItems,menuItems));
+                location,"10-15 mins",3,strOperatingHrs,ingredientItems,menuItems));
 
-        shopItems.add(new MyShopItem(1,"Shop name","Owner",R.drawable.food,
+        shopItems.add(new MyShopItem(1,"Shop name","Owner",R.drawable.food,R.drawable.biglogo,
                 "This is a short descrption","This a full shop description for the specific shop",
-                location,"time",3,strOperatingHrs,ingredientItems,menuItems));
+                location,"10-15 mins",3,strOperatingHrs,ingredientItems,menuItems));
 
-        shopItems.add(new MyShopItem(1,"Shop name","Owner",R.drawable.food,
+        shopItems.add(new MyShopItem(1,"Shop name","Owner",R.drawable.food,R.drawable.biglogo,
                 "This is a short descrption","This a full shop description for the specific shop",
-                location,"time",3,strOperatingHrs,ingredientItems,menuItems));
+                location,"10-15 mins",3,strOperatingHrs,ingredientItems,menuItems));
 
         mRecyclerView = findViewById(R.id.recyclerView);
         mRecyclerView.setHasFixedSize(true);
@@ -109,6 +100,10 @@ public class MyShopsActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        startActivity(new Intent(MyShopsActivity.this, MainActivity.class));
+    }
+
+    public void back(View view) {
         startActivity(new Intent(MyShopsActivity.this, MainActivity.class));
     }
 }

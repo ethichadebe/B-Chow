@@ -129,11 +129,19 @@
                             android:background="@drawable/ripple_effect_white"
                             android:orientation="vertical">
 
+                            <com.theartofdev.edmodo.cropper.CropImageView
+                                xmlns:custom="http://schemas.android.com/apk/res-auto"
+                                android:id="@+id/civSmall"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"/>
+
                             <ImageView
+                                android:id="@+id/ivSmall"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_above="@+id/tvPicture"
                                 android:layout_alignParentTop="true"
+                                android:onClick="small"
                                 android:src="@drawable/ic_add_grey_24dp" />
 
                             <TextView
@@ -235,11 +243,19 @@
                             android:layout_marginEnd="5dp"
                             android:orientation="vertical">
 
+                            <com.theartofdev.edmodo.cropper.CropImageView
+                                xmlns:custom="http://schemas.android.com/apk/res-auto"
+                                android:id="@+id/civBig"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"/>
+
                             <ImageView
+                                android:id="@+id/ivBig"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_above="@+id/tvBigPicture"
                                 android:layout_alignParentTop="true"
+                                android:onClick="big"
                                 android:src="@drawable/ic_add_grey_24dp" />
 
                             <TextView
@@ -303,299 +319,6 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_rowWeight="1"
-                android:layout_columnWeight="1"
-                android:layout_below="@+id/cvShop"
-                android:layout_margin="5dp"
-                android:layout_marginBottom="10dp"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="3dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <LinearLayout
-                            android:id="@+id/llMon"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@drawable/ripple_effect_white"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginTop="12dp"
-                                android:fontFamily="sans-serif-medium"
-                                android:text="Mon"
-                                android:textColor="@color/Black"
-                                android:textSize="14sp" />
-
-                            <View
-                                android:id="@+id/llMonLine"
-                                android:layout_width="match_parent"
-                                android:layout_height="3dp"
-                                android:layout_gravity="bottom"
-                                android:background="@drawable/grad_bg_backnforth" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/llTue"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@drawable/ripple_effect_white"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginTop="12dp"
-                                android:fontFamily="sans-serif-medium"
-                                android:text="Tue"
-                                android:textColor="@color/Black"
-                                android:textSize="14sp" />
-
-                            <View
-                                android:id="@+id/llTueLine"
-                                android:layout_width="match_parent"
-                                android:layout_height="3dp"
-                                android:layout_gravity="bottom"
-                                android:background="@drawable/grad_bg_backnforth" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/llWed"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@drawable/ripple_effect_white"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginTop="12dp"
-                                android:fontFamily="sans-serif-medium"
-                                android:text="Wed"
-                                android:textColor="@color/Black"
-                                android:textSize="14sp" />
-
-                            <View
-                                android:id="@+id/llWedLine"
-                                android:layout_width="match_parent"
-                                android:layout_height="3dp"
-                                android:layout_gravity="bottom"
-                                android:background="@drawable/grad_bg_backnforth" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/llThu"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@drawable/ripple_effect_white"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginTop="12dp"
-                                android:fontFamily="sans-serif-medium"
-                                android:text="Thu"
-                                android:textColor="@color/Black"
-                                android:textSize="14sp" />
-
-                            <View
-                                android:id="@+id/llThuLine"
-                                android:layout_width="match_parent"
-                                android:layout_height="3dp"
-                                android:layout_gravity="bottom"
-                                android:background="@drawable/grad_bg_backnforth" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/llFri"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@drawable/ripple_effect_white"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginTop="12dp"
-                                android:fontFamily="sans-serif-medium"
-                                android:text="Fri"
-                                android:textColor="@color/Black"
-                                android:textSize="14sp" />
-
-                            <View
-                                android:id="@+id/llFriLine"
-                                android:layout_width="match_parent"
-                                android:layout_height="3dp"
-                                android:layout_gravity="bottom"
-                                android:background="@drawable/grad_bg_backnforth" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/llSat"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@drawable/ripple_effect_white"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginTop="12dp"
-                                android:fontFamily="sans-serif-medium"
-                                android:text="Sat"
-                                android:textColor="@color/Black"
-                                android:textSize="14sp" />
-
-                            <View
-                                android:id="@+id/llSatLine"
-                                android:layout_width="match_parent"
-                                android:layout_height="3dp"
-                                android:layout_gravity="bottom"
-                                android:background="@drawable/grad_bg_backnforth" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/llSun"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@drawable/ripple_effect_white"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginTop="12dp"
-                                android:fontFamily="sans-serif-medium"
-                                android:text="Sun"
-                                android:textColor="@color/Black"
-                                android:textSize="14sp" />
-
-                            <View
-                                android:id="@+id/llSunLine"
-                                android:layout_width="match_parent"
-                                android:layout_height="3dp"
-                                android:layout_gravity="bottom"
-                                android:background="@drawable/grad_bg_backnforth" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/llPH"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@drawable/ripple_effect_white"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginTop="12dp"
-                                android:fontFamily="sans-serif-medium"
-                                android:text="PH"
-                                android:textColor="@color/Black"
-                                android:textSize="14sp" />
-
-                            <View
-                                android:id="@+id/llPHLine"
-                                android:layout_width="match_parent"
-                                android:layout_height="3dp"
-                                android:layout_gravity="bottom"
-                                android:background="@drawable/grad_bg_backnforth" />
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="12dp"
-                        android:fontFamily="sans-serif-medium"
-                        android:text="What about Your Operating Hours?"
-                        android:textColor="@color/Black"
-                        android:textSize="14sp" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:orientation="horizontal">
-
-
-                        <com.rengwuxian.materialedittext.MaterialEditText
-                            android:id="@+id/etOpen"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="5dp"
-                            android:layout_weight="1"
-                            android:focusable="false"
-                            android:hint="Open time"
-                            android:textSize="14sp"
-                            app:met_floatingLabel="highlight" />
-
-                        <com.rengwuxian.materialedittext.MaterialEditText
-                            android:id="@+id/etClose"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="5dp"
-                            android:layout_weight="1"
-                            android:focusable="false"
-                            android:hint="Close time"
-                            android:textSize="14sp"
-                            app:met_floatingLabel="highlight" />
-
-                        <androidx.cardview.widget.CardView
-                            android:id="@+id/cvAdd"
-                            android:layout_width="100dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center"
-                            android:fontFamily="sans-serif-medium"
-                            android:padding="50dp"
-                            app:cardCornerRadius="10dp"
-                            app:cardElevation="3dp">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:background="@drawable/ripple_effect"
-                                android:fontFamily="sans-serif-medium"
-                                android:gravity="center"
-                                android:text="Next"
-                                android:textAllCaps="false"
-                                android:textColor="@color/White"
-                                android:textSize="14sp" />
-                        </androidx.cardview.widget.CardView>
-                    </LinearLayout>
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
         </GridLayout>
     </ScrollView>
 
@@ -607,5 +330,6 @@
         android:layout_gravity="center|bottom"
         android:background="@drawable/ripple_effect"
         android:text="Next"
+        android:onClick="next"
         android:textColor="@color/White" />
 </RelativeLayout>

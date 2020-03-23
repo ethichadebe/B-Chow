@@ -8,32 +8,36 @@ public class MyShopItem {
     private int intID;
     private String strShopName;
     private String strPosition;
-    private int intLogo;
+    private int intLogoSmall;
+    private int intLogoBig;
     private String strShortDescript;
     private String strFullDescript;
     private Location locLocation;
     private String strAveTime;
     private int intRating;
-    private String[] strOperatingHRS = new String[8];
+    private StringBuilder strOperatingHRS = new StringBuilder();
     private ArrayList<IngredientItem> ingredientItems;
     private ArrayList<MenuItem> menuItems;
 
     /**
      * Standard constructor
+     *
      * @param intID
      * @param strShopName
-     * @param intLogo
+     * @param intLogoSmall
+     * @param intLogoBig
      * @param strShortDescript
      * @param strFullDescript
      * @param locLocation
      * @param strAveTime
      * @param intRating
      */
-    public MyShopItem(int intID, String strShopName, int intLogo, String strShortDescript,
+    public MyShopItem(int intID, String strShopName, int intLogoSmall, int intLogoBig, String strShortDescript,
                       String strFullDescript, Location locLocation, String strAveTime, int intRating) {
         this.intID = intID;
         this.strShopName = strShopName;
-        this.intLogo = intLogo;
+        this.intLogoSmall = intLogoSmall;
+        this.intLogoBig = intLogoBig;
         this.strShortDescript = strShortDescript;
         this.strFullDescript = strFullDescript;
         this.locLocation = locLocation;
@@ -43,10 +47,12 @@ public class MyShopItem {
 
     /**
      * Standard constructor + operating Hours
+     *
      * @param intID
      * @param strShopName
      * @param strPosition
-     * @param intLogo
+     * @param intLogoSmall
+     * @param intLogoBig
      * @param strShortDescript
      * @param strFullDescript
      * @param locLocation
@@ -54,13 +60,14 @@ public class MyShopItem {
      * @param intRating
      * @param strOperatingHRS
      */
-    public MyShopItem(int intID, String strShopName, String strPosition, int intLogo, String strShortDescript,
+    public MyShopItem(int intID, String strShopName, String strPosition, int intLogoSmall, int intLogoBig, String strShortDescript,
                       String strFullDescript, Location locLocation, String strAveTime, int intRating,
-                      String[] strOperatingHRS) {
+                      StringBuilder strOperatingHRS) {
         this.intID = intID;
         this.strShopName = strShopName;
         this.strPosition = strPosition;
-        this.intLogo = intLogo;
+        this.intLogoSmall = intLogoSmall;
+        this.intLogoBig = intLogoBig;
         this.strShortDescript = strShortDescript;
         this.strFullDescript = strFullDescript;
         this.locLocation = locLocation;
@@ -71,10 +78,12 @@ public class MyShopItem {
 
     /**
      * default constructor
+     *
      * @param intID
      * @param strShopName
      * @param strPosition
-     * @param intLogo
+     * @param intLogoSmall
+     * @param intLogoBig
      * @param strShortDescript
      * @param strFullDescript
      * @param locLocation
@@ -84,22 +93,43 @@ public class MyShopItem {
      * @param ingredientItems
      * @param menuItems
      */
-    public MyShopItem(int intID, String strShopName, String strPosition, int intLogo, String strShortDescript,
-                      String strFullDescript, Location locLocation, String strAveTime, int intRating,
-                      String[] strOperatingHRS, ArrayList<IngredientItem> ingredientItems,
-                      ArrayList<MenuItem> menuItems) {
+    public MyShopItem(int intID, String strShopName, String strPosition, int intLogoSmall, int intLogoBig,
+                      String strShortDescript, String strFullDescript, Location locLocation, String strAveTime, int intRating,
+                      StringBuilder strOperatingHRS, ArrayList<IngredientItem> ingredientItems, ArrayList<MenuItem> menuItems) {
         this.intID = intID;
         this.strShopName = strShopName;
         this.strPosition = strPosition;
-        this.intLogo = intLogo;
+        this.intLogoSmall = intLogoSmall;
+        this.intLogoBig = intLogoBig;
         this.strShortDescript = strShortDescript;
         this.strFullDescript = strFullDescript;
-        this.locLocation = locLocation;
+        this.intLogoSmall = intLogoSmall;
+        this.intLogoBig = intLogoBig;
         this.strAveTime = strAveTime;
         this.intRating = intRating;
         this.strOperatingHRS = strOperatingHRS;
         this.ingredientItems = ingredientItems;
         this.menuItems = menuItems;
+    }
+
+    /**
+     * Shop Registration constructor
+     *
+     * @param strShopName
+     * @param intLogoSmall
+     * @param intLogoBig
+     * @param strShortDescript
+     * @param strFullDescript
+     * @param locLocation
+     */
+    public MyShopItem(String strShopName, String strShortDescript, String strFullDescript, int intLogoSmall, int intLogoBig,
+                      Location locLocation) {
+        this.strShopName = strShopName;
+        this.intLogoSmall = intLogoSmall;
+        this.intLogoBig = intLogoBig;
+        this.strShortDescript = strShortDescript;
+        this.strFullDescript = strFullDescript;
+        this.locLocation = locLocation;
     }
 
     public int getIntID() {
@@ -124,14 +154,6 @@ public class MyShopItem {
 
     public void setStrPosition(String strPosition) {
         this.strPosition = strPosition;
-    }
-
-    public int getIntLogo() {
-        return intLogo;
-    }
-
-    public void setIntLogo(int intLogo) {
-        this.intLogo = intLogo;
     }
 
     public String getStrShortDescript() {
@@ -174,11 +196,11 @@ public class MyShopItem {
         this.intRating = intRating;
     }
 
-    public String[] getStrOperatingHRS() {
+    public StringBuilder getStrOperatingHRS() {
         return strOperatingHRS;
     }
 
-    public void setStrOperatingHRS(String[] strOperatingHRS) {
+    public void setStrOperatingHRS(StringBuilder strOperatingHRS) {
         this.strOperatingHRS = strOperatingHRS;
     }
 
@@ -196,5 +218,21 @@ public class MyShopItem {
 
     public void setMenuItems(ArrayList<MenuItem> menuItems) {
         this.menuItems = menuItems;
+    }
+
+    public int getIntLogoSmall() {
+        return intLogoSmall;
+    }
+
+    public void setIntLogoSmall(int intLogoSmall) {
+        this.intLogoSmall = intLogoSmall;
+    }
+
+    public int getIntLogoBig() {
+        return intLogoBig;
+    }
+
+    public void setIntLogoBig(int intLogoBig) {
+        this.intLogoBig = intLogoBig;
     }
 }

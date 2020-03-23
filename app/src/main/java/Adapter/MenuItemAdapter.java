@@ -96,7 +96,7 @@ public class MenuItemAdapter extends RecyclerView.Adapter<MenuItemAdapter.MenuVi
     public void onBindViewHolder(@NonNull MenuViewHolder holder, int position) {
         MenuItem item = menuList.get(position);
 
-        holder.tvPrice.setText(String.valueOf(item.getDblPrice()));
+        holder.tvPrice.setText("R"+String.valueOf(item.getDblPrice()));
         holder.tvIngredients.setText(item.getStrMenu());
         holder.ivEdit.setImageResource(item.getIntEdit());
         holder.ivDelete.setImageResource(item.getIntDelete());

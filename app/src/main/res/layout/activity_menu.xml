@@ -35,6 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_columnWeight="1"
             android:layout_rowWeight="1"
+            android:onClick="back"
             android:background="@drawable/ripple_effect_white"
             app:cardElevation="3dp">
 
@@ -162,7 +163,7 @@
         android:id="@+id/btnFinish"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Finish"
+        android:text="Next"
         android:layout_alignParentBottom="true"
         android:background="@drawable/ripple_effect"
         android:textColor="@color/White"/>

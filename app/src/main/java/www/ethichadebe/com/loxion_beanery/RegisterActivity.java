@@ -36,6 +36,7 @@ import util.HelperMethods;
 
 import static util.Constants.getIpAddress;
 import static util.HelperMethods.MakeBlack;
+import static util.HelperMethods.allFieldsEntered;
 
 public class RegisterActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
     private RelativeLayout rellay1;
@@ -131,15 +132,15 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
 
         mButtonRegister.setOnClickListener(view -> {
 
-            if (!allFieldsEntered() && !sexIsChecked()) {
+            if (!allFieldsEntered(mTextBoxes, getResources().getColor(R.color.Red), getResources().getColor(R.color.Black)) && !sexIsChecked()) {
                 mViewError.setText(R.string.enter_all_required_details);
-            } else if (!allFieldsEntered()) {
+            } else if (!allFieldsEntered(mTextBoxes, getResources().getColor(R.color.Red), getResources().getColor(R.color.Black))) {
                 mViewError.setText(R.string.enter_all_required_details);
             } else if (!sexIsChecked()) {
                 mViewError.setText("Select gender");
             } else if (!passwordMatches()) {
                 mViewError.setText("Password doesn't match");
-            } else if (allFieldsEntered() && sexIsChecked() && passwordMatches()) {
+            } else if (allFieldsEntered(mTextBoxes, getResources().getColor(R.color.Red), getResources().getColor(R.color.Black)) && sexIsChecked() && passwordMatches()) {
                 POSTRegister();
             }
         });
@@ -208,21 +209,6 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
-    }
-
-    private boolean allFieldsEntered() {
-        boolean allEntered = true;
-        for (int i = 0; i < mTextBoxes.length; i++) {
-            if (Objects.requireNonNull(mTextBoxes[i].getText()).toString().isEmpty()) {
-                MakeBlack(mTextBoxes, i, getResources().getColor(R.color.Black));
-                mTextBoxes[i].setUnderlineColor(getResources().getColor(R.color.Red));
-                allEntered = false;
-            }
-        }
-        for (int i = 0; i < mTextBoxes.length; i++) {
-            MakeBlack(mTextBoxes, i, getResources().getColor(R.color.Black));
-        }
-        return allEntered;
     }
 
     private boolean sexIsChecked() {

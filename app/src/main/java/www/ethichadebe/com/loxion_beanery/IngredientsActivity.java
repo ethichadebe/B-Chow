@@ -12,7 +12,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.rengwuxian.materialedittext.MaterialEditText;
@@ -37,7 +36,6 @@ public class IngredientsActivity extends AppCompatActivity {
     private MaterialEditText etName, etPrice;
     private Dialog myDialog;
 
-    private LinearLayout llBack;
     private Button btnNext;
 
     @Override
@@ -49,25 +47,11 @@ public class IngredientsActivity extends AppCompatActivity {
         ingredientItems = new ArrayList<>();
         MenuItems = new ArrayList<>();
         btnNext = findViewById(R.id.btnNext);
-        llBack = findViewById(R.id.llBack);
         etName = findViewById(R.id.etName);
         btnAddOption = findViewById(R.id.btnAddOption);
         etPrice = findViewById(R.id.etPrice);
 
         ButtonVisibility(ingredientItems,btnNext);
-        btnNext.setOnClickListener(view -> {
-            getNewShop().setIngredientItems(ingredientItems);
-            startActivity(new Intent(IngredientsActivity.this, MenuActivity.class));
-        });
-
-        llBack.setOnClickListener(view -> {
-            if (!ingredientItems.isEmpty()) {
-                ShowConfirmationPopup();
-            } else {
-                finish();
-            }
-        });
-
         btnAddOption.setOnClickListener(view -> {
             if (etName.getText().toString().isEmpty() && etPrice.getText().toString().isEmpty()) {
                 etName.setUnderlineColor(getResources().getColor(R.color.Red));
@@ -160,4 +144,16 @@ public class IngredientsActivity extends AppCompatActivity {
         myDialog.show();
     }
 
+    public void back(View view) {
+        if (!ingredientItems.isEmpty()) {
+            ShowConfirmationPopup();
+        } else {
+            finish();
+        }
+    }
+
+    public void next(View view) {
+        getNewShop().setIngredientItems(ingredientItems);
+        startActivity(new Intent(IngredientsActivity.this, MenuActivity.class));
+    }
 }

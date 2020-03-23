@@ -36,16 +36,7 @@ public class MenuActivity extends AppCompatActivity {
     private static Double dblPrice;
     private Dialog myDialog;
     private Button btnFinish;
-    private CardView llAddMenu, llBack;
-    private static boolean isNew = false;
-
-    public static boolean isNew() {
-        return isNew;
-    }
-
-    public static void setIsNew(boolean isNew) {
-        MenuActivity.isNew = isNew;
-    }
+    private CardView llAddMenu;
 
 
     @Override
@@ -65,7 +56,6 @@ public class MenuActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
 
-        llBack = findViewById(R.id.llBack);
         btnFinish = findViewById(R.id.btnFinish);
         llAddMenu = findViewById(R.id.llAddMenu);
 
@@ -73,20 +63,10 @@ public class MenuActivity extends AppCompatActivity {
         ButtonVisibility(MenuItems, btnFinish);
 
         btnFinish.setOnClickListener(view -> {
-            getNewShop().setMenuItems(getMenuItems());
-            isNew = true;
-            startActivity(new Intent(MenuActivity.this, MyShopsActivity.class));
+            startActivity(new Intent(MenuActivity.this, NewExtrasActivity.class));
         });
 
         llAddMenu.setOnClickListener(view -> startActivity(new Intent(MenuActivity.this, NewMenuItemActivity.class)));
-
-        llBack.setOnClickListener(view -> {
-            if (MenuItems.isEmpty()) {
-                finish();
-            } else {
-                ShowConfirmationPopup();
-            }
-        });
 
         mAdapter.setOnItemClickListener(new MenuItemAdapter.OnItemClickListener() {
             @Override
@@ -196,5 +176,13 @@ public class MenuActivity extends AppCompatActivity {
             }
         }
         return 1;
+    }
+
+    public void back(View view) {
+        if (MenuItems.isEmpty()) {
+            finish();
+        } else {
+            ShowConfirmationPopup();
+        }
     }
 }
