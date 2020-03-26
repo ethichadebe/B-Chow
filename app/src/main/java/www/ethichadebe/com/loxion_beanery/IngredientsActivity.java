@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import Adapter.IngredientItemAdapter;
 import SingleItem.IngredientItem;
@@ -53,13 +54,13 @@ public class IngredientsActivity extends AppCompatActivity {
 
         ButtonVisibility(ingredientItems,btnNext);
         btnAddOption.setOnClickListener(view -> {
-            if (etName.getText().toString().isEmpty() && etPrice.getText().toString().isEmpty()) {
+            if (Objects.requireNonNull(etName.getText()).toString().isEmpty() && Objects.requireNonNull(etPrice.getText()).toString().isEmpty()) {
                 etName.setUnderlineColor(getResources().getColor(R.color.Red));
                 etPrice.setUnderlineColor(getResources().getColor(R.color.Red));
             } else if (etName.getText().toString().isEmpty()) {
                 etName.setUnderlineColor(getResources().getColor(R.color.Red));
                 etPrice.setUnderlineColor(getResources().getColor(R.color.Black));
-            } else if (etPrice.getText().toString().isEmpty()) {
+            } else if (Objects.requireNonNull(etPrice.getText()).toString().isEmpty()) {
                 etName.setUnderlineColor(getResources().getColor(R.color.Black));
                 etPrice.setUnderlineColor(getResources().getColor(R.color.Red));
             } else {

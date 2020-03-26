@@ -80,6 +80,11 @@
                     android:inputType="textPersonName"
                     android:textSize="14sp"
                     app:met_floatingLabel="highlight" />
+                <CheckBox
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Remember me"
+                    android:id="@+id/cbRemember"/>
             </LinearLayout>
 
             <TextView

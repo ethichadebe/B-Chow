@@ -35,7 +35,7 @@ public class MenuActivity extends AppCompatActivity {
     private static int intPosition;
     private static Double dblPrice;
     private Dialog myDialog;
-    private Button btnFinish;
+    private Button btnNext;
     private CardView llAddMenu;
 
 
@@ -56,15 +56,11 @@ public class MenuActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
 
-        btnFinish = findViewById(R.id.btnFinish);
+        btnNext = findViewById(R.id.btnNext);
         llAddMenu = findViewById(R.id.llAddMenu);
 
         //Set Button Visibility False if no menu item
-        ButtonVisibility(MenuItems, btnFinish);
-
-        btnFinish.setOnClickListener(view -> {
-            startActivity(new Intent(MenuActivity.this, NewExtrasActivity.class));
-        });
+        ButtonVisibility(MenuItems, btnNext);
 
         llAddMenu.setOnClickListener(view -> startActivity(new Intent(MenuActivity.this, NewMenuItemActivity.class)));
 
@@ -85,7 +81,7 @@ public class MenuActivity extends AppCompatActivity {
             public void onDeleteClick(int position) {
                 MenuItems.remove(position);
                 mAdapter.notifyItemRemoved(position);
-                ButtonVisibility(MenuItems, btnFinish);
+                ButtonVisibility(MenuItems, btnNext);
             }
         });
 
@@ -184,5 +180,9 @@ public class MenuActivity extends AppCompatActivity {
         } else {
             ShowConfirmationPopup();
         }
+    }
+
+    public void next(View view) {
+        startActivity(new Intent(MenuActivity.this, NewExtrasActivity.class));
     }
 }

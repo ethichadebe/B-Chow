@@ -8,7 +8,7 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.CheckBox;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -16,10 +16,9 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.rengwuxian.materialedittext.MaterialEditText;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,8 +35,9 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
     private MaterialEditText[] etOpen = new MaterialEditText[8];
     private MaterialEditText[] etClose = new MaterialEditText[8];
     private String DayOfWeek;
-    String strTimes = "";
-    private CheckBox[] cbDays = new CheckBox[8];
+    private String strTimes = "";
+    private TextView[] tvDays = new TextView[8];
+    private int[] intBackground = {0,0,0,0,0,0,0,0};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,14 +45,14 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
         setContentView(R.layout.activity_operating_hours);
 
         myDialog = new Dialog(this);
-        cbDays[0] = findViewById(R.id.cbMon);
-        cbDays[1] = findViewById(R.id.cbTue);
-        cbDays[2] = findViewById(R.id.cbWed);
-        cbDays[3] = findViewById(R.id.cbThu);
-        cbDays[4] = findViewById(R.id.cbFri);
-        cbDays[5] = findViewById(R.id.cbSat);
-        cbDays[6] = findViewById(R.id.cbSun);
-        cbDays[7] = findViewById(R.id.cbPH);
+        tvDays[0] = findViewById(R.id.tvMon);
+        tvDays[1] = findViewById(R.id.tvTue);
+        tvDays[2] = findViewById(R.id.tvWed);
+        tvDays[3] = findViewById(R.id.tvThu);
+        tvDays[4] = findViewById(R.id.tvFri);
+        tvDays[5] = findViewById(R.id.tvSat);
+        tvDays[6] = findViewById(R.id.tvSun);
+        tvDays[7] = findViewById(R.id.tvPH);
 
         etOpen[0] = findViewById(R.id.etOpenMon);
         etOpen[1] = findViewById(R.id.etOpenTue);
@@ -71,6 +71,15 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
         etClose[5] = findViewById(R.id.etCloseSat);
         etClose[6] = findViewById(R.id.etCloseSun);
         etClose[7] = findViewById(R.id.etClosePH);
+
+        dayOnClick(0);
+        dayOnClick(1);
+        dayOnClick(2);
+        dayOnClick(3);
+        dayOnClick(4);
+        dayOnClick(5);
+        dayOnClick(6);
+        dayOnClick(7);
 
         etOnClick(etOpen[0], "o1");
         etOnClick(etOpen[1], "o2");
@@ -174,7 +183,11 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
     public void next(View view) {
         if (allFieldsEntered()) {
             for (int i = 0; i < etOpen.length; i++) {
-                strTimes += Objects.requireNonNull(etOpen[i].getText()).toString() + "-" + Objects.requireNonNull(etClose[i].getText()).toString() + ", ";
+                if (i == (etOpen.length - 1)) {
+                    strTimes += Objects.requireNonNull(etOpen[i].getText()).toString() + "-" + Objects.requireNonNull(etClose[i].getText()).toString();
+                } else {
+                    strTimes += Objects.requireNonNull(etOpen[i].getText()).toString() + "-" + Objects.requireNonNull(etClose[i].getText()).toString() + ", ";
+                }
             }
             getNewShop().setStrOperatingHRS(strTimes);      //Set Operating hours
             POSTRegisterShop();
@@ -185,16 +198,16 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
         boolean allEntered = true;
         for (int i = 0; i < etOpen.length; i++) {
             if (Objects.requireNonNull(etOpen[i].getText()).toString().isEmpty() || Objects.requireNonNull(etClose[i].getText()).toString().isEmpty()) {
-                MakeBlack(etOpen, i, getResources().getColor(R.color.Black));
+                MakeBlack(etOpen, i, getResources().getColor(R.color.Grey));
                 etOpen[i].setUnderlineColor(getResources().getColor(R.color.Red));
-                MakeBlack(etClose, i, getResources().getColor(R.color.Black));
+                MakeBlack(etClose, i, getResources().getColor(R.color.Grey));
                 etClose[i].setUnderlineColor(getResources().getColor(R.color.Red));
                 allEntered = false;
             }
         }
         for (int i = 0; i < etOpen.length; i++) {
-            MakeBlack(etOpen, i, getResources().getColor(R.color.Black));
-            MakeBlack(etClose, i, getResources().getColor(R.color.Black));
+            MakeBlack(etOpen, i, getResources().getColor(R.color.Grey));
+            MakeBlack(etClose, i, getResources().getColor(R.color.Grey));
         }
         return allEntered;
     }
@@ -204,8 +217,8 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
     }
 
     private void checkCheckedDays(MaterialEditText[] etClose, int Hour, int Minute) {
-        for (int i = 0; i < cbDays.length; i++) {
-            if (cbDays[i].isChecked()) {
+        for (int i = 0; i < tvDays.length; i++) {
+            if (intBackground[i] == 1) {
                 etClose[i].setText(Hour + ":" + Minute);
             }
         }
@@ -240,4 +253,22 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
         requestQueue.add(stringRequest);
     }
 
+    private void dayOnClick(int index) {
+        tvDays[index].setOnClickListener(view -> {
+            if (intBackground[index] == 0) {
+                YoYo.with(Techniques.ZoomIn)
+                        .duration(400)
+                        .repeat(0)
+                        .playOn(tvDays[index]);
+                tvDays[index].setBackground(getResources().getDrawable(R.drawable.circle_bg_checked));
+                tvDays[index].setTextColor(getResources().getColor(R.color.colorPrimary));
+                intBackground[index] = 1;
+            } else {
+                tvDays[index].setBackground(getResources().getDrawable(R.drawable.circle_bg_unchecked));
+                tvDays[index].setTextColor(getResources().getColor(R.color.Grey));
+                intBackground[index] = 0;
+            }
+        });
+
+    }
 }

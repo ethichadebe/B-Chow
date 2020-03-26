@@ -8,6 +8,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,11 +18,8 @@ import androidx.cardview.widget.CardView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import org.json.JSONArray;
@@ -39,6 +37,7 @@ import static util.Constants.getIpAddress;
 
 public class LoginActivity extends AppCompatActivity {
     private RelativeLayout rellay1, rellay2;
+    private CheckBox cbRemember;
     private Handler handler = new Handler();
     private Runnable runnable = new Runnable() {
         @Override
@@ -47,7 +46,6 @@ public class LoginActivity extends AppCompatActivity {
             rellay2.setVisibility(View.VISIBLE);
         }
     };
-
     private static User user;
     private Dialog myDialog;
     private MaterialEditText mTextPassword, mTextUsername;
@@ -62,22 +60,22 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         rellay1 = findViewById(R.id.rellay1);
         rellay2 = findViewById(R.id.rellay2);
-        handler.postDelayed(runnable, 3000);
-
-        myDialog = new Dialog(this);
         mTextUsername = findViewById(R.id.txtUsername);
         mTextPassword = findViewById(R.id.txtPassword);
+        cbRemember = findViewById(R.id.cbRemember);
+
+        myDialog = new Dialog(this);
 
         //Check if shared prefs are empty
         loadData();
-        /*if (!mTextUsername.getText().toString().isEmpty() && !mTextPassword.getText().toString().isEmpty()) {
+        if (!Objects.requireNonNull(mTextUsername.getText()).toString().isEmpty() &&
+                !Objects.requireNonNull(mTextPassword.getText()).toString().isEmpty()) {
             PostLogin();
-        }*/
+        } else {
+            handler.postDelayed(runnable, 3000);
+        }
+
         //Image
-        YoYo.with(Techniques.SlideInUp)
-                .duration(2000)
-                .repeat(1)
-                .playOn(findViewById(R.id.ivLogo));
         CardView mButtonLogin = findViewById(R.id.btnLogin);
         CardView mButtonRegister = findViewById(R.id.btnRegister);
 
@@ -100,7 +98,6 @@ public class LoginActivity extends AppCompatActivity {
                 mTextUsername.setUnderlineColor(getResources().getColor(R.color.Black));
                 mViewError.setText("Enter Password");
             } else {
-                saveData();
                 PostLogin();
             }
         });
@@ -133,7 +130,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void PostLogin() {
         HelperMethods.ShowLoadingPopup(myDialog, true);
-        StringRequest  stringRequest = new StringRequest (Request.Method.POST,
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,
                 "http://" + getIpAddress() + "/users/Login",
                 response -> {
                     HelperMethods.ShowLoadingPopup(myDialog, false);
@@ -151,6 +148,9 @@ public class LoginActivity extends AppCompatActivity {
                                     userData.getString("uSurname"), userData.getString("uDOB"),
                                     userData.getString("uSex"), userData.getString("uEmail"),
                                     userData.getString("uNumber"));
+                            if (cbRemember.isChecked()) {
+                                saveData();
+                            }
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         }
                     } catch (JSONException e) {

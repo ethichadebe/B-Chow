@@ -51,8 +51,8 @@ public class HomeFragment extends Fragment {
     private TextView tvEmpty, tvSearch;
     private MaterialEditText etSearch;
     private CardView cvRetry;
-    final ArrayList<ShopItem> shopItems = new ArrayList<>();
-
+    private static ArrayList<ShopItem> shopItems = new ArrayList<>();
+    private static int position;
     private RelativeLayout rlLoad, rlError;
 
     @Nullable
@@ -77,6 +77,7 @@ public class HomeFragment extends Fragment {
         mAdapter.setOnItemClickListener(position -> {
             /*shopItems.get(position)*/
             startActivity(new Intent(getActivity(), ShopHomeActivity.class));
+            HomeFragment.position = position;
         });
 
         cvRetry.setOnClickListener(view -> {
@@ -139,5 +140,9 @@ public class HomeFragment extends Fragment {
                 });
         requestQueue.add(objectRequest);
 
+    }
+
+    static ShopItem getShopItem() {
+        return shopItems.get(position);
     }
 }

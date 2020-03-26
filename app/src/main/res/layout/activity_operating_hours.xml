@@ -124,62 +124,95 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <CheckBox
-                        android:id="@+id/cbMon"
+                    <TextView
+                        android:id="@+id/tvMon"
                         android:layout_width="0dp"
+                        android:gravity="center"
                         android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:background="@drawable/circle_bg_unchecked"
+                        android:textColor="@color/Grey"
                         android:layout_weight="1"
                         android:text="M" />
 
-                    <CheckBox
-                        android:id="@+id/cbTue"
+                    <TextView
+                        android:id="@+id/tvTue"
                         android:layout_width="0dp"
+                        android:gravity="center"
+                        android:textColor="@color/Grey"
                         android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:background="@drawable/circle_bg_unchecked"
                         android:layout_weight="1"
                         android:text="T" />
 
-                    <CheckBox
-                        android:id="@+id/cbWed"
+                    <TextView
+                        android:id="@+id/tvWed"
                         android:layout_width="0dp"
+                        android:gravity="center"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/Grey"
+                        android:layout_margin="5dp"
+                        android:background="@drawable/circle_bg_unchecked"
                         android:layout_weight="1"
                         android:text="W" />
 
-                    <CheckBox
-                        android:id="@+id/cbThu"
+                    <TextView
+                        android:id="@+id/tvThu"
                         android:layout_width="0dp"
+                        android:gravity="center"
+                        android:textColor="@color/Grey"
                         android:layout_height="wrap_content"
+                        android:background="@drawable/circle_bg_unchecked"
+                        android:layout_margin="5dp"
                         android:layout_weight="1"
                         android:text="T" />
 
-                    <CheckBox
-                        android:id="@+id/cbFri"
+                    <TextView
+                        android:id="@+id/tvFri"
                         android:layout_width="0dp"
+                        android:gravity="center"
+                        android:layout_margin="5dp"
+                        android:textColor="@color/Grey"
                         android:layout_height="wrap_content"
+                        android:background="@drawable/circle_bg_unchecked"
                         android:layout_weight="1"
                         android:text="F" />
 
-                    <CheckBox
-                        android:id="@+id/cbSat"
+                    <TextView
+                        android:id="@+id/tvSat"
                         android:layout_width="0dp"
+                        android:gravity="center"
+                        android:textColor="@color/Grey"
+                        android:layout_margin="5dp"
                         android:layout_height="wrap_content"
+                        android:background="@drawable/circle_bg_unchecked"
                         android:layout_weight="1"
                         android:text="S" />
 
-                    <CheckBox
-                        android:id="@+id/cbSun"
+                    <TextView
+                        android:id="@+id/tvSun"
                         android:layout_width="0dp"
+                        android:gravity="center"
+                        android:textColor="@color/Grey"
                         android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:background="@drawable/circle_bg_unchecked"
                         android:layout_weight="1"
                         android:text="S" />
 
-                    <CheckBox
-                        android:id="@+id/cbPH"
+                    <TextView
+                        android:id="@+id/tvPH"
                         android:layout_width="0dp"
+                        android:gravity="center"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/Grey"
+                        android:layout_margin="5dp"
+                        android:background="@drawable/circle_bg_unchecked"
                         android:layout_weight="1"
                         android:text="PH" />
-                </LinearLayout>
+
+                    </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
     </RelativeLayout>
