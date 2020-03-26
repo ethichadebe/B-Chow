@@ -39,7 +39,7 @@ public class HelperMethods {
                 .playOn(vLine);
     }
 
-    public static void handler(final View vLine, final View vLineGrey) {
+    public static void handler(View vLine, View vLineGrey) {
         Handler handler = new Handler();
         handler.postDelayed(LoaderMotion(vLine), 0);
         handler.postDelayed(LoaderMotion(vLineGrey), 500);

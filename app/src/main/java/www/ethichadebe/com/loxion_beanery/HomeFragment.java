@@ -3,13 +3,9 @@ package www.ethichadebe.com.loxion_beanery;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
-import android.os.Handler;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,11 +33,9 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import Adapter.ShopItemAdapter;
-import SingleItem.PastOrderItem;
 import SingleItem.ShopItem;
 
 import static util.Constants.getIpAddress;
-import static util.HelperMethods.LoaderMotion;
 import static util.HelperMethods.handler;
 
 public class HomeFragment extends Fragment {
@@ -74,19 +68,22 @@ public class HomeFragment extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
 
+        //Search for nearby shops
+        GETShops(v.findViewById(R.id.vLine), v.findViewById(R.id.vLineGrey));
+
+        //ShopItem on click
         mAdapter.setOnItemClickListener(position -> {
             /*shopItems.get(position)*/
             startActivity(new Intent(getActivity(), ShopHomeActivity.class));
             HomeFragment.position = position;
         });
 
+        //Retry button when network error occurs
         cvRetry.setOnClickListener(view -> {
-            rlError.setVisibility(View.GONE);
-            handler(v.findViewById(R.id.vLine), v.findViewById(R.id.vLineGrey));
-            rlLoad.setVisibility(View.VISIBLE);
-            GETShops();
+            GETShops(v.findViewById(R.id.vLine), v.findViewById(R.id.vLineGrey));
         });
 
+        //Search Button on click
         tvSearch.setOnClickListener(view -> {
             if (etSearch.getVisibility() == View.GONE) {
                 etSearch.setVisibility(View.VISIBLE);
@@ -97,12 +94,13 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        handler(v.findViewById(R.id.vLine), v.findViewById(R.id.vLineGrey));
-        GETShops();
         return v;
     }
 
-    private void GETShops() {
+    private void GETShops(View vLine, View vLineGrey) {
+        rlError.setVisibility(View.GONE);
+        rlLoad.setVisibility(View.VISIBLE);
+        handler(vLine, vLineGrey);
         RequestQueue requestQueue = Volley.newRequestQueue(Objects.requireNonNull(getActivity()));
 
         JsonObjectRequest objectRequest = new JsonObjectRequest(

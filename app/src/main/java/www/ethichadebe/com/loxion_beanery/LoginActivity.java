@@ -34,6 +34,7 @@ import util.HelperMethods;
 import util.User;
 
 import static util.Constants.getIpAddress;
+import static util.HelperMethods.handler;
 
 public class LoginActivity extends AppCompatActivity {
     private RelativeLayout rellay1, rellay2;
@@ -49,6 +50,7 @@ public class LoginActivity extends AppCompatActivity {
     private static User user;
     private Dialog myDialog;
     private MaterialEditText mTextPassword, mTextUsername;
+    private RelativeLayout rlLoad;
     private TextView mViewError;
     public static final String SHARED_PREFS = "sharedPrefs";
     public static final String USERNAME = "Username";
@@ -63,6 +65,7 @@ public class LoginActivity extends AppCompatActivity {
         mTextUsername = findViewById(R.id.txtUsername);
         mTextPassword = findViewById(R.id.txtPassword);
         cbRemember = findViewById(R.id.cbRemember);
+        rlLoad = findViewById(R.id.rlLoad);
 
         myDialog = new Dialog(this);
 
@@ -70,6 +73,7 @@ public class LoginActivity extends AppCompatActivity {
         loadData();
         if (!Objects.requireNonNull(mTextUsername.getText()).toString().isEmpty() &&
                 !Objects.requireNonNull(mTextPassword.getText()).toString().isEmpty()) {
+            handler(findViewById(R.id.vLine), findViewById(R.id.vLineGrey));
             PostLogin();
         } else {
             handler.postDelayed(runnable, 3000);
