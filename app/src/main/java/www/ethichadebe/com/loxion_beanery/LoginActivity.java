@@ -34,6 +34,7 @@ import util.HelperMethods;
 import util.User;
 
 import static util.Constants.getIpAddress;
+import static util.HelperMethods.ShowLoadingPopup;
 import static util.HelperMethods.handler;
 
 public class LoginActivity extends AppCompatActivity {
@@ -73,8 +74,7 @@ public class LoginActivity extends AppCompatActivity {
         loadData();
         if (!Objects.requireNonNull(mTextUsername.getText()).toString().isEmpty() &&
                 !Objects.requireNonNull(mTextPassword.getText()).toString().isEmpty()) {
-            handler(findViewById(R.id.vLine), findViewById(R.id.vLineGrey));
-            PostLogin();
+            PostLogin(findViewById(R.id.vLine), findViewById(R.id.vLineGrey), false);
         } else {
             handler.postDelayed(runnable, 3000);
         }
@@ -102,7 +102,7 @@ public class LoginActivity extends AppCompatActivity {
                 mTextUsername.setUnderlineColor(getResources().getColor(R.color.Black));
                 mViewError.setText("Enter Password");
             } else {
-                PostLogin();
+                PostLogin(findViewById(R.id.vLine), findViewById(R.id.vLineGrey), true);
             }
         });
 
@@ -132,12 +132,17 @@ public class LoginActivity extends AppCompatActivity {
         mTextUsername.setText(sharedPreferences.getString(USERNAME, ""));
     }
 
-    private void PostLogin() {
-        HelperMethods.ShowLoadingPopup(myDialog, true);
+    private void PostLogin(View vLine, View vLineGrey, boolean isPopup) {
+        rlLoad.setVisibility(View.VISIBLE);
+        if (isPopup){
+            ShowLoadingPopup(myDialog, true);
+        }else{
+            handler(vLine, vLineGrey);
+        }
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
                 "http://" + getIpAddress() + "/users/Login",
                 response -> {
-                    HelperMethods.ShowLoadingPopup(myDialog, false);
+                    ShowLoadingPopup(myDialog, false);
                     try {
                         JSONObject JSONResponse = new JSONObject(response);
 
@@ -161,7 +166,8 @@ public class LoginActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }, error -> {
-            HelperMethods.ShowLoadingPopup(myDialog, false);
+            rlLoad.setVisibility(View.GONE);
+            ShowLoadingPopup(myDialog, false);
             Toast.makeText(LoginActivity.this, error.toString(), Toast.LENGTH_LONG).show();
         }) {
             @Override
