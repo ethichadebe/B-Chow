@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -25,7 +25,7 @@
             android:layout_marginBottom="0dp"
             android:gravity="center"
             android:padding="10dp"
-            android:text="User Profile"
+            android:text="Your Profile"
             android:textColor="@color/Black"
             android:textSize="12sp"
             android:textStyle="bold" />
@@ -63,8 +63,10 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/rlHeader"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/llHead">
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -108,6 +110,8 @@
     <LinearLayout
         android:layout_width="360dp"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/rlHeader"
+        android:layout_centerHorizontal="true"
         android:layout_gravity="center"
         android:layout_marginTop="45dp"
         android:orientation="vertical">
@@ -199,4 +203,32 @@
                 android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+
+    <TextView
+        android:id="@+id/tvLogOut"
+        style="@style/Base.TextAppearance.AppCompat.Body1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/tvDeactivate"
+        android:background="@drawable/ripple_effect_white"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="Sign out"
+        android:textColor="@color/Black"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvDeactivate"
+        style="@style/Base.TextAppearance.AppCompat.Body1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/ripple_effect_white"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="Deactivate account"
+        android:textColor="@color/Red"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+</RelativeLayout>

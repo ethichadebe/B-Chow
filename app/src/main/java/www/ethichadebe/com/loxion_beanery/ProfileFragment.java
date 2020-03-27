@@ -2,8 +2,6 @@ package www.ethichadebe.com.loxion_beanery;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
@@ -14,11 +12,15 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import static android.content.Context.MODE_PRIVATE;
+import static util.HelperMethods.SHARED_PREFS;
+import static util.HelperMethods.saveData;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 
 public class ProfileFragment extends Fragment {
     private LinearLayout llBack, llSettings;
-    private TextView tvNameSur, tvEmail, tvNumber, tvDOB, tvSex;
+    public static boolean isLogout = false;
+    private TextView tvNameSur, tvEmail, tvNumber, tvDOB, tvSex, tvDeactivate, tvLogOut;
 
     @Nullable
     @Override
@@ -33,6 +35,8 @@ public class ProfileFragment extends Fragment {
         tvNumber = v.findViewById(R.id.tvNumber);
         tvDOB = v.findViewById(R.id.tvDOB);
         tvSex = v.findViewById(R.id.tvSex);
+        tvDeactivate = v.findViewById(R.id.tvDeactivate);
+        tvLogOut = v.findViewById(R.id.tvLogOut);
 
         tvNameSur.setText(getUser().getuName() + " " + getUser().getuSurname());
         tvEmail.setText(getUser().getuEmail());
@@ -41,7 +45,10 @@ public class ProfileFragment extends Fragment {
         tvSex.setText(getUser().getuSex());
 
         llSettings.setOnClickListener(view -> startActivity(new Intent(getActivity(), UserSettingsActivity.class)));
-
+        tvLogOut.setOnClickListener(view -> {
+            isLogout = true;
+            startActivity(new Intent(getActivity(), LoginActivity.class));
+        });
         return v;
     }
 }

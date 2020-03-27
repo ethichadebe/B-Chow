@@ -18,6 +18,7 @@ import java.util.Objects;
 
 import www.ethichadebe.com.loxion_beanery.R;
 public class HelperMethods {
+    public static final String SHARED_PREFS = "sharedPrefs";
     private static final String USERNAME = "Username";
     private static final String PASSWORD = "Password";
 

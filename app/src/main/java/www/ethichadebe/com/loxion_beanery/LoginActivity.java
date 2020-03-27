@@ -37,13 +37,14 @@ import java.util.Objects;
 import util.User;
 
 import static util.Constants.getIpAddress;
+import static util.HelperMethods.SHARED_PREFS;
 import static util.HelperMethods.ShowLoadingPopup;
 import static util.HelperMethods.handler;
 import static util.HelperMethods.loadData;
 import static util.HelperMethods.saveData;
+import static www.ethichadebe.com.loxion_beanery.ProfileFragment.isLogout;
 
 public class LoginActivity extends AppCompatActivity {
-    private static final String SHARED_PREFS = "sharedPrefs";
     private RelativeLayout rellay1, rellay2;
     private CheckBox cbRemember;
     private Handler handler = new Handler();
@@ -76,6 +77,10 @@ public class LoginActivity extends AppCompatActivity {
         bsbBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
 
         myDialog = new Dialog(this);
+
+        if (isLogout){
+            saveData(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE), "", "");
+        }
 
         //Check if shared prefs are empty
         loadData(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE), mTextUsername, mTextPassword);

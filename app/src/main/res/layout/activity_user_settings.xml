@@ -23,7 +23,7 @@
             android:layout_marginBottom="0dp"
             android:gravity="center"
             android:padding="10dp"
-            android:text="Shop settings"
+            android:text="Settings"
             android:textColor="@color/Black"
             android:textSize="12sp"
             android:textStyle="bold" />
@@ -126,7 +126,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
                 android:fontFamily="sans-serif-medium"
-                android:text="Edit Ingredients"
+                android:text="My Shops"
                 android:textSize="18sp" />
 
             <TextView
