@@ -78,7 +78,7 @@ public class LoginActivity extends AppCompatActivity {
 
         myDialog = new Dialog(this);
 
-        if (isLogout){
+        if (isLogout) {
             saveData(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE), "", "");
         }
 
@@ -91,37 +91,7 @@ public class LoginActivity extends AppCompatActivity {
             handler.postDelayed(runnable, 3000);
         }
 
-
-        //Image
-        CardView mButtonLogin = findViewById(R.id.btnLogin);
-        CardView mButtonRegister = findViewById(R.id.btnRegister);
-
         mViewError = findViewById(R.id.lblError);
-
-        mButtonLogin.setOnClickListener(view -> {
-            if (Objects.requireNonNull(mTextUsername.getText()).toString().isEmpty() &&
-                    Objects.requireNonNull(mTextPassword.getText()).toString().isEmpty()) {
-                mTextUsername.setUnderlineColor(getResources().getColor(R.color.Red));
-                mTextPassword.setUnderlineColor(getResources().getColor(R.color.Red));
-                mViewError.setText("Enter Both fields");
-            } else if (mTextUsername.getText().toString().isEmpty() &&
-                    !Objects.requireNonNull(mTextPassword.getText()).toString().isEmpty()) {
-                mTextUsername.setUnderlineColor(getResources().getColor(R.color.Red));
-                mTextPassword.setUnderlineColor(getResources().getColor(R.color.Black));
-                mViewError.setText("Enter Username");
-            } else if (!mTextUsername.getText().toString().isEmpty() &&
-                    Objects.requireNonNull(mTextPassword.getText()).toString().isEmpty()) {
-                mTextPassword.setUnderlineColor(getResources().getColor(R.color.Red));
-                mTextUsername.setUnderlineColor(getResources().getColor(R.color.Black));
-                mViewError.setText("Enter Password");
-            } else {
-                PostLogin(findViewById(R.id.vLine), findViewById(R.id.vLineGrey), true);
-            }
-        });
-
-        mButtonRegister.setOnClickListener(view -> {
-            startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
-        });
     }
 
     @Override
@@ -131,7 +101,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void PostLogin(View vLine, View vLineGrey, boolean isPopup) {
         rlLoad.setVisibility(View.VISIBLE);
-        if (isPopup) {
+        if (isPopup || (rellay1.getVisibility() == View.VISIBLE)) {
             ShowLoadingPopup(myDialog, true);
         } else {
             handler(vLine, vLineGrey);
@@ -154,7 +124,7 @@ public class LoginActivity extends AppCompatActivity {
                                     userData.getString("uSurname"), userData.getString("uDOB"),
                                     userData.getString("uSex"), userData.getString("uEmail"),
                                     userData.getString("uNumber"));
-                            if (cbRemember.isChecked()) {
+                            if (cbRemember.isChecked()) {//Check if remember me is checked
                                 saveData(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE),
                                         Objects.requireNonNull(mTextUsername.getText()).toString(),
                                         Objects.requireNonNull(mTextPassword.getText()).toString());
@@ -222,5 +192,30 @@ public class LoginActivity extends AppCompatActivity {
         bsbBottomSheetBehavior.setHideable(true);
         bsbBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
         PostLogin(findViewById(R.id.vLine), findViewById(R.id.vLineGrey), false);
+    }
+
+    public void login(View view) {
+        if (Objects.requireNonNull(mTextUsername.getText()).toString().isEmpty() &&
+                Objects.requireNonNull(mTextPassword.getText()).toString().isEmpty()) {
+            mTextUsername.setUnderlineColor(getResources().getColor(R.color.Red));
+            mTextPassword.setUnderlineColor(getResources().getColor(R.color.Red));
+            mViewError.setText("Enter Both fields");
+        } else if (mTextUsername.getText().toString().isEmpty() &&
+                !Objects.requireNonNull(mTextPassword.getText()).toString().isEmpty()) {
+            mTextUsername.setUnderlineColor(getResources().getColor(R.color.Red));
+            mTextPassword.setUnderlineColor(getResources().getColor(R.color.Black));
+            mViewError.setText("Enter Username");
+        } else if (!mTextUsername.getText().toString().isEmpty() &&
+                Objects.requireNonNull(mTextPassword.getText()).toString().isEmpty()) {
+            mTextPassword.setUnderlineColor(getResources().getColor(R.color.Red));
+            mTextUsername.setUnderlineColor(getResources().getColor(R.color.Black));
+            mViewError.setText("Enter Password");
+        } else {
+            PostLogin(findViewById(R.id.vLine), findViewById(R.id.vLineGrey), true);
+        }
+    }
+
+    public void register(View view) {
+        startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
     }
 }

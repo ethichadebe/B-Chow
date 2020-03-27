@@ -36,7 +36,6 @@ public class MenuActivity extends AppCompatActivity {
     private static Double dblPrice;
     private Dialog myDialog;
     private Button btnNext;
-    private CardView llAddMenu;
 
 
     @Override
@@ -57,12 +56,9 @@ public class MenuActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(mAdapter);
 
         btnNext = findViewById(R.id.btnNext);
-        llAddMenu = findViewById(R.id.llAddMenu);
 
         //Set Button Visibility False if no menu item
         ButtonVisibility(MenuItems, btnNext);
-
-        llAddMenu.setOnClickListener(view -> startActivity(new Intent(MenuActivity.this, NewMenuItemActivity.class)));
 
         mAdapter.setOnItemClickListener(new MenuItemAdapter.OnItemClickListener() {
             @Override
@@ -145,7 +141,7 @@ public class MenuActivity extends AppCompatActivity {
         ArrayList<MenuItem> menuItems = getMenuItems();
         ArrayList<IngredientItem> ingredientItems = getIngredientItems();
 
-        if (menuItems.size() >1){
+        if (menuItems.size() > 1) {
             //take each menu item's ingredients list and separate them into individual ingredient names
             for (MenuItem menuItem : menuItems) {
                 String[] ingredient = menuItem.getStrMenu().split(", ");
@@ -166,7 +162,7 @@ public class MenuActivity extends AppCompatActivity {
 
             //Go through all resulting prices and check if they are equal
             for (int i = 0; i < results.size() - 1; i++) {
-                if (!results.get(i).equals(results.get(i + 1))){
+                if (!results.get(i).equals(results.get(i + 1))) {
                     return 0;
                 }
             }
@@ -184,5 +180,9 @@ public class MenuActivity extends AppCompatActivity {
 
     public void next(View view) {
         startActivity(new Intent(MenuActivity.this, NewExtrasActivity.class));
+    }
+
+    public void AddMenu(View view) {
+        startActivity(new Intent(MenuActivity.this, NewMenuItemActivity.class));
     }
 }

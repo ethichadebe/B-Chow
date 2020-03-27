@@ -206,7 +206,6 @@
 
     <TextView
         android:id="@+id/tvLogOut"
-        style="@style/Base.TextAppearance.AppCompat.Body1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/tvDeactivate"
@@ -215,12 +214,12 @@
         android:padding="10dp"
         android:text="Sign out"
         android:textColor="@color/Black"
-        android:textSize="18sp"
+        android:fontFamily="sans-serif-medium"
+        android:textSize="14sp"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tvDeactivate"
-        style="@style/Base.TextAppearance.AppCompat.Body1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -229,6 +228,7 @@
         android:padding="10dp"
         android:text="Deactivate account"
         android:textColor="@color/Red"
-        android:textSize="18sp"
+        android:fontFamily="sans-serif-medium"
+        android:textSize="14sp"
         android:textStyle="bold" />
 </RelativeLayout>

@@ -77,6 +77,7 @@
         android:layout_below="@id/llHead"
         android:layout_columnWeight="1"
         android:layout_rowWeight="1"
+        android:onClick="AddMenu"
         android:background="@drawable/ripple_effect_white"
         app:cardElevation="3dp"
         android:layout_margin="5dp">
