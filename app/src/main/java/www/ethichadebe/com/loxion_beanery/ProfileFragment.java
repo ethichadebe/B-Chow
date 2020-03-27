@@ -17,9 +17,8 @@ import android.widget.TextView;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 
 public class ProfileFragment extends Fragment {
-    private LinearLayout llBack;
-    private TextView tvShops, tvNameSur, tvEmail, tvNumber, tvDOB, tvSex;
-    private CardView cvEdit;
+    private LinearLayout llBack, llSettings;
+    private TextView tvNameSur, tvEmail, tvNumber, tvDOB, tvSex;
 
     @Nullable
     @Override
@@ -27,8 +26,7 @@ public class ProfileFragment extends Fragment {
         View v = inflater.inflate(R.layout.frame_profile, container, false);
 
         llBack = v.findViewById(R.id.llBack);
-        tvShops = v.findViewById(R.id.tvShops);
-        cvEdit = v.findViewById(R.id.cvEdit);
+        llSettings = v.findViewById(R.id.llSettings);
 
         tvNameSur = v.findViewById(R.id.tvNameSur);
         tvEmail = v.findViewById(R.id.tvEmail);
@@ -42,9 +40,8 @@ public class ProfileFragment extends Fragment {
         tvDOB.setText(getUser().getuDOB());
         tvSex.setText(getUser().getuSex());
 
-        tvShops.setOnClickListener(view -> startActivity(new Intent(getActivity(), MyShopsActivity.class)));
+        llSettings.setOnClickListener(view -> startActivity(new Intent(getActivity(), UserSettingsActivity.class)));
 
-        cvEdit.setOnClickListener(view -> startActivity(new Intent(getActivity(), EditUserProfileActivity.class)));
         return v;
     }
 }

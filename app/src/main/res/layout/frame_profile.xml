@@ -44,23 +44,22 @@
                 android:layout_height="wrap_content" />
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/tvShops"
-            style="@style/Base.TextAppearance.AppCompat.Body1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <LinearLayout
+            android:id="@+id/llSettings"
+            android:layout_width="?attr/actionBarSize"
+            android:layout_height="?attr/actionBarSize"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:background="@drawable/ripple_effect_white"
-            android:fontFamily="sans-serif-condensed-medium"
-            android:gravity="center"
-            android:padding="10dp"
-            android:text="My Shops"
-            android:textColor="@color/Black"
-            android:textSize="12sp"
-            android:textStyle="bold" />
+            android:gravity="center">
 
+            <TextView
+                style="@style/Base.TextAppearance.AppCompat.Body1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_settings_black_24dp" />
+        </LinearLayout>
     </RelativeLayout>
 
     <RelativeLayout
@@ -102,28 +101,6 @@
                     android:textStyle="bold" />
             </LinearLayout>
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cvEdit"
-                android:layout_width="100dp"
-                android:layout_height="40dp"
-                android:layout_gravity="end"
-                android:fontFamily="sans-serif-medium"
-                android:padding="50dp"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="3dp">
-
-                <TextView
-                    android:id="@+id/tvPrice"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/ripple_effect"
-                    android:fontFamily="sans-serif-medium"
-                    android:gravity="center"
-                    android:text="Edit profile"
-                    android:textAllCaps="false"
-                    android:textColor="@color/White"
-                    android:textSize="14sp" />
-            </androidx.cardview.widget.CardView>
         </androidx.cardview.widget.CardView>
 
     </RelativeLayout>

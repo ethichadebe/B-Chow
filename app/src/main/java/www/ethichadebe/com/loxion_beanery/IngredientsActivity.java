@@ -13,16 +13,28 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 import Adapter.IngredientItemAdapter;
 import SingleItem.IngredientItem;
 import SingleItem.MenuItem;
+import util.HelperMethods;
 
+import static util.Constants.getIpAddress;
 import static util.HelperMethods.ButtonVisibility;
 import static www.ethichadebe.com.loxion_beanery.RegisterShopActivity.getNewShop;
 
@@ -52,7 +64,7 @@ public class IngredientsActivity extends AppCompatActivity {
         btnAddOption = findViewById(R.id.btnAddOption);
         etPrice = findViewById(R.id.etPrice);
 
-        ButtonVisibility(ingredientItems,btnNext);
+        ButtonVisibility(ingredientItems, btnNext);
         btnAddOption.setOnClickListener(view -> {
             if (Objects.requireNonNull(etName.getText()).toString().isEmpty() && Objects.requireNonNull(etPrice.getText()).toString().isEmpty()) {
                 etName.setUnderlineColor(getResources().getColor(R.color.Red));
@@ -64,13 +76,7 @@ public class IngredientsActivity extends AppCompatActivity {
                 etName.setUnderlineColor(getResources().getColor(R.color.Black));
                 etPrice.setUnderlineColor(getResources().getColor(R.color.Red));
             } else {
-                etName.setUnderlineColor(getResources().getColor(R.color.Black));
-                etPrice.setUnderlineColor(getResources().getColor(R.color.Black));
-                ingredientItems.add(new IngredientItem(1, etName.getText().toString(), Double.valueOf(etPrice.getText().toString())));
-                mAdapter.notifyItemInserted(ingredientItems.size());
-                etName.setText("");
-                etPrice.setText("");
-                ButtonVisibility(ingredientItems,btnNext);
+                POSTRegisterShopIngredients();
             }
         });
 
@@ -86,7 +92,7 @@ public class IngredientsActivity extends AppCompatActivity {
         mAdapter.setOnIngredientClickListener(position -> {
             ingredientItems.remove(position);
             mAdapter.notifyItemRemoved(position);
-            ButtonVisibility(ingredientItems,btnNext);
+            ButtonVisibility(ingredientItems, btnNext);
         });
 
     }
@@ -118,30 +124,17 @@ public class IngredientsActivity extends AppCompatActivity {
         cvYes = myDialog.findViewById(R.id.cvYes);
         cvNo = myDialog.findViewById(R.id.cvNo);
 
-        tvCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                myDialog.dismiss();
-            }
-        });
+        tvCancel.setOnClickListener(view -> myDialog.dismiss());
 
         tvMessage.setText("All entered ingredients will be lost\nAre you sure?");
 
-        cvYes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                myDialog.dismiss();
-                finish();
-            }
+        cvYes.setOnClickListener(view -> {
+            myDialog.dismiss();
+            finish();
         });
 
-        cvNo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                myDialog.dismiss();
-            }
-        });
-        myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        cvNo.setOnClickListener(view -> myDialog.dismiss());
+        Objects.requireNonNull(myDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         myDialog.show();
     }
 
@@ -157,4 +150,44 @@ public class IngredientsActivity extends AppCompatActivity {
         getNewShop().setIngredientItems(ingredientItems);
         startActivity(new Intent(IngredientsActivity.this, MenuActivity.class));
     }
+
+    private void POSTRegisterShopIngredients() {
+        HelperMethods.ShowLoadingPopup(myDialog, true);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,
+                "http://" + getIpAddress() + "/shops//Ingredients",
+                response -> {
+                    HelperMethods.ShowLoadingPopup(myDialog, false);
+                    try {
+                        JSONObject JSONResponse = new JSONObject(response);
+                        if (JSONResponse.getString("data").equals("saved")) {
+                            etName.setUnderlineColor(getResources().getColor(R.color.Black));
+                            etPrice.setUnderlineColor(getResources().getColor(R.color.Black));
+                            ingredientItems.add(new IngredientItem(1, etName.getText().toString(), Double.valueOf(etPrice.getText().toString())));
+                            mAdapter.notifyItemInserted(ingredientItems.size());
+                            etName.setText("");
+                            etPrice.setText("");
+                            ButtonVisibility(ingredientItems, btnNext);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }, error -> {
+            HelperMethods.ShowLoadingPopup(myDialog, false);
+            Toast.makeText(IngredientsActivity.this, error.toString(), Toast.LENGTH_LONG).show();
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("iName", Objects.requireNonNull(etName.getText()).toString());
+                params.put("iPrice", Objects.requireNonNull(etPrice.getText()).toString());
+                params.put("sID", getNewShop().getStrShortDescript());
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
 }

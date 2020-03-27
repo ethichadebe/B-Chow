@@ -1,6 +1,7 @@
 package util;
 
 import android.app.Dialog;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
@@ -16,8 +17,9 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import www.ethichadebe.com.loxion_beanery.R;
-
 public class HelperMethods {
+    private static final String USERNAME = "Username";
+    private static final String PASSWORD = "Password";
 
     public static void ShowLoadingPopup(final Dialog myDialog, boolean show) {
         myDialog.setContentView(R.layout.popup_loading);
@@ -99,4 +101,17 @@ public class HelperMethods {
         return true;
     }
 
+    public static void saveData(SharedPreferences sharedPreferences, String Username, String Password) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putString(USERNAME, Objects.requireNonNull(Username));
+        editor.putString(PASSWORD, Objects.requireNonNull(Password));
+
+        editor.apply();
+    }
+
+    public static void loadData(SharedPreferences sharedPreferences , MaterialEditText Username, MaterialEditText Password) {
+        Password.setText(sharedPreferences.getString(PASSWORD, ""));
+        Username.setText(sharedPreferences.getString(USERNAME, ""));
+    }
 }

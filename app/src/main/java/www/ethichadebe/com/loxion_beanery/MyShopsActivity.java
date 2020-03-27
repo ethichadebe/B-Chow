@@ -53,12 +53,7 @@ public class MyShopsActivity extends AppCompatActivity {
             setIsNew(false);
         }
 
-        llEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MyShopsActivity.this, RegisterShopActivity.class));
-            }
-        });
+        llEdit.setOnClickListener(view -> startActivity(new Intent(MyShopsActivity.this, RegisterShopActivity.class)));
 
         final ArrayList<MyShopItem> shopItems = new ArrayList<>();
 
@@ -89,12 +84,9 @@ public class MyShopsActivity extends AppCompatActivity {
 
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
-        mAdapter.setOnItemClickListerner(new MyShopItemAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-                //shopItems.get(position).
-                startActivity(new Intent(MyShopsActivity.this, OrdersActivity.class));
-            }
+        mAdapter.setOnItemClickListerner(position -> {
+            //shopItems.get(position).
+            startActivity(new Intent(MyShopsActivity.this, OrdersActivity.class));
         });
     }
 

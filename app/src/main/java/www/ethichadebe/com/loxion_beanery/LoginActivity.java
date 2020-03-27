@@ -2,7 +2,6 @@ package www.ethichadebe.com.loxion_beanery;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -11,6 +10,10 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.content.SharedPreferences;
+
+import util.HelperMethods;
+
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,6 +23,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import org.json.JSONArray;
@@ -30,14 +34,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import util.HelperMethods;
 import util.User;
 
 import static util.Constants.getIpAddress;
 import static util.HelperMethods.ShowLoadingPopup;
 import static util.HelperMethods.handler;
+import static util.HelperMethods.loadData;
+import static util.HelperMethods.saveData;
 
 public class LoginActivity extends AppCompatActivity {
+    private static final String SHARED_PREFS = "sharedPrefs";
     private RelativeLayout rellay1, rellay2;
     private CheckBox cbRemember;
     private Handler handler = new Handler();
@@ -52,10 +58,8 @@ public class LoginActivity extends AppCompatActivity {
     private Dialog myDialog;
     private MaterialEditText mTextPassword, mTextUsername;
     private RelativeLayout rlLoad;
+    private BottomSheetBehavior bsbBottomSheetBehavior;
     private TextView mViewError;
-    public static final String SHARED_PREFS = "sharedPrefs";
-    public static final String USERNAME = "Username";
-    public static final String PASSWORD = "Password";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,17 +71,21 @@ public class LoginActivity extends AppCompatActivity {
         mTextPassword = findViewById(R.id.txtPassword);
         cbRemember = findViewById(R.id.cbRemember);
         rlLoad = findViewById(R.id.rlLoad);
+        View bsbBottomSheet = findViewById(R.id.bottom_sheet);
+        bsbBottomSheetBehavior = BottomSheetBehavior.from(bsbBottomSheet);
+        bsbBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
 
         myDialog = new Dialog(this);
 
         //Check if shared prefs are empty
-        loadData();
+        loadData(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE), mTextUsername, mTextPassword);
         if (!Objects.requireNonNull(mTextUsername.getText()).toString().isEmpty() &&
                 !Objects.requireNonNull(mTextPassword.getText()).toString().isEmpty()) {
             PostLogin(findViewById(R.id.vLine), findViewById(R.id.vLineGrey), false);
         } else {
             handler.postDelayed(runnable, 3000);
         }
+
 
         //Image
         CardView mButtonLogin = findViewById(R.id.btnLogin);
@@ -116,27 +124,11 @@ public class LoginActivity extends AppCompatActivity {
         this.finishAffinity();
     }
 
-    private void saveData() {
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-
-        editor.putString(USERNAME, Objects.requireNonNull(mTextUsername.getText()).toString());
-        editor.putString(PASSWORD, Objects.requireNonNull(mTextPassword.getText()).toString());
-
-        editor.apply();
-    }
-
-    public void loadData() {
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
-        mTextPassword.setText(sharedPreferences.getString(PASSWORD, ""));
-        mTextUsername.setText(sharedPreferences.getString(USERNAME, ""));
-    }
-
     private void PostLogin(View vLine, View vLineGrey, boolean isPopup) {
         rlLoad.setVisibility(View.VISIBLE);
-        if (isPopup){
+        if (isPopup) {
             ShowLoadingPopup(myDialog, true);
-        }else{
+        } else {
             handler(vLine, vLineGrey);
         }
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
@@ -158,17 +150,21 @@ public class LoginActivity extends AppCompatActivity {
                                     userData.getString("uSex"), userData.getString("uEmail"),
                                     userData.getString("uNumber"));
                             if (cbRemember.isChecked()) {
-                                saveData();
+                                saveData(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE),
+                                        Objects.requireNonNull(mTextUsername.getText()).toString(),
+                                        Objects.requireNonNull(mTextPassword.getText()).toString());
                             }
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
+
                     }
                 }, error -> {
             rlLoad.setVisibility(View.GONE);
             ShowLoadingPopup(myDialog, false);
-            Toast.makeText(LoginActivity.this, error.toString(), Toast.LENGTH_LONG).show();
+            bsbBottomSheetBehavior.setHideable(false);
+            bsbBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         }) {
             @Override
             protected Map<String, String> getParams() {
@@ -215,5 +211,11 @@ public class LoginActivity extends AppCompatActivity {
 
     public static User getUser() {
         return user;
+    }
+
+    public void Retry(View view) {
+        bsbBottomSheetBehavior.setHideable(true);
+        bsbBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+        PostLogin(findViewById(R.id.vLine), findViewById(R.id.vLineGrey), false);
     }
 }
