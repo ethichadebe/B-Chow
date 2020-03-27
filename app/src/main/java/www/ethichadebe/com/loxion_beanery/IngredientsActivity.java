@@ -154,11 +154,12 @@ public class IngredientsActivity extends AppCompatActivity {
     private void POSTRegisterShopIngredients() {
         HelperMethods.ShowLoadingPopup(myDialog, true);
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
-                "http://" + getIpAddress() + "/shops//Ingredients",
+                "http://" + getIpAddress() + "/shops/Register/Ingredients",
                 response -> {
                     HelperMethods.ShowLoadingPopup(myDialog, false);
                     try {
                         JSONObject JSONResponse = new JSONObject(response);
+                        Toast.makeText(IngredientsActivity.this, JSONResponse.getString("data"), Toast.LENGTH_LONG).show();
                         if (JSONResponse.getString("data").equals("saved")) {
                             etName.setUnderlineColor(getResources().getColor(R.color.Black));
                             etPrice.setUnderlineColor(getResources().getColor(R.color.Black));
@@ -181,7 +182,7 @@ public class IngredientsActivity extends AppCompatActivity {
                 Map<String, String> params = new HashMap<>();
                 params.put("iName", Objects.requireNonNull(etName.getText()).toString());
                 params.put("iPrice", Objects.requireNonNull(etPrice.getText()).toString());
-                params.put("sID", getNewShop().getStrShortDescript());
+                params.put("sID", String.valueOf(getNewShop().getIntID()));
                 return params;
             }
         };

@@ -20,6 +20,9 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -37,7 +40,7 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
     private String DayOfWeek;
     private String strTimes = "";
     private TextView[] tvDays = new TextView[8];
-    private int[] intBackground = {0,0,0,0,0,0,0,0};
+    private int[] intBackground = {0, 0, 0, 0, 0, 0, 0, 0};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -229,8 +232,14 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
                 "http://" + getIpAddress() + "/shops/Register",
                 response -> {
-                    HelperMethods.ShowLoadingPopup(myDialog, false);
-                    startActivity(new Intent(OperatingHoursActivity.this, IngredientsActivity.class));
+                    try {
+                        JSONObject JSONResponse = new JSONObject(response);
+                        getNewShop().setIntID(Integer.parseInt(JSONResponse.getString("data")));
+                        HelperMethods.ShowLoadingPopup(myDialog, false);
+                        startActivity(new Intent(OperatingHoursActivity.this, IngredientsActivity.class));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }, error -> {
             HelperMethods.ShowLoadingPopup(myDialog, false);
             Toast.makeText(OperatingHoursActivity.this, error.toString(), Toast.LENGTH_LONG).show();
