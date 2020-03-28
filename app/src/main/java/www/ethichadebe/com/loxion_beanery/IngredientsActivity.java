@@ -162,7 +162,8 @@ public class IngredientsActivity extends AppCompatActivity {
                         if (JSONResponse.getString("data").equals("saved")) {
                             etName.setUnderlineColor(getResources().getColor(R.color.Black));
                             etPrice.setUnderlineColor(getResources().getColor(R.color.Black));
-                            ingredientItems.add(new IngredientItem(1, etName.getText().toString(), Double.valueOf(etPrice.getText().toString())));
+                            ingredientItems.add(new IngredientItem(1, Objects.requireNonNull(etName.getText()).toString(),
+                                    Double.valueOf(Objects.requireNonNull(etPrice.getText()).toString())));
                             mAdapter.notifyItemInserted(ingredientItems.size());
                             etName.setText("");
                             etPrice.setText("");

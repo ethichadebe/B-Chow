@@ -5,19 +5,33 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 import Adapter.IngredientItemCheckboxAdapter;
 import SingleItem.IngredientItemCheckbox;
+import util.HelperMethods;
 
+import static util.Constants.getIpAddress;
 import static www.ethichadebe.com.loxion_beanery.MenuActivity.getIngredients;
 import static www.ethichadebe.com.loxion_beanery.MenuActivity.getIntPosition;
 import static www.ethichadebe.com.loxion_beanery.MenuActivity.getDblPrice;
@@ -25,6 +39,7 @@ import static www.ethichadebe.com.loxion_beanery.MenuActivity.setIngredients;
 import static www.ethichadebe.com.loxion_beanery.IngredientsActivity.addToList;
 import static www.ethichadebe.com.loxion_beanery.IngredientsActivity.getIngredientItems;
 import static www.ethichadebe.com.loxion_beanery.IngredientsActivity.EditMenu;
+import static www.ethichadebe.com.loxion_beanery.RegisterShopActivity.getNewShop;
 
 public class NewMenuItemActivity extends AppCompatActivity {
 
@@ -37,6 +52,7 @@ public class NewMenuItemActivity extends AppCompatActivity {
     private Button btnAdd;
     private CardView rlTotal;
     private LinearLayout llBack;
+    private Dialog myDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +63,7 @@ public class NewMenuItemActivity extends AppCompatActivity {
         llBack = findViewById(R.id.llBack);
         etPrice = findViewById(R.id.etPrice);
         rlTotal = findViewById(R.id.rlTotal);
+        myDialog = new Dialog(this);
 
         btnAdd.setOnClickListener(view -> {
             StringBuilder MenuList = new StringBuilder();
@@ -61,29 +78,14 @@ public class NewMenuItemActivity extends AppCompatActivity {
             }
 
             //validate ingredient name and price price
-            if (etPrice.getText().toString().isEmpty()) {
+            if (Objects.requireNonNull(etPrice.getText()).toString().isEmpty()) {
                 etPrice.setUnderlineColor(getResources().getColor(R.color.Red));
             } else {
-                etPrice.setUnderlineColor(getResources().getColor(R.color.Black));
-                if (getIngredients() != null) {
-                    //Edit item
-                    EditMenu(getIntPosition(), Double.valueOf(etPrice.getText().toString()), MenuList.toString());
-                    setIngredients(null);
-                } else {
-                    //Add new item
-                    addToList(Double.valueOf(etPrice.getText().toString()), MenuList.toString());
-                }
-                etPrice.setText("");
-                startActivity(new Intent(NewMenuItemActivity.this, MenuActivity.class));
+                POSTRegisterShopMenuItems(MenuList);
             }
         });
 
-        llBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        llBack.setOnClickListener(view -> finish());
 
 
         if (getIngredients() != null) {
@@ -98,6 +100,7 @@ public class NewMenuItemActivity extends AppCompatActivity {
                 for (int b = 0; b < getIngredients().length; b++) {
                     if (getIngredientItems().get(i).getStrIngredientName().equals(getIngredients()[b])) {
                         isThere = true;
+                        break;
                     }
                 }
                 if (!isThere) {
@@ -118,21 +121,18 @@ public class NewMenuItemActivity extends AppCompatActivity {
         mLayoutManager = new LinearLayoutManager(this);
         mAdapter = new IngredientItemCheckboxAdapter(ingredientItems);
 
-        mAdapter.setOnItemClickListener(new IngredientItemCheckboxAdapter.OnItemClickListener() {
-            @Override
-            public void OnItemClick(int position) {
-                if (!ingredientItems.get(position).getChecked()) {
-                    ingredientItems.get(position).setChecked(true);
-                    dblPrice += ingredientItems.get(position).getDblPrice();
-                    etPrice.setText(String.valueOf(dblPrice));
-                } else {
-                    ingredientItems.get(position).setChecked(false);
-                    dblPrice -= ingredientItems.get(position).getDblPrice();
-                    etPrice.setText(String.valueOf(dblPrice));
-                }
-
-                isChecked();
+        mAdapter.setOnItemClickListener(position -> {
+            if (!ingredientItems.get(position).getChecked()) {
+                ingredientItems.get(position).setChecked(true);
+                dblPrice += ingredientItems.get(position).getDblPrice();
+                etPrice.setText(String.valueOf(dblPrice));
+            } else {
+                ingredientItems.get(position).setChecked(false);
+                dblPrice -= ingredientItems.get(position).getDblPrice();
+                etPrice.setText(String.valueOf(dblPrice));
             }
+
+            isChecked();
         });
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
@@ -141,8 +141,9 @@ public class NewMenuItemActivity extends AppCompatActivity {
     private void isChecked(){
         boolean isChecked = false;           //Checks if there's at least one Ingredients checkbox selected
         for(IngredientItemCheckbox item : ingredientItems){
-            if (item.getChecked()){
+            if (item.getChecked()) {
                 isChecked = true;
+                break;
             }
         }
 
@@ -155,5 +156,47 @@ public class NewMenuItemActivity extends AppCompatActivity {
         }
     }
 
+    private void POSTRegisterShopMenuItems(StringBuilder MenuLis) {
+        HelperMethods.ShowLoadingPopup(myDialog, true);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,
+                "http://" + getIpAddress() + "/shops/Register/MenuItem",
+                response -> {
+                    HelperMethods.ShowLoadingPopup(myDialog, false);
+                    try {
+                        JSONObject JSONResponse = new JSONObject(response);
+                        if (JSONResponse.getString("data").equals("saved")) {
+                            etPrice.setUnderlineColor(getResources().getColor(R.color.Black));
+                            if (getIngredients() != null) {
+                                //Edit item
+                                EditMenu(getIntPosition(), Double.valueOf(Objects.requireNonNull(etPrice.getText()).toString()), MenuLis.toString());
+                                setIngredients(null);
+                            } else {
+                                //Add new item
+                                addToList(Double.valueOf(Objects.requireNonNull(etPrice.getText()).toString()), MenuLis.toString());
+                            }
+                            etPrice.setText("");
+                            startActivity(new Intent(NewMenuItemActivity.this, MenuActivity.class));
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }, error -> {
+            HelperMethods.ShowLoadingPopup(myDialog, false);
+            Toast.makeText(NewMenuItemActivity.this, error.toString(), Toast.LENGTH_LONG).show();
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("mList", Objects.requireNonNull(MenuLis.toString()));
+                params.put("iPrice", Objects.requireNonNull(etPrice.getText()).toString());
+                params.put("sID", String.valueOf(getNewShop().getIntID()));
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
 
 }

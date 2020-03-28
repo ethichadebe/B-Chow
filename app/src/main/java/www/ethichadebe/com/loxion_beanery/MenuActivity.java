@@ -13,13 +13,27 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 import Adapter.MenuItemAdapter;
 import SingleItem.IngredientItem;
 import SingleItem.MenuItem;
+import util.HelperMethods;
 
+import static util.Constants.getIpAddress;
 import static util.HelperMethods.ButtonVisibility;
 import static www.ethichadebe.com.loxion_beanery.IngredientsActivity.getIngredientItems;
 import static www.ethichadebe.com.loxion_beanery.IngredientsActivity.getMenuItems;
