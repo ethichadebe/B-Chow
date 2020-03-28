@@ -31,6 +31,7 @@ import util.HelperMethods;
 
 import static util.Constants.getIpAddress;
 import static util.HelperMethods.MakeBlack;
+import static util.HelperMethods.removeLastComma;
 import static www.ethichadebe.com.loxion_beanery.RegisterShopActivity.getNewShop;
 
 public class OperatingHoursActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
@@ -253,7 +254,7 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
                 params.put("sSmallPicture", "picture");
                 params.put("sBigPicture", "Picture");
                 params.put("sLocation", getNewShop().getLocLocation().getLatitude() + " " + getNewShop().getLocLocation().getLongitude());
-                params.put("sOperatingHrs", strTimes.toString());
+                params.put("sOperatingHrs", removeLastComma(strTimes));
                 return params;
             }
         };

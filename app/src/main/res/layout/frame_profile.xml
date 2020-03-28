@@ -228,6 +228,7 @@
         android:padding="10dp"
         android:text="Deactivate account"
         android:textColor="@color/Red"
+        android:layout_marginTop="5dp"
         android:fontFamily="sans-serif-medium"
         android:textSize="14sp"
         android:textStyle="bold" />

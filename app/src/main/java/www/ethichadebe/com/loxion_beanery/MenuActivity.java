@@ -123,30 +123,17 @@ public class MenuActivity extends AppCompatActivity {
         cvYes = myDialog.findViewById(R.id.cvYes);
         cvNo = myDialog.findViewById(R.id.cvNo);
 
-        tvCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                myDialog.dismiss();
-            }
-        });
+        tvCancel.setOnClickListener(view -> myDialog.dismiss());
 
         tvMessage.setText("All entered ingredients and Menu items will be lost.\nAre you sure?");
 
-        cvYes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                myDialog.dismiss();
-                startActivity(new Intent(MenuActivity.this, IngredientsActivity.class));
-            }
+        cvYes.setOnClickListener(view -> {
+            myDialog.dismiss();
+            startActivity(new Intent(MenuActivity.this, IngredientsActivity.class));
         });
 
-        cvNo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                myDialog.dismiss();
-            }
-        });
-        myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        cvNo.setOnClickListener(view -> myDialog.dismiss());
+        Objects.requireNonNull(myDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         myDialog.show();
     }
 

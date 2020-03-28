@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import www.ethichadebe.com.loxion_beanery.R;
+
 public class HelperMethods {
     public static final String SHARED_PREFS = "sharedPrefs";
     private static final String USERNAME = "Username";
@@ -25,7 +26,7 @@ public class HelperMethods {
     public static void ShowLoadingPopup(final Dialog myDialog, boolean show) {
         myDialog.setContentView(R.layout.popup_loading);
         handler(myDialog.findViewById(R.id.vLine), myDialog.findViewById(R.id.vLineGrey));
-        myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        Objects.requireNonNull(myDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         if (show) {
             myDialog.show();
         } else {
@@ -35,7 +36,7 @@ public class HelperMethods {
         myDialog.setCanceledOnTouchOutside(false);
     }
 
-    public static Runnable LoaderMotion(final View vLine) {
+    private static Runnable LoaderMotion(final View vLine) {
         return () -> YoYo.with(Techniques.ZoomInRight)
                 .duration(1000)
                 .repeat(5000)
@@ -56,7 +57,7 @@ public class HelperMethods {
     public static void MakeBlack(MaterialEditText[] txtBoxes, int index, int clr) {
         for (int i = 0; i < txtBoxes.length; i++) {
             if (i != index) {
-                if (!txtBoxes[i].getText().toString().isEmpty()) {
+                if (!Objects.requireNonNull(txtBoxes[i].getText()).toString().isEmpty()) {
                     txtBoxes[i].setUnderlineColor(clr);
                 }
             }
@@ -89,19 +90,6 @@ public class HelperMethods {
         return allEntered;
     }
 
-    public static boolean sexIsChecked(String UserSex, CheckBox Male, CheckBox Female, CheckBox Other, int Black) {
-        if (UserSex.isEmpty()) {
-            Male.setTextColor(Color.argb(255, 255, 23, 23));
-            Female.setTextColor(Color.argb(255, 255, 23, 23));
-            Other.setTextColor(Color.argb(255, 255, 23, 23));
-            return false;
-        }
-        Male.setTextColor(Black);
-        Female.setTextColor(Black);
-        Other.setTextColor(Black);
-        return true;
-    }
-
     public static void saveData(SharedPreferences sharedPreferences, String Username, String Password) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
@@ -111,8 +99,12 @@ public class HelperMethods {
         editor.apply();
     }
 
-    public static void loadData(SharedPreferences sharedPreferences , MaterialEditText Username, MaterialEditText Password) {
+    public static void loadData(SharedPreferences sharedPreferences, MaterialEditText Username, MaterialEditText Password) {
         Password.setText(sharedPreferences.getString(PASSWORD, ""));
         Username.setText(sharedPreferences.getString(USERNAME, ""));
+    }
+
+    public static String removeLastComma(String MenuList) {
+        return String.valueOf(MenuList).substring(0, String.valueOf(MenuList).length() - 2);
     }
 }
