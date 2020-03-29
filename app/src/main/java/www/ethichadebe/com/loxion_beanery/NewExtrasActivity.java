@@ -20,10 +20,11 @@ import static www.ethichadebe.com.loxion_beanery.IngredientsActivity.getMenuItem
 import static www.ethichadebe.com.loxion_beanery.RegisterShopActivity.getNewShop;
 
 public class NewExtrasActivity extends AppCompatActivity {
-    private static ArrayList<ExtraItem> extraItems;
+    private static ArrayList<ExtraItem> extraItems= new ArrayList<>();
     private RecyclerView mRecyclerView;
     private ExtraItemAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+
     private static boolean isNew = false;
     public static boolean isNew() {
         return isNew;
@@ -42,14 +43,20 @@ public class NewExtrasActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new_extras);
 
         etExtra = findViewById(R.id.etExtra);
-        extraItems = new ArrayList<>();
+
+        extraItems.add(new ExtraItem(1,"tomato sauce"));
+        extraItems.add(new ExtraItem(1,"tomato sauce"));
+        extraItems.add(new ExtraItem(1,"tomato sauce"));
+
+
+
         mRecyclerView = findViewById(R.id.recyclerView);
 
         mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new ExtraItemAdapter(extraItems);
-        mRecyclerView.setAdapter(mAdapter);
         mLayoutManager = new LinearLayoutManager(this);
+        mAdapter = new ExtraItemAdapter(extraItems);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setAdapter(mAdapter);
         mAdapter.setOnExtraClickListener(position -> {
             extraItems.remove(position);
             mAdapter.notifyItemRemoved(position);

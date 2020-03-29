@@ -24,10 +24,14 @@ import static www.ethichadebe.com.loxion_beanery.NewExtrasActivity.isNew;
 import static www.ethichadebe.com.loxion_beanery.NewExtrasActivity.setIsNew;
 
 public class MyShopsActivity extends AppCompatActivity {
+    private final ArrayList<MyShopItem> shopItems = new ArrayList<>();
+    private ArrayList<IngredientItem> ingredientItems = new ArrayList<>();
+    private ArrayList<MenuItem> menuItems = new ArrayList<>();
 
     private RecyclerView mRecyclerView;
     private MyShopItemAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+
     private BottomSheetBehavior bsbBottomSheetBehavior;
     private Handler handler = new Handler();
     private Runnable runnable = new Runnable() {
@@ -36,45 +40,38 @@ public class MyShopsActivity extends AppCompatActivity {
             bsbBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
         }
     };
-    private LinearLayout llEdit;
+    private View bsbBottomSheet;
+
+    Location location = new Location("");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_shops);
 
-        llEdit = findViewById(R.id.llEdit);
-        View bsbBottomSheet = findViewById(R.id.bottom_sheet);
+        bsbBottomSheet = findViewById(R.id.bottom_sheet);
         bsbBottomSheetBehavior = BottomSheetBehavior.from(bsbBottomSheet);
         bsbBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+
+        location.setLatitude(0.0);
+        location.setLongitude(0.0);
+
         if (isNew()) {
             bsbBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
             handler.postDelayed(runnable, 1500);
             setIsNew(false);
         }
 
-        llEdit.setOnClickListener(view -> startActivity(new Intent(MyShopsActivity.this, RegisterShopActivity.class)));
-
-        final ArrayList<MyShopItem> shopItems = new ArrayList<>();
-
-        Location location = new Location("");
-        location.setLatitude(0.0);
-        location.setLongitude(0.0);
-
-
-        ArrayList<IngredientItem> ingredientItems = new ArrayList<>();
-
-        ArrayList<MenuItem> menuItems = new ArrayList<>();
         shopItems.add(new MyShopItem(1, "Shop name", "Owner", R.drawable.food, R.drawable.biglogo,
-                "This is a short descrption", "This a full shop description for the specific shop",
+                "This is a short description", "This a full shop description for the specific shop",
                 location, "10-15 mins", 3, "strOperatingHrs", ingredientItems, menuItems));
 
         shopItems.add(new MyShopItem(1, "Shop name", "Owner", R.drawable.food, R.drawable.biglogo,
-                "This is a short descrption", "This a full shop description for the specific shop",
+                "This is a short description", "This a full shop description for the specific shop",
                 location, "10-15 mins", 3, "strOperatingHrs", ingredientItems, menuItems));
 
         shopItems.add(new MyShopItem(1, "Shop name", "Owner", R.drawable.food, R.drawable.biglogo,
-                "This is a short descrption", "This a full shop description for the specific shop",
+                "This is a short description", "This a full shop description for the specific shop",
                 location, "10-15 mins", 3, "strOperatingHrs", ingredientItems, menuItems));
 
         mRecyclerView = findViewById(R.id.recyclerView);
@@ -97,5 +94,9 @@ public class MyShopsActivity extends AppCompatActivity {
 
     public void back(View view) {
         startActivity(new Intent(MyShopsActivity.this, MainActivity.class));
+    }
+
+    public void Edit(View view) {
+        startActivity(new Intent(MyShopsActivity.this, RegisterShopActivity.class));
     }
 }

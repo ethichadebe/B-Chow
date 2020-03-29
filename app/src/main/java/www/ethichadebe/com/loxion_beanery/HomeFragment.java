@@ -79,9 +79,7 @@ public class HomeFragment extends Fragment {
         });
 
         //Retry button when network error occurs
-        cvRetry.setOnClickListener(view -> {
-            GETShops(v.findViewById(R.id.vLine), v.findViewById(R.id.vLineGrey));
-        });
+        cvRetry.setOnClickListener(view -> GETShops(v.findViewById(R.id.vLine), v.findViewById(R.id.vLineGrey)));
 
         //Search Button on click
         tvSearch.setOnClickListener(view -> {
