@@ -187,11 +187,7 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
     public void next(View view) {
         if (allFieldsEntered()) {
             for (int i = 0; i < etOpen.length; i++) {
-                if (i == (etOpen.length - 1)) {
-                    strTimes += Objects.requireNonNull(etOpen[i].getText()).toString() + "-" + Objects.requireNonNull(etClose[i].getText()).toString();
-                } else {
-                    strTimes += Objects.requireNonNull(etOpen[i].getText()).toString() + "-" + Objects.requireNonNull(etClose[i].getText()).toString() + ", ";
-                }
+                strTimes += Objects.requireNonNull(etOpen[i].getText()).toString() + "-" + Objects.requireNonNull(etClose[i].getText()).toString() + ", ";
             }
             getNewShop().setStrOperatingHRS(strTimes);      //Set Operating hours
             POSTRegisterShop();

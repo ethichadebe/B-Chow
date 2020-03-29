@@ -163,8 +163,8 @@ public class NewMenuItemActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                params.put("mList", MenuLis.toString());
-                params.put("iPrice", Objects.requireNonNull(etPrice.getText()).toString());
+                params.put("mList", MenuLis);
+                params.put("mPrice", Objects.requireNonNull(etPrice.getText()).toString());
                 params.put("sID", String.valueOf(getNewShop().getIntID()));
                 return params;
             }
