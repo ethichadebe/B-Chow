@@ -1,26 +1,39 @@
 package www.ethichadebe.com.loxion_beanery;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 import Adapter.IngredientItemCheckboxAdapter;
 import SingleItem.IngredientItemCheckbox;
+import SingleItem.MenuItem;
 
+import static util.Constants.getIpAddress;
+import static util.HelperMethods.handler;
+import static www.ethichadebe.com.loxion_beanery.HomeFragment.getShopItem;
 import static www.ethichadebe.com.loxion_beanery.ShopHomeActivity.getIngredients;
+import static www.ethichadebe.com.loxion_beanery.ShopHomeActivity.getMenuItem;
 
 public class OrderActivity extends AppCompatActivity {
     private ArrayList<IngredientItemCheckbox> ingredientItems;
@@ -29,63 +42,22 @@ public class OrderActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager mLayoutManager;
     private TextView tvTotal;
     private Double dblPrice = 0.0;
-    private LinearLayout llBack;
-    private Button btnOder;
-    private Dialog myDialog;
+    private RelativeLayout rlLoad, rlError;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
 
-        myDialog = new Dialog(this);
-        btnOder = findViewById(R.id.btnOder);
-        llBack = findViewById(R.id.llBack);
         tvTotal = findViewById(R.id.tvTotal);
-
-        btnOder.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                boolean isChecked = false;
-                for (int i = 0; i < ingredientItems.size(); i++){
-                    if (ingredientItems.get(i).getChecked()){
-                        isChecked = true;
-                    }
-                }
-
-                if (isChecked){
-                    startActivity(new Intent(OrderActivity.this, OrderConfirmationActivity.class));
-                }else {
-                    //ShowNotificationPopup();
-                }
-
-            }
-        });
-
-        llBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
-
+        rlLoad = findViewById(R.id.rlLoad);
+        rlError = findViewById(R.id.rlError);
+        mRecyclerView = findViewById(R.id.recyclerView);
         ingredientItems = new ArrayList<>();
 
-        //Display menu
-        for (int i = 0; i < getIngredients().length; i++) {
-            ingredientItems.add(new IngredientItemCheckbox(1, getIngredients()[i], 12.5, true, false));
-        }
+        dblPrice = getMenuItem().getDblPrice();
+        GETIngredients(findViewById(R.id.vLine), findViewById(R.id.vLineGrey));
 
-        //Add initial total price
-        for (int i = 0; i < ingredientItems.size(); i++) {
-            if (ingredientItems.get(i).getChecked()){
-                dblPrice += ingredientItems.get(i).getDblPrice();
-            };
-        }
-        tvTotal.setText("R" + dblPrice);
-
-
-        mRecyclerView = findViewById(R.id.recyclerView);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
         mAdapter = new IngredientItemCheckboxAdapter(ingredientItems);
@@ -93,20 +65,90 @@ public class OrderActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
 
-        mAdapter.setOnItemClickListener(new IngredientItemCheckboxAdapter.OnItemClickListener() {
-            @Override
-            public void OnItemClick(int position) {
-                if (!ingredientItems.get(position).getChecked()) {
-                    ingredientItems.get(position).setChecked(true);
-                    dblPrice += ingredientItems.get(position).getDblPrice();
-                } else {
-                    ingredientItems.get(position).setChecked(false);
-                    dblPrice -= ingredientItems.get(position).getDblPrice();
-                }
-                tvTotal.setText("R" + dblPrice);
+        mAdapter.setOnItemClickListener(position -> {
+            if (!ingredientItems.get(position).getChecked()) {
+                ingredientItems.get(position).setChecked(true);
+                dblPrice += ingredientItems.get(position).getDblPrice();
+            } else {
+                ingredientItems.get(position).setChecked(false);
+                dblPrice -= ingredientItems.get(position).getDblPrice();
             }
+            tvTotal.setText("R" + dblPrice);
         });
 
     }
 
+    private void GETIngredients(View vLine, View vLineGrey) {
+        rlError.setVisibility(View.GONE);
+        rlLoad.setVisibility(View.VISIBLE);
+        handler(vLine, vLineGrey);
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+
+        JsonObjectRequest objectRequest = new JsonObjectRequest(
+                Request.Method.GET,
+                "http://" + getIpAddress() + "/shops/Ingredients/" + getShopItem().getIntID(), null,
+                response -> {
+                    //Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
+                    rlLoad.setVisibility(View.GONE);
+                    //Loads shops starting with the one closest to user
+                    try {
+                        JSONArray jsonArray = response.getJSONArray("menuItems");
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject Ingredient = jsonArray.getJSONObject(i);
+                            if (isChecked(Ingredient.getString("iName"))){
+                                ingredientItems.add(new IngredientItemCheckbox(Ingredient.getInt("iID"), Ingredient.getString("iName"), Ingredient.getDouble("iPrice"), true, false));
+                            }
+                        }
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject Ingredient = jsonArray.getJSONObject(i);
+                            if (!isChecked(Ingredient.getString("iName"))){
+                                ingredientItems.add(new IngredientItemCheckbox(Ingredient.getInt("iID"), Ingredient.getString("iName"), Ingredient.getDouble("iPrice"), false, true));
+                            }
+                        }
+                        tvTotal.setText("R"+dblPrice);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                },
+                error -> {
+                    rlError.setVisibility(View.VISIBLE);
+                    rlLoad.setVisibility(View.GONE);
+                    if (error.toString().equals("com.android.volley.TimeoutError")) {
+                        Toast.makeText(this, "Connection error. Please retry", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+        requestQueue.add(objectRequest);
+
+    }
+
+    public void back(View view) {
+        finish();
+    }
+
+    public void Order(View view) {
+        boolean isChecked = false;
+        for (int i = 0; i < ingredientItems.size(); i++) {
+            if (ingredientItems.get(i).getChecked()) {
+                isChecked = true;
+            }
+        }
+
+        if (isChecked) {
+            startActivity(new Intent(OrderActivity.this, OrderConfirmationActivity.class));
+        } else {
+            //ShowNotificationPopup();
+        }
+
+    }
+
+    private boolean isChecked(String IngredientName){
+        for (int i =0; i <  getIngredients().length; i++){
+            if ( getIngredients()[i].equals(IngredientName)){
+                return true;
+            }
+        }
+        return false;
+    }
 }

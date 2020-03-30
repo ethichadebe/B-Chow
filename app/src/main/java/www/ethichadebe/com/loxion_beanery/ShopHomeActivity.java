@@ -5,17 +5,33 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import Adapter.MenuItemAdapter;
 import SingleItem.MenuItem;
+import SingleItem.ShopItem;
 
+import static util.Constants.getIpAddress;
+import static util.HelperMethods.handler;
 import static www.ethichadebe.com.loxion_beanery.HomeFragment.getShopItem;
 
 public class ShopHomeActivity extends AppCompatActivity {
@@ -25,23 +41,36 @@ public class ShopHomeActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager mLayoutManager;
     private static ArrayList<MenuItem> MenuItems;
     private static String[] ingredients;
+    private RelativeLayout rlLoad, rlError;
     private TextView tvName, tvDistance, tvAveTime, tvFullDescrpit;
     private ImageView ivStar1, ivStar2, ivStar3, ivStar4, ivStar5;
+    private static MenuItem menuItem;
+
+    public static MenuItem getMenuItem() {
+        return menuItem;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop_home);
 
+        MenuItems = new ArrayList<>();
         tvName = findViewById(R.id.tvName);
         ivStar1 = findViewById(R.id.ivStar1);
         ivStar2 = findViewById(R.id.ivStar2);
         ivStar3 = findViewById(R.id.ivStar3);
+        rlLoad = findViewById(R.id.rlLoad);
+        rlError = findViewById(R.id.rlError);
         ivStar4 = findViewById(R.id.ivStar4);
         ivStar5 = findViewById(R.id.ivStar5);
         tvDistance = findViewById(R.id.tvDistance);
         tvAveTime = findViewById(R.id.tvAveTime);
         tvFullDescrpit = findViewById(R.id.tvFullDescrpit);
+
+        if (getShopItem().getMenuItems() == null) {
+            GETMenu(findViewById(R.id.vLine), findViewById(R.id.vLineGrey));
+        }
 
         tvName.setText(getShopItem().getStrShopName());
         switch (getShopItem().getIntRating()) {
@@ -93,17 +122,7 @@ public class ShopHomeActivity extends AppCompatActivity {
         tvAveTime.setText(getShopItem().getStrAveTime());
         tvFullDescrpit.setText(getShopItem().getStrFullDescript());
 
-        MenuItems = new ArrayList<>();
-
         //Load menu items starting with the Cheapest
-        MenuItems.add(new MenuItem(1, 10.5, "Chips, French, Eggs", R.drawable.ic_edit_black_24dp,
-                R.drawable.ic_delete_black_24dp, View.GONE));
-        MenuItems.add(new MenuItem(1, 10.0, "Chips, French, Eggs", R.drawable.ic_edit_black_24dp,
-                R.drawable.ic_delete_black_24dp, View.GONE));
-        MenuItems.add(new MenuItem(1, 17.0, "Chips, French, Eggs", R.drawable.ic_edit_black_24dp,
-                R.drawable.ic_delete_black_24dp, View.GONE));
-        MenuItems.add(new MenuItem(1, 10.5, "Chips, French, Eggs, Burger", R.drawable.ic_edit_black_24dp,
-                R.drawable.ic_delete_black_24dp, View.GONE));
         mRecyclerView = findViewById(R.id.recyclerView);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
@@ -115,6 +134,7 @@ public class ShopHomeActivity extends AppCompatActivity {
         mAdapter.setOnItemClickListener(new MenuItemAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
+                menuItem = MenuItems.get(position);
                 ingredients = MenuItems.get(position).getStrMenu().split(", ");
                 startActivity(new Intent(ShopHomeActivity.this, OrderActivity.class));
             }
@@ -135,6 +155,44 @@ public class ShopHomeActivity extends AppCompatActivity {
     }
 
     public void back(View view) {
-        finish();
+        startActivity(new Intent(ShopHomeActivity.this, MainActivity.class));
+    }
+
+    private void GETMenu(View vLine, View vLineGrey) {
+        rlError.setVisibility(View.GONE);
+        rlLoad.setVisibility(View.VISIBLE);
+        handler(vLine, vLineGrey);
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+
+        JsonObjectRequest objectRequest = new JsonObjectRequest(
+                Request.Method.GET,
+                "http://" + getIpAddress() + "/shops/MenuItems/" + getShopItem().getIntID(), null,
+                response -> {
+                    //Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
+                    rlLoad.setVisibility(View.GONE);
+                    //Loads shops starting with the one closest to user
+                    try {
+                        JSONArray jsonArray = response.getJSONArray("menuItems");
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject MenuItem = jsonArray.getJSONObject(i);
+                            MenuItems.add(new MenuItem(MenuItem.getInt("mID"), MenuItem.getDouble("mPrice"), MenuItem.getString("mList"), R.drawable.ic_edit_black_24dp,
+                                    R.drawable.ic_delete_black_24dp, View.GONE));
+                        }
+                        getShopItem().setMenuItems(MenuItems);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                },
+                error -> {
+                    rlError.setVisibility(View.VISIBLE);
+                    rlLoad.setVisibility(View.GONE);
+                    if (error.toString().equals("com.android.volley.TimeoutError")) {
+                        Toast.makeText(this, "Connection error. Please retry", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+        requestQueue.add(objectRequest);
+
     }
 }

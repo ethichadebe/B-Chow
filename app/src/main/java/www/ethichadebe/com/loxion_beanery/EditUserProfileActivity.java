@@ -16,11 +16,19 @@ import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.text.DateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
+
+import util.Constants;
 
 import static util.HelperMethods.MakeBlack;
 import static util.HelperMethods.allFieldsEntered;
@@ -184,4 +192,26 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
     public void back(View view) {
         ShowConfirmationPopup();
     }
+
+    /*private void PUTMinutes() {
+        StringRequest stringRequest = new StringRequest(Request.Method.PUT,
+                "http://" + Constants.getIP() + "/team28/public/api/p_member/" + user.getStrID() + "/meeting/" + meeting.getStrMeetID(),
+                response -> {
+                    //myDialog.dismiss();
+                }, error -> {
+            //myDialog.dismiss();
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+
+                params.put("M_minutes", mEditMinutes.getText().toString());
+
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }*/
 }

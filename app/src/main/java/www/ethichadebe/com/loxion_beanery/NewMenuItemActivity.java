@@ -143,11 +143,11 @@ public class NewMenuItemActivity extends AppCompatActivity {
                             etPrice.setUnderlineColor(getResources().getColor(R.color.Black));
                             if (getIngredients() != null) {
                                 //Edit item
-                                EditMenu(getIntPosition(), Double.valueOf(Objects.requireNonNull(etPrice.getText()).toString()), MenuLis.toString());
+                                EditMenu(getIntPosition(), Double.valueOf(Objects.requireNonNull(etPrice.getText()).toString()), MenuLis);
                                 setIngredients(null);
                             } else {
                                 //Add new item
-                                addToList(Double.valueOf(Objects.requireNonNull(etPrice.getText()).toString()), MenuLis.toString());
+                                addToList(Double.valueOf(Objects.requireNonNull(etPrice.getText()).toString()), MenuLis);
                             }
                             etPrice.setText("");
                             startActivity(new Intent(NewMenuItemActivity.this, MenuActivity.class));
@@ -179,6 +179,7 @@ public class NewMenuItemActivity extends AppCompatActivity {
 
         //Group all ingredients into one string
         for (int i = 0; i < ingredientItems.size(); i++) {
+            if (ingredientItems.get(i).getChecked())
                 MenuList.append(ingredientItems.get(i).getStrIngredientName()).append(", ");
         }
 

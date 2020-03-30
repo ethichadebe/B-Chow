@@ -116,7 +116,7 @@ public class NewExtrasActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                params.put("eName", getNewShop().getStrShopName());
+                params.put("eName", Objects.requireNonNull(etExtra.getText()).toString());
                 params.put("sID", String.valueOf(getNewShop().getIntID()));
                 return params;
             }

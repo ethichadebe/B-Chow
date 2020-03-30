@@ -45,16 +45,20 @@ public class HomeFragment extends Fragment {
     private TextView tvEmpty, tvSearch;
     private MaterialEditText etSearch;
     private CardView cvRetry;
-    private static ArrayList<ShopItem> shopItems = new ArrayList<>();
-    private static int position;
+    private static ArrayList<ShopItem> shopItems;
     private RelativeLayout rlLoad, rlError;
+    private static ShopItem shopItem;
+
+    static ShopItem getShopItem() {
+        return shopItem;
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.frame_home, container, false);
 
-
+        shopItems = new ArrayList<>();
         mRecyclerView = v.findViewById(R.id.recyclerView);
         rlLoad = v.findViewById(R.id.rlLoad);
         rlError = v.findViewById(R.id.rlError);
@@ -73,9 +77,8 @@ public class HomeFragment extends Fragment {
 
         //ShopItem on click
         mAdapter.setOnItemClickListener(position -> {
-            /*shopItems.get(position)*/
+            shopItem = shopItems.get(position);
             startActivity(new Intent(getActivity(), ShopHomeActivity.class));
-            HomeFragment.position = position;
         });
 
         //Retry button when network error occurs
@@ -136,9 +139,5 @@ public class HomeFragment extends Fragment {
                 });
         requestQueue.add(objectRequest);
 
-    }
-
-    static ShopItem getShopItem() {
-        return shopItems.get(position);
     }
 }
