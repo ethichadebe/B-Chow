@@ -60,7 +60,6 @@ public class LoginActivity extends AppCompatActivity {
     private MaterialEditText mTextPassword, mTextUsername;
     private RelativeLayout rlLoad;
     private BottomSheetBehavior bsbBottomSheetBehavior;
-    private TextView mViewError;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +78,6 @@ public class LoginActivity extends AppCompatActivity {
         myDialog = new Dialog(this);
 
         if (isLogout) {
-            saveData(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE), "", "");
         }
 
         //Check if shared prefs are empty
@@ -90,8 +88,6 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             handler.postDelayed(runnable, 3000);
         }
-
-        mViewError = findViewById(R.id.lblError);
     }
 
     @Override
@@ -199,17 +195,18 @@ public class LoginActivity extends AppCompatActivity {
                 Objects.requireNonNull(mTextPassword.getText()).toString().isEmpty()) {
             mTextUsername.setUnderlineColor(getResources().getColor(R.color.Red));
             mTextPassword.setUnderlineColor(getResources().getColor(R.color.Red));
-            mViewError.setText("Enter Both fields");
+            mTextUsername.setHelperText("Field required");
+            mTextPassword.setHelperText("Field required");
         } else if (mTextUsername.getText().toString().isEmpty() &&
                 !Objects.requireNonNull(mTextPassword.getText()).toString().isEmpty()) {
+            mTextUsername.setHelperText("Field required");
             mTextUsername.setUnderlineColor(getResources().getColor(R.color.Red));
             mTextPassword.setUnderlineColor(getResources().getColor(R.color.Black));
-            mViewError.setText("Enter Username");
         } else if (!mTextUsername.getText().toString().isEmpty() &&
                 Objects.requireNonNull(mTextPassword.getText()).toString().isEmpty()) {
             mTextPassword.setUnderlineColor(getResources().getColor(R.color.Red));
             mTextUsername.setUnderlineColor(getResources().getColor(R.color.Black));
-            mViewError.setText("Enter Password");
+            mTextPassword.setHelperText("Field required");
         } else {
             PostLogin(findViewById(R.id.vLine), findViewById(R.id.vLineGrey), true);
         }

@@ -63,9 +63,10 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/btnNext"
         android:layout_below="@id/llHead">
 
-        <GridLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:alignmentMode="alignMargins"
@@ -79,7 +80,6 @@
                 android:layout_height="wrap_content"
                 android:layout_rowWeight="1"
                 android:layout_columnWeight="1"
-                android:layout_below="@id/llHead"
                 android:layout_margin="5dp"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="3dp">
@@ -172,7 +172,7 @@
                                 android:hint="Short description"
                                 android:textSize="14sp"
                                 app:met_floatingLabel="highlight"
-                                app:met_maxCharacters="50" />
+                                app:met_maxCharacters="200" />
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
@@ -312,14 +312,13 @@
                             android:ems="10"
                             android:hint="Full description"
                             android:textSize="14sp"
-                            app:met_floatingLabel="highlight"
-                            app:met_maxCharacters="255" />
+                            app:met_floatingLabel="highlight"/>
 
                     </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-        </GridLayout>
+        </RelativeLayout>
     </ScrollView>
 
     <Button

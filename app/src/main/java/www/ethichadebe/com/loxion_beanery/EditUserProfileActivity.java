@@ -37,7 +37,6 @@ import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 public class EditUserProfileActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
     private MaterialEditText[] mTextBoxes = new MaterialEditText[5];
-    private TextView tvSave;
     private CheckBox mCBMale, mCBFemale, mCBOther;
     private TextView mViewError;
     private static String UserSex;
@@ -53,7 +52,6 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_user_profile);
 
-        tvSave = findViewById(R.id.tvSave);
         myDialog = new Dialog(this);
 
         //Labels
@@ -76,7 +74,7 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
         mTextBoxes[2].setText(getUser().getuNumber());
         mTextBoxes[3].setText(getUser().getuEmail());
         mTextBoxes[4].setText(getUser().getuDOB());
-        switch (getUser().getuSex()){
+        switch (getUser().getuSex()) {
             case "male":
                 mCBMale.setChecked(true);
                 break;
@@ -102,7 +100,7 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
                 mCBFemale.setChecked(false);
                 mCBOther.setChecked(false);
                 UserSex = "male";
-            }else {
+            } else {
                 mCBMale.setChecked(true);
             }
         });
@@ -111,7 +109,7 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
                 mCBMale.setChecked(false);
                 mCBFemale.setChecked(false);
                 UserSex = "other";
-            }else {
+            } else {
                 mCBOther.setChecked(true);
             }
         });
@@ -120,20 +118,9 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
                 mCBMale.setChecked(false);
                 mCBOther.setChecked(false);
                 UserSex = "female";
-            }else {
+            } else {
                 mCBFemale.setChecked(true);
             }
-        });
-
-        tvSave.setOnClickListener(view -> {
-            for (int i = 0; i < mTextBoxes.length; i++) {
-                if (!allFieldsEntered(mTextBoxes, getResources().getColor(R.color.Red), getResources().getColor(R.color.Black))) {
-                    mViewError.setText(R.string.enter_all_required_details);
-                }else if (allFieldsEntered(mTextBoxes, getResources().getColor(R.color.Red), getResources().getColor(R.color.Black))) {
-                    startActivity(new Intent(EditUserProfileActivity.this, MainActivity.class));
-                }
-            }
-
         });
     }
 
@@ -191,6 +178,16 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
 
     public void back(View view) {
         ShowConfirmationPopup();
+    }
+
+    public void save(View view) {
+        for (int i = 0; i < mTextBoxes.length; i++) {
+            if (!allFieldsEntered(mTextBoxes, getResources().getColor(R.color.Red), getResources().getColor(R.color.Black))) {
+                mViewError.setText(R.string.enter_all_required_details);
+            }else if (allFieldsEntered(mTextBoxes, getResources().getColor(R.color.Red), getResources().getColor(R.color.Black))) {
+                startActivity(new Intent(EditUserProfileActivity.this, MainActivity.class));
+            }
+        }
     }
 
     /*private void PUTMinutes() {

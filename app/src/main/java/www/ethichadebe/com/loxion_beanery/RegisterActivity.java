@@ -36,7 +36,9 @@ import util.HelperMethods;
 
 import static util.Constants.getIpAddress;
 import static util.HelperMethods.MakeBlack;
+import static util.HelperMethods.SHARED_PREFS;
 import static util.HelperMethods.allFieldsEntered;
+import static util.HelperMethods.saveData;
 
 public class RegisterActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
     private RelativeLayout rellay1;
@@ -53,7 +55,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
     private TextView mViewError;
     private CheckBox mCBMale, mCBFemale, mCBOther;
 
-    private String UserSex="";
+    private String UserSex = "";
     Handler handler = new Handler();
     Runnable runnable = new Runnable() {
         @Override
@@ -79,6 +81,8 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
         mTextBoxes[4] = findViewById(R.id.txtPass);
         mTextBoxes[5] = findViewById(R.id.txtCPass);
         mTextBoxes[6] = findViewById(R.id.txtDOB);
+
+        saveData(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE), "", "");
 
         CardView mButtonLogin = findViewById(R.id.btnLogin);
         //Button
@@ -132,11 +136,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
 
         mButtonRegister.setOnClickListener(view -> {
 
-            if (!allFieldsEntered(mTextBoxes, getResources().getColor(R.color.Red), getResources().getColor(R.color.Black)) && !sexIsChecked()) {
-                mViewError.setText(R.string.enter_all_required_details);
-            } else if (!allFieldsEntered(mTextBoxes, getResources().getColor(R.color.Red), getResources().getColor(R.color.Black))) {
-                mViewError.setText(R.string.enter_all_required_details);
-            } else if (!sexIsChecked()) {
+            if (!sexIsChecked()) {
                 mViewError.setText("Select gender");
             } else if (!passwordMatches()) {
                 mViewError.setText("Password doesn't match");

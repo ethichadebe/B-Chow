@@ -43,7 +43,7 @@
                 android:id="@+id/rellay1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="gone">
+                    android:visibility="gone">
 
                 <TextView
                     android:id="@+id/tv_login"
@@ -71,7 +71,8 @@
                         android:hint="@string/first_name"
                         android:inputType="textPersonName"
                         android:textSize="14sp"
-                        app:met_floatingLabel="highlight" />
+                        app:met_floatingLabel="highlight"
+                        app:met_helperText="" />
 
                     <com.rengwuxian.materialedittext.MaterialEditText
                         android:id="@+id/txtSurname"
@@ -81,7 +82,8 @@
                         android:hint="@string/last_name"
                         android:inputType="textPersonName"
                         android:textSize="14sp"
-                        app:met_floatingLabel="highlight" />
+                        app:met_floatingLabel="highlight"
+                        app:met_helperText="hel[p" />
 
                     <com.rengwuxian.materialedittext.MaterialEditText
                         android:id="@+id/txtDOB"
@@ -91,7 +93,8 @@
                         android:focusable="false"
                         android:hint="Date of Birth"
                         android:textSize="14sp"
-                        app:met_floatingLabel="highlight" />
+                        app:met_floatingLabel="highlight"
+                        app:met_helperText="" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -142,8 +145,8 @@
                         android:hint="@string/email_address"
                         android:inputType="textEmailAddress"
                         android:textSize="14sp"
-                        app:met_helperText=""
-                        app:met_floatingLabel="highlight" />
+                        app:met_floatingLabel="highlight"
+                        app:met_helperText="" />
 
                     <com.rengwuxian.materialedittext.MaterialEditText
                         android:id="@+id/txtPhone"
@@ -153,8 +156,8 @@
                         android:hint="@string/phone_number"
                         android:inputType="phone"
                         android:textSize="14sp"
-                        app:met_helperText=""
-                        app:met_floatingLabel="highlight" />
+                        app:met_floatingLabel="highlight"
+                        app:met_helperText="" />
 
                     <com.rengwuxian.materialedittext.MaterialEditText
                         android:id="@+id/txtPass"
@@ -164,7 +167,8 @@
                         android:hint="@string/password"
                         android:inputType="textPersonName"
                         android:textSize="14sp"
-                        app:met_floatingLabel="highlight" />
+                        app:met_floatingLabel="highlight"
+                        app:met_helperText="" />
 
                     <com.rengwuxian.materialedittext.MaterialEditText
                         android:id="@+id/txtCPass"
@@ -174,7 +178,8 @@
                         android:hint="@string/confirm_password"
                         android:inputType="textPersonName"
                         android:textSize="14sp"
-                        app:met_floatingLabel="highlight" />
+                        app:met_floatingLabel="highlight"
+                        app:met_helperText="" />
                 </LinearLayout>
 
                 <TextView

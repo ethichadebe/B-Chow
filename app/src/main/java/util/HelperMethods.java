@@ -80,6 +80,7 @@ public class HelperMethods {
         for (int i = 0; i < mText.length; i++) {
             if (Objects.requireNonNull(mText[i].getText()).toString().isEmpty()) {
                 MakeBlack(mText, i, Black);
+                mText[i].setHelperText("Required field");
                 mText[i].setUnderlineColor(Red);
                 allEntered = false;
             }

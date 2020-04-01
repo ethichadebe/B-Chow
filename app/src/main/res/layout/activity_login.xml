@@ -119,7 +119,7 @@
                     android:inputType="textPersonName"
                     android:textSize="14sp"
                     app:met_floatingLabel="highlight"
-                    app:met_helperText="" />
+                    app:met_helperText=""/>
 
                 <CheckBox
                     android:id="@+id/cbRemember"
