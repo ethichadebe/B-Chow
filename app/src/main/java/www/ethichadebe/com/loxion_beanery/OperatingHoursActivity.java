@@ -32,6 +32,7 @@ import util.HelperMethods;
 import static util.Constants.getIpAddress;
 import static util.HelperMethods.MakeBlack;
 import static util.HelperMethods.removeLastComma;
+import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 import static www.ethichadebe.com.loxion_beanery.RegisterShopActivity.getNewShop;
 
 public class OperatingHoursActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
@@ -187,7 +188,7 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
     public void next(View view) {
         if (allFieldsEntered()) {
             for (int i = 0; i < etOpen.length; i++) {
-                strTimes += Objects.requireNonNull(etOpen[i].getText()).toString() + "-" + Objects.requireNonNull(etClose[i].getText()).toString() + ", ";
+                strTimes += Objects.requireNonNull(etOpen[i].getText()).toString() + " - " + Objects.requireNonNull(etClose[i].getText()).toString() + ", ";
             }
             getNewShop().setStrOperatingHRS(strTimes);      //Set Operating hours
             POSTRegisterShop();
@@ -251,6 +252,7 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
                 params.put("sBigPicture", "Picture");
                 params.put("sLocation", getNewShop().getLocLocation().getLatitude() + " " + getNewShop().getLocLocation().getLongitude());
                 params.put("sOperatingHrs", removeLastComma(strTimes));
+                params.put("uID", String.valueOf(getUser().getuID()));
                 return params;
             }
         };

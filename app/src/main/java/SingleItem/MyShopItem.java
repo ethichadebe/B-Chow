@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class MyShopItem {
     private int intID;
-    private String strShopName;
+    private String strShopName, strOperatingHRS;
     private String strPosition;
     private int intLogoSmall;
     private int intLogoBig;
@@ -15,7 +15,7 @@ public class MyShopItem {
     private Location locLocation;
     private String strAveTime;
     private int intRating;
-    private String strOperatingHRS;
+    private boolean isOpen = false;
     private ArrayList<IngredientItem> ingredientItems;
     private ArrayList<MenuItem> menuItems;
 
@@ -60,8 +60,8 @@ public class MyShopItem {
      * @param intRating
      * @param strOperatingHRS
      */
-    public MyShopItem(int intID, String strShopName, String strPosition, int intLogoSmall, int intLogoBig, String strShortDescript,
-                      String strFullDescript, Location locLocation, String strAveTime, int intRating,
+    public MyShopItem(int intID, String strShopName, String strPosition, int intLogoSmall, int intLogoBig,
+                      String strShortDescript, String strFullDescript, Location locLocation, String strAveTime, int intRating,
                       String strOperatingHRS) {
         this.intID = intID;
         this.strShopName = strShopName;
@@ -78,6 +78,7 @@ public class MyShopItem {
 
     /**
      * default constructor
+     *
      * @param intID
      * @param strShopName
      * @param strPosition
@@ -233,5 +234,13 @@ public class MyShopItem {
 
     public void setIntLogoBig(int intLogoBig) {
         this.intLogoBig = intLogoBig;
+    }
+
+    public boolean isOpen() {
+        return isOpen;
+    }
+
+    public void setOpen(boolean open) {
+        isOpen = open;
     }
 }

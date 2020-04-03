@@ -1,6 +1,7 @@
 package util;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -8,6 +9,9 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.TextView;
+
+import androidx.cardview.widget.CardView;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
@@ -16,6 +20,8 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import www.ethichadebe.com.loxion_beanery.IngredientsActivity;
+import www.ethichadebe.com.loxion_beanery.MenuActivity;
 import www.ethichadebe.com.loxion_beanery.R;
 
 public class HelperMethods {

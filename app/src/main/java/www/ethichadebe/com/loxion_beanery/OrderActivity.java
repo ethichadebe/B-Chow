@@ -1,11 +1,14 @@
 package www.ethichadebe.com.loxion_beanery;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -25,11 +28,11 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import Adapter.IngredientItemCheckboxAdapter;
 import SingleItem.IngredientItemCheckbox;
 import SingleItem.MenuItem;
-import util.HelperMethods;
 
 import static util.Constants.getIpAddress;
 import static util.HelperMethods.ShowLoadingPopup;
@@ -37,7 +40,6 @@ import static util.HelperMethods.handler;
 import static util.HelperMethods.removeLastComma;
 import static www.ethichadebe.com.loxion_beanery.HomeFragment.getShopItem;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
-import static www.ethichadebe.com.loxion_beanery.RegisterShopActivity.getNewShop;
 import static www.ethichadebe.com.loxion_beanery.ShopHomeActivity.getIngredients;
 import static www.ethichadebe.com.loxion_beanery.ShopHomeActivity.getMenuItem;
 
@@ -47,7 +49,7 @@ public class OrderActivity extends AppCompatActivity {
     private IngredientItemCheckboxAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private TextView tvTotal;
-    private Double dblPrice = 0.0;
+    private Double dblPrice, foundPrice = 0.0;
     private String strIngredients = "";
     private RelativeLayout rlLoad, rlError;
     private Dialog myDialog;
@@ -139,7 +141,11 @@ public class OrderActivity extends AppCompatActivity {
     }
 
     public void Order(View view) {
-        POSTOrder();
+        if (alreadyExists()) {
+            ShowConfirmationPopup();
+        }else {
+            POSTOrder();
+        }
     }
 
     private boolean isChecked(String IngredientName) {
@@ -158,7 +164,6 @@ public class OrderActivity extends AppCompatActivity {
                 response -> {
                     try {
                         JSONObject JSONResponse = new JSONObject(response);
-                        getNewShop().setIntID(Integer.parseInt(JSONResponse.getString("data")));
                         ShowLoadingPopup(myDialog, false);
                         startActivity(new Intent(OrderActivity.this, OrderConfirmationActivity.class));
                     } catch (JSONException e) {
@@ -182,5 +187,56 @@ public class OrderActivity extends AppCompatActivity {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
     }
+
+    private boolean alreadyExists() {
+        boolean isThere = false;
+        String[] mIngredients = removeLastComma(strIngredients).split(", ");
+        for (MenuItem menuItem : getShopItem().getMenuItems()) {
+            String[] ingredients = menuItem.getStrMenu().split(", ");
+
+            for (String mIngredient : mIngredients) {
+                isThere = false;
+                for (String ingredient : ingredients) {
+                    if (mIngredient.equals(ingredient)) {
+                        isThere = true;
+                        break;
+                    }
+                }
+            }
+
+            if (isThere) {
+                if (!dblPrice.equals(foundPrice)){
+                    foundPrice = menuItem.getDblPrice();
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public void ShowConfirmationPopup() {
+        TextView tvCancel, tvMessage;
+        CardView cvYes, cvNo;
+        myDialog.setContentView(R.layout.popup_confirmation);
+
+        tvCancel = myDialog.findViewById(R.id.tvCancel);
+        tvMessage = myDialog.findViewById(R.id.tvMessage);
+        cvYes = myDialog.findViewById(R.id.cvYes);
+        cvNo = myDialog.findViewById(R.id.cvNo);
+
+        tvCancel.setOnClickListener(view -> myDialog.dismiss());
+
+        tvMessage.setText("Selected kota already exists in menu. If you wish to continue you'll be charged R" + foundPrice + ". Do you wish to continue?");
+
+        cvYes.setOnClickListener(view -> {
+            myDialog.dismiss();
+            POSTOrder();
+        });
+
+        cvNo.setOnClickListener(view -> myDialog.dismiss());
+        Objects.requireNonNull(myDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        myDialog.show();
+    }
+
 
 }

@@ -31,48 +31,39 @@ public class MenuItemAdapter extends RecyclerView.Adapter<MenuItemAdapter.MenuVi
         mListerner = listener;
     }
 
-    public static class MenuViewHolder extends RecyclerView.ViewHolder {
+    static class MenuViewHolder extends RecyclerView.ViewHolder {
 
         private TextView tvPrice, tvIngredients;
         private ImageView ivEdit, ivDelete;
 
-        public MenuViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
+        MenuViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
             tvPrice = itemView.findViewById(R.id.tvPrice);
             tvIngredients = itemView.findViewById(R.id.tvIngredients);
             ivEdit = itemView.findViewById(R.id.ivEdit);
             ivDelete = itemView.findViewById(R.id.ivDelete);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (listener != null) {
-                        int position = getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION) {
-                            listener.onItemClick(position);
-                        }
+            itemView.setOnClickListener(view -> {
+                if (listener != null) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        listener.onItemClick(position);
                     }
                 }
             });
-            ivEdit.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (listener != null) {
-                        int position = getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION) {
-                            listener.onEditClick(position);
-                        }
+            ivEdit.setOnClickListener(view -> {
+                if (listener != null) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        listener.onEditClick(position);
                     }
                 }
             });
-            ivDelete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (listener != null) {
-                        int position = getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION) {
-                            listener.onDeleteClick(position);
-                        }
+            ivDelete.setOnClickListener(view -> {
+                if (listener != null) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        listener.onDeleteClick(position);
                     }
                 }
             });
@@ -87,16 +78,15 @@ public class MenuItemAdapter extends RecyclerView.Adapter<MenuItemAdapter.MenuVi
     @Override
     public MenuViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.menu_item, parent, false);
-        MenuViewHolder svh = new MenuViewHolder(v, mListerner);
 
-        return svh;
+        return new MenuViewHolder(v, mListerner);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MenuViewHolder holder, int position) {
         MenuItem item = menuList.get(position);
 
-        holder.tvPrice.setText("R"+String.valueOf(item.getDblPrice()));
+        holder.tvPrice.setText("R"+ item.getDblPrice());
         holder.tvIngredients.setText(item.getStrMenu());
         holder.ivEdit.setImageResource(item.getIntEdit());
         holder.ivDelete.setImageResource(item.getIntDelete());

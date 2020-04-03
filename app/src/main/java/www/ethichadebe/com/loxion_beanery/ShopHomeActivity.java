@@ -195,4 +195,10 @@ public class ShopHomeActivity extends AppCompatActivity {
         requestQueue.add(objectRequest);
 
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(ShopHomeActivity.this, MainActivity.class));
+    }
 }

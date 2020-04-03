@@ -29,24 +29,21 @@ public class IngredientItemCheckboxAdapter extends RecyclerView.Adapter<Ingredie
 
     }
 
-    public static class IngredientCheckboxViewHolder extends RecyclerView.ViewHolder {
+    static class IngredientCheckboxViewHolder extends RecyclerView.ViewHolder {
 
         private CheckBox tvIngredientName;
         private TextView tvPrice;
 
-        public IngredientCheckboxViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
+        IngredientCheckboxViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
             tvIngredientName = itemView.findViewById(R.id.tvIngredientName);
             tvPrice = itemView.findViewById(R.id.tvPrice);
 
-            tvIngredientName.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (listener != null) {
-                        int position = getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION) {
-                            listener.OnItemClick(position);
-                        }
+            tvIngredientName.setOnClickListener(view -> {
+                if (listener != null) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        listener.OnItemClick(position);
                     }
                 }
             });
@@ -62,9 +59,8 @@ public class IngredientItemCheckboxAdapter extends RecyclerView.Adapter<Ingredie
     @Override
     public IngredientCheckboxViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.ingredient_item_checkbox, parent, false);
-        IngredientCheckboxViewHolder svh = new IngredientCheckboxViewHolder(v, mListener);
 
-        return svh;
+        return new IngredientCheckboxViewHolder(v, mListener);
     }
 
     @Override
@@ -75,7 +71,12 @@ public class IngredientItemCheckboxAdapter extends RecyclerView.Adapter<Ingredie
         holder.tvIngredientName.setId(item.getIntID());
         holder.tvIngredientName.setChecked(item.getChecked());
         holder.tvIngredientName.setClickable(item.getClickability());
-        holder.tvPrice.setText("R" + String.valueOf(item.getDblPrice()));
+        holder.tvPrice.setText("R" + item.getDblPrice());
+        if (item.getClickability()){
+            holder.tvPrice.setVisibility(View.VISIBLE);
+        }else {
+            holder.tvPrice.setVisibility(View.GONE);
+        }
     }
 
     @Override

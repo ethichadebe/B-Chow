@@ -3,7 +3,6 @@
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="login">Login</string>
-    <string name="logo">Logo</string>
     <string name="sign_up">Sign up</string>
     <string name="register">Register</string>
     <string name="first_name">First name</string>
@@ -14,4 +13,18 @@
     <string name="let_s_get_you_registered">Let\'s get you registered!!</string>
     <string name="enter_all_required_details">Enter all required details</string>
     <string name="password_does_not_match">Password does not match</string>
+    <string name="tuesday">Tuesday</string>
+    <string name="monday">Monday</string>
+    <string name="logo">Logo</string>
+    <string name="star1">Star1</string>
+    <string name="star2">Star2</string>
+    <string name="star3">Star3</string>
+    <string name="star4">Star4</string>
+    <string name="star5">Star5</string>
+    <string name="wednesday">Wednesday</string>
+    <string name="thursday">Thursday</string>
+    <string name="friday">Friday</string>
+    <string name="saturday">Saturday</string>
+    <string name="sunday">Sunday</string>
+    <string name="public_holiday">Public Holiday</string>
 </resources>
