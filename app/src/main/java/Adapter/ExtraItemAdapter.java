@@ -4,6 +4,7 @@ package Adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import SingleItem.ExtraItem;
-import SingleItem.IngredientItem;
 import www.ethichadebe.com.loxion_beanery.R;
 
 public class ExtraItemAdapter extends RecyclerView.Adapter<ExtraItemAdapter.ExtraViewHolder> {
@@ -23,26 +23,38 @@ public class ExtraItemAdapter extends RecyclerView.Adapter<ExtraItemAdapter.Extr
 
     public interface OnExtraClickListener {
         void onRemoveClick(int position);
+        void onEditClick(int position);
     }
 
     public void setOnExtraClickListener(ExtraItemAdapter.OnExtraClickListener listener) {
         mListerner = listener;
     }
 
-    public static class ExtraViewHolder extends RecyclerView.ViewHolder{
+    static class ExtraViewHolder extends RecyclerView.ViewHolder{
 
-        private TextView tvExtraName, tvRemove;
+        private TextView tvIngredients;
+        private ImageView ivDelete, ivEdit;
 
-        public ExtraViewHolder(@NonNull View itemView, final ExtraItemAdapter.OnExtraClickListener listener) {
+        ExtraViewHolder(@NonNull View itemView, final ExtraItemAdapter.OnExtraClickListener listener) {
             super(itemView);
-            tvExtraName = itemView.findViewById(R.id.tvIngredientName);
-            tvRemove = itemView.findViewById(R.id.tvRemove);
+            tvIngredients = itemView.findViewById(R.id.tvIngredients);
+            ivDelete = itemView.findViewById(R.id.ivDelete);
+            ivEdit = itemView.findViewById(R.id.ivEdit);
 
-            tvRemove.setOnClickListener(view -> {
+            ivDelete.setOnClickListener(view -> {
                 if (listener != null) {
                     int position = getAdapterPosition();
                     if (position != RecyclerView.NO_POSITION) {
                         listener.onRemoveClick(position);
+                    }
+                }
+            });
+
+            ivEdit.setOnClickListener(view -> {
+                if (listener != null) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        listener.onEditClick(position);
                     }
                 }
             });
@@ -56,18 +68,17 @@ public class ExtraItemAdapter extends RecyclerView.Adapter<ExtraItemAdapter.Extr
     @NonNull
     @Override
     public ExtraViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.ingredient_item, parent, false);
-        ExtraViewHolder svh = new ExtraViewHolder(v, mListerner);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.menu_item, parent, false);
 
-        return  svh;
+        return new ExtraViewHolder(v, mListerner);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ExtraViewHolder holder, int position) {
         ExtraItem item = ExtraList.get(position);
 
-        holder.tvExtraName.setText(item.getStrIngredientName());
-        holder.tvExtraName.setId(item.getIntID());
+        holder.tvIngredients.setText(item.getStrIngredientName());
+        holder.tvIngredients.setId(item.getIntID());
     }
 
     @Override

@@ -23,9 +23,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import Adapter.MyShopItemAdapter;
 import SingleItem.MyShopItem;
+import SingleItem.ShopItem;
 
 import static util.Constants.getIpAddress;
 import static util.HelperMethods.handler;
@@ -57,6 +59,8 @@ public class MyShopsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_my_shops);
 
         bsbBottomSheet = findViewById(R.id.bottom_sheet);
+        rlError = findViewById(R.id.rlError);
+        rlLoad = findViewById(R.id.rlLoad);
         bsbBottomSheetBehavior = BottomSheetBehavior.from(bsbBottomSheet);
         bsbBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
 
@@ -105,7 +109,7 @@ public class MyShopsActivity extends AppCompatActivity {
 
         JsonObjectRequest objectRequest = new JsonObjectRequest(
                 Request.Method.GET,
-                "http://" + getIpAddress() + "/shops/"+getUser().getuID(), null,
+                "http://" + getIpAddress() + "/shops", null,
                 response -> {
                     //Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
                     rlLoad.setVisibility(View.GONE);
@@ -141,4 +145,7 @@ public class MyShopsActivity extends AppCompatActivity {
 
     }
 
+    public void reload(View view) {
+        GETShops(findViewById(R.id.vLine),findViewById(R.id.vLineGrey));
+    }
 }

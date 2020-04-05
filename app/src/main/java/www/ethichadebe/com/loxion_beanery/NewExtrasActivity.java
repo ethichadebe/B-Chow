@@ -68,9 +68,17 @@ public class NewExtrasActivity extends AppCompatActivity {
         mAdapter = new ExtraItemAdapter(extraItems);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
-        mAdapter.setOnExtraClickListener(position -> {
-            extraItems.remove(position);
-            mAdapter.notifyItemRemoved(position);
+        mAdapter.setOnExtraClickListener(new ExtraItemAdapter.OnExtraClickListener() {
+            @Override
+            public void onRemoveClick(int position) {
+                extraItems.remove(position);
+                mAdapter.notifyItemRemoved(position);
+            }
+
+            @Override
+            public void onEditClick(int position) {
+
+            }
         });
     }
 

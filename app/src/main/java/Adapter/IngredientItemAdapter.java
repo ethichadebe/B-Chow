@@ -4,6 +4,7 @@ package Adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -22,30 +23,39 @@ public class IngredientItemAdapter extends RecyclerView.Adapter<IngredientItemAd
 
     public interface OnIngredientClickListener {
         void onRemoveClick(int position);
+        void onEditClick(int position);
     }
 
     public void setOnIngredientClickListener(IngredientItemAdapter.OnIngredientClickListener listener) {
         mListerner = listener;
     }
 
-    public static class IngredientViewHolder extends RecyclerView.ViewHolder{
+    static class IngredientViewHolder extends RecyclerView.ViewHolder{
 
-        private TextView tvIngredientName, tvRemove, tvPrice;
+        private TextView tvIngredients, tvPrice;
+        private ImageView ivEdit, ivDelete;
 
-        public IngredientViewHolder(@NonNull View itemView, final IngredientItemAdapter.OnIngredientClickListener listener) {
+        IngredientViewHolder(@NonNull View itemView, final IngredientItemAdapter.OnIngredientClickListener listener) {
             super(itemView);
-            tvIngredientName = itemView.findViewById(R.id.tvIngredientName);
-            tvRemove = itemView.findViewById(R.id.tvRemove);
+            tvIngredients = itemView.findViewById(R.id.tvIngredients);
+            ivDelete = itemView.findViewById(R.id.ivDelete);
             tvPrice = itemView.findViewById(R.id.tvPrice);
+            ivEdit = itemView.findViewById(R.id.ivEdit);
 
-            tvRemove.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (listener != null) {
-                        int position = getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION) {
-                            listener.onRemoveClick(position);
-                        }
+            ivDelete.setOnClickListener(view -> {
+                if (listener != null) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        listener.onRemoveClick(position);
+                    }
+                }
+            });
+
+            ivEdit.setOnClickListener(view -> {
+                if (listener != null) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        listener.onEditClick(position);
                     }
                 }
             });
@@ -59,18 +69,17 @@ public class IngredientItemAdapter extends RecyclerView.Adapter<IngredientItemAd
     @NonNull
     @Override
     public IngredientViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.ingredient_item, parent, false);
-        IngredientViewHolder svh = new IngredientViewHolder(v, mListerner);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.menu_item, parent, false);
 
-        return  svh;
+        return new IngredientViewHolder(v, mListerner);
     }
 
     @Override
     public void onBindViewHolder(@NonNull IngredientViewHolder holder, int position) {
         IngredientItem item = ingredientList.get(position);
 
-        holder.tvIngredientName.setText(item.getStrIngredientName());
-        holder.tvIngredientName.setId(item.getIntID());
+        holder.tvIngredients.setText(item.getStrIngredientName());
+        holder.tvIngredients.setId(item.getIntID());
         holder.tvPrice.setText("R"+item.getDblPrice());
     }
 

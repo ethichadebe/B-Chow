@@ -186,4 +186,6 @@ public class MenuActivity extends AppCompatActivity {
     public void AddMenu(View view) {
         startActivity(new Intent(MenuActivity.this, NewMenuItemActivity.class));
     }
+
+
 }

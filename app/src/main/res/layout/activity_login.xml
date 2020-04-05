@@ -49,6 +49,7 @@
                 android:layout_below="@+id/btnLogin"
                 android:layout_centerHorizontal="true"
                 android:padding="10dp"
+                android:onClick="reload"
                 android:visibility="gone">
 
                 <View
