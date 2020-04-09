@@ -58,9 +58,9 @@ public class IngredientsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ingredients);
-        if (getUser() == null){
+        if (getUser() == null) {
             startActivity(new Intent(this, LoginActivity.class));
-        }
+        } // Check if user is looged in
 
         myDialog = new Dialog(this);
         ingredientItems = new ArrayList<>();
@@ -100,7 +100,6 @@ public class IngredientsActivity extends AppCompatActivity {
             @Override
             public void onRemoveClick(int position) {
                 DELETEIngredient(position);
-
             }
 
             @Override

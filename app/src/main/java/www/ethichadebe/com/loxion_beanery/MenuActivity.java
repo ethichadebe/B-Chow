@@ -60,7 +60,7 @@ public class MenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_menu);
         if (getUser() == null){
             startActivity(new Intent(this, LoginActivity.class));
-        }
+        } // Check if user is looged in
 
         MenuItems = new ArrayList<>();
         myDialog = new Dialog(this);
