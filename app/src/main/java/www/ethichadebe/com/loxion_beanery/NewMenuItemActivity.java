@@ -18,6 +18,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -31,7 +32,9 @@ import SingleItem.IngredientItemCheckbox;
 import util.HelperMethods;
 
 import static util.Constants.getIpAddress;
-import static util.HelperMethods.removeLastComma;
+import static util.HelperMethods.combineString;
+import static www.ethichadebe.com.loxion_beanery.IngredientsActivity.getMenuItems;
+import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 import static www.ethichadebe.com.loxion_beanery.MenuActivity.getIngredients;
 import static www.ethichadebe.com.loxion_beanery.MenuActivity.getIntPosition;
 import static www.ethichadebe.com.loxion_beanery.MenuActivity.getDblPrice;
@@ -52,41 +55,47 @@ public class NewMenuItemActivity extends AppCompatActivity {
     private CardView rlTotal;
     private Dialog myDialog;
     private Button btnAdd;
+    private Boolean isEdit = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_menu_item);
+        if (getUser() == null){
+            startActivity(new Intent(this, LoginActivity.class));
+        }
 
         btnAdd = findViewById(R.id.btnAdd);
         etPrice = findViewById(R.id.etPrice);
         rlTotal = findViewById(R.id.rlTotal);
         myDialog = new Dialog(this);
 
-        if (getIngredients() != null) {
+        if (getIngredients() .size()>0) {
+            btnAdd.setText("Save");
             ingredientItems = new ArrayList<>();
             etPrice.setText(String.valueOf(getDblPrice()));
-            for (int i = 0; i < getIngredients().length; i++) {
-                ingredientItems.add(new IngredientItemCheckbox(1, getIngredients()[i], 12.5, true, true));
+            for (int i = 0; i < getIngredients().size(); i++) {
+                ingredientItems.add(new IngredientItemCheckbox(getIngredients().get(i), true, true));
             }
 
             for (int i = 0; i < getIngredientItems().size(); i++) {
                 boolean isThere = false;
-                for (int b = 0; b < getIngredients().length; b++) {
-                    if (getIngredientItems().get(i).getStrIngredientName().equals(getIngredients()[b])) {
+                for (int b = 0; b < getIngredients().size(); b++) {
+                    if (getIngredientItems().get(i).getStrIngredientName().equals(getIngredients().get(b).getStrIngredientName())) {
                         isThere = true;
                         break;
                     }
                 }
                 if (!isThere) {
-                    ingredientItems.add(new IngredientItemCheckbox(1, getIngredientItems().get(i).getStrIngredientName(), getIngredientItems().get(i).getDblPrice(), false, true));
+                    ingredientItems.add(new IngredientItemCheckbox(1, getIngredientItems().get(i).getStrIngredientName(),
+                            getIngredientItems().get(i).getDblPrice(), false, true));
                 }
             }
 
         } else if (getIngredientItems() != null) {
             ingredientItems = new ArrayList<>();
             for (int i = 0; i < getIngredientItems().size(); i++) {
-                ingredientItems.add(new IngredientItemCheckbox(1, getIngredientItems().get(i).getStrIngredientName(), getIngredientItems().get(i).getDblPrice(), false, true));
+                ingredientItems.add(new IngredientItemCheckbox(getIngredientItems().get(i), false, true));
             }
         }
 
@@ -131,25 +140,21 @@ public class NewMenuItemActivity extends AppCompatActivity {
         }
     }
 
-    private void POSTRegisterShopMenuItems(String MenuLis) {
+    private void POSTRegisterShopMenuItems() {
         HelperMethods.ShowLoadingPopup(myDialog, true);
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
                 "http://" + getIpAddress() + "/shops/Register/MenuItem",
                 response -> {
                     HelperMethods.ShowLoadingPopup(myDialog, false);
                     try {
-                        JSONObject JSONResponse = new JSONObject(response);
-                        if (JSONResponse.getString("data").equals("saved")) {
+                        JSONObject JSONData = new JSONObject(response);
+                        if (JSONData.getString("data").equals("saved")) {
+                            JSONArray jsonArray = new JSONArray(JSONData.getString("response"));
+                            JSONObject JSONResponse = jsonArray.getJSONObject(0);
                             etPrice.setUnderlineColor(getResources().getColor(R.color.Black));
-                            if (getIngredients() != null) {
-                                //Edit item
-                                EditMenu(getIntPosition(), Double.valueOf(Objects.requireNonNull(etPrice.getText()).toString()), MenuLis);
-                                setIngredients(null);
-                            } else {
-                                //Add new item
-                                addToList(Double.valueOf(Objects.requireNonNull(etPrice.getText()).toString()), MenuLis);
-                            }
                             etPrice.setText("");
+                            addToList(JSONResponse.getInt("mID"), JSONResponse.getDouble("mPrice"),
+                                    JSONResponse.getString("mList"));
                             startActivity(new Intent(NewMenuItemActivity.this, MenuActivity.class));
                         }
                     } catch (JSONException e) {
@@ -163,7 +168,7 @@ public class NewMenuItemActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                params.put("mList", MenuLis);
+                params.put("mList", combineString(ingredientItems));
                 params.put("mPrice", Objects.requireNonNull(etPrice.getText()).toString());
                 params.put("sID", String.valueOf(getNewShop().getIntID()));
                 return params;
@@ -175,23 +180,46 @@ public class NewMenuItemActivity extends AppCompatActivity {
     }
 
     public void add(View view) {
-        StringBuilder MenuList = new StringBuilder();
-
-        //Group all ingredients into one string
-        for (int i = 0; i < ingredientItems.size(); i++) {
-            if (ingredientItems.get(i).getChecked())
-                MenuList.append(ingredientItems.get(i).getStrIngredientName()).append(", ");
-        }
-
         //validate ingredient name and price price
         if (Objects.requireNonNull(etPrice.getText()).toString().isEmpty()) {
             etPrice.setUnderlineColor(getResources().getColor(R.color.Red));
         } else {
-            POSTRegisterShopMenuItems(removeLastComma(String.valueOf(MenuList)));
+            if (getIngredients().size()>0) {
+                //Edit item
+                PUTMenuItem();
+            } else {
+                //Add new item
+                POSTRegisterShopMenuItems();
+            }
         }
     }
 
     public void back(View view) {
         finish();
+    }
+
+    private void PUTMenuItem() {
+        HelperMethods.ShowLoadingPopup(myDialog, true);
+        StringRequest stringRequest = new StringRequest(Request.Method.PUT,
+                "http://" + getIpAddress() + "/shops/Register/MenuItems/" + getMenuItems().get(getIntPosition()).getIntID(),
+                response -> {
+                    Toast.makeText(NewMenuItemActivity.this, response, Toast.LENGTH_LONG).show();
+                    HelperMethods.ShowLoadingPopup(myDialog, false);
+                    EditMenu(getIntPosition(), Double.valueOf(Objects.requireNonNull(etPrice.getText()).toString()), combineString(ingredientItems));
+                    setIngredients(null);
+                }, error -> {
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+
+                params.put("mList", combineString(ingredientItems));
+                params.put("mPrice", String.valueOf(dblPrice));
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
     }
 }

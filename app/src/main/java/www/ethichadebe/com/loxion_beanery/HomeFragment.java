@@ -37,6 +37,7 @@ import SingleItem.ShopItem;
 
 import static util.Constants.getIpAddress;
 import static util.HelperMethods.handler;
+import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 
 public class HomeFragment extends Fragment {
     private RecyclerView mRecyclerView;
@@ -57,6 +58,9 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.frame_home, container, false);
+        if (getUser() == null){
+            startActivity(new Intent(getActivity(), LoginActivity.class));
+        }
 
         shopItems = new ArrayList<>();
         mRecyclerView = v.findViewById(R.id.recyclerView);

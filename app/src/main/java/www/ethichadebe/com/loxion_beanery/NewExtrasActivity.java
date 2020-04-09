@@ -29,8 +29,8 @@ import SingleItem.ExtraItem;
 import util.HelperMethods;
 
 import static util.Constants.getIpAddress;
-import static util.HelperMethods.removeLastComma;
 import static www.ethichadebe.com.loxion_beanery.IngredientsActivity.getMenuItems;
+import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 import static www.ethichadebe.com.loxion_beanery.RegisterShopActivity.getNewShop;
 
 public class NewExtrasActivity extends AppCompatActivity {
@@ -57,6 +57,9 @@ public class NewExtrasActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_extras);
+        if (getUser() == null){
+            startActivity(new Intent(this, LoginActivity.class));
+        }
 
         etExtra = findViewById(R.id.etExtra);
         myDialog = new Dialog(this);

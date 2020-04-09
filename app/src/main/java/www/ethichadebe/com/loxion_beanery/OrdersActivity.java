@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import Adapter.AdminOrderItemAdapter;
 import SingleItem.AdminOrderItem;
 
+import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
+
 public class OrdersActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private AdminOrderItemAdapter mAdapter;
@@ -33,6 +35,9 @@ public class OrdersActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_orders);
+        if (getUser() == null){
+            startActivity(new Intent(this, LoginActivity.class));
+        }
 
         myDialog = new Dialog(this);
         llBack = findViewById(R.id.llBack);

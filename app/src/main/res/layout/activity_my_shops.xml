@@ -51,7 +51,7 @@
             android:layout_height="?attr/actionBarSize"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:onClick="Edit"
+            android:onClick="createShop"
             android:layout_alignParentBottom="true"
             android:background="@drawable/ripple_effect_white"
             android:gravity="center">
@@ -215,7 +215,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-medium"
-            android:text="Seems like there aren't any shops near you."
+            android:text="You haven't registered any shops"
             android:textColor="@color/Grey"
             android:textSize="20sp"
             android:visibility="gone" />

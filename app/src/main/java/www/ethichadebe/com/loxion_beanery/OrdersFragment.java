@@ -20,6 +20,8 @@ import Adapter.UpcomingOrderItemAdapter;
 import SingleItem.PastOrderItem;
 import SingleItem.UpcomingOrderItem;
 
+import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
+
 public class OrdersFragment extends Fragment {
     private static ArrayList<PastOrderItem> pastOrderItems = new ArrayList<>();
     private View vLeft, vRight, vBottomRight, vBottomLeft;
@@ -39,6 +41,9 @@ public class OrdersFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.frame_orders, container, false);
+        if (getUser() == null){
+            startActivity(new Intent(getActivity(), LoginActivity.class));
+        }
         vBottomLeft = v.findViewById(R.id.vBottomLeft);
         vBottomRight = v.findViewById(R.id.vBottomRight);
         vLeft = v.findViewById(R.id.vLeft);

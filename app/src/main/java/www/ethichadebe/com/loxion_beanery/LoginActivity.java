@@ -23,6 +23,8 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
@@ -58,7 +60,6 @@ public class LoginActivity extends AppCompatActivity {
     private static User user;
     private Dialog myDialog;
     private MaterialEditText mTextPassword, mTextUsername;
-    private RelativeLayout rlLoad;
     private BottomSheetBehavior bsbBottomSheetBehavior;
 
     @Override
@@ -70,21 +71,21 @@ public class LoginActivity extends AppCompatActivity {
         mTextUsername = findViewById(R.id.txtUsername);
         mTextPassword = findViewById(R.id.txtPassword);
         cbRemember = findViewById(R.id.cbRemember);
-        rlLoad = findViewById(R.id.rlLoad);
         View bsbBottomSheet = findViewById(R.id.bottom_sheet);
         bsbBottomSheetBehavior = BottomSheetBehavior.from(bsbBottomSheet);
         bsbBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
 
         myDialog = new Dialog(this);
 
-        if (isLogout) {
+        if (isLogout){
+            saveData(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE), "", "");
         }
 
         //Check if shared prefs are empty
         loadData(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE), mTextUsername, mTextPassword);
         if (!Objects.requireNonNull(mTextUsername.getText()).toString().isEmpty() &&
                 !Objects.requireNonNull(mTextPassword.getText()).toString().isEmpty()) {
-            PostLogin(findViewById(R.id.vLine), findViewById(R.id.vLineGrey), false);
+            PostLogin(false);
         } else {
             handler.postDelayed(runnable, 3000);
         }
@@ -95,12 +96,14 @@ public class LoginActivity extends AppCompatActivity {
         this.finishAffinity();
     }
 
-    private void PostLogin(View vLine, View vLineGrey, boolean isPopup) {
-        rlLoad.setVisibility(View.VISIBLE);
+    private void PostLogin(boolean isPopup) {
         if (isPopup || (rellay1.getVisibility() == View.VISIBLE)) {
             ShowLoadingPopup(myDialog, true);
         } else {
-            handler(vLine, vLineGrey);
+            YoYo.with(Techniques.FadeInRight)
+                    .duration(2000)
+                    .repeat(2000)
+                    .playOn(findViewById(R.id.vLoading));
         }
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
                 "http://" + getIpAddress() + "/users/Login",
@@ -121,6 +124,7 @@ public class LoginActivity extends AppCompatActivity {
                                     userData.getString("uSex"), userData.getString("uEmail"),
                                     userData.getString("uNumber"));
                             if (cbRemember.isChecked()) {//Check if remember me is checked
+                                isLogout=false;
                                 saveData(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE),
                                         Objects.requireNonNull(mTextUsername.getText()).toString(),
                                         Objects.requireNonNull(mTextPassword.getText()).toString());
@@ -132,7 +136,6 @@ public class LoginActivity extends AppCompatActivity {
 
                     }
                 }, error -> {
-            rlLoad.setVisibility(View.GONE);
             ShowLoadingPopup(myDialog, false);
             bsbBottomSheetBehavior.setHideable(false);
             bsbBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
@@ -187,7 +190,7 @@ public class LoginActivity extends AppCompatActivity {
     public void Retry(View view) {
         bsbBottomSheetBehavior.setHideable(true);
         bsbBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-        PostLogin(findViewById(R.id.vLine), findViewById(R.id.vLineGrey), false);
+        PostLogin(false);
     }
 
     public void login(View view) {
@@ -208,7 +211,7 @@ public class LoginActivity extends AppCompatActivity {
             mTextUsername.setUnderlineColor(getResources().getColor(R.color.Black));
             mTextPassword.setHelperText("Field required");
         } else {
-            PostLogin(findViewById(R.id.vLine), findViewById(R.id.vLineGrey), true);
+            PostLogin(true);
         }
     }
 

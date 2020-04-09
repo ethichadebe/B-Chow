@@ -1,6 +1,7 @@
 package util;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -20,9 +21,14 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import SingleItem.IngredientItem;
+import SingleItem.IngredientItemCheckbox;
 import www.ethichadebe.com.loxion_beanery.IngredientsActivity;
+import www.ethichadebe.com.loxion_beanery.LoginActivity;
 import www.ethichadebe.com.loxion_beanery.MenuActivity;
 import www.ethichadebe.com.loxion_beanery.R;
+
+import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 
 public class HelperMethods {
     public static final String SHARED_PREFS = "sharedPrefs";
@@ -81,12 +87,13 @@ public class HelperMethods {
         }
     }
 
+
     public static boolean allFieldsEntered(MaterialEditText[] mText, int Red, int Black) {
         boolean allEntered = true;
         for (int i = 0; i < mText.length; i++) {
             if (Objects.requireNonNull(mText[i].getText()).toString().isEmpty()) {
                 MakeBlack(mText, i, Black);
-                mText[i].setHelperText("Required field");
+                mText[i].setError("Required field");
                 mText[i].setUnderlineColor(Red);
                 allEntered = false;
             }
@@ -111,7 +118,21 @@ public class HelperMethods {
         Username.setText(sharedPreferences.getString(USERNAME, ""));
     }
 
-    public static String removeLastComma(String MenuList) {
+    public static String combineString(ArrayList<IngredientItemCheckbox> ingredientItems) {
+        StringBuilder MenuList = new StringBuilder();
+        for (int i = 0; i < ingredientItems.size(); i++) {
+            if (ingredientItems.get(i).getChecked())
+                MenuList.append(ingredientItems.get(i).getStrIngredientName()).append(", ");
+        }
+
+        return String.valueOf(MenuList).substring(0, String.valueOf(MenuList).length() - 2);
+    }
+    public static String combineString(MaterialEditText[] etOpen, MaterialEditText[] etClose) {
+        StringBuilder MenuList = new StringBuilder();
+        for (int i = 0; i < etOpen.length; i++) {
+            MenuList.append(Objects.requireNonNull(etOpen[i].getText()).toString()).append(" - ").append(Objects.requireNonNull(etClose[i].getText()).toString()).append(", ");
+        }
+
         return String.valueOf(MenuList).substring(0, String.valueOf(MenuList).length() - 2);
     }
 }

@@ -6,6 +6,15 @@ public class IngredientItemCheckbox {
     private Double dblPrice;
     private Boolean isChecked, Clickability;
 
+    public IngredientItemCheckbox(IngredientItem ingredientItem, boolean isChecked, boolean clickability){
+        this.intID = ingredientItem.getIntID();
+        this.strIngredientName = ingredientItem.getStrIngredientName();
+        this.dblPrice = ingredientItem.getDblPrice();
+        this.isChecked = isChecked;
+        Clickability = clickability;
+
+    }
+
     public IngredientItemCheckbox(int intID, String strIngredientName, Double dblPrice, Boolean isChecked, Boolean clickability) {
         this.intID = intID;
         this.strIngredientName = strIngredientName;

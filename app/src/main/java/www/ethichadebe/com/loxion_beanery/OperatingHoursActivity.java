@@ -31,7 +31,7 @@ import util.HelperMethods;
 
 import static util.Constants.getIpAddress;
 import static util.HelperMethods.MakeBlack;
-import static util.HelperMethods.removeLastComma;
+import static util.HelperMethods.combineString;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 import static www.ethichadebe.com.loxion_beanery.RegisterShopActivity.getNewShop;
 
@@ -48,6 +48,9 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_operating_hours);
+        if (getUser() == null){
+            startActivity(new Intent(this, LoginActivity.class));
+        }
 
         myDialog = new Dialog(this);
         tvDays[0] = findViewById(R.id.tvMon);
@@ -187,10 +190,6 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
 
     public void next(View view) {
         if (allFieldsEntered()) {
-            for (int i = 0; i < etOpen.length; i++) {
-                strTimes += Objects.requireNonNull(etOpen[i].getText()).toString() + " - " + Objects.requireNonNull(etClose[i].getText()).toString() + ", ";
-            }
-            getNewShop().setStrOperatingHRS(strTimes);      //Set Operating hours
             POSTRegisterShop();
         }
     }
@@ -230,6 +229,7 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
                 "http://" + getIpAddress() + "/shops/Register",
                 response -> {
+                    getNewShop().setStrOperatingHRS(strTimes);      //Set Operating hours
                     try {
                         JSONObject JSONResponse = new JSONObject(response);
                         getNewShop().setIntID(Integer.parseInt(JSONResponse.getString("data")));
@@ -251,7 +251,7 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
                 params.put("sSmallPicture", "picture");
                 params.put("sBigPicture", "Picture");
                 params.put("sLocation", getNewShop().getLocLocation().getLatitude() + " " + getNewShop().getLocLocation().getLongitude());
-                params.put("sOperatingHrs", removeLastComma(strTimes));
+                params.put("sOperatingHrs", combineString(etOpen, etClose));
                 params.put("uID", String.valueOf(getUser().getuID()));
                 return params;
             }

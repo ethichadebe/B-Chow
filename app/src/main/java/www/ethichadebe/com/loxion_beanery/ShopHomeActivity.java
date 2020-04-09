@@ -33,6 +33,7 @@ import SingleItem.ShopItem;
 import static util.Constants.getIpAddress;
 import static util.HelperMethods.handler;
 import static www.ethichadebe.com.loxion_beanery.HomeFragment.getShopItem;
+import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 
 public class ShopHomeActivity extends AppCompatActivity {
 
@@ -54,6 +55,9 @@ public class ShopHomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop_home);
+        if (getUser() == null){
+            startActivity(new Intent(this, LoginActivity.class));
+        }
 
         MenuItems = new ArrayList<>();
         tvName = findViewById(R.id.tvName);
@@ -175,8 +179,7 @@ public class ShopHomeActivity extends AppCompatActivity {
                         JSONArray jsonArray = response.getJSONArray("menuItems");
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject MenuItem = jsonArray.getJSONObject(i);
-                            MenuItems.add(new MenuItem(MenuItem.getInt("mID"), MenuItem.getDouble("mPrice"), MenuItem.getString("mList"), R.drawable.ic_edit_black_24dp,
-                                    R.drawable.ic_delete_black_24dp, View.GONE));
+                            MenuItems.add(new MenuItem(MenuItem.getInt("mID"), MenuItem.getDouble("mPrice"), MenuItem.getString("mList")));
                         }
                         getShopItem().setMenuItems(MenuItems);
                     } catch (JSONException e) {

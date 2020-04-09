@@ -9,7 +9,6 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -35,12 +34,11 @@ import java.util.Objects;
 import Adapter.IngredientItemAdapter;
 import SingleItem.IngredientItem;
 import SingleItem.MenuItem;
-import SingleItem.MyShopItem;
 import util.HelperMethods;
 
 import static util.Constants.getIpAddress;
 import static util.HelperMethods.ButtonVisibility;
-import static util.HelperMethods.handler;
+import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 import static www.ethichadebe.com.loxion_beanery.RegisterShopActivity.getNewShop;
 
 public class IngredientsActivity extends AppCompatActivity {
@@ -60,6 +58,9 @@ public class IngredientsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ingredients);
+        if (getUser() == null){
+            startActivity(new Intent(this, LoginActivity.class));
+        }
 
         myDialog = new Dialog(this);
         ingredientItems = new ArrayList<>();
@@ -104,7 +105,7 @@ public class IngredientsActivity extends AppCompatActivity {
 
             @Override
             public void onEditClick(int position) {
-                ShowEditIngreditentPopup(position);
+                ShowEditIngredientPopup(position);
             }
         });
 
@@ -118,9 +119,8 @@ public class IngredientsActivity extends AppCompatActivity {
         return MenuItems;
     }
 
-    public static void addToList(Double Price, String ingredients) {
-        MenuItems.add(new MenuItem(1, Price, ingredients, R.drawable.ic_edit_black_24dp,
-                R.drawable.ic_delete_black_24dp, View.VISIBLE));
+    public static void addToList(int ID, Double Price, String ingredients) {
+        MenuItems.add(new MenuItem(ID, Price, ingredients));
     }
 
     public static void EditMenu(int position, Double Price, String ingredients) {
@@ -238,7 +238,7 @@ public class IngredientsActivity extends AppCompatActivity {
 
     }
 
-    private void PUTMinutes(int position, String IngredientName, String Price) {
+    private void PUTIngredient(int position, String IngredientName, String Price) {
         HelperMethods.ShowLoadingPopup(myDialog, true);
         StringRequest stringRequest = new StringRequest(Request.Method.PUT,
                 "http://" + getIpAddress() + "/shops/Register/Ingredient/" + ingredientItems.get(position).getIntID(),
@@ -264,7 +264,7 @@ public class IngredientsActivity extends AppCompatActivity {
         requestQueue.add(stringRequest);
     }
 
-    public void ShowEditIngreditentPopup(int position) {
+    public void ShowEditIngredientPopup(int position) {
         MaterialEditText etName, etPrice;
         CardView btnEditOption;
         TextView tvCancel;
@@ -280,7 +280,7 @@ public class IngredientsActivity extends AppCompatActivity {
         tvCancel.setOnClickListener(view -> myDialog.dismiss());
 
         btnEditOption.setOnClickListener(view -> {
-            PUTMinutes(position, Objects.requireNonNull(etName.getText()).toString(),
+            PUTIngredient(position, Objects.requireNonNull(etName.getText()).toString(),
                     Objects.requireNonNull(etPrice.getText()).toString());
         });
 

@@ -91,7 +91,7 @@
                         android:layout_height="wrap_content"
                         android:ems="10"
                         android:focusable="false"
-                        android:hint="Date of Birth"
+                        android:hint="@string/date_of_birth"
                         android:textSize="14sp"
                         app:met_floatingLabel="highlight"
                         app:met_helperText="" />
@@ -101,7 +101,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:fontFamily="sans-serif-light"
-                        android:text="Gender"
+                        android:text="@string/gender"
                         android:textAllCaps="true"
                         android:textColor="@color/Black"
                         android:textSize="15sp" />
@@ -116,7 +116,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="8dp"
-                            android:text="Male" />
+                            android:text="@string/male" />
 
 
                         <CheckBox
@@ -125,7 +125,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="8dp"
-                            android:text="Female" />
+                            android:text="@string/female" />
 
                         <CheckBox
                             android:id="@+id/cbOther"
@@ -133,7 +133,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="8dp"
-                            android:text="Other" />
+                            android:text="@string/other" />
 
                     </LinearLayout>
 

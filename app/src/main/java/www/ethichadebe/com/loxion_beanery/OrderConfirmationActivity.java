@@ -13,6 +13,8 @@ import android.widget.TextView;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 
+import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
+
 public class OrderConfirmationActivity extends AppCompatActivity {
 
     private Button btFinish;
@@ -89,6 +91,9 @@ public class OrderConfirmationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_confirmation);
+        if (getUser() == null){
+            startActivity(new Intent(this, LoginActivity.class));
+        }
 
         btFinish = findViewById(R.id.btFinish);
         tvUpdate = findViewById(R.id.tvUpdate);

@@ -51,6 +51,7 @@ public class MenuItemAdapter extends RecyclerView.Adapter<MenuItemAdapter.MenuVi
                     }
                 }
             });
+
             ivEdit.setOnClickListener(view -> {
                 if (listener != null) {
                     int position = getAdapterPosition();
@@ -59,6 +60,7 @@ public class MenuItemAdapter extends RecyclerView.Adapter<MenuItemAdapter.MenuVi
                     }
                 }
             });
+
             ivDelete.setOnClickListener(view -> {
                 if (listener != null) {
                     int position = getAdapterPosition();
@@ -88,11 +90,6 @@ public class MenuItemAdapter extends RecyclerView.Adapter<MenuItemAdapter.MenuVi
 
         holder.tvPrice.setText("R"+ item.getDblPrice());
         holder.tvIngredients.setText(item.getStrMenu());
-        holder.ivEdit.setImageResource(item.getIntEdit());
-        holder.ivDelete.setImageResource(item.getIntDelete());
-        holder.ivEdit.setVisibility(item.getIntVisibility());
-        holder.ivDelete.setVisibility(item.getIntVisibility());
-
 
     }
 

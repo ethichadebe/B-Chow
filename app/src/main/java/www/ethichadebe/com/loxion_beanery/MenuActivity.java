@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -37,6 +38,7 @@ import static util.Constants.getIpAddress;
 import static util.HelperMethods.ButtonVisibility;
 import static www.ethichadebe.com.loxion_beanery.IngredientsActivity.getIngredientItems;
 import static www.ethichadebe.com.loxion_beanery.IngredientsActivity.getMenuItems;
+import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 import static www.ethichadebe.com.loxion_beanery.RegisterShopActivity.getNewShop;
 
 public class MenuActivity extends AppCompatActivity {
@@ -45,7 +47,7 @@ public class MenuActivity extends AppCompatActivity {
     private MenuItemAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<MenuItem> MenuItems;
-    private static String[] Ingredients = null;
+    private static ArrayList<IngredientItem> Ingredients;
     private static int intPosition;
     private static Double dblPrice;
     private Dialog myDialog;
@@ -56,11 +58,16 @@ public class MenuActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
+        if (getUser() == null){
+            startActivity(new Intent(this, LoginActivity.class));
+        }
 
         MenuItems = new ArrayList<>();
         myDialog = new Dialog(this);
-        MenuItems = getMenuItems();
-
+        if (getMenuItems() != null) {
+            MenuItems = getMenuItems();
+        }
+        Ingredients = new ArrayList<>();
         mRecyclerView = findViewById(R.id.recyclerView);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
@@ -82,27 +89,23 @@ public class MenuActivity extends AppCompatActivity {
             @Override
             public void onEditClick(int position) {
                 intPosition = position;
-                Ingredients = MenuItems.get(position).getStrMenu().split(", ");
+                String[] IngredientNames = MenuItems.get(position).getStrMenu().split(", ");
+                for (String ingredient : IngredientNames) {
+                    for (IngredientItem ingredientItem : getIngredientItems())
+                        if (ingredientItem.getStrIngredientName().equals(ingredient)) {
+                            Ingredients.add(ingredientItem);
+                        }
+                }
                 dblPrice = MenuItems.get(position).getDblPrice();
                 startActivity(new Intent(MenuActivity.this, NewMenuItemActivity.class));
             }
 
             @Override
             public void onDeleteClick(int position) {
-                MenuItems.remove(position);
-                mAdapter.notifyItemRemoved(position);
-                ButtonVisibility(MenuItems, btnNext);
+                DELETEIngredient(position);
             }
         });
 
-    }
-
-    public static String[] getIngredients() {
-        return Ingredients;
-    }
-
-    public static void setIngredients(String[] ingredients) {
-        Ingredients = ingredients;
     }
 
     public static int getIntPosition() {
@@ -187,5 +190,42 @@ public class MenuActivity extends AppCompatActivity {
         startActivity(new Intent(MenuActivity.this, NewMenuItemActivity.class));
     }
 
+    private void DELETEIngredient(int position) {
+        HelperMethods.ShowLoadingPopup(myDialog, true);
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
 
+        JsonObjectRequest objectRequest = new JsonObjectRequest(
+                Request.Method.DELETE,
+                "http://" + getIpAddress() + "/shops/Register/MenuItem/" + MenuItems.get(position).getIntID(), null,
+                response -> {
+                    HelperMethods.ShowLoadingPopup(myDialog, false);
+                    try {
+                        JSONObject JSONData = new JSONObject(response.toString());
+                        if (JSONData.getString("data").equals("removed")) {
+                            MenuItems.remove(position);
+                            mAdapter.notifyItemRemoved(position);
+                            ButtonVisibility(MenuItems, btnNext);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                },
+                error -> {
+                    if (error.toString().equals("com.android.volley.TimeoutError")) {
+                        Toast.makeText(this, "Connection error. Please retry", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+        requestQueue.add(objectRequest);
+
+    }
+
+    public static ArrayList<IngredientItem> getIngredients() {
+        return Ingredients;
+    }
+
+    public static void setIngredients(ArrayList<IngredientItem> ingredients) {
+        Ingredients = ingredients;
+    }
 }

@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -36,7 +37,7 @@ import static www.ethichadebe.com.loxion_beanery.NewExtrasActivity.isNew;
 import static www.ethichadebe.com.loxion_beanery.NewExtrasActivity.setIsNew;
 
 public class MyShopsActivity extends AppCompatActivity {
-    private final ArrayList<MyShopItem> shopItems = new ArrayList<>();
+    private ArrayList<MyShopItem> shopItems;
     private RelativeLayout rlError, rlLoad;
     private RecyclerView mRecyclerView;
     private MyShopItemAdapter mAdapter;
@@ -50,38 +51,43 @@ public class MyShopsActivity extends AppCompatActivity {
         }
     };
     private View bsbBottomSheet;
+    private TextView tvEmpty;
 
-    Location location = new Location("");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_shops);
+        if (getUser() == null){
+            startActivity(new Intent(this, LoginActivity.class));
+        }
 
         bsbBottomSheet = findViewById(R.id.bottom_sheet);
-        rlError = findViewById(R.id.rlError);
-        rlLoad = findViewById(R.id.rlLoad);
         bsbBottomSheetBehavior = BottomSheetBehavior.from(bsbBottomSheet);
         bsbBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-
-        location.setLatitude(0.0);
-        location.setLongitude(0.0);
 
         if (isNew()) {
             bsbBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
             handler.postDelayed(runnable, 1500);
             setIsNew(false);
         }
-        GETShops(findViewById(R.id.vLine),findViewById(R.id.vLineGrey));
-        mRecyclerView = findViewById(R.id.recyclerView);
+
+        shopItems = new ArrayList<>();
         rlError = findViewById(R.id.rlError);
         rlLoad = findViewById(R.id.rlLoad);
+        tvEmpty = findViewById(R.id.tvEmpty);
+        mRecyclerView = findViewById(R.id.recyclerView);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
         mAdapter = new MyShopItemAdapter(shopItems);
-
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
+
+        Location location = new Location("");
+        location.setLatitude(23.4);//Double.parseDouble(strCoord[0]));
+        location.setLongitude(32.5);//Double.parseDouble(strCoord[1]));
+        GETShops(findViewById(R.id.vLine), findViewById(R.id.vLineGrey));
+
         mAdapter.setOnItemClickListerner(position -> {
             //shopItems.get(position).
             startActivity(new Intent(MyShopsActivity.this, OrdersActivity.class));
@@ -90,14 +96,14 @@ public class MyShopsActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(MyShopsActivity.this, MainActivity.class));
+        finish();
     }
 
     public void back(View view) {
-        startActivity(new Intent(MyShopsActivity.this, MainActivity.class));
+        finish();
     }
 
-    public void Edit(View view) {
+    public void createShop(View view) {
         startActivity(new Intent(MyShopsActivity.this, RegisterShopActivity.class));
     }
 
@@ -109,24 +115,28 @@ public class MyShopsActivity extends AppCompatActivity {
 
         JsonObjectRequest objectRequest = new JsonObjectRequest(
                 Request.Method.GET,
-                "http://" + getIpAddress() + "/shops", null,
+                "http://" + getIpAddress() + "/shops/"+getUser().getuID(), null,
                 response -> {
                     //Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
                     rlLoad.setVisibility(View.GONE);
                     //Loads shops starting with the one closest to user
                     try {
-                        JSONArray jsonArray = response.getJSONArray("shops");
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            JSONObject Shops = jsonArray.getJSONObject(i);
-                            Location location = new Location("");
-                            String[] strCoord = Shops.getString("sLocation").split(" ");
-                            location.setLatitude(23.4);//Double.parseDouble(strCoord[0]));
-                            location.setLongitude(32.5);//Double.parseDouble(strCoord[1]));
-                            shopItems.add(new MyShopItem(Shops.getInt("sID"), Shops.getString("sName"),
-                                    Shops.getString("uPosition"), R.drawable.food, R.drawable.biglogo,
-                                    Shops.getString("sShortDescrption"),Shops.getString("sFullDescription"),
-                                    location,"10-15 mins", Shops.getInt("sRating"),
-                                    Shops.getString("sOperatingHrs")));
+                        if(response.getString("message").equals("shops")){
+                            JSONArray jsonArray = response.getJSONArray("shops");
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject Shops = jsonArray.getJSONObject(i);
+                                Location location = new Location("");
+                                String[] strCoord = Shops.getString("sLocation").split(" ");
+                                location.setLatitude(Double.parseDouble(strCoord[0]));
+                                location.setLongitude(Double.parseDouble(strCoord[1]));
+                                shopItems.add(new MyShopItem(Shops.getInt("sID"), Shops.getString("sName"),
+                                        Shops.getString("uRole"), R.drawable.food, R.drawable.biglogo,
+                                        Shops.getString("sShortDescrption"), Shops.getString("sFullDescription"),
+                                        location, "10-15 mins", Shops.getInt("sRating"),
+                                        Shops.getString("sOperatingHrs")));
+                            }
+                        }else if (response.getString("message").equals("empty")){
+                            tvEmpty.setVisibility(View.VISIBLE);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -146,6 +156,6 @@ public class MyShopsActivity extends AppCompatActivity {
     }
 
     public void reload(View view) {
-        GETShops(findViewById(R.id.vLine),findViewById(R.id.vLineGrey));
+        GETShops(findViewById(R.id.vLine), findViewById(R.id.vLineGrey));
     }
 }

@@ -13,8 +13,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
-import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -22,15 +22,19 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import util.Constants;
+import util.HelperMethods;
 
-import static util.HelperMethods.MakeBlack;
+import static util.Constants.getIpAddress;
 import static util.HelperMethods.allFieldsEntered;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 
@@ -51,6 +55,9 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_user_profile);
+        if (getUser() == null){
+            startActivity(new Intent(this, LoginActivity.class));
+        }
 
         myDialog = new Dialog(this);
 
@@ -163,6 +170,7 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
     }
 
     private void setCheck(String Checked) {
+        UserSex = Checked;
         switch (Checked) {
             case "mase":
                 mCBMale.setChecked(true);
@@ -181,28 +189,84 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
     }
 
     public void save(View view) {
+        boolean allIsWell = false;
         for (int i = 0; i < mTextBoxes.length; i++) {
             if (!allFieldsEntered(mTextBoxes, getResources().getColor(R.color.Red), getResources().getColor(R.color.Black))) {
                 mViewError.setText(R.string.enter_all_required_details);
-            }else if (allFieldsEntered(mTextBoxes, getResources().getColor(R.color.Red), getResources().getColor(R.color.Black))) {
-                startActivity(new Intent(EditUserProfileActivity.this, MainActivity.class));
+            } else if (allFieldsEntered(mTextBoxes, getResources().getColor(R.color.Red), getResources().getColor(R.color.Black))) {
+                allIsWell = true;
             }
+        }
+
+        if (allIsWell) {
+            EditUserRecord();
         }
     }
 
-    /*private void PUTMinutes() {
+    private void EditUserRecord() {
+        HelperMethods.ShowLoadingPopup(myDialog, true);
         StringRequest stringRequest = new StringRequest(Request.Method.PUT,
-                "http://" + Constants.getIP() + "/team28/public/api/p_member/" + user.getStrID() + "/meeting/" + meeting.getStrMeetID(),
+                "http://" + getIpAddress() + "/users/EditProfile",
                 response -> {
-                    //myDialog.dismiss();
+                    HelperMethods.ShowLoadingPopup(myDialog, false);
+                    try {
+                        JSONObject JSONData = new JSONObject(response);
+                        if (JSONData.getString("data").equals("saved")) {
+                            JSONArray jsonArray = new JSONArray(JSONData.getString("response"));
+                            JSONObject JSONResponse = jsonArray.getJSONObject(0);
+
+                            switch (JSONData.getString("data")) {
+                                case "both":
+                                    mTextBoxes[2].setError("Already exists");
+                                    mTextBoxes[3].setError("Already exists");
+                                    break;
+                                case "number":
+                                    mTextBoxes[2].setError("Already exists");
+                                    break;
+                                case "email":
+                                    mTextBoxes[3].setError("Already exists");
+                                    break;
+                                case "saved":
+                                    Toast.makeText(EditUserProfileActivity.this, "Saved", Toast.LENGTH_LONG).show();
+                                    getUser().setuDOB(JSONResponse.getString("uDOB"));
+                                    getUser().setuEmail(JSONResponse.getString("uEmail"));
+                                    getUser().setuID(JSONResponse.getInt("uID"));
+                                    getUser().setuName(JSONResponse.getString("uName"));
+                                    getUser().setuNumber(JSONResponse.getString("uNumber"));
+                                    getUser().setuSex(JSONResponse.getString("uSex"));
+                                    getUser().setuSurname(JSONResponse.getString("uSurname"));
+                                    startActivity(new Intent(EditUserProfileActivity.this, MainActivity.class));
+                                    break;
+                                default:
+                                    Toast.makeText(EditUserProfileActivity.this, "Something went wrong, try again", Toast.LENGTH_LONG).show();
+                                    break;
+                            }
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }, error -> {
-            //myDialog.dismiss();
+            HelperMethods.ShowLoadingPopup(myDialog, false);
+            Toast.makeText(EditUserProfileActivity.this, error.toString(), Toast.LENGTH_LONG).show();
         }) {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
 
-                params.put("M_minutes", mEditMinutes.getText().toString());
+                if (!getUser().getuNumber().equals(Objects.requireNonNull(mTextBoxes[2].getText()).toString()) &&
+                        !getUser().getuEmail().equals(Objects.requireNonNull(mTextBoxes[3].getText()).toString())) {
+                    params.put("uNumber", Objects.requireNonNull(mTextBoxes[2].getText()).toString());
+                    params.put("uEmail", Objects.requireNonNull(mTextBoxes[3].getText()).toString());
+                } else if (!getUser().getuEmail().equals(Objects.requireNonNull(mTextBoxes[3].getText()).toString())) {
+                    params.put("uEmail", Objects.requireNonNull(mTextBoxes[3].getText()).toString());
+                } else if (!getUser().getuNumber().equals(Objects.requireNonNull(mTextBoxes[2].getText()).toString())) {
+                    params.put("uNumber", Objects.requireNonNull(mTextBoxes[2].getText()).toString());
+                }
+                params.put("uName", Objects.requireNonNull(mTextBoxes[0].getText()).toString());
+                params.put("uSurname", Objects.requireNonNull(mTextBoxes[1].getText()).toString());
+                params.put("uDOB", Objects.requireNonNull(mTextBoxes[4].getText()).toString());
+                params.put("uSex", UserSex);
+                params.put("uID", String.valueOf(getUser().getuID()));
 
                 return params;
             }
@@ -210,5 +274,5 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
-    }*/
+    }
 }

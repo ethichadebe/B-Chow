@@ -8,12 +8,17 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.RelativeLayout;
 
+import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
+
 public class UserSettingsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_settings);
+        if (getUser() == null){
+            startActivity(new Intent(this, LoginActivity.class));
+        }
 
     }
 

@@ -10,6 +10,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -22,8 +24,11 @@ import java.util.Objects;
 
 import SingleItem.MyShopItem;
 
+import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
+
 public class RegisterShopActivity extends AppCompatActivity {
     private Dialog myDialog;
+    TextView tvName;
     private MaterialEditText txtName, txtShortDescription, txtFullDescription;
     private Boolean isBig;
     private static MyShopItem newShop;
@@ -34,11 +39,15 @@ public class RegisterShopActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_shop);
+        if (getUser() == null){
+            startActivity(new Intent(this, LoginActivity.class));
+        }
 
         LinearLayout llBack = findViewById(R.id.llBack);
 
         myDialog = new Dialog(this);
         txtName = findViewById(R.id.txtName);
+        tvName = findViewById(R.id.tvName);
         civSmall = findViewById(R.id.civSmall);
         civBig = findViewById(R.id.civBig);
         txtShortDescription = findViewById(R.id.txtShortDescription);
@@ -52,6 +61,27 @@ public class RegisterShopActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+         txtName.addTextChangedListener(new TextWatcher() {
+             @Override
+             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+             }
+
+             @Override
+             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (charSequence.length() != 0){
+                    tvName.setText(charSequence);
+                }else {
+                    tvName.setText("Shop name");
+                }
+             }
+
+             @Override
+             public void afterTextChanged(Editable editable) {
+
+             }
+         });
     }
 
     public static MyShopItem getNewShop() {
@@ -108,11 +138,11 @@ public class RegisterShopActivity extends AppCompatActivity {
         }
     }
 
-    public void small(View view) {
+    public void Small(View view) {
         isBig = false;
         CropImage.activity()
                 .setGuidelines(CropImageView.Guidelines.ON)
-                .setAspectRatio(1920, 1080)
+                .setAspectRatio(720, 282)
                 .start(this);
     }
 
@@ -131,4 +161,5 @@ public class RegisterShopActivity extends AppCompatActivity {
             civSmall.setImageUriAsync(uri);
         }
     }
+
 }

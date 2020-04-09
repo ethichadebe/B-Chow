@@ -23,7 +23,7 @@
             android:layout_marginBottom="0dp"
             android:gravity="center"
             android:padding="10dp"
-            android:text="Ingredients"
+            android:text="@string/ingredients"
             android:textColor="@color/Black"
             android:textSize="12sp"
             android:textStyle="bold" />
@@ -81,71 +81,55 @@
                 android:layout_rowWeight="1"
                 android:layout_columnWeight="1"
                 android:layout_margin="5dp"
+                android:layout_marginBottom="10dp"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="3dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:padding="5dp">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/tvHeading1"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center"
                         android:layout_marginTop="12dp"
                         android:fontFamily="sans-serif-medium"
-                        android:gravity="center"
                         android:text="Lets start by creating a front view of your shop"
                         android:textColor="@color/Black"
                         android:textSize="14sp" />
 
-                    <com.rengwuxian.materialedittext.MaterialEditText
-                        android:id="@+id/txtName"
-                        android:layout_width="200dp"
-                        android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:hint="Shop name"
-                        android:inputType="textPersonName"
-                        android:textSize="14sp"
-                        app:met_floatingLabel="highlight" />
-
-                    <LinearLayout
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:layout_weight="0.5"
-                        android:orientation="horizontal">
+                        android:layout_height="150dp">
 
                         <RelativeLayout
-                            android:id="@+id/rlPicture"
-                            android:layout_width="0dp"
+                            android:id="@+id/rlSmallPicture"
+                            android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
                             android:layout_marginEnd="5dp"
-                            android:layout_weight="0.5"
                             android:background="@drawable/ripple_effect_white"
                             android:orientation="vertical">
 
                             <com.theartofdev.edmodo.cropper.CropImageView
-                                xmlns:custom="http://schemas.android.com/apk/res-auto"
                                 android:id="@+id/civSmall"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"/>
+                                android:layout_height="wrap_content" />
 
                             <ImageView
                                 android:id="@+id/ivSmall"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_above="@+id/tvPicture"
+                                android:layout_above="@+id/tvSmallPicture"
                                 android:layout_alignParentTop="true"
-                                android:onClick="small"
+                                android:onClick="Small"
                                 android:src="@drawable/ic_add_grey_24dp" />
 
                             <TextView
-                                android:id="@+id/tvPicture"
+                                android:id="@+id/tvSmallPicture"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentBottom="true"
@@ -156,28 +140,38 @@
                                 android:textColor="@color/Grey"
                                 android:textSize="18sp" />
                         </RelativeLayout>
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:orientation="vertical">
 
                         <LinearLayout
-                            android:layout_width="0dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="5dp"
-                            android:layout_weight="0.5"
-                            android:orientation="vertical">
+                            android:layout_marginBottom="1dp"
+                            android:orientation="horizontal">
 
                             <com.rengwuxian.materialedittext.MaterialEditText
-                                android:id="@+id/txtShortDescription"
-                                android:layout_width="match_parent"
+                                android:id="@+id/txtName"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
+                                android:layout_marginEnd="5dp"
+                                android:layout_weight="1"
                                 android:ems="10"
-                                android:hint="Short description"
+                                android:hint="Shop name"
+                                android:inputType="textPersonName"
                                 android:textSize="14sp"
-                                app:met_floatingLabel="highlight"
-                                app:met_maxCharacters="200" />
+                                app:met_floatingLabel="highlight" />
+
 
                             <LinearLayout
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="10dp"
+                                android:layout_weight="1"
                                 android:background="@drawable/ripple_effect_white"
                                 android:orientation="horizontal">
 
@@ -198,6 +192,16 @@
                                     android:textSize="18sp" />
                             </LinearLayout>
                         </LinearLayout>
+
+                        <com.rengwuxian.materialedittext.MaterialEditText
+                            android:id="@+id/txtShortDescription"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:hint="Short description"
+                            android:textSize="14sp"
+                            app:met_floatingLabel="highlight" />
+
                     </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -239,15 +243,14 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
-                            android:background="@drawable/ripple_effect_white"
                             android:layout_marginEnd="5dp"
+                            android:background="@drawable/ripple_effect_white"
                             android:orientation="vertical">
 
                             <com.theartofdev.edmodo.cropper.CropImageView
-                                xmlns:custom="http://schemas.android.com/apk/res-auto"
                                 android:id="@+id/civBig"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"/>
+                                android:layout_height="wrap_content" />
 
                             <ImageView
                                 android:id="@+id/ivBig"
@@ -312,7 +315,7 @@
                             android:ems="10"
                             android:hint="Full description"
                             android:textSize="14sp"
-                            app:met_floatingLabel="highlight"/>
+                            app:met_floatingLabel="highlight" />
 
                     </LinearLayout>
                 </LinearLayout>
@@ -328,7 +331,7 @@
         android:layout_alignParentBottom="true"
         android:layout_gravity="center|bottom"
         android:background="@drawable/ripple_effect"
-        android:text="Next"
         android:onClick="next"
+        android:text="Next"
         android:textColor="@color/White" />
 </RelativeLayout>

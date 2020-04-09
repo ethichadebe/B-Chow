@@ -12,8 +12,8 @@
 
         <TextView
             android:id="@+id/tvType"
-            android:layout_width="match_parent"
             style="@style/Base.TextAppearance.AppCompat.Body1"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
@@ -31,26 +31,27 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/llBack"
             android:layout_width="wrap_content"
-            app:cardCornerRadius="10dp"
             android:layout_height="wrap_content"
-            android:layout_columnWeight="1"
             android:layout_rowWeight="1"
-            android:onClick="back"
+            android:layout_columnWeight="1"
             android:background="@drawable/ripple_effect_white"
+            android:onClick="back"
+            app:cardCornerRadius="10dp"
             app:cardElevation="3dp">
 
             <LinearLayout
                 android:layout_width="?attr/actionBarSize"
-                android:layout_alignParentBottom="true"
+                android:layout_height="?attr/actionBarSize"
                 android:layout_alignParentTop="true"
+                android:layout_alignParentBottom="true"
                 android:background="@drawable/ripple_effect_white"
-                android:gravity="center"
-                android:layout_height="?attr/actionBarSize">
+                android:gravity="center">
+
                 <TextView
-                    android:layout_width="wrap_content"
                     style="@style/Base.TextAppearance.AppCompat.Body1"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/ic_keyboard_backspace_black_24dp"/>
+                    android:background="@drawable/ic_keyboard_backspace_black_24dp" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -59,10 +60,10 @@
             style="@style/Base.TextAppearance.AppCompat.Body1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:layout_alignParentTop="true"
-            android:gravity="center"
             android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:gravity="center"
             android:padding="10dp"
             android:textColor="@color/White"
             android:textSize="12sp"
@@ -70,85 +71,86 @@
 
     </RelativeLayout>
 
-    <androidx.cardview.widget.CardView android:layout_width="match_parent"
+    <androidx.cardview.widget.CardView
         android:id="@+id/llAddMenu"
-        app:cardCornerRadius="10dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/llHead"
-        android:layout_columnWeight="1"
-        android:layout_rowWeight="1"
-        android:onClick="AddMenu"
-        android:background="@drawable/ripple_effect_white"
-        app:cardElevation="3dp"
-        android:layout_margin="5dp">
-
-    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_rowWeight="1"
+        android:layout_columnWeight="1"
+        android:layout_below="@id/llHead"
+        android:layout_margin="5dp"
         android:background="@drawable/ripple_effect_white"
-        android:gravity="center">
+        android:onClick="AddMenu"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="3dp">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="top"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="5dp"
-            android:background="@drawable/ic_add_black_24dp"
-            android:fontFamily="sans-serif-medium"
-            android:textColor="@color/Black"
-            android:textSize="14sp" />
+            android:background="@drawable/ripple_effect_white"
+            android:gravity="center">
 
-        <TextView
-            android:id="@+id/tvPicture"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:fontFamily="sans-serif-condensed-medium"
-            android:text="Add Menu"
-            android:textColor="@color/Black"
-            android:textSize="18sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="5dp"
+                android:background="@drawable/ic_add_black_24dp"
+                android:fontFamily="sans-serif-medium"
+                android:textColor="@color/Black"
+                android:textSize="14sp" />
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/tvPicture"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:text="Add Menu"
+                android:textColor="@color/Black"
+                android:textSize="18sp" />
+
+        </LinearLayout>
     </androidx.cardview.widget.CardView>
 
     <RelativeLayout
         android:id="@+id/rlHeading"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
         android:layout_below="@+id/llAddMenu"
+        android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp">
 
         <View
             android:layout_width="wrap_content"
             android:layout_height="1dp"
             android:layout_alignParentStart="true"
-            android:layout_toStartOf="@id/tvHeading3"
             android:layout_centerInParent="true"
             android:layout_marginEnd="5dp"
-            android:background="@color/Grey"/>
+            android:layout_toStartOf="@id/tvHeading3"
+            android:background="@color/Grey" />
 
         <TextView
             android:id="@+id/tvHeading3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
             android:layout_marginTop="12dp"
             android:fontFamily="sans-serif-light"
             android:gravity="center"
-            android:layout_centerInParent="true"
             android:text="My Menu"
             android:textColor="@color/Black"
             android:textSize="14sp" />
 
         <View
             android:layout_width="wrap_content"
+            android:layout_height="1dp"
             android:layout_alignParentEnd="true"
-            android:layout_toEndOf="@id/tvHeading3"
             android:layout_centerInParent="true"
             android:layout_marginStart="5dp"
-            android:background="@color/Grey"
-            android:layout_height="1dp"/>
+            android:layout_toEndOf="@id/tvHeading3"
+            android:background="@color/Grey" />
     </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -157,16 +159,16 @@
         android:layout_height="match_parent"
         android:layout_below="@id/rlHeading"
         android:padding="4dp"
-        android:scrollbars="horizontal"/>
+        android:scrollbars="horizontal" />
 
 
     <Button
         android:id="@+id/btnNext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Next"
-        android:onClick="next"
         android:layout_alignParentBottom="true"
         android:background="@drawable/ripple_effect"
-        android:textColor="@color/White"/>
+        android:onClick="next"
+        android:text="Next"
+        android:textColor="@color/White" />
 </RelativeLayout>

@@ -136,7 +136,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
 
         mButtonRegister.setOnClickListener(view -> {
 
-            if (!sexIsChecked()) {
+            if (!sexIsChecked() && !allFieldsEntered(mTextBoxes, getResources().getColor(R.color.Red), getResources().getColor(R.color.Black))) {
                 mViewError.setText("Select gender");
             } else if (!passwordMatches()) {
                 mViewError.setText("Password doesn't match");
@@ -173,18 +173,24 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
                     try {
                         JSONObject JSONResponse = new JSONObject(response);
 
-                        if (JSONResponse.getString("data").equals("both")) {
-                            mTextBoxes[2].setError("Already exists");
-                            mTextBoxes[3].setError("Already exists");
-                        } else if (JSONResponse.getString("data").equals("number")) {
-                            mTextBoxes[2].setError("Already exists");
-                        } else if (JSONResponse.getString("data").equals("email")) {
-                            mTextBoxes[3].setError("Already exists");
-                        } else if (JSONResponse.getString("data").equals("Registered")) {
-                            Toast.makeText(RegisterActivity.this, "Registered successfully", Toast.LENGTH_LONG).show();
-                            startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
-                        } else {
-                            //Toast.makeText(RegisterActivity.this, "Something went wrong, try again", Toast.LENGTH_LONG).show();
+                        switch (JSONResponse.getString("data")) {
+                            case "both":
+                                mTextBoxes[2].setError("Already exists");
+                                mTextBoxes[3].setError("Already exists");
+                                break;
+                            case "number":
+                                mTextBoxes[2].setError("Already exists");
+                                break;
+                            case "email":
+                                mTextBoxes[3].setError("Already exists");
+                                break;
+                            case "Registered":
+                                Toast.makeText(RegisterActivity.this, "Registered successfully", Toast.LENGTH_LONG).show();
+                                startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+                                break;
+                            default:
+                                Toast.makeText(RegisterActivity.this, "Something went wrong, try again", Toast.LENGTH_LONG).show();
+                                break;
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();

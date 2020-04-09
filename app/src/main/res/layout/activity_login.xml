@@ -22,8 +22,8 @@
             android:orientation="vertical">
 
             <androidx.cardview.widget.CardView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="160dp"
+                android:layout_height="160dp"
                 android:layout_rowWeight="1"
                 android:layout_columnWeight="1"
                 android:fontFamily="sans-serif-medium"
@@ -36,42 +36,18 @@
                     android:id="@+id/ivLogo"
                     android:layout_width="150dp"
                     android:layout_height="150dp"
+                    android:layout_gravity="center"
                     android:adjustViewBounds="true"
                     android:contentDescription="@string/logo"
                     android:scaleType="fitCenter"
                     android:src="@drawable/loxion_beanery_logo" />
+
+                <View
+                    android:id="@+id/vLoading"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/empty_btn_bg" />
             </androidx.cardview.widget.CardView>
-
-            <RelativeLayout
-                android:id="@+id/rlLoad"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/btnLogin"
-                android:layout_centerHorizontal="true"
-                android:padding="10dp"
-                android:onClick="reload"
-                android:visibility="gone">
-
-                <View
-                    android:id="@+id/vLineGrey"
-                    android:layout_width="match_parent"
-                    android:layout_height="3dp"
-                    android:layout_centerInParent="true"
-                    android:layout_gravity="bottom"
-                    android:layout_margin="2dp"
-                    android:layout_weight="1"
-                    android:background="@color/Grey" />
-
-                <View
-                    android:id="@+id/vLine"
-                    android:layout_width="match_parent"
-                    android:layout_height="3dp"
-                    android:layout_centerInParent="true"
-                    android:layout_gravity="bottom"
-                    android:layout_margin="2dp"
-                    android:layout_weight="1"
-                    android:background="@color/colorPrimary" />
-            </RelativeLayout>
         </LinearLayout>
 
 
@@ -120,7 +96,7 @@
                     android:inputType="textPersonName"
                     android:textSize="14sp"
                     app:met_floatingLabel="highlight"
-                    app:met_helperText=""/>
+                    app:met_helperText="" />
 
                 <CheckBox
                     android:id="@+id/cbRemember"
@@ -141,8 +117,8 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
                 android:fontFamily="sans-serif-medium"
-                android:padding="50dp"
                 android:onClick="login"
+                android:padding="50dp"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="3dp">
 
@@ -177,8 +153,8 @@
             android:layout_columnWeight="1"
             android:layout_margin="10dp"
             android:background="@drawable/empty_btn_bg"
-            android:padding="50dp"
             android:onClick="register"
+            android:padding="50dp"
             app:cardCornerRadius="10dp"
             app:cardElevation="3dp">
 
@@ -263,13 +239,13 @@
                     android:id="@+id/cvRetry"
                     android:layout_width="100dp"
                     android:layout_height="40dp"
-                    android:layout_alignParentEnd="true"
                     android:layout_rowWeight="1"
                     android:layout_columnWeight="1"
-                    android:fontFamily="sans-serif-medium"
-                    android:padding="50dp"
-                    android:onClick="Retry"
+                    android:layout_alignParentEnd="true"
                     android:layout_gravity="end"
+                    android:fontFamily="sans-serif-medium"
+                    android:onClick="Retry"
+                    android:padding="50dp"
                     app:cardCornerRadius="10dp"
                     app:cardElevation="3dp">
 

@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
+
 public class ShopSettingsActivity extends AppCompatActivity {
 
     private CardView cvShop;
@@ -17,6 +19,9 @@ public class ShopSettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop_settings);
+        if (getUser() == null){
+            startActivity(new Intent(this, LoginActivity.class));
+        }
 
         llBack = findViewById(R.id.llBack);
         cvShop = findViewById(R.id.cvShop);

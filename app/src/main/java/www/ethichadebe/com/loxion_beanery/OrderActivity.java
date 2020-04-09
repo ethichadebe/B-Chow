@@ -36,8 +36,8 @@ import SingleItem.MenuItem;
 
 import static util.Constants.getIpAddress;
 import static util.HelperMethods.ShowLoadingPopup;
+import static util.HelperMethods.combineString;
 import static util.HelperMethods.handler;
-import static util.HelperMethods.removeLastComma;
 import static www.ethichadebe.com.loxion_beanery.HomeFragment.getShopItem;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 import static www.ethichadebe.com.loxion_beanery.ShopHomeActivity.getIngredients;
@@ -50,7 +50,6 @@ public class OrderActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager mLayoutManager;
     private TextView tvTotal;
     private Double dblPrice, foundPrice = 0.0;
-    private String strIngredients = "";
     private RelativeLayout rlLoad, rlError;
     private Dialog myDialog;
 
@@ -58,6 +57,9 @@ public class OrderActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
+        if (getUser() == null){
+            startActivity(new Intent(this, LoginActivity.class));
+        }
 
         tvTotal = findViewById(R.id.tvTotal);
         rlLoad = findViewById(R.id.rlLoad);
@@ -80,7 +82,6 @@ public class OrderActivity extends AppCompatActivity {
             if (!ingredientItems.get(position).getChecked()) {
                 ingredientItems.get(position).setChecked(true);
                 dblPrice += ingredientItems.get(position).getDblPrice();
-                strIngredients += ingredientItems.get(position).getStrIngredientName() + ", ";
             } else {
                 ingredientItems.get(position).setChecked(false);
                 dblPrice -= ingredientItems.get(position).getDblPrice();
@@ -109,7 +110,6 @@ public class OrderActivity extends AppCompatActivity {
                             JSONObject Ingredient = jsonArray.getJSONObject(i);
                             if (isChecked(Ingredient.getString("iName"))) {
                                 ingredientItems.add(new IngredientItemCheckbox(Ingredient.getInt("iID"), Ingredient.getString("iName"), Ingredient.getDouble("iPrice"), true, false));
-                                strIngredients += Ingredient.getString("iName") + ", ";
                             }
                         }
                         for (int i = 0; i < jsonArray.length(); i++) {
@@ -176,7 +176,7 @@ public class OrderActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                params.put("oIngredients", removeLastComma(strIngredients));
+                params.put("oIngredients", combineString(ingredientItems));
                 params.put("oPrice", String.valueOf(dblPrice));
                 params.put("sID", String.valueOf(getShopItem().getIntID()));
                 params.put("uID", String.valueOf(getUser().getuID()));
@@ -190,7 +190,7 @@ public class OrderActivity extends AppCompatActivity {
 
     private boolean alreadyExists() {
         boolean isThere = false;
-        String[] mIngredients = removeLastComma(strIngredients).split(", ");
+        String[] mIngredients = combineString(ingredientItems).split(", ");
         for (MenuItem menuItem : getShopItem().getMenuItems()) {
             String[] ingredients = menuItem.getStrMenu().split(", ");
 
