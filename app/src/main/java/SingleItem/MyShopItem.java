@@ -5,7 +5,7 @@ import android.location.Location;
 import java.util.ArrayList;
 
 public class MyShopItem {
-    private int intID;
+    private int intID = -1;
     private String strShopName, strOperatingHRS;
     private String strPosition;
     private int intLogoSmall;
