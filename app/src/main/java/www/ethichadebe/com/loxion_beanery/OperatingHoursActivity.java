@@ -33,7 +33,7 @@ import static util.Constants.getIpAddress;
 import static util.HelperMethods.MakeGrey;
 import static util.HelperMethods.combineString;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
-import static www.ethichadebe.com.loxion_beanery.RegisterShopActivity.getNewShop;
+import static www.ethichadebe.com.loxion_beanery.MyShopsActivity.getNewShop;
 
 public class OperatingHoursActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
     private Dialog myDialog;

@@ -42,7 +42,7 @@ import static www.ethichadebe.com.loxion_beanery.MenuActivity.setIngredients;
 import static www.ethichadebe.com.loxion_beanery.IngredientsActivity.addToList;
 import static www.ethichadebe.com.loxion_beanery.IngredientsActivity.getIngredientItems;
 import static www.ethichadebe.com.loxion_beanery.IngredientsActivity.EditMenu;
-import static www.ethichadebe.com.loxion_beanery.RegisterShopActivity.getNewShop;
+import static www.ethichadebe.com.loxion_beanery.MyShopsActivity.getNewShop;
 
 public class NewMenuItemActivity extends AppCompatActivity {
 

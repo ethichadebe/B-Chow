@@ -39,7 +39,7 @@ import util.HelperMethods;
 import static util.Constants.getIpAddress;
 import static util.HelperMethods.ButtonVisibility;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
-import static www.ethichadebe.com.loxion_beanery.RegisterShopActivity.getNewShop;
+import static www.ethichadebe.com.loxion_beanery.MyShopsActivity.getNewShop;
 
 public class IngredientsActivity extends AppCompatActivity {
 

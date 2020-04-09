@@ -31,10 +31,9 @@ import SingleItem.ExtraItem;
 import util.HelperMethods;
 
 import static util.Constants.getIpAddress;
-import static util.HelperMethods.ButtonVisibility;
 import static www.ethichadebe.com.loxion_beanery.IngredientsActivity.getMenuItems;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
-import static www.ethichadebe.com.loxion_beanery.RegisterShopActivity.getNewShop;
+import static www.ethichadebe.com.loxion_beanery.MyShopsActivity.getNewShop;
 
 public class NewExtrasActivity extends AppCompatActivity {
     private static ArrayList<ExtraItem> extraItems= new ArrayList<>();

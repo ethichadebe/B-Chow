@@ -25,13 +25,13 @@ import java.util.Objects;
 import SingleItem.MyShopItem;
 
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
+import static www.ethichadebe.com.loxion_beanery.MyShopsActivity.setNewShop;
 
 public class RegisterShopActivity extends AppCompatActivity {
     private Dialog myDialog;
     private TextView tvName;
     private MaterialEditText txtName, txtShortDescription, txtFullDescription;
     private Boolean isBig;
-    private static MyShopItem newShop;
     private CropImageView civSmall, civBig;
 
 
@@ -39,7 +39,7 @@ public class RegisterShopActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_shop);
-        if (getUser() == null){
+        if (getUser() == null) {
             startActivity(new Intent(this, LoginActivity.class));
         }
 
@@ -51,31 +51,28 @@ public class RegisterShopActivity extends AppCompatActivity {
         txtShortDescription = findViewById(R.id.txtShortDescription);
         txtFullDescription = findViewById(R.id.txtFullDescription);
 
-         txtName.addTextChangedListener(new TextWatcher() {
-             @Override
-             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        txtName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-             }
+            }
 
-             @Override
-             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (charSequence.length() != 0){
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (charSequence.length() != 0) {
                     tvName.setText(charSequence);
-                }else {
+                } else {
                     tvName.setText("Shop name");
                 }
-             }
+            }
 
-             @Override
-             public void afterTextChanged(Editable editable) {
+            @Override
+            public void afterTextChanged(Editable editable) {
 
-             }
-         });
+            }
+        });
     }
 
-    public static MyShopItem getNewShop() {
-        return newShop;
-    }
 
     public void ShowPopup() {
         TextView tvCancel, tvMessage;
@@ -93,7 +90,7 @@ public class RegisterShopActivity extends AppCompatActivity {
 
         cvYes.setOnClickListener(view -> {
             myDialog.dismiss();
-            finish();
+            startActivity(new Intent(this, MyShopsActivity.class));
         });
 
         cvNo.setOnClickListener(view -> myDialog.dismiss());
@@ -120,8 +117,8 @@ public class RegisterShopActivity extends AppCompatActivity {
             txtName.setUnderlineColor(getResources().getColor(R.color.Red));
         } else {
             txtName.setUnderlineColor(getResources().getColor(R.color.Black));
-            newShop = new MyShopItem(txtName.getText().toString(), Objects.requireNonNull(txtShortDescription.getText()).toString(),
-                    Objects.requireNonNull(txtFullDescription.getText()).toString(), 1,1,new Location(""));
+            setNewShop(new MyShopItem(txtName.getText().toString(), Objects.requireNonNull(txtShortDescription.getText()).toString(),
+                    Objects.requireNonNull(txtFullDescription.getText()).toString(), 1, 1, new Location("")));
 
             startActivity(new Intent(RegisterShopActivity.this, OperatingHoursActivity.class));
         }
@@ -156,7 +153,18 @@ public class RegisterShopActivity extends AppCompatActivity {
                 !Objects.requireNonNull(txtShortDescription.getText()).toString().isEmpty()) {
             ShowPopup();
         } else {
-            finish();
+            startActivity(new Intent(this, MyShopsActivity.class));
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!Objects.requireNonNull(txtName.getText()).toString().isEmpty() || !Objects.requireNonNull(txtFullDescription.getText()).toString().isEmpty() ||
+                !Objects.requireNonNull(txtShortDescription.getText()).toString().isEmpty()) {
+            ShowPopup();
+        } else {
+            startActivity(new Intent(this, MyShopsActivity.class));
+        }
+        super.onBackPressed();
     }
 }

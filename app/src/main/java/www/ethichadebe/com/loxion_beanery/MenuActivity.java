@@ -39,7 +39,6 @@ import static util.HelperMethods.ButtonVisibility;
 import static www.ethichadebe.com.loxion_beanery.IngredientsActivity.getIngredientItems;
 import static www.ethichadebe.com.loxion_beanery.IngredientsActivity.getMenuItems;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
-import static www.ethichadebe.com.loxion_beanery.RegisterShopActivity.getNewShop;
 
 public class MenuActivity extends AppCompatActivity {
 

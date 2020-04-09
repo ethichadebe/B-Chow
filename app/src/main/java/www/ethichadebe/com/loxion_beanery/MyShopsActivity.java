@@ -43,6 +43,7 @@ public class MyShopsActivity extends AppCompatActivity {
     private MyShopItemAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private BottomSheetBehavior bsbBottomSheetBehavior;
+    private static MyShopItem newShop;
     private Handler handler = new Handler();
     private Runnable runnable = new Runnable() {
         @Override
@@ -157,5 +158,13 @@ public class MyShopsActivity extends AppCompatActivity {
 
     public void reload(View view) {
         GETShops(findViewById(R.id.vLine), findViewById(R.id.vLineGrey));
+    }
+
+    public static MyShopItem getNewShop() {
+        return newShop;
+    }
+
+    public static void setNewShop(MyShopItem newShop) {
+        MyShopsActivity.newShop = newShop;
     }
 }
