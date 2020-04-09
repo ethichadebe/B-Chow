@@ -66,7 +66,7 @@ public class HelperMethods {
      * @param index    index of Textbox to make underline blue
      * @param clr      Colour
      */
-    public static void MakeBlack(MaterialEditText[] txtBoxes, int index, int clr) {
+    public static void MakeGrey(MaterialEditText[] txtBoxes, int index, int clr) {
         for (int i = 0; i < txtBoxes.length; i++) {
             if (i != index) {
                 if (!Objects.requireNonNull(txtBoxes[i].getText()).toString().isEmpty()) {
@@ -88,18 +88,18 @@ public class HelperMethods {
     }
 
 
-    public static boolean allFieldsEntered(MaterialEditText[] mText, int Red, int Black) {
+    public static boolean allFieldsEntered(MaterialEditText[] mText, int Red, int Grey) {
         boolean allEntered = true;
         for (int i = 0; i < mText.length; i++) {
             if (Objects.requireNonNull(mText[i].getText()).toString().isEmpty()) {
-                MakeBlack(mText, i, Black);
+                MakeGrey(mText, i, Grey);
                 mText[i].setError("Required field");
                 mText[i].setUnderlineColor(Red);
                 allEntered = false;
             }
         }
         for (int i = 0; i < mText.length; i++) {
-            MakeBlack(mText, i, Black);
+            MakeGrey(mText, i, Grey);
         }
         return allEntered;
     }

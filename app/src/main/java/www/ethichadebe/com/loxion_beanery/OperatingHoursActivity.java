@@ -30,7 +30,7 @@ import java.util.Objects;
 import util.HelperMethods;
 
 import static util.Constants.getIpAddress;
-import static util.HelperMethods.MakeBlack;
+import static util.HelperMethods.MakeGrey;
 import static util.HelperMethods.combineString;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 import static www.ethichadebe.com.loxion_beanery.RegisterShopActivity.getNewShop;
@@ -50,7 +50,7 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
         setContentView(R.layout.activity_operating_hours);
         if (getUser() == null){
             startActivity(new Intent(this, LoginActivity.class));
-        }
+        } // Check if user is logged in
 
         myDialog = new Dialog(this);
         tvDays[0] = findViewById(R.id.tvMon);
@@ -79,6 +79,15 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
         etClose[5] = findViewById(R.id.etCloseSat);
         etClose[6] = findViewById(R.id.etCloseSun);
         etClose[7] = findViewById(R.id.etClosePH);
+
+        if (getNewShop().getStrOperatingHRS() != null){
+            String[] strOpHours = getNewShop().getStrOperatingHRS().split(", ");
+            for (int i =0;i<strOpHours.length;i++){
+                String[] strOpHours1 = strOpHours[i].split(" - ");
+                etOpen[i].setText(strOpHours1[0]);
+                etClose[i].setText(strOpHours1[1]);
+            }
+        }//Set times if they already exist
 
         dayOnClick(0);
         dayOnClick(1);
@@ -190,7 +199,11 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
 
     public void next(View view) {
         if (allFieldsEntered()) {
-            POSTRegisterShop();
+            if(getNewShop().getStrOperatingHRS() == null){
+                POSTRegisterShop();
+            }else{
+                PUTShop();
+            }
         }
     }
 
@@ -198,22 +211,22 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
         boolean allEntered = true;
         for (int i = 0; i < etOpen.length; i++) {
             if (Objects.requireNonNull(etOpen[i].getText()).toString().isEmpty() || Objects.requireNonNull(etClose[i].getText()).toString().isEmpty()) {
-                MakeBlack(etOpen, i, getResources().getColor(R.color.Grey));
+                MakeGrey(etOpen, i, getResources().getColor(R.color.Grey));
                 etOpen[i].setUnderlineColor(getResources().getColor(R.color.Red));
-                MakeBlack(etClose, i, getResources().getColor(R.color.Grey));
+                MakeGrey(etClose, i, getResources().getColor(R.color.Grey));
                 etClose[i].setUnderlineColor(getResources().getColor(R.color.Red));
                 allEntered = false;
             }
         }
         for (int i = 0; i < etOpen.length; i++) {
-            MakeBlack(etOpen, i, getResources().getColor(R.color.Grey));
-            MakeBlack(etClose, i, getResources().getColor(R.color.Grey));
+            MakeGrey(etOpen, i, getResources().getColor(R.color.Grey));
+            MakeGrey(etClose, i, getResources().getColor(R.color.Grey));
         }
         return allEntered;
     }
 
     public void back(View view) {
-        finish();
+        startActivity(new Intent(this, RegisterShopActivity.class));
     }
 
     private void checkCheckedDays(MaterialEditText[] etClose, int Hour, int Minute) {
@@ -229,6 +242,7 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
                 "http://" + getIpAddress() + "/shops/Register",
                 response -> {
+                    HelperMethods.ShowLoadingPopup(myDialog, false);
                     getNewShop().setStrOperatingHRS(strTimes);      //Set Operating hours
                     try {
                         JSONObject JSONResponse = new JSONObject(response);
@@ -240,12 +254,49 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
                         e.printStackTrace();
                     }
                 }, error -> {
-            HelperMethods.ShowLoadingPopup(myDialog, false);
             Toast.makeText(OperatingHoursActivity.this, error.toString(), Toast.LENGTH_LONG).show();
         }) {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
+                params.put("sName", getNewShop().getStrShopName());
+                params.put("sShortDescrption", getNewShop().getStrShortDescript());
+                params.put("sFullDescription", getNewShop().getStrFullDescript());
+                params.put("sSmallPicture", "picture");
+                params.put("sBigPicture", "Picture");
+                params.put("sLocation", getNewShop().getLocLocation().getLatitude() + " " + getNewShop().getLocLocation().getLongitude());
+                params.put("sOperatingHrs", combineString(etOpen, etClose));
+                params.put("uID", String.valueOf(getUser().getuID()));
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
+    private void PUTShop() {
+        HelperMethods.ShowLoadingPopup(myDialog, true);
+        StringRequest stringRequest = new StringRequest(Request.Method.PUT,
+                "http://" + getIpAddress() + "/shops/Register/" + getNewShop().getIntID(),
+                response -> {
+                    HelperMethods.ShowLoadingPopup(myDialog, false);
+                    getNewShop().setStrOperatingHRS(strTimes);      //Set Operating hours
+                    try {
+                        JSONObject JSONResponse = new JSONObject(response);
+                        getNewShop().setStrOperatingHRS( combineString(etOpen, etClose));
+                        HelperMethods.ShowLoadingPopup(myDialog, false);
+                        startActivity(new Intent(OperatingHoursActivity.this, IngredientsActivity.class));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }, error -> {
+            //myDialog.dismiss();
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+
                 params.put("sName", getNewShop().getStrShopName());
                 params.put("sShortDescrption", getNewShop().getStrShortDescript());
                 params.put("sFullDescription", getNewShop().getStrFullDescript());

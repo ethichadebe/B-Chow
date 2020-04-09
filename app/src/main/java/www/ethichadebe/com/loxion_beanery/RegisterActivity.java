@@ -35,7 +35,7 @@ import java.util.Objects;
 import util.HelperMethods;
 
 import static util.Constants.getIpAddress;
-import static util.HelperMethods.MakeBlack;
+import static util.HelperMethods.MakeGrey;
 import static util.HelperMethods.SHARED_PREFS;
 import static util.HelperMethods.allFieldsEntered;
 import static util.HelperMethods.saveData;
@@ -236,8 +236,8 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
             mTextBoxes[5].setUnderlineColor(getResources().getColor(R.color.Red));
             return false;
         }
-        MakeBlack(mTextBoxes, 4, getResources().getColor(R.color.Black));
-        MakeBlack(mTextBoxes, 5, getResources().getColor(R.color.Black));
+        MakeGrey(mTextBoxes, 4, getResources().getColor(R.color.Grey));
+        MakeGrey(mTextBoxes, 5, getResources().getColor(R.color.Grey));
         return true;
     }
 

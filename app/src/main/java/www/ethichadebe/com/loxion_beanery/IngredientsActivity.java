@@ -153,7 +153,7 @@ public class IngredientsActivity extends AppCompatActivity {
         if (!ingredientItems.isEmpty()) {
             ShowConfirmationPopup();
         } else {
-            startActivity(new Intent(this, RegisterShopActivity.class));
+            startActivity(new Intent(this, OperatingHoursActivity.class));
         }
     }
 
