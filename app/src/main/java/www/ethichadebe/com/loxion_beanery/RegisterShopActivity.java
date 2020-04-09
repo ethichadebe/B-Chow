@@ -25,12 +25,13 @@ import java.util.Objects;
 import SingleItem.MyShopItem;
 
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
+import static www.ethichadebe.com.loxion_beanery.MyShopsActivity.getNewShop;
 import static www.ethichadebe.com.loxion_beanery.MyShopsActivity.setNewShop;
 
 public class RegisterShopActivity extends AppCompatActivity {
     private Dialog myDialog;
     private TextView tvName;
-    private MaterialEditText txtName, txtShortDescription, txtFullDescription;
+    private MaterialEditText etName, etShortDescription, etFullDescription;
     private Boolean isBig;
     private CropImageView civSmall, civBig;
 
@@ -41,17 +42,26 @@ public class RegisterShopActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register_shop);
         if (getUser() == null) {
             startActivity(new Intent(this, LoginActivity.class));
-        }
+        } //Check if user is logged in
 
         myDialog = new Dialog(this);
-        txtName = findViewById(R.id.txtName);
+        etName = findViewById(R.id.etName);
         tvName = findViewById(R.id.tvName);
         civSmall = findViewById(R.id.civSmall);
         civBig = findViewById(R.id.civBig);
-        txtShortDescription = findViewById(R.id.txtShortDescription);
-        txtFullDescription = findViewById(R.id.txtFullDescription);
+        etShortDescription = findViewById(R.id.etShortDescription);
+        etFullDescription = findViewById(R.id.etFullDescription);
 
-        txtName.addTextChangedListener(new TextWatcher() {
+        if(getNewShop() != null){
+            etName.setText(getNewShop().getStrShopName());
+            if (getNewShop().getStrShortDescript() != null){
+                etShortDescription.setText(getNewShop().getStrShortDescript());
+            }
+            if (getNewShop().getStrFullDescript() != null)
+                etFullDescription.setText(getNewShop().getStrFullDescript());
+        }//If user pressed back from Operation Hours activity
+
+        etName.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -113,12 +123,12 @@ public class RegisterShopActivity extends AppCompatActivity {
     }
 
     public void next(View view) {
-        if (Objects.requireNonNull(txtName.getText()).toString().isEmpty()) {
-            txtName.setUnderlineColor(getResources().getColor(R.color.Red));
+        if (Objects.requireNonNull(etName.getText()).toString().isEmpty()) {
+            etName.setUnderlineColor(getResources().getColor(R.color.Red));
         } else {
-            txtName.setUnderlineColor(getResources().getColor(R.color.Black));
-            setNewShop(new MyShopItem(txtName.getText().toString(), Objects.requireNonNull(txtShortDescription.getText()).toString(),
-                    Objects.requireNonNull(txtFullDescription.getText()).toString(), 1, 1, new Location("")));
+            etName.setUnderlineColor(getResources().getColor(R.color.Black));
+            setNewShop(new MyShopItem(etName.getText().toString(), Objects.requireNonNull(etShortDescription.getText()).toString(),
+                    Objects.requireNonNull(etFullDescription.getText()).toString(), 1, 1, new Location("")));
 
             startActivity(new Intent(RegisterShopActivity.this, OperatingHoursActivity.class));
         }
@@ -149,8 +159,8 @@ public class RegisterShopActivity extends AppCompatActivity {
     }
 
     public void back(View view) {
-        if (!Objects.requireNonNull(txtName.getText()).toString().isEmpty() || !Objects.requireNonNull(txtFullDescription.getText()).toString().isEmpty() ||
-                !Objects.requireNonNull(txtShortDescription.getText()).toString().isEmpty()) {
+        if (!Objects.requireNonNull(etName.getText()).toString().isEmpty() || !Objects.requireNonNull(etFullDescription.getText()).toString().isEmpty() ||
+                !Objects.requireNonNull(etShortDescription.getText()).toString().isEmpty()) {
             ShowPopup();
         } else {
             startActivity(new Intent(this, MyShopsActivity.class));
@@ -159,8 +169,8 @@ public class RegisterShopActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (!Objects.requireNonNull(txtName.getText()).toString().isEmpty() || !Objects.requireNonNull(txtFullDescription.getText()).toString().isEmpty() ||
-                !Objects.requireNonNull(txtShortDescription.getText()).toString().isEmpty()) {
+        if (!Objects.requireNonNull(etName.getText()).toString().isEmpty() || !Objects.requireNonNull(etFullDescription.getText()).toString().isEmpty() ||
+                !Objects.requireNonNull(etShortDescription.getText()).toString().isEmpty()) {
             ShowPopup();
         } else {
             startActivity(new Intent(this, MyShopsActivity.class));

@@ -156,7 +156,7 @@
                             android:orientation="horizontal">
 
                             <com.rengwuxian.materialedittext.MaterialEditText
-                                android:id="@+id/txtName"
+                                android:id="@+id/etName"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginEnd="5dp"
@@ -195,7 +195,7 @@
                         </LinearLayout>
 
                         <com.rengwuxian.materialedittext.MaterialEditText
-                            android:id="@+id/txtShortDescription"
+                            android:id="@+id/etShortDescription"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:ems="10"
@@ -310,7 +310,7 @@
                         </LinearLayout>
 
                         <com.rengwuxian.materialedittext.MaterialEditText
-                            android:id="@+id/txtFullDescription"
+                            android:id="@+id/etFullDescription"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:ems="10"
