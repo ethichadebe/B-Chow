@@ -44,11 +44,11 @@ import static www.ethichadebe.com.loxion_beanery.MyShopsActivity.getNewShop;
 public class IngredientsActivity extends AppCompatActivity {
 
     private static ArrayList<IngredientItem> ingredientItems;
-    private RecyclerView mRecyclerView;
     private IngredientItemAdapter mAdapter;
+    private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
-    private static ArrayList<MenuItem> MenuItems;
     private CardView btnAddOption;
+    private static ArrayList<MenuItem> MenuItems;
     private MaterialEditText etName, etPrice;
     private Dialog myDialog;
 
@@ -278,8 +278,23 @@ public class IngredientsActivity extends AppCompatActivity {
         tvCancel.setOnClickListener(view -> myDialog.dismiss());
 
         btnEditOption.setOnClickListener(view -> {
-            PUTIngredient(position, Objects.requireNonNull(etName.getText()).toString(),
-                    Objects.requireNonNull(etPrice.getText()).toString());
+            if (Objects.requireNonNull(etName.getText()).toString().isEmpty() && Objects.requireNonNull(etPrice.getText()).toString().isEmpty()){
+                etName.setUnderlineColor(getResources().getColor(R.color.Red));
+                etPrice.setUnderlineColor(getResources().getColor(R.color.Red));
+            }
+            else if (Objects.requireNonNull(etPrice.getText()).toString().isEmpty()){
+                etName.setUnderlineColor(getResources().getColor(R.color.Grey));
+                etPrice.setUnderlineColor(getResources().getColor(R.color.Red));
+            }
+            else if (Objects.requireNonNull(etName.getText()).toString().isEmpty()){
+                etName.setUnderlineColor(getResources().getColor(R.color.Red));
+                etPrice.setUnderlineColor(getResources().getColor(R.color.Grey));
+            }
+            else{
+                etName.setUnderlineColor(getResources().getColor(R.color.Grey));
+                etPrice.setUnderlineColor(getResources().getColor(R.color.Grey));
+                PUTIngredient(position, Objects.requireNonNull(etName.getText()).toString(), Objects.requireNonNull(etPrice.getText()).toString());
+            }
         });
 
         Objects.requireNonNull(myDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
