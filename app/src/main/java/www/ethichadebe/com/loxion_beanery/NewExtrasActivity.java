@@ -36,7 +36,7 @@ import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 import static www.ethichadebe.com.loxion_beanery.MyShopsActivity.getNewShop;
 
 public class NewExtrasActivity extends AppCompatActivity {
-    private static ArrayList<ExtraItem> extraItems= new ArrayList<>();
+    private static ArrayList<ExtraItem> extraItems = new ArrayList<>();
     private RecyclerView mRecyclerView;
     private ExtraItemAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -44,6 +44,7 @@ public class NewExtrasActivity extends AppCompatActivity {
     private Dialog myDialog;
 
     private static boolean isNew = false;
+
     public static boolean isNew() {
         return isNew;
     }
@@ -59,7 +60,7 @@ public class NewExtrasActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_extras);
-        if (getUser() == null){
+        if (getUser() == null) {
             startActivity(new Intent(this, LoginActivity.class));
         }
 
@@ -76,8 +77,7 @@ public class NewExtrasActivity extends AppCompatActivity {
         mAdapter.setOnExtraClickListener(new ExtraItemAdapter.OnExtraClickListener() {
             @Override
             public void onRemoveClick(int position) {
-                extraItems.remove(position);
-                mAdapter.notifyItemRemoved(position);
+                DELETEExtra(position);
             }
 
             @Override
@@ -98,9 +98,9 @@ public class NewExtrasActivity extends AppCompatActivity {
     }
 
     public void add(View view) {
-        if (Objects.requireNonNull(etExtra.getText()).toString().isEmpty()){
+        if (Objects.requireNonNull(etExtra.getText()).toString().isEmpty()) {
             etExtra.setUnderlineColor(getResources().getColor(R.color.Red));
-        }else {
+        } else {
             etExtra.setUnderlineColor(getResources().getColor(R.color.Grey));
             POSTRegisterShopExtra();
         }
@@ -119,7 +119,7 @@ public class NewExtrasActivity extends AppCompatActivity {
                         if (JSONData.getString("data").equals("saved")) {
                             JSONArray jsonArray = new JSONArray(JSONData.getString("response"));
                             JSONObject JSONResponse = jsonArray.getJSONObject(0);
-                            extraItems.add(new ExtraItem(JSONResponse.getInt("eID"),JSONResponse.getString("eName")));
+                            extraItems.add(new ExtraItem(JSONResponse.getInt("eID"), JSONResponse.getString("eName")));
                             mAdapter.notifyItemInserted(extraItems.size());
                             etExtra.setText("");
                         }
@@ -143,21 +143,20 @@ public class NewExtrasActivity extends AppCompatActivity {
         requestQueue.add(stringRequest);
     }
 
-    /*private void DELETEIngredient(int position) {
+    private void DELETEExtra(int position) {
         HelperMethods.ShowLoadingPopup(myDialog, true);
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
         JsonObjectRequest objectRequest = new JsonObjectRequest(
                 Request.Method.DELETE,
-                "http://" + getIpAddress() + "/shops/Register/Ingredient/" + ingredientItems.get(position).getIntID(), null,   //+getUser().getuID()
+                "http://" + getIpAddress() + "/shops/Register/Extra/" + extraItems.get(position).getIntID(), null,   //+getUser().getuID()
                 response -> {
                     HelperMethods.ShowLoadingPopup(myDialog, false);
                     try {
                         JSONObject JSONData = new JSONObject(response.toString());
                         if (JSONData.getString("data").equals("removed")) {
-                            ingredientItems.remove(position);
+                            extraItems.remove(position);
                             mAdapter.notifyItemRemoved(position);
-                            ButtonVisibility(ingredientItems, btnNext);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -175,7 +174,7 @@ public class NewExtrasActivity extends AppCompatActivity {
 
     }
 
-    private void PUTIngredient(int position, String IngredientName, String Price) {
+    /*private void PUTIngredient(int position, String IngredientName, String Price) {
         HelperMethods.ShowLoadingPopup(myDialog, true);
         StringRequest stringRequest = new StringRequest(Request.Method.PUT,
                 "http://" + getIpAddress() + "/shops/Register/Ingredient/" + ingredientItems.get(position).getIntID(),
