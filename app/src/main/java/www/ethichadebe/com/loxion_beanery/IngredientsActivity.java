@@ -154,7 +154,7 @@ public class IngredientsActivity extends AppCompatActivity {
         if (!ingredientItems.isEmpty()) {
             ShowConfirmationPopup();
         } else {
-            finish();
+            startActivity(new Intent(this, RegisterShopActivity.class));
         }
     }
 

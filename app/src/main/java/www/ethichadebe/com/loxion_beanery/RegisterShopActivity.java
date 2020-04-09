@@ -28,7 +28,7 @@ import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 
 public class RegisterShopActivity extends AppCompatActivity {
     private Dialog myDialog;
-    TextView tvName;
+    private TextView tvName;
     private MaterialEditText txtName, txtShortDescription, txtFullDescription;
     private Boolean isBig;
     private static MyShopItem newShop;
@@ -43,8 +43,6 @@ public class RegisterShopActivity extends AppCompatActivity {
             startActivity(new Intent(this, LoginActivity.class));
         }
 
-        LinearLayout llBack = findViewById(R.id.llBack);
-
         myDialog = new Dialog(this);
         txtName = findViewById(R.id.txtName);
         tvName = findViewById(R.id.tvName);
@@ -52,15 +50,6 @@ public class RegisterShopActivity extends AppCompatActivity {
         civBig = findViewById(R.id.civBig);
         txtShortDescription = findViewById(R.id.txtShortDescription);
         txtFullDescription = findViewById(R.id.txtFullDescription);
-
-        llBack.setOnClickListener(view -> {
-            if (!Objects.requireNonNull(txtName.getText()).toString().isEmpty() || !Objects.requireNonNull(txtFullDescription.getText()).toString().isEmpty() ||
-                    !Objects.requireNonNull(txtShortDescription.getText()).toString().isEmpty()) {
-                ShowPopup();
-            } else {
-                finish();
-            }
-        });
 
          txtName.addTextChangedListener(new TextWatcher() {
              @Override
@@ -162,4 +151,12 @@ public class RegisterShopActivity extends AppCompatActivity {
         }
     }
 
+    public void back(View view) {
+        if (!Objects.requireNonNull(txtName.getText()).toString().isEmpty() || !Objects.requireNonNull(txtFullDescription.getText()).toString().isEmpty() ||
+                !Objects.requireNonNull(txtShortDescription.getText()).toString().isEmpty()) {
+            ShowPopup();
+        } else {
+            finish();
+        }
+    }
 }

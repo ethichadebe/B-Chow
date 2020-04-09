@@ -12,10 +12,12 @@ import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -29,6 +31,7 @@ import SingleItem.ExtraItem;
 import util.HelperMethods;
 
 import static util.Constants.getIpAddress;
+import static util.HelperMethods.ButtonVisibility;
 import static www.ethichadebe.com.loxion_beanery.IngredientsActivity.getMenuItems;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 import static www.ethichadebe.com.loxion_beanery.RegisterShopActivity.getNewShop;
@@ -96,7 +99,14 @@ public class NewExtrasActivity extends AppCompatActivity {
     }
 
     public void add(View view) {
-        POSTRegisterShopExtra();
+        if (Objects.requireNonNull(etExtra.getText()).toString().isEmpty()){
+            etExtra.setUnderlineColor(getResources().getColor(R.color.Red));
+        }else {
+            etExtra.setUnderlineColor(getResources().getColor(R.color.Grey));
+            POSTRegisterShopExtra();
+        }
+
+
     }
 
     private void POSTRegisterShopExtra() {
@@ -104,19 +114,16 @@ public class NewExtrasActivity extends AppCompatActivity {
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
                 "http://" + getIpAddress() + "/shops/Register/Extra",
                 response -> {
+                    HelperMethods.ShowLoadingPopup(myDialog, false);
                     try {
-                        JSONObject JSONResponse = new JSONObject(response);
-                        HelperMethods.ShowLoadingPopup(myDialog, false);
-
-                        if (Objects.requireNonNull(etExtra.getText()).toString().isEmpty()){
-                            etExtra.setUnderlineColor(getResources().getColor(R.color.Red));
-                        }else {
-                            etExtra.setUnderlineColor(getResources().getColor(R.color.Grey));
-                            extraItems.add(new ExtraItem(1,etExtra.getText().toString()));
+                        JSONObject JSONData = new JSONObject(response);
+                        if (JSONData.getString("data").equals("saved")) {
+                            JSONArray jsonArray = new JSONArray(JSONData.getString("response"));
+                            JSONObject JSONResponse = jsonArray.getJSONObject(0);
+                            extraItems.add(new ExtraItem(JSONResponse.getInt("eID"),JSONResponse.getString("eName")));
                             mAdapter.notifyItemInserted(extraItems.size());
                             etExtra.setText("");
                         }
-
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -136,5 +143,63 @@ public class NewExtrasActivity extends AppCompatActivity {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
     }
+
+    /*private void DELETEIngredient(int position) {
+        HelperMethods.ShowLoadingPopup(myDialog, true);
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+
+        JsonObjectRequest objectRequest = new JsonObjectRequest(
+                Request.Method.DELETE,
+                "http://" + getIpAddress() + "/shops/Register/Ingredient/" + ingredientItems.get(position).getIntID(), null,   //+getUser().getuID()
+                response -> {
+                    HelperMethods.ShowLoadingPopup(myDialog, false);
+                    try {
+                        JSONObject JSONData = new JSONObject(response.toString());
+                        if (JSONData.getString("data").equals("removed")) {
+                            ingredientItems.remove(position);
+                            mAdapter.notifyItemRemoved(position);
+                            ButtonVisibility(ingredientItems, btnNext);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    //Loads shops starting with the one closest to user
+                },
+                error -> {
+                    if (error.toString().equals("com.android.volley.TimeoutError")) {
+                        Toast.makeText(this, "Connection error. Please retry", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+        requestQueue.add(objectRequest);
+
+    }
+
+    private void PUTIngredient(int position, String IngredientName, String Price) {
+        HelperMethods.ShowLoadingPopup(myDialog, true);
+        StringRequest stringRequest = new StringRequest(Request.Method.PUT,
+                "http://" + getIpAddress() + "/shops/Register/Ingredient/" + ingredientItems.get(position).getIntID(),
+                response -> {
+                    HelperMethods.ShowLoadingPopup(myDialog, false);
+                    ingredientItems.get(position).setStrIngredientName(IngredientName);
+                    ingredientItems.get(position).setDblPrice(Double.valueOf(Price));
+                    mAdapter.notifyItemChanged(position);
+                }, error -> {
+            //myDialog.dismiss();
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+
+                params.put("iName", IngredientName);
+                params.put("iPrice", Price);
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }*/
 
 }

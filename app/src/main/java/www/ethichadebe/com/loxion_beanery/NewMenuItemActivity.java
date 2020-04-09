@@ -55,7 +55,6 @@ public class NewMenuItemActivity extends AppCompatActivity {
     private CardView rlTotal;
     private Dialog myDialog;
     private Button btnAdd;
-    private Boolean isEdit = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +70,7 @@ public class NewMenuItemActivity extends AppCompatActivity {
         myDialog = new Dialog(this);
 
         if (getIngredients() .size()>0) {
-            btnAdd.setText("Save");
+            btnAdd.setText("Edit");
             ingredientItems = new ArrayList<>();
             etPrice.setText(String.valueOf(getDblPrice()));
             for (int i = 0; i < getIngredients().size(); i++) {

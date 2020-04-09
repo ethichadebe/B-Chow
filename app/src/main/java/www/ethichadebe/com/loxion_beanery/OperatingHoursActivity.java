@@ -233,6 +233,7 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
                     try {
                         JSONObject JSONResponse = new JSONObject(response);
                         getNewShop().setIntID(Integer.parseInt(JSONResponse.getString("data")));
+                        getNewShop().setStrOperatingHRS( combineString(etOpen, etClose));
                         HelperMethods.ShowLoadingPopup(myDialog, false);
                         startActivity(new Intent(OperatingHoursActivity.this, IngredientsActivity.class));
                     } catch (JSONException e) {
