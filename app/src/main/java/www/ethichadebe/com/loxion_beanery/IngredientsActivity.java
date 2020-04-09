@@ -107,7 +107,6 @@ public class IngredientsActivity extends AppCompatActivity {
                 ShowEditIngredientPopup(position);
             }
         });
-
     }
 
     public static ArrayList<IngredientItem> getIngredientItems() {
