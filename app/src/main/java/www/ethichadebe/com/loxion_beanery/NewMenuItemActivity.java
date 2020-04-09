@@ -194,6 +194,7 @@ public class NewMenuItemActivity extends AppCompatActivity {
     }
 
     public void back(View view) {
+        setIngredients(new ArrayList<>());
         finish();
     }
 
@@ -205,7 +206,7 @@ public class NewMenuItemActivity extends AppCompatActivity {
                     //Toast.makeText(NewMenuItemActivity.this, response, Toast.LENGTH_LONG).show();
                     HelperMethods.ShowLoadingPopup(myDialog, false);
                     EditMenu(getIntPosition(), Double.valueOf(Objects.requireNonNull(etPrice.getText()).toString()), combineString(ingredientItems));
-                    setIngredients(null);
+                    setIngredients(new ArrayList<>());
                     startActivity(new Intent(NewMenuItemActivity.this, MenuActivity.class));
                 }, error -> {
         }) {
