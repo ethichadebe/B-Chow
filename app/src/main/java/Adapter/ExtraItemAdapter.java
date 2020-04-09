@@ -77,7 +77,7 @@ public class ExtraItemAdapter extends RecyclerView.Adapter<ExtraItemAdapter.Extr
     public void onBindViewHolder(@NonNull ExtraViewHolder holder, int position) {
         ExtraItem item = ExtraList.get(position);
 
-        holder.tvIngredients.setText(item.getStrIngredientName());
+        holder.tvIngredients.setText(item.getStrExtraName());
         holder.tvIngredients.setId(item.getIntID());
     }
 

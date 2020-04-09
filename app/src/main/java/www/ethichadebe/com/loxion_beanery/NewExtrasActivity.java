@@ -1,13 +1,17 @@
 package www.ethichadebe.com.loxion_beanery;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -82,7 +86,7 @@ public class NewExtrasActivity extends AppCompatActivity {
 
             @Override
             public void onEditClick(int position) {
-
+                ShowEditExtraPopup(position);
             }
         });
     }
@@ -174,14 +178,13 @@ public class NewExtrasActivity extends AppCompatActivity {
 
     }
 
-    /*private void PUTIngredient(int position, String IngredientName, String Price) {
+    private void PUTExtra(int position, String name) {
         HelperMethods.ShowLoadingPopup(myDialog, true);
         StringRequest stringRequest = new StringRequest(Request.Method.PUT,
-                "http://" + getIpAddress() + "/shops/Register/Ingredient/" + ingredientItems.get(position).getIntID(),
+                "http://" + getIpAddress() + "/shops/Register/Ingredient/" + extraItems.get(position).getIntID(),
                 response -> {
                     HelperMethods.ShowLoadingPopup(myDialog, false);
-                    ingredientItems.get(position).setStrIngredientName(IngredientName);
-                    ingredientItems.get(position).setDblPrice(Double.valueOf(Price));
+                    extraItems.get(position).setStrExtraName(name);
                     mAdapter.notifyItemChanged(position);
                 }, error -> {
             //myDialog.dismiss();
@@ -190,14 +193,42 @@ public class NewExtrasActivity extends AppCompatActivity {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
 
-                params.put("iName", IngredientName);
-                params.put("iPrice", Price);
+                params.put("eName", Objects.requireNonNull(etExtra.getText()).toString());
                 return params;
             }
         };
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
-    }*/
+    }
+
+    public void ShowEditExtraPopup(int position) {
+        MaterialEditText etExtra;
+        CardView cvEditOption;
+        TextView tvCancel;
+        myDialog.setContentView(R.layout.popup_extra_edit);
+
+        etExtra = myDialog.findViewById(R.id.etExtra);
+        cvEditOption = myDialog.findViewById(R.id.cvEditOption);
+        tvCancel = myDialog.findViewById(R.id.tvCancel);
+
+        etExtra.setText(extraItems.get(position).getStrExtraName());
+        tvCancel.setOnClickListener(view -> myDialog.dismiss());
+
+        cvEditOption.setOnClickListener(view -> {
+            if (Objects.requireNonNull(etExtra.getText()).toString().isEmpty()){
+                etExtra.setUnderlineColor(getResources().getColor(R.color.Red));
+            }else {
+                etExtra.setUnderlineColor(getResources().getColor(R.color.Grey));
+                PUTExtra(position, Objects.requireNonNull(etExtra.getText()).toString());
+            }
+        });
+
+        Objects.requireNonNull(myDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        myDialog.show();
+        myDialog.setCancelable(false);
+        myDialog.setCanceledOnTouchOutside(false);
+    }
+
 
 }

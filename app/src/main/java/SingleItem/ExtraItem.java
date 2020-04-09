@@ -2,11 +2,11 @@ package SingleItem;
 
 public class ExtraItem {
     private int intID;
-    private String strIngredientName;
+    private String strExtraName;
 
-    public ExtraItem(int intID, String strIngredientName) {
+    public ExtraItem(int intID, String strExtraName) {
         this.intID = intID;
-        this.strIngredientName = strIngredientName;
+        this.strExtraName = strExtraName;
     }
 
     public int getIntID() {
@@ -17,11 +17,11 @@ public class ExtraItem {
         this.intID = intID;
     }
 
-    public String getStrIngredientName() {
-        return strIngredientName;
+    public String getStrExtraName() {
+        return strExtraName;
     }
 
-    public void setStrIngredientName(String strIngredientName) {
-        this.strIngredientName = strIngredientName;
+    public void setStrExtraName(String strExtraName) {
+        this.strExtraName = strExtraName;
     }
 }
