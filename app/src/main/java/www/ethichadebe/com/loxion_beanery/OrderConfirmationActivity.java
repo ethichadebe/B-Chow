@@ -113,12 +113,7 @@ public class OrderConfirmationActivity extends AppCompatActivity {
         handler.postDelayed(runnable, 0);
         handler.postDelayed(runnable1, 5000);
         handler.postDelayed(runnable2, 10000);
-        btFinish.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(OrderConfirmationActivity.this, MainActivity.class));
-            }
-        });
+        btFinish.setOnClickListener(view -> startActivity(new Intent(this, MainActivity.class)));
     }
 
     private void YoyoSlideRight(int repeat, int vLine) {
@@ -126,5 +121,10 @@ public class OrderConfirmationActivity extends AppCompatActivity {
                 .duration(800)
                 .repeat(repeat)
                 .playOn(findViewById(vLine));
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this, MainActivity.class));
     }
 }

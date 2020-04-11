@@ -238,5 +238,8 @@ public class OrderActivity extends AppCompatActivity {
         myDialog.show();
     }
 
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 }

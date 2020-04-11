@@ -104,7 +104,7 @@ public class PastOrderItemAdapter extends RecyclerView.Adapter<PastOrderItemAdap
         holder.tvMenu.setText(item.getStrMenu());
         holder.tvOrderNum.setText("Order number: " + item.getIntOrderNum());
         holder.tvTime.setText(item.getStrTime());
-        if (item.getIntRating() == -1){
+        if (item.getIntRating() == 0){
             holder.cvRate.setVisibility(View.VISIBLE);
             holder.llStars.setVisibility(View.GONE);
         }else {

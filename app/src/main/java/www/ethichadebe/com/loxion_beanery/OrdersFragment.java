@@ -1,11 +1,13 @@
 package www.ethichadebe.com.loxion_beanery;
 
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,13 +15,26 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.Objects;
 
 import Adapter.PastOrderItemAdapter;
 import Adapter.UpcomingOrderItemAdapter;
 import SingleItem.PastOrderItem;
+import SingleItem.ShopItem;
 import SingleItem.UpcomingOrderItem;
 
+import static util.Constants.getIpAddress;
+import static util.HelperMethods.handler;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 
 public class OrdersFragment extends Fragment {
@@ -27,6 +42,7 @@ public class OrdersFragment extends Fragment {
     private View vLeft, vRight, vBottomRight, vBottomLeft;
     private RelativeLayout rlLeft, rlRight;
 
+    private RelativeLayout rlLoad, rlError;
     private RecyclerView mPastRecyclerView;
     private PastOrderItemAdapter mPastAdapter;
     private RecyclerView.LayoutManager mPastLayoutManager;
@@ -41,12 +57,14 @@ public class OrdersFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.frame_orders, container, false);
-        if (getUser() == null){
+        if (getUser() == null) {
             startActivity(new Intent(getActivity(), LoginActivity.class));
         }
         vBottomLeft = v.findViewById(R.id.vBottomLeft);
         vBottomRight = v.findViewById(R.id.vBottomRight);
         vLeft = v.findViewById(R.id.vLeft);
+        rlLoad = v.findViewById(R.id.rlLoad);
+        rlError = v.findViewById(R.id.rlError);
         vRight = v.findViewById(R.id.vRight);
         rlLeft = v.findViewById(R.id.rlLeft);
         rlRight = v.findViewById(R.id.rlRight);
@@ -54,21 +72,15 @@ public class OrdersFragment extends Fragment {
         mPastRecyclerView = v.findViewById(R.id.pastRecyclerView);
 
         setVisibility(View.VISIBLE, View.GONE, mUpcomingRecyclerView, mPastRecyclerView);
-        DisplayPastOrders();
-        rlLeft.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                setVisibility(View.VISIBLE, View.GONE, mUpcomingRecyclerView, mPastRecyclerView);
-                DisplayPastOrders();
-            }
+        GETPastOrders(v.findViewById(R.id.vLine), v.findViewById(R.id.vLineGrey));
+        rlLeft.setOnClickListener(view -> {
+            setVisibility(View.VISIBLE, View.GONE, mUpcomingRecyclerView, mPastRecyclerView);
+            GETPastOrders(v.findViewById(R.id.vLine), v.findViewById(R.id.vLineGrey));
         });
 
-        rlRight.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                setVisibility(View.GONE, View.VISIBLE, mPastRecyclerView, mUpcomingRecyclerView);
-                DisplayUpcomingOrders();
-            }
+        rlRight.setOnClickListener(view -> {
+            setVisibility(View.GONE, View.VISIBLE, mPastRecyclerView, mUpcomingRecyclerView);
+            GETUpcomingOrders(v.findViewById(R.id.vLine), v.findViewById(R.id.vLineGrey));
         });
         mPastRecyclerView.setHasFixedSize(true);
         mPastLayoutManager = new LinearLayoutManager(getActivity());
@@ -105,55 +117,96 @@ public class OrdersFragment extends Fragment {
     }
 
 
-    static void DisplayPastOrders() {
-        //Loads past orders
-        pastOrderItems.add(new PastOrderItem(1, "Shop name", 315,
-                "13 Jan 2020,15:45", "French, bacon, egg, russian", 19.50, 3));
-        pastOrderItems.add(new PastOrderItem(3, "Shop name", 315,
-                "13 Jan 2020,15:45", "French, bacon, egg, russian", 19.50, 4));
-        pastOrderItems.add(new PastOrderItem(5, "Shop name", 315,
-                "13 Jan 2020,15:45", "French, bacon, egg, russian", 19.50, 1));
-        pastOrderItems.add(new PastOrderItem(4, "Shop name", 315,
-                "13 Jan 2020,15:45", "French, bacon, egg, russian", 19.50, 5));
-        pastOrderItems.add(new PastOrderItem(2, "Shop name", 315,
-                "13 Jan 2020,15:45", "French, bacon, egg, russian", 19.50, -1));
-        pastOrderItems.add(new PastOrderItem(-1, "Shop name", 315,
-                "13 Jan 2020,15:45", "French, bacon, egg, russian", 19.50, -1));
-    }
-
-    private void DisplayUpcomingOrders() {
-        final ArrayList<UpcomingOrderItem> upcomingOrderItems = new ArrayList<>();
-
-        upcomingOrderItems.add(new UpcomingOrderItem(1, "Shop name", 315,
-                "15:45", "French, bacon, egg, russian", 19.50));
-        upcomingOrderItems.add(new UpcomingOrderItem(1, "Shop name", 315,
-                "15:45", "French, bacon, egg, russian", 19.50));
-        upcomingOrderItems.add(new UpcomingOrderItem(1, "Shop name", 315,
-                "15:45", "French, bacon, egg, russian", 19.50));
-        upcomingOrderItems.add(new UpcomingOrderItem(1, "Shop name", 315,
-                "15:45", "French, bacon, egg, russian", 19.50));
-        upcomingOrderItems.add(new UpcomingOrderItem(1, "Shop name", 315,
-                "15:45", "French, bacon, egg, russian", 19.50));
-        upcomingOrderItems.add(new UpcomingOrderItem(1, "Shop name", 315,
-                "15:45", "French, bacon, egg, russian", 19.50));
-        upcomingOrderItems.add(new UpcomingOrderItem(1, "Shop name", 315,
-                "15:45", "French, bacon, egg, russian", 19.50));
-        mUpcomingRecyclerView.setHasFixedSize(true);
-        mUpcomingLayoutManager = new LinearLayoutManager(getActivity());
-        mUpcomingAdapter = new UpcomingOrderItemAdapter(upcomingOrderItems);
-
-        mUpcomingRecyclerView.setLayoutManager(mUpcomingLayoutManager);
-        mUpcomingRecyclerView.setAdapter(mUpcomingAdapter);
-
-        mUpcomingAdapter.setOnItemClickListener(new UpcomingOrderItemAdapter.OnItemClickListener() {
-            @Override
-            public void OnItemClickTrack(int position) {
-                startActivity(new Intent(getActivity(), OrderConfirmationActivity.class));
-            }
-        });
-    }
-
     public static int getPosition() {
         return Position;
     }
+
+    private void GETUpcomingOrders(View vLine, View vLineGrey) {
+        rlError.setVisibility(View.GONE);
+        rlLoad.setVisibility(View.VISIBLE);
+        handler(vLine, vLineGrey);
+        RequestQueue requestQueue = Volley.newRequestQueue(Objects.requireNonNull(getActivity()));
+
+        JsonObjectRequest objectRequest = new JsonObjectRequest(
+                Request.Method.GET,
+                "http://" + getIpAddress() + "/orders/Upcoming/" + getUser().getuID(), null,
+                response -> {
+                    final ArrayList<UpcomingOrderItem> upcomingOrderItems = new ArrayList<>();
+
+                    //Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
+                    rlLoad.setVisibility(View.GONE);
+                    //Loads shops starting with the one closest to user
+                    try {
+                        JSONArray jsonArray = response.getJSONArray("orders");
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject Orders = jsonArray.getJSONObject(i);
+                            upcomingOrderItems.add(new UpcomingOrderItem(Orders.getInt("oID"),
+                                    Orders.getString("sName"), Orders.getInt("oID"), Orders.getString("sName"),
+                                    Orders.getString("oIngredients"), Orders.getDouble("oPrice")));
+                        }
+                        mUpcomingRecyclerView.setHasFixedSize(true);
+                        mUpcomingLayoutManager = new LinearLayoutManager(getActivity());
+                        mUpcomingAdapter = new UpcomingOrderItemAdapter(upcomingOrderItems);
+
+                        mUpcomingRecyclerView.setLayoutManager(mUpcomingLayoutManager);
+                        mUpcomingRecyclerView.setAdapter(mUpcomingAdapter);
+
+                        mUpcomingAdapter.setOnItemClickListener(position -> startActivity(new Intent(getActivity(),
+                                OrderConfirmationActivity.class)));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                },
+                error -> {
+                    rlError.setVisibility(View.VISIBLE);
+                    rlLoad.setVisibility(View.GONE);
+                    if (error.toString().equals("com.android.volley.TimeoutError")) {
+                        Toast.makeText(getActivity(), "Connection error. Please retry", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+        requestQueue.add(objectRequest);
+
+    }
+
+    private void GETPastOrders(View vLine, View vLineGrey) {
+        rlError.setVisibility(View.GONE);
+        rlLoad.setVisibility(View.VISIBLE);
+        handler(vLine, vLineGrey);
+        RequestQueue requestQueue = Volley.newRequestQueue(Objects.requireNonNull(getActivity()));
+
+        JsonObjectRequest objectRequest = new JsonObjectRequest(
+                Request.Method.GET,
+                "http://" + getIpAddress() + "/orders/Past/" + getUser().getuID(), null,
+                response -> {
+                    //Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
+                    rlLoad.setVisibility(View.GONE);
+                    //Loads shops starting with the one closest to user
+                    try {
+                        JSONArray jsonArray = response.getJSONArray("orders");
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject Orders = jsonArray.getJSONObject(i);
+                            pastOrderItems.add(new PastOrderItem(Orders.getInt("oID"), Orders.getString("sName"),
+                                    Orders.getInt("oID"), Orders.getString("createdAt"),
+                                    Orders.getString("oIngredients"), Orders.getDouble("oPrice"),
+                                    Orders.getInt("oRating")));
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                },
+                error -> {
+                    rlError.setVisibility(View.VISIBLE);
+                    rlLoad.setVisibility(View.GONE);
+                    if (error.toString().equals("com.android.volley.TimeoutError")) {
+                        Toast.makeText(getActivity(), "Connection error. Please retry", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+        requestQueue.add(objectRequest);
+
+    }
+
 }
