@@ -70,6 +70,8 @@ public class NewMenuItemActivity extends AppCompatActivity {
         myDialog = new Dialog(this);
 
         if (getIngredients() .size()>0) {
+            dblPrice =getDblPrice();
+            etPrice.setText(String.valueOf(getDblPrice()));
             btnAdd.setText("Edit");
             ingredientItems = new ArrayList<>();
             etPrice.setText(String.valueOf(getDblPrice()));
