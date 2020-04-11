@@ -18,12 +18,13 @@ import www.ethichadebe.com.loxion_beanery.R;
 public class MenuItemAdapter extends RecyclerView.Adapter<MenuItemAdapter.MenuViewHolder> {
 
     private ArrayList<MenuItem> menuList;
-
     private OnItemClickListener mListerner;
 
     public interface OnItemClickListener {
         void onItemClick(int position);
+
         void onEditClick(int position);
+
         void onDeleteClick(int position);
     }
 
@@ -88,8 +89,12 @@ public class MenuItemAdapter extends RecyclerView.Adapter<MenuItemAdapter.MenuVi
     public void onBindViewHolder(@NonNull MenuViewHolder holder, int position) {
         MenuItem item = menuList.get(position);
 
-        holder.tvPrice.setText("R"+ item.getDblPrice());
+        holder.tvPrice.setText("R" + item.getDblPrice());
         holder.tvIngredients.setText(item.getStrMenu());
+        if (!item.isVisible()){
+            holder.ivDelete.setVisibility(View.GONE);
+            holder.ivEdit.setVisibility(View.GONE);
+        }
 
     }
 

@@ -179,7 +179,7 @@ public class ShopHomeActivity extends AppCompatActivity {
                         JSONArray jsonArray = response.getJSONArray("menuItems");
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject MenuItem = jsonArray.getJSONObject(i);
-                            MenuItems.add(new MenuItem(MenuItem.getInt("mID"), MenuItem.getDouble("mPrice"), MenuItem.getString("mList")));
+                            MenuItems.add(new MenuItem(MenuItem.getInt("mID"), MenuItem.getDouble("mPrice"), MenuItem.getString("mList"),false));
                         }
                         getShopItem().setMenuItems(MenuItems);
                     } catch (JSONException e) {
