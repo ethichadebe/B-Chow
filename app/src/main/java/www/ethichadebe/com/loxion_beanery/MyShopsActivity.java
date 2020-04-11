@@ -63,6 +63,7 @@ public class MyShopsActivity extends AppCompatActivity {
             startActivity(new Intent(this, LoginActivity.class));
         }
 
+        newShop = null;
         bsbBottomSheet = findViewById(R.id.bottom_sheet);
         bsbBottomSheetBehavior = BottomSheetBehavior.from(bsbBottomSheet);
         bsbBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
