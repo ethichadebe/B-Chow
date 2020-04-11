@@ -227,4 +227,13 @@ public class MenuActivity extends AppCompatActivity {
     public static void setIngredients(ArrayList<IngredientItem> ingredients) {
         Ingredients = ingredients;
     }
+
+    @Override
+    public void onBackPressed() {
+        if (MenuItems.isEmpty()) {
+            finish();
+        } else {
+            ShowConfirmationPopup();
+        }
+    }
 }
