@@ -200,6 +200,12 @@ public class NewMenuItemActivity extends AppCompatActivity {
         finish();
     }
 
+    @Override
+    public void onBackPressed() {
+        setIngredients(new ArrayList<>());
+        finish();
+    }
+
     private void PUTMenuItem() {
         HelperMethods.ShowLoadingPopup(myDialog, true);
         StringRequest stringRequest = new StringRequest(Request.Method.PUT,

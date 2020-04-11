@@ -175,6 +175,5 @@ public class RegisterShopActivity extends AppCompatActivity {
         } else {
             startActivity(new Intent(this, MyShopsActivity.class));
         }
-        super.onBackPressed();
     }
 }

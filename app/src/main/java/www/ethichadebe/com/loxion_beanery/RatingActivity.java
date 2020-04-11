@@ -84,16 +84,13 @@ public class RatingActivity extends AppCompatActivity {
             }
         });
 
-        ivStar5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ivStar1.setImageResource(R.drawable.star);
-                ivStar2.setImageResource(R.drawable.star);
-                ivStar3.setImageResource(R.drawable.star);
-                ivStar4.setImageResource(R.drawable.star);
-                ivStar5.setImageResource(R.drawable.star);
-                //getPastOrderItem(getPosition()).setIntRating(5);
-            }
+        ivStar5.setOnClickListener(view -> {
+            ivStar1.setImageResource(R.drawable.star);
+            ivStar2.setImageResource(R.drawable.star);
+            ivStar3.setImageResource(R.drawable.star);
+            ivStar4.setImageResource(R.drawable.star);
+            ivStar5.setImageResource(R.drawable.star);
+            //getPastOrderItem(getPosition()).setIntRating(5);
         });
 
 

@@ -201,7 +201,9 @@ public class ShopHomeActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
         startActivity(new Intent(ShopHomeActivity.this, MainActivity.class));
+    }
+
+    public void like(View view) {
     }
 }

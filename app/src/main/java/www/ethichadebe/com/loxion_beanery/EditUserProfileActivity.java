@@ -275,4 +275,8 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
     }
+
+    @Override
+    public void onBackPressed() {
+        ShowConfirmationPopup();    }
 }

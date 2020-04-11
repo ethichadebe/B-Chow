@@ -59,7 +59,7 @@ public class MyShopsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_shops);
-        if (getUser() == null){
+        if (getUser() == null) {
             startActivity(new Intent(this, LoginActivity.class));
         }
 
@@ -98,11 +98,11 @@ public class MyShopsActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        finish();
+        startActivity(new Intent(this, UserSettingsActivity.class));
     }
 
     public void back(View view) {
-        finish();
+        startActivity(new Intent(this, UserSettingsActivity.class));
     }
 
     public void createShop(View view) {
@@ -117,13 +117,13 @@ public class MyShopsActivity extends AppCompatActivity {
 
         JsonObjectRequest objectRequest = new JsonObjectRequest(
                 Request.Method.GET,
-                "http://" + getIpAddress() + "/shops/"+getUser().getuID(), null,
+                "http://" + getIpAddress() + "/shops/" + getUser().getuID(), null,
                 response -> {
                     //Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
                     rlLoad.setVisibility(View.GONE);
                     //Loads shops starting with the one closest to user
                     try {
-                        if(response.getString("message").equals("shops")){
+                        if (response.getString("message").equals("shops")) {
                             JSONArray jsonArray = response.getJSONArray("shops");
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject Shops = jsonArray.getJSONObject(i);
@@ -137,7 +137,7 @@ public class MyShopsActivity extends AppCompatActivity {
                                         location, "10-15 mins", Shops.getInt("sRating"),
                                         Shops.getString("sOperatingHrs")));
                             }
-                        }else if (response.getString("message").equals("empty")){
+                        } else if (response.getString("message").equals("empty")) {
                             tvEmpty.setVisibility(View.VISIBLE);
                         }
                     } catch (JSONException e) {
@@ -168,4 +168,5 @@ public class MyShopsActivity extends AppCompatActivity {
     public static void setNewShop(MyShopItem newShop) {
         MyShopsActivity.newShop = newShop;
     }
+
 }

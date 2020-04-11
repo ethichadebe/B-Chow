@@ -303,4 +303,12 @@ public class IngredientsActivity extends AppCompatActivity {
         myDialog.setCanceledOnTouchOutside(false);
     }
 
+    @Override
+    public void onBackPressed() {
+        if (!ingredientItems.isEmpty()) {
+            ShowConfirmationPopup();
+        } else {
+            startActivity(new Intent(this, OperatingHoursActivity.class));
+        }
+    }
 }

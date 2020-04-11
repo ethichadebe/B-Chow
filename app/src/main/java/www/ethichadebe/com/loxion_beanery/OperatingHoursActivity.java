@@ -336,7 +336,6 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
         ShowPopup();
     }
 
