@@ -23,15 +23,15 @@ public class UserSettingsActivity extends AppCompatActivity {
     }
 
     public void back(View view) {
-        finish();
+        startActivity(new Intent(this, MainActivity.class));
     }
 
     public void MyShops(View view) {
-        startActivity(new Intent(UserSettingsActivity.this, MyShopsActivity.class));
+        startActivity(new Intent(this, MyShopsActivity.class));
 
     }
 
     public void Profile(View view) {
-        startActivity(new Intent(UserSettingsActivity.this, EditUserProfileActivity.class));
+        startActivity(new Intent(this, EditUserProfileActivity.class));
     }
 }
