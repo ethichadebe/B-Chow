@@ -93,7 +93,7 @@
                     android:id="@+id/ivLike"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
-                    android:src="@drawable/heart" />
+                    android:src="@drawable/ic_favorite_border_black_24dp" />
 
                 <TextView
                     android:id="@+id/tvLikes"
@@ -215,7 +215,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:fontFamily="sans-serif-medium"
-                android:text="Menu"
+                android:text="Kota Menu"
                 android:textColor="@color/Black"
                 android:textSize="18sp" />
 

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
@@ -24,16 +26,21 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 import Adapter.MenuItemAdapter;
+import SingleItem.ExtraItem;
 import SingleItem.MenuItem;
 import SingleItem.ShopItem;
+import util.HelperMethods;
 
 import static util.Constants.getIpAddress;
 import static util.HelperMethods.handler;
 import static www.ethichadebe.com.loxion_beanery.HomeFragment.getShopItem;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
+import static www.ethichadebe.com.loxion_beanery.MyShopsActivity.getNewShop;
 
 public class ShopHomeActivity extends AppCompatActivity {
 
@@ -46,6 +53,9 @@ public class ShopHomeActivity extends AppCompatActivity {
     private TextView tvName, tvDistance, tvAveTime, tvFullDescrpit;
     private ImageView ivStar1, ivStar2, ivStar3, ivStar4, ivStar5;
     private static MenuItem menuItem;
+    private Dialog myDialog;
+    private ImageView ivLike;
+    private LinearLayout llLike;
 
     public static MenuItem getMenuItem() {
         return menuItem;
@@ -60,7 +70,10 @@ public class ShopHomeActivity extends AppCompatActivity {
         }
 
         MenuItems = new ArrayList<>();
+        myDialog = new Dialog(this);
         tvName = findViewById(R.id.tvName);
+        ivLike = findViewById(R.id.ivLike);
+        llLike = findViewById(R.id.llLike);
         ivStar1 = findViewById(R.id.ivStar1);
         ivStar2 = findViewById(R.id.ivStar2);
         ivStar3 = findViewById(R.id.ivStar3);
@@ -74,6 +87,10 @@ public class ShopHomeActivity extends AppCompatActivity {
 
         if (getShopItem().getMenuItems() == null) {
             GETMenu(findViewById(R.id.vLine), findViewById(R.id.vLineGrey));
+        }
+
+        if (getShopItem().isLiked()){
+            ivLike.setImageResource(R.drawable.ic_favorite_red_24dp);
         }
 
         tvName.setText(getShopItem().getStrShopName());
@@ -204,6 +221,80 @@ public class ShopHomeActivity extends AppCompatActivity {
         startActivity(new Intent(ShopHomeActivity.this, MainActivity.class));
     }
 
-    public void like(View view) {
+    public void like(View view){
+        if(getShopItem().isLiked()){
+            DELETELike();
+        }else {
+            POSTLike();
+        }
+    }
+
+    private void POSTLike() {
+        llLike.setClickable(false);
+        HelperMethods.ShowLoadingPopup(myDialog, true);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,
+                "http://" + getIpAddress() + "/shoplikes/",
+                response -> {
+                    llLike.setClickable(true);
+                    HelperMethods.ShowLoadingPopup(myDialog, false);
+                    try {
+                        JSONObject JSONData = new JSONObject(response);
+                        if (JSONData.getString("data").equals("saved")) {
+                            ivLike.setImageResource(R.drawable.ic_favorite_red_24dp);
+                            getShopItem().setLiked(true);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }, error -> {
+            llLike.setClickable(true);
+            HelperMethods.ShowLoadingPopup(myDialog, false);
+            Toast.makeText(this, error.toString(), Toast.LENGTH_LONG).show();
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("sID",String.valueOf( getShopItem().getIntID()));
+                params.put("uID", String.valueOf(getUser().getuID()));
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
+    private void DELETELike() {
+        llLike.setClickable(false);
+        HelperMethods.ShowLoadingPopup(myDialog, true);
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+
+        JsonObjectRequest objectRequest = new JsonObjectRequest(
+                Request.Method.DELETE,
+                "http://" + getIpAddress() + "/shoplikes/"+getUser().getuID()+"/"+getShopItem().getIntID(),null,
+                response -> {
+                    llLike.setClickable(true);
+                    HelperMethods.ShowLoadingPopup(myDialog, false);
+                    try {
+                        JSONObject JSONData = new JSONObject(response.toString());
+                        if (JSONData.getString("data").equals("removed")) {
+                            ivLike.setImageResource(R.drawable.ic_favorite_border_black_24dp);
+                            getShopItem().setLiked(false);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    //Loads shops starting with the one closest to user
+                },
+                error -> {
+                    llLike.setClickable(true);
+                    if (error.toString().equals("com.android.volley.TimeoutError")) {
+                        Toast.makeText(this, "Connection error. Please retry", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+        requestQueue.add(objectRequest);
+
     }
 }

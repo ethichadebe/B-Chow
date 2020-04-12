@@ -110,7 +110,7 @@ public class HomeFragment extends Fragment {
 
         JsonObjectRequest objectRequest = new JsonObjectRequest(
                 Request.Method.GET,
-                "http://" + getIpAddress() + "/shops", null,
+                "http://" + getIpAddress() + "/shops/"+getUser().getuID(), null,
                 response -> {
                     //Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
                     rlLoad.setVisibility(View.GONE);
@@ -123,10 +123,14 @@ public class HomeFragment extends Fragment {
                             String[] strCoord = Shops.getString("sLocation").split(" ");
                             location.setLatitude(23.4);//Double.parseDouble(strCoord[0]));
                             location.setLongitude(32.5);//Double.parseDouble(strCoord[1]));
+                            boolean isLiked = false;
+                            if(Shops.getInt("isLiked")==1){
+                                isLiked = true;
+                            }
                             shopItems.add(new ShopItem(Shops.getInt("sID"), Shops.getString("sName"), R.drawable.food,
                                     R.drawable.biglogo, Shops.getString("sShortDescrption"),
                                     Shops.getString("sFullDescription"), location, Shops.getString("sLocation"),
-                                    Shops.getInt("sRating"), Shops.getString("sOperatingHrs")));
+                                    Shops.getInt("sRating"), Shops.getString("sOperatingHrs"), isLiked));
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();

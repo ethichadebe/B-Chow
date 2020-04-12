@@ -34,4 +34,9 @@ public class UserSettingsActivity extends AppCompatActivity {
     public void Profile(View view) {
         startActivity(new Intent(this, EditUserProfileActivity.class));
     }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this, MainActivity.class));
+    }
 }

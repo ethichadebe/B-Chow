@@ -37,51 +37,39 @@ public class RatingActivity extends AppCompatActivity {
         llBack = findViewById(R.id.llBack);
         btnNext = findViewById(R.id.btnNext);
 
-        ivStar1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ivStar1.setImageResource(R.drawable.star);
-                ivStar2.setImageResource(R.drawable.star_empty);
-                ivStar3.setImageResource(R.drawable.star_empty);
-                ivStar4.setImageResource(R.drawable.star_empty);
-                ivStar5.setImageResource(R.drawable.star_empty);
-                //getPastOrderItem(getPosition()).setIntRating(1);
-            }
+        ivStar1.setOnClickListener(view -> {
+            ivStar1.setImageResource(R.drawable.star);
+            ivStar2.setImageResource(R.drawable.star_empty);
+            ivStar3.setImageResource(R.drawable.star_empty);
+            ivStar4.setImageResource(R.drawable.star_empty);
+            ivStar5.setImageResource(R.drawable.star_empty);
+            //getPastOrderItem(getPosition()).setIntRating(1);
         });
-        ivStar2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ivStar1.setImageResource(R.drawable.star);
-                ivStar2.setImageResource(R.drawable.star);
-                ivStar3.setImageResource(R.drawable.star_empty);
-                ivStar4.setImageResource(R.drawable.star_empty);
-                ivStar5.setImageResource(R.drawable.star_empty);
-                //getPastOrderItem(getPosition()).setIntRating(2);
-            }
+        ivStar2.setOnClickListener(view -> {
+            ivStar1.setImageResource(R.drawable.star);
+            ivStar2.setImageResource(R.drawable.star);
+            ivStar3.setImageResource(R.drawable.star_empty);
+            ivStar4.setImageResource(R.drawable.star_empty);
+            ivStar5.setImageResource(R.drawable.star_empty);
+            //getPastOrderItem(getPosition()).setIntRating(2);
         });
 
-        ivStar3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ivStar1.setImageResource(R.drawable.star);
-                ivStar2.setImageResource(R.drawable.star);
-                ivStar3.setImageResource(R.drawable.star);
-                ivStar4.setImageResource(R.drawable.star_empty);
-                ivStar5.setImageResource(R.drawable.star_empty);
-               // getPastOrderItem(getPosition()).setIntRating(3);
-            }
+        ivStar3.setOnClickListener(view  -> {
+            ivStar1.setImageResource(R.drawable.star);
+            ivStar2.setImageResource(R.drawable.star);
+            ivStar3.setImageResource(R.drawable.star);
+            ivStar4.setImageResource(R.drawable.star_empty);
+            ivStar5.setImageResource(R.drawable.star_empty);
+           // getPastOrderItem(getPosition()).setIntRating(3);
         });
 
-        ivStar4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ivStar1.setImageResource(R.drawable.star);
-                ivStar2.setImageResource(R.drawable.star);
-                ivStar3.setImageResource(R.drawable.star);
-                ivStar4.setImageResource(R.drawable.star);
-                ivStar5.setImageResource(R.drawable.star_empty);
-               // getPastOrderItem(getPosition()).setIntRating(4);
-            }
+        ivStar4.setOnClickListener(view -> {
+            ivStar1.setImageResource(R.drawable.star);
+            ivStar2.setImageResource(R.drawable.star);
+            ivStar3.setImageResource(R.drawable.star);
+            ivStar4.setImageResource(R.drawable.star);
+            ivStar5.setImageResource(R.drawable.star_empty);
+           // getPastOrderItem(getPosition()).setIntRating(4);
         });
 
         ivStar5.setOnClickListener(view -> {

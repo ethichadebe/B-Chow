@@ -6,20 +6,16 @@ import java.util.ArrayList;
 
 public class ShopItem {
     private int intID;
-    private String strShopName;
-    private int intLogoSmall;
-    private int intLogoBig;
-    private String strShortDescript;
-    private String strFullDescript;
+    private String strShopName,strShortDescript,strFullDescript,strAveTime,strOperatingHRS;
+    private int intLogoSmall,intLogoBig,intRating, intLikes;
     private Location locLocation;
-    private String strAveTime;
-    private int intRating;
-    private String strOperatingHRS;
     private ArrayList<IngredientItem> ingredientItems;
     private ArrayList<MenuItem> menuItems;
+    private boolean isLiked;
 
     public ShopItem(int intID, String strShopName, int intLogoSmall, int intLogoBig, String strShortDescript,
-                    String strFullDescript, Location locLocation, String strAveTime, int intRating, String strOperatingHRS) {
+                    String strFullDescript, Location locLocation, String strAveTime, int intRating, String strOperatingHRS,int intLikes;
+                    boolean isLiked) {
         this.intID = intID;
         this.strShopName = strShopName;
         this.intLogoSmall = intLogoSmall;
@@ -30,6 +26,7 @@ public class ShopItem {
         this.strAveTime = strAveTime;
         this.intRating = intRating;
         this.strOperatingHRS = strOperatingHRS;
+        this.isLiked = isLiked;
     }
 
     public int getIntID() {
@@ -126,6 +123,14 @@ public class ShopItem {
 
     public void setMenuItems(ArrayList<MenuItem> menuItems) {
         this.menuItems = menuItems;
+    }
+
+    public boolean isLiked() {
+        return isLiked;
+    }
+
+    public void setLiked(boolean liked) {
+        isLiked = liked;
     }
 }
 

@@ -38,7 +38,6 @@ import static util.HelperMethods.handler;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 
 public class OrdersFragment extends Fragment {
-    private static ArrayList<PastOrderItem> pastOrderItems = new ArrayList<>();
     private View vLeft, vRight, vBottomRight, vBottomLeft;
     private RelativeLayout rlLeft, rlRight;
 
@@ -82,26 +81,6 @@ public class OrdersFragment extends Fragment {
             setVisibility(View.GONE, View.VISIBLE, mPastRecyclerView, mUpcomingRecyclerView);
             GETUpcomingOrders(v.findViewById(R.id.vLine), v.findViewById(R.id.vLineGrey));
         });
-        mPastRecyclerView.setHasFixedSize(true);
-        mPastLayoutManager = new LinearLayoutManager(getActivity());
-        mPastAdapter = new PastOrderItemAdapter(pastOrderItems);
-
-        mPastRecyclerView.setLayoutManager(mPastLayoutManager);
-        mPastRecyclerView.setAdapter(mPastAdapter);
-
-        mPastAdapter.setOnItemClickListener(new PastOrderItemAdapter.OnItemClickListener() {
-            @Override
-            public void OnItemClick(int position) {
-                /*shopItems.get(position)*/
-                startActivity(new Intent(getActivity(), ShopHomeActivity.class));
-            }
-
-            @Override
-            public void OnItemClickRate(int position) {
-                Position = position;
-                startActivity(new Intent(getActivity(), RatingActivity.class));
-            }
-        });
         return v;
     }
 
@@ -140,8 +119,9 @@ public class OrdersFragment extends Fragment {
                         JSONArray jsonArray = response.getJSONArray("orders");
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject Orders = jsonArray.getJSONObject(i);
+                            String[] dateAndTime = Orders.getString("createdAt").split("T");
                             upcomingOrderItems.add(new UpcomingOrderItem(Orders.getInt("oID"),
-                                    Orders.getString("sName"), Orders.getInt("oID"), Orders.getString("sName"),
+                                    Orders.getString("sName"), Orders.getInt("oID"), dateAndTime[1].substring(0, 5),
                                     Orders.getString("oIngredients"), Orders.getDouble("oPrice")));
                         }
                         mUpcomingRecyclerView.setHasFixedSize(true);
@@ -184,14 +164,36 @@ public class OrdersFragment extends Fragment {
                     rlLoad.setVisibility(View.GONE);
                     //Loads shops starting with the one closest to user
                     try {
+                        ArrayList<PastOrderItem> pastOrderItems = new ArrayList<>();
                         JSONArray jsonArray = response.getJSONArray("orders");
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject Orders = jsonArray.getJSONObject(i);
+                            String[] dateAndTime = Orders.getString("createdAt").split("T");
                             pastOrderItems.add(new PastOrderItem(Orders.getInt("oID"), Orders.getString("sName"),
-                                    Orders.getInt("oID"), Orders.getString("createdAt"),
+                                    Orders.getInt("oID"), dateAndTime[0] + " " + dateAndTime[1].substring(0, 5),
                                     Orders.getString("oIngredients"), Orders.getDouble("oPrice"),
                                     Orders.getInt("oRating")));
                         }
+                        mPastRecyclerView.setHasFixedSize(true);
+                        mPastLayoutManager = new LinearLayoutManager(getActivity());
+                        mPastAdapter = new PastOrderItemAdapter(pastOrderItems);
+
+                        mPastRecyclerView.setLayoutManager(mPastLayoutManager);
+                        mPastRecyclerView.setAdapter(mPastAdapter);
+
+                        mPastAdapter.setOnItemClickListener(new PastOrderItemAdapter.OnItemClickListener() {
+                            @Override
+                            public void OnItemClick(int position) {
+                                /*shopItems.get(position)*/
+                                startActivity(new Intent(getActivity(), ShopHomeActivity.class));
+                            }
+
+                            @Override
+                            public void OnItemClickRate(int position) {
+                                Position = position;
+                                startActivity(new Intent(getActivity(), RatingActivity.class));
+                            }
+                        });
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
