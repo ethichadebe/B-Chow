@@ -82,7 +82,7 @@
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:hint="@string/phone_number"
-                    android:inputType="textPersonName"
+                    android:inputType="number"
                     android:textSize="14sp"
                     app:met_floatingLabel="highlight"
                     app:met_helperText="" />

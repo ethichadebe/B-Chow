@@ -207,7 +207,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-medium"
-            android:text="Seems like there aren't any shops near you."
+            android:text="Seems like there aren't any shops available"
             android:textColor="@color/Grey"
             android:textSize="20sp"
             android:visibility="gone" />

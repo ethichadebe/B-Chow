@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -39,9 +40,10 @@ import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 
 public class OrdersFragment extends Fragment {
     private View vLeft, vRight, vBottomRight, vBottomLeft;
-    private RelativeLayout rlLeft, rlRight;
+    private RelativeLayout rlLeft, rlRight,rlEmpty;
 
     private RelativeLayout rlLoad, rlError;
+    private CardView cvStartOrdering;
     private RecyclerView mPastRecyclerView;
     private PastOrderItemAdapter mPastAdapter;
     private RecyclerView.LayoutManager mPastLayoutManager;
@@ -61,9 +63,11 @@ public class OrdersFragment extends Fragment {
         }
         vBottomLeft = v.findViewById(R.id.vBottomLeft);
         vBottomRight = v.findViewById(R.id.vBottomRight);
+        rlEmpty = v.findViewById(R.id.rlEmpty);
         vLeft = v.findViewById(R.id.vLeft);
         rlLoad = v.findViewById(R.id.rlLoad);
         rlError = v.findViewById(R.id.rlError);
+        cvStartOrdering = v.findViewById(R.id.cvStartOrdering);
         vRight = v.findViewById(R.id.vRight);
         rlLeft = v.findViewById(R.id.rlLeft);
         rlRight = v.findViewById(R.id.rlRight);
@@ -77,6 +81,9 @@ public class OrdersFragment extends Fragment {
             GETPastOrders(v.findViewById(R.id.vLine), v.findViewById(R.id.vLineGrey));
         });
 
+        cvStartOrdering.setOnClickListener(view -> {
+            startActivity(new Intent(getActivity(), MainActivity.class));
+        });
         rlRight.setOnClickListener(view -> {
             setVisibility(View.GONE, View.VISIBLE, mPastRecyclerView, mUpcomingRecyclerView);
             GETUpcomingOrders(v.findViewById(R.id.vLine), v.findViewById(R.id.vLineGrey));
@@ -95,12 +102,12 @@ public class OrdersFragment extends Fragment {
         recyclerViewVISIBLE.setVisibility(View.VISIBLE);
     }
 
-
     public static int getPosition() {
         return Position;
     }
 
     private void GETUpcomingOrders(View vLine, View vLineGrey) {
+        rlEmpty.setVisibility(View.GONE);
         rlError.setVisibility(View.GONE);
         rlLoad.setVisibility(View.VISIBLE);
         handler(vLine, vLineGrey);
@@ -116,13 +123,17 @@ public class OrdersFragment extends Fragment {
                     rlLoad.setVisibility(View.GONE);
                     //Loads shops starting with the one closest to user
                     try {
-                        JSONArray jsonArray = response.getJSONArray("orders");
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            JSONObject Orders = jsonArray.getJSONObject(i);
-                            String[] dateAndTime = Orders.getString("createdAt").split("T");
-                            upcomingOrderItems.add(new UpcomingOrderItem(Orders.getInt("oID"),
-                                    Orders.getString("sName"), Orders.getInt("oID"), dateAndTime[1].substring(0, 5),
-                                    Orders.getString("oIngredients"), Orders.getDouble("oPrice")));
+                        if (response.getString("message").equals("orders")) {
+                            JSONArray jsonArray = response.getJSONArray("orders");
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject Orders = jsonArray.getJSONObject(i);
+                                String[] dateAndTime = Orders.getString("createdAt").split("T");
+                                upcomingOrderItems.add(new UpcomingOrderItem(Orders.getInt("oID"),
+                                        Orders.getString("sName"), Orders.getInt("oID"), dateAndTime[1].substring(0, 5),
+                                        Orders.getString("oIngredients"), Orders.getDouble("oPrice")));
+                            }
+                        } else if (response.getString("message").equals("empty")) {
+                            rlEmpty.setVisibility(View.VISIBLE);
                         }
                         mUpcomingRecyclerView.setHasFixedSize(true);
                         mUpcomingLayoutManager = new LinearLayoutManager(getActivity());
@@ -151,6 +162,7 @@ public class OrdersFragment extends Fragment {
     }
 
     private void GETPastOrders(View vLine, View vLineGrey) {
+        rlEmpty.setVisibility(View.GONE);
         rlError.setVisibility(View.GONE);
         rlLoad.setVisibility(View.VISIBLE);
         handler(vLine, vLineGrey);
@@ -165,14 +177,18 @@ public class OrdersFragment extends Fragment {
                     //Loads shops starting with the one closest to user
                     try {
                         ArrayList<PastOrderItem> pastOrderItems = new ArrayList<>();
-                        JSONArray jsonArray = response.getJSONArray("orders");
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            JSONObject Orders = jsonArray.getJSONObject(i);
-                            String[] dateAndTime = Orders.getString("createdAt").split("T");
-                            pastOrderItems.add(new PastOrderItem(Orders.getInt("oID"), Orders.getString("sName"),
-                                    Orders.getInt("oID"), dateAndTime[0] + " " + dateAndTime[1].substring(0, 5),
-                                    Orders.getString("oIngredients"), Orders.getDouble("oPrice"),
-                                    Orders.getInt("oRating")));
+                        if (response.getString("message").equals("orders")) {
+                            JSONArray jsonArray = response.getJSONArray("orders");
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject Orders = jsonArray.getJSONObject(i);
+                                String[] dateAndTime = Orders.getString("createdAt").split("T");
+                                pastOrderItems.add(new PastOrderItem(Orders.getInt("oID"), Orders.getString("sName"),
+                                        Orders.getInt("oID"), dateAndTime[0] + " " + dateAndTime[1].substring(0, 5),
+                                        Orders.getString("oIngredients"), Orders.getDouble("oPrice"),
+                                        Orders.getInt("oRating")));
+                            }
+                        } else if (response.getString("message").equals("empty")) {
+                            rlEmpty.setVisibility(View.VISIBLE);
                         }
                         mPastRecyclerView.setHasFixedSize(true);
                         mPastLayoutManager = new LinearLayoutManager(getActivity());

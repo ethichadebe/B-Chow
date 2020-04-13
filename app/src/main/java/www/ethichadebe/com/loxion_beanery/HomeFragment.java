@@ -116,21 +116,25 @@ public class HomeFragment extends Fragment {
                     rlLoad.setVisibility(View.GONE);
                     //Loads shops starting with the one closest to user
                     try {
-                        JSONArray jsonArray = response.getJSONArray("shops");
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            JSONObject Shops = jsonArray.getJSONObject(i);
-                            Location location = new Location("");
-                            String[] strCoord = Shops.getString("sLocation").split(" ");
-                            location.setLatitude(23.4);//Double.parseDouble(strCoord[0]));
-                            location.setLongitude(32.5);//Double.parseDouble(strCoord[1]));
-                            boolean isLiked = false;
-                            if(Shops.getInt("isLiked")==1){
-                                isLiked = true;
+                        if (response.getString("message").equals("shops")) {
+                            JSONArray jsonArray = response.getJSONArray("shops");
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject Shops = jsonArray.getJSONObject(i);
+                                Location location = new Location("");
+                                String[] strCoord = Shops.getString("sLocation").split(" ");
+                                location.setLatitude(Double.parseDouble(strCoord[0]));
+                                location.setLongitude(Double.parseDouble(strCoord[1]));
+                                boolean isLiked = false;
+                                if(Shops.getInt("isLiked")==1){
+                                    isLiked = true;
+                                }
+                                shopItems.add(new ShopItem(Shops.getInt("sID"), Shops.getString("sName"), R.drawable.food,
+                                        R.drawable.biglogo, Shops.getString("sShortDescrption"),
+                                        Shops.getString("sFullDescription"), location, Shops.getString("sLocation"),
+                                        Shops.getInt("sRating"), Shops.getString("sOperatingHrs"),Shops.getInt("sLikes"), isLiked));
                             }
-                            shopItems.add(new ShopItem(Shops.getInt("sID"), Shops.getString("sName"), R.drawable.food,
-                                    R.drawable.biglogo, Shops.getString("sShortDescrption"),
-                                    Shops.getString("sFullDescription"), location, Shops.getString("sLocation"),
-                                    Shops.getInt("sRating"), Shops.getString("sOperatingHrs"),Shops.getInt("sLikes"), isLiked));
+                        } else if (response.getString("message").equals("empty")) {
+                            tvEmpty.setVisibility(View.VISIBLE);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();

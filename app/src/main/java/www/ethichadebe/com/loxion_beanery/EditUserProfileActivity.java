@@ -191,9 +191,9 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
     public void save(View view) {
         boolean allIsWell = false;
         for (int i = 0; i < mTextBoxes.length; i++) {
-            if (!allFieldsEntered(mTextBoxes, getResources().getColor(R.color.Red), getResources().getColor(R.color.Black))) {
+            if (!allFieldsEntered(mTextBoxes, getResources().getColor(R.color.Black))) {
                 mViewError.setText(R.string.enter_all_required_details);
-            } else if (allFieldsEntered(mTextBoxes, getResources().getColor(R.color.Red), getResources().getColor(R.color.Black))) {
+            } else if (allFieldsEntered(mTextBoxes, getResources().getColor(R.color.Black))) {
                 allIsWell = true;
             }
         }

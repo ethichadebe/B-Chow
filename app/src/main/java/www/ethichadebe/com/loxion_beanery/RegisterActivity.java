@@ -101,6 +101,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
 
         //Handling Checkbox click events
         mCBMale.setOnClickListener(view -> {
+            sexIsChecked();
             if (mCBMale.isChecked()) {
                 mCBFemale.setChecked(false);
                 mCBOther.setChecked(false);
@@ -110,6 +111,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
             }
         });
         mCBOther.setOnClickListener(view -> {
+            sexIsChecked();
             if (mCBOther.isChecked()) {
                 mCBMale.setChecked(false);
                 mCBFemale.setChecked(false);
@@ -119,6 +121,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
             }
         });
         mCBFemale.setOnClickListener(view -> {
+            sexIsChecked();
             if (mCBFemale.isChecked()) {
                 mCBMale.setChecked(false);
                 mCBOther.setChecked(false);
