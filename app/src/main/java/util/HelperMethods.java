@@ -98,6 +98,10 @@ public class HelperMethods {
         Username.setText(sharedPreferences.getString(USERNAME, ""));
     }
 
+    public static boolean sharedPrefsIsEmpty(SharedPreferences sharedPreferences){
+        return Objects.requireNonNull(sharedPreferences.getString(PASSWORD, "")).isEmpty();
+    }
+
     public static String combineString(ArrayList<IngredientItemCheckbox> ingredientItems) {
         StringBuilder MenuList = new StringBuilder();
         for (int i = 0; i < ingredientItems.size(); i++) {

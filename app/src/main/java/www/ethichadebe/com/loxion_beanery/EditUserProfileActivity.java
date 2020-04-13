@@ -9,6 +9,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
@@ -34,8 +35,12 @@ import java.util.Objects;
 
 import util.HelperMethods;
 
+import static android.provider.Telephony.Carriers.PASSWORD;
 import static util.Constants.getIpAddress;
+import static util.HelperMethods.SHARED_PREFS;
 import static util.HelperMethods.allFieldsEntered;
+import static util.HelperMethods.saveData;
+import static util.HelperMethods.sharedPrefsIsEmpty;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 
 public class EditUserProfileActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
@@ -267,6 +272,12 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
                                 Toast.makeText(EditUserProfileActivity.this, "Saved", Toast.LENGTH_LONG).show();
                                 getUser().setuNumber(JSONResponse.getString("uNumber"));
                                 tvNumber.setText(getUser().getuNumber());
+                                if (!sharedPrefsIsEmpty(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE))){
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                                        saveData(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE), getUser().getuNumber(),
+                                                getSharedPreferences(SHARED_PREFS, MODE_PRIVATE).getString("Password", ""));
+                                    }
+                                }
                                 break;
                             default:
                                 Toast.makeText(EditUserProfileActivity.this, "Something went wrong, try again", Toast.LENGTH_LONG).show();
