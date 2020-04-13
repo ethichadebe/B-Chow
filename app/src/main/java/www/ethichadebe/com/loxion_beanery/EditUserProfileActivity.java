@@ -184,7 +184,14 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
     }
 
     public void back(View view) {
-        ShowConfirmationPopup();
+        if (!(Objects.requireNonNull(mTextBoxes[0].getText()).toString().equals(getUser().getuName())) ||
+                !(Objects.requireNonNull(mTextBoxes[1].getText()).toString().equals(getUser().getuSurname())) ||
+                !(Objects.requireNonNull(mTextBoxes[2].getText()).toString().equals(getUser().getuDOB())) ||
+                !UserSex.equals(getUser().getuSex())){
+            ShowConfirmationPopup();
+        }else {
+            finish();
+        }
     }
 
     public void save(View view) {
@@ -336,7 +343,14 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
 
     @Override
     public void onBackPressed() {
-        ShowConfirmationPopup();
+        if (!(Objects.requireNonNull(mTextBoxes[0].getText()).toString().equals(getUser().getuName())) ||
+                !(Objects.requireNonNull(mTextBoxes[1].getText()).toString().equals(getUser().getuSurname())) ||
+                !(Objects.requireNonNull(mTextBoxes[2].getText()).toString().equals(getUser().getuDOB())) ||
+                !UserSex.equals(getUser().getuSex())){
+            ShowConfirmationPopup();
+        }else {
+            finish();
+        }
     }
 
     public void editEmail(View view) {

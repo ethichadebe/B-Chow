@@ -207,7 +207,6 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
     }
 
     public void back(View view) {
-        if (())
         ShowPopup();
     }
 
