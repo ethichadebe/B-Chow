@@ -1,19 +1,18 @@
 package www.ethichadebe.com.loxion_beanery;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 
 public class MainActivity extends AppCompatActivity {
+    private static int intFragment;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,38 +23,28 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView bottomNav= findViewById(R.id.bottom_navigation );
 
+        //Start Fragment
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                 new HomeFragment()).commit();
-        bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                Fragment selectedFragment = null;
 
-                switch (menuItem.getItemId()){
-                    case R.id.nav_home:
-                        selectedFragment = new HomeFragment();
-                        break;
-                    case R.id.nav_orders:
-                        selectedFragment = new OrdersFragment();
-                        break;
-                    case R.id.nav_profile:
-                        selectedFragment = new ProfileFragment();
-                        break;
-                }
-
+        //On Back Press
+        switch (intFragment){
+            case 1:
+                intFragment = -1;
+                bottomNav.setSelectedItemId(R.id.nav_orders);
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        selectedFragment).commit();
+                        new OrdersFragment()).commit();
 
-                return true;
-            }
-        });
+                break;
+            case 2:
+                intFragment = -1;
+                bottomNav.setSelectedItemId(R.id.nav_profile);
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new ProfileFragment()).commit();
+                break;
+        }
 
-
-    }
-
-    private BottomNavigationView.OnNavigationItemSelectedListener navListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        bottomNav.setOnNavigationItemSelectedListener(menuItem -> {
             Fragment selectedFragment = null;
 
             switch (menuItem.getItemId()){
@@ -70,14 +59,21 @@ public class MainActivity extends AppCompatActivity {
                     break;
             }
 
+            assert selectedFragment != null;
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     selectedFragment).commit();
+
             return true;
-        }
-    };
+        });
+
+    }
 
     @Override
     public void onBackPressed() {
         this.finishAffinity();
+    }
+
+    public static void setIntFragment(int intFragment) {
+        MainActivity.intFragment = intFragment;
     }
 }

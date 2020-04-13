@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
+import static www.ethichadebe.com.loxion_beanery.MainActivity.setIntFragment;
 
 public class UserSettingsActivity extends AppCompatActivity {
 
@@ -23,6 +24,7 @@ public class UserSettingsActivity extends AppCompatActivity {
     }
 
     public void back(View view) {
+        setIntFragment(2);
         startActivity(new Intent(this, MainActivity.class));
     }
 
@@ -37,6 +39,7 @@ public class UserSettingsActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        setIntFragment(2);
         startActivity(new Intent(this, MainActivity.class));
     }
 }
