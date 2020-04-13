@@ -26,6 +26,15 @@
                 android:layout_centerHorizontal="true"
                 android:textColor="@color/Black"/>
 
+        <TextView
+            android:id="@+id/tvTime"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="14sp"
+            android:text="15:20"
+            android:fontFamily="sans-serif-light"
+            android:textColor="@color/Black"/>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -68,15 +77,6 @@
                 android:fontFamily="sans-serif-medium"
                 android:textColor="@color/Black"
                 android:layout_marginTop="10dp"/>
-
-            <TextView
-                android:id="@+id/tvTime"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:textSize="14sp"
-                android:text="15:20"
-                android:fontFamily="sans-serif-light"
-                android:textColor="@color/Black"/>
 
             <LinearLayout
                 android:id="@+id/llStars"

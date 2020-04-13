@@ -109,13 +109,13 @@ public class OrderActivity extends AppCompatActivity {
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject Ingredient = jsonArray.getJSONObject(i);
                             if (isChecked(Ingredient.getString("iName"))) {
-                                ingredientItems.add(new IngredientItemCheckbox(Ingredient.getInt("iID"), Ingredient.getString("iName"), Ingredient.getDouble("iPrice"), true, false));
+                                ingredientItems.add(new IngredientItemCheckbox(Ingredient.getInt("iID"), Ingredient.getString("iName"), Ingredient.getDouble("iPrice"), true));
                             }
                         }
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject Ingredient = jsonArray.getJSONObject(i);
                             if (!isChecked(Ingredient.getString("iName"))) {
-                                ingredientItems.add(new IngredientItemCheckbox(Ingredient.getInt("iID"), Ingredient.getString("iName"), Ingredient.getDouble("iPrice"), false, true));
+                                ingredientItems.add(new IngredientItemCheckbox(Ingredient.getInt("iID"), Ingredient.getString("iName"), Ingredient.getDouble("iPrice"), false));
                             }
                         }
                         tvTotal.setText("R" + dblPrice);

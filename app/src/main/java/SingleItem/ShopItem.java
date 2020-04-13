@@ -14,8 +14,8 @@ public class ShopItem {
     private boolean isLiked;
 
     public ShopItem(int intID, String strShopName, int intLogoSmall, int intLogoBig, String strShortDescript,
-                    String strFullDescript, Location locLocation, String strAveTime, int intRating, String strOperatingHRS,int intLikes;
-                    boolean isLiked) {
+                    String strFullDescript, Location locLocation, String strAveTime, int intRating, String strOperatingHRS,
+                    int intLikes, boolean isLiked) {
         this.intID = intID;
         this.strShopName = strShopName;
         this.intLogoSmall = intLogoSmall;
@@ -26,6 +26,7 @@ public class ShopItem {
         this.strAveTime = strAveTime;
         this.intRating = intRating;
         this.strOperatingHRS = strOperatingHRS;
+        this.intLikes = intLikes;
         this.isLiked = isLiked;
     }
 

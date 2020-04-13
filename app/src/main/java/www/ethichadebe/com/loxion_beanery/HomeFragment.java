@@ -130,7 +130,7 @@ public class HomeFragment extends Fragment {
                             shopItems.add(new ShopItem(Shops.getInt("sID"), Shops.getString("sName"), R.drawable.food,
                                     R.drawable.biglogo, Shops.getString("sShortDescrption"),
                                     Shops.getString("sFullDescription"), location, Shops.getString("sLocation"),
-                                    Shops.getInt("sRating"), Shops.getString("sOperatingHrs"), isLiked));
+                                    Shops.getInt("sRating"), Shops.getString("sOperatingHrs"),Shops.getInt("sLikes"), isLiked));
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();

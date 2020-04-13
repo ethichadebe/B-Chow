@@ -35,4 +35,9 @@
     <string name="other">Other</string>
     <string name="upcoming_orders">Upcoming orders</string>
     <string name="past_orders">Past orders</string>
+    <string name="remember_me">Remember me</string>
+    <string name="forgot_password">Forgot Password</string>
+    <string name="error_symbol">Error symbol</string>
+    <string name="network_error_occurred">Network error occurred</string>
+    <string name="retry">Retry</string>
 </resources>

@@ -88,13 +88,12 @@ public class HelperMethods {
     }
 
 
-    public static boolean allFieldsEntered(MaterialEditText[] mText, int Red, int Grey) {
+    public static boolean allFieldsEntered(MaterialEditText[] mText, int Grey) {
         boolean allEntered = true;
         for (int i = 0; i < mText.length; i++) {
             if (Objects.requireNonNull(mText[i].getText()).toString().isEmpty()) {
                 MakeGrey(mText, i, Grey);
                 mText[i].setError("Required field");
-                mText[i].setUnderlineColor(Red);
                 allEntered = false;
             }
         }

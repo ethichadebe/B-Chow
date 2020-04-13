@@ -4,23 +4,20 @@ public class IngredientItemCheckbox {
     private int intID;
     private String strIngredientName;
     private Double dblPrice;
-    private Boolean isChecked, Clickability;
+    private Boolean isChecked;
 
-    public IngredientItemCheckbox(IngredientItem ingredientItem, boolean isChecked, boolean clickability){
+    public IngredientItemCheckbox(IngredientItem ingredientItem, boolean isChecked){
         this.intID = ingredientItem.getIntID();
         this.strIngredientName = ingredientItem.getStrIngredientName();
         this.dblPrice = ingredientItem.getDblPrice();
         this.isChecked = isChecked;
-        Clickability = clickability;
-
     }
 
-    public IngredientItemCheckbox(int intID, String strIngredientName, Double dblPrice, Boolean isChecked, Boolean clickability) {
+    public IngredientItemCheckbox(int intID, String strIngredientName, Double dblPrice, Boolean isChecked) {
         this.intID = intID;
         this.strIngredientName = strIngredientName;
         this.dblPrice = dblPrice;
         this.isChecked = isChecked;
-        Clickability = clickability;
     }
 
     public int getIntID() {
@@ -53,13 +50,5 @@ public class IngredientItemCheckbox {
 
     public void setChecked(Boolean checked) {
         isChecked = checked;
-    }
-
-    public Boolean getClickability() {
-        return Clickability;
-    }
-
-    public void setClickability(Boolean clickability) {
-        Clickability = clickability;
     }
 }

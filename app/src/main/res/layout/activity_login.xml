@@ -81,7 +81,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:hint="@string/username"
+                    android:hint="@string/phone_number"
                     android:inputType="textPersonName"
                     android:textSize="14sp"
                     app:met_floatingLabel="highlight"
@@ -92,7 +92,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:hint="Password"
+                    android:hint="@string/password"
                     android:inputType="textPersonName"
                     android:textSize="14sp"
                     app:met_floatingLabel="highlight"
@@ -103,7 +103,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="Remember me" />
+                    android:text="@string/remember_me" />
             </LinearLayout>
 
             <androidx.cardview.widget.CardView
@@ -188,7 +188,7 @@
                 android:background="@drawable/ripple_effect_white"
                 android:fontFamily="sans-serif-medium"
                 android:gravity="center"
-                android:text="Forgot Password"
+                android:text="@string/forgot_password"
                 android:textAllCaps="true"
                 android:textColor="@color/Black"
                 android:textSize="14sp" />
@@ -220,7 +220,8 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/ic_error_outline_white_24dp" />
+                    android:src="@drawable/ic_error_outline_white_24dp"
+                    android:contentDescription="@string/error_symbol" />
 
                 <TextView
                     android:id="@+id/tvShopName"
@@ -230,7 +231,7 @@
                     android:layout_toEndOf="@id/ivSign"
                     android:fontFamily="sans-serif-light"
                     android:gravity="center"
-                    android:text="Network error occurred"
+                    android:text="@string/network_error_occurred"
                     android:textColor="@color/White"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -255,7 +256,7 @@
                         android:background="@drawable/ripple_effect_white"
                         android:fontFamily="sans-serif-medium"
                         android:gravity="center"
-                        android:text="Retry"
+                        android:text="@string/retry"
                         android:textAllCaps="false"
                         android:textColor="@color/Red"
                         android:textSize="14sp" />

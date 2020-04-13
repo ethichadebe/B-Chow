@@ -32,27 +32,25 @@ public class UpcomingOrderItemAdapter extends RecyclerView.Adapter<UpcomingOrder
 
     }
 
-    public static class OrderViewHolder extends RecyclerView.ViewHolder{
+    static class OrderViewHolder extends RecyclerView.ViewHolder{
 
-        private TextView tvShopName, tvPrice, tvMenu, tvOrderNum, tvTime;
+        private TextView tvShopName, tvPrice, tvMenu, tvOrderNum, tvTime,tvStatus;
         private CardView cvTrack;
 
-        public OrderViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
+        OrderViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
             tvShopName = itemView.findViewById(R.id.tvShopName);
             tvPrice = itemView.findViewById(R.id.tvPrice);
             tvMenu = itemView.findViewById(R.id.tvMenu);
             tvOrderNum = itemView.findViewById(R.id.tvOrderNum);
+            tvStatus = itemView.findViewById(R.id.tvStatus);
             tvTime = itemView.findViewById(R.id.tvTime);
             cvTrack = itemView.findViewById(R.id.cvTrack);
-            cvTrack.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (listener != null){
-                        int position =getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION){
-                            listener.OnItemClickTrack(position);
-                        }
+            cvTrack.setOnClickListener(view -> {
+                if (listener != null){
+                    int position =getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION){
+                        listener.OnItemClickTrack(position);
                     }
                 }
             });
@@ -67,9 +65,8 @@ public class UpcomingOrderItemAdapter extends RecyclerView.Adapter<UpcomingOrder
     @Override
     public OrderViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.my_upcoming_order_item, parent, false);
-        OrderViewHolder svh = new OrderViewHolder(v, mListener);
 
-        return svh;
+        return new OrderViewHolder(v, mListener);
     }
 
     @Override
@@ -81,6 +78,7 @@ public class UpcomingOrderItemAdapter extends RecyclerView.Adapter<UpcomingOrder
         holder.tvMenu.setText(item.getStrMenu());
         holder.tvOrderNum.setText("Order number: " + item.getIntOrderNum());
         holder.tvTime.setText(item.getStrTime());
+        holder.tvStatus.setText("Status");
     }
 
     @Override

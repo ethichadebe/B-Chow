@@ -43,7 +43,7 @@
                 android:id="@+id/rellay1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                    android:visibility="gone">
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/tv_login"
@@ -83,7 +83,7 @@
                         android:inputType="textPersonName"
                         android:textSize="14sp"
                         app:met_floatingLabel="highlight"
-                        app:met_helperText="hel[p" />
+                        app:met_helperText="" />
 
                     <com.rengwuxian.materialedittext.MaterialEditText
                         android:id="@+id/txtDOB"
@@ -165,7 +165,7 @@
                         android:layout_height="wrap_content"
                         android:ems="10"
                         android:hint="@string/password"
-                        android:inputType="textPersonName"
+                        android:inputType="textPassword"
                         android:textSize="14sp"
                         app:met_floatingLabel="highlight"
                         app:met_helperText="" />
@@ -176,7 +176,7 @@
                         android:layout_height="wrap_content"
                         android:ems="10"
                         android:hint="@string/confirm_password"
-                        android:inputType="textPersonName"
+                        android:inputType="textPassword"
                         android:textSize="14sp"
                         app:met_floatingLabel="highlight"
                         app:met_helperText="" />
@@ -200,6 +200,7 @@
                     android:layout_columnWeight="1"
                     android:layout_below="@+id/lblError"
                     android:layout_centerHorizontal="true"
+                    android:onClick="register"
                     android:fontFamily="sans-serif-medium"
                     android:padding="50dp"
                     app:cardCornerRadius="10dp"
@@ -228,6 +229,7 @@
                     android:layout_margin="10dp"
                     android:background="@drawable/empty_btn_bg"
                     android:padding="50dp"
+                    android:onClick="login"
                     app:cardCornerRadius="10dp"
                     app:cardElevation="3dp">
 

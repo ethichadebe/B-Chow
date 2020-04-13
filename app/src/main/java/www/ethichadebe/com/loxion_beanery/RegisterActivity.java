@@ -84,10 +84,6 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
 
         saveData(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE), "", "");
 
-        CardView mButtonLogin = findViewById(R.id.btnLogin);
-        //Button
-        CardView mButtonRegister = findViewById(R.id.btnRegister);
-
         //Labels
         mViewError = findViewById(R.id.lblError);
 
@@ -129,19 +125,6 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
                 UserSex = "female";
             } else {
                 mCBFemale.setChecked(true);
-            }
-        });
-
-        mButtonLogin.setOnClickListener(view -> startActivity(new Intent(RegisterActivity.this, LoginActivity.class)));
-
-        mButtonRegister.setOnClickListener(view -> {
-
-            if (!sexIsChecked() && !allFieldsEntered(mTextBoxes, getResources().getColor(R.color.Red), getResources().getColor(R.color.Black))) {
-                mViewError.setText("Select gender");
-            } else if (!passwordMatches()) {
-                mViewError.setText("Password doesn't match");
-            } else if (allFieldsEntered(mTextBoxes, getResources().getColor(R.color.Red), getResources().getColor(R.color.Black)) && sexIsChecked() && passwordMatches()) {
-                POSTRegister();
             }
         });
     }
@@ -241,5 +224,18 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
         return true;
     }
 
+    public void register(View view) {
+        mViewError.setText("");
+        if (!sexIsChecked() && !allFieldsEntered(mTextBoxes, getResources().getColor(R.color.Black))) {
+            mViewError.setText("Select gender");
+        } else if (!passwordMatches()) {
+            mViewError.setText("Password doesn't match");
+        } else if (allFieldsEntered(mTextBoxes, getResources().getColor(R.color.Black)) && sexIsChecked() && passwordMatches()) {
+            POSTRegister();
+        }
+    }
 
+    public void login(View view) {
+        startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+    }
 }
