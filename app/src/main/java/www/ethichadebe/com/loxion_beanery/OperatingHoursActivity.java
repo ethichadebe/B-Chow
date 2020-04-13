@@ -33,7 +33,6 @@ import java.util.Objects;
 import util.HelperMethods;
 
 import static util.Constants.getIpAddress;
-import static util.HelperMethods.MakeGrey;
 import static util.HelperMethods.combineString;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 import static www.ethichadebe.com.loxion_beanery.MyShopsActivity.getNewShop;
@@ -200,34 +199,15 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
     }
 
     public void next(View view) {
-        if (allFieldsEntered()) {
-            if (getNewShop().getIntID() == -1) {
-                POSTRegisterShop();
-            } else {
-                PUTShop();
-            }
+        if (getNewShop().getIntID() == -1) {
+            POSTRegisterShop();
+        } else {
+            PUTShop();
         }
-    }
-
-    private boolean allFieldsEntered() {
-        boolean allEntered = true;
-        for (int i = 0; i < etOpen.length; i++) {
-            if (Objects.requireNonNull(etOpen[i].getText()).toString().isEmpty() || Objects.requireNonNull(etClose[i].getText()).toString().isEmpty()) {
-                MakeGrey(etOpen, i, getResources().getColor(R.color.Grey));
-                etOpen[i].setUnderlineColor(getResources().getColor(R.color.Red));
-                MakeGrey(etClose, i, getResources().getColor(R.color.Grey));
-                etClose[i].setUnderlineColor(getResources().getColor(R.color.Red));
-                allEntered = false;
-            }
-        }
-        for (int i = 0; i < etOpen.length; i++) {
-            MakeGrey(etOpen, i, getResources().getColor(R.color.Grey));
-            MakeGrey(etClose, i, getResources().getColor(R.color.Grey));
-        }
-        return allEntered;
     }
 
     public void back(View view) {
+        if (())
         ShowPopup();
     }
 

@@ -206,7 +206,7 @@ public class NewExtrasActivity extends AppCompatActivity {
         MaterialEditText etExtra;
         CardView cvEditOption;
         TextView tvCancel;
-        myDialog.setContentView(R.layout.popup_extra_edit);
+        myDialog.setContentView(R.layout.popup_edit_text);
 
         etExtra = myDialog.findViewById(R.id.etExtra);
         cvEditOption = myDialog.findViewById(R.id.cvEditOption);

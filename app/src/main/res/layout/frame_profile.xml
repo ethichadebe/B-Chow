@@ -108,19 +108,18 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:layout_width="360dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/rlHeader"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center"
-        android:layout_marginTop="45dp"
+        android:layout_margin="20dp"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingLeft="25dp">
+            android:orientation="horizontal">
 
             <ImageView
                 android:layout_width="36dp"
@@ -132,8 +131,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:paddingLeft="20dp"
-                android:text="Wiliam@gmail.com"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -141,8 +140,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
-            android:orientation="horizontal"
-            android:paddingLeft="25dp">
+            android:orientation="horizontal">
 
             <ImageView
                 android:layout_width="36dp"
@@ -154,8 +152,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:paddingLeft="20dp"
-                android:text="+266 225 225"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -163,8 +161,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
-            android:orientation="horizontal"
-            android:paddingLeft="25dp">
+            android:orientation="horizontal">
 
             <ImageView
                 android:layout_width="36dp"
@@ -176,8 +173,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:paddingLeft="20dp"
-                android:text="28/12/1997"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -185,8 +182,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
-            android:orientation="horizontal"
-            android:paddingLeft="25dp">
+            android:orientation="horizontal">
 
             <ImageView
                 android:layout_width="36dp"
@@ -198,8 +194,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:paddingLeft="20dp"
-                android:text="male"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
                 android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>

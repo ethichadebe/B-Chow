@@ -35,7 +35,6 @@ import java.util.Objects;
 import util.HelperMethods;
 
 import static util.Constants.getIpAddress;
-import static util.HelperMethods.MakeGrey;
 import static util.HelperMethods.SHARED_PREFS;
 import static util.HelperMethods.allFieldsEntered;
 import static util.HelperMethods.saveData;
@@ -52,7 +51,6 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
     5 CPassword
     6 DOB*/
     private MaterialEditText[] mTextBoxes = new MaterialEditText[7];
-    private TextView mViewError;
     private CheckBox mCBMale, mCBFemale, mCBOther;
 
     private String UserSex = "";
@@ -83,9 +81,6 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
         mTextBoxes[6] = findViewById(R.id.txtDOB);
 
         saveData(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE), "", "");
-
-        //Labels
-        mViewError = findViewById(R.id.lblError);
 
         //CheckBoxes
         mCBMale = findViewById(R.id.cbMale);
@@ -218,22 +213,15 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
 
     private boolean passwordMatches() {
         if (!Objects.requireNonNull(mTextBoxes[4].getText()).toString().equals(Objects.requireNonNull(mTextBoxes[5].getText()).toString())) {
-            mTextBoxes[4].setUnderlineColor(getResources().getColor(R.color.Red));
-            mTextBoxes[5].setUnderlineColor(getResources().getColor(R.color.Red));
+            mTextBoxes[4].setError("Password does not match");
+            mTextBoxes[5].setError("Password does not match");
             return false;
         }
-        MakeGrey(mTextBoxes, 4, getResources().getColor(R.color.Grey));
-        MakeGrey(mTextBoxes, 5, getResources().getColor(R.color.Grey));
         return true;
     }
 
     public void register(View view) {
-        mViewError.setText("");
-        if (!sexIsChecked() && !allFieldsEntered(mTextBoxes, getResources().getColor(R.color.Black))) {
-            mViewError.setText("Select gender");
-        } else if (!passwordMatches()) {
-            mViewError.setText("Password doesn't match");
-        } else if (allFieldsEntered(mTextBoxes, getResources().getColor(R.color.Black)) && sexIsChecked() && passwordMatches()) {
+       if (allFieldsEntered(mTextBoxes) && sexIsChecked() && passwordMatches()) {
             POSTRegister();
         }
     }

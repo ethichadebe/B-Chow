@@ -62,21 +62,6 @@ public class HelperMethods {
     }
 
     /**
-     * @param txtBoxes Array of Textboxes
-     * @param index    index of Textbox to make underline blue
-     * @param clr      Colour
-     */
-    public static void MakeGrey(MaterialEditText[] txtBoxes, int index, int clr) {
-        for (int i = 0; i < txtBoxes.length; i++) {
-            if (i != index) {
-                if (!Objects.requireNonNull(txtBoxes[i].getText()).toString().isEmpty()) {
-                    txtBoxes[i].setUnderlineColor(clr);
-                }
-            }
-        }
-    }
-
-    /**
      * Only display finish button when there's a menu item added
      */
     public static void ButtonVisibility(ArrayList list, Button btn) {
@@ -88,17 +73,13 @@ public class HelperMethods {
     }
 
 
-    public static boolean allFieldsEntered(MaterialEditText[] mText, int Grey) {
+    public static boolean allFieldsEntered(MaterialEditText[] mText) {
         boolean allEntered = true;
-        for (int i = 0; i < mText.length; i++) {
-            if (Objects.requireNonNull(mText[i].getText()).toString().isEmpty()) {
-                MakeGrey(mText, i, Grey);
-                mText[i].setError("Required field");
+        for (MaterialEditText materialEditText : mText) {
+            if (Objects.requireNonNull(materialEditText.getText()).toString().isEmpty()) {
+                materialEditText.setError("Required field");
                 allEntered = false;
             }
-        }
-        for (int i = 0; i < mText.length; i++) {
-            MakeGrey(mText, i, Grey);
         }
         return allEntered;
     }

@@ -10,7 +10,7 @@
     app:cardElevation="6dp">
 
     <RelativeLayout
-        android:layout_width="300dp"
+        android:layout_width="350dp"
         android:layout_height="wrap_content">
 
         <TextView
@@ -22,7 +22,7 @@
             android:background="@drawable/ripple_effect_white"
             android:fontFamily="sans-serif-medium"
             android:gravity="center"
-            android:text="X"
+            android:text="@string/x"
             android:textSize="20sp"
             android:textStyle="bold" />
         <TextView
@@ -31,8 +31,10 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:layout_toStartOf="@id/tvCancel"
+            android:layout_alignParentStart="true"
             android:fontFamily="sans-serif-medium"
-            android:text="Edit extra item"
             android:textColor="@color/Black"
             android:textSize="14sp" />
 
@@ -54,7 +56,6 @@
                 android:layout_marginEnd="20dp"
                 android:layout_toStartOf="@id/cvEditOption"
                 android:ems="10"
-                android:hint="Extra"
                 android:inputType="textPersonName"
                 android:textSize="14sp"
                 app:met_floatingLabel="highlight" />
@@ -69,18 +70,18 @@
                 android:layout_centerVertical="true"
                 android:layout_marginBottom="20dp"
                 android:fontFamily="sans-serif-medium"
-                android:onClick="add"
                 android:padding="50dp"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="3dp">
 
                 <TextView
+                    android:id="@+id/tvEdit"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/ripple_effect"
                     android:fontFamily="sans-serif-medium"
                     android:gravity="center"
-                    android:text="Edit"
+                    android:text="@string/edit"
                     android:textAllCaps="false"
                     android:textColor="@color/White"
                     android:textSize="14sp" />

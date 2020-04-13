@@ -182,23 +182,13 @@
                         app:met_helperText="" />
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/lblError"
-                    style="@style/TextAppearance.AppCompat.Body1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/linlay1"
-                    android:gravity="center"
-                    android:padding="16dp"
-                    android:textColor="#ff1717" />
-
                 <androidx.cardview.widget.CardView
                     android:id="@+id/btnRegister"
                     android:layout_width="100dp"
                     android:layout_height="40dp"
                     android:layout_rowWeight="1"
                     android:layout_columnWeight="1"
-                    android:layout_below="@+id/lblError"
+                    android:layout_below="@+id/linlay1"
                     android:layout_centerHorizontal="true"
                     android:onClick="register"
                     android:fontFamily="sans-serif-medium"

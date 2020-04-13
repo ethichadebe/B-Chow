@@ -24,7 +24,7 @@
             android:layout_marginBottom="0dp"
             android:gravity="center"
             android:padding="10dp"
-            android:text="User Profile"
+            android:text="@string/user_profile"
             android:textColor="@color/Black"
             android:textSize="12sp"
             android:textStyle="bold" />
@@ -58,7 +58,7 @@
             android:fontFamily="sans-serif-condensed-medium"
             android:gravity="center"
             android:padding="10dp"
-            android:text="Save"
+            android:text="@string/save"
             android:onClick="save"
             android:textColor="@color/Black"
             android:textSize="12sp"
@@ -100,7 +100,8 @@
                             android:layout_width="150dp"
                             android:layout_height="150dp"
                             android:layout_marginTop="45dp"
-                            android:src="@drawable/unknown" />
+                            android:src="@drawable/unknown"
+                            android:contentDescription="@string/user_profile" />
 
                         <com.rengwuxian.materialedittext.MaterialEditText
                             android:id="@+id/txtName"
@@ -128,62 +129,57 @@
             </RelativeLayout>
 
             <LinearLayout
-                android:layout_width="360dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="45dp"
+                android:layout_margin="10dp"
                 android:orientation="vertical">
 
-                    <com.rengwuxian.materialedittext.MaterialEditText
-                        android:id="@+id/txtEmail"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:ems="10"
-                        android:hint="@string/email_address"
-                        android:inputType="textEmailAddress"
-                        app:met_iconLeft="@drawable/ic_email_black_24dp"
-                        android:textSize="14sp"
-                        app:met_floatingLabel="highlight" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
+                    android:orientation="horizontal"
+                    android:paddingEnd="11dp"
+                    android:paddingStart="11dp">
 
-                    <com.rengwuxian.materialedittext.MaterialEditText
-                        android:id="@+id/txtPhone"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:ems="10"
-                        android:hint="@string/phone_number"
-                        android:inputType="number"
-                        android:textSize="14sp"
-                        android:layout_marginTop="25dp"
-                        app:met_iconLeft="@drawable/ic_local_phone_black_24dp"
-                        app:met_floatingLabel="highlight" />
+                    <ImageView
+                        android:id="@+id/ivDOB"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:src="@drawable/ic_date_24dp"
+                        android:contentDescription="@string/phone_number" />
 
                     <com.rengwuxian.materialedittext.MaterialEditText
                         android:id="@+id/txtDOB"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
+                        android:layout_gravity="center_vertical"
                         android:ems="10"
                         android:focusable="false"
-                        android:hint="Date of Birth"
+                        android:layout_centerVertical="true"
+                        android:hint="@string/date_of_birth"
                         app:met_iconLeft="@drawable/ic_date_24dp"
-                        android:layout_marginTop="25dp"
+                        android:layout_toEndOf="@+id/ivDOB"
+                        android:paddingEnd="10dp"
                         android:textSize="14sp"
                         app:met_floatingLabel="highlight" />
+                </RelativeLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="25dp"
                     android:orientation="horizontal"
-                    android:paddingLeft="25dp">
+                    android:paddingEnd="11dp"
+                    android:paddingStart="11dp">
 
                     <ImageView
                         android:layout_width="36dp"
                         android:layout_height="36dp"
                         android:layout_gravity="center_vertical"
-                        android:src="@drawable/ic_person_pin_black_24dp" />
+                        android:src="@drawable/ic_person_pin_black_24dp"
+                        android:contentDescription="@string/sex" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -195,7 +191,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="8dp"
-                            android:text="Male" />
+                            android:text="@string/male" />
 
 
                         <CheckBox
@@ -204,7 +200,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="8dp"
-                            android:text="Female" />
+                            android:text="@string/female" />
 
                         <CheckBox
                             android:id="@+id/cbOther"
@@ -212,22 +208,103 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="8dp"
-                            android:text="Other" />
+                            android:text="@string/other" />
 
                     </LinearLayout>
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/lblError"
-                    style="@style/TextAppearance.AppCompat.Body1"
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/linlay1"
-                    android:gravity="center"
-                    android:padding="16dp"
-                    android:textColor="#ff1717" />
+                    android:layout_marginTop="25dp"
+                    android:orientation="horizontal"
+                    android:paddingEnd="11dp"
+                    android:paddingStart="11dp">
+
+                    <ImageView
+                        android:id="@+id/ivPhone"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:src="@drawable/ic_local_phone_black_24dp"
+                        android:contentDescription="@string/phone_number" />
+
+                    <TextView
+                        android:id="@+id/tvNumber"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@+id/ivPhone"
+                        android:layout_toStartOf="@id/tvChangeNum"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvChangeNum"
+                        style="@style/Base.TextAppearance.AppCompat.Body1"
+                        android:layout_width="?attr/actionBarSize"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/ripple_effect_white"
+                        android:fontFamily="sans-serif-condensed-medium"
+                        android:gravity="center"
+                        android:layout_gravity="end"
+                        android:padding="10dp"
+                        android:text="@string/edit"
+                        android:onClick="editNumber"
+                        android:textColor="@color/Black"
+                        android:textSize="12sp"
+                        android:layout_alignParentEnd="true"
+                        android:textStyle="bold" />
 
 
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
+                    android:orientation="horizontal"
+                    android:paddingEnd="11dp"
+                    android:paddingStart="11dp">
+
+                    <ImageView
+                        android:id="@+id/ivEmail"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:src="@drawable/ic_email_black_24dp"
+                        android:contentDescription="@string/email_address" />
+
+                    <TextView
+                        android:id="@+id/tvEmail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:layout_toStartOf="@id/tvChangeEmail"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@+id/ivEmail"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvChangeEmail"
+                        style="@style/Base.TextAppearance.AppCompat.Body1"
+                        android:layout_width="?attr/actionBarSize"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/ripple_effect_white"
+                        android:fontFamily="sans-serif-condensed-medium"
+                        android:gravity="center"
+                        android:layout_gravity="end"
+                        android:padding="10dp"
+                        android:text="@string/edit"
+                        android:onClick="editEmail"
+                        android:textColor="@color/Black"
+                        android:textSize="12sp"
+                        android:layout_alignParentEnd="true"
+                        android:textStyle="bold" />
+
+
+                </RelativeLayout>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

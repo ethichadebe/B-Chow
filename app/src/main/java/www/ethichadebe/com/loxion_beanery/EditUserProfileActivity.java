@@ -40,36 +40,33 @@ import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 
 public class EditUserProfileActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
-    private MaterialEditText[] mTextBoxes = new MaterialEditText[5];
+    private MaterialEditText[] mTextBoxes = new MaterialEditText[3];
     private CheckBox mCBMale, mCBFemale, mCBOther;
-    private TextView mViewError;
+    private TextView tvNumber, tvEmail;
     private static String UserSex;
     private Dialog myDialog;
 
     /*0 Name
-1 Surname
-2 Number
-3 Email
-4 DOB*/
+    1 Surname
+    2 DOB*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_user_profile);
-        if (getUser() == null){
+        if (getUser() == null) {
             startActivity(new Intent(this, LoginActivity.class));
         }
 
         myDialog = new Dialog(this);
 
-        //Labels
-        mViewError = findViewById(R.id.lblError);
+        //TextView
+        tvNumber = findViewById(R.id.tvNumber);
+        tvEmail = findViewById(R.id.tvEmail);
 
         //Textboxes
         mTextBoxes[0] = findViewById(R.id.txtName);
         mTextBoxes[1] = findViewById(R.id.txtSurname);
-        mTextBoxes[2] = findViewById(R.id.txtPhone);
-        mTextBoxes[3] = findViewById(R.id.txtEmail);
-        mTextBoxes[4] = findViewById(R.id.txtDOB);
+        mTextBoxes[2] = findViewById(R.id.txtDOB);
 
         //CheckBoxes
         mCBMale = findViewById(R.id.cbMale);
@@ -78,9 +75,10 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
 
         mTextBoxes[0].setText(getUser().getuName());
         mTextBoxes[1].setText(getUser().getuSurname());
-        mTextBoxes[2].setText(getUser().getuNumber());
-        mTextBoxes[3].setText(getUser().getuEmail());
-        mTextBoxes[4].setText(getUser().getuDOB());
+        mTextBoxes[2].setText(getUser().getuDOB());
+        tvEmail.setText(getUser().getuEmail());
+        tvNumber.setText(getUser().getuNumber());
+
         switch (getUser().getuSex()) {
             case "male":
                 mCBMale.setChecked(true);
@@ -94,7 +92,7 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
         }
 
         //Date p[icker
-        mTextBoxes[4].setOnClickListener(view -> {
+        mTextBoxes[2].setOnClickListener(view -> {
             DialogFragment datePickeer = new DatePickerFragment();
             datePickeer.show(getSupportFragmentManager(), "date picker");
         });
@@ -143,14 +141,15 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
 
         tvCancel.setOnClickListener(view -> myDialog.dismiss());
 
-        tvMessage.setText("All entered information will be lost\nAre you sure?");
+        tvMessage.setText("Would you like to save Changes made?");
 
         cvYes.setOnClickListener(view -> {
-            myDialog.dismiss();
-            finish();
+            if (allFieldsEntered(mTextBoxes)) {
+                EditUserDetails();
+            }
         });
 
-        cvNo.setOnClickListener(view -> myDialog.dismiss());
+        cvNo.setOnClickListener(view -> finish());
         Objects.requireNonNull(myDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         myDialog.show();
         myDialog.setCancelable(false);
@@ -165,7 +164,7 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
         calendar.set(Calendar.DAY_OF_MONTH, i2);
 
         String strCurrentDate = DateFormat.getDateInstance(DateFormat.DATE_FIELD).format(calendar.getTime());
-        mTextBoxes[4].setText(strCurrentDate);
+        mTextBoxes[2].setText(strCurrentDate);
 
     }
 
@@ -189,21 +188,106 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
     }
 
     public void save(View view) {
-        boolean allIsWell = false;
-        for (int i = 0; i < mTextBoxes.length; i++) {
-            if (!allFieldsEntered(mTextBoxes, getResources().getColor(R.color.Black))) {
-                mViewError.setText(R.string.enter_all_required_details);
-            } else if (allFieldsEntered(mTextBoxes, getResources().getColor(R.color.Black))) {
-                allIsWell = true;
-            }
-        }
-
-        if (allIsWell) {
-            EditUserRecord();
+        if (allFieldsEntered(mTextBoxes)) {
+            EditUserDetails();
         }
     }
 
-    private void EditUserRecord() {
+    private void EditUserEmail(MaterialEditText number, TextView tvEdit, Dialog myDialog) {
+        StringRequest stringRequest = new StringRequest(Request.Method.PUT,
+                "http://" + getIpAddress() + "/users/EditEmail",
+                response -> {
+                    Toast.makeText(EditUserProfileActivity.this, response, Toast.LENGTH_LONG).show();
+                    tvEdit.setBackground(getResources().getDrawable(R.drawable.ripple_effect));
+                    try {
+                        JSONObject JSONData = new JSONObject(response);
+
+                        switch (JSONData.getString("data")) {
+                            case "email":
+                                number.setError("Already exists");
+                                break;
+                            case "saved":
+                                myDialog.dismiss();
+                                JSONArray jsonArray = new JSONArray(JSONData.getString("response"));
+                                JSONObject JSONResponse = jsonArray.getJSONObject(0);
+                                Toast.makeText(EditUserProfileActivity.this, "Saved", Toast.LENGTH_LONG).show();
+                                getUser().setuEmail(JSONResponse.getString("uEmail"));
+                                tvEmail.setText(getUser().getuEmail());
+                                break;
+                            default:
+                                Toast.makeText(EditUserProfileActivity.this, "Something went wrong, try again", Toast.LENGTH_LONG).show();
+                                break;
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }, error -> {
+            tvEdit.setBackground(getResources().getDrawable(R.drawable.ripple_effect));
+            Toast.makeText(EditUserProfileActivity.this, error.toString(), Toast.LENGTH_LONG).show();
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+
+                params.put("uEmail", Objects.requireNonNull(number.getText()).toString());
+                params.put("uID", String.valueOf(getUser().getuID()));
+
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
+    private void EditUserNumber(MaterialEditText number, TextView tvEdit, Dialog myDialog) {
+        StringRequest stringRequest = new StringRequest(Request.Method.PUT,
+                "http://" + getIpAddress() + "/users/EditNumber",
+                response -> {
+                    Toast.makeText(EditUserProfileActivity.this, response, Toast.LENGTH_LONG).show();
+                    tvEdit.setBackground(getResources().getDrawable(R.drawable.ripple_effect));
+                    try {
+                        JSONObject JSONData = new JSONObject(response);
+
+                        switch (JSONData.getString("data")) {
+                            case "number":
+                                number.setError("Already exists");
+                                break;
+                            case "saved":
+                                myDialog.dismiss();
+                                JSONArray jsonArray = new JSONArray(JSONData.getString("response"));
+                                JSONObject JSONResponse = jsonArray.getJSONObject(0);
+                                Toast.makeText(EditUserProfileActivity.this, "Saved", Toast.LENGTH_LONG).show();
+                                getUser().setuNumber(JSONResponse.getString("uNumber"));
+                                tvNumber.setText(getUser().getuNumber());
+                                break;
+                            default:
+                                Toast.makeText(EditUserProfileActivity.this, "Something went wrong, try again", Toast.LENGTH_LONG).show();
+                                break;
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }, error -> {
+            tvEdit.setBackground(getResources().getDrawable(R.drawable.ripple_effect));
+            Toast.makeText(EditUserProfileActivity.this, error.toString(), Toast.LENGTH_LONG).show();
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+
+                params.put("uNumber", Objects.requireNonNull(number.getText()).toString());
+                params.put("uID", String.valueOf(getUser().getuID()));
+
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
+    private void EditUserDetails() {
         HelperMethods.ShowLoadingPopup(myDialog, true);
         StringRequest stringRequest = new StringRequest(Request.Method.PUT,
                 "http://" + getIpAddress() + "/users/EditProfile",
@@ -215,32 +299,15 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
                             JSONArray jsonArray = new JSONArray(JSONData.getString("response"));
                             JSONObject JSONResponse = jsonArray.getJSONObject(0);
 
-                            switch (JSONData.getString("data")) {
-                                case "both":
-                                    mTextBoxes[2].setError("Already exists");
-                                    mTextBoxes[3].setError("Already exists");
-                                    break;
-                                case "number":
-                                    mTextBoxes[2].setError("Already exists");
-                                    break;
-                                case "email":
-                                    mTextBoxes[3].setError("Already exists");
-                                    break;
-                                case "saved":
-                                    Toast.makeText(EditUserProfileActivity.this, "Saved", Toast.LENGTH_LONG).show();
-                                    getUser().setuDOB(JSONResponse.getString("uDOB"));
-                                    getUser().setuEmail(JSONResponse.getString("uEmail"));
-                                    getUser().setuID(JSONResponse.getInt("uID"));
-                                    getUser().setuName(JSONResponse.getString("uName"));
-                                    getUser().setuNumber(JSONResponse.getString("uNumber"));
-                                    getUser().setuSex(JSONResponse.getString("uSex"));
-                                    getUser().setuSurname(JSONResponse.getString("uSurname"));
-                                    startActivity(new Intent(EditUserProfileActivity.this, MainActivity.class));
-                                    break;
-                                default:
-                                    Toast.makeText(EditUserProfileActivity.this, "Something went wrong, try again", Toast.LENGTH_LONG).show();
-                                    break;
-                            }
+                            Toast.makeText(EditUserProfileActivity.this, "Saved", Toast.LENGTH_LONG).show();
+                            getUser().setuDOB(JSONResponse.getString("uDOB"));
+                            getUser().setuEmail(JSONResponse.getString("uEmail"));
+                            getUser().setuID(JSONResponse.getInt("uID"));
+                            getUser().setuName(JSONResponse.getString("uName"));
+                            getUser().setuNumber(JSONResponse.getString("uNumber"));
+                            getUser().setuSex(JSONResponse.getString("uSex"));
+                            getUser().setuSurname(JSONResponse.getString("uSurname"));
+                            startActivity(new Intent(EditUserProfileActivity.this, MainActivity.class));
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -253,18 +320,9 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
 
-                if (!getUser().getuNumber().equals(Objects.requireNonNull(mTextBoxes[2].getText()).toString()) &&
-                        !getUser().getuEmail().equals(Objects.requireNonNull(mTextBoxes[3].getText()).toString())) {
-                    params.put("uNumber", Objects.requireNonNull(mTextBoxes[2].getText()).toString());
-                    params.put("uEmail", Objects.requireNonNull(mTextBoxes[3].getText()).toString());
-                } else if (!getUser().getuEmail().equals(Objects.requireNonNull(mTextBoxes[3].getText()).toString())) {
-                    params.put("uEmail", Objects.requireNonNull(mTextBoxes[3].getText()).toString());
-                } else if (!getUser().getuNumber().equals(Objects.requireNonNull(mTextBoxes[2].getText()).toString())) {
-                    params.put("uNumber", Objects.requireNonNull(mTextBoxes[2].getText()).toString());
-                }
                 params.put("uName", Objects.requireNonNull(mTextBoxes[0].getText()).toString());
                 params.put("uSurname", Objects.requireNonNull(mTextBoxes[1].getText()).toString());
-                params.put("uDOB", Objects.requireNonNull(mTextBoxes[4].getText()).toString());
+                params.put("uDOB", Objects.requireNonNull(mTextBoxes[2].getText()).toString());
                 params.put("uSex", UserSex);
                 params.put("uID", String.valueOf(getUser().getuID()));
 
@@ -278,5 +336,49 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
 
     @Override
     public void onBackPressed() {
-        ShowConfirmationPopup();    }
+        ShowConfirmationPopup();
+    }
+
+    public void editEmail(View view) {
+        ShowEditPopup("Edit email", "Email", getUser().getuEmail(), false);
+    }
+
+    public void editNumber(View view) {
+        ShowEditPopup("Edit number", "Number", getUser().getuNumber(), true);
+    }
+
+    public void ShowEditPopup(String tvHeading, String etHint, String etValue, boolean isNum) {
+        myDialog.setContentView(R.layout.popup_edit_text);
+
+        MaterialEditText etExtra = myDialog.findViewById(R.id.etExtra);
+        CardView cvEditOption = myDialog.findViewById(R.id.cvEditOption);
+        TextView tvCancel = myDialog.findViewById(R.id.tvCancel);
+        TextView tvHeading2 = myDialog.findViewById(R.id.tvHeading2);
+        TextView tvEdit = myDialog.findViewById(R.id.tvEdit);
+
+        tvHeading2.setText(tvHeading);
+        etExtra.setText(etValue);
+        etExtra.setHint(etHint);
+        tvCancel.setOnClickListener(view -> myDialog.dismiss());
+
+        cvEditOption.setOnClickListener(view -> {
+            if (Objects.requireNonNull(etExtra.getText()).toString().isEmpty()) {
+                etExtra.setError("Required");
+            } else {
+                tvEdit.setBackground(getResources().getDrawable(R.drawable.ripple_effect_disable));
+                if (isNum) {
+                    EditUserNumber(etExtra, tvEdit, myDialog);
+                } else {
+                    EditUserEmail(etExtra, tvEdit, myDialog);
+                }
+                //PUTExtra(position, Objects.requireNonNull(etExtra.getText()).toString());
+            }
+        });
+
+        Objects.requireNonNull(myDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        myDialog.show();
+        myDialog.setCancelable(false);
+        myDialog.setCanceledOnTouchOutside(false);
+    }
+
 }
