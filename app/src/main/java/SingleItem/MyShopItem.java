@@ -6,16 +6,11 @@ import java.util.ArrayList;
 
 public class MyShopItem {
     private int intID = -1;
-    private String strShopName, strOperatingHRS;
-    private String strPosition;
-    private int intLogoSmall;
-    private int intLogoBig;
-    private String strShortDescript;
-    private String strFullDescript;
+    private String strShopName, strOperatingHRS,strPosition,strShortDescript,strFullDescript,strAveTime;
+    private int intLogoSmall,intLogoBig,intRating;
     private Location locLocation;
-    private String strAveTime;
-    private int intRating;
     private boolean isOpen = false;
+    private boolean isActive = false;
     private ArrayList<IngredientItem> ingredientItems;
     private ArrayList<MenuItem> menuItems;
 
@@ -62,7 +57,7 @@ public class MyShopItem {
      */
     public MyShopItem(int intID, String strShopName, String strPosition, int intLogoSmall, int intLogoBig,
                       String strShortDescript, String strFullDescript, Location locLocation, String strAveTime, int intRating,
-                      String strOperatingHRS) {
+                      String strOperatingHRS, boolean isActive) {
         this.intID = intID;
         this.strShopName = strShopName;
         this.strPosition = strPosition;
@@ -74,6 +69,7 @@ public class MyShopItem {
         this.strAveTime = strAveTime;
         this.intRating = intRating;
         this.strOperatingHRS = strOperatingHRS;
+        this.isActive = isActive;
     }
 
     /**
@@ -242,5 +238,13 @@ public class MyShopItem {
 
     public void setOpen(boolean open) {
         isOpen = open;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 }

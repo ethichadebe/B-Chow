@@ -83,7 +83,6 @@ public class RegisterShopActivity extends AppCompatActivity {
         });
     }
 
-
     public void ShowPopup() {
         TextView tvCancel, tvMessage;
         CardView cvYes, cvNo;
@@ -124,9 +123,8 @@ public class RegisterShopActivity extends AppCompatActivity {
 
     public void next(View view) {
         if (Objects.requireNonNull(etName.getText()).toString().isEmpty()) {
-            etName.setUnderlineColor(getResources().getColor(R.color.Red));
+            etName.setError("required");
         } else {
-            etName.setUnderlineColor(getResources().getColor(R.color.Black));
             setNewShop(new MyShopItem(etName.getText().toString(), Objects.requireNonNull(etShortDescription.getText()).toString(),
                     Objects.requireNonNull(etFullDescription.getText()).toString(), 1, 1, new Location("")));
 

@@ -90,9 +90,17 @@ public class MyShopsActivity extends AppCompatActivity {
         location.setLongitude(32.5);//Double.parseDouble(strCoord[1]));
         GETShops(findViewById(R.id.vLine), findViewById(R.id.vLineGrey));
 
-        mAdapter.setOnItemClickListerner(position -> {
-            //shopItems.get(position).
-            startActivity(new Intent(MyShopsActivity.this, OrdersActivity.class));
+        mAdapter.setOnItemClickListerner(new MyShopItemAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                //shopItems.get(position).
+                startActivity(new Intent(MyShopsActivity.this, OrdersActivity.class));
+
+            }
+
+            @Override
+            public void onItemClickResumeRegistration(int position) {
+            }
         });
     }
 
@@ -131,11 +139,15 @@ public class MyShopsActivity extends AppCompatActivity {
                                 String[] strCoord = Shops.getString("sLocation").split(" ");
                                 location.setLatitude(Double.parseDouble(strCoord[0]));
                                 location.setLongitude(Double.parseDouble(strCoord[1]));
+                                boolean isActive = false;
+                                if (Shops.getInt("sID") == 1){
+                                    isActive = true;
+                                }
                                 shopItems.add(new MyShopItem(Shops.getInt("sID"), Shops.getString("sName"),
                                         Shops.getString("uRole"), R.drawable.food, R.drawable.biglogo,
                                         Shops.getString("sShortDescrption"), Shops.getString("sFullDescription"),
                                         location, "10-15 mins", Shops.getInt("sRating"),
-                                        Shops.getString("sOperatingHrs")));
+                                        Shops.getString("sOperatingHrs"),isActive));
                             }
                         } else if (response.getString("message").equals("empty")) {
                             tvEmpty.setVisibility(View.VISIBLE);

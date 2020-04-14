@@ -26,6 +26,7 @@ public class MyShopItemAdapter extends RecyclerView.Adapter<MyShopItemAdapter.Sh
 
     public interface OnItemClickListener {
         void onItemClick(int position);
+        void onItemClickResumeRegistration(int position);
     }
 
     public void setOnItemClickListerner(OnItemClickListener listerner) {
@@ -34,10 +35,9 @@ public class MyShopItemAdapter extends RecyclerView.Adapter<MyShopItemAdapter.Sh
 
     static class ShopViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView tvShopName, tvPosition, tvShortDescript, tvDistance, tvAveTime, tvMon,tvTue,tvWed,tvThu,tvFri,tvSat,tvSun,tvPH;
+        private TextView tvShopName, tvPosition, tvShortDescript, tvDistance, tvAveTime, tvMon,tvTue,tvWed,tvThu,tvFri,tvSat,tvSun,tvPH,tvMore, tvCompleteReg;
         private ImageView ivLogo, ivStar1, ivStar2, ivStar3, ivStar4, ivStar5;
         private LinearLayout llOpHours,llDropDown;
-        private View vUp, vDown;
 
         ShopViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
@@ -54,8 +54,8 @@ public class MyShopItemAdapter extends RecyclerView.Adapter<MyShopItemAdapter.Sh
             ivStar5 = itemView.findViewById(R.id.ivStar5);
             tvDistance = itemView.findViewById(R.id.tvDistance);
             tvAveTime = itemView.findViewById(R.id.tvAveTime);
-            vUp = itemView.findViewById(R.id.vUp);
-            vDown = itemView.findViewById(R.id.vDown);
+            tvMore = itemView.findViewById(R.id.tvMore);
+            tvCompleteReg = itemView.findViewById(R.id.tvCompleteReg);
 
             tvMon = itemView.findViewById(R.id.tvMon);
             tvTue = itemView.findViewById(R.id.tvTue);
@@ -71,6 +71,15 @@ public class MyShopItemAdapter extends RecyclerView.Adapter<MyShopItemAdapter.Sh
                     int position = getAdapterPosition();
                     if (position != RecyclerView.NO_POSITION) {
                         listener.onItemClick(position);
+                    }
+                }
+            });
+
+            tvCompleteReg.setOnClickListener(view -> {
+                if (listener != null) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        listener.onItemClickResumeRegistration(position);
                     }
                 }
             });
@@ -157,6 +166,10 @@ public class MyShopItemAdapter extends RecyclerView.Adapter<MyShopItemAdapter.Sh
         holder.tvSun.setText(strOpHours[6]);
         holder.tvPH.setText(strOpHours[7]);
 
+        if (item.isActive()){
+            holder.tvCompleteReg.setVisibility(View.VISIBLE);
+        }
+
         holder.llDropDown.setOnClickListener(view -> {
             if (holder.llOpHours.getVisibility() == View.GONE){
                 holder.llOpHours.setVisibility(View.VISIBLE);
@@ -164,16 +177,14 @@ public class MyShopItemAdapter extends RecyclerView.Adapter<MyShopItemAdapter.Sh
                         .duration(500)
                         .repeat(0)
                         .playOn(holder.llOpHours);
-                holder.vDown.setVisibility(View.GONE);
-                holder.vUp.setVisibility(View.VISIBLE);
+                holder.tvMore.setText("Show less");
             }else {
                 YoYo.with(Techniques.SlideOutUp)
                         .duration(500)
                         .repeat(0)
                         .playOn(holder.llOpHours);
                 holder.llOpHours.setVisibility(View.GONE);
-                holder.vDown.setVisibility(View.VISIBLE);
-                holder.vUp.setVisibility(View.GONE);
+                holder.tvMore.setText("Show more");
             }
         });
     }
