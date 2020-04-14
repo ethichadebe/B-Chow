@@ -21,15 +21,16 @@ import Adapter.AdminOrderItemAdapter;
 import SingleItem.AdminOrderItem;
 
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
+import static www.ethichadebe.com.loxion_beanery.MyShopsActivity.getNewShop;
+import static www.ethichadebe.com.loxion_beanery.MyShopsActivity.setNewShop;
 
 public class OrdersActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private AdminOrderItemAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private final ArrayList<AdminOrderItem> OrderItems = new ArrayList<>();
-    ;
     private Dialog myDialog;
-    private TextView tvOpen, tvUnavailable, tvClosed;
+    private TextView tvOpen, tvUnavailable, tvClosed, tvCompleteReg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,12 +45,19 @@ public class OrdersActivity extends AppCompatActivity {
         tvOpen = findViewById(R.id.tvOpen);
         tvUnavailable = findViewById(R.id.tvUnavailable);
         tvClosed = findViewById(R.id.tvClosed);
+        tvCompleteReg = findViewById(R.id.tvCompleteReg);
 
         tvClosed.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
         tvOpen.setBackground(getResources().getDrawable(R.drawable.ripple_effect_green));
         tvUnavailable.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
 
+        if (!getNewShop().isActive()){
+            tvCompleteReg.setVisibility(View.VISIBLE);
+        }
 
+        tvCompleteReg.setOnClickListener(view -> {
+            startActivity(new Intent(this,RegisterShopActivity.class));
+        });
         OrderItems.add(new AdminOrderItem(1, 73, "13:24", 17.50,
                 "Chips, Burger, French, egg"));
         OrderItems.add(new AdminOrderItem(1, 74, "13:45", 17.50,

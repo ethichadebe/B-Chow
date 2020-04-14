@@ -166,7 +166,7 @@ public class MyShopItemAdapter extends RecyclerView.Adapter<MyShopItemAdapter.Sh
         holder.tvSun.setText(strOpHours[6]);
         holder.tvPH.setText(strOpHours[7]);
 
-        if (item.isActive()){
+        if (!item.isActive()){
             holder.tvCompleteReg.setVisibility(View.VISIBLE);
         }
 

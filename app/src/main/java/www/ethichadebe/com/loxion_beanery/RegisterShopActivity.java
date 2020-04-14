@@ -125,8 +125,10 @@ public class RegisterShopActivity extends AppCompatActivity {
         if (Objects.requireNonNull(etName.getText()).toString().isEmpty()) {
             etName.setError("required");
         } else {
-            setNewShop(new MyShopItem(etName.getText().toString(), Objects.requireNonNull(etShortDescription.getText()).toString(),
-                    Objects.requireNonNull(etFullDescription.getText()).toString(), 1, 1, new Location("")));
+            if (getNewShop() == null){
+                setNewShop(new MyShopItem(etName.getText().toString(), Objects.requireNonNull(etShortDescription.getText()).toString(),
+                        Objects.requireNonNull(etFullDescription.getText()).toString(), 1, 1, new Location("")));
+            }
 
             startActivity(new Intent(RegisterShopActivity.this, OperatingHoursActivity.class));
         }

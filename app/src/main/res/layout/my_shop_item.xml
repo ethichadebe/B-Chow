@@ -392,7 +392,6 @@
                 android:id="@+id/llDropDown"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/ripple_effect_white"
                 android:gravity="center"
                 android:orientation="horizontal">
 
@@ -405,7 +404,7 @@
                     android:fontFamily="sans-serif-light"
                     android:gravity="center"
                     android:padding="10dp"
-                    android:text="Show more"
+                    android:text="@string/show_more"
                     android:textSize="14sp"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -415,12 +414,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:background="@drawable/ripple_effect_white"
+                android:background="@drawable/ripple_effect_red"
                 android:fontFamily="sans-serif-medium"
                 android:gravity="center"
                 android:padding="10dp"
                 android:text="Click here to complete shop registration"
-                android:textColor="@color/Red"
+                android:textColor="@color/White"
                 android:textSize="14sp"
                 android:visibility="gone"
                 android:textStyle="bold" />

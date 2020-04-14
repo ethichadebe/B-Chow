@@ -93,13 +93,15 @@ public class MyShopsActivity extends AppCompatActivity {
         mAdapter.setOnItemClickListerner(new MyShopItemAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                //shopItems.get(position).
+                newShop = shopItems.get(position);
                 startActivity(new Intent(MyShopsActivity.this, OrdersActivity.class));
 
             }
 
             @Override
             public void onItemClickResumeRegistration(int position) {
+                newShop = shopItems.get(position);
+                startActivity(new Intent(MyShopsActivity.this, RegisterShopActivity.class));
             }
         });
     }
@@ -140,7 +142,7 @@ public class MyShopsActivity extends AppCompatActivity {
                                 location.setLatitude(Double.parseDouble(strCoord[0]));
                                 location.setLongitude(Double.parseDouble(strCoord[1]));
                                 boolean isActive = false;
-                                if (Shops.getInt("sID") == 1){
+                                if (Shops.getInt("isActive") == 1){
                                     isActive = true;
                                 }
                                 shopItems.add(new MyShopItem(Shops.getInt("sID"), Shops.getString("sName"),

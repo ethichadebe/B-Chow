@@ -84,6 +84,23 @@ public class HelperMethods {
         return allEntered;
     }
 
+    public static boolean allFieldsEntered(MaterialEditText[] mText,MaterialEditText[] mText2) {
+        boolean allEntered = true;
+        for (MaterialEditText materialEditText : mText) {
+            if (Objects.requireNonNull(materialEditText.getText()).toString().isEmpty()) {
+                materialEditText.setError("Required field");
+                allEntered = false;
+            }
+        }
+        for (MaterialEditText materialEditText : mText2) {
+            if (Objects.requireNonNull(materialEditText.getText()).toString().isEmpty()) {
+                materialEditText.setError("Required field");
+                allEntered = false;
+            }
+        }
+        return allEntered;
+    }
+
     public static void saveData(SharedPreferences sharedPreferences, String Username, String Password) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
 

@@ -45,4 +45,16 @@
     <string name="sex">sex</string>
     <string name="save">Save</string>
     <string name="x">X</string>
+    <string name="open">Open</string>
+    <string name="unavailable">Unavailable</string>
+    <string name="close">Close</string>
+    <string name="show_more">Show more</string>
+    <string name="next">Next</string>
+    <string name="network_error">Network error.</string>
+    <string name="my_ingredients">My ingredients</string>
+    <string name="add">Add</string>
+    <string name="price">Price</string>
+    <string name="r">R:</string>
+    <string name="ingredient_name_e_g_cheese">Ingredient name (e.g Cheese)</string>
+    <string name="add_an_ingredient">Add an Ingredient</string>
 </resources>

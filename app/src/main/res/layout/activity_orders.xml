@@ -11,7 +11,7 @@
         android:layout_height="?attr/actionBarSize">
 
         <TextView
-            android:id="@+id/tvType"
+            android:id="@+id/tvShopName"
             android:layout_width="match_parent"
             style="@style/Base.TextAppearance.AppCompat.Body1"
             android:layout_height="wrap_content"
@@ -23,7 +23,6 @@
             android:layout_marginBottom="0dp"
             android:gravity="center"
             android:padding="10dp"
-            android:text="Create menu"
             android:textColor="@color/Black"
             android:textSize="12sp"
             android:textStyle="bold" />
@@ -91,7 +90,7 @@
                 android:gravity="center"
                 android:fontFamily="sans-serif-medium"
                 android:textAllCaps="false"
-                android:text="Open"
+                android:text="@string/open"
                 android:background="@drawable/ripple_effect_green"
                 android:textColor="@color/Black"/>
         </androidx.cardview.widget.CardView>
@@ -117,7 +116,7 @@
                 android:gravity="center"
                 android:fontFamily="sans-serif-medium"
                 android:textAllCaps="false"
-                android:text="Unavailable"
+                android:text="@string/unavailable"
                 android:background="@drawable/ripple_effect_yellow"
                 android:textColor="@color/Black"/>
         </androidx.cardview.widget.CardView>
@@ -142,7 +141,7 @@
                 android:gravity="center"
                 android:fontFamily="sans-serif-medium"
                 android:textAllCaps="false"
-                android:text="Close"
+                android:text="@string/close"
                 android:background="@drawable/ripple_effect_red"
                 android:textColor="@color/Black"/>
         </androidx.cardview.widget.CardView>
@@ -150,9 +149,27 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:padding="4dp"
         android:layout_below="@+id/llOpts"
+        android:layout_above="@id/tvCompleteReg"
         android:scrollbars="vertical"
         />
+
+    <TextView
+        android:id="@+id/tvCompleteReg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/ripple_effect_red"
+        android:fontFamily="sans-serif-medium"
+        android:gravity="center"
+        android:padding="10dp"
+        android:layout_alignParentBottom="true"
+        android:text="Click here to complete shop registration"
+        android:textColor="@color/White"
+        android:textSize="14sp"
+        android:visibility="gone"
+        android:textStyle="bold" />
+
 </RelativeLayout>

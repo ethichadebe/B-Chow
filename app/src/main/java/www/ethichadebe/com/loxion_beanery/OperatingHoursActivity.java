@@ -1,14 +1,11 @@
 package www.ethichadebe.com.loxion_beanery;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.DialogFragment;
 
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -28,11 +25,11 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 import util.HelperMethods;
 
 import static util.Constants.getIpAddress;
+import static util.HelperMethods.allFieldsEntered;
 import static util.HelperMethods.combineString;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 import static www.ethichadebe.com.loxion_beanery.MyShopsActivity.getNewShop;
@@ -83,7 +80,7 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
 
         if (getNewShop().getIntID() != -1) {
             String[] strOpHours = getNewShop().getStrOperatingHRS().split(", ");
-            for (int i = 0; i < strOpHours.length; i++) {
+            for (int i = 0; i < etOpen.length; i++) {
                 String[] strOpHours1 = strOpHours[i].split(" - ");
                 etOpen[i].setText(strOpHours1[0]);
                 etClose[i].setText(strOpHours1[1]);
@@ -199,15 +196,18 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
     }
 
     public void next(View view) {
-        if (getNewShop().getIntID() == -1) {
-            POSTRegisterShop();
-        } else {
-            PUTShop();
+        if (allFieldsEntered(etOpen, etClose)){
+            if (getNewShop().getIntID() == -1) {
+                POSTRegisterShop();
+            } else {
+                PUTShop();
+            }
         }
     }
 
     public void back(View view) {
-        ShowPopup();
+        startActivity(new Intent(this, RegisterShopActivity.class));
+
     }
 
     private void checkCheckedDays(MaterialEditText[] etClose, int Hour, int Minute) {
@@ -315,31 +315,7 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
 
     @Override
     public void onBackPressed() {
-        ShowPopup();
+        startActivity(new Intent(this, RegisterShopActivity.class));
+
     }
-
-    public void ShowPopup() {
-        TextView tvCancel, tvMessage;
-        CardView cvYes, cvNo;
-        myDialog.setContentView(R.layout.popup_confirmation);
-
-        tvCancel = myDialog.findViewById(R.id.tvCancel);
-        tvMessage = myDialog.findViewById(R.id.tvMessage);
-        cvYes = myDialog.findViewById(R.id.cvYes);
-        cvNo = myDialog.findViewById(R.id.cvNo);
-
-        tvCancel.setOnClickListener(view -> myDialog.dismiss());
-
-        tvMessage.setText("All entered information will be lost\nAre you sure?");
-
-        cvYes.setOnClickListener(view -> {
-            myDialog.dismiss();
-            startActivity(new Intent(this, RegisterShopActivity.class));
-        });
-
-        cvNo.setOnClickListener(view -> myDialog.dismiss());
-        Objects.requireNonNull(myDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        myDialog.show();
-    }
-
 }
