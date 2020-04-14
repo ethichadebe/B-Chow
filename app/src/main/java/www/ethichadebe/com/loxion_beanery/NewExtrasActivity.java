@@ -35,7 +35,6 @@ import SingleItem.ExtraItem;
 import util.HelperMethods;
 
 import static util.Constants.getIpAddress;
-import static www.ethichadebe.com.loxion_beanery.IngredientsActivity.getMenuItems;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 import static www.ethichadebe.com.loxion_beanery.MyShopsActivity.getNewShop;
 
@@ -92,7 +91,7 @@ public class NewExtrasActivity extends AppCompatActivity {
     }
 
     public void next(View view) {
-        getNewShop().setMenuItems(getMenuItems());
+        getNewShop().setMenuItems(getNewShop().getMenuItems());
         isNew = true;
         startActivity(new Intent(NewExtrasActivity.this, MyShopsActivity.class));
     }

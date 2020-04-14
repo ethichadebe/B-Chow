@@ -9,9 +9,11 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,10 +36,12 @@ import java.util.Objects;
 import Adapter.IngredientItemAdapter;
 import SingleItem.IngredientItem;
 import SingleItem.MenuItem;
+import SingleItem.ShopItem;
 import util.HelperMethods;
 
 import static util.Constants.getIpAddress;
 import static util.HelperMethods.ButtonVisibility;
+import static util.HelperMethods.handler;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 import static www.ethichadebe.com.loxion_beanery.MyShopsActivity.getNewShop;
 
@@ -48,9 +52,10 @@ public class IngredientsActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
     private CardView btnAddOption;
-    private static ArrayList<MenuItem> MenuItems;
     private MaterialEditText etName, etPrice;
     private Dialog myDialog;
+    private TextView tvEmpty;
+    private RelativeLayout rlLoad, rlError;
 
     private Button btnNext;
 
@@ -64,12 +69,16 @@ public class IngredientsActivity extends AppCompatActivity {
 
         myDialog = new Dialog(this);
         ingredientItems = new ArrayList<>();
-        MenuItems = new ArrayList<>();
         btnNext = findViewById(R.id.btnNext);
         etName = findViewById(R.id.etName);
         btnAddOption = findViewById(R.id.btnAddOption);
         etPrice = findViewById(R.id.etPrice);
 
+        tvEmpty = findViewById(R.id.tvEmpty);
+        rlLoad = findViewById(R.id.rlLoad);
+        rlError = findViewById(R.id.rlError);
+
+        GETIngredients(findViewById(R.id.vLine),findViewById(R.id.vLineGrey));
         ButtonVisibility(ingredientItems, btnNext);
         btnAddOption.setOnClickListener(view -> {
             if (Objects.requireNonNull(etName.getText()).toString().isEmpty() &&
@@ -82,7 +91,7 @@ public class IngredientsActivity extends AppCompatActivity {
             } else if (Objects.requireNonNull(etPrice.getText()).toString().isEmpty()) {
                 etName.setUnderlineColor(getResources().getColor(R.color.Black));
                 etPrice.setUnderlineColor(getResources().getColor(R.color.Red));
-            } else {
+            } else if (!ingredientExists(etName.getText().toString())){
                 POSTRegisterShopIngredients();
             }
         });
@@ -109,20 +118,19 @@ public class IngredientsActivity extends AppCompatActivity {
         });
     }
 
+    private boolean ingredientExists(String name){
+        for (IngredientItem ingredientItem:ingredientItems){
+            if (ingredientItem.getStrIngredientName().toLowerCase().equals(name.toLowerCase())){
+                etName.setError("Already exists");
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public static ArrayList<IngredientItem> getIngredientItems() {
         return ingredientItems;
-    }
-
-    public static ArrayList<MenuItem> getMenuItems() {
-        return MenuItems;
-    }
-
-    public static void addToList(int ID, Double Price, String ingredients) {
-        MenuItems.add(new MenuItem(ID, Price, ingredients));
-    }
-
-    public static void EditMenu(int position, Double Price, String ingredients) {
-        MenuItems.get(position).EditPriceNMenu(Price, ingredients);
     }
 
     public void ShowConfirmationPopup() {
@@ -310,5 +318,51 @@ public class IngredientsActivity extends AppCompatActivity {
         } else {
             startActivity(new Intent(this, OperatingHoursActivity.class));
         }
+    }
+
+    private void GETIngredients(View vLine, View vLineGrey) {
+        rlError.setVisibility(View.GONE);
+        rlLoad.setVisibility(View.VISIBLE);
+        handler(vLine, vLineGrey);
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+
+        JsonObjectRequest objectRequest = new JsonObjectRequest(
+                Request.Method.GET,
+                "http://" + getIpAddress() + "/shops/Ingredients/"+getNewShop().getIntID(), null,
+                response -> {
+                    //Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
+                    rlLoad.setVisibility(View.GONE);
+                    //Loads shops starting with the one closest to user
+                    try {
+                        if (response.getString("message").equals("shops")) {
+                            JSONArray jsonArray = response.getJSONArray("ingredients");
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject Ingredients = jsonArray.getJSONObject(i);
+                                ButtonVisibility(ingredientItems, btnNext);
+                                ingredientItems.add(new IngredientItem(Ingredients.getInt("iID"),
+                                        Ingredients.getString("iName"), Ingredients.getDouble("iPrice")));
+                            }
+                        } else if (response.getString("message").equals("empty")) {
+                            tvEmpty.setVisibility(View.VISIBLE);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                },
+                error -> {
+                    rlError.setVisibility(View.VISIBLE);
+                    rlLoad.setVisibility(View.GONE);
+                    if (error.toString().equals("com.android.volley.TimeoutError")) {
+                        Toast.makeText(this, "Connection error. Please retry", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+        requestQueue.add(objectRequest);
+
+    }
+
+    public void reload(View view) {
+        GETIngredients(findViewById(R.id.vLine),findViewById(R.id.vLineGrey));
     }
 }

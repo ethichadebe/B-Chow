@@ -235,6 +235,7 @@
             android:id="@+id/rlError"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="reload"
             android:visibility="gone">
 
             <ImageView

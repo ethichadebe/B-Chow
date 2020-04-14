@@ -37,8 +37,8 @@ import util.HelperMethods;
 import static util.Constants.getIpAddress;
 import static util.HelperMethods.ButtonVisibility;
 import static www.ethichadebe.com.loxion_beanery.IngredientsActivity.getIngredientItems;
-import static www.ethichadebe.com.loxion_beanery.IngredientsActivity.getMenuItems;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
+import static www.ethichadebe.com.loxion_beanery.MyShopsActivity.getNewShop;
 
 public class MenuActivity extends AppCompatActivity {
 
@@ -63,8 +63,8 @@ public class MenuActivity extends AppCompatActivity {
 
         MenuItems = new ArrayList<>();
         myDialog = new Dialog(this);
-        if (getMenuItems() != null) {
-            MenuItems = getMenuItems();
+        if (getNewShop().getMenuItems() != null) {
+            MenuItems = getNewShop().getMenuItems();
         }
         Ingredients = new ArrayList<>();
         mRecyclerView = findViewById(R.id.recyclerView);
@@ -141,7 +141,7 @@ public class MenuActivity extends AppCompatActivity {
 
     private int CheckMenuPrices() {
         ArrayList<Double> results = new ArrayList<>();
-        ArrayList<MenuItem> menuItems = getMenuItems();
+        ArrayList<MenuItem> menuItems = getNewShop().getMenuItems();
         ArrayList<IngredientItem> ingredientItems = getIngredientItems();
 
         if (menuItems.size() > 1) {

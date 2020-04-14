@@ -29,19 +29,17 @@ import java.util.Objects;
 
 import Adapter.IngredientItemCheckboxAdapter;
 import SingleItem.IngredientItemCheckbox;
+import SingleItem.MenuItem;
 import util.HelperMethods;
 
 import static util.Constants.getIpAddress;
 import static util.HelperMethods.combineString;
-import static www.ethichadebe.com.loxion_beanery.IngredientsActivity.getMenuItems;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 import static www.ethichadebe.com.loxion_beanery.MenuActivity.getIngredients;
 import static www.ethichadebe.com.loxion_beanery.MenuActivity.getIntPosition;
 import static www.ethichadebe.com.loxion_beanery.MenuActivity.getDblPrice;
 import static www.ethichadebe.com.loxion_beanery.MenuActivity.setIngredients;
-import static www.ethichadebe.com.loxion_beanery.IngredientsActivity.addToList;
 import static www.ethichadebe.com.loxion_beanery.IngredientsActivity.getIngredientItems;
-import static www.ethichadebe.com.loxion_beanery.IngredientsActivity.EditMenu;
 import static www.ethichadebe.com.loxion_beanery.MyShopsActivity.getNewShop;
 
 public class NewMenuItemActivity extends AppCompatActivity {
@@ -60,7 +58,7 @@ public class NewMenuItemActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_menu_item);
-        if (getUser() == null){
+        if (getUser() == null) {
             startActivity(new Intent(this, LoginActivity.class));
         }
 
@@ -69,8 +67,8 @@ public class NewMenuItemActivity extends AppCompatActivity {
         rlTotal = findViewById(R.id.rlTotal);
         myDialog = new Dialog(this);
 
-        if (getIngredients() .size()>0) {
-            dblPrice =getDblPrice();
+        if (getIngredients().size() > 0) {
+            dblPrice = getDblPrice();
             etPrice.setText(String.valueOf(getDblPrice()));
             btnAdd.setText("Edit");
             ingredientItems = new ArrayList<>();
@@ -154,8 +152,11 @@ public class NewMenuItemActivity extends AppCompatActivity {
                             JSONObject JSONResponse = jsonArray.getJSONObject(0);
                             etPrice.setUnderlineColor(getResources().getColor(R.color.Black));
                             etPrice.setText("");
-                            addToList(JSONResponse.getInt("mID"), JSONResponse.getDouble("mPrice"),
-                                    JSONResponse.getString("mList"));
+                            if (getNewShop().getMenuItems() == null) {
+                                getNewShop().setMenuItems(new ArrayList<>());
+                                getNewShop().getMenuItems().add(new MenuItem(JSONResponse.getInt("mID"), JSONResponse.getDouble("mPrice"),
+                                        JSONResponse.getString("mList")));
+                            }
                             startActivity(new Intent(NewMenuItemActivity.this, MenuActivity.class));
                         }
                     } catch (JSONException e) {
@@ -185,7 +186,7 @@ public class NewMenuItemActivity extends AppCompatActivity {
         if (Objects.requireNonNull(etPrice.getText()).toString().isEmpty()) {
             etPrice.setUnderlineColor(getResources().getColor(R.color.Red));
         } else {
-            if (getIngredients().size()>0) {
+            if (getIngredients().size() > 0) {
                 //Edit item
                 PUTMenuItem();
             } else {
@@ -209,11 +210,11 @@ public class NewMenuItemActivity extends AppCompatActivity {
     private void PUTMenuItem() {
         HelperMethods.ShowLoadingPopup(myDialog, true);
         StringRequest stringRequest = new StringRequest(Request.Method.PUT,
-                "http://" + getIpAddress() + "/shops/Register/MenuItems/" + getMenuItems().get(getIntPosition()).getIntID(),
+                "http://" + getIpAddress() + "/shops/Register/MenuItems/" + getNewShop().getMenuItems().get(getIntPosition()).getIntID(),
                 response -> {
                     //Toast.makeText(NewMenuItemActivity.this, response, Toast.LENGTH_LONG).show();
                     HelperMethods.ShowLoadingPopup(myDialog, false);
-                    EditMenu(getIntPosition(), Double.valueOf(Objects.requireNonNull(etPrice.getText()).toString()), combineString(ingredientItems));
+                    getNewShop().getMenuItems().get(getIntPosition()).EditPriceNMenu(Double.valueOf(Objects.requireNonNull(etPrice.getText()).toString()), combineString(ingredientItems));
                     setIngredients(new ArrayList<>());
                     startActivity(new Intent(NewMenuItemActivity.this, MenuActivity.class));
                 }, error -> {
