@@ -86,7 +86,7 @@ public class IngredientsActivity extends AppCompatActivity {
                 etName.setUnderlineColor(getResources().getColor(R.color.Red));
                 etPrice.setUnderlineColor(getResources().getColor(R.color.Red));
             } else if (etName.getText().toString().isEmpty()) {
-                etName.setUnderlineColor(getResources().getColor(R.color.Red));
+                etName.setUnderlineColor(getResources().getColor(R.color    .Red));
                 etPrice.setUnderlineColor(getResources().getColor(R.color.Black));
             } else if (Objects.requireNonNull(etPrice.getText()).toString().isEmpty()) {
                 etName.setUnderlineColor(getResources().getColor(R.color.Black));
@@ -133,36 +133,8 @@ public class IngredientsActivity extends AppCompatActivity {
         return ingredientItems;
     }
 
-    public void ShowConfirmationPopup() {
-        TextView tvCancel, tvMessage;
-        CardView cvYes, cvNo;
-        myDialog.setContentView(R.layout.popup_confirmation);
-
-        tvCancel = myDialog.findViewById(R.id.tvCancel);
-        tvMessage = myDialog.findViewById(R.id.tvMessage);
-        cvYes = myDialog.findViewById(R.id.cvYes);
-        cvNo = myDialog.findViewById(R.id.cvNo);
-
-        tvCancel.setOnClickListener(view -> myDialog.dismiss());
-
-        tvMessage.setText("All entered ingredients will be lost\nAre you sure?");
-
-        cvYes.setOnClickListener(view -> {
-            myDialog.dismiss();
-            finish();
-        });
-
-        cvNo.setOnClickListener(view -> myDialog.dismiss());
-        Objects.requireNonNull(myDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        myDialog.show();
-    }
-
     public void back(View view) {
-        if (!ingredientItems.isEmpty()) {
-            ShowConfirmationPopup();
-        } else {
             startActivity(new Intent(this, OperatingHoursActivity.class));
-        }
     }
 
     public void next(View view) {
@@ -313,11 +285,7 @@ public class IngredientsActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (!ingredientItems.isEmpty()) {
-            ShowConfirmationPopup();
-        } else {
             startActivity(new Intent(this, OperatingHoursActivity.class));
-        }
     }
 
     private void GETIngredients(View vLine, View vLineGrey) {

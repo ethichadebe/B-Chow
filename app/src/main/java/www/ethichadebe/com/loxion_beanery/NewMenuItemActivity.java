@@ -152,11 +152,6 @@ public class NewMenuItemActivity extends AppCompatActivity {
                             JSONObject JSONResponse = jsonArray.getJSONObject(0);
                             etPrice.setUnderlineColor(getResources().getColor(R.color.Black));
                             etPrice.setText("");
-                            if (getNewShop().getMenuItems() == null) {
-                                getNewShop().setMenuItems(new ArrayList<>());
-                                getNewShop().getMenuItems().add(new MenuItem(JSONResponse.getInt("mID"), JSONResponse.getDouble("mPrice"),
-                                        JSONResponse.getString("mList"), true));
-                            }
                             startActivity(new Intent(NewMenuItemActivity.this, MenuActivity.class));
                         }
                     } catch (JSONException e) {

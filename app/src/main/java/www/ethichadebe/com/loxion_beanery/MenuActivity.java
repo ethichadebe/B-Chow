@@ -81,7 +81,7 @@ public class MenuActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(mAdapter);
 
         if (getNewShop().getMenuItems() == null) {
-            GETMrnuItems(findViewById(R.id.vLine), findViewById(R.id.vLineGrey));
+            GETMenuItems(findViewById(R.id.vLine), findViewById(R.id.vLineGrey));
         }
 
         btnNext = findViewById(R.id.btnNext);
@@ -142,7 +142,7 @@ public class MenuActivity extends AppCompatActivity {
 
         JsonObjectRequest objectRequest = new JsonObjectRequest(
                 Request.Method.DELETE,
-                "http://" + getIpAddress() + "/shops/Register/MenuItem/" + MenuItems.get(position).getIntID(), null,
+                "http://" + getIpAddress() + "/shops/Register/MenuItem/" + MenuItems.get(position).getIntID()+"/"+getNewShop().getIntID(), null,
                 response -> {
                     HelperMethods.ShowLoadingPopup(myDialog, false);
                     try {
@@ -180,7 +180,7 @@ public class MenuActivity extends AppCompatActivity {
         startActivity(new Intent(MenuActivity.this, IngredientsActivity.class));
     }
 
-    private void GETMrnuItems(View vLine, View vLineGrey) {
+    private void GETMenuItems(View vLine, View vLineGrey) {
         rlError.setVisibility(View.GONE);
         rlLoad.setVisibility(View.VISIBLE);
         handler(vLine, vLineGrey);
@@ -200,7 +200,7 @@ public class MenuActivity extends AppCompatActivity {
                                 JSONObject Ingredients = jsonArray.getJSONObject(i);
                                 ButtonVisibility(MenuItems, btnNext);
                                 MenuItems.add(new MenuItem(Ingredients.getInt("mID"),
-                                        Ingredients.getDouble("mPrice"), Ingredients.getString("mList")));
+                                        Ingredients.getDouble("mPrice"), Ingredients.getString("mList"), true));
                             }
                         } else if (response.getString("message").equals("empty")) {
                             tvEmpty.setVisibility(View.VISIBLE);
@@ -223,6 +223,6 @@ public class MenuActivity extends AppCompatActivity {
     }
 
     public void reload(View view) {
-        GETMrnuItems(findViewById(R.id.vLine), findViewById(R.id.vLineGrey));
+        GETMenuItems(findViewById(R.id.vLine), findViewById(R.id.vLineGrey));
     }
 }
