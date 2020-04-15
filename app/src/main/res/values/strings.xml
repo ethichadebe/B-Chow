@@ -57,4 +57,10 @@
     <string name="r">R:</string>
     <string name="ingredient_name_e_g_cheese">Ingredient name (e.g Cheese)</string>
     <string name="add_an_ingredient">Add an Ingredient</string>
+    <string name="create_menu">Create menu</string>
+    <string name="add_menu">Add Menu</string>
+    <string name="my_menu">My Menu</string>
+    <string name="shop_name">Shop name</string>
+    <string name="saved_location">Saved Location</string>
+    <string name="operating_hours">Operating Hours</string>
 </resources>

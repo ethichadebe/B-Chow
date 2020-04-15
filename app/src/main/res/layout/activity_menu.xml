@@ -23,7 +23,7 @@
             android:layout_marginBottom="0dp"
             android:gravity="center"
             android:padding="10dp"
-            android:text="Create menu"
+            android:text="@string/create_menu"
             android:textColor="@color/Black"
             android:textSize="12sp"
             android:textStyle="bold" />
@@ -54,21 +54,6 @@
                     android:background="@drawable/ic_keyboard_backspace_black_24dp" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
-
-        <TextView
-            android:id="@+id/tvEdit"
-            style="@style/Base.TextAppearance.AppCompat.Body1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:gravity="center"
-            android:padding="10dp"
-            android:textColor="@color/White"
-            android:textSize="12sp"
-            android:textStyle="bold" />
-
     </RelativeLayout>
 
     <androidx.cardview.widget.CardView
@@ -107,7 +92,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
                 android:fontFamily="sans-serif-condensed-medium"
-                android:text="Add Menu"
+                android:text="@string/add_menu"
                 android:textColor="@color/Black"
                 android:textSize="18sp" />
 
@@ -139,7 +124,7 @@
             android:layout_marginTop="12dp"
             android:fontFamily="sans-serif-light"
             android:gravity="center"
-            android:text="My Menu"
+            android:text="@string/my_menu"
             android:textColor="@color/Black"
             android:textSize="14sp" />
 
@@ -161,6 +146,105 @@
         android:padding="4dp"
         android:scrollbars="horizontal" />
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rlHeading"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/rlLoad"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content">
+
+            <View
+                android:id="@+id/vLineGrey"
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:layout_centerInParent="true"
+                android:layout_gravity="bottom"
+                android:layout_margin="2dp"
+                android:background="@color/Grey" />
+
+            <View
+                android:id="@+id/vLine"
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:layout_centerInParent="true"
+                android:layout_gravity="bottom"
+                android:layout_margin="2dp"
+                android:background="@color/colorPrimary" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rlError"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="reload"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/ivError"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_centerHorizontal="true"
+                android:contentDescription="@string/error_symbol"
+                android:src="@drawable/ic_error_outline_black_24dp" />
+
+            <TextView
+                android:id="@+id/tvError"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ivError"
+                android:layout_centerHorizontal="true"
+                android:fontFamily="sans-serif-medium"
+                android:text="@string/network_error"
+                android:textColor="@color/Grey"
+                android:textSize="20sp" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cvRetry"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:layout_below="@+id/tvError"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="10dp"
+                android:padding="50dp"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="3dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/ripple_effect_white"
+                    android:fontFamily="sans-serif-medium"
+                    android:gravity="center"
+                    android:text="@string/retry"
+                    android:textAllCaps="true"
+                    android:textColor="@color/Black"
+                    android:textSize="14sp" />
+            </androidx.cardview.widget.CardView>
+
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tvEmpty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:text="Add your menu list"
+            android:textColor="@color/Grey"
+            android:textSize="20sp"
+            android:visibility="gone" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/btnNext"
@@ -169,6 +253,6 @@
         android:layout_alignParentBottom="true"
         android:background="@drawable/ripple_effect"
         android:onClick="next"
-        android:text="Next"
+        android:text="nex"
         android:textColor="@color/White" />
 </RelativeLayout>

@@ -12,21 +12,20 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
 import Adapter.MenuItemAdapter;
@@ -36,6 +35,7 @@ import util.HelperMethods;
 
 import static util.Constants.getIpAddress;
 import static util.HelperMethods.ButtonVisibility;
+import static util.HelperMethods.handler;
 import static www.ethichadebe.com.loxion_beanery.IngredientsActivity.getIngredientItems;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 import static www.ethichadebe.com.loxion_beanery.MyShopsActivity.getNewShop;
@@ -49,15 +49,17 @@ public class MenuActivity extends AppCompatActivity {
     private static ArrayList<IngredientItem> Ingredients;
     private static int intPosition;
     private static Double dblPrice;
+    private TextView tvEmpty;
     private Dialog myDialog;
     private Button btnNext;
+    private RelativeLayout rlLoad, rlError;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
-        if (getUser() == null){
+        if (getUser() == null) {
             startActivity(new Intent(this, LoginActivity.class));
         } // Check if user is looged in
 
@@ -72,8 +74,15 @@ public class MenuActivity extends AppCompatActivity {
         mLayoutManager = new LinearLayoutManager(this);
         mAdapter = new MenuItemAdapter(MenuItems);
 
+        tvEmpty = findViewById(R.id.tvEmpty);
+        rlLoad = findViewById(R.id.rlLoad);
+        rlError = findViewById(R.id.rlError);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
+
+        if (getNewShop().getMenuItems() == null) {
+            GETMrnuItems(findViewById(R.id.vLine), findViewById(R.id.vLineGrey));
+        }
 
         btnNext = findViewById(R.id.btnNext);
 
@@ -115,70 +124,8 @@ public class MenuActivity extends AppCompatActivity {
         return dblPrice;
     }
 
-    public void ShowConfirmationPopup() {
-        TextView tvCancel, tvMessage;
-        CardView cvYes, cvNo;
-        myDialog.setContentView(R.layout.popup_confirmation);
-
-        tvCancel = myDialog.findViewById(R.id.tvCancel);
-        tvMessage = myDialog.findViewById(R.id.tvMessage);
-        cvYes = myDialog.findViewById(R.id.cvYes);
-        cvNo = myDialog.findViewById(R.id.cvNo);
-
-        tvCancel.setOnClickListener(view -> myDialog.dismiss());
-
-        tvMessage.setText("All entered ingredients and Menu items will be lost.\nAre you sure?");
-
-        cvYes.setOnClickListener(view -> {
-            myDialog.dismiss();
-            startActivity(new Intent(MenuActivity.this, IngredientsActivity.class));
-        });
-
-        cvNo.setOnClickListener(view -> myDialog.dismiss());
-        Objects.requireNonNull(myDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        myDialog.show();
-    }
-
-    private int CheckMenuPrices() {
-        ArrayList<Double> results = new ArrayList<>();
-        ArrayList<MenuItem> menuItems = getNewShop().getMenuItems();
-        ArrayList<IngredientItem> ingredientItems = getIngredientItems();
-
-        if (menuItems.size() > 1) {
-            //take each menu item's ingredients list and separate them into individual ingredient names
-            for (MenuItem menuItem : menuItems) {
-                String[] ingredient = menuItem.getStrMenu().split(", ");
-
-                int counter = 0;
-                Double TempPrice = menuItem.getDblPrice();
-                while (counter < ingredient.length) {
-                    //Go through each ingredient and deduct its price from the menu's total price
-                    for (IngredientItem ingredientItem : ingredientItems) {
-                        if (ingredient[counter].equals(ingredientItem.getStrIngredientName())) {
-                            TempPrice -= ingredientItem.getDblPrice();
-                        }
-                    }
-                    counter++;
-                }
-                results.add(TempPrice);
-            }
-
-            //Go through all resulting prices and check if they are equal
-            for (int i = 0; i < results.size() - 1; i++) {
-                if (!results.get(i).equals(results.get(i + 1))) {
-                    return 0;
-                }
-            }
-        }
-        return 1;
-    }
-
     public void back(View view) {
-        if (MenuItems.isEmpty()) {
-            finish();
-        } else {
-            ShowConfirmationPopup();
-        }
+        startActivity(new Intent(MenuActivity.this, IngredientsActivity.class));
     }
 
     public void next(View view) {
@@ -230,10 +177,52 @@ public class MenuActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (MenuItems.isEmpty()) {
-            finish();
-        } else {
-            ShowConfirmationPopup();
-        }
+        startActivity(new Intent(MenuActivity.this, IngredientsActivity.class));
+    }
+
+    private void GETMrnuItems(View vLine, View vLineGrey) {
+        rlError.setVisibility(View.GONE);
+        rlLoad.setVisibility(View.VISIBLE);
+        handler(vLine, vLineGrey);
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+
+        JsonObjectRequest objectRequest = new JsonObjectRequest(
+                Request.Method.GET,
+                "http://" + getIpAddress() + "/shops/MenuItems/" + getNewShop().getIntID(), null,
+                response -> {
+                    //Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
+                    rlLoad.setVisibility(View.GONE);
+                    //Loads shops starting with the one closest to user
+                    try {
+                        if (response.getString("message").equals("shops")) {
+                            JSONArray jsonArray = response.getJSONArray("menuItems");
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject Ingredients = jsonArray.getJSONObject(i);
+                                ButtonVisibility(MenuItems, btnNext);
+                                MenuItems.add(new MenuItem(Ingredients.getInt("mID"),
+                                        Ingredients.getDouble("mPrice"), Ingredients.getString("mList")));
+                            }
+                        } else if (response.getString("message").equals("empty")) {
+                            tvEmpty.setVisibility(View.VISIBLE);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                },
+                error -> {
+                    rlError.setVisibility(View.VISIBLE);
+                    rlLoad.setVisibility(View.GONE);
+                    if (error.toString().equals("com.android.volley.TimeoutError")) {
+                        Toast.makeText(this, "Connection error. Please retry", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+        requestQueue.add(objectRequest);
+
+    }
+
+    public void reload(View view) {
+        GETMrnuItems(findViewById(R.id.vLine), findViewById(R.id.vLineGrey));
     }
 }

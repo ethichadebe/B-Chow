@@ -129,6 +129,44 @@
                 android:orientation="vertical"
                 android:visibility="gone">
 
+                <RelativeLayout
+                    android:id="@+id/rlHeading1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/cvPass"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp">
+
+                    <View
+                        android:layout_width="wrap_content"
+                        android:layout_height="1dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerInParent="true"
+                        android:layout_marginEnd="5dp"
+                        android:layout_toStartOf="@id/tvHeading3"
+                        android:background="@color/Grey" />
+
+                    <TextView
+                        android:id="@+id/tvHeading3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_marginTop="12dp"
+                        android:fontFamily="sans-serif-light"
+                        android:gravity="center"
+                        android:text="@string/operating_hours"
+                        android:textColor="@color/Black"
+                        android:textSize="14sp" />
+
+                    <View
+                        android:layout_width="wrap_content"
+                        android:layout_height="1dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerInParent="true"
+                        android:layout_marginStart="5dp"
+                        android:layout_toEndOf="@id/tvHeading3"
+                        android:background="@color/Grey" />
+                </RelativeLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

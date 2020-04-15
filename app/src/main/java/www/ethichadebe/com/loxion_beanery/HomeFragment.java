@@ -77,6 +77,7 @@ public class HomeFragment extends Fragment {
         mRecyclerView.setAdapter(mAdapter);
 
         //Search for nearby shops
+        Location location = new Location("");
         GETShops(v.findViewById(R.id.vLine), v.findViewById(R.id.vLineGrey));
 
         //ShopItem on click
@@ -115,12 +116,12 @@ public class HomeFragment extends Fragment {
                     //Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
                     rlLoad.setVisibility(View.GONE);
                     //Loads shops starting with the one closest to user
+                    Location location = new Location("");
                     try {
                         if (response.getString("message").equals("shops")) {
                             JSONArray jsonArray = response.getJSONArray("shops");
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject Shops = jsonArray.getJSONObject(i);
-                                Location location = new Location("");
                                 String[] strCoord = Shops.getString("sLocation").split(" ");
                                 location.setLatitude(Double.parseDouble(strCoord[0]));
                                 location.setLongitude(Double.parseDouble(strCoord[1]));

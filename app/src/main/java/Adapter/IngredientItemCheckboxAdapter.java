@@ -71,7 +71,10 @@ public class IngredientItemCheckboxAdapter extends RecyclerView.Adapter<Ingredie
         holder.tvIngredientName.setId(item.getIntID());
         holder.tvIngredientName.setChecked(item.getChecked());
         holder.tvPrice.setText("R" + item.getDblPrice());
-        holder.tvPrice.setVisibility(View.GONE);
+
+        if (!item.getVisible()){
+            holder.tvPrice.setVisibility(View.GONE);
+        }
     }
 
     @Override

@@ -310,7 +310,6 @@
                 android:layout_below="@+id/tvError"
                 android:layout_centerHorizontal="true"
                 android:layout_margin="10dp"
-                android:background="@drawable/empty_btn_bg"
                 android:padding="50dp"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="3dp">

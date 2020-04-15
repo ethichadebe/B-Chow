@@ -124,7 +124,6 @@
                 android:layout_columnWeight="1"
                 android:layout_rowWeight="1"
                 app:cardElevation="3dp"
-                android:background="@drawable/empty_btn_bg"
                 app:cardCornerRadius="10dp">
                 <TextView
                     android:layout_width="match_parent"

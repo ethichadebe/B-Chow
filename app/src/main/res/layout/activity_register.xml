@@ -217,7 +217,6 @@
                     android:layout_columnWeight="1"
                     android:layout_below="@id/btnRegister"
                     android:layout_margin="10dp"
-                    android:background="@drawable/empty_btn_bg"
                     android:padding="50dp"
                     android:onClick="login"
                     app:cardCornerRadius="10dp"
