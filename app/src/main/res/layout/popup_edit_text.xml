@@ -26,7 +26,7 @@
             android:textSize="20sp"
             android:textStyle="bold" />
         <TextView
-            android:id="@+id/tvHeading2"
+            android:id="@+id/tvHeading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
@@ -39,10 +39,10 @@
             android:textSize="14sp" />
 
         <RelativeLayout
-            android:id="@+id/rlTotal"
+            android:id="@+id/rlBody"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tvHeading2"
+            android:layout_below="@+id/tvHeading"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp">

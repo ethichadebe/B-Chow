@@ -23,9 +23,26 @@ public class ShopSettingsActivity extends AppCompatActivity {
     }
 
     public void back(View view) {finish();
+        startActivity(new Intent(this, MyShopsActivity.class));
     }
 
     public void shop(View view) {
-        startActivity(new Intent(ShopSettingsActivity.this, RegisterShopActivity.class));
+        startActivity(new Intent(this, RegisterShopActivity.class));
+    }
+
+    public void OH(View view) {
+        startActivity(new Intent(this, OperatingHoursActivity.class));
+    }
+
+    public void Extra(View view) {
+        startActivity(new Intent(this, NewExtrasActivity.class));
+    }
+
+    public void Menu(View view) {
+        startActivity(new Intent(this, MenuActivity.class));
+    }
+
+    public void Ingredients(View view) {
+        startActivity(new Intent(this, IngredientsActivity.class));
     }
 }

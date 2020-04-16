@@ -11,6 +11,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,9 +33,13 @@ import java.util.Objects;
 
 import Adapter.ExtraItemAdapter;
 import SingleItem.ExtraItem;
+import SingleItem.IngredientItem;
 import util.HelperMethods;
 
 import static util.Constants.getIpAddress;
+import static util.HelperMethods.ButtonVisibility;
+import static util.HelperMethods.ShowLoadingPopup;
+import static util.HelperMethods.handler;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 import static www.ethichadebe.com.loxion_beanery.MyShopsActivity.getNewShop;
 
@@ -43,6 +48,8 @@ public class NewExtrasActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private ExtraItemAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    private TextView tvEmpty;
+    private RelativeLayout rlLoad, rlError;
 
     private Dialog myDialog;
 
@@ -72,6 +79,11 @@ public class NewExtrasActivity extends AppCompatActivity {
 
         mRecyclerView = findViewById(R.id.recyclerView);
 
+        tvEmpty = findViewById(R.id.tvEmpty);
+        rlLoad = findViewById(R.id.rlLoad);
+        rlError = findViewById(R.id.rlError);
+
+        GETExtras(findViewById(R.id.vLine),findViewById(R.id.vLineGrey));
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
         mAdapter = new ExtraItemAdapter(extraItems);
@@ -107,16 +119,14 @@ public class NewExtrasActivity extends AppCompatActivity {
             etExtra.setUnderlineColor(getResources().getColor(R.color.Grey));
             POSTRegisterShopExtra();
         }
-
-
     }
 
     private void POSTRegisterShopExtra() {
-        HelperMethods.ShowLoadingPopup(myDialog, true);
+        ShowLoadingPopup(myDialog, true);
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
                 "http://" + getIpAddress() + "/shops/Register/Extra",
                 response -> {
-                    HelperMethods.ShowLoadingPopup(myDialog, false);
+                    ShowLoadingPopup(myDialog, false);
                     try {
                         JSONObject JSONData = new JSONObject(response);
                         if (JSONData.getString("data").equals("saved")) {
@@ -130,7 +140,7 @@ public class NewExtrasActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }, error -> {
-            HelperMethods.ShowLoadingPopup(myDialog, false);
+            ShowLoadingPopup(myDialog, false);
             Toast.makeText(NewExtrasActivity.this, error.toString(), Toast.LENGTH_LONG).show();
         }) {
             @Override
@@ -147,14 +157,14 @@ public class NewExtrasActivity extends AppCompatActivity {
     }
 
     private void DELETEExtra(int position) {
-        HelperMethods.ShowLoadingPopup(myDialog, true);
+        ShowLoadingPopup(myDialog, true);
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
         JsonObjectRequest objectRequest = new JsonObjectRequest(
                 Request.Method.DELETE,
                 "http://" + getIpAddress() + "/shops/Register/Extra/" + extraItems.get(position).getIntID(), null,   //+getUser().getuID()
                 response -> {
-                    HelperMethods.ShowLoadingPopup(myDialog, false);
+                    ShowLoadingPopup(myDialog, false);
                     try {
                         JSONObject JSONData = new JSONObject(response.toString());
                         if (JSONData.getString("data").equals("removed")) {
@@ -178,21 +188,22 @@ public class NewExtrasActivity extends AppCompatActivity {
     }
 
     private void PUTExtra(int position, String name) {
-        HelperMethods.ShowLoadingPopup(myDialog, true);
+        ShowLoadingPopup(myDialog, true);
         StringRequest stringRequest = new StringRequest(Request.Method.PUT,
-                "http://" + getIpAddress() + "/shops/Register/Ingredient/" + extraItems.get(position).getIntID(),
+                "http://" + getIpAddress() + "/shops/Register/Extra/" + extraItems.get(position).getIntID(),
                 response -> {
-                    HelperMethods.ShowLoadingPopup(myDialog, false);
+                    ShowLoadingPopup(myDialog, false);
                     extraItems.get(position).setStrExtraName(name);
                     mAdapter.notifyItemChanged(position);
                 }, error -> {
+            HelperMethods.ShowLoadingPopup(myDialog, false);
             //myDialog.dismiss();
         }) {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
 
-                params.put("eName", Objects.requireNonNull(etExtra.getText()).toString());
+                params.put("eName", name);
                 return params;
             }
         };
@@ -204,21 +215,23 @@ public class NewExtrasActivity extends AppCompatActivity {
     public void ShowEditExtraPopup(int position) {
         MaterialEditText etExtra;
         CardView cvEditOption;
-        TextView tvCancel;
+        TextView tvCancel,tvHeading;
         myDialog.setContentView(R.layout.popup_edit_text);
 
         etExtra = myDialog.findViewById(R.id.etExtra);
         cvEditOption = myDialog.findViewById(R.id.cvEditOption);
         tvCancel = myDialog.findViewById(R.id.tvCancel);
+        tvHeading = myDialog.findViewById(R.id.tvHeading);
 
+        tvHeading.setText("Edit Extra");
+        etExtra.setHint("Extra name");
         etExtra.setText(extraItems.get(position).getStrExtraName());
         tvCancel.setOnClickListener(view -> myDialog.dismiss());
 
         cvEditOption.setOnClickListener(view -> {
             if (Objects.requireNonNull(etExtra.getText()).toString().isEmpty()){
-                etExtra.setUnderlineColor(getResources().getColor(R.color.Red));
+                etExtra.setError("required");
             }else {
-                etExtra.setUnderlineColor(getResources().getColor(R.color.Grey));
                 PUTExtra(position, Objects.requireNonNull(etExtra.getText()).toString());
             }
         });
@@ -229,5 +242,48 @@ public class NewExtrasActivity extends AppCompatActivity {
         myDialog.setCanceledOnTouchOutside(false);
     }
 
+    public void reload(View view) {
+        GETExtras(findViewById(R.id.vLine),findViewById(R.id.vLineGrey));
+    }
+
+    private void GETExtras(View vLine, View vLineGrey) {
+        rlError.setVisibility(View.GONE);
+        rlLoad.setVisibility(View.VISIBLE);
+        handler(vLine, vLineGrey);
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+
+        JsonObjectRequest objectRequest = new JsonObjectRequest(
+                Request.Method.GET,
+                "http://" + getIpAddress() + "/shops/Extras/"+getNewShop().getIntID(), null,
+                response -> {
+                    //Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
+                    rlLoad.setVisibility(View.GONE);
+                    //Loads shops starting with the one closest to user
+                    try {
+                        if (response.getString("message").equals("shops")) {
+                            JSONArray jsonArray = response.getJSONArray("extras");
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject Extras = jsonArray.getJSONObject(i);
+                                        extraItems.add(new ExtraItem(Extras.getInt("eID"), Extras.getString("eName")));
+                            }
+                        } else if (response.getString("message").equals("empty")) {
+                            tvEmpty.setVisibility(View.VISIBLE);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                },
+                error -> {
+                    rlError.setVisibility(View.VISIBLE);
+                    rlLoad.setVisibility(View.GONE);
+                    if (error.toString().equals("com.android.volley.TimeoutError")) {
+                        Toast.makeText(this, "Connection error. Please retry", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+        requestQueue.add(objectRequest);
+
+    }
 
 }

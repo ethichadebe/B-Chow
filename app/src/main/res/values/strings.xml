@@ -63,4 +63,14 @@
     <string name="shop_name">Shop name</string>
     <string name="saved_location">Saved Location</string>
     <string name="operating_hours">Operating Hours</string>
+    <string name="deactivate_shop">Deactivate Shop</string>
+    <string name="edit_extras">Edit Extras</string>
+    <string name="edit_menu">Edit Menu</string>
+    <string name="edit_ingredients">Edit Ingredients</string>
+    <string name="edit_operating_hours">Edit Operating hours</string>
+    <string name="edit_shop_profile">Edit Shop Profile</string>
+    <string name="my_extras">My Extras</string>
+    <string name="extra_e_g_tomato_sauce">Extra (e.g Tomato sauce)</string>
+    <string name="add_an_extra">Add an extra</string>
+    <string name="extras">Extras</string>
 </resources>

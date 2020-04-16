@@ -140,43 +140,4 @@
                 android:textSize="20sp" />
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cvMenu"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_rowWeight="1"
-        android:layout_columnWeight="1"
-        android:layout_margin="5dp"
-        android:layout_below="@id/cvMyShops"
-        android:background="@drawable/ripple_effect_white"
-        app:cardCornerRadius="10dp"
-        app:cardElevation="3dp">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="5dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:fontFamily="sans-serif-medium"
-                android:text="Edit Menu"
-                android:textSize="18sp" />
-
-            <TextView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="5dp"
-                android:fontFamily="sans-serif-medium"
-                android:gravity="center"
-                android:textSize="20sp" />
-        </RelativeLayout>
-    </androidx.cardview.widget.CardView>
 </RelativeLayout>

@@ -23,7 +23,7 @@
             android:layout_marginBottom="0dp"
             android:gravity="center"
             android:padding="10dp"
-            android:text="Extras"
+            android:text="@string/extras"
             android:textColor="@color/Black"
             android:textSize="12sp"
             android:textStyle="bold" />
@@ -43,21 +43,6 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/ic_keyboard_backspace_black_24dp"/>
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/tvEdit"
-            style="@style/Base.TextAppearance.AppCompat.Body1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentTop="true"
-            android:gravity="center"
-            android:layout_alignParentEnd="true"
-            android:padding="10dp"
-            android:textColor="@color/White"
-            android:textSize="12sp"
-            android:textStyle="bold" />
-
     </RelativeLayout>
 
 
@@ -83,7 +68,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_centerHorizontal="true"
                 android:fontFamily="sans-serif-medium"
-                android:text="Add an extra"
+                android:text="@string/add_an_extra"
                 android:textColor="@color/Black"
                 android:textSize="14sp" />
 
@@ -106,7 +91,7 @@
                     android:layout_alignParentStart="true"
                     android:layout_marginEnd="20dp"
                     android:layout_toStartOf="@id/btnAddOption"
-                    android:hint="Extra"
+                    android:hint="@string/extra_e_g_tomato_sauce"
                     android:inputType="textPersonName"
                     app:met_floatingLabel="highlight" />
 
@@ -132,7 +117,7 @@
                         android:gravity="center"
                         android:fontFamily="sans-serif-medium"
                         android:textAllCaps="false"
-                        android:text="Add"
+                        android:text="@string/add"
                         android:textColor="@color/White"/>
                 </androidx.cardview.widget.CardView>
             </RelativeLayout>
@@ -164,7 +149,7 @@
             android:fontFamily="sans-serif-light"
             android:gravity="center"
             android:layout_centerInParent="true"
-            android:text="My ingredients"
+            android:text="@string/my_extras"
             android:textColor="@color/Black"
             android:textSize="14sp" />
 
@@ -187,11 +172,108 @@
         android:padding="4dp"
         android:scrollbars="horizontal"/>
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rlHeading1"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/rlLoad"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content">
+
+            <View
+                android:id="@+id/vLineGrey"
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:layout_centerInParent="true"
+                android:layout_gravity="bottom"
+                android:layout_margin="2dp"
+                android:background="@color/Grey" />
+
+            <View
+                android:id="@+id/vLine"
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:layout_centerInParent="true"
+                android:layout_gravity="bottom"
+                android:layout_margin="2dp"
+                android:background="@color/colorPrimary" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rlError"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="reload"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/ivError"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_centerHorizontal="true"
+                android:contentDescription="@string/error_symbol"
+                android:src="@drawable/ic_error_outline_black_24dp" />
+
+            <TextView
+                android:id="@+id/tvError"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ivError"
+                android:layout_centerHorizontal="true"
+                android:fontFamily="sans-serif-medium"
+                android:text="@string/network_error"
+                android:textColor="@color/Grey"
+                android:textSize="20sp" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cvRetry"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:layout_below="@+id/tvError"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="10dp"
+                android:padding="50dp"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="3dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/ripple_effect_white"
+                    android:fontFamily="sans-serif-medium"
+                    android:gravity="center"
+                    android:text="@string/retry"
+                    android:textAllCaps="true"
+                    android:textColor="@color/Black"
+                    android:textSize="14sp" />
+            </androidx.cardview.widget.CardView>
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tvEmpty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:text="Add the list of all extras"
+            android:textColor="@color/Grey"
+            android:textSize="20sp"
+            android:visibility="gone" />
+    </LinearLayout>
     <Button
         android:id="@+id/btnNext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Next"
+        android:text="@string/next"
         android:layout_alignParentBottom="true"
         android:background="@drawable/ripple_effect"
         android:onClick="next"
