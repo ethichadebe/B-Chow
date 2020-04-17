@@ -1,14 +1,11 @@
 package www.ethichadebe.com.loxion_beanery;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -26,9 +23,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 import Adapter.IngredientItemCheckboxAdapter;
 import SingleItem.IngredientItemCheckbox;
@@ -52,14 +49,16 @@ public class OrderActivity extends AppCompatActivity {
     private Double dblPrice, foundPrice = 0.0;
     private RelativeLayout rlLoad, rlError;
     private Dialog myDialog;
+    private boolean alreadyExists;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
-        if (getUser() == null){
+        if (getUser() == null) {
             startActivity(new Intent(this, LoginActivity.class));
         }
+
 
         tvTotal = findViewById(R.id.tvTotal);
         rlLoad = findViewById(R.id.rlLoad);
@@ -81,14 +80,40 @@ public class OrderActivity extends AppCompatActivity {
         mAdapter.setOnItemClickListener(position -> {
             if (!ingredientItems.get(position).getChecked()) {
                 ingredientItems.get(position).setChecked(true);
-                dblPrice += ingredientItems.get(position).getDblPrice();
+                checkMenu();
+                if (alreadyExists){
+                    dblPrice += ingredientItems.get(position).getDblPrice();
+                }
             } else {
                 ingredientItems.get(position).setChecked(false);
-                dblPrice -= ingredientItems.get(position).getDblPrice();
+                checkMenu();
+                if (alreadyExists){
+                    dblPrice -= ingredientItems.get(position).getDblPrice();
+                }
             }
             tvTotal.setText("R" + dblPrice);
         });
 
+    }
+
+    private boolean determinePrice(String string){
+        for (MenuItem menuItem:getShopItem().getMenuItems()){
+            if (menuItem.getStrMenu().equals(string)){
+                dblPrice = menuItem.getDblPrice();
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private void checkMenu() {
+        StringBuilder MenuList = new StringBuilder();
+        for (int i = 0; i < ingredientItems.size(); i++) {
+            if (ingredientItems.get(i).getChecked()) {
+                MenuList.append(ingredientItems.get(i).getStrIngredientName()).append(", ");
+               alreadyExists = determinePrice(String.valueOf(MenuList).substring(0, String.valueOf(MenuList).length() - 2));
+            }
+        }
     }
 
     private void GETIngredients(View vLine, View vLineGrey) {
@@ -105,20 +130,19 @@ public class OrderActivity extends AppCompatActivity {
                     rlLoad.setVisibility(View.GONE);
                     //Loads shops starting with the one closest to user
                     try {
-                        JSONArray jsonArray = response.getJSONArray("menuItems");
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            JSONObject Ingredient = jsonArray.getJSONObject(i);
-                            if (isChecked(Ingredient.getString("iName"))) {
-                                ingredientItems.add(new IngredientItemCheckbox(Ingredient.getInt("iID"), Ingredient.getString("iName"), Ingredient.getDouble("iPrice"), true,false));
+                        if (response.getString("message").equals("shops")) {
+                            JSONArray jsonArray = response.getJSONArray("ingredients");
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject Ingredient = jsonArray.getJSONObject(i);
+                                if (isChecked(Ingredient.getString("iName"))) {
+                                    ingredientItems.add(new IngredientItemCheckbox(Ingredient.getInt("iID"), Ingredient.getString("iName"), Ingredient.getDouble("iPrice"), true, false));
+                                }else {
+                                    ingredientItems.add(new IngredientItemCheckbox(Ingredient.getInt("iID"), Ingredient.getString("iName"), Ingredient.getDouble("iPrice"), false, false));
+
+                                }
                             }
+                            tvTotal.setText("R" + dblPrice);
                         }
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            JSONObject Ingredient = jsonArray.getJSONObject(i);
-                            if (!isChecked(Ingredient.getString("iName"))) {
-                                ingredientItems.add(new IngredientItemCheckbox(Ingredient.getInt("iID"), Ingredient.getString("iName"), Ingredient.getDouble("iPrice"), false,false));
-                            }
-                        }
-                        tvTotal.setText("R" + dblPrice);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -141,11 +165,7 @@ public class OrderActivity extends AppCompatActivity {
     }
 
     public void Order(View view) {
-        if (alreadyExists()) {
-            ShowConfirmationPopup();
-        }else {
-            POSTOrder();
-        }
+        POSTOrder();
     }
 
     private boolean isChecked(String IngredientName) {
@@ -160,7 +180,7 @@ public class OrderActivity extends AppCompatActivity {
     private void POSTOrder() {
         ShowLoadingPopup(myDialog, true);
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
-                "http://" + getIpAddress() + "/orders/Register",
+                "http://" + getIpAddress() + "/orders/Order",
                 response -> {
                     try {
                         JSONObject JSONResponse = new JSONObject(response);
@@ -188,58 +208,10 @@ public class OrderActivity extends AppCompatActivity {
         requestQueue.add(stringRequest);
     }
 
-    private boolean alreadyExists() {
-        boolean isThere = false;
-        String[] mIngredients = combineString(ingredientItems).split(", ");
-        for (MenuItem menuItem : getShopItem().getMenuItems()) {
-            String[] ingredients = menuItem.getStrMenu().split(", ");
-
-            for (String mIngredient : mIngredients) {
-                isThere = false;
-                for (String ingredient : ingredients) {
-                    if (mIngredient.equals(ingredient)) {
-                        isThere = true;
-                        break;
-                    }
-                }
-            }
-
-            if (isThere) {
-                if (!dblPrice.equals(foundPrice)){
-                    foundPrice = menuItem.getDblPrice();
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    public void ShowConfirmationPopup() {
-        TextView tvCancel, tvMessage;
-        CardView cvYes, cvNo;
-        myDialog.setContentView(R.layout.popup_confirmation);
-
-        tvCancel = myDialog.findViewById(R.id.tvCancel);
-        tvMessage = myDialog.findViewById(R.id.tvMessage);
-        cvYes = myDialog.findViewById(R.id.cvYes);
-        cvNo = myDialog.findViewById(R.id.cvNo);
-
-        tvCancel.setOnClickListener(view -> myDialog.dismiss());
-
-        tvMessage.setText("Selected kota already exists in menu. If you wish to continue you'll be charged R" + foundPrice + ". Do you wish to continue?");
-
-        cvYes.setOnClickListener(view -> {
-            myDialog.dismiss();
-            POSTOrder();
-        });
-
-        cvNo.setOnClickListener(view -> myDialog.dismiss());
-        Objects.requireNonNull(myDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        myDialog.show();
-    }
-
     @Override
     public void onBackPressed() {
         super.onBackPressed();
     }
+
+
 }

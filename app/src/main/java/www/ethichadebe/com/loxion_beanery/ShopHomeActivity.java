@@ -38,6 +38,7 @@ import util.HelperMethods;
 
 import static util.Constants.getIpAddress;
 import static util.HelperMethods.handler;
+import static util.HelperMethods.setStarRating;
 import static www.ethichadebe.com.loxion_beanery.HomeFragment.getShopItem;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 import static www.ethichadebe.com.loxion_beanery.MyShopsActivity.getNewShop;
@@ -50,7 +51,7 @@ public class ShopHomeActivity extends AppCompatActivity {
     private static ArrayList<MenuItem> MenuItems;
     private static String[] ingredients;
     private RelativeLayout rlLoad, rlError;
-    private TextView tvName, tvDistance, tvAveTime, tvFullDescrpit;
+    private TextView tvName, tvDistance, tvAveTime, tvFullDescrpit, tvLikes;
     private ImageView ivStar1, ivStar2, ivStar3, ivStar4, ivStar5;
     private static MenuItem menuItem;
     private Dialog myDialog;
@@ -65,7 +66,7 @@ public class ShopHomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop_home);
-        if (getUser() == null){
+        if (getUser() == null) {
             startActivity(new Intent(this, LoginActivity.class));
         }
 
@@ -74,6 +75,7 @@ public class ShopHomeActivity extends AppCompatActivity {
         tvName = findViewById(R.id.tvName);
         ivLike = findViewById(R.id.ivLike);
         llLike = findViewById(R.id.llLike);
+        tvLikes = findViewById(R.id.tvLikes);
         ivStar1 = findViewById(R.id.ivStar1);
         ivStar2 = findViewById(R.id.ivStar2);
         ivStar3 = findViewById(R.id.ivStar3);
@@ -89,56 +91,15 @@ public class ShopHomeActivity extends AppCompatActivity {
             GETMenu(findViewById(R.id.vLine), findViewById(R.id.vLineGrey));
         }
 
-        if (getShopItem().isLiked() == 1){
+        if (getShopItem().isLiked() == 1) {
             ivLike.setImageResource(R.drawable.ic_favorite_red_24dp);
         }
 
         tvName.setText(getShopItem().getStrShopName());
-        switch (getShopItem().getIntRating()) {
-            case 0:
-                ivStar1.setImageResource(0);
-                ivStar2.setImageResource(0);
-                ivStar3.setImageResource(0);
-                ivStar4.setImageResource(0);
-                ivStar5.setImageResource(0);
-                break;
-            case 1:
-                ivStar1.setImageResource(0);
-                ivStar2.setImageResource(0);
-                ivStar3.setImageResource(0);
-                ivStar4.setImageResource(0);
-                ivStar5.setVisibility(View.VISIBLE);
-                ivStar5.setVisibility(View.VISIBLE);
-                break;
-            case 2:
-                ivStar1.setImageResource(0);
-                ivStar2.setImageResource(0);
-                ivStar3.setImageResource(0);
-                ivStar4.setVisibility(View.VISIBLE);
-                ivStar5.setVisibility(View.VISIBLE);
-                break;
-            case 3:
-                ivStar1.setImageResource(0);
-                ivStar2.setImageResource(0);
-                ivStar3.setVisibility(View.VISIBLE);
-                ivStar4.setVisibility(View.VISIBLE);
-                ivStar5.setVisibility(View.VISIBLE);
-                break;
-            case 4:
-                ivStar1.setImageResource(0);
-                ivStar2.setVisibility(View.VISIBLE);
-                ivStar3.setVisibility(View.VISIBLE);
-                ivStar4.setVisibility(View.VISIBLE);
-                ivStar5.setVisibility(View.VISIBLE);
-                break;
-            case 5:
-                ivStar1.setVisibility(View.VISIBLE);
-                ivStar2.setVisibility(View.VISIBLE);
-                ivStar3.setVisibility(View.VISIBLE);
-                ivStar4.setVisibility(View.VISIBLE);
-                ivStar5.setVisibility(View.VISIBLE);
-                break;
-        }
+
+        setStarRating(getShopItem().getIntRating(), ivStar1, ivStar2, ivStar3, ivStar4, ivStar5);
+
+        tvLikes.setText(String.valueOf(getShopItem().getIntLikes()));
         tvDistance.setText("5km");//getShopItem().getDistance);
         tvAveTime.setText(getShopItem().getStrAveTime());
         tvFullDescrpit.setText(getShopItem().getStrFullDescript());
@@ -196,7 +157,7 @@ public class ShopHomeActivity extends AppCompatActivity {
                         JSONArray jsonArray = response.getJSONArray("menuItems");
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject MenuItem = jsonArray.getJSONObject(i);
-                            MenuItems.add(new MenuItem(MenuItem.getInt("mID"), MenuItem.getDouble("mPrice"), MenuItem.getString("mList"),false));
+                            MenuItems.add(new MenuItem(MenuItem.getInt("mID"), MenuItem.getDouble("mPrice"), MenuItem.getString("mList"), false));
                         }
                         getShopItem().setMenuItems(MenuItems);
                     } catch (JSONException e) {
@@ -221,10 +182,10 @@ public class ShopHomeActivity extends AppCompatActivity {
         startActivity(new Intent(ShopHomeActivity.this, MainActivity.class));
     }
 
-    public void like(View view){
-        if(getShopItem().isLiked() ==1){
+    public void like(View view) {
+        if (getShopItem().isLiked() == 1) {
             DELETELike();
-        }else {
+        } else {
             POSTLike();
         }
     }
@@ -254,7 +215,7 @@ public class ShopHomeActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                params.put("sID",String.valueOf( getShopItem().getIntID()));
+                params.put("sID", String.valueOf(getShopItem().getIntID()));
                 params.put("uID", String.valueOf(getUser().getuID()));
                 return params;
             }
@@ -271,7 +232,7 @@ public class ShopHomeActivity extends AppCompatActivity {
 
         JsonObjectRequest objectRequest = new JsonObjectRequest(
                 Request.Method.DELETE,
-                "http://" + getIpAddress() + "/shoplikes/"+getUser().getuID()+"/"+getShopItem().getIntID(),null,
+                "http://" + getIpAddress() + "/shoplikes/" + getUser().getuID() + "/" + getShopItem().getIntID(), null,
                 response -> {
                     llLike.setClickable(true);
                     HelperMethods.ShowLoadingPopup(myDialog, false);

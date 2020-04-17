@@ -6,7 +6,8 @@ import java.util.ArrayList;
 
 public class ShopItem {
     private String strShopName,strShortDescript,strFullDescript,strAveTime,strOperatingHRS,locLocation;
-    private int intID,intLogoSmall,intLogoBig,intRating, intLikes,isLiked, intAveTimeColor;
+    private int intID,intLogoSmall,intLogoBig,intRating,isLiked, intAveTimeColor;
+    private int intLikes = 0;
     private ArrayList<IngredientItem> ingredientItems;
     private ArrayList<MenuItem> menuItems;
 

@@ -92,7 +92,7 @@
                 <ImageView
                     android:id="@+id/ivLike"
                     android:layout_width="35dp"
-                    android:layout_height="35dp"
+                    android:layout_height="match_parent"
                     android:src="@drawable/ic_favorite_border_black_24dp" />
 
                 <TextView
@@ -100,7 +100,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-condensed-medium"
-                    android:text="25"
                     android:textSize="18sp" />
             </LinearLayout>
         </RelativeLayout>

@@ -74,7 +74,6 @@ public class HelperMethods {
         }
     }
 
-
     public static boolean allFieldsEntered(MaterialEditText[] mText) {
         boolean allEntered = true;
         for (MaterialEditText materialEditText : mText) {

@@ -28,7 +28,7 @@ public class OrdersActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private AdminOrderItemAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private final ArrayList<AdminOrderItem> OrderItems = new ArrayList<>();
+    private ArrayList<AdminOrderItem> OrderItems;
     private Dialog myDialog;
     private TextView tvOpen, tvUnavailable, tvClosed, tvCompleteReg;
 
@@ -42,6 +42,7 @@ public class OrdersActivity extends AppCompatActivity {
 
         myDialog = new Dialog(this);
 
+        OrderItems = new ArrayList<>();
         tvOpen = findViewById(R.id.tvOpen);
         tvUnavailable = findViewById(R.id.tvUnavailable);
         tvClosed = findViewById(R.id.tvClosed);
