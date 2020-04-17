@@ -130,7 +130,7 @@ public class OrdersFragment extends Fragment {
                                 String[] dateAndTime = Orders.getString("createdAt").split("T");
                                 upcomingOrderItems.add(new UpcomingOrderItem(Orders.getInt("oID"),
                                         Orders.getString("sName"), Orders.getInt("oID"), dateAndTime[1].substring(0, 5),
-                                        Orders.getString("oIngredients"), Orders.getDouble("oPrice")));
+                                        Orders.getString("oIngredients"), Orders.getDouble("oPrice"), Orders.getString("oStatus")));
                             }
                         } else if (response.getString("message").equals("empty")) {
                             rlEmpty.setVisibility(View.VISIBLE);
