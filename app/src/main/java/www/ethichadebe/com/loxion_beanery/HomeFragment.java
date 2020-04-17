@@ -56,11 +56,12 @@ public class HomeFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.frame_home, container, false);
-        if (getUser() == null){
+        if (getUser() == null) {
             startActivity(new Intent(getActivity(), LoginActivity.class));
-        }
+        }//heck if user is logged in
 
         shopItems = new ArrayList<>();
         mRecyclerView = v.findViewById(R.id.recyclerView);
@@ -111,7 +112,7 @@ public class HomeFragment extends Fragment {
 
         JsonObjectRequest objectRequest = new JsonObjectRequest(
                 Request.Method.GET,
-                "http://" + getIpAddress() + "/shops/"+getUser().getuID(), null,
+                "http://" + getIpAddress() + "/shops/" + getUser().getuID(), null,
                 response -> {
                     //Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
                     rlLoad.setVisibility(View.GONE);
@@ -122,17 +123,30 @@ public class HomeFragment extends Fragment {
                             JSONArray jsonArray = response.getJSONArray("shops");
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject Shops = jsonArray.getJSONObject(i);
-                                String[] strCoord = Shops.getString("sLocation").split(" ");
-                                location.setLatitude(Double.parseDouble(strCoord[0]));
-                                location.setLongitude(Double.parseDouble(strCoord[1]));
-                                boolean isLiked = false;
-                                if(Shops.getInt("isLiked")==1){
-                                    isLiked = true;
-                                }
-                                shopItems.add(new ShopItem(Shops.getInt("sID"), Shops.getString("sName"), R.drawable.food,
-                                        R.drawable.biglogo, Shops.getString("sShortDescrption"),
-                                        Shops.getString("sFullDescription"), location, Shops.getString("sLocation"),
-                                        Shops.getInt("sRating"), Shops.getString("sOperatingHrs"),Shops.getInt("sLikes"), isLiked));
+                                String Avetime = "";
+                                int AveTimeColor = 0;
+
+                                switch (Shops.getString("sAveTime")) {
+                                    case "<10":
+                                        Avetime = "less than 10 mins";
+                                        AveTimeColor = getResources().getColor(R.color.Green);
+                                        break;
+                                    case "10-15":
+                                        Avetime = "10 - 15 mins";
+                                        AveTimeColor = getResources().getColor(R.color.Yellow);
+                                        break;
+                                    case ">20":
+                                        Avetime = "Longer than 20 mins";
+                                        AveTimeColor = getResources().getColor(R.color.Red);
+                                        break;
+                                }//Set ave time
+
+                                shopItems.add(new ShopItem(Shops.getInt("sID"), Shops.getString("sName"),
+                                        R.drawable.food, R.drawable.biglogo, Shops.getString("sShortDescrption"),
+                                        Shops.getString("sFullDescription"), Shops.getString("sLocation"),
+                                        Avetime, Shops.getInt("sRating"),
+                                        Shops.getString("sOperatingHrs"), Shops.getInt("sLikes"),
+                                        Shops.getInt("isLiked"), AveTimeColor));
                             }
                         } else if (response.getString("message").equals("empty")) {
                             tvEmpty.setVisibility(View.VISIBLE);

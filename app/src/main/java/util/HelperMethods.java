@@ -10,6 +10,8 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
@@ -84,7 +86,7 @@ public class HelperMethods {
         return allEntered;
     }
 
-    public static boolean allFieldsEntered(MaterialEditText[] mText,MaterialEditText[] mText2) {
+    public static boolean allFieldsEntered(MaterialEditText[] mText, MaterialEditText[] mText2) {
         boolean allEntered = true;
         for (MaterialEditText materialEditText : mText) {
             if (Objects.requireNonNull(materialEditText.getText()).toString().isEmpty()) {
@@ -115,7 +117,7 @@ public class HelperMethods {
         Username.setText(sharedPreferences.getString(USERNAME, ""));
     }
 
-    public static boolean sharedPrefsIsEmpty(SharedPreferences sharedPreferences){
+    public static boolean sharedPrefsIsEmpty(SharedPreferences sharedPreferences) {
         return Objects.requireNonNull(sharedPreferences.getString(PASSWORD, "")).isEmpty();
     }
 
@@ -128,12 +130,101 @@ public class HelperMethods {
 
         return String.valueOf(MenuList).substring(0, String.valueOf(MenuList).length() - 2);
     }
+
     public static String combineString(MaterialEditText[] etOpen, MaterialEditText[] etClose) {
         StringBuilder MenuList = new StringBuilder();
         for (int i = 0; i < etOpen.length; i++) {
-            MenuList.append(Objects.requireNonNull(etOpen[i].getText()).toString()).append(" - ").append(Objects.requireNonNull(etClose[i].getText()).toString()).append(", ");
+            MenuList.append(Objects.requireNonNull(etOpen[i].getText()).toString()).append(" - ").
+                    append(Objects.requireNonNull(etClose[i].getText()).toString()).append(", ");
         }
 
         return String.valueOf(MenuList).substring(0, String.valueOf(MenuList).length() - 2);
+    }
+
+    /**
+     * Set Rating
+     *
+     * @param rating
+     * @param ivStar1
+     * @param ivStar2
+     * @param ivStar3
+     * @param ivStar4
+     * @param ivStar5
+     */
+    public static void setStarRating(int rating, ImageView ivStar1, ImageView ivStar2, ImageView ivStar3, ImageView ivStar4,
+                                     ImageView ivStar5) {
+        switch (rating) {
+            case 0:
+                ivStar1.setImageResource(0);
+                ivStar2.setImageResource(0);
+                ivStar3.setImageResource(0);
+                ivStar4.setImageResource(0);
+                ivStar5.setImageResource(0);
+                break;
+            case 1:
+                ivStar1.setImageResource(0);
+                ivStar2.setImageResource(0);
+                ivStar3.setImageResource(0);
+                ivStar4.setImageResource(0);
+                ivStar5.setVisibility(View.VISIBLE);
+                ivStar5.setVisibility(View.VISIBLE);
+                break;
+            case 2:
+                ivStar1.setImageResource(0);
+                ivStar2.setImageResource(0);
+                ivStar3.setImageResource(0);
+                ivStar4.setVisibility(View.VISIBLE);
+                ivStar5.setVisibility(View.VISIBLE);
+                break;
+            case 3:
+                ivStar1.setImageResource(0);
+                ivStar2.setImageResource(0);
+                ivStar3.setVisibility(View.VISIBLE);
+                ivStar4.setVisibility(View.VISIBLE);
+                ivStar5.setVisibility(View.VISIBLE);
+                break;
+            case 4:
+                ivStar1.setImageResource(0);
+                ivStar2.setVisibility(View.VISIBLE);
+                ivStar3.setVisibility(View.VISIBLE);
+                ivStar4.setVisibility(View.VISIBLE);
+                ivStar5.setVisibility(View.VISIBLE);
+                break;
+            case 5:
+                ivStar1.setVisibility(View.VISIBLE);
+                ivStar2.setVisibility(View.VISIBLE);
+                ivStar3.setVisibility(View.VISIBLE);
+                ivStar4.setVisibility(View.VISIBLE);
+                ivStar5.setVisibility(View.VISIBLE);
+                break;
+        }
+
+    }
+
+    public static void setOHVISIBILITY(LinearLayout llOpHours, TextView tvMore, TextView[] tvDays, String OH) {
+        setOHForEachDay(tvDays, OH);
+        if (llOpHours.getVisibility() == View.GONE) {
+            llOpHours.setVisibility(View.VISIBLE);
+            YoYo.with(Techniques.SlideInDown)
+                    .duration(500)
+                    .repeat(0)
+                    .playOn(llOpHours);
+            tvMore.setText("Show less");
+        } else {
+            YoYo.with(Techniques.SlideOutUp)
+                    .duration(500)
+                    .repeat(0)
+                    .playOn(llOpHours);
+            llOpHours.setVisibility(View.GONE);
+            tvMore.setText("Show more");
+        }
+    }
+
+    private static void setOHForEachDay(TextView[] tvDays, String strOH) {
+        String[] strOpHours = strOH.split(", ");
+
+        for (int i = 0; i < tvDays.length; i++) {
+            tvDays[i].setText(strOpHours[i]);
+        }
     }
 }

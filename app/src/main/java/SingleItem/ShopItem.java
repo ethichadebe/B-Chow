@@ -5,17 +5,14 @@ import android.location.Location;
 import java.util.ArrayList;
 
 public class ShopItem {
-    private int intID;
-    private String strShopName,strShortDescript,strFullDescript,strAveTime,strOperatingHRS;
-    private int intLogoSmall,intLogoBig,intRating, intLikes;
-    private Location locLocation;
+    private String strShopName,strShortDescript,strFullDescript,strAveTime,strOperatingHRS,locLocation;
+    private int intID,intLogoSmall,intLogoBig,intRating, intLikes,isLiked, intAveTimeColor;
     private ArrayList<IngredientItem> ingredientItems;
     private ArrayList<MenuItem> menuItems;
-    private boolean isLiked;
 
     public ShopItem(int intID, String strShopName, int intLogoSmall, int intLogoBig, String strShortDescript,
-                    String strFullDescript, Location locLocation, String strAveTime, int intRating, String strOperatingHRS,
-                    int intLikes, boolean isLiked) {
+                    String strFullDescript, String locLocation, String strAveTime, int intRating, String strOperatingHRS,
+                    int intLikes, int isLiked, int intAveTimeColor) {
         this.intID = intID;
         this.strShopName = strShopName;
         this.intLogoSmall = intLogoSmall;
@@ -28,6 +25,7 @@ public class ShopItem {
         this.strOperatingHRS = strOperatingHRS;
         this.intLikes = intLikes;
         this.isLiked = isLiked;
+        this.intAveTimeColor = intAveTimeColor;
     }
 
     public int getIntID() {
@@ -78,11 +76,11 @@ public class ShopItem {
         this.strFullDescript = strFullDescript;
     }
 
-    public Location getLocLocation() {
+    public String getLocLocation() {
         return locLocation;
     }
 
-    public void setLocLocation(Location locLocation) {
+    public void setLocLocation(String locLocation) {
         this.locLocation = locLocation;
     }
 
@@ -126,12 +124,36 @@ public class ShopItem {
         this.menuItems = menuItems;
     }
 
-    public boolean isLiked() {
+    public int isLiked() {
         return isLiked;
     }
 
-    public void setLiked(boolean liked) {
+    public void setLiked(int liked) {
         isLiked = liked;
+    }
+
+    public int getIntLikes() {
+        return intLikes;
+    }
+
+    public void setIntLikes(int intLikes) {
+        this.intLikes = intLikes;
+    }
+
+    public int getIsLiked() {
+        return isLiked;
+    }
+
+    public void setIsLiked(int isLiked) {
+        this.isLiked = isLiked;
+    }
+
+    public int getIntAveTimeColor() {
+        return intAveTimeColor;
+    }
+
+    public void setIntAveTimeColor(int intAveTimeColor) {
+        this.intAveTimeColor = intAveTimeColor;
     }
 }
 

@@ -73,4 +73,6 @@
     <string name="extra_e_g_tomato_sauce">Extra (e.g Tomato sauce)</string>
     <string name="add_an_extra">Add an extra</string>
     <string name="extras">Extras</string>
+    <string name="okay">Okay</string>
+    <string name="are_you_sure">Are You Sure</string>
 </resources>

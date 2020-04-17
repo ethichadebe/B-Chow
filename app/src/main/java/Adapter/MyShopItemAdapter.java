@@ -11,13 +11,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
-
 import java.util.ArrayList;
 
 import SingleItem.MyShopItem;
 import www.ethichadebe.com.loxion_beanery.R;
+
+import static util.HelperMethods.setOHVISIBILITY;
 
 public class MyShopItemAdapter extends RecyclerView.Adapter<MyShopItemAdapter.ShopViewHolder> {
 
@@ -35,7 +34,8 @@ public class MyShopItemAdapter extends RecyclerView.Adapter<MyShopItemAdapter.Sh
 
     static class ShopViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView tvShopName, tvPosition, tvShortDescript, tvDistance, tvAveTime, tvMon,tvTue,tvWed,tvThu,tvFri,tvSat,tvSun,tvPH,tvMore, tvCompleteReg;
+        private TextView tvShopName, tvPosition, tvShortDescript, tvDistance, tvAveTime,tvMore, tvCompleteReg;
+        TextView[] tvDays = new TextView[8];
         private ImageView ivLogo, ivStar1, ivStar2, ivStar3, ivStar4, ivStar5;
         private LinearLayout llOpHours,llDropDown;
 
@@ -57,14 +57,14 @@ public class MyShopItemAdapter extends RecyclerView.Adapter<MyShopItemAdapter.Sh
             tvMore = itemView.findViewById(R.id.tvMore);
             tvCompleteReg = itemView.findViewById(R.id.tvCompleteReg);
 
-            tvMon = itemView.findViewById(R.id.tvMon);
-            tvTue = itemView.findViewById(R.id.tvTue);
-            tvWed = itemView.findViewById(R.id.tvWed);
-            tvThu = itemView.findViewById(R.id.tvThu);
-            tvFri = itemView.findViewById(R.id.tvFri);
-            tvSat = itemView.findViewById(R.id.tvSat);
-            tvSun = itemView.findViewById(R.id.tvSun);
-            tvPH = itemView.findViewById(R.id.tvPH);
+            tvDays[0] = itemView.findViewById(R.id.tvMon);
+            tvDays[1] = itemView.findViewById(R.id.tvTue);
+            tvDays[2] = itemView.findViewById(R.id.tvWed);
+            tvDays[3] = itemView.findViewById(R.id.tvThu);
+            tvDays[4] = itemView.findViewById(R.id.tvFri);
+            tvDays[5] = itemView.findViewById(R.id.tvSat);
+            tvDays[6] = itemView.findViewById(R.id.tvSun);
+            tvDays[7] = itemView.findViewById(R.id.tvPH);
 
             itemView.setOnClickListener(view -> {
                 if (listener != null) {
@@ -155,37 +155,12 @@ public class MyShopItemAdapter extends RecyclerView.Adapter<MyShopItemAdapter.Sh
                 break;
         }
 
-        String[] strOpHours = item.getStrOperatingHRS().split(", ");
-
-        holder.tvMon.setText(strOpHours[0]);
-        holder.tvTue.setText(strOpHours[1]);
-        holder.tvWed.setText(strOpHours[2]);
-        holder.tvThu.setText(strOpHours[3]);
-        holder.tvFri.setText(strOpHours[4]);
-        holder.tvSat.setText(strOpHours[5]);
-        holder.tvSun.setText(strOpHours[6]);
-        holder.tvPH.setText(strOpHours[7]);
-
         if (!item.isActive()){
             holder.tvCompleteReg.setVisibility(View.VISIBLE);
         }
 
         holder.llDropDown.setOnClickListener(view -> {
-            if (holder.llOpHours.getVisibility() == View.GONE){
-                holder.llOpHours.setVisibility(View.VISIBLE);
-                YoYo.with(Techniques.SlideInDown)
-                        .duration(500)
-                        .repeat(0)
-                        .playOn(holder.llOpHours);
-                holder.tvMore.setText("Show less");
-            }else {
-                YoYo.with(Techniques.SlideOutUp)
-                        .duration(500)
-                        .repeat(0)
-                        .playOn(holder.llOpHours);
-                holder.llOpHours.setVisibility(View.GONE);
-                holder.tvMore.setText("Show more");
-            }
+            setOHVISIBILITY(holder.llOpHours, holder.tvMore,holder.tvDays, item.getStrOperatingHRS());
         });
     }
 

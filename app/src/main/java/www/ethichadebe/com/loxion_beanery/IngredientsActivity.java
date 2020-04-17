@@ -47,7 +47,6 @@ import static www.ethichadebe.com.loxion_beanery.MyShopsActivity.getNewShop;
 
 public class IngredientsActivity extends AppCompatActivity {
 
-    private static ArrayList<IngredientItem> ingredientItems;
     private IngredientItemAdapter mAdapter;
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -68,7 +67,6 @@ public class IngredientsActivity extends AppCompatActivity {
         } // Check if user is looged in
 
         myDialog = new Dialog(this);
-        ingredientItems = new ArrayList<>();
         btnNext = findViewById(R.id.btnNext);
         etName = findViewById(R.id.etName);
         btnAddOption = findViewById(R.id.btnAddOption);
@@ -79,18 +77,18 @@ public class IngredientsActivity extends AppCompatActivity {
         rlError = findViewById(R.id.rlError);
 
         GETIngredients(findViewById(R.id.vLine),findViewById(R.id.vLineGrey));
-        ButtonVisibility(ingredientItems, btnNext);
+
+        ButtonVisibility(getNewShop().getIngredientItems(), btnNext);
+
         btnAddOption.setOnClickListener(view -> {
             if (Objects.requireNonNull(etName.getText()).toString().isEmpty() &&
                     Objects.requireNonNull(etPrice.getText()).toString().isEmpty()) {
-                etName.setUnderlineColor(getResources().getColor(R.color.Red));
-                etPrice.setUnderlineColor(getResources().getColor(R.color.Red));
+                etName.setError("required");
+                etPrice.setError("required");
             } else if (etName.getText().toString().isEmpty()) {
-                etName.setUnderlineColor(getResources().getColor(R.color    .Red));
-                etPrice.setUnderlineColor(getResources().getColor(R.color.Black));
+                etName.setError("required");
             } else if (Objects.requireNonNull(etPrice.getText()).toString().isEmpty()) {
-                etName.setUnderlineColor(getResources().getColor(R.color.Black));
-                etPrice.setUnderlineColor(getResources().getColor(R.color.Red));
+                etPrice.setError("required");
             } else if (!ingredientExists(etName.getText().toString())){
                 POSTRegisterShopIngredients();
             }
@@ -99,7 +97,7 @@ public class IngredientsActivity extends AppCompatActivity {
         mRecyclerView = findViewById(R.id.recyclerView);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
-        mAdapter = new IngredientItemAdapter(ingredientItems);
+        mAdapter = new IngredientItemAdapter(getNewShop().getIngredientItems());
 
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
@@ -119,7 +117,7 @@ public class IngredientsActivity extends AppCompatActivity {
     }
 
     private boolean ingredientExists(String name){
-        for (IngredientItem ingredientItem:ingredientItems){
+        for (IngredientItem ingredientItem:getNewShop().getIngredientItems()){
             if (ingredientItem.getStrIngredientName().toLowerCase().equals(name.toLowerCase())){
                 etName.setError("Already exists");
                 return true;
@@ -129,16 +127,11 @@ public class IngredientsActivity extends AppCompatActivity {
         return false;
     }
 
-    public static ArrayList<IngredientItem> getIngredientItems() {
-        return ingredientItems;
-    }
-
     public void back(View view) {
             startActivity(new Intent(this, OperatingHoursActivity.class));
     }
 
     public void next(View view) {
-        getNewShop().setIngredientItems(ingredientItems);
         startActivity(new Intent(IngredientsActivity.this, MenuActivity.class));
     }
 
@@ -155,12 +148,12 @@ public class IngredientsActivity extends AppCompatActivity {
                             JSONObject JSONResponse = jsonArray.getJSONObject(0);
                             etName.setUnderlineColor(getResources().getColor(R.color.Black));
                             etPrice.setUnderlineColor(getResources().getColor(R.color.Black));
-                            ingredientItems.add(new IngredientItem(JSONResponse.getInt("iID"),
+                            getNewShop().getIngredientItems().add(new IngredientItem(JSONResponse.getInt("iID"),
                                     JSONResponse.getString("iName"), JSONResponse.getDouble("iPrice")));
-                            mAdapter.notifyItemInserted(ingredientItems.size());
+                            mAdapter.notifyItemInserted(getNewShop().getIngredientItems().size());
                             etName.setText("");
                             etPrice.setText("");
-                            ButtonVisibility(ingredientItems, btnNext);
+                            ButtonVisibility(getNewShop().getIngredientItems(), btnNext);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -190,15 +183,15 @@ public class IngredientsActivity extends AppCompatActivity {
 
         JsonObjectRequest objectRequest = new JsonObjectRequest(
                 Request.Method.DELETE,
-                "http://" + getIpAddress() + "/shops/Register/Ingredient/" + ingredientItems.get(position).getIntID(), null,   //+getUser().getuID()
+                "http://" + getIpAddress() + "/shops/Register/Ingredient/" + getNewShop().getIngredientItems().get(position).getIntID(), null,   //+getUser().getuID()
                 response -> {
                     HelperMethods.ShowLoadingPopup(myDialog, false);
                     try {
                         JSONObject JSONData = new JSONObject(response.toString());
                         if (JSONData.getString("data").equals("removed")) {
-                            ingredientItems.remove(position);
+                            getNewShop().getIngredientItems().remove(position);
                             mAdapter.notifyItemRemoved(position);
-                            ButtonVisibility(ingredientItems, btnNext);
+                            ButtonVisibility(getNewShop().getIngredientItems(), btnNext);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -219,11 +212,11 @@ public class IngredientsActivity extends AppCompatActivity {
     private void PUTIngredient(int position, String IngredientName, String Price) {
         HelperMethods.ShowLoadingPopup(myDialog, true);
         StringRequest stringRequest = new StringRequest(Request.Method.PUT,
-                "http://" + getIpAddress() + "/shops/Register/Ingredient/" + ingredientItems.get(position).getIntID(),
+                "http://" + getIpAddress() + "/shops/Register/Ingredient/" + getNewShop().getIngredientItems().get(position).getIntID(),
                 response -> {
                     HelperMethods.ShowLoadingPopup(myDialog, false);
-                    ingredientItems.get(position).setStrIngredientName(IngredientName);
-                    ingredientItems.get(position).setDblPrice(Double.valueOf(Price));
+                    getNewShop().getIngredientItems().get(position).setStrIngredientName(IngredientName);
+                    getNewShop().getIngredientItems().get(position).setDblPrice(Double.valueOf(Price));
                     mAdapter.notifyItemChanged(position);
                 }, error -> {
             //myDialog.dismiss();
@@ -253,26 +246,22 @@ public class IngredientsActivity extends AppCompatActivity {
         btnEditOption = myDialog.findViewById(R.id.btnEditOption);
         tvCancel = myDialog.findViewById(R.id.tvCancel);
 
-        etName.setText(ingredientItems.get(position).getStrIngredientName());
-        etPrice.setText(String.valueOf(ingredientItems.get(position).getDblPrice()));
+        etName.setText(getNewShop().getIngredientItems().get(position).getStrIngredientName());
+        etPrice.setText(String.valueOf(getNewShop().getIngredientItems().get(position).getDblPrice()));
         tvCancel.setOnClickListener(view -> myDialog.dismiss());
 
         btnEditOption.setOnClickListener(view -> {
             if (Objects.requireNonNull(etName.getText()).toString().isEmpty() && Objects.requireNonNull(etPrice.getText()).toString().isEmpty()){
-                etName.setUnderlineColor(getResources().getColor(R.color.Red));
-                etPrice.setUnderlineColor(getResources().getColor(R.color.Red));
+                etPrice.setError("required");
+                etPrice.setError("required");
             }
             else if (Objects.requireNonNull(etPrice.getText()).toString().isEmpty()){
-                etName.setUnderlineColor(getResources().getColor(R.color.Grey));
-                etPrice.setUnderlineColor(getResources().getColor(R.color.Red));
+                etPrice.setError("required");
             }
             else if (Objects.requireNonNull(etName.getText()).toString().isEmpty()){
-                etName.setUnderlineColor(getResources().getColor(R.color.Red));
-                etPrice.setUnderlineColor(getResources().getColor(R.color.Grey));
+                etPrice.setError("required");
             }
             else{
-                etName.setUnderlineColor(getResources().getColor(R.color.Grey));
-                etPrice.setUnderlineColor(getResources().getColor(R.color.Grey));
                 PUTIngredient(position, Objects.requireNonNull(etName.getText()).toString(), Objects.requireNonNull(etPrice.getText()).toString());
             }
         });
@@ -289,6 +278,7 @@ public class IngredientsActivity extends AppCompatActivity {
     }
 
     private void GETIngredients(View vLine, View vLineGrey) {
+        getNewShop().setIngredientItems(new ArrayList<>());
         rlError.setVisibility(View.GONE);
         rlLoad.setVisibility(View.VISIBLE);
         handler(vLine, vLineGrey);
@@ -306,8 +296,8 @@ public class IngredientsActivity extends AppCompatActivity {
                             JSONArray jsonArray = response.getJSONArray("ingredients");
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject Ingredients = jsonArray.getJSONObject(i);
-                                ButtonVisibility(ingredientItems, btnNext);
-                                ingredientItems.add(new IngredientItem(Ingredients.getInt("iID"),
+                                ButtonVisibility(getNewShop().getIngredientItems(), btnNext);
+                                getNewShop().getIngredientItems().add(new IngredientItem(Ingredients.getInt("iID"),
                                         Ingredients.getString("iName"), Ingredients.getDouble("iPrice")));
                             }
                         } else if (response.getString("message").equals("empty")) {

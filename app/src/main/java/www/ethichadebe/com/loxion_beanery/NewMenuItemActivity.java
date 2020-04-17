@@ -39,7 +39,6 @@ import static www.ethichadebe.com.loxion_beanery.MenuActivity.getIngredients;
 import static www.ethichadebe.com.loxion_beanery.MenuActivity.getIntPosition;
 import static www.ethichadebe.com.loxion_beanery.MenuActivity.getDblPrice;
 import static www.ethichadebe.com.loxion_beanery.MenuActivity.setIngredients;
-import static www.ethichadebe.com.loxion_beanery.IngredientsActivity.getIngredientItems;
 import static www.ethichadebe.com.loxion_beanery.MyShopsActivity.getNewShop;
 
 public class NewMenuItemActivity extends AppCompatActivity {
@@ -74,27 +73,29 @@ public class NewMenuItemActivity extends AppCompatActivity {
             ingredientItems = new ArrayList<>();
             etPrice.setText(String.valueOf(getDblPrice()));
             for (int i = 0; i < getIngredients().size(); i++) {
-                ingredientItems.add(new IngredientItemCheckbox(getIngredients().get(i), true,true));
+                ingredientItems.add(new IngredientItemCheckbox(getIngredients().get(i), true, true));
             }
 
-            for (int i = 0; i < getIngredientItems().size(); i++) {
+            for (int i = 0; i < getNewShop().getIngredientItems().size(); i++) {
                 boolean isThere = false;
                 for (int b = 0; b < getIngredients().size(); b++) {
-                    if (getIngredientItems().get(i).getStrIngredientName().equals(getIngredients().get(b).getStrIngredientName())) {
+                    if (getNewShop().getIngredientItems().get(i).getStrIngredientName().
+                            equals(getIngredients().get(b).getStrIngredientName())) {
                         isThere = true;
                         break;
                     }
                 }
                 if (!isThere) {
-                    ingredientItems.add(new IngredientItemCheckbox(getIngredientItems().get(i).getIntID(), getIngredientItems().get(i).getStrIngredientName(),
-                            getIngredientItems().get(i).getDblPrice(), false, true));
+                    ingredientItems.add(new IngredientItemCheckbox(getNewShop().getIngredientItems().get(i).getIntID(),
+                            getNewShop().getIngredientItems().get(i).getStrIngredientName(),
+                            getNewShop().getIngredientItems().get(i).getDblPrice(), false, true));
                 }
             }
 
-        } else if (getIngredientItems() != null) {
+        } else if (getNewShop().getIngredientItems() != null) {
             ingredientItems = new ArrayList<>();
-            for (int i = 0; i < getIngredientItems().size(); i++) {
-                ingredientItems.add(new IngredientItemCheckbox(getIngredientItems().get(i), false, true));
+            for (int i = 0; i < getNewShop().getIngredientItems().size(); i++) {
+                ingredientItems.add(new IngredientItemCheckbox(getNewShop().getIngredientItems().get(i), false, true));
             }
         }
 
@@ -114,7 +115,6 @@ public class NewMenuItemActivity extends AppCompatActivity {
                 dblPrice -= ingredientItems.get(position).getDblPrice();
                 etPrice.setText(String.valueOf(dblPrice));
             }
-
             isChecked();
         });
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -179,12 +179,12 @@ public class NewMenuItemActivity extends AppCompatActivity {
     public void add(View view) {
         //validate ingredient name and price price
         if (Objects.requireNonNull(etPrice.getText()).toString().isEmpty()) {
-            etPrice.setUnderlineColor(getResources().getColor(R.color.Red));
+            etPrice.setError("required");
         } else {
-            if (getIngredients().size() > 0) {
+            if ((getIngredients().size() > 0) && menuExists()) {
                 //Edit item
                 PUTMenuItem();
-            } else {
+            } else if (menuExists()) {
                 //Add new item
                 POSTRegisterShopMenuItems();
             }
@@ -226,5 +226,17 @@ public class NewMenuItemActivity extends AppCompatActivity {
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
+    }
+
+    private boolean menuExists() {
+        if (getNewShop().getMenuItems() != null) {
+            for (MenuItem menuItem : getNewShop().getMenuItems()) {
+                if (combineString(ingredientItems).equals(menuItem.getStrMenu())) {
+                    Toast.makeText(NewMenuItemActivity.this, "Menu item already exists.", Toast.LENGTH_LONG).show();
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }

@@ -167,6 +167,7 @@
                         android:layout_toEndOf="@id/tvHeading3"
                         android:background="@color/Grey" />
                 </RelativeLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -223,6 +224,7 @@
                             android:textColor="@color/Black"
                             android:textSize="14sp" />
                     </LinearLayout>
+
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -281,6 +283,7 @@
                             android:textColor="@color/Black"
                             android:textSize="14sp" />
                     </LinearLayout>
+
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -389,6 +392,7 @@
                             android:textColor="@color/Black"
                             android:textSize="14sp" />
                     </LinearLayout>
+
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -418,22 +422,37 @@
                 android:id="@+id/llDropDown"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/ripple_effect_white"
-                android:orientation="horizontal"
-                android:gravity="center">
+                android:gravity="center"
+                android:orientation="horizontal">
 
-                <View
-                    android:id="@+id/vDown"
-                    android:layout_width="36dp"
-                    android:layout_height="32dp"
-                    android:background="@drawable/ic_arrow_drop_down_grey_24dp" />
-                <View
-                    android:id="@+id/vUp"
-                    android:layout_width="36dp"
-                    android:layout_height="32dp"
-                    android:visibility="gone"
-                    android:background="@drawable/ic_arrow_drop_up_grey_24dp" />
+                <TextView
+                    android:id="@+id/tvMore"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/ripple_effect_white"
+                    android:fontFamily="sans-serif-light"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="@string/show_more"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvCompleteReg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/ripple_effect_red"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="Click here to complete shop registration"
+                android:textColor="@color/White"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

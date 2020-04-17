@@ -1,14 +1,11 @@
 package www.ethichadebe.com.loxion_beanery;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -26,7 +23,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 import Adapter.MenuItemAdapter;
 import SingleItem.IngredientItem;
@@ -36,7 +32,6 @@ import util.HelperMethods;
 import static util.Constants.getIpAddress;
 import static util.HelperMethods.ButtonVisibility;
 import static util.HelperMethods.handler;
-import static www.ethichadebe.com.loxion_beanery.IngredientsActivity.getIngredientItems;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 import static www.ethichadebe.com.loxion_beanery.MyShopsActivity.getNewShop;
 
@@ -45,7 +40,6 @@ public class MenuActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private MenuItemAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private ArrayList<MenuItem> MenuItems;
     private static ArrayList<IngredientItem> Ingredients;
     private static int intPosition;
     private static Double dblPrice;
@@ -62,32 +56,26 @@ public class MenuActivity extends AppCompatActivity {
         if (getUser() == null) {
             startActivity(new Intent(this, LoginActivity.class));
         } // Check if user is looged in
-
-        MenuItems = new ArrayList<>();
         myDialog = new Dialog(this);
-        if (getNewShop().getMenuItems() != null) {
-            MenuItems = getNewShop().getMenuItems();
-        }
-        Ingredients = new ArrayList<>();
-        mRecyclerView = findViewById(R.id.recyclerView);
-        mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(this);
-        mAdapter = new MenuItemAdapter(MenuItems);
 
         tvEmpty = findViewById(R.id.tvEmpty);
         rlLoad = findViewById(R.id.rlLoad);
         rlError = findViewById(R.id.rlError);
+        btnNext = findViewById(R.id.btnNext);
+
+        GETMenuItems(findViewById(R.id.vLine), findViewById(R.id.vLineGrey));
+
+
+        Ingredients = new ArrayList<>();
+        mRecyclerView = findViewById(R.id.recyclerView);
+        mRecyclerView.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(this);
+        mAdapter = new MenuItemAdapter(getNewShop().getMenuItems());
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
 
-        if (getNewShop().getMenuItems() == null) {
-            GETMenuItems(findViewById(R.id.vLine), findViewById(R.id.vLineGrey));
-        }
-
-        btnNext = findViewById(R.id.btnNext);
-
         //Set Button Visibility False if no menu item
-        ButtonVisibility(MenuItems, btnNext);
+        ButtonVisibility(getNewShop().getMenuItems(), btnNext);
 
         mAdapter.setOnItemClickListener(new MenuItemAdapter.OnItemClickListener() {
             @Override
@@ -97,14 +85,14 @@ public class MenuActivity extends AppCompatActivity {
             @Override
             public void onEditClick(int position) {
                 intPosition = position;
-                String[] IngredientNames = MenuItems.get(position).getStrMenu().split(", ");
+                String[] IngredientNames = getNewShop().getMenuItems().get(position).getStrMenu().split(", ");
                 for (String ingredient : IngredientNames) {
-                    for (IngredientItem ingredientItem : getIngredientItems())
+                    for (IngredientItem ingredientItem : getNewShop().getIngredientItems())
                         if (ingredientItem.getStrIngredientName().equals(ingredient)) {
                             Ingredients.add(ingredientItem);
                         }
                 }
-                dblPrice = MenuItems.get(position).getDblPrice();
+                dblPrice = getNewShop().getMenuItems().get(position).getDblPrice();
                 startActivity(new Intent(MenuActivity.this, NewMenuItemActivity.class));
             }
 
@@ -142,15 +130,16 @@ public class MenuActivity extends AppCompatActivity {
 
         JsonObjectRequest objectRequest = new JsonObjectRequest(
                 Request.Method.DELETE,
-                "http://" + getIpAddress() + "/shops/Register/MenuItem/" + MenuItems.get(position).getIntID()+"/"+getNewShop().getIntID(), null,
+                "http://" + getIpAddress() + "/shops/Register/MenuItem/" +
+                        getNewShop().getMenuItems().get(position).getIntID() + "/" + getNewShop().getIntID(), null,
                 response -> {
                     HelperMethods.ShowLoadingPopup(myDialog, false);
                     try {
                         JSONObject JSONData = new JSONObject(response.toString());
                         if (JSONData.getString("data").equals("removed")) {
-                            MenuItems.remove(position);
+                            getNewShop().getMenuItems().remove(position);
                             mAdapter.notifyItemRemoved(position);
-                            ButtonVisibility(MenuItems, btnNext);
+                            ButtonVisibility(getNewShop().getMenuItems(), btnNext);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -183,6 +172,7 @@ public class MenuActivity extends AppCompatActivity {
     private void GETMenuItems(View vLine, View vLineGrey) {
         rlError.setVisibility(View.GONE);
         rlLoad.setVisibility(View.VISIBLE);
+        getNewShop().setMenuItems(new ArrayList<>());
         handler(vLine, vLineGrey);
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
@@ -198,10 +188,11 @@ public class MenuActivity extends AppCompatActivity {
                             JSONArray jsonArray = response.getJSONArray("menuItems");
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject Ingredients = jsonArray.getJSONObject(i);
-                                ButtonVisibility(MenuItems, btnNext);
-                                MenuItems.add(new MenuItem(Ingredients.getInt("mID"),
+                                ButtonVisibility(getNewShop().getMenuItems(), btnNext);
+                                getNewShop().getMenuItems().add(new MenuItem(Ingredients.getInt("mID"),
                                         Ingredients.getDouble("mPrice"), Ingredients.getString("mList"), true));
                             }
+                            getNewShop().setMenuItems(getNewShop().getMenuItems());
                         } else if (response.getString("message").equals("empty")) {
                             tvEmpty.setVisibility(View.VISIBLE);
                         }

@@ -89,7 +89,7 @@ public class ShopHomeActivity extends AppCompatActivity {
             GETMenu(findViewById(R.id.vLine), findViewById(R.id.vLineGrey));
         }
 
-        if (getShopItem().isLiked()){
+        if (getShopItem().isLiked() == 1){
             ivLike.setImageResource(R.drawable.ic_favorite_red_24dp);
         }
 
@@ -222,7 +222,7 @@ public class ShopHomeActivity extends AppCompatActivity {
     }
 
     public void like(View view){
-        if(getShopItem().isLiked()){
+        if(getShopItem().isLiked() ==1){
             DELETELike();
         }else {
             POSTLike();
@@ -241,7 +241,7 @@ public class ShopHomeActivity extends AppCompatActivity {
                         JSONObject JSONData = new JSONObject(response);
                         if (JSONData.getString("data").equals("saved")) {
                             ivLike.setImageResource(R.drawable.ic_favorite_red_24dp);
-                            getShopItem().setLiked(true);
+                            getShopItem().setLiked(1);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -279,7 +279,7 @@ public class ShopHomeActivity extends AppCompatActivity {
                         JSONObject JSONData = new JSONObject(response.toString());
                         if (JSONData.getString("data").equals("removed")) {
                             ivLike.setImageResource(R.drawable.ic_favorite_border_black_24dp);
-                            getShopItem().setLiked(false);
+                            getShopItem().setLiked(0);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
