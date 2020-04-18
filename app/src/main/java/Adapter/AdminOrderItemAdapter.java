@@ -4,6 +4,7 @@ package Adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -30,12 +31,13 @@ public class AdminOrderItemAdapter extends RecyclerView.Adapter<AdminOrderItemAd
         mListerner = listener;
     }
 
-    public static class AdminOrderViewHolder extends RecyclerView.ViewHolder{
+    static class AdminOrderViewHolder extends RecyclerView.ViewHolder{
 
         private TextView tvMenu, tvTime, tvOrderNum, tvPrice;
-        private CardView cvDone, cvCancel;
+        private CardView cvDone, cvCancel,cvReady;
+        private RelativeLayout rlOptions;
 
-        public AdminOrderViewHolder(@NonNull View itemView, final AdminOrderItemAdapter.OnItemClickListener listener) {
+        AdminOrderViewHolder(@NonNull View itemView, final AdminOrderItemAdapter.OnItemClickListener listener) {
             super(itemView);
             tvMenu = itemView.findViewById(R.id.tvMenu);
             tvTime = itemView.findViewById(R.id.tvTime);
@@ -44,27 +46,32 @@ public class AdminOrderItemAdapter extends RecyclerView.Adapter<AdminOrderItemAd
 
             cvDone = itemView.findViewById(R.id.cvDone);
             cvCancel = itemView.findViewById(R.id.cvCancel);
+            cvReady = itemView.findViewById(R.id.cvReady);
 
-            cvDone.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (listener != null) {
-                        int position = getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION) {
-                            listener.onDoneClick(position);
-                        }
+            rlOptions = itemView.findViewById(R.id.rlOptions);
+
+            cvDone.setOnClickListener(view -> {
+                if (listener != null) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        listener.onDoneClick(position);
                     }
                 }
             });
 
-            cvCancel.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (listener != null) {
-                        int position = getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION) {
-                            listener.onCancelClick(position);
-                        }
+            cvCancel.setOnClickListener(view -> {
+                if (listener != null) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        listener.onCancelClick(position);
+                    }
+                }
+            });
+            cvReady.setOnClickListener(view -> {
+                if (listener != null) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        listener.onCancelClick(position);
                     }
                 }
             });
@@ -92,6 +99,11 @@ public class AdminOrderItemAdapter extends RecyclerView.Adapter<AdminOrderItemAd
         holder.tvOrderNum.setText("#"+item.getIntOderNum());
         holder.tvPrice.setText(String.valueOf(item.getDblPrice()));
         holder.tvTime.setText(item.getStrTrime());
+
+        if(item.getStrStatus().equals("Waiting for collection")){
+            holder.rlOptions.setVisibility(View.GONE);
+            holder.cvReady.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

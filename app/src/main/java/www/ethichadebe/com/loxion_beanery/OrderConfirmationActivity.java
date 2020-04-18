@@ -126,7 +126,7 @@ public class OrderConfirmationActivity extends AppCompatActivity {
         myDialog = new Dialog(this);
         btFinish = findViewById(R.id.btFinish);
         tvUpdate = findViewById(R.id.tvUpdate);
-        tvUpdateMessage = findViewById(R.id.tvUpdateMessage);
+        tvUpdateMessage = findViewById(R.id.tvUpdateMsg);
         llNav = findViewById(R.id.llNav);
         givGif = findViewById(R.id.givGif);
 
@@ -141,18 +141,22 @@ public class OrderConfirmationActivity extends AppCompatActivity {
         vLine[1] = findViewById(R.id.vLine2);
         vLine[2] = findViewById(R.id.vLine3);
 
-
-        switch (getUpcomingOrderItem().getStrStatus()) {
-            case "Waiting arrival":
-                handler.postDelayed(runnable, 0);
-                break;
-            case "Waiting for order":
-                handler.postDelayed(runnable1, 0);
-                break;
-            case "Waiting for collection":
-                handler.postDelayed(runnable2, 0);
-                break;
+        if (getUpcomingOrderItem() != null){
+            switch (getUpcomingOrderItem().getStrStatus()) {
+                case "Waiting arrival":
+                    handler.postDelayed(runnable, 0);
+                    break;
+                case "Waiting for order":
+                    handler.postDelayed(runnable1, 0);
+                    break;
+                case "Waiting for collection":
+                    handler.postDelayed(runnable2, 0);
+                    break;
+            }
+        }else {
+            handler.postDelayed(runnable, 0);
         }
+
         btFinish.setOnClickListener(view -> startActivity(new Intent(this, MainActivity.class)));
     }
 
@@ -182,13 +186,7 @@ public class OrderConfirmationActivity extends AppCompatActivity {
                     handler.postDelayed(runnable1, 0);
                 }, error -> {
             Toast.makeText(this, error.toString(), Toast.LENGTH_LONG).show();
-        }) {
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                return params;
-            }
-        };
+        });
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);

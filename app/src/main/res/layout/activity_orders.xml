@@ -12,8 +12,8 @@
 
         <TextView
             android:id="@+id/tvShopName"
-            android:layout_width="match_parent"
             style="@style/Base.TextAppearance.AppCompat.Body1"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
@@ -30,17 +30,18 @@
         <LinearLayout
             android:id="@+id/llBack"
             android:layout_width="?attr/actionBarSize"
-            android:layout_alignParentBottom="true"
+            android:layout_height="?attr/actionBarSize"
             android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"
             android:background="@drawable/ripple_effect_white"
             android:gravity="center"
-            android:onClick="back"
-            android:layout_height="?attr/actionBarSize">
+            android:onClick="back">
+
             <TextView
-                android:layout_width="wrap_content"
                 style="@style/Base.TextAppearance.AppCompat.Body1"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/ic_keyboard_backspace_black_24dp"/>
+                android:background="@drawable/ic_keyboard_backspace_black_24dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -49,10 +50,10 @@
             android:layout_height="?attr/actionBarSize"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:onClick="settings"
             android:layout_alignParentBottom="true"
             android:background="@drawable/ripple_effect_white"
-            android:gravity="center">
+            android:gravity="center"
+            android:onClick="settings">
 
             <TextView
                 style="@style/Base.TextAppearance.AppCompat.Body1"
@@ -62,114 +63,218 @@
         </LinearLayout>
 
     </RelativeLayout>
+
     <RelativeLayout
         android:id="@+id/llOpts"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/llHead"
         android:orientation="horizontal">
+
         <androidx.cardview.widget.CardView
             android:id="@+id/cvOpen"
             android:layout_width="100dp"
             android:layout_height="40dp"
-            android:layout_columnWeight="1"
             android:layout_rowWeight="1"
-            app:cardElevation="3dp"
-            android:onClick="open"
-            android:layout_centerVertical="true"
+            android:layout_columnWeight="1"
             android:layout_alignParentStart="true"
-            android:fontFamily="sans-serif-medium"
+            android:layout_centerVertical="true"
             android:layout_margin="10dp"
+            android:fontFamily="sans-serif-medium"
+            android:onClick="open"
             android:padding="50dp"
-            app:cardCornerRadius="10dp">
+            app:cardCornerRadius="10dp"
+            app:cardElevation="3dp">
+
             <TextView
                 android:id="@+id/tvOpen"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:textSize="14sp"
-                android:gravity="center"
-                android:fontFamily="sans-serif-medium"
-                android:textAllCaps="false"
-                android:text="@string/open"
                 android:background="@drawable/ripple_effect_green"
-                android:textColor="@color/Black"/>
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center"
+                android:text="@string/open"
+                android:textAllCaps="false"
+                android:textColor="@color/Black"
+                android:textSize="14sp" />
         </androidx.cardview.widget.CardView>
+
         <androidx.cardview.widget.CardView
             android:id="@+id/cvUnavailable"
             android:layout_width="100dp"
             android:layout_height="40dp"
-            android:layout_columnWeight="1"
             android:layout_rowWeight="1"
-            app:cardElevation="3dp"
-            android:layout_gravity="center_horizontal"
+            android:layout_columnWeight="1"
             android:layout_centerInParent="true"
-            android:fontFamily="sans-serif-medium"
+            android:layout_gravity="center_horizontal"
             android:layout_margin="10dp"
-            android:padding="50dp"
+            android:fontFamily="sans-serif-medium"
             android:onClick="unavailable"
-            app:cardCornerRadius="10dp">
+            android:padding="50dp"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="3dp">
+
             <TextView
                 android:id="@+id/tvUnavailable"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:textSize="14sp"
-                android:gravity="center"
-                android:fontFamily="sans-serif-medium"
-                android:textAllCaps="false"
-                android:text="@string/unavailable"
                 android:background="@drawable/ripple_effect_yellow"
-                android:textColor="@color/Black"/>
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center"
+                android:text="@string/unavailable"
+                android:textAllCaps="false"
+                android:textColor="@color/Black"
+                android:textSize="14sp" />
         </androidx.cardview.widget.CardView>
+
         <androidx.cardview.widget.CardView
             android:id="@+id/cvClosed"
             android:layout_width="100dp"
             android:layout_height="40dp"
-            android:layout_columnWeight="1"
             android:layout_rowWeight="1"
-            app:cardElevation="3dp"
+            android:layout_columnWeight="1"
             android:layout_alignParentEnd="true"
-            android:fontFamily="sans-serif-medium"
             android:layout_margin="10dp"
-            android:padding="50dp"
+            android:fontFamily="sans-serif-medium"
             android:onClick="closed"
-            app:cardCornerRadius="10dp">
+            android:padding="50dp"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="3dp">
+
             <TextView
                 android:id="@+id/tvClosed"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:textSize="14sp"
-                android:gravity="center"
-                android:fontFamily="sans-serif-medium"
-                android:textAllCaps="false"
-                android:text="@string/close"
                 android:background="@drawable/ripple_effect_red"
-                android:textColor="@color/Black"/>
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center"
+                android:text="@string/close"
+                android:textAllCaps="false"
+                android:textColor="@color/Black"
+                android:textSize="14sp" />
         </androidx.cardview.widget.CardView>
     </RelativeLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="4dp"
-        android:layout_below="@+id/llOpts"
+        android:layout_height="match_parent"
         android:layout_above="@id/tvCompleteReg"
-        android:scrollbars="vertical"
-        />
+        android:layout_below="@+id/llOpts"
+        android:padding="4dp"
+        android:scrollbars="vertical" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/rlLoad"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content">
+
+            <View
+                android:id="@+id/vLineGrey"
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:layout_centerInParent="true"
+                android:layout_gravity="bottom"
+                android:layout_margin="2dp"
+                android:background="@color/Grey" />
+
+            <View
+                android:id="@+id/vLine"
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:layout_centerInParent="true"
+                android:layout_gravity="bottom"
+                android:layout_margin="2dp"
+                android:background="@color/colorPrimary" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rlError"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/ivError"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_centerHorizontal="true"
+                android:contentDescription="@string/error_symbol"
+                android:src="@drawable/ic_error_outline_black_24dp" />
+
+            <TextView
+                android:id="@+id/tvError"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ivError"
+                android:layout_centerHorizontal="true"
+                android:fontFamily="sans-serif-medium"
+                android:text="@string/network_error"
+                android:textColor="@color/Grey"
+                android:textSize="20sp" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cvRetry"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:layout_below="@+id/tvError"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="10dp"
+                android:padding="50dp"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="3dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/ripple_effect_white"
+                    android:fontFamily="sans-serif-medium"
+                    android:gravity="center"
+                    android:text="@string/retry"
+                    android:textAllCaps="true"
+                    android:textColor="@color/Black"
+                    android:textSize="14sp" />
+            </androidx.cardview.widget.CardView>
+
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tvEmpty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:text="No Orders Available"
+            android:textColor="@color/Grey"
+            android:textSize="20sp"
+            android:visibility="gone" />
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/tvCompleteReg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_marginTop="5dp"
         android:background="@drawable/ripple_effect_red"
         android:fontFamily="sans-serif-medium"
         android:gravity="center"
         android:padding="10dp"
-        android:layout_alignParentBottom="true"
         android:text="Click here to complete shop registration"
         android:textColor="@color/White"
         android:textSize="14sp"
-        android:visibility="gone"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:visibility="gone" />
 
 </RelativeLayout>

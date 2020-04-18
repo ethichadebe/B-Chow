@@ -125,7 +125,7 @@
             android:src="@drawable/eating"/>
 
         <TextView
-            android:id="@+id/tvUpdateMessage "
+            android:id="@+id/tvUpdateMsg"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-light"

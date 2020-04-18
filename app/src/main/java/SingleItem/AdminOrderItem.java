@@ -3,16 +3,16 @@ package SingleItem;
 public class AdminOrderItem {
     private int intID;
     private int intOderNum;
-    private String strTrime;
+    private String strTrime,strMenu,strStatus;
     private Double dblPrice;
-    private String strMenu;
 
-    public AdminOrderItem(int intID, int intOderNum, String strTrime, Double dblPrice, String strMenu) {
+    public AdminOrderItem(int intID, int intOderNum, String strTrime, Double dblPrice, String strMenu, String strStatus) {
         this.intID = intID;
         this.intOderNum = intOderNum;
         this.strTrime = strTrime;
         this.dblPrice = dblPrice;
         this.strMenu = strMenu;
+        this.strStatus = strStatus;
     }
 
     public int getIntID() {
@@ -53,5 +53,13 @@ public class AdminOrderItem {
 
     public void setStrMenu(String strMenu) {
         this.strMenu = strMenu;
+    }
+
+    public String getStrStatus() {
+        return strStatus;
+    }
+
+    public void setStrStatus(String strStatus) {
+        this.strStatus = strStatus;
     }
 }

@@ -9,17 +9,32 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
 import Adapter.AdminOrderItemAdapter;
 import SingleItem.AdminOrderItem;
+import SingleItem.ShopItem;
 
+import static util.Constants.getIpAddress;
+import static util.HelperMethods.handler;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 import static www.ethichadebe.com.loxion_beanery.MyShopsActivity.getNewShop;
 import static www.ethichadebe.com.loxion_beanery.MyShopsActivity.setNewShop;
@@ -30,7 +45,8 @@ public class OrdersActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<AdminOrderItem> OrderItems;
     private Dialog myDialog;
-    private TextView tvOpen, tvUnavailable, tvClosed, tvCompleteReg;
+    private TextView tvOpen, tvUnavailable, tvClosed, tvEmpty, tvCompleteReg;
+    private RelativeLayout rlLoad, rlError;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +58,9 @@ public class OrdersActivity extends AppCompatActivity {
 
         myDialog = new Dialog(this);
 
+        rlLoad = findViewById(R.id.rlLoad);
+        rlError = findViewById(R.id.rlError);
+        tvEmpty = findViewById(R.id.tvEmpty);
         OrderItems = new ArrayList<>();
         tvOpen = findViewById(R.id.tvOpen);
         tvUnavailable = findViewById(R.id.tvUnavailable);
@@ -52,21 +71,16 @@ public class OrdersActivity extends AppCompatActivity {
         tvOpen.setBackground(getResources().getDrawable(R.drawable.ripple_effect_green));
         tvUnavailable.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
 
-        if (!getNewShop().isActive()){
+        if (!getNewShop().isActive()) {
             tvCompleteReg.setVisibility(View.VISIBLE);
         }
 
         tvCompleteReg.setOnClickListener(view -> {
-            startActivity(new Intent(this,RegisterShopActivity.class));
+            startActivity(new Intent(this, RegisterShopActivity.class));
         });
-        OrderItems.add(new AdminOrderItem(1, 73, "13:24", 17.50,
-                "Chips, Burger, French, egg"));
-        OrderItems.add(new AdminOrderItem(1, 74, "13:45", 17.50,
-                "Chips, Burger, French, egg"));
-        OrderItems.add(new AdminOrderItem(1, 75, "13:52", 17.50,
-                "Chips, Burger, French, egg"));
-        OrderItems.add(new AdminOrderItem(1, 76, "14:15", 17.50,
-                "Chips, Burger, French, egg"));
+
+        GETOrders(findViewById(R.id.vLine), findViewById(R.id.vLineGrey));
+
         mRecyclerView = findViewById(R.id.recyclerView);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
@@ -143,4 +157,49 @@ public class OrdersActivity extends AppCompatActivity {
         tvOpen.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
         tvUnavailable.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
     }
+
+    private void GETOrders(View vLine, View vLineGrey) {
+        rlError.setVisibility(View.GONE);
+        rlLoad.setVisibility(View.VISIBLE);
+        handler(vLine, vLineGrey);
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+
+        JsonObjectRequest objectRequest = new JsonObjectRequest(
+                Request.Method.GET,
+                "http://" + getIpAddress() + "/orders/" + getNewShop().getIntID(), null,
+                response -> {
+                    //Toast.makeText(this, response.toString(), Toast.LENGTH_SHORT).show();
+                    rlLoad.setVisibility(View.GONE);
+                    //Loads shops starting with the one closest to user
+                    Location location = new Location("");
+                    try {
+                        if (response.getString("message").equals("orders")) {
+                            JSONArray jsonArray = response.getJSONArray("orders");
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject Orders = jsonArray.getJSONObject(i);
+                                String[] dateAndTime = Orders.getString("oRecievedAt").split("T");
+                                OrderItems.add(new AdminOrderItem(Orders.getInt("oID"), Orders.getInt("oNumber"),
+                                        dateAndTime[1].substring(0, 5), Orders.getDouble("oPrice"),
+                                        Orders.getString("oIngredients"), Orders.getString("oStatus")));
+                            }
+                        } else if (response.getString("message").equals("empty")) {
+                            tvEmpty.setVisibility(View.VISIBLE);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                },
+                error -> {
+                    rlError.setVisibility(View.VISIBLE);
+                    rlLoad.setVisibility(View.GONE);
+                    if (error.toString().equals("com.android.volley.TimeoutError")) {
+                        Toast.makeText(this, "Connection error. Please retry", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+        requestQueue.add(objectRequest);
+
+    }
+
 }

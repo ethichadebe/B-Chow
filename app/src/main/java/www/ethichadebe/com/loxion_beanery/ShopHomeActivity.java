@@ -87,7 +87,7 @@ public class ShopHomeActivity extends AppCompatActivity {
         tvAveTime = findViewById(R.id.tvAveTime);
         tvFullDescrpit = findViewById(R.id.tvFullDescrpit);
 
-        if (getShopItem().getMenuItems() == null) {
+        if(getShopItem() != null){
             GETMenu(findViewById(R.id.vLine), findViewById(R.id.vLineGrey));
         }
 
