@@ -2,6 +2,7 @@ package www.ethichadebe.com.loxion_beanery;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -9,21 +10,42 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+
+import pl.droidsonroids.gif.GifImageView;
+import util.HelperMethods;
+
+import static util.Constants.getIpAddress;
+import static util.HelperMethods.combineString;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
+import static www.ethichadebe.com.loxion_beanery.MenuActivity.getIntPosition;
+import static www.ethichadebe.com.loxion_beanery.MenuActivity.setIngredients;
+import static www.ethichadebe.com.loxion_beanery.MyShopsActivity.getNewShop;
+import static www.ethichadebe.com.loxion_beanery.OrdersFragment.getUpcomingOrderItem;
 
 public class OrderConfirmationActivity extends AppCompatActivity {
 
     private Button btFinish;
-    private TextView tvUpdate;
+    private TextView tvUpdate, tvUpdateMessage;
     private View[] vLineGrey = new View[3];
     private View[] vLineLoad = new View[4];
     private View[] vLine = new View[4];
     private Handler handler = new Handler();
     private LinearLayout llNav;
+    private GifImageView givGif;
+    private Dialog myDialog;
 
     private Runnable runnable = new Runnable() {
         @Override
@@ -40,7 +62,9 @@ public class OrderConfirmationActivity extends AppCompatActivity {
             vLine[2].setVisibility(View.GONE);
 
             tvUpdate.setText("Order has been placed");
-            YoyoSlideRight(500, R.id.vLine1Load);
+            tvUpdateMessage.setText("Make your way to the shop within the next Hour");
+            givGif.setImageResource(R.drawable.driving);
+            YoyoSlideRight(5000, R.id.vLine1Load);
         }
     };
 
@@ -62,7 +86,9 @@ public class OrderConfirmationActivity extends AppCompatActivity {
             btFinish.setVisibility(View.VISIBLE);
 
             tvUpdate.setText("Shop has been notified on your arrival");
-            YoyoSlideRight(50, R.id.vLine2Load);
+            tvUpdateMessage.setText("and now lets patiently wait for the shop to complete the order");
+            givGif.setImageResource(R.drawable.waiting);
+            YoyoSlideRight(5000, R.id.vLine2Load);
         }
     };
 
@@ -83,7 +109,9 @@ public class OrderConfirmationActivity extends AppCompatActivity {
             btFinish.setVisibility(View.GONE);
 
             tvUpdate.setText("Your order is ready for collection");
-            YoyoSlideRight(50, R.id.vLine3Load);
+            tvUpdateMessage.setText("Your order is complete, Please collect and enjoy");
+            givGif.setImageResource(R.drawable.eating);
+            YoyoSlideRight(500, R.id.vLine3Load);
         }
     };
 
@@ -91,13 +119,17 @@ public class OrderConfirmationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_confirmation);
-        if (getUser() == null){
+        if (getUser() == null) {
             startActivity(new Intent(this, LoginActivity.class));
         }
 
+        myDialog = new Dialog(this);
         btFinish = findViewById(R.id.btFinish);
         tvUpdate = findViewById(R.id.tvUpdate);
+        tvUpdateMessage = findViewById(R.id.tvUpdateMessage);
         llNav = findViewById(R.id.llNav);
+        givGif = findViewById(R.id.givGif);
+
         vLineGrey[0] = findViewById(R.id.vLine2Grey);
         vLineGrey[1] = findViewById(R.id.vLine3Grey);
 
@@ -110,9 +142,17 @@ public class OrderConfirmationActivity extends AppCompatActivity {
         vLine[2] = findViewById(R.id.vLine3);
 
 
-        handler.postDelayed(runnable, 0);
-        handler.postDelayed(runnable1, 5000);
-        handler.postDelayed(runnable2, 10000);
+        switch (getUpcomingOrderItem().getStrStatus()) {
+            case "Waiting arrival":
+                handler.postDelayed(runnable, 0);
+                break;
+            case "Waiting for order":
+                handler.postDelayed(runnable1, 0);
+                break;
+            case "Waiting for collection":
+                handler.postDelayed(runnable2, 0);
+                break;
+        }
         btFinish.setOnClickListener(view -> startActivity(new Intent(this, MainActivity.class)));
     }
 
@@ -127,4 +167,31 @@ public class OrderConfirmationActivity extends AppCompatActivity {
     public void onBackPressed() {
         startActivity(new Intent(this, MainActivity.class));
     }
+
+    public void arrived(View view) {
+        PUTArrived();
+    }
+
+    private void PUTArrived() {
+        HelperMethods.ShowLoadingPopup(myDialog, true);
+        StringRequest stringRequest = new StringRequest(Request.Method.PUT,
+                "http://" + getIpAddress() + "/orders/Arrived/" + getUpcomingOrderItem().getIntID(),
+                response -> {
+                    //Toast.makeText(this, response, Toast.LENGTH_LONG).show();
+                    HelperMethods.ShowLoadingPopup(myDialog, false);
+                    handler.postDelayed(runnable1, 0);
+                }, error -> {
+            Toast.makeText(this, error.toString(), Toast.LENGTH_LONG).show();
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
 }

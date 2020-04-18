@@ -1,7 +1,6 @@
 package www.ethichadebe.com.loxion_beanery;
 
 import android.content.Intent;
-import android.location.Location;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,7 +30,6 @@ import java.util.Objects;
 import Adapter.PastOrderItemAdapter;
 import Adapter.UpcomingOrderItemAdapter;
 import SingleItem.PastOrderItem;
-import SingleItem.ShopItem;
 import SingleItem.UpcomingOrderItem;
 
 import static util.Constants.getIpAddress;
@@ -39,8 +37,12 @@ import static util.HelperMethods.handler;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 
 public class OrdersFragment extends Fragment {
+    private ArrayList<UpcomingOrderItem> upcomingOrderItems;
+    private ArrayList<PastOrderItem> pastOrderItems;
+    private static UpcomingOrderItem upcomingOrderItem;
+    private static PastOrderItem pastOrderItem;
     private View vLeft, vRight, vBottomRight, vBottomLeft;
-    private RelativeLayout rlLeft, rlRight,rlEmpty;
+    private RelativeLayout rlLeft, rlRight, rlEmpty;
 
     private RelativeLayout rlLoad, rlError;
     private CardView cvStartOrdering;
@@ -51,7 +53,14 @@ public class OrdersFragment extends Fragment {
     private UpcomingOrderItemAdapter mUpcomingAdapter;
     private RecyclerView.LayoutManager mUpcomingLayoutManager;
     private RecyclerView mUpcomingRecyclerView;
-    private static int Position;
+
+    public static UpcomingOrderItem getUpcomingOrderItem() {
+        return upcomingOrderItem;
+    }
+
+    public PastOrderItem getPastOrderItem() {
+        return pastOrderItem;
+    }
 
     @Nullable
     @Override
@@ -102,10 +111,6 @@ public class OrdersFragment extends Fragment {
         recyclerViewVISIBLE.setVisibility(View.VISIBLE);
     }
 
-    public static int getPosition() {
-        return Position;
-    }
-
     private void GETUpcomingOrders(View vLine, View vLineGrey) {
         rlEmpty.setVisibility(View.GONE);
         rlError.setVisibility(View.GONE);
@@ -117,7 +122,7 @@ public class OrdersFragment extends Fragment {
                 Request.Method.GET,
                 "http://" + getIpAddress() + "/orders/Upcoming/" + getUser().getuID(), null,
                 response -> {
-                    final ArrayList<UpcomingOrderItem> upcomingOrderItems = new ArrayList<>();
+                    upcomingOrderItems = new ArrayList<>();
 
                     //Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
                     rlLoad.setVisibility(View.GONE);
@@ -142,8 +147,10 @@ public class OrdersFragment extends Fragment {
                         mUpcomingRecyclerView.setLayoutManager(mUpcomingLayoutManager);
                         mUpcomingRecyclerView.setAdapter(mUpcomingAdapter);
 
-                        mUpcomingAdapter.setOnItemClickListener(position -> startActivity(new Intent(getActivity(),
-                                OrderConfirmationActivity.class)));
+                        mUpcomingAdapter.setOnItemClickListener(position -> {
+                            upcomingOrderItem = upcomingOrderItems.get(position);
+                            startActivity(new Intent(getActivity(), OrderConfirmationActivity.class));
+                        });
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -176,7 +183,7 @@ public class OrdersFragment extends Fragment {
                     rlLoad.setVisibility(View.GONE);
                     //Loads shops starting with the one closest to user
                     try {
-                        ArrayList<PastOrderItem> pastOrderItems = new ArrayList<>();
+                        pastOrderItems = new ArrayList<>();
                         if (response.getString("message").equals("orders")) {
                             JSONArray jsonArray = response.getJSONArray("orders");
                             for (int i = 0; i < jsonArray.length(); i++) {
@@ -200,13 +207,13 @@ public class OrdersFragment extends Fragment {
                         mPastAdapter.setOnItemClickListener(new PastOrderItemAdapter.OnItemClickListener() {
                             @Override
                             public void OnItemClick(int position) {
-                                /*shopItems.get(position)*/
+                                pastOrderItem = pastOrderItems.get(position);
                                 startActivity(new Intent(getActivity(), ShopHomeActivity.class));
                             }
 
                             @Override
                             public void OnItemClickRate(int position) {
-                                Position = position;
+                                pastOrderItem = pastOrderItems.get(position);
                                 startActivity(new Intent(getActivity(), RatingActivity.class));
                             }
                         });
