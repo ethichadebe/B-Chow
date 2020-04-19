@@ -80,7 +80,7 @@ public class IngredientItemAdapter extends RecyclerView.Adapter<IngredientItemAd
 
         holder.tvIngredients.setText(item.getStrIngredientName());
         holder.tvIngredients.setId(item.getIntID());
-        holder.tvPrice.setText("R"+item.getDblPrice());
+        holder.tvPrice.setText("R"+item.getDblPrice()+"0");
     }
 
     @Override

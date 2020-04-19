@@ -98,7 +98,7 @@ public class AdminOrderItemAdapter extends RecyclerView.Adapter<AdminOrderItemAd
 
         holder.tvMenu.setText(item.getStrMenu());
         holder.tvOrderNum.setText("#"+item.getIntOderNum());
-        holder.tvPrice.setText(String.valueOf(item.getDblPrice()));
+        holder.tvPrice.setText("R:"+item.getDblPrice()+"0");
         holder.tvTime.setText(item.getStrTrime());
 
         if(item.getStrStatus().equals("Ready for collection")){

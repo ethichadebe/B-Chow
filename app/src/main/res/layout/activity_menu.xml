@@ -253,6 +253,6 @@
         android:layout_alignParentBottom="true"
         android:background="@drawable/ripple_effect"
         android:onClick="next"
-        android:text="nex"
+        android:text="next"
         android:textColor="@color/White" />
 </RelativeLayout>
