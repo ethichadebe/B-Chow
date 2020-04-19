@@ -149,7 +149,7 @@ public class OrderConfirmationActivity extends AppCompatActivity {
                 case "Waiting for order":
                     handler.postDelayed(runnable1, 0);
                     break;
-                case "Waiting for collection":
+                case "Ready for collection":
                     handler.postDelayed(runnable2, 0);
                     break;
             }

@@ -25,6 +25,7 @@ public class AdminOrderItemAdapter extends RecyclerView.Adapter<AdminOrderItemAd
     public interface OnItemClickListener {
         void onCancelClick(int position);
         void onDoneClick(int position);
+        void onColectedClick(int position);
     }
 
     public void setOnItemClickListener(AdminOrderItemAdapter.OnItemClickListener listener) {
@@ -71,7 +72,7 @@ public class AdminOrderItemAdapter extends RecyclerView.Adapter<AdminOrderItemAd
                 if (listener != null) {
                     int position = getAdapterPosition();
                     if (position != RecyclerView.NO_POSITION) {
-                        listener.onCancelClick(position);
+                        listener.onColectedClick(position);
                     }
                 }
             });
@@ -100,7 +101,7 @@ public class AdminOrderItemAdapter extends RecyclerView.Adapter<AdminOrderItemAd
         holder.tvPrice.setText(String.valueOf(item.getDblPrice()));
         holder.tvTime.setText(item.getStrTrime());
 
-        if(item.getStrStatus().equals("Waiting for collection")){
+        if(item.getStrStatus().equals("Ready for collection")){
             holder.rlOptions.setVisibility(View.GONE);
             holder.cvReady.setVisibility(View.VISIBLE);
         }

@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
@@ -32,12 +33,14 @@ import java.util.Objects;
 import Adapter.AdminOrderItemAdapter;
 import SingleItem.AdminOrderItem;
 import SingleItem.ShopItem;
+import util.HelperMethods;
 
 import static util.Constants.getIpAddress;
 import static util.HelperMethods.handler;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 import static www.ethichadebe.com.loxion_beanery.MyShopsActivity.getNewShop;
 import static www.ethichadebe.com.loxion_beanery.MyShopsActivity.setNewShop;
+import static www.ethichadebe.com.loxion_beanery.OrdersFragment.getUpcomingOrderItem;
 
 public class OrdersActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
@@ -71,6 +74,7 @@ public class OrdersActivity extends AppCompatActivity {
         tvOpen.setBackground(getResources().getDrawable(R.drawable.ripple_effect_green));
         tvUnavailable.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
 
+        //Check if Shop is fully registered
         if (!getNewShop().isActive()) {
             tvCompleteReg.setVisibility(View.VISIBLE);
         }
@@ -98,9 +102,12 @@ public class OrdersActivity extends AppCompatActivity {
 
             @Override
             public void onDoneClick(int position) {
+                PUTReady(position);
+            }
 
-                OrderItems.remove(position);
-                mAdapter.notifyItemRemoved(position);
+            @Override
+            public void onColectedClick(int position) {
+
             }
         });
 
@@ -122,9 +129,7 @@ public class OrdersActivity extends AppCompatActivity {
         tvMessage.setText("Are you sure?");
 
         cvYes.setOnClickListener(view -> {
-            myDialog.dismiss();
-            OrderItems.remove(position);
-            mAdapter.notifyItemRemoved(position);
+            PUTCancel(position, myDialog);
         });
 
         cvNo.setOnClickListener(view -> myDialog.dismiss());
@@ -200,6 +205,59 @@ public class OrdersActivity extends AppCompatActivity {
                 });
         requestQueue.add(objectRequest);
 
+    }
+
+    private void PUTReady(int position) {
+        HelperMethods.ShowLoadingPopup(myDialog, true);
+        StringRequest stringRequest = new StringRequest(Request.Method.PUT,
+                "http://" + getIpAddress() + "/orders/Ready/" + OrderItems.get(position).getIntID(),
+                response -> {
+                    //Toast.makeText(this, response, Toast.LENGTH_LONG).show();
+                    OrderItems.get(position).setStrStatus("Ready for collection");
+                    mAdapter.notifyItemChanged(position);
+                    HelperMethods.ShowLoadingPopup(myDialog, false);
+                }, error -> {
+            Toast.makeText(this, error.toString(), Toast.LENGTH_LONG).show();
+        });
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
+    private void PUTCancel(int position, Dialog myDialog) {
+        HelperMethods.ShowLoadingPopup(this.myDialog, true);
+        StringRequest stringRequest = new StringRequest(Request.Method.PUT,
+                "http://" + getIpAddress() + "/orders/Cancel/" + OrderItems.get(position).getIntID(),
+                response -> {
+                    //Toast.makeText(this, response, Toast.LENGTH_LONG).s  ();
+                    myDialog.dismiss();
+                    OrderItems.remove(position);
+                    mAdapter.notifyItemRemoved(position);
+                    HelperMethods.ShowLoadingPopup(myDialog, false);
+                }, error -> {
+            Toast.makeText(this, error.toString(), Toast.LENGTH_LONG).show();
+        });
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
+    private void PUTColected(int position, Dialog myDialog) {
+        HelperMethods.ShowLoadingPopup(this.myDialog, true);
+        StringRequest stringRequest = new StringRequest(Request.Method.PUT,
+                "http://" + getIpAddress() + "/orders/Cancel/" + OrderItems.get(position).getIntID(),
+                response -> {
+                    //Toast.makeText(this, response, Toast.LENGTH_LONG).s  ();
+                    myDialog.dismiss();
+                    OrderItems.remove(position);
+                    mAdapter.notifyItemRemoved(position);
+                    HelperMethods.ShowLoadingPopup(myDialog, false);
+                }, error -> {
+            Toast.makeText(this, error.toString(), Toast.LENGTH_LONG).show();
+        });
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
     }
 
 }
