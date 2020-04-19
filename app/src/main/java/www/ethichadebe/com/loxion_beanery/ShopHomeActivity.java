@@ -136,6 +136,10 @@ public class ShopHomeActivity extends AppCompatActivity {
         return ingredients;
     }
 
+    public static void setIngredients(String[] ingredients) {
+        ShopHomeActivity.ingredients = ingredients;
+    }
+
     public void back(View view) {
         startActivity(new Intent(ShopHomeActivity.this, MainActivity.class));
     }
@@ -257,5 +261,11 @@ public class ShopHomeActivity extends AppCompatActivity {
                 });
         requestQueue.add(objectRequest);
 
+    }
+
+    public void Custom(View view) {
+        menuItem = MenuItems.get(0);
+        ingredients = "Chips".split(", ");
+        startActivity(new Intent(ShopHomeActivity.this, OrderActivity.class));
     }
 }

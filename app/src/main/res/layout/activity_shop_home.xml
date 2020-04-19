@@ -339,4 +339,15 @@
             android:visibility="gone" />
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/btnNext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="center|bottom"
+        android:background="@drawable/ripple_effect"
+        android:onClick="Custom"
+        android:text="Custom kota"
+        android:textColor="@color/White" />
 </RelativeLayout>

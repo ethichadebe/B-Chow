@@ -23,7 +23,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,7 +45,7 @@ public class OrderActivity extends AppCompatActivity {
     private IngredientItemCheckboxAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private TextView tvTotal;
-    private Double dblPrice, foundPrice = 0.0;
+    private Double dblPrice = 0.0;
     private RelativeLayout rlLoad, rlError;
     private Dialog myDialog;
     private boolean alreadyExists;
@@ -68,6 +67,7 @@ public class OrderActivity extends AppCompatActivity {
         myDialog = new Dialog(this);
 
         dblPrice = getMenuItem().getDblPrice();
+
         GETIngredients(findViewById(R.id.vLine), findViewById(R.id.vLineGrey));
 
         mRecyclerView.setHasFixedSize(true);
@@ -78,27 +78,28 @@ public class OrderActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(mAdapter);
 
         mAdapter.setOnItemClickListener(position -> {
+            //checkChecked();
             if (!ingredientItems.get(position).getChecked()) {
                 ingredientItems.get(position).setChecked(true);
                 checkMenu();
-                if (alreadyExists){
+                if (alreadyExists) {
                     dblPrice += ingredientItems.get(position).getDblPrice();
                 }
             } else {
                 ingredientItems.get(position).setChecked(false);
                 checkMenu();
-                if (alreadyExists){
+                if (alreadyExists) {
                     dblPrice -= ingredientItems.get(position).getDblPrice();
                 }
             }
-            tvTotal.setText("R" + dblPrice);
+            tvTotal.setText("R" + dblPrice + "0");
         });
 
     }
 
-    private boolean determinePrice(String string){
-        for (MenuItem menuItem:getShopItem().getMenuItems()){
-            if (menuItem.getStrMenu().equals(string)){
+    private boolean determinePrice(String string) {
+        for (MenuItem menuItem : getShopItem().getMenuItems()) {
+            if (menuItem.getStrMenu().equals(string)) {
                 dblPrice = menuItem.getDblPrice();
                 return false;
             }
@@ -111,7 +112,7 @@ public class OrderActivity extends AppCompatActivity {
         for (int i = 0; i < ingredientItems.size(); i++) {
             if (ingredientItems.get(i).getChecked()) {
                 MenuList.append(ingredientItems.get(i).getStrIngredientName()).append(", ");
-               alreadyExists = determinePrice(String.valueOf(MenuList).substring(0, String.valueOf(MenuList).length() - 2));
+                alreadyExists = determinePrice(String.valueOf(MenuList).substring(0, String.valueOf(MenuList).length() - 2));
             }
         }
     }
@@ -135,13 +136,15 @@ public class OrderActivity extends AppCompatActivity {
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject Ingredient = jsonArray.getJSONObject(i);
                                 if (isChecked(Ingredient.getString("iName"))) {
-                                    ingredientItems.add(new IngredientItemCheckbox(Ingredient.getInt("iID"), Ingredient.getString("iName"), Ingredient.getDouble("iPrice"), true, false));
-                                }else {
-                                    ingredientItems.add(new IngredientItemCheckbox(Ingredient.getInt("iID"), Ingredient.getString("iName"), Ingredient.getDouble("iPrice"), false, false));
+                                    ingredientItems.add(new IngredientItemCheckbox(Ingredient.getInt("iID"), Ingredient.getString("iName"),
+                                            Ingredient.getDouble("iPrice"), true, false));
+                                } else {
+                                    ingredientItems.add(new IngredientItemCheckbox(Ingredient.getInt("iID"), Ingredient.getString("iName"),
+                                            Ingredient.getDouble("iPrice"), false, false));
 
                                 }
                             }
-                            tvTotal.setText("R" + dblPrice);
+                            tvTotal.setText("R" + dblPrice+"0");
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -169,9 +172,11 @@ public class OrderActivity extends AppCompatActivity {
     }
 
     private boolean isChecked(String IngredientName) {
-        for (int i = 0; i < getIngredients().length; i++) {
-            if (getIngredients()[i].equals(IngredientName)) {
-                return true;
+        if (getIngredients() != null) {
+            for (int i = 0; i < getIngredients().length; i++) {
+                if (getIngredients()[i].equals(IngredientName)) {
+                    return true;
+                }
             }
         }
         return false;
@@ -213,5 +218,19 @@ public class OrderActivity extends AppCompatActivity {
         super.onBackPressed();
     }
 
+    private void checkChecked() {
+        boolean oneIisChecked = false;
+        for (IngredientItemCheckbox ingredientItem : ingredientItems) {
+            if (ingredientItem.getChecked()) {
+                oneIisChecked = true;
+                break;
+            }
+        }
 
+        if (oneIisChecked) {
+            findViewById(R.id.rlBottom).setVisibility(View.VISIBLE);
+        } else {
+            findViewById(R.id.rlBottom).setVisibility(View.GONE);
+        }
+    }
 }

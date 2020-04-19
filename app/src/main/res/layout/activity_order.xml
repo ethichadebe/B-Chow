@@ -61,69 +61,75 @@
 
     </RelativeLayout>
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cvTotal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_rowWeight="1"
-        android:layout_columnWeight="1"
-        android:layout_above="@+id/btnOder"
-        android:layout_margin="5dp"
-        android:background="@drawable/ripple_effect_white"
-        app:cardCornerRadius="12dp"
-        app:cardElevation="3dp">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/tvTotal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_gravity="top"
-                android:layout_marginRight="10dp"
-                android:fontFamily="sans-serif-medium"
-                android:text="R15"
-                android:textColor="@color/Black"
-                android:textSize="24sp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:fontFamily="sans-serif-medium"
-                android:text="Total"
-                android:textColor="@color/Black"
-                android:textSize="24sp" />
-
-        </RelativeLayout>
-    </androidx.cardview.widget.CardView>
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_below="@+id/llHead"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="5dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="5dp"
-        android:layout_above="@+id/cvTotal"
+        android:layout_above="@+id/rlBottom"
         android:scrollbars="vertical" />
 
-    <Button
-        android:id="@+id/btnOder"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    <LinearLayout
+        android:id="@+id/rlBottom"
+        android:layout_width="wrap_content"
         android:layout_alignParentBottom="true"
-        android:onClick="Order"
-        android:background="@drawable/ripple_effect"
-        android:text="Place order"
-        android:textColor="@color/White" />
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
 
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvTotal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:layout_above="@+id/btnOder"
+            android:layout_margin="5dp"
+            android:background="@drawable/ripple_effect_white"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="3dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tvTotal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="top"
+                    android:layout_marginRight="10dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="R15"
+                    android:textColor="@color/Black"
+                    android:textSize="24sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="Total"
+                    android:textColor="@color/Black"
+                    android:textSize="24sp" />
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+        <Button
+            android:id="@+id/btnOder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="Order"
+            android:background="@drawable/ripple_effect"
+            android:text="Place order"
+            android:textColor="@color/White" />
+
+    </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

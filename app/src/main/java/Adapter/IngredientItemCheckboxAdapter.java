@@ -70,10 +70,15 @@ public class IngredientItemCheckboxAdapter extends RecyclerView.Adapter<Ingredie
         holder.tvIngredientName.setText(item.getStrIngredientName());
         holder.tvIngredientName.setId(item.getIntID());
         holder.tvIngredientName.setChecked(item.getChecked());
-        holder.tvPrice.setText("R" + item.getDblPrice());
+        holder.tvPrice.setText("R" + item.getDblPrice()+"0");
 
         if (!item.getVisible()){
             holder.tvPrice.setVisibility(View.GONE);
+        }
+
+        if (holder.tvIngredientName.getText().toString().toLowerCase().equals("chips")) {
+            holder.tvIngredientName.setOnClickListener(view -> holder.tvIngredientName.setChecked(true));
+            holder.tvIngredientName.setClickable(false);
         }
     }
 
