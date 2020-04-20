@@ -23,7 +23,7 @@ public class PastOrderItemAdapter extends RecyclerView.Adapter<PastOrderItemAdap
     private OnItemClickListener mListener;
 
     public interface OnItemClickListener{
-        void OnItemClick(int position);
+        void OnItemReorderClick(int position);
         void OnItemClickRate(int position);
     }
 
@@ -32,14 +32,14 @@ public class PastOrderItemAdapter extends RecyclerView.Adapter<PastOrderItemAdap
 
     }
 
-    public static class OrderViewHolder extends RecyclerView.ViewHolder{
+    static class OrderViewHolder extends RecyclerView.ViewHolder{
 
         private TextView tvShopName, tvPrice, tvMenu, tvOrderNum, tvTime;
         private ImageView ivStar1, ivStar2, ivStar3, ivStar4, ivStar5;
         private CardView cvRate, cvReorder;
         private LinearLayout llStars;
 
-        public OrderViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
+        OrderViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
             tvShopName = itemView.findViewById(R.id.tvShopName);
             tvPrice = itemView.findViewById(R.id.tvPrice);
@@ -56,26 +56,20 @@ public class PastOrderItemAdapter extends RecyclerView.Adapter<PastOrderItemAdap
             ivStar4 = itemView.findViewById(R.id.ivStar4);
             ivStar5 = itemView.findViewById(R.id.ivStar5);
 
-            cvReorder.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (listener != null){
-                        int position =getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION){
-                            listener.OnItemClick(position);
-                        }
+            cvReorder.setOnClickListener(view -> {
+                if (listener != null){
+                    int position =getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION){
+                        listener.OnItemReorderClick(position);
                     }
                 }
             });
 
-            cvRate.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (listener != null){
-                        int position =getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION){
-                            listener.OnItemClickRate(position);
-                        }
+            cvRate.setOnClickListener(view -> {
+                if (listener != null){
+                    int position =getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION){
+                        listener.OnItemClickRate(position);
                     }
                 }
             });
@@ -90,9 +84,8 @@ public class PastOrderItemAdapter extends RecyclerView.Adapter<PastOrderItemAdap
     @Override
     public OrderViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.my_past_order_item, parent, false);
-        OrderViewHolder svh = new OrderViewHolder(v, mListener);
 
-        return  svh;
+        return new OrderViewHolder(v, mListener);
     }
 
     @Override
@@ -100,7 +93,7 @@ public class PastOrderItemAdapter extends RecyclerView.Adapter<PastOrderItemAdap
         PastOrderItem item = orderList.get(position);
 
         holder.tvShopName.setText(item.getStrShopName());
-        holder.tvPrice.setText("R" + item.getDblPrice());
+        holder.tvPrice.setText("R" + item.getDblPrice()+"0");
         holder.tvMenu.setText(item.getStrMenu());
         holder.tvOrderNum.setText("Order number: " + item.getIntOrderNum());
         holder.tvTime.setText(item.getStrTime());

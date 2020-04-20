@@ -1,5 +1,6 @@
 package www.ethichadebe.com.loxion_beanery;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
@@ -25,6 +27,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 import Adapter.PastOrderItemAdapter;
@@ -33,13 +37,17 @@ import SingleItem.PastOrderItem;
 import SingleItem.UpcomingOrderItem;
 
 import static util.Constants.getIpAddress;
+import static util.HelperMethods.ShowLoadingPopup;
+import static util.HelperMethods.combineString;
 import static util.HelperMethods.handler;
+import static www.ethichadebe.com.loxion_beanery.HomeFragment.getShopItem;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 
 public class OrdersFragment extends Fragment {
     private ArrayList<UpcomingOrderItem> upcomingOrderItems;
     private ArrayList<PastOrderItem> pastOrderItems;
     private static UpcomingOrderItem upcomingOrderItem;
+    private Dialog myDialog;
     private static PastOrderItem pastOrderItem;
     private View vLeft, vRight, vBottomRight, vBottomLeft;
     private RelativeLayout rlLeft, rlRight, rlEmpty;
@@ -54,13 +62,10 @@ public class OrdersFragment extends Fragment {
     private RecyclerView.LayoutManager mUpcomingLayoutManager;
     private RecyclerView mUpcomingRecyclerView;
 
-    public static UpcomingOrderItem getUpcomingOrderItem() {
+    static UpcomingOrderItem getUpcomingOrderItem() {
         return upcomingOrderItem;
     }
 
-    public PastOrderItem getPastOrderItem() {
-        return pastOrderItem;
-    }
 
     @Nullable
     @Override
@@ -70,6 +75,8 @@ public class OrdersFragment extends Fragment {
         if (getUser() == null) {
             startActivity(new Intent(getActivity(), LoginActivity.class));
         }
+
+        myDialog = new Dialog(Objects.requireNonNull(getActivity()));
         vBottomLeft = v.findViewById(R.id.vBottomLeft);
         vBottomRight = v.findViewById(R.id.vBottomRight);
         rlEmpty = v.findViewById(R.id.rlEmpty);
@@ -192,7 +199,7 @@ public class OrdersFragment extends Fragment {
                                 pastOrderItems.add(new PastOrderItem(Orders.getInt("oID"), Orders.getString("sName"),
                                         Orders.getInt("oID"), dateAndTime[0] + " " + dateAndTime[1].substring(0, 5),
                                         Orders.getString("oIngredients"), Orders.getDouble("oPrice"),
-                                        Orders.getInt("oRating")));
+                                        Orders.getInt("oRating"),Orders.getInt("sID")));
                             }
                         } else if (response.getString("message").equals("empty")) {
                             rlEmpty.setVisibility(View.VISIBLE);
@@ -206,9 +213,9 @@ public class OrdersFragment extends Fragment {
 
                         mPastAdapter.setOnItemClickListener(new PastOrderItemAdapter.OnItemClickListener() {
                             @Override
-                            public void OnItemClick(int position) {
+                            public void OnItemReorderClick(int position) {
                                 pastOrderItem = pastOrderItems.get(position);
-                                startActivity(new Intent(getActivity(), ShopHomeActivity.class));
+                                POSTOrder(pastOrderItem.getStrMenu(), pastOrderItem.getsID(),pastOrderItem.getDblPrice());
                             }
 
                             @Override
@@ -234,4 +241,34 @@ public class OrdersFragment extends Fragment {
 
     }
 
+    private void POSTOrder(String list, int sID, Double dblPrice) {
+        ShowLoadingPopup(myDialog, true);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,
+                "http://" + getIpAddress() + "/orders/Order",
+                response -> {
+                    try {
+                        JSONObject JSONResponse = new JSONObject(response);
+                        ShowLoadingPopup(myDialog, false);
+                        startActivity(new Intent(getActivity(), OrderConfirmationActivity.class));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }, error -> {
+            ShowLoadingPopup(myDialog, false);
+            Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_LONG).show();
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("oIngredients", list);
+                params.put("oPrice", String.valueOf(dblPrice));
+                params.put("sID", String.valueOf(sID));
+                params.put("uID", String.valueOf(getUser().getuID()));
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+        requestQueue.add(stringRequest);
+    }
 }

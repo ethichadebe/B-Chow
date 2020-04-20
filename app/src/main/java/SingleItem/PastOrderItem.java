@@ -1,7 +1,7 @@
 package SingleItem;
 
 public class PastOrderItem {
-    private int intID;
+    private int intID, sID;
     private String strShopName;
     private int intOrderNum;
     private String strTime;
@@ -9,7 +9,8 @@ public class PastOrderItem {
     private Double dblPrice;
     private int intRating;
 
-    public PastOrderItem(int intID, String strShopName, int intOrderNum, String strTime, String strMenu, Double dblPrice, int intRating) {
+    public PastOrderItem(int intID, String strShopName, int intOrderNum, String strTime, String strMenu, Double dblPrice,
+                         int intRating, int sID) {
         this.intID = intID;
         this.strShopName = strShopName;
         this.intOrderNum = intOrderNum;
@@ -17,6 +18,7 @@ public class PastOrderItem {
         this.strMenu = strMenu;
         this.dblPrice = dblPrice;
         this.intRating = intRating;
+        this.sID = sID;
     }
 
     public int getIntID() {
@@ -73,5 +75,13 @@ public class PastOrderItem {
 
     public void setIntRating(int intRating) {
         this.intRating = intRating;
+    }
+
+    public int getsID() {
+        return sID;
+    }
+
+    public void setsID(int sID) {
+        this.sID = sID;
     }
 }

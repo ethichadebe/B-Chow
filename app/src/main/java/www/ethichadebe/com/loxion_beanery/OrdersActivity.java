@@ -107,7 +107,7 @@ public class OrdersActivity extends AppCompatActivity {
 
             @Override
             public void onColectedClick(int position) {
-
+                PUTCollected(position, myDialog);
             }
         });
 
@@ -242,10 +242,10 @@ public class OrdersActivity extends AppCompatActivity {
         requestQueue.add(stringRequest);
     }
 
-    private void PUTColected(int position, Dialog myDialog) {
+    private void PUTCollected(int position, Dialog myDialog) {
         HelperMethods.ShowLoadingPopup(this.myDialog, true);
         StringRequest stringRequest = new StringRequest(Request.Method.PUT,
-                "http://" + getIpAddress() + "/orders/Cancel/" + OrderItems.get(position).getIntID(),
+                "http://" + getIpAddress() + "/orders/Collected/" + OrderItems.get(position).getIntID(),
                 response -> {
                     //Toast.makeText(this, response, Toast.LENGTH_LONG).s  ();
                     myDialog.dismiss();
