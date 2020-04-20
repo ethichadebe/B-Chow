@@ -35,6 +35,7 @@
             android:layout_height="?attr/actionBarSize"
             android:layout_alignParentTop="true"
             android:layout_alignParentBottom="true"
+            android:onClick="back"
             android:background="@drawable/ripple_effect_white"
             android:gravity="center">
 
@@ -62,6 +63,7 @@
     </RelativeLayout>
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cvRating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_rowWeight="1"
@@ -73,9 +75,9 @@
         app:cardElevation="3dp">
 
         <RelativeLayout
-            android:layout_width="300dp"
+            android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:layout_margin="10dp"
+            android:layout_margin="20dp"
             android:padding="10dp">
 
             <RelativeLayout
@@ -131,6 +133,31 @@
 
                 </LinearLayout>
             </RelativeLayout>
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_rowWeight="1"
+        android:layout_columnWeight="1"
+        android:layout_below="@id/cvRating"
+        android:layout_margin="20dp"
+        android:layout_centerHorizontal="true"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="3dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:padding="10dp">
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Additional comment"/>
+
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 
