@@ -9,6 +9,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -22,6 +23,8 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.rengwuxian.materialedittext.MaterialEditText;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -50,6 +53,8 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
     private TextView tvNumber, tvEmail;
     private static String UserSex;
     private Dialog myDialog;
+    private boolean isBack = true;
+    private CropImageView civProfilePicture;
 
     /*0 Name
     1 Surname
@@ -77,6 +82,8 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
         mCBMale = findViewById(R.id.cbMale);
         mCBFemale = findViewById(R.id.cbFemale);
         mCBOther = findViewById(R.id.cbOther);
+
+        civProfilePicture = findViewById(R.id.civProfilePicture);
 
         mTextBoxes[0].setText(getUser().getuName());
         mTextBoxes[1].setText(getUser().getuSurname());
@@ -173,6 +180,20 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
 
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
+                Uri resultUri = result.getUri();
+                civProfilePicture.setImageUriAsync(resultUri);
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                Exception error = result.getError();
+            }
+        }
+    }
+
     private void setCheck(String Checked) {
         UserSex = Checked;
         switch (Checked) {
@@ -201,6 +222,7 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
 
     public void save(View view) {
         if (allFieldsEntered(mTextBoxes)) {
+            isBack = false;
             EditUserDetails();
         }
     }
@@ -325,7 +347,9 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
                             getUser().setuNumber(JSONResponse.getString("uNumber"));
                             getUser().setuSex(JSONResponse.getString("uSex"));
                             getUser().setuSurname(JSONResponse.getString("uSurname"));
-                            startActivity(new Intent(EditUserProfileActivity.this, MainActivity.class));
+                            if(isBack){
+                                startActivity(new Intent(EditUserProfileActivity.this, MainActivity.class));
+                            }//Check if user pressed back
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -406,4 +430,10 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
         myDialog.setCanceledOnTouchOutside(false);
     }
 
+    public void ProfilePicture(View view) {
+        CropImage.activity()
+                .setGuidelines(CropImageView.Guidelines.ON)
+                .setAspectRatio(720, 720)
+                .start(this);
+    }
 }

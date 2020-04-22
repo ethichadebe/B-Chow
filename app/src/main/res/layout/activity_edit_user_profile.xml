@@ -36,8 +36,8 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentBottom="true"
             android:background="@drawable/ripple_effect_white"
-            android:onClick="back"
-            android:gravity="center">
+            android:gravity="center"
+            android:onClick="back">
 
             <TextView
                 style="@style/Base.TextAppearance.AppCompat.Body1"
@@ -57,9 +57,9 @@
             android:background="@drawable/ripple_effect_white"
             android:fontFamily="sans-serif-condensed-medium"
             android:gravity="center"
+            android:onClick="save"
             android:padding="10dp"
             android:text="@string/save"
-            android:onClick="save"
             android:textColor="@color/Black"
             android:textSize="12sp"
             android:textStyle="bold" />
@@ -96,12 +96,36 @@
                         android:orientation="vertical"
                         android:padding="10dp">
 
-                        <ImageView
-                            android:layout_width="150dp"
-                            android:layout_height="150dp"
-                            android:layout_marginTop="45dp"
-                            android:src="@drawable/unknown"
-                            android:contentDescription="@string/user_profile" />
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:layout_margin="50dp"
+                            android:background="@drawable/ripple_effect_white"
+                            app:cardCornerRadius="50dp">
+
+                            <RelativeLayout
+                                android:id="@+id/rlSmallPicture"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:background="@drawable/ripple_effect_white"
+                                android:orientation="vertical">
+
+                                <com.theartofdev.edmodo.cropper.CropImageView
+                                    android:id="@+id/civProfilePicture"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content" />
+
+                                <ImageView
+                                    android:id="@+id/ivSmall"
+                                    android:layout_width="50dp"
+                                    android:layout_height="50dp"
+                                    android:layout_centerInParent="true"
+                                    android:onClick="ProfilePicture"
+                                    android:src="@drawable/ic_add_a_photo_black_24dp" />
+
+                            </RelativeLayout>
+                        </androidx.cardview.widget.CardView>
 
                         <com.rengwuxian.materialedittext.MaterialEditText
                             android:id="@+id/txtName"
@@ -140,31 +164,31 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="25dp"
                     android:orientation="horizontal"
-                    android:paddingEnd="11dp"
-                    android:paddingStart="11dp">
+                    android:paddingStart="11dp"
+                    android:paddingEnd="11dp">
 
                     <ImageView
                         android:id="@+id/ivDOB"
                         android:layout_width="36dp"
                         android:layout_height="36dp"
                         android:layout_centerVertical="true"
-                        android:src="@drawable/ic_date_24dp"
-                        android:contentDescription="@string/phone_number" />
+                        android:contentDescription="@string/phone_number"
+                        android:src="@drawable/ic_date_24dp" />
 
                     <com.rengwuxian.materialedittext.MaterialEditText
                         android:id="@+id/txtDOB"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
                         android:layout_gravity="center_vertical"
+                        android:layout_toEndOf="@+id/ivDOB"
                         android:ems="10"
                         android:focusable="false"
-                        android:layout_centerVertical="true"
                         android:hint="@string/date_of_birth"
-                        app:met_iconLeft="@drawable/ic_date_24dp"
-                        android:layout_toEndOf="@+id/ivDOB"
                         android:paddingEnd="10dp"
                         android:textSize="14sp"
-                        app:met_floatingLabel="highlight" />
+                        app:met_floatingLabel="highlight"
+                        app:met_iconLeft="@drawable/ic_date_24dp" />
                 </RelativeLayout>
 
                 <LinearLayout
@@ -172,15 +196,15 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="25dp"
                     android:orientation="horizontal"
-                    android:paddingEnd="11dp"
-                    android:paddingStart="11dp">
+                    android:paddingStart="11dp"
+                    android:paddingEnd="11dp">
 
                     <ImageView
                         android:layout_width="36dp"
                         android:layout_height="36dp"
                         android:layout_gravity="center_vertical"
-                        android:src="@drawable/ic_person_pin_black_24dp"
-                        android:contentDescription="@string/sex" />
+                        android:contentDescription="@string/sex"
+                        android:src="@drawable/ic_person_pin_black_24dp" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -219,26 +243,26 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="25dp"
                     android:orientation="horizontal"
-                    android:paddingEnd="11dp"
-                    android:paddingStart="11dp">
+                    android:paddingStart="11dp"
+                    android:paddingEnd="11dp">
 
                     <ImageView
                         android:id="@+id/ivPhone"
                         android:layout_width="36dp"
                         android:layout_height="36dp"
-                        android:src="@drawable/ic_local_phone_black_24dp"
-                        android:contentDescription="@string/phone_number" />
+                        android:contentDescription="@string/phone_number"
+                        android:src="@drawable/ic_local_phone_black_24dp" />
 
                     <TextView
                         android:id="@+id/tvNumber"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
                         android:layout_gravity="center_vertical"
+                        android:layout_toStartOf="@id/tvChangeNum"
+                        android:layout_toEndOf="@+id/ivPhone"
                         android:paddingStart="10dp"
                         android:paddingEnd="10dp"
-                        android:layout_centerVertical="true"
-                        android:layout_toEndOf="@+id/ivPhone"
-                        android:layout_toStartOf="@id/tvChangeNum"
                         android:textStyle="bold" />
 
                     <TextView
@@ -246,45 +270,46 @@
                         style="@style/Base.TextAppearance.AppCompat.Body1"
                         android:layout_width="?attr/actionBarSize"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_gravity="end"
                         android:background="@drawable/ripple_effect_white"
                         android:fontFamily="sans-serif-condensed-medium"
                         android:gravity="center"
-                        android:layout_gravity="end"
+                        android:onClick="editNumber"
                         android:padding="10dp"
                         android:text="@string/edit"
-                        android:onClick="editNumber"
                         android:textColor="@color/Black"
                         android:textSize="12sp"
-                        android:layout_alignParentEnd="true"
                         android:textStyle="bold" />
 
 
                 </RelativeLayout>
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="25dp"
                     android:orientation="horizontal"
-                    android:paddingEnd="11dp"
-                    android:paddingStart="11dp">
+                    android:paddingStart="11dp"
+                    android:paddingEnd="11dp">
 
                     <ImageView
                         android:id="@+id/ivEmail"
                         android:layout_width="36dp"
                         android:layout_height="36dp"
-                        android:src="@drawable/ic_email_black_24dp"
-                        android:contentDescription="@string/email_address" />
+                        android:contentDescription="@string/email_address"
+                        android:src="@drawable/ic_email_black_24dp" />
 
                     <TextView
                         android:id="@+id/tvEmail"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
                         android:layout_gravity="center_vertical"
+                        android:layout_toStartOf="@id/tvChangeEmail"
+                        android:layout_toEndOf="@+id/ivEmail"
                         android:paddingStart="10dp"
                         android:paddingEnd="10dp"
-                        android:layout_toStartOf="@id/tvChangeEmail"
-                        android:layout_centerVertical="true"
-                        android:layout_toEndOf="@+id/ivEmail"
                         android:textStyle="bold" />
 
                     <TextView
@@ -292,16 +317,16 @@
                         style="@style/Base.TextAppearance.AppCompat.Body1"
                         android:layout_width="?attr/actionBarSize"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_gravity="end"
                         android:background="@drawable/ripple_effect_white"
                         android:fontFamily="sans-serif-condensed-medium"
                         android:gravity="center"
-                        android:layout_gravity="end"
+                        android:onClick="editEmail"
                         android:padding="10dp"
                         android:text="@string/edit"
-                        android:onClick="editEmail"
                         android:textColor="@color/Black"
                         android:textSize="12sp"
-                        android:layout_alignParentEnd="true"
                         android:textStyle="bold" />
 
 
