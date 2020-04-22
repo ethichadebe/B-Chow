@@ -19,20 +19,12 @@ import com.android.volley.toolbox.Volley;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-
 import pl.droidsonroids.gif.GifImageView;
 import util.HelperMethods;
 
 import static util.Constants.getIpAddress;
-import static util.HelperMethods.combineString;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
-import static www.ethichadebe.com.loxion_beanery.MenuActivity.getIntPosition;
-import static www.ethichadebe.com.loxion_beanery.MenuActivity.setIngredients;
-import static www.ethichadebe.com.loxion_beanery.MyShopsActivity.getNewShop;
+import static www.ethichadebe.com.loxion_beanery.OrderActivity.oID;
 import static www.ethichadebe.com.loxion_beanery.OrdersFragment.getUpcomingOrderItem;
 
 public class OrderConfirmationActivity extends AppCompatActivity {
@@ -71,6 +63,7 @@ public class OrderConfirmationActivity extends AppCompatActivity {
     private Runnable runnable1 = new Runnable() {
         @Override
         public void run() {
+            oID = -1;
             vLineGrey[0].setVisibility(View.GONE);
             vLineGrey[1].setVisibility(View.VISIBLE);
 
@@ -173,20 +166,22 @@ public class OrderConfirmationActivity extends AppCompatActivity {
     }
 
     public void arrived(View view) {
-        PUTArrived();
+        if (oID != -1){
+            PUTArrived(oID);
+        }else {
+            PUTArrived(getUpcomingOrderItem().getIntID());
+        }
     }
 
-    private void PUTArrived() {
+    private void PUTArrived(int oID) {
         HelperMethods.ShowLoadingPopup(myDialog, true);
         StringRequest stringRequest = new StringRequest(Request.Method.PUT,
-                "http://" + getIpAddress() + "/orders/Arrived/" + getUpcomingOrderItem().getIntID(),
+                "http://" + getIpAddress() + "/orders/Arrived/" + oID,
                 response -> {
                     //Toast.makeText(this, response, Toast.LENGTH_LONG).show();
                     HelperMethods.ShowLoadingPopup(myDialog, false);
                     handler.postDelayed(runnable1, 0);
-                }, error -> {
-            Toast.makeText(this, error.toString(), Toast.LENGTH_LONG).show();
-        });
+                }, error -> Toast.makeText(this, error.toString(), Toast.LENGTH_LONG).show());
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);

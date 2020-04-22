@@ -46,6 +46,7 @@ public class OrderActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager mLayoutManager;
     private TextView tvTotal;
     private Double dblPrice = 0.0;
+    static int oID = -1;
     private RelativeLayout rlLoad, rlError;
     private Dialog myDialog;
     private boolean alreadyExists;
@@ -189,14 +190,18 @@ public class OrderActivity extends AppCompatActivity {
                 response -> {
                     try {
                         JSONObject JSONResponse = new JSONObject(response);
+                        Toast.makeText(this, JSONResponse.toString(), Toast.LENGTH_LONG).show();
+                        oID = JSONResponse.getInt("data");
                         ShowLoadingPopup(myDialog, false);
-                        startActivity(new Intent(OrderActivity.this, OrderConfirmationActivity.class));
+                        if (oID!=-1){
+                            startActivity(new Intent(OrderActivity.this, OrderConfirmationActivity.class));
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }, error -> {
             ShowLoadingPopup(myDialog, false);
-            Toast.makeText(OrderActivity.this, error.toString(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, error.toString(), Toast.LENGTH_LONG).show();
         }) {
             @Override
             protected Map<String, String> getParams() {
