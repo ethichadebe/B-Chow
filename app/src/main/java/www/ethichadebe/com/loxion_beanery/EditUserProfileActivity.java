@@ -396,16 +396,16 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
         ShowEditPopup("Edit number", "Number", getUser().getuNumber(), true);
     }
 
-    public void ShowEditPopup(String tvHeading, String etHint, String etValue, boolean isNum) {
+    public void ShowEditPopup(String tvHeading1, String etHint, String etValue, boolean isNum) {
         myDialog.setContentView(R.layout.popup_edit_text);
 
         MaterialEditText etExtra = myDialog.findViewById(R.id.etExtra);
         CardView cvEditOption = myDialog.findViewById(R.id.cvEditOption);
         TextView tvCancel = myDialog.findViewById(R.id.tvCancel);
-        TextView tvHeading2 = myDialog.findViewById(R.id.tvHeading2);
+        TextView tvHeading = myDialog.findViewById(R.id.tvHeading);
         TextView tvEdit = myDialog.findViewById(R.id.tvEdit);
 
-        tvHeading2.setText(tvHeading);
+        tvHeading.setText(tvHeading1);
         etExtra.setText(etValue);
         etExtra.setHint(etHint);
         tvCancel.setOnClickListener(view -> myDialog.dismiss());

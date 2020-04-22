@@ -97,11 +97,11 @@
                         android:padding="10dp">
 
                         <androidx.cardview.widget.CardView
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
+                            android:layout_width="150dp"
+                            android:layout_height="150dp"
                             android:layout_margin="50dp"
                             android:background="@drawable/ripple_effect_white"
-                            app:cardCornerRadius="50dp">
+                            app:cardCornerRadius="100dp">
 
                             <RelativeLayout
                                 android:id="@+id/rlSmallPicture"
