@@ -6,7 +6,12 @@ import java.util.ArrayList;
 
 public class MyShopItem {
     private int intID = -1;
-    private String strShopName, strOperatingHRS,strPosition,strShortDescript,strFullDescript,strAveTime;
+    private String strShopName = "";
+    private String strOperatingHRS = "";
+    private String strPosition = "";
+    private String strShortDescript = "";
+    private String strFullDescript = "";
+    private String strAveTime = "";
     private int intLogoSmall,intLogoBig,intRating;
     private Location locLocation;
     private boolean isOpen = false;

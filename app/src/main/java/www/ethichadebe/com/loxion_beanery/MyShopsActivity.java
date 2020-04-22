@@ -19,16 +19,16 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
+import static www.ethichadebe.com.loxion_beanery.ShopSettingsActivity.isEdit;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 import Adapter.MyShopItemAdapter;
 import SingleItem.MyShopItem;
-import SingleItem.ShopItem;
 
 import static util.Constants.getIpAddress;
 import static util.HelperMethods.handler;
@@ -64,6 +64,7 @@ public class MyShopsActivity extends AppCompatActivity {
         }
 
         newShop = null;
+        isEdit = false;
         bsbBottomSheet = findViewById(R.id.bottom_sheet);
         bsbBottomSheetBehavior = BottomSheetBehavior.from(bsbBottomSheet);
         bsbBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
@@ -142,14 +143,14 @@ public class MyShopsActivity extends AppCompatActivity {
                                 location.setLatitude(Double.parseDouble(strCoord[0]));
                                 location.setLongitude(Double.parseDouble(strCoord[1]));
                                 boolean isActive = false;
-                                if (Shops.getInt("isActive") == 1){
+                                if (Shops.getInt("isActive") == 1) {
                                     isActive = true;
                                 }
                                 shopItems.add(new MyShopItem(Shops.getInt("sID"), Shops.getString("sName"),
                                         Shops.getString("uRole"), R.drawable.food, R.drawable.biglogo,
                                         Shops.getString("sShortDescrption"), Shops.getString("sFullDescription"),
                                         location, "10-15 mins", Shops.getInt("sRating"),
-                                        Shops.getString("sOperatingHrs"),isActive));
+                                        Shops.getString("sOperatingHrs"), isActive));
                             }
                         } else if (response.getString("message").equals("empty")) {
                             tvEmpty.setVisibility(View.VISIBLE);

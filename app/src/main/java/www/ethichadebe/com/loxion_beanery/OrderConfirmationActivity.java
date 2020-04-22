@@ -99,7 +99,8 @@ public class OrderConfirmationActivity extends AppCompatActivity {
             vLine[1].setVisibility(View.VISIBLE);
             vLine[2].setVisibility(View.GONE);
 
-            btFinish.setVisibility(View.GONE);
+            llNav.setVisibility(View.GONE);
+            btFinish.setVisibility(View.VISIBLE);
 
             tvUpdate.setText("Your order is ready for collection");
             tvUpdateMessage.setText("Your order is complete, Please collect and enjoy");
