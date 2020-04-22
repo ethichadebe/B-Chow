@@ -35,6 +35,7 @@ import SingleItem.MyShopItem;
 import util.HelperMethods;
 
 import static util.Constants.getIpAddress;
+import static util.HelperMethods.combineString;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 import static www.ethichadebe.com.loxion_beanery.MyShopsActivity.getNewShop;
 import static www.ethichadebe.com.loxion_beanery.MyShopsActivity.setNewShop;
@@ -243,6 +244,7 @@ public class RegisterShopActivity extends AppCompatActivity {
                 params.put("sFullDescription", getNewShop().getStrFullDescript());
                 params.put("sSmallPicture", "picture");
                 params.put("sBigPicture", "Picture");
+                params.put("sOperatingHrs", getNewShop().getStrOperatingHRS());
                 params.put("sLocation", getNewShop().getLocLocation().getLatitude() + " " +
                         getNewShop().getLocLocation().getLongitude());
                 return params;
