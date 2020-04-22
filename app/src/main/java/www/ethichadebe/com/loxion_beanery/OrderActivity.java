@@ -190,7 +190,6 @@ public class OrderActivity extends AppCompatActivity {
                 response -> {
                     try {
                         JSONObject JSONResponse = new JSONObject(response);
-                        Toast.makeText(this, JSONResponse.toString(), Toast.LENGTH_LONG).show();
                         oID = JSONResponse.getInt("data");
                         ShowLoadingPopup(myDialog, false);
                         if (oID!=-1){

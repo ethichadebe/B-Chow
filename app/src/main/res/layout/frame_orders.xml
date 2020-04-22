@@ -24,8 +24,8 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:fontFamily="sans-serif-medium"
-                android:text="@string/past_orders"
                 android:textAllCaps="false"
+                android:text="@string/upcoming_orders"
                 android:textColor="@color/Black"
                 android:textSize="14sp" />
 
@@ -55,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:fontFamily="sans-serif-medium"
-                android:text="@string/upcoming_orders"
+                android:text="@string/past_orders"
                 android:textAllCaps="false"
                 android:textColor="@color/Black"
                 android:textSize="14sp" />

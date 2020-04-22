@@ -90,19 +90,19 @@ public class OrdersFragment extends Fragment {
         mUpcomingRecyclerView = v.findViewById(R.id.upcomingRecyclerView);
         mPastRecyclerView = v.findViewById(R.id.pastRecyclerView);
 
-        setVisibility(View.VISIBLE, View.GONE, mUpcomingRecyclerView, mPastRecyclerView);
-        GETPastOrders(v.findViewById(R.id.vLine), v.findViewById(R.id.vLineGrey));
+        setVisibility(View.VISIBLE, View.GONE, mPastRecyclerView, mUpcomingRecyclerView);
+        GETUpcomingOrders(v.findViewById(R.id.vLine), v.findViewById(R.id.vLineGrey));
         rlLeft.setOnClickListener(view -> {
-            setVisibility(View.VISIBLE, View.GONE, mUpcomingRecyclerView, mPastRecyclerView);
+            setVisibility(View.VISIBLE, View.GONE, mPastRecyclerView, mUpcomingRecyclerView);
+            GETUpcomingOrders(v.findViewById(R.id.vLine), v.findViewById(R.id.vLineGrey));
+        });
+        rlRight.setOnClickListener(view -> {
+            setVisibility(View.GONE, View.VISIBLE, mUpcomingRecyclerView, mPastRecyclerView);
             GETPastOrders(v.findViewById(R.id.vLine), v.findViewById(R.id.vLineGrey));
         });
 
         cvStartOrdering.setOnClickListener(view -> {
             startActivity(new Intent(getActivity(), MainActivity.class));
-        });
-        rlRight.setOnClickListener(view -> {
-            setVisibility(View.GONE, View.VISIBLE, mPastRecyclerView, mUpcomingRecyclerView);
-            GETUpcomingOrders(v.findViewById(R.id.vLine), v.findViewById(R.id.vLineGrey));
         });
         return v;
     }
