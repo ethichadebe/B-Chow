@@ -1,13 +1,17 @@
 package www.ethichadebe.com.loxion_beanery;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.DialogFragment;
 
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -25,6 +29,7 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import util.HelperMethods;
 
@@ -33,12 +38,15 @@ import static util.HelperMethods.allFieldsEntered;
 import static util.HelperMethods.combineString;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 import static www.ethichadebe.com.loxion_beanery.MyShopsActivity.getNewShop;
+import static www.ethichadebe.com.loxion_beanery.ShopSettingsActivity.isEdit;
 
 public class OperatingHoursActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
     private Dialog myDialog;
     private MaterialEditText[] etOpen = new MaterialEditText[8];
     private MaterialEditText[] etClose = new MaterialEditText[8];
     private String DayOfWeek, strTimes = "";
+    private Button btnNext;
+    private boolean goBack;
     private TextView[] tvDays = new TextView[8];
     private int[] intBackground = {0, 0, 0, 0, 0, 0, 0, 0};
 
@@ -50,7 +58,10 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
             startActivity(new Intent(this, LoginActivity.class));
         } // Check if user is logged in
 
+        goBack = false;
         myDialog = new Dialog(this);
+        btnNext = findViewById(R.id.btnNext);
+
         tvDays[0] = findViewById(R.id.tvMon);
         tvDays[1] = findViewById(R.id.tvTue);
         tvDays[2] = findViewById(R.id.tvWed);
@@ -114,6 +125,9 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
         etOnClick(etClose[6], "c7");
         etOnClick(etClose[7], "cPH");
 
+        if (isEdit) {
+            btnNext.setText("Save");
+        }
     }
 
     private void etOnClick(MaterialEditText etTime, String DayOfWeek) {
@@ -196,7 +210,7 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
     }
 
     public void next(View view) {
-        if (allFieldsEntered(etOpen, etClose)){
+        if (allFieldsEntered(etOpen, etClose)) {
             if (getNewShop().getIntID() == -1) {
                 POSTRegisterShop();
             } else {
@@ -267,7 +281,11 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
                         JSONObject JSONResponse = new JSONObject(response);
                         getNewShop().setStrOperatingHRS(combineString(etOpen, etClose));
                         HelperMethods.ShowLoadingPopup(myDialog, false);
-                        startActivity(new Intent(OperatingHoursActivity.this, IngredientsActivity.class));
+                        if (goBack){
+                            finish();
+                        }else {
+                            startActivity(new Intent(OperatingHoursActivity.this, IngredientsActivity.class));
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -315,7 +333,39 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(this, RegisterShopActivity.class));
-
+        if (isEdit) {
+            if (combineString(etOpen, etClose).equals(getNewShop().getStrOperatingHRS())){
+                ShowPopup();
+            }else {
+                finish();
+            }
+        } else {
+            startActivity(new Intent(this, RegisterShopActivity.class));
+        }
     }
+
+    public void ShowPopup() {
+        TextView tvCancel, tvMessage;
+        CardView cvYes, cvNo;
+        myDialog.setContentView(R.layout.popup_confirmation);
+
+        tvCancel = myDialog.findViewById(R.id.tvCancel);
+        tvMessage = myDialog.findViewById(R.id.tvMessage);
+        cvYes = myDialog.findViewById(R.id.cvYes);
+        cvNo = myDialog.findViewById(R.id.cvNo);
+
+        tvCancel.setOnClickListener(view -> myDialog.dismiss());
+
+        tvMessage.setText("Would you like to save changes before exiting?");
+        cvYes.setOnClickListener(view -> {
+            goBack = true;
+            PUTShop();
+        });
+
+        cvNo.setOnClickListener(view -> myDialog.dismiss());
+        Objects.requireNonNull(myDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        myDialog.show();
+    }
+
+
 }

@@ -106,7 +106,7 @@ public class IngredientsActivity extends AppCompatActivity {
         mAdapter.setOnIngredientClickListener(new IngredientItemAdapter.OnIngredientClickListener() {
             @Override
             public void onRemoveClick(int position) {
-                DELETEIngredient(position);
+                ShowPopup(position);
             }
 
             @Override
@@ -323,4 +323,27 @@ public class IngredientsActivity extends AppCompatActivity {
     public void reload(View view) {
         GETIngredients(findViewById(R.id.vLine),findViewById(R.id.vLineGrey));
     }
+
+    public void ShowPopup(int position) {
+        TextView tvCancel, tvMessage;
+        CardView cvYes, cvNo;
+        myDialog.setContentView(R.layout.popup_confirmation);
+
+        tvCancel = myDialog.findViewById(R.id.tvCancel);
+        tvMessage = myDialog.findViewById(R.id.tvMessage);
+        cvYes = myDialog.findViewById(R.id.cvYes);
+        cvNo = myDialog.findViewById(R.id.cvNo);
+
+        tvCancel.setOnClickListener(view -> myDialog.dismiss());
+
+        tvMessage.setText("Are you sure?");
+        cvYes.setOnClickListener(view -> {
+            DELETEIngredient(position);
+        });
+
+        cvNo.setOnClickListener(view -> myDialog.dismiss());
+        Objects.requireNonNull(myDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        myDialog.show();
+    }
+
 }

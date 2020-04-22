@@ -1,11 +1,14 @@
 package www.ethichadebe.com.loxion_beanery;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -23,6 +26,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import Adapter.MenuItemAdapter;
 import SingleItem.IngredientItem;
@@ -98,7 +102,7 @@ public class MenuActivity extends AppCompatActivity {
 
             @Override
             public void onDeleteClick(int position) {
-                DELETEIngredient(position);
+                ShowPopup(position);
             }
         });
 
@@ -215,5 +219,27 @@ public class MenuActivity extends AppCompatActivity {
 
     public void reload(View view) {
         GETMenuItems(findViewById(R.id.vLine), findViewById(R.id.vLineGrey));
+    }
+
+    public void ShowPopup(int position) {
+        TextView tvCancel, tvMessage;
+        CardView cvYes, cvNo;
+        myDialog.setContentView(R.layout.popup_confirmation);
+
+        tvCancel = myDialog.findViewById(R.id.tvCancel);
+        tvMessage = myDialog.findViewById(R.id.tvMessage);
+        cvYes = myDialog.findViewById(R.id.cvYes);
+        cvNo = myDialog.findViewById(R.id.cvNo);
+
+        tvCancel.setOnClickListener(view -> myDialog.dismiss());
+
+        tvMessage.setText("Are you sure?");
+        cvYes.setOnClickListener(view -> {
+            DELETEIngredient(position);
+        });
+
+        cvNo.setOnClickListener(view -> myDialog.dismiss());
+        Objects.requireNonNull(myDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        myDialog.show();
     }
 }
