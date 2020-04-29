@@ -184,8 +184,9 @@ public class OrdersActivity extends AppCompatActivity {
                                 JSONObject Orders = jsonArray.getJSONObject(i);
                                 String[] dateAndTime = Orders.getString("oRecievedAt").split("T");
                                 OrderItems.add(new AdminOrderItem(Orders.getInt("oID"), Orders.getInt("oNumber"),
-                                        dateAndTime[1].substring(0, 5), Orders.getDouble("oPrice"),
-                                        Orders.getString("oIngredients"), Orders.getString("oStatus")));
+                                        dateAndTime[1].substring(0, 5),Orders.getString("oIngredients"),
+                                        Orders.getString("oExtras"), Orders.getString("oStatus"),
+                                        Orders.getDouble("oPrice")));
                             }
                         } else if (response.getString("message").equals("empty")) {
                             tvEmpty.setVisibility(View.VISIBLE);

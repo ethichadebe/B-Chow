@@ -49,42 +49,43 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/tvTime"
             android:layout_margin="10dp"
-            android:fontFamily="sans-serif-light"
+            android:fontFamily="sans-serif-medium"
             android:gravity="center"
             android:textColor="@color/Black"
             android:textSize="24sp" />
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cvReady"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:layout_below="@+id/tvMenu"
+        <LinearLayout
+            android:id="@+id/llExtras"
+            android:layout_width="wrap_content"
             android:layout_margin="10dp"
-            android:fontFamily="sans-serif-medium"
-            android:padding="50dp"
-            android:visibility="gone"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="3dp">
+            android:layout_below="@id/tvMenu"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:text="Extras: "
+                android:textColor="@color/Black"
+                android:textSize="24sp" />
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/ripple_effect"
-                android:fontFamily="sans-serif-medium"
+                android:id="@+id/tvExtras"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:gravity="center"
-                android:text="Collected"
-                android:textAllCaps="false"
-                android:textColor="@color/White"
-                android:textSize="14sp" />
-        </androidx.cardview.widget.CardView>
+                android:textColor="@color/Black"
+                android:textSize="24sp" />
 
+        </LinearLayout>
         <RelativeLayout
             android:id="@+id/rlOptions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/cvReady">
+            android:layout_below="@id/llExtras">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cvDone"
@@ -137,6 +138,32 @@
                     android:textSize="14sp" />
             </androidx.cardview.widget.CardView>
         </RelativeLayout>
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvReady"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:layout_below="@+id/rlOptions"
+            android:layout_margin="10dp"
+            android:fontFamily="sans-serif-medium"
+            android:visibility="gone"
+            android:padding="50dp"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="3dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/ripple_effect"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center"
+                android:text="Collected"
+                android:textAllCaps="false"
+                android:textColor="@color/White"
+                android:textSize="14sp" />
+        </androidx.cardview.widget.CardView>
+
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

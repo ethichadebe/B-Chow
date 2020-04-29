@@ -34,13 +34,14 @@ public class AdminOrderItemAdapter extends RecyclerView.Adapter<AdminOrderItemAd
 
     static class AdminOrderViewHolder extends RecyclerView.ViewHolder{
 
-        private TextView tvMenu, tvTime, tvOrderNum, tvPrice;
+        private TextView tvMenu,tvExtras, tvTime, tvOrderNum, tvPrice;
         private CardView cvDone, cvCancel,cvReady;
         private RelativeLayout rlOptions;
 
         AdminOrderViewHolder(@NonNull View itemView, final AdminOrderItemAdapter.OnItemClickListener listener) {
             super(itemView);
             tvMenu = itemView.findViewById(R.id.tvMenu);
+            tvExtras = itemView.findViewById(R.id.tvExtras);
             tvTime = itemView.findViewById(R.id.tvTime);
             tvPrice = itemView.findViewById(R.id.tvPrice);
             tvOrderNum = itemView.findViewById(R.id.tvOrderNum);
@@ -97,6 +98,7 @@ public class AdminOrderItemAdapter extends RecyclerView.Adapter<AdminOrderItemAd
         AdminOrderItem item = adminOrders.get(position);
 
         holder.tvMenu.setText(item.getStrMenu());
+        holder.tvExtras.setText(item.getStrExtras());
         holder.tvOrderNum.setText("#"+item.getIntOderNum());
         holder.tvPrice.setText("R"+item.getDblPrice()+"0");
         holder.tvTime.setText(item.getStrTrime());
