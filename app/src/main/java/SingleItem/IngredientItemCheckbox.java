@@ -54,6 +54,13 @@ public class IngredientItemCheckbox {
         isChecked = checked;
     }
 
+    public void setChecked() {
+        isChecked = !isChecked;
+    }
+
+
+
+
     public Boolean getVisible() {
         return isVisible;
     }

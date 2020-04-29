@@ -123,11 +123,18 @@ public class HelperMethods {
     public static String combineString(ArrayList<IngredientItemCheckbox> ingredientItems) {
         StringBuilder MenuList = new StringBuilder();
         for (int i = 0; i < ingredientItems.size(); i++) {
-            if (ingredientItems.get(i).getChecked())
-                MenuList.append(ingredientItems.get(i).getStrIngredientName()).append(", ");
+            if (ingredientItems.get(i).getChecked()){
+                if (!ingredientItems.get(i).getStrIngredientName().equals("")){
+                    MenuList.append(ingredientItems.get(i).getStrIngredientName()).append(", ");
+                }
+            }
         }
 
         return String.valueOf(MenuList).substring(0, String.valueOf(MenuList).length() - 2);
+    }
+
+    public static String combineString(String menu) {
+        return menu.substring(0, menu.length() - 2);
     }
 
     public static String combineString(MaterialEditText[] etOpen, MaterialEditText[] etClose) {

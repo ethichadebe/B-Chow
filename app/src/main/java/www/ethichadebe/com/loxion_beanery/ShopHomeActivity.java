@@ -62,6 +62,10 @@ public class ShopHomeActivity extends AppCompatActivity {
         return menuItem;
     }
 
+    public static ArrayList<MenuItem> getMenuItems() {
+        return MenuItems;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
