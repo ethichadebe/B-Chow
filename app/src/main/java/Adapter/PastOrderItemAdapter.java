@@ -22,19 +22,20 @@ public class PastOrderItemAdapter extends RecyclerView.Adapter<PastOrderItemAdap
     private ArrayList<PastOrderItem> orderList;
     private OnItemClickListener mListener;
 
-    public interface OnItemClickListener{
+    public interface OnItemClickListener {
         void OnItemReorderClick(int position);
+
         void OnItemClickRate(int position);
     }
 
-    public void setOnItemClickListener(OnItemClickListener listener){
+    public void setOnItemClickListener(OnItemClickListener listener) {
         mListener = listener;
 
     }
 
-    static class OrderViewHolder extends RecyclerView.ViewHolder{
+    static class OrderViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView tvShopName, tvPrice, tvMenu, tvOrderNum, tvTime;
+        private TextView tvShopName, tvPrice, tvMenu, tvExtras, tvOrderNum, tvTime;
         private ImageView ivStar1, ivStar2, ivStar3, ivStar4, ivStar5;
         private CardView cvRate, cvReorder;
         private LinearLayout llStars;
@@ -44,6 +45,7 @@ public class PastOrderItemAdapter extends RecyclerView.Adapter<PastOrderItemAdap
             tvShopName = itemView.findViewById(R.id.tvShopName);
             tvPrice = itemView.findViewById(R.id.tvPrice);
             tvMenu = itemView.findViewById(R.id.tvMenu);
+            tvExtras = itemView.findViewById(R.id.tvExtras);
             tvOrderNum = itemView.findViewById(R.id.tvOrderNum);
             tvTime = itemView.findViewById(R.id.tvTime);
             cvRate = itemView.findViewById(R.id.cvRate);
@@ -57,18 +59,18 @@ public class PastOrderItemAdapter extends RecyclerView.Adapter<PastOrderItemAdap
             ivStar5 = itemView.findViewById(R.id.ivStar5);
 
             cvReorder.setOnClickListener(view -> {
-                if (listener != null){
-                    int position =getAdapterPosition();
-                    if (position != RecyclerView.NO_POSITION){
+                if (listener != null) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
                         listener.OnItemReorderClick(position);
                     }
                 }
             });
 
             cvRate.setOnClickListener(view -> {
-                if (listener != null){
-                    int position =getAdapterPosition();
-                    if (position != RecyclerView.NO_POSITION){
+                if (listener != null) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
                         listener.OnItemClickRate(position);
                     }
                 }
@@ -76,7 +78,7 @@ public class PastOrderItemAdapter extends RecyclerView.Adapter<PastOrderItemAdap
         }
     }
 
-    public PastOrderItemAdapter(ArrayList<PastOrderItem> shopList){
+    public PastOrderItemAdapter(ArrayList<PastOrderItem> shopList) {
         this.orderList = shopList;
     }
 
@@ -93,18 +95,19 @@ public class PastOrderItemAdapter extends RecyclerView.Adapter<PastOrderItemAdap
         PastOrderItem item = orderList.get(position);
 
         holder.tvShopName.setText(item.getStrShopName());
-        holder.tvPrice.setText("R" + item.getDblPrice()+"0");
+        holder.tvPrice.setText("R" + item.getDblPrice() + "0");
         holder.tvMenu.setText(item.getStrMenu());
+        holder.tvExtras.setText(item.getStrExtras());
         holder.tvOrderNum.setText("Order number: " + item.getIntOrderNum());
         holder.tvTime.setText(item.getStrTime());
-        if (item.getIntRating() == 0){
+        if (item.getIntRating() == 0) {
             holder.cvRate.setVisibility(View.VISIBLE);
             holder.llStars.setVisibility(View.GONE);
-        }else {
+        } else {
             holder.cvRate.setVisibility(View.GONE);
             holder.llStars.setVisibility(View.VISIBLE);
 
-            switch (item.getIntRating()){
+            switch (item.getIntRating()) {
                 case 1:
                     holder.ivStar1.setImageResource(0);
                     holder.ivStar2.setImageResource(0);

@@ -183,7 +183,7 @@ public class OrdersActivity extends AppCompatActivity {
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject Orders = jsonArray.getJSONObject(i);
                                 String[] dateAndTime = Orders.getString("oRecievedAt").split("T");
-                                OrderItems.add(new AdminOrderItem(Orders.getInt("oID"), Orders.getInt("oNumber"),
+                                OrderItems.add(new AdminOrderItem(Orders.getInt("oID"), Orders.getInt("oID"),
                                         dateAndTime[1].substring(0, 5),Orders.getString("oIngredients"),
                                         Orders.getString("oExtras"), Orders.getString("oStatus"),
                                         Orders.getDouble("oPrice")));

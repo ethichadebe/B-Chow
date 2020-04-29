@@ -196,10 +196,12 @@ public class OrdersFragment extends Fragment {
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject Orders = jsonArray.getJSONObject(i);
                                 String[] dateAndTime = Orders.getString("createdAt").split("T");
-                                pastOrderItems.add(new PastOrderItem(Orders.getInt("oID"), Orders.getString("sName"),
-                                        Orders.getInt("oID"), dateAndTime[0] + " " + dateAndTime[1].substring(0, 5),
-                                        Orders.getString("oIngredients"), Orders.getDouble("oPrice"),
-                                        Orders.getInt("oRating"),Orders.getInt("sID")));
+                                pastOrderItems.add(new PastOrderItem(Orders.getInt("oID"),Orders.getInt("sID"),
+                                        Orders.getInt("oID"),Orders.getInt("oRating"),
+                                        Orders.getString("sName"),
+                                        dateAndTime[0] + " " + dateAndTime[1].substring(0, 5),
+                                        Orders.getString("oIngredients"),Orders.getString("oExtras"),
+                                        Orders.getDouble("oPrice")));
                             }
                         } else if (response.getString("message").equals("empty")) {
                             rlEmpty.setVisibility(View.VISIBLE);
