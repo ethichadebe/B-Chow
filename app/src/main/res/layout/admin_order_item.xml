@@ -52,12 +52,13 @@
             android:fontFamily="sans-serif-medium"
             android:gravity="center"
             android:textColor="@color/Black"
-            android:textSize="24sp" />
+            android:textSize="22sp" />
 
         <LinearLayout
             android:id="@+id/llExtras"
             android:layout_width="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:layout_below="@id/tvMenu"
             android:orientation="horizontal"
             android:layout_height="wrap_content">
@@ -65,9 +66,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-light"
-                android:text="Extras: "
+                android:text="Extras:"
                 android:textColor="@color/Black"
-                android:textSize="24sp" />
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/tvExtras"
@@ -78,7 +79,7 @@
                 android:layout_marginEnd="10dp"
                 android:gravity="center"
                 android:textColor="@color/Black"
-                android:textSize="24sp" />
+                android:textSize="20sp" />
 
         </LinearLayout>
         <RelativeLayout
