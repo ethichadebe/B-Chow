@@ -34,7 +34,7 @@ public class UpcomingOrderItemAdapter extends RecyclerView.Adapter<UpcomingOrder
 
     static class OrderViewHolder extends RecyclerView.ViewHolder{
 
-        private TextView tvShopName, tvPrice, tvMenu, tvOrderNum, tvTime,tvStatus;
+        private TextView tvShopName, tvPrice, tvMenu,tvExtras, tvOrderNum, tvTime,tvStatus;
         private CardView cvTrack;
 
         OrderViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
@@ -42,6 +42,7 @@ public class UpcomingOrderItemAdapter extends RecyclerView.Adapter<UpcomingOrder
             tvShopName = itemView.findViewById(R.id.tvShopName);
             tvPrice = itemView.findViewById(R.id.tvPrice);
             tvMenu = itemView.findViewById(R.id.tvMenu);
+            tvExtras = itemView.findViewById(R.id.tvExtras);
             tvOrderNum = itemView.findViewById(R.id.tvOrderNum);
             tvStatus = itemView.findViewById(R.id.tvStatus);
             tvTime = itemView.findViewById(R.id.tvTime);
@@ -75,6 +76,7 @@ public class UpcomingOrderItemAdapter extends RecyclerView.Adapter<UpcomingOrder
 
         holder.tvShopName.setText(item.getStrShopName());
         holder.tvPrice.setText("R" + item.getDblPrice()+"0");
+       holder.tvExtras.setText(item.getStrExtras());
         holder.tvMenu.setText(item.getStrMenu());
         holder.tvOrderNum.setText("Order number: " + item.getIntOrderNum());
         holder.tvTime.setText(item.getStrTime());

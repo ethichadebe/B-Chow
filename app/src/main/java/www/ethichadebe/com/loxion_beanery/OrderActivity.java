@@ -163,8 +163,8 @@ public class OrderActivity extends AppCompatActivity {
 
     public void Order(View view) {
         if (nExtras > 0) {
-            orderItem = new UpcomingOrderItem(getShopItem().getIntID(), "", 1, "",
-                    combineString(ingredientItemsChecked), dblPrice, "");
+            orderItem = new UpcomingOrderItem(getShopItem().getIntID(), "", 1, "",combineString(ingredientItems),
+                    "", dblPrice, "");
             startActivity(new Intent(this, ExtraItemActivity.class));
         } else {
             POSTOrder();
@@ -204,7 +204,7 @@ public class OrderActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                params.put("oIngredients", combineString(ingredientItemsChecked));
+                params.put("oIngredients", combineString(ingredientItems));
                 params.put("oPrice", String.valueOf(dblPrice));
                 params.put("sID", String.valueOf(getShopItem().getIntID()));
                 params.put("uID", String.valueOf(getUser().getuID()));

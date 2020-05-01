@@ -2,10 +2,14 @@ package SingleItem;
 
 public class UpcomingOrderItem {
     private int intID,intOrderNum;
-    private String strShopName,strTime,strMenu, strStatus;
+    private String strShopName;
+    private String strTime;
+    private String strMenu;
+    private String strExtras;
+    private String  strStatus;
     private Double dblPrice;
 
-    public UpcomingOrderItem(int intID, String strShopName, int intOrderNum, String strTime, String strMenu, Double dblPrice,
+    public UpcomingOrderItem(int intID, String strShopName, int intOrderNum, String strTime, String strMenu,String strExtras, Double dblPrice,
                              String strStatus) {
         this.intID = intID;
         this.strShopName = strShopName;
@@ -13,6 +17,7 @@ public class UpcomingOrderItem {
         this.strTime = strTime;
         this.strMenu = strMenu;
         this.dblPrice = dblPrice;
+        this.strExtras = strExtras;
         this.strStatus = strStatus;
     }
 
@@ -70,5 +75,13 @@ public class UpcomingOrderItem {
 
     public void setStrStatus(String strStatus) {
         this.strStatus = strStatus;
+    }
+
+    public String getStrExtras() {
+        return strExtras;
+    }
+
+    public void setStrExtras(String strExtras) {
+        this.strExtras = strExtras;
     }
 }

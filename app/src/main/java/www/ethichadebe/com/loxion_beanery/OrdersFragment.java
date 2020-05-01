@@ -141,8 +141,10 @@ public class OrdersFragment extends Fragment {
                                 JSONObject Orders = jsonArray.getJSONObject(i);
                                 String[] dateAndTime = Orders.getString("createdAt").split("T");
                                 upcomingOrderItems.add(new UpcomingOrderItem(Orders.getInt("oID"),
-                                        Orders.getString("sName"), Orders.getInt("oID"), dateAndTime[1].substring(0, 5),
-                                        Orders.getString("oIngredients"), Orders.getDouble("oPrice"), Orders.getString("oStatus")));
+                                        Orders.getString("sName"), Orders.getInt("oID"),
+                                        dateAndTime[1].substring(0, 5),Orders.getString("oIngredients"),
+                                        Orders.getString("oExtras"), Orders.getDouble("oPrice"),
+                                        Orders.getString("oStatus")));
                             }
                         } else if (response.getString("message").equals("empty")) {
                             rlEmpty.setVisibility(View.VISIBLE);
@@ -196,11 +198,11 @@ public class OrdersFragment extends Fragment {
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject Orders = jsonArray.getJSONObject(i);
                                 String[] dateAndTime = Orders.getString("createdAt").split("T");
-                                pastOrderItems.add(new PastOrderItem(Orders.getInt("oID"),Orders.getInt("sID"),
-                                        Orders.getInt("oID"),Orders.getInt("oRating"),
+                                pastOrderItems.add(new PastOrderItem(Orders.getInt("oID"), Orders.getInt("sID"),
+                                        Orders.getInt("oID"), Orders.getInt("oRating"),
                                         Orders.getString("sName"),
                                         dateAndTime[0] + " " + dateAndTime[1].substring(0, 5),
-                                        Orders.getString("oIngredients"),Orders.getString("oExtras"),
+                                        Orders.getString("oIngredients"), Orders.getString("oExtras"),
                                         Orders.getDouble("oPrice")));
                             }
                         } else if (response.getString("message").equals("empty")) {
@@ -217,7 +219,7 @@ public class OrdersFragment extends Fragment {
                             @Override
                             public void OnItemReorderClick(int position) {
                                 pastOrderItem = pastOrderItems.get(position);
-                                POSTOrder(pastOrderItem.getStrMenu(), pastOrderItem.getsID(),pastOrderItem.getDblPrice());
+                                POSTOrder(pastOrderItem.getStrMenu(), pastOrderItem.getsID(), pastOrderItem.getDblPrice());
                             }
 
                             @Override
