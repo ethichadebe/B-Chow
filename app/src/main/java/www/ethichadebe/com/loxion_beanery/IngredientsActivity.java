@@ -44,6 +44,7 @@ import static util.HelperMethods.ButtonVisibility;
 import static util.HelperMethods.handler;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 import static www.ethichadebe.com.loxion_beanery.MyShopsActivity.getNewShop;
+import static www.ethichadebe.com.loxion_beanery.ShopSettingsActivity.isEdit;
 
 public class IngredientsActivity extends AppCompatActivity {
 
@@ -76,7 +77,7 @@ public class IngredientsActivity extends AppCompatActivity {
         rlLoad = findViewById(R.id.rlLoad);
         rlError = findViewById(R.id.rlError);
 
-        GETIngredients(findViewById(R.id.vLine),findViewById(R.id.vLineGrey));
+        GETIngredients(findViewById(R.id.vLine), findViewById(R.id.vLineGrey));
 
         ButtonVisibility(getNewShop().getIngredientItems(), btnNext);
 
@@ -89,7 +90,7 @@ public class IngredientsActivity extends AppCompatActivity {
                 etName.setError("required");
             } else if (Objects.requireNonNull(etPrice.getText()).toString().isEmpty()) {
                 etPrice.setError("required");
-            } else if (!ingredientExists(etName.getText().toString())){
+            } else if (!ingredientExists(etName.getText().toString())) {
                 POSTRegisterShopIngredients();
             }
         });
@@ -102,6 +103,9 @@ public class IngredientsActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
 
+        if (isEdit) {
+            btnNext.setText("Edit Menu List");
+        }
 
         mAdapter.setOnIngredientClickListener(new IngredientItemAdapter.OnIngredientClickListener() {
             @Override
@@ -116,9 +120,9 @@ public class IngredientsActivity extends AppCompatActivity {
         });
     }
 
-    private boolean ingredientExists(String name){
-        for (IngredientItem ingredientItem:getNewShop().getIngredientItems()){
-            if (ingredientItem.getStrIngredientName().toLowerCase().equals(name.toLowerCase())){
+    private boolean ingredientExists(String name) {
+        for (IngredientItem ingredientItem : getNewShop().getIngredientItems()) {
+            if (ingredientItem.getStrIngredientName().toLowerCase().equals(name.toLowerCase())) {
                 etName.setError("Already exists");
                 return true;
             }
@@ -128,7 +132,11 @@ public class IngredientsActivity extends AppCompatActivity {
     }
 
     public void back(View view) {
+        if (isEdit) {
+            startActivity(new Intent(this, ShopSettingsActivity.class));
+        } else {
             startActivity(new Intent(this, OperatingHoursActivity.class));
+        }
     }
 
     public void next(View view) {
@@ -251,17 +259,14 @@ public class IngredientsActivity extends AppCompatActivity {
         tvCancel.setOnClickListener(view -> myDialog.dismiss());
 
         btnEditOption.setOnClickListener(view -> {
-            if (Objects.requireNonNull(etName.getText()).toString().isEmpty() && Objects.requireNonNull(etPrice.getText()).toString().isEmpty()){
+            if (Objects.requireNonNull(etName.getText()).toString().isEmpty() && Objects.requireNonNull(etPrice.getText()).toString().isEmpty()) {
                 etPrice.setError("required");
                 etPrice.setError("required");
-            }
-            else if (Objects.requireNonNull(etPrice.getText()).toString().isEmpty()){
+            } else if (Objects.requireNonNull(etPrice.getText()).toString().isEmpty()) {
                 etPrice.setError("required");
-            }
-            else if (Objects.requireNonNull(etName.getText()).toString().isEmpty()){
+            } else if (Objects.requireNonNull(etName.getText()).toString().isEmpty()) {
                 etPrice.setError("required");
-            }
-            else{
+            } else {
                 PUTIngredient(position, Objects.requireNonNull(etName.getText()).toString(), Objects.requireNonNull(etPrice.getText()).toString());
             }
         });
@@ -274,7 +279,11 @@ public class IngredientsActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        if (isEdit) {
+            startActivity(new Intent(this, ShopSettingsActivity.class));
+        } else {
             startActivity(new Intent(this, OperatingHoursActivity.class));
+        }
     }
 
     private void GETIngredients(View vLine, View vLineGrey) {
@@ -286,7 +295,7 @@ public class IngredientsActivity extends AppCompatActivity {
 
         JsonObjectRequest objectRequest = new JsonObjectRequest(
                 Request.Method.GET,
-                "http://" + getIpAddress() + "/shops/Ingredients/"+getNewShop().getIntID(), null,
+                "http://" + getIpAddress() + "/shops/Ingredients/" + getNewShop().getIntID(), null,
                 response -> {
                     //Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
                     rlLoad.setVisibility(View.GONE);
@@ -321,7 +330,7 @@ public class IngredientsActivity extends AppCompatActivity {
     }
 
     public void reload(View view) {
-        GETIngredients(findViewById(R.id.vLine),findViewById(R.id.vLineGrey));
+        GETIngredients(findViewById(R.id.vLine), findViewById(R.id.vLineGrey));
     }
 
     public void ShowPopup(int position) {
