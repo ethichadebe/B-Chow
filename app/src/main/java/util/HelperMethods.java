@@ -172,13 +172,17 @@ public class HelperMethods {
     }
 
     public static String combineString(MaterialEditText[] etOpen, MaterialEditText[] etClose) {
-        StringBuilder MenuList = new StringBuilder();
+        String MenuList = "";
         for (int i = 0; i < etOpen.length; i++) {
-            MenuList.append(Objects.requireNonNull(etOpen[i].getText()).toString()).append(" - ").
-                    append(Objects.requireNonNull(etClose[i].getText()).toString()).append(", ");
+            if(!Objects.requireNonNull(etOpen[i].getText()).toString().isEmpty()){
+                MenuList += Objects.requireNonNull(etOpen[i].getText()).toString()+" - ";
+                if(!Objects.requireNonNull(etClose[i].getText()).toString().isEmpty()){
+                    MenuList += Objects.requireNonNull(etClose[i].getText()).toString()+", ";
+                }
+            }
         }
 
-        return String.valueOf(MenuList).substring(0, String.valueOf(MenuList).length() - 2);
+        return MenuList.substring(0, MenuList.length() - 2);
     }
 
     /**

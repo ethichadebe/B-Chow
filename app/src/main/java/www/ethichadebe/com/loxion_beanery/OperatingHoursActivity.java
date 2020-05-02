@@ -220,8 +220,15 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
     }
 
     public void back(View view) {
-        startActivity(new Intent(this, RegisterShopActivity.class));
-
+        if (isEdit) {
+            if (!combineString(etOpen, etClose).equals(getNewShop().getStrOperatingHRS())){
+                ShowPopup();
+            }else {
+                finish();
+            }
+        } else {
+            startActivity(new Intent(this, RegisterShopActivity.class));
+        }
     }
 
     private void checkCheckedDays(MaterialEditText[] etClose, int Hour, int Minute) {
@@ -334,7 +341,7 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
     @Override
     public void onBackPressed() {
         if (isEdit) {
-            if (combineString(etOpen, etClose).equals(getNewShop().getStrOperatingHRS())){
+            if (!combineString(etOpen, etClose).equals(getNewShop().getStrOperatingHRS())){
                 ShowPopup();
             }else {
                 finish();
