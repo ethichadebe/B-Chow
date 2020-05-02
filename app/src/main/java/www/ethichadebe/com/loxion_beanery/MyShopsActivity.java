@@ -64,16 +64,16 @@ public class MyShopsActivity extends AppCompatActivity {
         }
 
         newShop = null;
-        isEdit = false;
         bsbBottomSheet = findViewById(R.id.bottom_sheet);
         bsbBottomSheetBehavior = BottomSheetBehavior.from(bsbBottomSheet);
         bsbBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
 
-        if (isNew()) {
+        if (isNew() && !isEdit) {
             bsbBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
             handler.postDelayed(runnable, 1500);
             setIsNew(false);
         }
+        isEdit = false;
 
         shopItems = new ArrayList<>();
         rlError = findViewById(R.id.rlError);
