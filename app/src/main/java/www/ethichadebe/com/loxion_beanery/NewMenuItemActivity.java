@@ -91,7 +91,6 @@ public class NewMenuItemActivity extends AppCompatActivity {
                             getNewShop().getIngredientItems().get(i).getDblPrice(), false, true));
                 }
             }
-
         } else if (getNewShop().getIngredientItems() != null) {
             ingredientItems = new ArrayList<>();
             for (int i = 0; i < getNewShop().getIngredientItems().size(); i++) {

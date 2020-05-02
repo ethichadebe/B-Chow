@@ -44,7 +44,7 @@ import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 import static www.ethichadebe.com.loxion_beanery.MyShopsActivity.getNewShop;
 
 public class NewExtrasActivity extends AppCompatActivity {
-    private static ArrayList<ExtraItem> extraItems = new ArrayList<>();
+    private static ArrayList<ExtraItem> extraItems;
     private RecyclerView mRecyclerView;
     private ExtraItemAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -76,7 +76,7 @@ public class NewExtrasActivity extends AppCompatActivity {
 
         etExtra = findViewById(R.id.etExtra);
         myDialog = new Dialog(this);
-
+        extraItems = new ArrayList<>();
         mRecyclerView = findViewById(R.id.recyclerView);
 
         tvEmpty = findViewById(R.id.tvEmpty);

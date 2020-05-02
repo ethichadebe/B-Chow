@@ -35,9 +35,11 @@ import util.HelperMethods;
 
 import static util.Constants.getIpAddress;
 import static util.HelperMethods.ButtonVisibility;
+import static util.HelperMethods.ShowLoadingPopup;
 import static util.HelperMethods.handler;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 import static www.ethichadebe.com.loxion_beanery.MyShopsActivity.getNewShop;
+import static www.ethichadebe.com.loxion_beanery.ShopSettingsActivity.isEdit;
 
 public class MenuActivity extends AppCompatActivity {
 
@@ -68,7 +70,6 @@ public class MenuActivity extends AppCompatActivity {
         btnNext = findViewById(R.id.btnNext);
 
         GETMenuItems(findViewById(R.id.vLine), findViewById(R.id.vLineGrey));
-
 
         Ingredients = new ArrayList<>();
         mRecyclerView = findViewById(R.id.recyclerView);
@@ -117,7 +118,11 @@ public class MenuActivity extends AppCompatActivity {
     }
 
     public void back(View view) {
-        startActivity(new Intent(MenuActivity.this, IngredientsActivity.class));
+        if (isEdit){
+            finish();
+        }else {
+            startActivity(new Intent(MenuActivity.this, IngredientsActivity.class));
+        }
     }
 
     public void next(View view) {
@@ -129,7 +134,7 @@ public class MenuActivity extends AppCompatActivity {
     }
 
     private void DELETEIngredient(int position) {
-        HelperMethods.ShowLoadingPopup(myDialog, true);
+        ShowLoadingPopup(myDialog, true);
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
         JsonObjectRequest objectRequest = new JsonObjectRequest(
@@ -137,7 +142,7 @@ public class MenuActivity extends AppCompatActivity {
                 "http://" + getIpAddress() + "/shops/Register/MenuItem/" +
                         getNewShop().getMenuItems().get(position).getIntID() + "/" + getNewShop().getIntID(), null,
                 response -> {
-                    HelperMethods.ShowLoadingPopup(myDialog, false);
+                    ShowLoadingPopup(myDialog, false);
                     try {
                         JSONObject JSONData = new JSONObject(response.toString());
                         if (JSONData.getString("data").equals("removed")) {
@@ -170,7 +175,11 @@ public class MenuActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(MenuActivity.this, IngredientsActivity.class));
+        if (isEdit){
+            finish();
+        }else {
+            startActivity(new Intent(MenuActivity.this, IngredientsActivity.class));
+        }
     }
 
     private void GETMenuItems(View vLine, View vLineGrey) {
@@ -197,6 +206,11 @@ public class MenuActivity extends AppCompatActivity {
                                         Ingredients.getDouble("mPrice"), Ingredients.getString("mList"), true));
                             }
                             getNewShop().setMenuItems(getNewShop().getMenuItems());
+
+                            if (getNewShop().getIngredientItems() == null) {
+                                GETIngredients();
+                            }
+
                         } else if (response.getString("message").equals("empty")) {
                             tvEmpty.setVisibility(View.VISIBLE);
                         }
@@ -242,4 +256,43 @@ public class MenuActivity extends AppCompatActivity {
         Objects.requireNonNull(myDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         myDialog.show();
     }
+
+    private void GETIngredients() {
+        getNewShop().setIngredientItems(new ArrayList<>());
+        ShowLoadingPopup(myDialog, true);
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+
+        JsonObjectRequest objectRequest = new JsonObjectRequest(
+                Request.Method.GET,
+                "http://" + getIpAddress() + "/shops/Ingredients/" + getNewShop().getIntID(), null,
+                response -> {
+                    ShowLoadingPopup(myDialog, false);
+                    //Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
+                    //Loads shops starting with the one closest to user
+                    try {
+                        if (response.getString("message").equals("shops")) {
+                            JSONArray jsonArray = response.getJSONArray("ingredients");
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject Ingredients = jsonArray.getJSONObject(i);
+                                ButtonVisibility(getNewShop().getIngredientItems(), btnNext);
+                                getNewShop().getIngredientItems().add(new IngredientItem(Ingredients.getInt("iID"),
+                                        Ingredients.getString("iName"), Ingredients.getDouble("iPrice")));
+                            }
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                },
+                error -> {
+                    ShowLoadingPopup(myDialog, false);
+                    if (error.toString().equals("com.android.volley.TimeoutError")) {
+                        Toast.makeText(this, "Connection error. Please retry", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+        requestQueue.add(objectRequest);
+
+    }
+
 }
