@@ -76,4 +76,5 @@
     <string name="are_you_sure">Are You Sure</string>
     <string name="place_order">Place order</string>
     <string name="retry">Retry</string>
+    <string name="done">Done</string>
 </resources>

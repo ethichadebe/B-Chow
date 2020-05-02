@@ -79,6 +79,9 @@ public class MenuActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
 
+        if(isEdit){
+            btnNext.setText("Edit Extras");
+        }
         //Set Button Visibility False if no menu item
         ButtonVisibility(getNewShop().getMenuItems(), btnNext);
 

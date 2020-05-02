@@ -273,7 +273,7 @@
         android:id="@+id/btnNext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/next"
+        android:text="@string/done"
         android:layout_alignParentBottom="true"
         android:background="@drawable/ripple_effect"
         android:onClick="next"
