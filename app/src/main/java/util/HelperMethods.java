@@ -20,8 +20,13 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Objects;
+import java.util.TimeZone;
 
 import SingleItem.IngredientItem;
 import SingleItem.IngredientItemCheckbox;
@@ -72,6 +77,35 @@ public class HelperMethods {
         } else {
             btn.setVisibility(View.VISIBLE);
         }
+    }
+
+    public static String convertedTime(String inputTime){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX");
+        try{
+            Date date = sdf.parse(inputTime);
+            SimpleDateFormat outputFormat = new SimpleDateFormat("HH:mm", Locale.ENGLISH);
+            // assuming a timezone in India
+            outputFormat.setTimeZone(TimeZone.getTimeZone("GMT+2"));
+            return outputFormat.format(date);
+        }catch(ParseException e){
+            System.out.println(e);
+        }
+        return "";
+    }
+
+    public static String convertedDateTime(String inputTime){
+        String outputTime = "";
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX");
+        try{
+            Date date = sdf.parse(inputTime);
+            SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.ENGLISH);
+            // assuming a timezone in India
+            outputTime = outputFormat.format(date);
+            outputFormat.setTimeZone(TimeZone.getTimeZone("GMT+2"));
+        }catch(ParseException e){
+            System.out.println(e);
+        }
+        return outputTime;
     }
 
     public static boolean allFieldsEntered(MaterialEditText[] mText) {

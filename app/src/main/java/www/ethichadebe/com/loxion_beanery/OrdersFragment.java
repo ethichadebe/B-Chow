@@ -139,10 +139,9 @@ public class OrdersFragment extends Fragment {
                             JSONArray jsonArray = response.getJSONArray("orders");
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject Orders = jsonArray.getJSONObject(i);
-                                String[] dateAndTime = Orders.getString("createdAt").split("T");
                                 upcomingOrderItems.add(new UpcomingOrderItem(Orders.getInt("oID"),
                                         Orders.getString("sName"), Orders.getInt("oID"),
-                                        dateAndTime[1].substring(0, 5),Orders.getString("oIngredients"),
+                                        Orders.getString("createdAt"), Orders.getString("oIngredients"),
                                         Orders.getString("oExtras"), Orders.getDouble("oPrice"),
                                         Orders.getString("oStatus")));
                             }
@@ -197,11 +196,9 @@ public class OrdersFragment extends Fragment {
                             JSONArray jsonArray = response.getJSONArray("orders");
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject Orders = jsonArray.getJSONObject(i);
-                                String[] dateAndTime = Orders.getString("createdAt").split("T");
                                 pastOrderItems.add(new PastOrderItem(Orders.getInt("oID"), Orders.getInt("sID"),
                                         Orders.getInt("oID"), Orders.getInt("oRating"),
-                                        Orders.getString("sName"),
-                                        dateAndTime[0] + " " + dateAndTime[1].substring(0, 5),
+                                        Orders.getString("sName"), Orders.getString("createdAt"),
                                         Orders.getString("oIngredients"), Orders.getString("oExtras"),
                                         Orders.getDouble("oPrice")));
                             }

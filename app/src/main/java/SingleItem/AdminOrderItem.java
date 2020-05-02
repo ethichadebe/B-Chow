@@ -1,15 +1,19 @@
 package SingleItem;
 
+import static util.HelperMethods.convertedDateTime;
+import static util.HelperMethods.convertedTime;
+
 public class AdminOrderItem {
     private int intID;
     private int intOderNum;
-    private String strTrime,strMenu,strExtras,strStatus;
+    private String strTime,strMenu,strExtras,strStatus;
     private Double dblPrice;
 
-    public AdminOrderItem(int intID, int intOderNum, String strTrime, String strMenu, String strExtras, String strStatus, Double dblPrice) {
+    public AdminOrderItem(int intID, int intOderNum, String strTime, String strMenu, String strExtras, String strStatus,
+                          Double dblPrice) {
         this.intID = intID;
         this.intOderNum = intOderNum;
-        this.strTrime = strTrime;
+        this.strTime = strTime;
         this.strMenu = strMenu;
         this.strExtras = strExtras;
         this.strStatus = strStatus;
@@ -33,11 +37,11 @@ public class AdminOrderItem {
     }
 
     public String getStrTrime() {
-        return strTrime;
+        return convertedTime(strTime);
     }
 
-    public void setStrTrime(String strTrime) {
-        this.strTrime = strTrime;
+    public void setStrTime(String stTrime) {
+        this.strTime = strTime;
     }
 
     public Double getDblPrice() {

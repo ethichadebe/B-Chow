@@ -10,11 +10,6 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.content.SharedPreferences;
-
-import util.HelperMethods;
-
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -41,7 +36,6 @@ import util.User;
 import static util.Constants.getIpAddress;
 import static util.HelperMethods.SHARED_PREFS;
 import static util.HelperMethods.ShowLoadingPopup;
-import static util.HelperMethods.handler;
 import static util.HelperMethods.loadData;
 import static util.HelperMethods.saveData;
 import static www.ethichadebe.com.loxion_beanery.ProfileFragment.isLogout;
@@ -66,6 +60,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
         rellay1 = findViewById(R.id.rellay1);
         rellay2 = findViewById(R.id.rellay2);
         mTextUsername = findViewById(R.id.txtUsername);

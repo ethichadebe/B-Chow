@@ -1,5 +1,7 @@
 package SingleItem;
 
+import static util.HelperMethods.convertedTime;
+
 public class UpcomingOrderItem {
     private int intID,intOrderNum;
     private String strShopName;
@@ -46,7 +48,7 @@ public class UpcomingOrderItem {
     }
 
     public String getStrTime() {
-        return strTime;
+        return convertedTime(strTime);
     }
 
     public void setStrTime(String strTime) {
