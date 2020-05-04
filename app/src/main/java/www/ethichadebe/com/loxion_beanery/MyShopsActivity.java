@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
@@ -140,17 +141,29 @@ public class MyShopsActivity extends AppCompatActivity {
                                 JSONObject Shops = jsonArray.getJSONObject(i);
                                 Location location = new Location("");
                                 String[] strCoord = Shops.getString("sLocation").split(" ");
+                                Drawable bgStatus = null;
                                 location.setLatitude(Double.parseDouble(strCoord[0]));
                                 location.setLongitude(Double.parseDouble(strCoord[1]));
                                 boolean isActive = false;
                                 if (Shops.getInt("isActive") == 1) {
                                     isActive = true;
                                 }
+                                switch (Shops.getString("sStatus")){
+                                    case "Open":
+                                        bgStatus = getResources().getDrawable(R.drawable.empty_btn_bg_open);
+                                        break;
+                                    case "Unavailable":
+                                        bgStatus = getResources().getDrawable(R.drawable.empty_btn_bg_unavailable);
+                                        break;
+                                    case "Closed":
+                                        bgStatus = getResources().getDrawable(R.drawable.empty_btn_bg_open_closed);
+                                        break;
+                                }
                                 shopItems.add(new MyShopItem(Shops.getInt("sID"), Shops.getString("sName"),
                                         Shops.getString("uRole"), R.drawable.food, R.drawable.biglogo,
                                         Shops.getString("sShortDescrption"), Shops.getString("sFullDescription"),
                                         location, "10-15 mins", Shops.getInt("sRating"),
-                                        Shops.getString("sOperatingHrs"), isActive));
+                                        Shops.getString("sOperatingHrs"), isActive, bgStatus));
                             }
                         } else if (response.getString("message").equals("empty")) {
                             tvEmpty.setVisibility(View.VISIBLE);

@@ -37,13 +37,14 @@ public class MyShopItemAdapter extends RecyclerView.Adapter<MyShopItemAdapter.Sh
         private TextView tvShopName, tvPosition, tvShortDescript, tvDistance, tvAveTime,tvMore, tvCompleteReg;
         TextView[] tvDays = new TextView[8];
         private ImageView ivLogo, ivStar1, ivStar2, ivStar3, ivStar4, ivStar5;
-        private LinearLayout llOpHours,llDropDown;
+        private LinearLayout llOpHours,llDropDown, llStatus;
 
         ShopViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
             tvShopName = itemView.findViewById(R.id.tvShopName);
             llOpHours = itemView.findViewById(R.id.llOpHours);
             llDropDown = itemView.findViewById(R.id.llDropDown);
+            llStatus = itemView.findViewById(R.id.llStatus);
             tvPosition = itemView.findViewById(R.id.tvPosition);
             ivLogo = itemView.findViewById(R.id.ivLogo);
             tvShortDescript = itemView.findViewById(R.id.tvShortDescript);
@@ -159,9 +160,9 @@ public class MyShopItemAdapter extends RecyclerView.Adapter<MyShopItemAdapter.Sh
             holder.tvCompleteReg.setVisibility(View.VISIBLE);
         }
 
-        holder.llDropDown.setOnClickListener(view -> {
-            setOHVISIBILITY(holder.llOpHours, holder.tvMore,holder.tvDays, item.getStrOperatingHRS());
-        });
+        holder.llDropDown.setOnClickListener(view -> setOHVISIBILITY(holder.llOpHours, holder.tvMore,holder.tvDays, item.getStrOperatingHRS()));
+
+        holder.llStatus.setBackground(item.getDraStatus());
     }
 
     @Override

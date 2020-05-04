@@ -1,5 +1,6 @@
 package SingleItem;
 
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 
 import java.util.ArrayList;
@@ -12,7 +13,8 @@ public class MyShopItem {
     private String strShortDescript = "";
     private String strFullDescript = "";
     private String strAveTime = "";
-    private int intLogoSmall,intLogoBig,intRating;
+    private Drawable draStatus;
+    private int intLogoSmall, intLogoBig, intRating;
     private Location locLocation;
     private boolean isOpen = false;
     private boolean isActive = false;
@@ -33,7 +35,7 @@ public class MyShopItem {
      * @param intRating
      */
     public MyShopItem(int intID, String strShopName, int intLogoSmall, int intLogoBig, String strShortDescript,
-                      String strFullDescript, Location locLocation, String strAveTime, int intRating) {
+                      String strFullDescript, Location locLocation, String strAveTime, int intRating, Drawable draStatus) {
         this.intID = intID;
         this.strShopName = strShopName;
         this.intLogoSmall = intLogoSmall;
@@ -43,6 +45,7 @@ public class MyShopItem {
         this.locLocation = locLocation;
         this.strAveTime = strAveTime;
         this.intRating = intRating;
+        this.draStatus = draStatus;
     }
 
     /**
@@ -61,8 +64,8 @@ public class MyShopItem {
      * @param strOperatingHRS
      */
     public MyShopItem(int intID, String strShopName, String strPosition, int intLogoSmall, int intLogoBig,
-                      String strShortDescript, String strFullDescript, Location locLocation, String strAveTime, int intRating,
-                      String strOperatingHRS, boolean isActive) {
+                      String strShortDescript, String strFullDescript, Location locLocation, String strAveTime,
+                      int intRating, String strOperatingHRS, boolean isActive, Drawable draStatus) {
         this.intID = intID;
         this.strShopName = strShopName;
         this.strPosition = strPosition;
@@ -75,6 +78,7 @@ public class MyShopItem {
         this.intRating = intRating;
         this.strOperatingHRS = strOperatingHRS;
         this.isActive = isActive;
+        this.draStatus = draStatus;
     }
 
     /**
@@ -95,8 +99,9 @@ public class MyShopItem {
      * @param menuItems
      */
     public MyShopItem(int intID, String strShopName, String strPosition, int intLogoSmall, int intLogoBig,
-                      String strShortDescript, String strFullDescript, Location locLocation, String strAveTime, int intRating,
-                      String strOperatingHRS, ArrayList<IngredientItem> ingredientItems, ArrayList<MenuItem> menuItems) {
+                      String strShortDescript, String strFullDescript, Location locLocation, String strAveTime,
+                      int intRating, String strOperatingHRS, ArrayList<IngredientItem> ingredientItems,
+                      ArrayList<MenuItem> menuItems, Drawable draStatus) {
         this.intID = intID;
         this.strShopName = strShopName;
         this.strPosition = strPosition;
@@ -111,6 +116,7 @@ public class MyShopItem {
         this.strOperatingHRS = strOperatingHRS;
         this.ingredientItems = ingredientItems;
         this.menuItems = menuItems;
+        this.draStatus = draStatus;
     }
 
     /**
@@ -123,8 +129,8 @@ public class MyShopItem {
      * @param strFullDescript
      * @param locLocation
      */
-    public MyShopItem(String strShopName, String strShortDescript, String strFullDescript, int intLogoSmall, int intLogoBig,
-                      Location locLocation) {
+    public MyShopItem(String strShopName, String strShortDescript, String strFullDescript, int intLogoSmall,
+                      int intLogoBig, Location locLocation) {
         this.strShopName = strShopName;
         this.intLogoSmall = intLogoSmall;
         this.intLogoBig = intLogoBig;
@@ -251,5 +257,13 @@ public class MyShopItem {
 
     public void setActive(boolean active) {
         isActive = active;
+    }
+
+    public Drawable getDraStatus() {
+        return draStatus;
+    }
+
+    public void setDraStatus(Drawable draStatus) {
+        this.draStatus = draStatus;
     }
 }
