@@ -8,13 +8,25 @@
     app:cardCornerRadius="10dp"
     app:cardElevation="3dp">
 
-    <LinearLayout
-        android:id="@+id/llStatus"
+    <RelativeLayout
+        android:id="@+id/rlStatus"
         android:layout_width="match_parent"
-        android:background="@drawable/empty_btn_bg"
+        android:padding="2dp"
         android:layout_height="match_parent">
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/tvnOrders"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center"
+            android:layout_alignParentEnd="true"
+            android:background="@color/White"
+            android:padding="10dp"
+            android:textColor="@color/done"
+            android:textSize="20sp" />
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/ripple_effect_white"
@@ -26,7 +38,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:layout_gravity="center"
-                android:layout_weight="0.5"
                 android:contentDescription="@string/logo"
                 android:src="@drawable/food" />
 
@@ -36,6 +47,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-light"
                 android:gravity="end"
+                android:layout_below="@+id/ivLogo"
                 android:textColor="@color/Black"
                 android:textSize="14sp" />
 
@@ -43,6 +55,7 @@
                 android:id="@+id/tvShopName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/tvPosition"
                 android:fontFamily="sans-serif-medium"
                 android:textColor="@color/Black"
                 android:textSize="18sp" />
@@ -50,7 +63,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5"
+                android:layout_below="@+id/tvShopName"
                 android:orientation="vertical">
 
                 <TextView
@@ -475,6 +488,6 @@
                     android:textStyle="bold"
                     android:visibility="gone" />
             </RelativeLayout>
-        </LinearLayout>
-    </LinearLayout>
+        </RelativeLayout>
+    </RelativeLayout>
 </androidx.cardview.widget.CardView>

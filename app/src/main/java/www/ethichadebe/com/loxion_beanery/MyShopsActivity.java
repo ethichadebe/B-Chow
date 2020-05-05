@@ -164,7 +164,7 @@ public class MyShopsActivity extends AppCompatActivity {
                                         Shops.getString("sShortDescrption"),
                                         Shops.getString("sFullDescription"),location, "10-15 mins",
                                         Shops.getInt("sRating"),Shops.getString("sOperatingHrs"), isActive,
-                                        Shops.getString("sStatus"), bgStatus));
+                                        Shops.getString("sStatus"), bgStatus, Shops.getInt("nOrders")));
                             }
                         } else if (response.getString("message").equals("empty")) {
                             tvEmpty.setVisibility(View.VISIBLE);

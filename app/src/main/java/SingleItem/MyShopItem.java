@@ -19,39 +19,12 @@ public class MyShopItem extends AppCompatActivity {
     private String strAveTime = "";
     private String strStatus = "";
     private Drawable draStatus;
-    private int intLogoSmall, intLogoBig, intRating;
+    private int intLogoSmall, intLogoBig, intRating, intnOrders;
     private Location locLocation;
     private boolean isOpen = false;
     private boolean isActive = false;
     private ArrayList<IngredientItem> ingredientItems;
     private ArrayList<MenuItem> menuItems;
-
-    /**
-     * Standard constructor
-     *
-     * @param intID
-     * @param strShopName
-     * @param intLogoSmall
-     * @param intLogoBig
-     * @param strShortDescript
-     * @param strFullDescript
-     * @param locLocation
-     * @param strAveTime
-     * @param intRating
-     */
-    public MyShopItem(int intID, String strShopName, int intLogoSmall, int intLogoBig, String strShortDescript,
-                      String strFullDescript, Location locLocation, String strAveTime, int intRating, String strStatus, Drawable draStatus) {
-        this.intID = intID;
-        this.strShopName = strShopName;
-        this.intLogoSmall = intLogoSmall;
-        this.intLogoBig = intLogoBig;
-        this.strShortDescript = strShortDescript;
-        this.strFullDescript = strFullDescript;
-        this.locLocation = locLocation;
-        this.strAveTime = strAveTime;
-        this.intRating = intRating;
-        this.strStatus = strStatus;
-    }
 
     /**
      * Standard constructor + operating Hours
@@ -70,7 +43,7 @@ public class MyShopItem extends AppCompatActivity {
      */
     public MyShopItem(int intID, String strShopName, String strPosition, int intLogoSmall, int intLogoBig,
                       String strShortDescript, String strFullDescript, Location locLocation, String strAveTime,
-                      int intRating, String strOperatingHRS, boolean isActive, String strStatus, Drawable draStatus) {
+                      int intRating, String strOperatingHRS, boolean isActive, String strStatus, Drawable draStatus, int intnOrders) {
         this.intID = intID;
         this.strShopName = strShopName;
         this.strPosition = strPosition;
@@ -85,43 +58,7 @@ public class MyShopItem extends AppCompatActivity {
         this.isActive = isActive;
         this.strStatus = strStatus;
         this.draStatus = draStatus;
-    }
-
-    /**
-     * default constructor
-     *
-     * @param intID
-     * @param strShopName
-     * @param strPosition
-     * @param intLogoSmall
-     * @param intLogoBig
-     * @param strShortDescript
-     * @param strFullDescript
-     * @param locLocation
-     * @param strAveTime
-     * @param intRating
-     * @param strOperatingHRS
-     * @param ingredientItems
-     * @param menuItems
-     */
-    public MyShopItem(int intID, String strShopName, String strPosition, int intLogoSmall, int intLogoBig,
-                      String strShortDescript, String strFullDescript, Location locLocation, String strAveTime,
-                      int intRating, String strOperatingHRS, ArrayList<IngredientItem> ingredientItems,
-                      ArrayList<MenuItem> menuItems,String strStatus, Drawable draStatus) {
-        this.intID = intID;
-        this.strShopName = strShopName;
-        this.strPosition = strPosition;
-        this.intLogoSmall = intLogoSmall;
-        this.intLogoBig = intLogoBig;
-        this.strShortDescript = strShortDescript;
-        this.strFullDescript = strFullDescript;
-        this.strAveTime = strAveTime;
-        this.intRating = intRating;
-        this.strOperatingHRS = strOperatingHRS;
-        this.ingredientItems = ingredientItems;
-        this.menuItems = menuItems;
-        this.strStatus = strStatus;
-        this.draStatus = draStatus;
+        this.intnOrders = intnOrders;
     }
 
     /**
@@ -278,5 +215,13 @@ public class MyShopItem extends AppCompatActivity {
 
     public void setStrStatus(String strStatus) {
         this.strStatus = strStatus;
+    }
+
+    public int getIntnOrders() {
+        return intnOrders;
+    }
+
+    public void setIntnOrders(int intnOrders) {
+        this.intnOrders = intnOrders;
     }
 }

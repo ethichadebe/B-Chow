@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -34,17 +35,19 @@ public class MyShopItemAdapter extends RecyclerView.Adapter<MyShopItemAdapter.Sh
 
     static class ShopViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView tvShopName, tvPosition, tvShortDescript, tvDistance, tvAveTime,tvMore, tvCompleteReg;
-        TextView[] tvDays = new TextView[8];
+        private TextView tvShopName, tvPosition, tvShortDescript, tvDistance, tvAveTime,tvMore, tvCompleteReg, tvnOrders;
+        private TextView[] tvDays = new TextView[8];
         private ImageView ivLogo, ivStar1, ivStar2, ivStar3, ivStar4, ivStar5;
-        private LinearLayout llOpHours,llDropDown, llStatus;
+        private LinearLayout llOpHours,llDropDown;
+        private RelativeLayout rlStatus;
 
         ShopViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
             tvShopName = itemView.findViewById(R.id.tvShopName);
             llOpHours = itemView.findViewById(R.id.llOpHours);
             llDropDown = itemView.findViewById(R.id.llDropDown);
-            llStatus = itemView.findViewById(R.id.llStatus);
+            tvnOrders = itemView.findViewById(R.id.tvnOrders);
+            rlStatus = itemView.findViewById(R.id.rlStatus);
             tvPosition = itemView.findViewById(R.id.tvPosition);
             ivLogo = itemView.findViewById(R.id.ivLogo);
             tvShortDescript = itemView.findViewById(R.id.tvShortDescript);
@@ -108,6 +111,7 @@ public class MyShopItemAdapter extends RecyclerView.Adapter<MyShopItemAdapter.Sh
         holder.tvPosition.setText(item.getStrPosition());
         holder.ivLogo.setImageResource(item.getIntLogoSmall());
         holder.tvShortDescript.setText(item.getStrShortDescript());
+        holder.tvnOrders.setText(""+item.getIntnOrders());
         //Calculate distance
         holder.tvDistance.setText("2Km");
         holder.tvAveTime.setText(item.getStrAveTime());
@@ -162,7 +166,7 @@ public class MyShopItemAdapter extends RecyclerView.Adapter<MyShopItemAdapter.Sh
 
         holder.llDropDown.setOnClickListener(view -> setOHVISIBILITY(holder.llOpHours, holder.tvMore,holder.tvDays, item.getStrOperatingHRS()));
 
-        holder.llStatus.setBackground(item.getDraStatus());
+        holder.rlStatus.setBackground(item.getDraStatus());
     }
 
     @Override
