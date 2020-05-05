@@ -25,7 +25,7 @@ public class AdminOrderItemAdapter extends RecyclerView.Adapter<AdminOrderItemAd
     public interface OnItemClickListener {
         void onCancelClick(int position);
         void onDoneClick(int position);
-        void onColectedClick(int position);
+        void onCollectedClick(int position);
     }
 
     public void setOnItemClickListener(AdminOrderItemAdapter.OnItemClickListener listener) {
@@ -73,7 +73,7 @@ public class AdminOrderItemAdapter extends RecyclerView.Adapter<AdminOrderItemAd
                 if (listener != null) {
                     int position = getAdapterPosition();
                     if (position != RecyclerView.NO_POSITION) {
-                        listener.onColectedClick(position);
+                        listener.onCollectedClick(position);
                     }
                 }
             });

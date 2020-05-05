@@ -114,9 +114,8 @@ public class NewExtrasActivity extends AppCompatActivity {
 
     public void add(View view) {
         if (Objects.requireNonNull(etExtra.getText()).toString().isEmpty()) {
-            etExtra.setUnderlineColor(getResources().getColor(R.color.Red));
+            etExtra.setError("required");
         } else {
-            etExtra.setUnderlineColor(getResources().getColor(R.color.Grey));
             POSTRegisterShopExtra();
         }
     }

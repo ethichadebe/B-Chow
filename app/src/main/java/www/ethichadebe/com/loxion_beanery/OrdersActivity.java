@@ -28,6 +28,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 import Adapter.AdminOrderItemAdapter;
@@ -36,6 +38,7 @@ import SingleItem.ShopItem;
 import util.HelperMethods;
 
 import static util.Constants.getIpAddress;
+import static util.HelperMethods.ShowLoadingPopup;
 import static util.HelperMethods.handler;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 import static www.ethichadebe.com.loxion_beanery.MyShopsActivity.getNewShop;
@@ -106,12 +109,10 @@ public class OrdersActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onColectedClick(int position) {
+            public void onCollectedClick(int position) {
                 PUTCollected(position, myDialog);
             }
         });
-
-
     }
 
     public void ShowConfirmationPopup(final int position) {
@@ -149,18 +150,21 @@ public class OrdersActivity extends AppCompatActivity {
         tvClosed.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
         tvOpen.setBackground(getResources().getDrawable(R.drawable.ripple_effect_green));
         tvUnavailable.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
+        PUTStatus("Open");
     }
 
     public void unavailable(View view) {
         tvClosed.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
         tvOpen.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
         tvUnavailable.setBackground(getResources().getDrawable(R.drawable.ripple_effect_yellow));
+        PUTStatus("Unavailable");
     }
 
     public void closed(View view) {
         tvClosed.setBackground(getResources().getDrawable(R.drawable.ripple_effect_red));
         tvOpen.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
         tvUnavailable.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
+        PUTStatus("Closed");
     }
 
     private void GETOrders(View vLine, View vLineGrey) {
@@ -183,7 +187,7 @@ public class OrdersActivity extends AppCompatActivity {
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject Orders = jsonArray.getJSONObject(i);
                                 OrderItems.add(new AdminOrderItem(Orders.getInt("oID"), Orders.getInt("oID"),
-                                        Orders.getString("oRecievedAt"),Orders.getString("oIngredients"),
+                                        Orders.getString("oRecievedAt"), Orders.getString("oIngredients"),
                                         Orders.getString("oExtras"), Orders.getString("oStatus"),
                                         Orders.getDouble("oPrice")));
                             }
@@ -259,5 +263,29 @@ public class OrdersActivity extends AppCompatActivity {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
     }
+
+    private void PUTStatus(String status) {
+        ShowLoadingPopup(myDialog, true);
+        StringRequest stringRequest = new StringRequest(Request.Method.PUT,
+                "http://" + getIpAddress() + "/shops/Status/" + getNewShop().getIntID(),
+                response -> {
+                    ShowLoadingPopup(myDialog, false);
+                }, error -> {
+            HelperMethods.ShowLoadingPopup(myDialog, false);
+            //myDialog.dismiss();
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+
+                params.put("sStatus", status);
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
 
 }
