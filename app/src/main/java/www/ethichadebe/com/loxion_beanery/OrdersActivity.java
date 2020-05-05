@@ -53,6 +53,7 @@ public class OrdersActivity extends AppCompatActivity {
     private Dialog myDialog;
     private TextView tvOpen, tvUnavailable, tvClosed, tvEmpty, tvCompleteReg;
     private RelativeLayout rlLoad, rlError;
+    private CardView cvOpen, cvUnavailable, cvClosed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +68,9 @@ public class OrdersActivity extends AppCompatActivity {
         rlLoad = findViewById(R.id.rlLoad);
         rlError = findViewById(R.id.rlError);
         tvEmpty = findViewById(R.id.tvEmpty);
+        cvOpen = findViewById(R.id.cvOpen);
+        cvUnavailable = findViewById(R.id.cvUnavailable);
+        cvClosed = findViewById(R.id.cvClosed);
         OrderItems = new ArrayList<>();
         tvOpen = findViewById(R.id.tvOpen);
         tvUnavailable = findViewById(R.id.tvUnavailable);
@@ -77,6 +81,38 @@ public class OrdersActivity extends AppCompatActivity {
         tvOpen.setBackground(getResources().getDrawable(R.drawable.ripple_effect_green));
         tvUnavailable.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
 
+        switch (getNewShop().getStrStatus()) {
+            case "Open":
+                cvClosed.setClickable(true);
+                cvUnavailable.setClickable(true);
+                cvOpen.setClickable(false);
+
+                tvClosed.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
+                tvOpen.setBackground(getResources().getDrawable(R.drawable.ripple_effect_green));
+                tvUnavailable.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
+                PUTStatus("Open");
+                break;
+            case "Unavailable":
+                cvClosed.setClickable(true);
+                cvUnavailable.setClickable(false);
+                cvOpen.setClickable(true);
+
+                tvClosed.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
+                tvOpen.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
+                tvUnavailable.setBackground(getResources().getDrawable(R.drawable.ripple_effect_yellow));
+                PUTStatus("Unavailable");
+                break;
+            case "Closed":
+                cvClosed.setClickable(false);
+                cvUnavailable.setClickable(true);
+                cvOpen.setClickable(true);
+
+                tvClosed.setBackground(getResources().getDrawable(R.drawable.ripple_effect_red));
+                tvOpen.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
+                tvUnavailable.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
+                PUTStatus("Closed");
+                break;
+        }
         //Check if Shop is fully registered
         if (!getNewShop().isActive()) {
             tvCompleteReg.setVisibility(View.VISIBLE);
@@ -113,6 +149,37 @@ public class OrdersActivity extends AppCompatActivity {
                 PUTCollected(position, myDialog);
             }
         });
+
+        cvOpen.setOnClickListener(view -> {
+            cvClosed.setClickable(true);
+            cvUnavailable.setClickable(true);
+            cvOpen.setClickable(false);
+
+            tvClosed.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
+            tvOpen.setBackground(getResources().getDrawable(R.drawable.ripple_effect_green));
+            tvUnavailable.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
+            PUTStatus("Open");
+        });
+        cvUnavailable.setOnClickListener(view -> {
+            cvClosed.setClickable(true);
+            cvUnavailable.setClickable(false);
+            cvOpen.setClickable(true);
+
+            tvClosed.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
+            tvOpen.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
+            tvUnavailable.setBackground(getResources().getDrawable(R.drawable.ripple_effect_yellow));
+            PUTStatus("Unavailable");
+        });
+        cvClosed.setOnClickListener(view -> {
+            cvClosed.setClickable(false);
+            cvUnavailable.setClickable(true);
+            cvOpen.setClickable(true);
+
+            tvClosed.setBackground(getResources().getDrawable(R.drawable.ripple_effect_red));
+            tvOpen.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
+            tvUnavailable.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
+            PUTStatus("Closed");
+        });
     }
 
     public void ShowConfirmationPopup(final int position) {
@@ -139,32 +206,16 @@ public class OrdersActivity extends AppCompatActivity {
     }
 
     public void back(View view) {
-        finish();
+        startActivity(new Intent(this, MyShopsActivity.class));
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this, MyShopsActivity.class));
     }
 
     public void settings(View view) {
         startActivity(new Intent(OrdersActivity.this, ShopSettingsActivity.class));
-    }
-
-    public void open(View view) {
-        tvClosed.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
-        tvOpen.setBackground(getResources().getDrawable(R.drawable.ripple_effect_green));
-        tvUnavailable.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
-        PUTStatus("Open");
-    }
-
-    public void unavailable(View view) {
-        tvClosed.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
-        tvOpen.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
-        tvUnavailable.setBackground(getResources().getDrawable(R.drawable.ripple_effect_yellow));
-        PUTStatus("Unavailable");
-    }
-
-    public void closed(View view) {
-        tvClosed.setBackground(getResources().getDrawable(R.drawable.ripple_effect_red));
-        tvOpen.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
-        tvUnavailable.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
-        PUTStatus("Closed");
     }
 
     private void GETOrders(View vLine, View vLineGrey) {

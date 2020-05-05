@@ -3,9 +3,13 @@ package SingleItem;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.ArrayList;
 
-public class MyShopItem {
+import www.ethichadebe.com.loxion_beanery.R;
+
+public class MyShopItem extends AppCompatActivity {
     private int intID = -1;
     private String strShopName = "";
     private String strOperatingHRS = "";
@@ -13,6 +17,7 @@ public class MyShopItem {
     private String strShortDescript = "";
     private String strFullDescript = "";
     private String strAveTime = "";
+    private String strStatus = "";
     private Drawable draStatus;
     private int intLogoSmall, intLogoBig, intRating;
     private Location locLocation;
@@ -35,7 +40,7 @@ public class MyShopItem {
      * @param intRating
      */
     public MyShopItem(int intID, String strShopName, int intLogoSmall, int intLogoBig, String strShortDescript,
-                      String strFullDescript, Location locLocation, String strAveTime, int intRating, Drawable draStatus) {
+                      String strFullDescript, Location locLocation, String strAveTime, int intRating, String strStatus, Drawable draStatus) {
         this.intID = intID;
         this.strShopName = strShopName;
         this.intLogoSmall = intLogoSmall;
@@ -45,7 +50,7 @@ public class MyShopItem {
         this.locLocation = locLocation;
         this.strAveTime = strAveTime;
         this.intRating = intRating;
-        this.draStatus = draStatus;
+        this.strStatus = strStatus;
     }
 
     /**
@@ -65,7 +70,7 @@ public class MyShopItem {
      */
     public MyShopItem(int intID, String strShopName, String strPosition, int intLogoSmall, int intLogoBig,
                       String strShortDescript, String strFullDescript, Location locLocation, String strAveTime,
-                      int intRating, String strOperatingHRS, boolean isActive, Drawable draStatus) {
+                      int intRating, String strOperatingHRS, boolean isActive, String strStatus, Drawable draStatus) {
         this.intID = intID;
         this.strShopName = strShopName;
         this.strPosition = strPosition;
@@ -78,6 +83,7 @@ public class MyShopItem {
         this.intRating = intRating;
         this.strOperatingHRS = strOperatingHRS;
         this.isActive = isActive;
+        this.strStatus = strStatus;
         this.draStatus = draStatus;
     }
 
@@ -101,7 +107,7 @@ public class MyShopItem {
     public MyShopItem(int intID, String strShopName, String strPosition, int intLogoSmall, int intLogoBig,
                       String strShortDescript, String strFullDescript, Location locLocation, String strAveTime,
                       int intRating, String strOperatingHRS, ArrayList<IngredientItem> ingredientItems,
-                      ArrayList<MenuItem> menuItems, Drawable draStatus) {
+                      ArrayList<MenuItem> menuItems,String strStatus, Drawable draStatus) {
         this.intID = intID;
         this.strShopName = strShopName;
         this.strPosition = strPosition;
@@ -109,13 +115,12 @@ public class MyShopItem {
         this.intLogoBig = intLogoBig;
         this.strShortDescript = strShortDescript;
         this.strFullDescript = strFullDescript;
-        this.intLogoSmall = intLogoSmall;
-        this.intLogoBig = intLogoBig;
         this.strAveTime = strAveTime;
         this.intRating = intRating;
         this.strOperatingHRS = strOperatingHRS;
         this.ingredientItems = ingredientItems;
         this.menuItems = menuItems;
+        this.strStatus = strStatus;
         this.draStatus = draStatus;
     }
 
@@ -265,5 +270,13 @@ public class MyShopItem {
 
     public void setDraStatus(Drawable draStatus) {
         this.draStatus = draStatus;
+    }
+
+    public String getStrStatus() {
+        return strStatus;
+    }
+
+    public void setStrStatus(String strStatus) {
+        this.strStatus = strStatus;
     }
 }

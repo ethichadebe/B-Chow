@@ -161,9 +161,10 @@ public class MyShopsActivity extends AppCompatActivity {
                                 }
                                 shopItems.add(new MyShopItem(Shops.getInt("sID"), Shops.getString("sName"),
                                         Shops.getString("uRole"), R.drawable.food, R.drawable.biglogo,
-                                        Shops.getString("sShortDescrption"), Shops.getString("sFullDescription"),
-                                        location, "10-15 mins", Shops.getInt("sRating"),
-                                        Shops.getString("sOperatingHrs"), isActive, bgStatus));
+                                        Shops.getString("sShortDescrption"),
+                                        Shops.getString("sFullDescription"),location, "10-15 mins",
+                                        Shops.getInt("sRating"),Shops.getString("sOperatingHrs"), isActive,
+                                        Shops.getString("sStatus"), bgStatus));
                             }
                         } else if (response.getString("message").equals("empty")) {
                             tvEmpty.setVisibility(View.VISIBLE);
