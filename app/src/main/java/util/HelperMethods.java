@@ -79,30 +79,30 @@ public class HelperMethods {
         }
     }
 
-    public static String convertedTime(String inputTime){
+    public static String convertedTime(String inputTime) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX");
-        try{
+        try {
             Date date = sdf.parse(inputTime);
             SimpleDateFormat outputFormat = new SimpleDateFormat("HH:mm", Locale.ENGLISH);
             // assuming a timezone in India
             outputFormat.setTimeZone(TimeZone.getTimeZone("GMT+2"));
             return outputFormat.format(date);
-        }catch(ParseException e){
+        } catch (ParseException e) {
             System.out.println(e);
         }
         return "";
     }
 
-    public static String convertedDateTime(String inputTime){
+    public static String convertedDateTime(String inputTime) {
         String outputTime = "";
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX");
-        try{
+        try {
             Date date = sdf.parse(inputTime);
             SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.ENGLISH);
             // assuming a timezone in India
             outputTime = outputFormat.format(date);
             outputFormat.setTimeZone(TimeZone.getTimeZone("GMT+2"));
-        }catch(ParseException e){
+        } catch (ParseException e) {
             System.out.println(e);
         }
         return outputTime;
@@ -155,16 +155,20 @@ public class HelperMethods {
     }
 
     public static String combineString(ArrayList<IngredientItemCheckbox> ingredientItems) {
-        StringBuilder MenuList = new StringBuilder();
+        String MenuList = "";
         for (int i = 0; i < ingredientItems.size(); i++) {
-            if (ingredientItems.get(i).getChecked()){
-                if (!ingredientItems.get(i).getStrIngredientName().equals("")){
-                    MenuList.append(ingredientItems.get(i).getStrIngredientName()).append(", ");
+            if (ingredientItems.get(i).getChecked()) {
+                if (!ingredientItems.get(i).getStrIngredientName().equals("")) {
+                    MenuList += ingredientItems.get(i).getStrIngredientName() + ", ";
                 }
             }
         }
 
-        return String.valueOf(MenuList).substring(0, String.valueOf(MenuList).length() - 2);
+        if (MenuList.isEmpty()) {
+            return "";
+        } else {
+            return MenuList.substring(0, MenuList.length() - 2);
+        }
     }
 
     public static String combineString(String menu) {
@@ -174,15 +178,19 @@ public class HelperMethods {
     public static String combineString(MaterialEditText[] etOpen, MaterialEditText[] etClose) {
         String MenuList = "";
         for (int i = 0; i < etOpen.length; i++) {
-            if(!Objects.requireNonNull(etOpen[i].getText()).toString().isEmpty()){
-                MenuList += Objects.requireNonNull(etOpen[i].getText()).toString()+" - ";
-                if(!Objects.requireNonNull(etClose[i].getText()).toString().isEmpty()){
-                    MenuList += Objects.requireNonNull(etClose[i].getText()).toString()+", ";
+            if (!Objects.requireNonNull(etOpen[i].getText()).toString().isEmpty()) {
+                MenuList += Objects.requireNonNull(etOpen[i].getText()).toString() + " - ";
+                if (!Objects.requireNonNull(etClose[i].getText()).toString().isEmpty()) {
+                    MenuList += Objects.requireNonNull(etClose[i].getText()).toString() + ", ";
                 }
             }
         }
 
-        return MenuList.substring(0, MenuList.length() - 2);
+        if (MenuList.isEmpty()) {
+            return "";
+        } else {
+            return MenuList.substring(0, MenuList.length() - 2);
+        }
     }
 
     /**
@@ -272,10 +280,10 @@ public class HelperMethods {
         }
     }
 
-    public static String addZero(int string){
-        if(String.valueOf(string).length() == 1){
-            return "0"+string;
+    public static String addZero(int string) {
+        if (String.valueOf(string).length() == 1) {
+            return "0" + string;
         }
-        return ""+string;
+        return "" + string;
     }
 }

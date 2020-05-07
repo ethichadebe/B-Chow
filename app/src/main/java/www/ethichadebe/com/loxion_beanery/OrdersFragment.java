@@ -199,7 +199,8 @@ public class OrdersFragment extends Fragment {
                                         Orders.getInt("sID"), Orders.getInt("oID"),
                                         Orders.getInt("oRating"), Orders.getString("sName"),
                                         Orders.getString("createdAt"), Orders.getString("oIngredients"),
-                                        Orders.getString("oExtras"), Orders.getDouble("oPrice")));
+                                        Orders.getString("oExtras"), Orders.getDouble("oPrice"),
+                                        Orders.getString("oStatus")));
                             }
                         } else if (response.getString("message").equals("empty")) {
                             rlEmpty.setVisibility(View.VISIBLE);

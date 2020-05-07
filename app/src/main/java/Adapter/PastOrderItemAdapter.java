@@ -35,7 +35,7 @@ public class PastOrderItemAdapter extends RecyclerView.Adapter<PastOrderItemAdap
 
     static class OrderViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView tvShopName, tvPrice, tvMenu, tvExtras, tvOrderNum, tvTime;
+        private TextView tvShopName, tvPrice, tvMenu, tvExtras, tvOrderNum, tvTime,tvStatus;
         private ImageView ivStar1, ivStar2, ivStar3, ivStar4, ivStar5;
         private CardView cvRate, cvReorder;
         private LinearLayout llStars;
@@ -46,6 +46,7 @@ public class PastOrderItemAdapter extends RecyclerView.Adapter<PastOrderItemAdap
             tvPrice = itemView.findViewById(R.id.tvPrice);
             tvMenu = itemView.findViewById(R.id.tvMenu);
             tvExtras = itemView.findViewById(R.id.tvExtras);
+            tvStatus = itemView.findViewById(R.id.tvStatus);
             tvOrderNum = itemView.findViewById(R.id.tvOrderNum);
             tvTime = itemView.findViewById(R.id.tvTime);
             cvRate = itemView.findViewById(R.id.cvRate);
@@ -98,6 +99,7 @@ public class PastOrderItemAdapter extends RecyclerView.Adapter<PastOrderItemAdap
         holder.tvPrice.setText("R" + item.getDblPrice() + "0");
         holder.tvMenu.setText(item.getStrMenu());
         holder.tvExtras.setText(item.getStrExtras());
+        holder.tvStatus.setText(item.getStrStatus());
         holder.tvOrderNum.setText("Order number: " + item.getIntOrderNum());
         holder.tvTime.setText(item.getStrTime());
         if (item.getIntRating() == 0) {

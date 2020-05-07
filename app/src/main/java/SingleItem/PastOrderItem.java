@@ -1,15 +1,15 @@
 package SingleItem;
 
 import static util.HelperMethods.convertedDateTime;
-import static util.HelperMethods.convertedTime;
 
 public class PastOrderItem {
-    private int intID, sID,intOrderNum,intRating;
-    private String strShopName,strTime,strMenu,strExtras;
+    private int intID, sID, intOrderNum, intRating;
+    private String strShopName, strTime, strMenu, strExtras;
+    private String strStatus = "";
     private Double dblPrice;
 
     public PastOrderItem(int intID, int sID, int intOrderNum, int intRating, String strShopName, String strTime,
-                         String strMenu, String strExtras, Double dblPrice) {
+                         String strMenu, String strExtras, Double dblPrice, String strStatus) {
         this.intID = intID;
         this.sID = sID;
         this.intOrderNum = intOrderNum;
@@ -19,6 +19,9 @@ public class PastOrderItem {
         this.strMenu = strMenu;
         this.strExtras = strExtras;
         this.dblPrice = dblPrice;
+        if(strStatus.equals("Cancelled")){
+            this.strStatus = strStatus;
+        }
     }
 
     public int getIntID() {
@@ -91,5 +94,13 @@ public class PastOrderItem {
 
     public void setStrExtras(String strExtras) {
         this.strExtras = strExtras;
+    }
+
+    public String getStrStatus() {
+        return strStatus;
+    }
+
+    public void setStrStatus(String strStatus) {
+        this.strStatus = strStatus;
     }
 }
