@@ -271,4 +271,11 @@ public class HelperMethods {
             tvDays[i].setText(strOpHours[i]);
         }
     }
+
+    public static String addZero(int string){
+        if(String.valueOf(string).length() == 1){
+            return "0"+string;
+        }
+        return ""+string;
+    }
 }

@@ -34,6 +34,7 @@ import java.util.Objects;
 import util.HelperMethods;
 
 import static util.Constants.getIpAddress;
+import static util.HelperMethods.addZero;
 import static util.HelperMethods.allFieldsEntered;
 import static util.HelperMethods.combineString;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
@@ -142,68 +143,69 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
     public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
         switch (DayOfWeek) {
             case "o1":
-                etOpen[0].setText(hourOfDay + ":" + minute);
+                //Toast.makeText(OperatingHoursActivity.this, String.valueOf(hourOfDay).length(), Toast.LENGTH_LONG).show();
+                etOpen[0].setText(addZero(hourOfDay) + ":" + addZero(minute));
                 checkCheckedDays(etOpen, hourOfDay, minute);
                 break;
             case "o2":
-                etOpen[1].setText(hourOfDay + ":" + minute);
+                etOpen[1].setText(addZero(hourOfDay) + ":" + addZero(minute));
                 checkCheckedDays(etOpen, hourOfDay, minute);
                 break;
             case "o3":
-                etOpen[2].setText(hourOfDay + ":" + minute);
+                etOpen[2].setText(addZero(hourOfDay) + ":" + addZero(minute));
                 checkCheckedDays(etOpen, hourOfDay, minute);
                 break;
             case "o4":
-                etOpen[3].setText(hourOfDay + ":" + minute);
+                etOpen[3].setText(addZero(hourOfDay) + ":" + addZero(minute));
                 checkCheckedDays(etOpen, hourOfDay, minute);
                 break;
             case "o5":
-                etOpen[4].setText(hourOfDay + ":" + minute);
+                etOpen[4].setText(addZero(hourOfDay) + ":" + addZero(minute));
                 checkCheckedDays(etOpen, hourOfDay, minute);
                 break;
             case "o6":
-                etOpen[5].setText(hourOfDay + ":" + minute);
+                etOpen[5].setText(addZero(hourOfDay) + ":" + addZero(minute));
                 checkCheckedDays(etOpen, hourOfDay, minute);
                 break;
             case "o7":
-                etOpen[6].setText(hourOfDay + ":" + minute);
+                etOpen[6].setText(addZero(hourOfDay) + ":" + addZero(minute));
                 checkCheckedDays(etOpen, hourOfDay, minute);
                 break;
             case "oPH":
-                etOpen[7].setText(hourOfDay + ":" + minute);
+                etOpen[7].setText(addZero(hourOfDay) + ":" + addZero(minute));
                 checkCheckedDays(etOpen, hourOfDay, minute);
                 break;
 
             case "c1":
-                etClose[0].setText(hourOfDay + ":" + minute);
+                etClose[0].setText(addZero(hourOfDay) + ":" + addZero(minute));
                 checkCheckedDays(etClose, hourOfDay, minute);
                 break;
             case "c2":
-                etClose[1].setText(hourOfDay + ":" + minute);
+                etClose[1].setText(addZero(hourOfDay) + ":" + addZero(minute));
                 checkCheckedDays(etClose, hourOfDay, minute);
                 break;
             case "c3":
-                etClose[2].setText(hourOfDay + ":" + minute);
+                etClose[2].setText(addZero(hourOfDay) + ":" + addZero(minute));
                 checkCheckedDays(etClose, hourOfDay, minute);
                 break;
             case "c4":
-                etClose[3].setText(hourOfDay + ":" + minute);
+                etClose[3].setText(addZero(hourOfDay) + ":" + addZero(minute));
                 checkCheckedDays(etClose, hourOfDay, minute);
                 break;
             case "c5":
-                etClose[4].setText(hourOfDay + ":" + minute);
+                etClose[4].setText(addZero(hourOfDay) + ":" + addZero(minute));
                 checkCheckedDays(etClose, hourOfDay, minute);
                 break;
             case "c6":
-                etClose[5].setText(hourOfDay + ":" + minute);
+                etClose[5].setText(addZero(hourOfDay) + ":" + addZero(minute));
                 checkCheckedDays(etClose, hourOfDay, minute);
                 break;
             case "c7":
-                etClose[6].setText(hourOfDay + ":" + minute);
+                etClose[6].setText(addZero(hourOfDay) + ":" + addZero(minute));
                 checkCheckedDays(etClose, hourOfDay, minute);
                 break;
             case "cPH":
-                etClose[7].setText(hourOfDay + ":" + minute);
+                etClose[7].setText(addZero(hourOfDay) + ":" + addZero(minute));
                 checkCheckedDays(etClose, hourOfDay, minute);
                 break;
         }
@@ -256,6 +258,7 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
                         e.printStackTrace();
                     }
                 }, error -> {
+            HelperMethods.ShowLoadingPopup(myDialog, false);
             Toast.makeText(OperatingHoursActivity.this, error.toString(), Toast.LENGTH_LONG).show();
         }) {
             @Override

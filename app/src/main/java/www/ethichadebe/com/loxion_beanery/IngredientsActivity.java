@@ -152,6 +152,7 @@ public class IngredientsActivity extends AppCompatActivity {
                     try {
                         JSONObject JSONData = new JSONObject(response);
                         if (JSONData.getString("data").equals("saved")) {
+                            tvEmpty.setVisibility(View.GONE);
                             JSONArray jsonArray = new JSONArray(JSONData.getString("response"));
                             JSONObject JSONResponse = jsonArray.getJSONObject(0);
                             etName.setUnderlineColor(getResources().getColor(R.color.Black));
