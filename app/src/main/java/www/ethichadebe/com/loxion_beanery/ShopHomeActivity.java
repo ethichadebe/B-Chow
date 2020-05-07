@@ -140,10 +140,6 @@ public class ShopHomeActivity extends AppCompatActivity {
         return ingredients;
     }
 
-    public static void setIngredients(String[] ingredients) {
-        ShopHomeActivity.ingredients = ingredients;
-    }
-
     public void back(View view) {
         startActivity(new Intent(ShopHomeActivity.this, MainActivity.class));
     }

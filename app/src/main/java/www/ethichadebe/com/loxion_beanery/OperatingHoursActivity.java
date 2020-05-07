@@ -236,7 +236,7 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
     private void checkCheckedDays(MaterialEditText[] etClose, int Hour, int Minute) {
         for (int i = 0; i < tvDays.length; i++) {
             if (intBackground[i] == 1) {
-                etClose[i].setText(Hour + ":" + Minute);
+                etClose[i].setText(addZero(Hour) + ":" + addZero(Minute));
             }
         }
     }
@@ -372,7 +372,7 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
             PUTShop();
         });
 
-        cvNo.setOnClickListener(view -> myDialog.dismiss());
+        cvNo.setOnClickListener(view ->finish());
         Objects.requireNonNull(myDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         myDialog.show();
     }

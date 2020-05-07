@@ -107,8 +107,7 @@ public class OrdersFragment extends Fragment {
         return v;
     }
 
-    private void setVisibility(int Left, int Right, RecyclerView recyclerViewGONE,
-                               RecyclerView recyclerViewVISIBLE) {
+    private void setVisibility(int Left, int Right, RecyclerView recyclerViewGONE, RecyclerView recyclerViewVISIBLE) {
         vRight.setVisibility(Right);
         vLeft.setVisibility(Left);
         vBottomLeft.setVisibility(Left);
@@ -196,11 +195,11 @@ public class OrdersFragment extends Fragment {
                             JSONArray jsonArray = response.getJSONArray("orders");
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject Orders = jsonArray.getJSONObject(i);
-                                pastOrderItems.add(new PastOrderItem(Orders.getInt("oID"), Orders.getInt("sID"),
-                                        Orders.getInt("oID"), Orders.getInt("oRating"),
-                                        Orders.getString("sName"), Orders.getString("createdAt"),
-                                        Orders.getString("oIngredients"), Orders.getString("oExtras"),
-                                        Orders.getDouble("oPrice")));
+                                pastOrderItems.add(new PastOrderItem(Orders.getInt("oID"),
+                                        Orders.getInt("sID"), Orders.getInt("oID"),
+                                        Orders.getInt("oRating"), Orders.getString("sName"),
+                                        Orders.getString("createdAt"), Orders.getString("oIngredients"),
+                                        Orders.getString("oExtras"), Orders.getDouble("oPrice")));
                             }
                         } else if (response.getString("message").equals("empty")) {
                             rlEmpty.setVisibility(View.VISIBLE);
@@ -216,7 +215,8 @@ public class OrdersFragment extends Fragment {
                             @Override
                             public void OnItemReorderClick(int position) {
                                 pastOrderItem = pastOrderItems.get(position);
-                                POSTOrder(pastOrderItem.getStrMenu(), pastOrderItem.getsID(), pastOrderItem.getDblPrice());
+                                POSTOrder(pastOrderItem.getStrMenu(), pastOrderItem.getsID(),
+                                        pastOrderItem.getDblPrice());
                             }
 
                             @Override
