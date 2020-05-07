@@ -51,9 +51,9 @@ public class OrdersActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<AdminOrderItem> OrderItems;
     private Dialog myDialog;
-    private TextView tvOpen, tvUnavailable, tvClosed, tvEmpty, tvCompleteReg;
+    private TextView tvOpen, tvClosed, tvEmpty, tvCompleteReg;
     private RelativeLayout rlLoad, rlError;
-    private CardView cvOpen, cvUnavailable, cvClosed;
+    private CardView cvOpen, cvClosed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,47 +69,30 @@ public class OrdersActivity extends AppCompatActivity {
         rlError = findViewById(R.id.rlError);
         tvEmpty = findViewById(R.id.tvEmpty);
         cvOpen = findViewById(R.id.cvOpen);
-        cvUnavailable = findViewById(R.id.cvUnavailable);
         cvClosed = findViewById(R.id.cvClosed);
         OrderItems = new ArrayList<>();
         tvOpen = findViewById(R.id.tvOpen);
-        tvUnavailable = findViewById(R.id.tvUnavailable);
         tvClosed = findViewById(R.id.tvClosed);
         tvCompleteReg = findViewById(R.id.tvCompleteReg);
 
         tvClosed.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
         tvOpen.setBackground(getResources().getDrawable(R.drawable.ripple_effect_green));
-        tvUnavailable.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
 
         switch (getNewShop().getStrStatus()) {
             case "Open":
                 cvClosed.setClickable(true);
-                cvUnavailable.setClickable(true);
                 cvOpen.setClickable(false);
 
                 tvClosed.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
                 tvOpen.setBackground(getResources().getDrawable(R.drawable.ripple_effect_green));
-                tvUnavailable.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
                 PUTStatus("Open");
-                break;
-            case "Unavailable":
-                cvClosed.setClickable(true);
-                cvUnavailable.setClickable(false);
-                cvOpen.setClickable(true);
-
-                tvClosed.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
-                tvOpen.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
-                tvUnavailable.setBackground(getResources().getDrawable(R.drawable.ripple_effect_yellow));
-                PUTStatus("Unavailable");
                 break;
             case "Closed":
                 cvClosed.setClickable(false);
-                cvUnavailable.setClickable(true);
                 cvOpen.setClickable(true);
 
                 tvClosed.setBackground(getResources().getDrawable(R.drawable.ripple_effect_red));
                 tvOpen.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
-                tvUnavailable.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
                 PUTStatus("Closed");
                 break;
         }
@@ -152,32 +135,19 @@ public class OrdersActivity extends AppCompatActivity {
 
         cvOpen.setOnClickListener(view -> {
             cvClosed.setClickable(true);
-            cvUnavailable.setClickable(true);
             cvOpen.setClickable(false);
 
             tvClosed.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
             tvOpen.setBackground(getResources().getDrawable(R.drawable.ripple_effect_green));
-            tvUnavailable.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
             PUTStatus("Open");
         });
-        cvUnavailable.setOnClickListener(view -> {
-            cvClosed.setClickable(true);
-            cvUnavailable.setClickable(false);
-            cvOpen.setClickable(true);
 
-            tvClosed.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
-            tvOpen.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
-            tvUnavailable.setBackground(getResources().getDrawable(R.drawable.ripple_effect_yellow));
-            PUTStatus("Unavailable");
-        });
         cvClosed.setOnClickListener(view -> {
             cvClosed.setClickable(false);
-            cvUnavailable.setClickable(true);
             cvOpen.setClickable(true);
 
             tvClosed.setBackground(getResources().getDrawable(R.drawable.ripple_effect_red));
             tvOpen.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
-            tvUnavailable.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
             PUTStatus("Closed");
         });
     }

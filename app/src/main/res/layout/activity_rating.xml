@@ -24,7 +24,7 @@
             android:layout_marginBottom="0dp"
             android:gravity="center"
             android:padding="10dp"
-            android:text="Shop settings"
+            android:text="Rate Kota"
             android:textColor="@color/Black"
             android:textSize="12sp"
             android:textStyle="bold" />
