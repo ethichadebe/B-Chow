@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -34,9 +35,10 @@ public class ShopItemAdapter extends RecyclerView.Adapter<ShopItemAdapter.ShopVi
     static class ShopViewHolder extends RecyclerView.ViewHolder {
 
         private TextView tvShopName, tvShortDescript, tvDistance, tvAveTime,tvMore;
-        TextView[] tvDays = new TextView[8];
+        private TextView[] tvDays = new TextView[8];
         private ImageView ivLogo, ivStar1, ivStar2, ivStar3, ivStar4, ivStar5;
         private LinearLayout llOpHours,llDropDown;
+        private RelativeLayout rlStatus;
 
         ShopViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
@@ -44,6 +46,7 @@ public class ShopItemAdapter extends RecyclerView.Adapter<ShopItemAdapter.ShopVi
             llOpHours = itemView.findViewById(R.id.llOpHours);
             llDropDown = itemView.findViewById(R.id.llDropDown);
             ivLogo = itemView.findViewById(R.id.ivLogo);
+            rlStatus = itemView.findViewById(R.id.rlStatus);
             tvShortDescript = itemView.findViewById(R.id.tvShortDescript);
             ivStar1 = itemView.findViewById(R.id.ivStar1);
             ivStar2 = itemView.findViewById(R.id.ivStar2);
@@ -104,6 +107,7 @@ public class ShopItemAdapter extends RecyclerView.Adapter<ShopItemAdapter.ShopVi
         });
 
         holder.tvAveTime.setBackgroundColor(item.getIntAveTimeColor());
+        holder.rlStatus.setBackground(item.getDraStatus());
     }
 
     @Override

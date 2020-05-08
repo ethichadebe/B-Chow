@@ -1,5 +1,6 @@
 package SingleItem;
 
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 
 import java.util.ArrayList;
@@ -8,12 +9,14 @@ public class ShopItem {
     private String strShopName,strShortDescript,strFullDescript,strAveTime,strOperatingHRS,locLocation;
     private int intID,intLogoSmall,intLogoBig,intRating,isLiked, intAveTimeColor;
     private int intLikes = 0;
+    private String strStatus = "";
+    private Drawable draStatus;
     private ArrayList<IngredientItem> ingredientItems;
     private ArrayList<MenuItem> menuItems;
 
     public ShopItem(int intID, String strShopName, int intLogoSmall, int intLogoBig, String strShortDescript,
                     String strFullDescript, String locLocation, String strAveTime, int intRating, String strOperatingHRS,
-                    int intLikes, int isLiked, int intAveTimeColor) {
+                    int intLikes, int isLiked, int intAveTimeColor, String strStatus, Drawable draStatus) {
         this.intID = intID;
         this.strShopName = strShopName;
         this.intLogoSmall = intLogoSmall;
@@ -24,6 +27,8 @@ public class ShopItem {
         this.strAveTime = strAveTime;
         this.intRating = intRating;
         this.strOperatingHRS = strOperatingHRS;
+        this.strStatus = strStatus;
+        this.draStatus = draStatus;
         this.intLikes = intLikes;
         this.isLiked = isLiked;
         this.intAveTimeColor = intAveTimeColor;
@@ -155,6 +160,22 @@ public class ShopItem {
 
     public void setIntAveTimeColor(int intAveTimeColor) {
         this.intAveTimeColor = intAveTimeColor;
+    }
+
+    public String getStrStatus() {
+        return strStatus;
+    }
+
+    public void setStrStatus(String strStatus) {
+        this.strStatus = strStatus;
+    }
+
+    public Drawable getDraStatus() {
+        return draStatus;
+    }
+
+    public void setDraStatus(Drawable draStatus) {
+        this.draStatus = draStatus;
     }
 }
 

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 import www.ethichadebe.com.loxion_beanery.R;
 
-public class MyShopItem extends AppCompatActivity {
+public class MyShopItem{
     private int intID = -1;
     private String strShopName = "";
     private String strOperatingHRS = "";
@@ -43,7 +43,8 @@ public class MyShopItem extends AppCompatActivity {
      */
     public MyShopItem(int intID, String strShopName, String strPosition, int intLogoSmall, int intLogoBig,
                       String strShortDescript, String strFullDescript, Location locLocation, String strAveTime,
-                      int intRating, String strOperatingHRS, boolean isActive, String strStatus, Drawable draStatus, int intnOrders) {
+                      int intRating, String strOperatingHRS, boolean isActive, String strStatus, Drawable draStatus,
+                      int intnOrders) {
         this.intID = intID;
         this.strShopName = strShopName;
         this.strPosition = strPosition;

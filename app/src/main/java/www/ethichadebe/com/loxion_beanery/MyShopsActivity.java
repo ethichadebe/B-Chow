@@ -141,19 +141,16 @@ public class MyShopsActivity extends AppCompatActivity {
                                 JSONObject Shops = jsonArray.getJSONObject(i);
                                 Location location = new Location("");
                                 String[] strCoord = Shops.getString("sLocation").split(" ");
-                                Drawable bgStatus = null;
                                 location.setLatitude(Double.parseDouble(strCoord[0]));
                                 location.setLongitude(Double.parseDouble(strCoord[1]));
                                 boolean isActive = false;
                                 if (Shops.getInt("isActive") == 1) {
                                     isActive = true;
                                 }
+                                Drawable bgStatus = null;
                                 switch (Shops.getString("sStatus")){
                                     case "Open":
                                         bgStatus = getResources().getDrawable(R.drawable.empty_btn_bg_open);
-                                        break;
-                                    case "Unavailable":
-                                        bgStatus = getResources().getDrawable(R.drawable.empty_btn_bg_unavailable);
                                         break;
                                     case "Closed":
                                         bgStatus = getResources().getDrawable(R.drawable.empty_btn_bg_open_closed);

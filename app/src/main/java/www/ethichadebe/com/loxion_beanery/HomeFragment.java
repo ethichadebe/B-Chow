@@ -1,6 +1,7 @@
 package www.ethichadebe.com.loxion_beanery;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -141,12 +142,22 @@ public class HomeFragment extends Fragment {
                                         break;
                                 }//Set ave time
 
+                                Drawable bgStatus = null;
+                                switch (Shops.getString("sStatus")){
+                                    case "Open":
+                                        bgStatus = getResources().getDrawable(R.drawable.empty_btn_bg_open);
+                                        break;
+                                    case "Closed":
+                                        bgStatus = getResources().getDrawable(R.drawable.empty_btn_bg_open_closed);
+                                        break;
+                                }
                                 shopItems.add(new ShopItem(Shops.getInt("sID"), Shops.getString("sName"),
                                         R.drawable.food, R.drawable.biglogo, Shops.getString("sShortDescrption"),
                                         Shops.getString("sFullDescription"), Shops.getString("sLocation"),
                                         Avetime, Shops.getInt("sRating"),
                                         Shops.getString("sOperatingHrs"), Shops.getInt("sLikes"),
-                                        Shops.getInt("isLiked"), AveTimeColor));
+                                        Shops.getInt("isLiked"), AveTimeColor,Shops.getString("sStatus")
+                                        ,bgStatus));
                             }
                         } else if (response.getString("message").equals("empty")) {
                             tvEmpty.setVisibility(View.VISIBLE);
