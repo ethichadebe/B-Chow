@@ -108,6 +108,32 @@
         </LinearLayout>
     </LinearLayout>
 
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvNavigate"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_rowWeight="1"
+        android:layout_columnWeight="1"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="20dp"
+        android:layout_weight="1"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@id/llHead"
+        android:layout_margin="10dp"
+        android:fontFamily="sans-serif-medium"
+        app:cardCornerRadius="50dp"
+        app:cardElevation="3dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:background="@drawable/ripple_effect"
+            android:layout_height="match_parent">
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_navigation_black_24dp"/>
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -122,7 +148,7 @@
             android:layout_height="200dp"
             android:layout_gravity="center"
             android:layout_marginTop="50dp"
-            android:src="@drawable/eating"/>
+            android:src="@drawable/eating" />
 
         <TextView
             android:id="@+id/tvUpdateMsg"
@@ -138,75 +164,80 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
         android:layout_alignParentBottom="true"
-        >
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
         <Button
             android:id="@+id/btFinish"
-            android:visibility="gone"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:background="@drawable/ripple_effect"
             android:text="Okay"
-            android:textColor="@color/White" />
+            android:textColor="@color/White"
+            android:visibility="gone" />
+
         <LinearLayout
             android:id="@+id/llNav"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="horizontal">
+
             <androidx.cardview.widget.CardView
-                android:id="@+id/cvNavigate"
+                android:id="@+id/cvCancel"
                 android:layout_width="0dp"
                 android:layout_height="40dp"
-                android:layout_columnWeight="1"
                 android:layout_rowWeight="1"
-                app:cardElevation="3dp"
+                android:layout_columnWeight="1"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="20dp"
                 android:layout_weight="1"
                 android:fontFamily="sans-serif-medium"
-                android:layout_marginBottom="20dp"
                 android:padding="50dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginStart="10dp"
-                app:cardCornerRadius="10dp">
+                app:cardCornerRadius="10dp"
+                app:cardElevation="3dp">
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:textSize="14sp"
-                    android:background="@drawable/ripple_effect"
-                    android:gravity="center"
+                    android:background="@drawable/ripple_effect_white"
                     android:fontFamily="sans-serif-medium"
+                    android:gravity="center"
+                    android:text="@string/cancel"
                     android:textAllCaps="false"
-                    android:text="Navigate"
-                    android:textColor="@color/White"/>
+                    android:textColor="@color/Red"
+                    android:textSize="14sp" />
             </androidx.cardview.widget.CardView>
+
             <androidx.cardview.widget.CardView
                 android:id="@+id/cvArrived"
                 android:layout_width="0dp"
                 android:layout_height="40dp"
-                android:layout_columnWeight="1"
                 android:layout_rowWeight="1"
-                app:cardElevation="3dp"
-                android:onClick="arrived"
-                android:fontFamily="sans-serif-medium"
+                android:layout_columnWeight="1"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="10dp"
                 android:layout_marginBottom="20dp"
                 android:layout_weight="1"
-                android:layout_marginEnd="10dp"
-                android:layout_marginStart="5dp"
+                android:fontFamily="sans-serif-medium"
+                android:onClick="arrived"
                 android:padding="50dp"
-                app:cardCornerRadius="10dp">
+                app:cardCornerRadius="10dp"
+                app:cardElevation="3dp">
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:textSize="14sp"
                     android:background="@drawable/ripple_effect"
-                    android:gravity="center"
                     android:fontFamily="sans-serif-medium"
-                    android:textAllCaps="false"
+                    android:gravity="center"
                     android:text="I've arrived"
-                    android:textColor="@color/White"/>
+                    android:textAllCaps="false"
+                    android:textColor="@color/White"
+                    android:textSize="14sp" />
             </androidx.cardview.widget.CardView>
 
         </LinearLayout>

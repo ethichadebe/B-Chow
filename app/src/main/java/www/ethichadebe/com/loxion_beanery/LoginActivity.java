@@ -95,7 +95,7 @@ public class LoginActivity extends AppCompatActivity {
         if (isPopup || (rellay1.getVisibility() == View.VISIBLE)) {
             ShowLoadingPopup(myDialog, true);
         } else {
-            YoYo.with(Techniques.FadeInRight)
+            YoYo.with(Techniques.FadeIn)
                     .duration(2000)
                     .repeat(2000)
                     .playOn(findViewById(R.id.vLoading));

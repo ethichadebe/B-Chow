@@ -1,6 +1,7 @@
 package www.ethichadebe.com.loxion_beanery;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -23,6 +24,7 @@ import pl.droidsonroids.gif.GifImageView;
 import util.HelperMethods;
 
 import static util.Constants.getIpAddress;
+import static util.HelperMethods.ShowLoadingPopup;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 import static www.ethichadebe.com.loxion_beanery.OrderActivity.oID;
 import static www.ethichadebe.com.loxion_beanery.OrdersFragment.getUpcomingOrderItem;
@@ -38,6 +40,7 @@ public class OrderConfirmationActivity extends AppCompatActivity {
     private LinearLayout llNav;
     private GifImageView givGif;
     private Dialog myDialog;
+    private CardView cvCancel,cvNavigate;
 
     private Runnable runnable = new Runnable() {
         @Override
@@ -76,6 +79,7 @@ public class OrderConfirmationActivity extends AppCompatActivity {
             vLine[2].setVisibility(View.GONE);
 
             llNav.setVisibility(View.GONE);
+            cvNavigate.setVisibility(View.GONE);
             btFinish.setVisibility(View.VISIBLE);
 
             tvUpdate.setText("Shop has been notified on your arrival");
@@ -99,6 +103,7 @@ public class OrderConfirmationActivity extends AppCompatActivity {
             vLine[1].setVisibility(View.VISIBLE);
             vLine[2].setVisibility(View.GONE);
 
+            cvNavigate.setVisibility(View.GONE);
             llNav.setVisibility(View.GONE);
             btFinish.setVisibility(View.VISIBLE);
 
@@ -120,6 +125,8 @@ public class OrderConfirmationActivity extends AppCompatActivity {
         myDialog = new Dialog(this);
         btFinish = findViewById(R.id.btFinish);
         tvUpdate = findViewById(R.id.tvUpdate);
+        cvCancel = findViewById(R.id.cvCancel);
+        cvNavigate = findViewById(R.id.cvNavigate);
         tvUpdateMessage = findViewById(R.id.tvUpdateMsg);
         llNav = findViewById(R.id.llNav);
         givGif = findViewById(R.id.givGif);
@@ -135,7 +142,7 @@ public class OrderConfirmationActivity extends AppCompatActivity {
         vLine[1] = findViewById(R.id.vLine2);
         vLine[2] = findViewById(R.id.vLine3);
 
-        if (getUpcomingOrderItem() != null){
+        if (getUpcomingOrderItem() != null) {
             switch (getUpcomingOrderItem().getStrStatus()) {
                 case "Waiting arrival":
                     handler.postDelayed(runnable, 0);
@@ -147,10 +154,17 @@ public class OrderConfirmationActivity extends AppCompatActivity {
                     handler.postDelayed(runnable2, 0);
                     break;
             }
-        }else {
+        } else {
             handler.postDelayed(runnable, 0);
         }
 
+        cvCancel.setOnClickListener(view -> {
+            if (oID != -1) {
+                PUTCancel(oID);
+            } else {
+                PUTCancel(getUpcomingOrderItem().getIntID());
+            }
+        });
         btFinish.setOnClickListener(view -> startActivity(new Intent(this, MainActivity.class)));
     }
 
@@ -167,22 +181,42 @@ public class OrderConfirmationActivity extends AppCompatActivity {
     }
 
     public void arrived(View view) {
-        if (oID != -1){
+        if (oID != -1) {
             PUTArrived(oID);
-        }else {
+        } else {
             PUTArrived(getUpcomingOrderItem().getIntID());
         }
     }
 
     private void PUTArrived(int oID) {
-        HelperMethods.ShowLoadingPopup(myDialog, true);
+        ShowLoadingPopup(myDialog, true);
         StringRequest stringRequest = new StringRequest(Request.Method.PUT,
                 "http://" + getIpAddress() + "/orders/Arrived/" + oID,
                 response -> {
                     //Toast.makeText(this, response, Toast.LENGTH_LONG).show();
-                    HelperMethods.ShowLoadingPopup(myDialog, false);
+                    ShowLoadingPopup(myDialog, false);
                     handler.postDelayed(runnable1, 0);
-                }, error -> Toast.makeText(this, error.toString(), Toast.LENGTH_LONG).show());
+                }, error -> {
+            ShowLoadingPopup(myDialog, false);
+            Toast.makeText(this, error.toString(), Toast.LENGTH_LONG).show();
+        });
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
+    private void PUTCancel(int oID) {
+        ShowLoadingPopup(this.myDialog, true);
+        StringRequest stringRequest = new StringRequest(Request.Method.PUT,
+                "http://" + getIpAddress() + "/orders/Cancel/" + oID,
+                response -> {
+                    //Toast.makeText(this, response, Toast.LENGTH_LONG).s  ();
+                    ShowLoadingPopup(myDialog, false);
+                    startActivity(new Intent(this, MainActivity.class));
+                }, error -> {
+            ShowLoadingPopup(myDialog, false);
+            Toast.makeText(this, error.toString(), Toast.LENGTH_LONG).show();
+        });
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
