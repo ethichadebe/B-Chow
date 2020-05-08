@@ -104,15 +104,19 @@ public class PastOrderItemAdapter extends RecyclerView.Adapter<PastOrderItemAdap
         holder.tvStatus.setText(item.getStrStatus());
         holder.tvOrderNum.setText("Order number: " + item.getIntOrderNum());
         holder.tvTime.setText(item.getStrTime());
-        if (item.getIntRating() == 0) {
+        if(item.getStrStatus().equals("Cancelled")){
+            holder.cvRate.setVisibility(View.GONE);
+            holder.llStars.setVisibility(View.GONE);
+        } else if (item.getIntRating() == 0) {
             holder.cvRate.setVisibility(View.VISIBLE);
             holder.llStars.setVisibility(View.GONE);
-        } else {
+        }else {
             holder.cvRate.setVisibility(View.GONE);
             holder.llStars.setVisibility(View.VISIBLE);
 
             setStarRating(item.getIntRating(), holder.ivStar1, holder.ivStar2, holder.ivStar3, holder.ivStar4, holder.ivStar5);
         }
+
 
     }
 
