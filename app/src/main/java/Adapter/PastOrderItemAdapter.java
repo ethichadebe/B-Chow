@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import SingleItem.PastOrderItem;
 import www.ethichadebe.com.loxion_beanery.R;
 
+import static util.HelperMethods.setStarRating;
+
 public class PastOrderItemAdapter extends RecyclerView.Adapter<PastOrderItemAdapter.OrderViewHolder> {
 
     private ArrayList<PastOrderItem> orderList;
@@ -35,7 +37,7 @@ public class PastOrderItemAdapter extends RecyclerView.Adapter<PastOrderItemAdap
 
     static class OrderViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView tvShopName, tvPrice, tvMenu, tvExtras, tvOrderNum, tvTime,tvStatus;
+        private TextView tvShopName, tvPrice, tvMenu, tvExtras, tvOrderNum, tvTime, tvStatus;
         private ImageView ivStar1, ivStar2, ivStar3, ivStar4, ivStar5;
         private CardView cvRate, cvReorder;
         private LinearLayout llStars;
@@ -109,38 +111,7 @@ public class PastOrderItemAdapter extends RecyclerView.Adapter<PastOrderItemAdap
             holder.cvRate.setVisibility(View.GONE);
             holder.llStars.setVisibility(View.VISIBLE);
 
-            switch (item.getIntRating()) {
-                case 1:
-                    holder.ivStar1.setImageResource(0);
-                    holder.ivStar2.setImageResource(0);
-                    holder.ivStar3.setImageResource(0);
-                    holder.ivStar4.setImageResource(0);
-                    holder.ivStar5.setVisibility(View.VISIBLE);
-                case 2:
-                    holder.ivStar1.setImageResource(0);
-                    holder.ivStar2.setImageResource(0);
-                    holder.ivStar3.setImageResource(0);
-                    holder.ivStar4.setVisibility(View.VISIBLE);
-                    holder.ivStar5.setVisibility(View.VISIBLE);
-                case 3:
-                    holder.ivStar1.setImageResource(0);
-                    holder.ivStar2.setImageResource(0);
-                    holder.ivStar3.setVisibility(View.VISIBLE);
-                    holder.ivStar4.setVisibility(View.VISIBLE);
-                    holder.ivStar5.setVisibility(View.VISIBLE);
-                case 4:
-                    holder.ivStar1.setImageResource(0);
-                    holder.ivStar2.setVisibility(View.VISIBLE);
-                    holder.ivStar3.setVisibility(View.VISIBLE);
-                    holder.ivStar4.setVisibility(View.VISIBLE);
-                    holder.ivStar5.setVisibility(View.VISIBLE);
-                case 5:
-                    holder.ivStar1.setVisibility(View.VISIBLE);
-                    holder.ivStar2.setVisibility(View.VISIBLE);
-                    holder.ivStar3.setVisibility(View.VISIBLE);
-                    holder.ivStar4.setVisibility(View.VISIBLE);
-                    holder.ivStar5.setVisibility(View.VISIBLE);
-            }
+            setStarRating(item.getIntRating(), holder.ivStar1, holder.ivStar2, holder.ivStar3, holder.ivStar4, holder.ivStar5);
         }
 
     }

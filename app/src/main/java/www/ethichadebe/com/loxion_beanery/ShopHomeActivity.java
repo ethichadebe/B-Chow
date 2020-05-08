@@ -204,8 +204,9 @@ public class ShopHomeActivity extends AppCompatActivity {
                     HelperMethods.ShowLoadingPopup(myDialog, false);
                     try {
                         JSONObject JSONData = new JSONObject(response);
-                        if (JSONData.getString("data").equals("saved")) {
+                        if (JSONData.getString("message").equals("saved")) {
                             ivLike.setImageResource(R.drawable.ic_favorite_red_24dp);
+                            tvLikes.setText(String.valueOf(JSONData.getInt("likes")));
                             getShopItem().setLiked(1);
                         }
                     } catch (JSONException e) {
@@ -242,8 +243,9 @@ public class ShopHomeActivity extends AppCompatActivity {
                     HelperMethods.ShowLoadingPopup(myDialog, false);
                     try {
                         JSONObject JSONData = new JSONObject(response.toString());
-                        if (JSONData.getString("data").equals("removed")) {
+                        if (JSONData.getString("message").equals("removed")) {
                             ivLike.setImageResource(R.drawable.ic_favorite_border_black_24dp);
+                            tvLikes.setText(String.valueOf(JSONData.getInt("likes")));
                             getShopItem().setLiked(0);
                         }
                     } catch (JSONException e) {
