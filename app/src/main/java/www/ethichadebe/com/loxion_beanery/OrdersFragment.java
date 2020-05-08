@@ -243,6 +243,7 @@ public class OrdersFragment extends Fragment {
 
     }
 
+
     private void POSTOrder(String list, int sID, Double dblPrice) {
         ShowLoadingPopup(myDialog, true);
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
@@ -272,5 +273,9 @@ public class OrdersFragment extends Fragment {
 
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
         requestQueue.add(stringRequest);
+    }
+
+     static PastOrderItem getPastOrderItem() {
+        return pastOrderItem;
     }
 }

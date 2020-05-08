@@ -13,22 +13,19 @@ import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 
 public class MainActivity extends AppCompatActivity {
     private static int intFragment;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if (getUser() == null){
+        if (getUser() == null) {
             startActivity(new Intent(this, LoginActivity.class));
         }
 
-        BottomNavigationView bottomNav= findViewById(R.id.bottom_navigation );
-
-        //Start Fragment
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                new HomeFragment()).commit();
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
 
         //On Back Press
-        switch (intFragment){
+        switch (intFragment) {
             case 1:
                 intFragment = -1;
                 bottomNav.setSelectedItemId(R.id.nav_orders);
@@ -42,12 +39,17 @@ public class MainActivity extends AppCompatActivity {
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new ProfileFragment()).commit();
                 break;
+            default:
+                //Start Fragment
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new HomeFragment()).commit();
+                break;
         }
 
         bottomNav.setOnNavigationItemSelectedListener(menuItem -> {
             Fragment selectedFragment = null;
 
-            switch (menuItem.getItemId()){
+            switch (menuItem.getItemId()) {
                 case R.id.nav_home:
                     selectedFragment = new HomeFragment();
                     break;
