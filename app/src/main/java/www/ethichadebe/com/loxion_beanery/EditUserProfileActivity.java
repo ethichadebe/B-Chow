@@ -213,9 +213,9 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
         if (!(Objects.requireNonNull(mTextBoxes[0].getText()).toString().equals(getUser().getuName())) ||
                 !(Objects.requireNonNull(mTextBoxes[1].getText()).toString().equals(getUser().getuSurname())) ||
                 !(Objects.requireNonNull(mTextBoxes[2].getText()).toString().equals(getUser().getuDOB())) ||
-                !UserSex.equals(getUser().getuSex())){
+                !UserSex.equals(getUser().getuSex())) {
             ShowConfirmationPopup();
-        }else {
+        } else {
             finish();
         }
     }
@@ -257,7 +257,11 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
                     }
                 }, error -> {
             tvEdit.setBackground(getResources().getDrawable(R.drawable.ripple_effect));
-            Toast.makeText(EditUserProfileActivity.this, error.toString(), Toast.LENGTH_LONG).show();
+            if (error.toString().equals("com.android.volley.TimeoutError")) {
+                Toast.makeText(this, "Connection error. Please retry", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
+            }
         }) {
             @Override
             protected Map<String, String> getParams() {
@@ -294,7 +298,7 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
                                 Toast.makeText(EditUserProfileActivity.this, "Saved", Toast.LENGTH_LONG).show();
                                 getUser().setuNumber(JSONResponse.getString("uNumber"));
                                 tvNumber.setText(getUser().getuNumber());
-                                if (!sharedPrefsIsEmpty(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE))){
+                                if (!sharedPrefsIsEmpty(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE))) {
                                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                                         saveData(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE), getUser().getuNumber(),
                                                 getSharedPreferences(SHARED_PREFS, MODE_PRIVATE).getString("Password", ""));
@@ -310,7 +314,11 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
                     }
                 }, error -> {
             tvEdit.setBackground(getResources().getDrawable(R.drawable.ripple_effect));
-            Toast.makeText(EditUserProfileActivity.this, error.toString(), Toast.LENGTH_LONG).show();
+            if (error.toString().equals("com.android.volley.TimeoutError")) {
+                Toast.makeText(this, "Connection error. Please retry", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
+            }
         }) {
             @Override
             protected Map<String, String> getParams() {
@@ -347,7 +355,7 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
                             getUser().setuNumber(JSONResponse.getString("uNumber"));
                             getUser().setuSex(JSONResponse.getString("uSex"));
                             getUser().setuSurname(JSONResponse.getString("uSurname"));
-                            if(isBack){
+                            if (isBack) {
                                 startActivity(new Intent(EditUserProfileActivity.this, MainActivity.class));
                             }//Check if user pressed back
                         }
@@ -356,7 +364,11 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
                     }
                 }, error -> {
             HelperMethods.ShowLoadingPopup(myDialog, false);
-            Toast.makeText(EditUserProfileActivity.this, error.toString(), Toast.LENGTH_LONG).show();
+            if (error.toString().equals("com.android.volley.TimeoutError")) {
+                Toast.makeText(this, "Connection error. Please retry", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
+            }
         }) {
             @Override
             protected Map<String, String> getParams() {
@@ -381,9 +393,9 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
         if (!(Objects.requireNonNull(mTextBoxes[0].getText()).toString().equals(getUser().getuName())) ||
                 !(Objects.requireNonNull(mTextBoxes[1].getText()).toString().equals(getUser().getuSurname())) ||
                 !(Objects.requireNonNull(mTextBoxes[2].getText()).toString().equals(getUser().getuDOB())) ||
-                !UserSex.equals(getUser().getuSex())){
+                !UserSex.equals(getUser().getuSex())) {
             ShowConfirmationPopup();
-        }else {
+        } else {
             finish();
         }
     }
@@ -435,5 +447,9 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
                 .setGuidelines(CropImageView.Guidelines.ON)
                 .setAspectRatio(720, 720)
                 .start(this);
+    }
+
+    public void ChangePassword(View view) {
+        startActivity(new Intent(this, ChangePasswordActivity.class));
     }
 }

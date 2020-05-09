@@ -170,7 +170,11 @@ public class IngredientsActivity extends AppCompatActivity {
 
                 }, error -> {
             HelperMethods.ShowLoadingPopup(myDialog, false);
-            Toast.makeText(IngredientsActivity.this, error.toString(), Toast.LENGTH_LONG).show();
+            if (error.toString().equals("com.android.volley.TimeoutError")) {
+                Toast.makeText(this, "Connection error. Please retry", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
+            }
         }) {
             @Override
             protected Map<String, String> getParams() {
@@ -228,7 +232,11 @@ public class IngredientsActivity extends AppCompatActivity {
                     getNewShop().getIngredientItems().get(position).setDblPrice(Double.valueOf(Price));
                     mAdapter.notifyItemChanged(position);
                 }, error -> {
-            //myDialog.dismiss();
+            if (error.toString().equals("com.android.volley.TimeoutError")) {
+                Toast.makeText(this, "Connection error. Please retry", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
+            }
         }) {
             @Override
             protected Map<String, String> getParams() {

@@ -132,7 +132,11 @@ public class ExtraItemActivity extends AppCompatActivity {
                     }
                 }, error -> {
             ShowLoadingPopup(myDialog, false);
-            Toast.makeText(this, error.toString(), Toast.LENGTH_LONG).show();
+            if (error.toString().equals("com.android.volley.TimeoutError")) {
+                Toast.makeText(this, "Connection error. Please retry", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
+            }
         }) {
             @Override
             protected Map<String, String> getParams() {
