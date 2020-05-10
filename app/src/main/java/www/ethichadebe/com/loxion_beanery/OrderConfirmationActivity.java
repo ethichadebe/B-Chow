@@ -248,4 +248,7 @@ public class OrderConfirmationActivity extends AppCompatActivity {
         myDialog.show();
     }
 
+    public void home(View view) {
+        startActivity(new Intent(this, MainActivity.class));
+    }
 }

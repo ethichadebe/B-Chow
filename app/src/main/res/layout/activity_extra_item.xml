@@ -24,7 +24,6 @@
             android:gravity="center"
             android:padding="10dp"
             android:text="Select Extras to add"
-            android:textColor="@color/Black"
             android:textSize="12sp"
             android:textStyle="bold" />
 
@@ -148,7 +147,6 @@
                     android:gravity="center"
                     android:text="@string/retry"
                     android:textAllCaps="true"
-                    android:textColor="@color/Black"
                     android:textSize="14sp" />
             </androidx.cardview.widget.CardView>
 

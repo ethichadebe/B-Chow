@@ -25,7 +25,6 @@
                 android:layout_marginTop="12dp"
                 android:fontFamily="sans-serif-medium"
                 android:text="Order status"
-                android:textColor="@color/Black"
                 android:textSize="14sp" />
         </LinearLayout>
 
@@ -116,13 +115,11 @@
         android:layout_columnWeight="1"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="5dp"
-        android:layout_marginBottom="20dp"
         android:layout_weight="1"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@id/llHead"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@id/llBottomNav"
         android:layout_margin="10dp"
-        android:fontFamily="sans-serif-medium"
-        app:cardCornerRadius="50dp"
+        app:cardCornerRadius="10dp"
         app:cardElevation="3dp">
         <RelativeLayout
             android:layout_width="match_parent"
@@ -132,6 +129,31 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/ic_navigation_black_24dp"/>
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvHome"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_rowWeight="1"
+        android:layout_columnWeight="1"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="5dp"
+        android:onClick="home"
+        android:layout_below="@id/llHead"
+        android:layout_weight="1"
+        android:layout_margin="10dp"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="3dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:background="@drawable/ripple_effect_white"
+            android:layout_height="match_parent">
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_home_black_24dp"/>
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 
@@ -162,6 +184,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/llBottomNav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
