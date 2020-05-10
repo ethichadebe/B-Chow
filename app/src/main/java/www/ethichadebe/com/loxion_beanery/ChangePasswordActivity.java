@@ -90,6 +90,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
                             etOld.setError("correct");
                             etOld.setErrorColor(R.color.done);
                         } else {
+                            btnSave.setVisibility(View.GONE);
                             etOld.setError("incorrect");
                             etOld.setErrorColor(R.color.Red);
                         }
