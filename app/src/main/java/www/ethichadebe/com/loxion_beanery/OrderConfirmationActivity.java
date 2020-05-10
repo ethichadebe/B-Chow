@@ -5,6 +5,8 @@ import androidx.cardview.widget.CardView;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -19,6 +21,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+
+import java.util.Objects;
 
 import pl.droidsonroids.gif.GifImageView;
 import util.HelperMethods;
@@ -160,9 +164,10 @@ public class OrderConfirmationActivity extends AppCompatActivity {
 
         cvCancel.setOnClickListener(view -> {
             if (oID != -1) {
-                PUTCancel(oID);
+
+                ShowConfirmationPopup(oID);
             } else {
-                PUTCancel(getUpcomingOrderItem().getIntID());
+                ShowConfirmationPopup(getUpcomingOrderItem().getIntID());
             }
         });
         btFinish.setOnClickListener(view -> startActivity(new Intent(this, MainActivity.class)));
@@ -220,6 +225,27 @@ public class OrderConfirmationActivity extends AppCompatActivity {
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
+    }
+
+    public void ShowConfirmationPopup(int ID) {
+        TextView tvCancel, tvMessage;
+        CardView cvYes, cvNo;
+        myDialog.setContentView(R.layout.popup_confirmation);
+
+        tvCancel = myDialog.findViewById(R.id.tvCancel);
+        tvMessage = myDialog.findViewById(R.id.tvMessage);
+        cvYes = myDialog.findViewById(R.id.cvYes);
+        cvNo = myDialog.findViewById(R.id.cvNo);
+
+        tvCancel.setOnClickListener(view -> myDialog.dismiss());
+
+        tvMessage.setText("Are you sure?");
+
+        cvYes.setOnClickListener(view -> PUTCancel(ID));
+
+        cvNo.setOnClickListener(view -> myDialog.dismiss());
+        Objects.requireNonNull(myDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        myDialog.show();
     }
 
 }
