@@ -31,7 +31,7 @@ public class MyShopItem extends ShopItem{
      */
     public MyShopItem(int intID, String strShopName, String strPosition, String intLogoSmall, String intLogoBig,
                       String strShortDescript, String strFullDescript, String locLocation, String strAveTime,
-                      int intRating, String strOperatingHRS, boolean isActive, String strStatus, Drawable draStatus,
+                      int intRating, String strOperatingHRS, boolean isActive, int intStatus, Drawable draStatus,
                       int intnOrders) {
         this.intID = intID;
         this.strShopName = strShopName;
@@ -45,7 +45,7 @@ public class MyShopItem extends ShopItem{
         this.intRating = intRating;
         this.strOperatingHRS = strOperatingHRS;
         this.isActive = isActive;
-        this.strStatus = strStatus;
+        this.intStatus = intStatus;
         this.draStatus = draStatus;
         this.intnOrders = intnOrders;
     }

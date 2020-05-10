@@ -144,11 +144,11 @@ public class MyShopsActivity extends AppCompatActivity {
                                     isActive = true;
                                 }
                                 Drawable bgStatus = null;
-                                switch (Shops.getString("sStatus")){
-                                    case "Open":
+                                switch (Shops.getInt("sStatus")){
+                                    case 1:
                                         bgStatus = getResources().getDrawable(R.drawable.empty_btn_bg_open);
                                         break;
-                                    case "Closed":
+                                    case 0:
                                         bgStatus = getResources().getDrawable(R.drawable.empty_btn_bg_open_closed);
                                         break;
                                 }
@@ -157,7 +157,7 @@ public class MyShopsActivity extends AppCompatActivity {
                                         "Shops.getString('sBigPicture'')",Shops.getString("sShortDescrption"),
                                         Shops.getString("sFullDescription"),Shops.getString("sLocation"), "10-15 mins",
                                         Shops.getInt("sRating"),Shops.getString("sOperatingHrs"), isActive,
-                                        Shops.getString("sStatus"), bgStatus, Shops.getInt("nOrders")));
+                                        Shops.getInt("sStatus"), bgStatus, Shops.getInt("nOrders")));
                             }
                         } else if (response.getString("message").equals("empty")) {
                             tvEmpty.setVisibility(View.VISIBLE);

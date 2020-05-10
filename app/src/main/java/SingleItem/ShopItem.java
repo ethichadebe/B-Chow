@@ -6,9 +6,8 @@ import android.location.Location;
 import java.util.ArrayList;
 
 public class ShopItem {
-        String strShopName, strShortDescript, strFullDescript, strAveTime, strOperatingHRS, strLogoSmall, strLogoBig, strLocation;
-    int intID = -1, intRating;
-    String strStatus = "";
+    String strShopName, strShortDescript, strFullDescript, strAveTime, strOperatingHRS, strLogoSmall, strLogoBig, strLocation;
+    int intID = -1, intRating, intStatus;
     Drawable draStatus;
     private int intLikes = 0, isLiked, intAveTimeColor;
     private ArrayList<IngredientItem> ingredientItems;
@@ -19,7 +18,7 @@ public class ShopItem {
 
     public ShopItem(int intID, String strShopName, String intLogoSmall, String intLogoBig, String strShortDescript,
                     String strFullDescript, String locLocation, String strAveTime, int intRating, String strOperatingHRS,
-                    int intLikes, int isLiked, int intAveTimeColor, String strStatus, Drawable draStatus) {
+                    int intLikes, int isLiked, int intAveTimeColor, int intStatus, Drawable draStatus) {
         this.intID = intID;
         this.strShopName = strShopName;
         this.strLogoSmall = intLogoSmall;
@@ -30,7 +29,7 @@ public class ShopItem {
         this.strAveTime = strAveTime;
         this.intRating = intRating;
         this.strOperatingHRS = strOperatingHRS;
-        this.strStatus = strStatus;
+        this.intStatus = intStatus;
         this.draStatus = draStatus;
         this.intLikes = intLikes;
         this.isLiked = isLiked;
@@ -118,8 +117,8 @@ public class ShopItem {
         return intAveTimeColor;
     }
 
-    public String getStrStatus() {
-        return strStatus;
+    public int getIntStatus() {
+        return intStatus;
     }
 
     public Drawable getDraStatus() {
@@ -159,8 +158,8 @@ public class ShopItem {
         this.intRating = intRating;
     }
 
-    public void setStrStatus(String strStatus) {
-        this.strStatus = strStatus;
+    public void setIntStatus(int intStatus) {
+        this.intStatus = intStatus;
     }
 
     public void setDraStatus(Drawable draStatus) {

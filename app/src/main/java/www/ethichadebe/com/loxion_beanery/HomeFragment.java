@@ -143,11 +143,11 @@ public class HomeFragment extends Fragment {
                                 }//Set ave time
 
                                 Drawable bgStatus = null;
-                                switch (Shops.getString("sStatus")){
-                                    case "Open":
+                                switch (Shops.getInt("sStatus")){
+                                    case 1:
                                         bgStatus = getResources().getDrawable(R.drawable.empty_btn_bg_open);
                                         break;
-                                    case "Closed":
+                                    case 0:
                                         bgStatus = getResources().getDrawable(R.drawable.empty_btn_bg_open_closed);
                                         break;
                                 }
@@ -156,7 +156,7 @@ public class HomeFragment extends Fragment {
                                         Shops.getString("sFullDescription"), Shops.getString("sLocation"),
                                         Avetime, Shops.getInt("sRating"),
                                         Shops.getString("sOperatingHrs"), Shops.getInt("sLikes"),
-                                        Shops.getInt("isLiked"), AveTimeColor,Shops.getString("sStatus")
+                                        Shops.getInt("isLiked"), AveTimeColor,Shops.getInt("sStatus")
                                         ,bgStatus));
                             }
                         } else if (response.getString("message").equals("empty")) {

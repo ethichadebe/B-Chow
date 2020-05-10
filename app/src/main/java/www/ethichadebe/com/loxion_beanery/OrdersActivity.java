@@ -78,22 +78,22 @@ public class OrdersActivity extends AppCompatActivity {
         tvClosed.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
         tvOpen.setBackground(getResources().getDrawable(R.drawable.ripple_effect_green));
 
-        switch (getNewShop().getStrStatus()) {
-            case "Open":
+        switch (getNewShop().getIntStatus()) {
+            case 1:
                 cvClosed.setClickable(true);
                 cvOpen.setClickable(false);
 
                 tvClosed.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
                 tvOpen.setBackground(getResources().getDrawable(R.drawable.ripple_effect_green));
-                PUTStatus("Open");
+                PUTStatus(1);
                 break;
-            case "Closed":
+            case 0:
                 cvClosed.setClickable(false);
                 cvOpen.setClickable(true);
 
                 tvClosed.setBackground(getResources().getDrawable(R.drawable.ripple_effect_red));
                 tvOpen.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
-                PUTStatus("Closed");
+                PUTStatus(0);
                 break;
         }
         //Check if Shop is fully registered
@@ -139,7 +139,7 @@ public class OrdersActivity extends AppCompatActivity {
 
             tvClosed.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
             tvOpen.setBackground(getResources().getDrawable(R.drawable.ripple_effect_green));
-            PUTStatus("Open");
+            PUTStatus(1);
         });
 
         cvClosed.setOnClickListener(view -> {
@@ -148,7 +148,7 @@ public class OrdersActivity extends AppCompatActivity {
 
             tvClosed.setBackground(getResources().getDrawable(R.drawable.ripple_effect_red));
             tvOpen.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
-            PUTStatus("Closed");
+            PUTStatus(0);
         });
     }
 
@@ -242,7 +242,11 @@ public class OrdersActivity extends AppCompatActivity {
                     mAdapter.notifyItemChanged(position);
                     HelperMethods.ShowLoadingPopup(myDialog, false);
                 }, error -> {
-            Toast.makeText(this, error.toString(), Toast.LENGTH_LONG).show();
+            if (error.toString().equals("com.android.volley.TimeoutError")) {
+                Toast.makeText(this, "Connection error. Please retry", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
+            }
         });
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
@@ -260,7 +264,11 @@ public class OrdersActivity extends AppCompatActivity {
                     mAdapter.notifyItemRemoved(position);
                     HelperMethods.ShowLoadingPopup(myDialog, false);
                 }, error -> {
-            Toast.makeText(this, error.toString(), Toast.LENGTH_LONG).show();
+            if (error.toString().equals("com.android.volley.TimeoutError")) {
+                Toast.makeText(this, "Connection error. Please retry", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
+            }
         });
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
@@ -278,14 +286,18 @@ public class OrdersActivity extends AppCompatActivity {
                     mAdapter.notifyItemRemoved(position);
                     HelperMethods.ShowLoadingPopup(myDialog, false);
                 }, error -> {
-            Toast.makeText(this, error.toString(), Toast.LENGTH_LONG).show();
+            if (error.toString().equals("com.android.volley.TimeoutError")) {
+                Toast.makeText(this, "Connection error. Please retry", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
+            }
         });
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
     }
 
-    private void PUTStatus(String status) {
+    private void PUTStatus(int status) {
         ShowLoadingPopup(myDialog, true);
         StringRequest stringRequest = new StringRequest(Request.Method.PUT,
                 "http://" + getIpAddress() + "/shops/Status/" + getNewShop().getIntID(),
@@ -293,13 +305,17 @@ public class OrdersActivity extends AppCompatActivity {
                     ShowLoadingPopup(myDialog, false);
                 }, error -> {
             HelperMethods.ShowLoadingPopup(myDialog, false);
-            //myDialog.dismiss();
+            if (error.toString().equals("com.android.volley.TimeoutError")) {
+                Toast.makeText(this, "Connection error. Please retry", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
+            }
         }) {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
 
-                params.put("sStatus", status);
+                params.put("sStatus", String.valueOf(status));
                 return params;
             }
         };
