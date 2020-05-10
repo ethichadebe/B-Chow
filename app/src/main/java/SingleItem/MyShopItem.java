@@ -9,22 +9,10 @@ import java.util.ArrayList;
 
 import www.ethichadebe.com.loxion_beanery.R;
 
-public class MyShopItem{
-    private int intID = -1;
-    private String strShopName = "";
-    private String strOperatingHRS = "";
+public class MyShopItem extends ShopItem{
     private String strPosition = "";
-    private String strShortDescript = "";
-    private String strFullDescript = "";
-    private String strAveTime = "";
-    private String strStatus = "";
-    private Drawable draStatus;
-    private int intLogoSmall, intLogoBig, intRating, intnOrders;
-    private Location locLocation;
-    private boolean isOpen = false;
+    private int intnOrders;
     private boolean isActive = false;
-    private ArrayList<IngredientItem> ingredientItems;
-    private ArrayList<MenuItem> menuItems;
 
     /**
      * Standard constructor + operating Hours
@@ -41,18 +29,18 @@ public class MyShopItem{
      * @param intRating
      * @param strOperatingHRS
      */
-    public MyShopItem(int intID, String strShopName, String strPosition, int intLogoSmall, int intLogoBig,
-                      String strShortDescript, String strFullDescript, Location locLocation, String strAveTime,
+    public MyShopItem(int intID, String strShopName, String strPosition, String intLogoSmall, String intLogoBig,
+                      String strShortDescript, String strFullDescript, String locLocation, String strAveTime,
                       int intRating, String strOperatingHRS, boolean isActive, String strStatus, Drawable draStatus,
                       int intnOrders) {
         this.intID = intID;
         this.strShopName = strShopName;
         this.strPosition = strPosition;
-        this.intLogoSmall = intLogoSmall;
-        this.intLogoBig = intLogoBig;
+        this.strLogoSmall = intLogoSmall;
+        this.strLogoBig = intLogoBig;
         this.strShortDescript = strShortDescript;
         this.strFullDescript = strFullDescript;
-        this.locLocation = locLocation;
+        this.strLocation = locLocation;
         this.strAveTime = strAveTime;
         this.intRating = intRating;
         this.strOperatingHRS = strOperatingHRS;
@@ -72,30 +60,14 @@ public class MyShopItem{
      * @param strFullDescript
      * @param locLocation
      */
-    public MyShopItem(String strShopName, String strShortDescript, String strFullDescript, int intLogoSmall,
-                      int intLogoBig, Location locLocation) {
+    public MyShopItem(String strShopName, String strShortDescript, String strFullDescript, String intLogoSmall,
+                      String  intLogoBig, String locLocation) {
         this.strShopName = strShopName;
-        this.intLogoSmall = intLogoSmall;
-        this.intLogoBig = intLogoBig;
+        this.strLogoSmall = intLogoSmall;
+        this.strLogoBig = intLogoBig;
         this.strShortDescript = strShortDescript;
         this.strFullDescript = strFullDescript;
-        this.locLocation = locLocation;
-    }
-
-    public int getIntID() {
-        return intID;
-    }
-
-    public void setIntID(int intID) {
-        this.intID = intID;
-    }
-
-    public String getStrShopName() {
-        return strShopName;
-    }
-
-    public void setStrShopName(String strShopName) {
-        this.strShopName = strShopName;
+        this.strLocation = locLocation;
     }
 
     public String getStrPosition() {
@@ -106,116 +78,12 @@ public class MyShopItem{
         this.strPosition = strPosition;
     }
 
-    public String getStrShortDescript() {
-        return strShortDescript;
-    }
-
-    public void setStrShortDescript(String strShortDescript) {
-        this.strShortDescript = strShortDescript;
-    }
-
-    public String getStrFullDescript() {
-        return strFullDescript;
-    }
-
-    public void setStrFullDescript(String strFullDescript) {
-        this.strFullDescript = strFullDescript;
-    }
-
-    public Location getLocLocation() {
-        return locLocation;
-    }
-
-    public void setLocLocation(Location locLocation) {
-        this.locLocation = locLocation;
-    }
-
-    public String getStrAveTime() {
-        return strAveTime;
-    }
-
-    public void setStrAveTime(String strAveTime) {
-        this.strAveTime = strAveTime;
-    }
-
-    public int getIntRating() {
-        return intRating;
-    }
-
-    public void setIntRating(int intRating) {
-        this.intRating = intRating;
-    }
-
-    public String getStrOperatingHRS() {
-        return strOperatingHRS;
-    }
-
-    public void setStrOperatingHRS(String strOperatingHRS) {
-        this.strOperatingHRS = strOperatingHRS;
-    }
-
-    public ArrayList<IngredientItem> getIngredientItems() {
-        return ingredientItems;
-    }
-
-    public void setIngredientItems(ArrayList<IngredientItem> ingredientItems) {
-        this.ingredientItems = ingredientItems;
-    }
-
-    public ArrayList<MenuItem> getMenuItems() {
-        return menuItems;
-    }
-
-    public void setMenuItems(ArrayList<MenuItem> menuItems) {
-        this.menuItems = menuItems;
-    }
-
-    public int getIntLogoSmall() {
-        return intLogoSmall;
-    }
-
-    public void setIntLogoSmall(int intLogoSmall) {
-        this.intLogoSmall = intLogoSmall;
-    }
-
-    public int getIntLogoBig() {
-        return intLogoBig;
-    }
-
-    public void setIntLogoBig(int intLogoBig) {
-        this.intLogoBig = intLogoBig;
-    }
-
-    public boolean isOpen() {
-        return isOpen;
-    }
-
-    public void setOpen(boolean open) {
-        isOpen = open;
-    }
-
     public boolean isActive() {
         return isActive;
     }
 
     public void setActive(boolean active) {
         isActive = active;
-    }
-
-    public Drawable getDraStatus() {
-        return draStatus;
-    }
-
-    public void setDraStatus(Drawable draStatus) {
-        this.draStatus = draStatus;
-    }
-
-    public String getStrStatus() {
-        return strStatus;
-    }
-
-    public void setStrStatus(String strStatus) {
-        this.strStatus = strStatus;
     }
 
     public int getIntnOrders() {

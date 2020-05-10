@@ -6,24 +6,27 @@ import android.location.Location;
 import java.util.ArrayList;
 
 public class ShopItem {
-    private String strShopName,strShortDescript,strFullDescript,strAveTime,strOperatingHRS,locLocation;
-    private int intID,intLogoSmall,intLogoBig,intRating,isLiked, intAveTimeColor;
-    private int intLikes = 0;
-    private String strStatus = "";
-    private Drawable draStatus;
+        String strShopName, strShortDescript, strFullDescript, strAveTime, strOperatingHRS, strLogoSmall, strLogoBig, strLocation;
+    int intID = -1, intRating;
+    String strStatus = "";
+    Drawable draStatus;
+    private int intLikes = 0, isLiked, intAveTimeColor;
     private ArrayList<IngredientItem> ingredientItems;
     private ArrayList<MenuItem> menuItems;
 
-    public ShopItem(int intID, String strShopName, int intLogoSmall, int intLogoBig, String strShortDescript,
+    ShopItem() {
+    }
+
+    public ShopItem(int intID, String strShopName, String intLogoSmall, String intLogoBig, String strShortDescript,
                     String strFullDescript, String locLocation, String strAveTime, int intRating, String strOperatingHRS,
                     int intLikes, int isLiked, int intAveTimeColor, String strStatus, Drawable draStatus) {
         this.intID = intID;
         this.strShopName = strShopName;
-        this.intLogoSmall = intLogoSmall;
-        this.intLogoBig = intLogoBig;
+        this.strLogoSmall = intLogoSmall;
+        this.strLogoBig = intLogoBig;
         this.strShortDescript = strShortDescript;
         this.strFullDescript = strFullDescript;
-        this.locLocation = locLocation;
+        this.strLocation = locLocation;
         this.strAveTime = strAveTime;
         this.intRating = intRating;
         this.strOperatingHRS = strOperatingHRS;
@@ -50,22 +53,6 @@ public class ShopItem {
         this.strShopName = strShopName;
     }
 
-    public int getIntLogoSmall() {
-        return intLogoSmall;
-    }
-
-    public void setIntLogoSmall(int intLogoSmall) {
-        this.intLogoSmall = intLogoSmall;
-    }
-
-    public int getIntLogoBig() {
-        return intLogoBig;
-    }
-
-    public void setIntLogoBig(int intLogoBig) {
-        this.intLogoBig = intLogoBig;
-    }
-
     public String getStrShortDescript() {
         return strShortDescript;
     }
@@ -82,28 +69,13 @@ public class ShopItem {
         this.strFullDescript = strFullDescript;
     }
 
-    public String getLocLocation() {
-        return locLocation;
-    }
-
-    public void setLocLocation(String locLocation) {
-        this.locLocation = locLocation;
-    }
 
     public String getStrAveTime() {
         return strAveTime;
     }
 
-    public void setStrAveTime(String strAveTime) {
-        this.strAveTime = strAveTime;
-    }
-
     public int getIntRating() {
         return intRating;
-    }
-
-    public void setIntRating(int intRating) {
-        this.intRating = intRating;
     }
 
     public String getStrOperatingHRS() {
@@ -142,6 +114,59 @@ public class ShopItem {
         return intLikes;
     }
 
+    public int getIntAveTimeColor() {
+        return intAveTimeColor;
+    }
+
+    public String getStrStatus() {
+        return strStatus;
+    }
+
+    public Drawable getDraStatus() {
+        return draStatus;
+    }
+
+
+    public void setStrAveTime(String strAveTime) {
+        this.strAveTime = strAveTime;
+    }
+
+    public String getStrLogoSmall() {
+        return strLogoSmall;
+    }
+
+    public void setStrLogoSmall(String strLogoSmall) {
+        this.strLogoSmall = strLogoSmall;
+    }
+
+    public String getStrLogoBig() {
+        return strLogoBig;
+    }
+
+    public void setStrLogoBig(String strLogoBig) {
+        this.strLogoBig = strLogoBig;
+    }
+
+    public String getStrLocation() {
+        return strLocation;
+    }
+
+    public void setStrLocation(String strLocation) {
+        this.strLocation = strLocation;
+    }
+
+    public void setIntRating(int intRating) {
+        this.intRating = intRating;
+    }
+
+    public void setStrStatus(String strStatus) {
+        this.strStatus = strStatus;
+    }
+
+    public void setDraStatus(Drawable draStatus) {
+        this.draStatus = draStatus;
+    }
+
     public void setIntLikes(int intLikes) {
         this.intLikes = intLikes;
     }
@@ -154,28 +179,8 @@ public class ShopItem {
         this.isLiked = isLiked;
     }
 
-    public int getIntAveTimeColor() {
-        return intAveTimeColor;
-    }
-
     public void setIntAveTimeColor(int intAveTimeColor) {
         this.intAveTimeColor = intAveTimeColor;
-    }
-
-    public String getStrStatus() {
-        return strStatus;
-    }
-
-    public void setStrStatus(String strStatus) {
-        this.strStatus = strStatus;
-    }
-
-    public Drawable getDraStatus() {
-        return draStatus;
-    }
-
-    public void setDraStatus(Drawable draStatus) {
-        this.draStatus = draStatus;
     }
 }
 

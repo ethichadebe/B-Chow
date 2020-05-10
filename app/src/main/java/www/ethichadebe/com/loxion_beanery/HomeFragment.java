@@ -152,7 +152,7 @@ public class HomeFragment extends Fragment {
                                         break;
                                 }
                                 shopItems.add(new ShopItem(Shops.getInt("sID"), Shops.getString("sName"),
-                                        R.drawable.food, R.drawable.biglogo, Shops.getString("sShortDescrption"),
+                                        ""/*R.drawable.food*/, ""/*R.drawable.biglogo*/, Shops.getString("sShortDescrption"),
                                         Shops.getString("sFullDescription"), Shops.getString("sLocation"),
                                         Avetime, Shops.getInt("sRating"),
                                         Shops.getString("sOperatingHrs"), Shops.getInt("sLikes"),

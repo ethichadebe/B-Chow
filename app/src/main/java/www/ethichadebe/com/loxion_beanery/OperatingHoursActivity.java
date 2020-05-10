@@ -267,9 +267,9 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
                 params.put("sName", getNewShop().getStrShopName());
                 params.put("sShortDescrption", getNewShop().getStrShortDescript());
                 params.put("sFullDescription", getNewShop().getStrFullDescript());
-                params.put("sSmallPicture", "picture");
-                params.put("sBigPicture", "Picture");
-                params.put("sLocation", getNewShop().getLocLocation().getLatitude() + " " + getNewShop().getLocLocation().getLongitude());
+                params.put("sSmallPicture", getNewShop().getStrLogoSmall());
+                params.put("sBigPicture", getNewShop().getStrLogoBig());
+                params.put("sLocation", getNewShop().getStrLocation());
                 params.put("sOperatingHrs", combineString(etOpen, etClose));
                 params.put("uID", String.valueOf(getUser().getuID()));
                 return params;
@@ -309,9 +309,9 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
                 params.put("sName", getNewShop().getStrShopName());
                 params.put("sShortDescrption", getNewShop().getStrShortDescript());
                 params.put("sFullDescription", getNewShop().getStrFullDescript());
-                params.put("sSmallPicture", "picture");
-                params.put("sBigPicture", "Picture");
-                params.put("sLocation", getNewShop().getLocLocation().getLatitude() + " " + getNewShop().getLocLocation().getLongitude());
+                params.put("sSmallPicture", getNewShop().getStrLogoSmall());
+                params.put("sBigPicture", getNewShop().getStrLogoBig());
+                params.put("sLocation", getNewShop().getStrLocation());
                 params.put("sOperatingHrs", combineString(etOpen, etClose));
                 params.put("uID", String.valueOf(getUser().getuID()));
                 return params;

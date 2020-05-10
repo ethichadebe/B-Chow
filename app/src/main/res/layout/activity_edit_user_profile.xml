@@ -111,7 +111,7 @@
                                 android:background="@drawable/ripple_effect_white"
                                 android:orientation="vertical">
 
-                                <com.theartofdev.edmodo.cropper.CropImageView
+                                <ImageView
                                     android:id="@+id/civProfilePicture"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content" />

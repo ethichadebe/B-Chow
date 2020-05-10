@@ -139,10 +139,6 @@ public class MyShopsActivity extends AppCompatActivity {
                             JSONArray jsonArray = response.getJSONArray("shops");
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject Shops = jsonArray.getJSONObject(i);
-                                Location location = new Location("");
-                                String[] strCoord = Shops.getString("sLocation").split(" ");
-                                location.setLatitude(Double.parseDouble(strCoord[0]));
-                                location.setLongitude(Double.parseDouble(strCoord[1]));
                                 boolean isActive = false;
                                 if (Shops.getInt("isActive") == 1) {
                                     isActive = true;
@@ -157,9 +153,9 @@ public class MyShopsActivity extends AppCompatActivity {
                                         break;
                                 }
                                 shopItems.add(new MyShopItem(Shops.getInt("sID"), Shops.getString("sName"),
-                                        Shops.getString("uRole"), R.drawable.food, R.drawable.biglogo,
-                                        Shops.getString("sShortDescrption"),
-                                        Shops.getString("sFullDescription"),location, "10-15 mins",
+                                        Shops.getString("uRole"), "Shops.getString('sSmallPicture'')",
+                                        "Shops.getString('sBigPicture'')",Shops.getString("sShortDescrption"),
+                                        Shops.getString("sFullDescription"),Shops.getString("sLocation"), "10-15 mins",
                                         Shops.getInt("sRating"),Shops.getString("sOperatingHrs"), isActive,
                                         Shops.getString("sStatus"), bgStatus, Shops.getInt("nOrders")));
                             }

@@ -78,7 +78,7 @@ public class UpcomingOrderItemAdapter extends RecyclerView.Adapter<UpcomingOrder
         holder.tvPrice.setText("R" + item.getDblPrice()+"0");
        holder.tvExtras.setText(item.getStrExtras());
         holder.tvMenu.setText(item.getStrMenu());
-        holder.tvOrderNum.setText("Order number: " + item.getIntOrderNum());
+        holder.tvOrderNum.setText("Order number: " + item.getIntOderNum());
         holder.tvTime.setText(item.getStrTime());
         holder.tvStatus.setText("Status: "+item.getStrStatus());
     }

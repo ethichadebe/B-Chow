@@ -94,7 +94,7 @@ public class ShopItemAdapter extends RecyclerView.Adapter<ShopItemAdapter.ShopVi
         ShopItem item = ShopList.get(position);
 
         holder.tvShopName.setText(item.getStrShopName());
-        holder.ivLogo.setImageResource(item.getIntLogoSmall());
+        //holder.ivLogo.setImageResource(item.getIntLogoSmall());
         holder.tvShortDescript.setText(item.getStrShortDescript());
         //Calculate distance
         holder.tvDistance.setText("2Km");

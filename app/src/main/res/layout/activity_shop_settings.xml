@@ -69,13 +69,13 @@
         android:layout_columnWeight="1"
         android:layout_below="@+id/llHead"
         android:layout_margin="5dp"
-        android:background="@drawable/ripple_effect_white"
         android:onClick="shop"
         app:cardCornerRadius="10dp"
         app:cardElevation="3dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
+            android:background="@drawable/ripple_effect_white"
             android:layout_height="wrap_content"
             android:padding="5dp">
 
@@ -120,6 +120,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/ripple_effect_white"
             android:padding="5dp">
 
             <TextView
@@ -163,6 +164,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/ripple_effect_white"
             android:padding="5dp">
 
             <TextView
@@ -206,6 +208,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/ripple_effect_white"
             android:padding="5dp">
 
             <TextView
@@ -249,6 +252,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/ripple_effect_white"
             android:padding="5dp">
 
             <TextView

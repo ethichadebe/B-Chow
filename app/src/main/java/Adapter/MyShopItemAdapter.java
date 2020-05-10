@@ -109,7 +109,7 @@ public class MyShopItemAdapter extends RecyclerView.Adapter<MyShopItemAdapter.Sh
 
         holder.tvShopName.setText(item.getStrShopName());
         holder.tvPosition.setText(item.getStrPosition());
-        holder.ivLogo.setImageResource(item.getIntLogoSmall());
+        //holder.ivLogo.setImageResource(item.getIntLogoSmall());
         holder.tvShortDescript.setText(item.getStrShortDescript());
         holder.tvnOrders.setText(""+item.getIntnOrders());
         //Calculate distance

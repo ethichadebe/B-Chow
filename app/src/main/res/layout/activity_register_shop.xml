@@ -114,10 +114,10 @@
                             android:background="@drawable/ripple_effect_white"
                             android:orientation="vertical">
 
-                            <com.theartofdev.edmodo.cropper.CropImageView
+                            <ImageView
                                 android:id="@+id/civSmall"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content" />
+                                android:layout_height="match_parent" />
 
                             <ImageView
                                 android:id="@+id/ivSmall"
@@ -245,10 +245,10 @@
                             android:background="@drawable/ripple_effect_white"
                             android:orientation="vertical">
 
-                            <com.theartofdev.edmodo.cropper.CropImageView
+                            <ImageView
                                 android:id="@+id/civBig"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content" />
+                                android:layout_height="match_parent" />
 
                             <ImageView
                                 android:id="@+id/ivBig"
