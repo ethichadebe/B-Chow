@@ -5,7 +5,7 @@ public class OrderItem {
     int intOderNum;
     protected Double dblPrice;
     String strMenu;
-    String strExtras;
+    String strExtras = "";
     String strStatus;
 
     public int getIntID() {

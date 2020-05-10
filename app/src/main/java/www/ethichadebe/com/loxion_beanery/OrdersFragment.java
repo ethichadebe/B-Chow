@@ -42,6 +42,7 @@ import static util.HelperMethods.combineString;
 import static util.HelperMethods.handler;
 import static www.ethichadebe.com.loxion_beanery.HomeFragment.getShopItem;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
+import static www.ethichadebe.com.loxion_beanery.OrderActivity.oID;
 
 public class OrdersFragment extends Fragment {
     private ArrayList<UpcomingOrderItem> upcomingOrderItems;
@@ -107,7 +108,8 @@ public class OrdersFragment extends Fragment {
         return v;
     }
 
-    private void setVisibility(int Left, int Right, RecyclerView recyclerViewGONE, RecyclerView recyclerViewVISIBLE) {
+    private void setVisibility(int Left, int Right, RecyclerView recyclerViewGONE,
+                               RecyclerView recyclerViewVISIBLE) {
         vRight.setVisibility(Right);
         vLeft.setVisibility(Left);
         vBottomLeft.setVisibility(Left);
@@ -216,8 +218,8 @@ public class OrdersFragment extends Fragment {
                             @Override
                             public void OnItemReorderClick(int position) {
                                 pastOrderItem = pastOrderItems.get(position);
-                                POSTOrder(pastOrderItem.getStrMenu(), pastOrderItem.getsID(),
-                                        pastOrderItem.getDblPrice());
+                                POSTOrder(pastOrderItem.getStrMenu(), pastOrderItem.getStrExtras(),
+                                        pastOrderItem.getsID(), pastOrderItem.getDblPrice());
                             }
 
                             @Override
@@ -244,15 +246,18 @@ public class OrdersFragment extends Fragment {
     }
 
 
-    private void POSTOrder(String list, int sID, Double dblPrice) {
+    private void POSTOrder(String list, String extras, int sID, Double dblPrice) {
         ShowLoadingPopup(myDialog, true);
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
                 "http://" + getIpAddress() + "/orders/Order",
                 response -> {
                     try {
                         JSONObject JSONResponse = new JSONObject(response);
+                        oID = JSONResponse.getInt("data");
                         ShowLoadingPopup(myDialog, false);
-                        startActivity(new Intent(getActivity(), OrderConfirmationActivity.class));
+                        if (oID != -1) {
+                            startActivity(new Intent(getActivity(), OrderConfirmationActivity.class));
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -266,6 +271,7 @@ public class OrdersFragment extends Fragment {
                 params.put("oIngredients", list);
                 params.put("oPrice", String.valueOf(dblPrice));
                 params.put("sID", String.valueOf(sID));
+                params.put("oExtras", extras);
                 params.put("uID", String.valueOf(getUser().getuID()));
                 return params;
             }
@@ -275,7 +281,7 @@ public class OrdersFragment extends Fragment {
         requestQueue.add(stringRequest);
     }
 
-     static PastOrderItem getPastOrderItem() {
+    static PastOrderItem getPastOrderItem() {
         return pastOrderItem;
     }
 }

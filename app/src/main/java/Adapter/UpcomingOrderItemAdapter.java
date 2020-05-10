@@ -34,7 +34,7 @@ public class UpcomingOrderItemAdapter extends RecyclerView.Adapter<UpcomingOrder
 
     static class OrderViewHolder extends RecyclerView.ViewHolder{
 
-        private TextView tvShopName, tvPrice, tvMenu,tvExtras, tvOrderNum, tvTime,tvStatus;
+        private TextView tvShopName, tvPrice, tvMenu,tvExtras, tvOrderNum, tvTime,tvStatus,tvComplete;
         private CardView cvTrack;
 
         OrderViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
@@ -44,6 +44,7 @@ public class UpcomingOrderItemAdapter extends RecyclerView.Adapter<UpcomingOrder
             tvMenu = itemView.findViewById(R.id.tvMenu);
             tvExtras = itemView.findViewById(R.id.tvExtras);
             tvOrderNum = itemView.findViewById(R.id.tvOrderNum);
+            tvComplete = itemView.findViewById(R.id.tvComplete);
             tvStatus = itemView.findViewById(R.id.tvStatus);
             tvTime = itemView.findViewById(R.id.tvTime);
             cvTrack = itemView.findViewById(R.id.cvTrack);
@@ -80,7 +81,13 @@ public class UpcomingOrderItemAdapter extends RecyclerView.Adapter<UpcomingOrder
         holder.tvMenu.setText(item.getStrMenu());
         holder.tvOrderNum.setText("Order number: " + item.getIntOderNum());
         holder.tvTime.setText(item.getStrTime());
-        holder.tvStatus.setText("Status: "+item.getStrStatus());
+        if (item.getStrStatus().equals("Ready for collection")){
+            holder.tvComplete.setVisibility(View.VISIBLE);
+            holder.tvComplete.setText("Status: "+item.getStrStatus());
+        }else {
+            holder.tvStatus.setVisibility(View.VISIBLE);
+            holder.tvStatus.setText("Status: "+item.getStrStatus());
+        }
     }
 
     @Override
