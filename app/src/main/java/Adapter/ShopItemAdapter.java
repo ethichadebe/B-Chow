@@ -34,7 +34,7 @@ public class ShopItemAdapter extends RecyclerView.Adapter<ShopItemAdapter.ShopVi
 
     static class ShopViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView tvShopName, tvShortDescript, tvDistance, tvAveTime,tvMore;
+        private TextView tvShopName, tvShortDescript, tvDistance, tvAveTime,tvMore, tvClosed;
         private TextView[] tvDays = new TextView[8];
         private ImageView ivLogo, ivStar1, ivStar2, ivStar3, ivStar4, ivStar5;
         private LinearLayout llOpHours,llDropDown;
@@ -47,6 +47,7 @@ public class ShopItemAdapter extends RecyclerView.Adapter<ShopItemAdapter.ShopVi
             llDropDown = itemView.findViewById(R.id.llDropDown);
             ivLogo = itemView.findViewById(R.id.ivLogo);
             rlStatus = itemView.findViewById(R.id.rlStatus);
+            tvClosed = itemView.findViewById(R.id.tvClosed);
             tvShortDescript = itemView.findViewById(R.id.tvShortDescript);
             ivStar1 = itemView.findViewById(R.id.ivStar1);
             ivStar2 = itemView.findViewById(R.id.ivStar2);
@@ -99,6 +100,12 @@ public class ShopItemAdapter extends RecyclerView.Adapter<ShopItemAdapter.ShopVi
         //Calculate distance
         holder.tvDistance.setText("2Km");
         holder.tvAveTime.setText(item.getStrAveTime());
+
+        if (item.getIntStatus() == 0){
+            holder.tvClosed.setVisibility(View.VISIBLE);
+        }else {
+            holder.tvClosed.setVisibility(View.GONE);
+        }
 
         setStarRating(item.getIntRating(), holder.ivStar1, holder.ivStar2, holder.ivStar3, holder.ivStar4, holder.ivStar5);
 

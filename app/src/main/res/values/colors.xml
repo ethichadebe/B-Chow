@@ -12,6 +12,7 @@
     <color name="Red">#FF3E3E</color>
     <color name="dark_gray">#373737</color>
     <color name="Transparent_Grey">#27C2C2C2</color>
+    <color name="Transparent_DarkGrey">#AC494848</color>
     <color name="done">#009E04</color>
     <color name="cancel">#9E0000</color>
 </resources>
