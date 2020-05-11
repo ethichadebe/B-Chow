@@ -3,15 +3,31 @@ package www.ethichadebe.com.loxion_beanery;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import java.util.Objects;
+
+import static util.Constants.getIpAddress;
+import static util.HelperMethods.ShowLoadingPopup;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
+import static www.ethichadebe.com.loxion_beanery.MyShopsActivity.getNewShop;
 
 public class ShopSettingsActivity extends AppCompatActivity {
     static boolean isEdit = false;
+    private Dialog myDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +36,8 @@ public class ShopSettingsActivity extends AppCompatActivity {
         if (getUser() == null) {
             startActivity(new Intent(this, LoginActivity.class));
         }
+
+        myDialog = new Dialog(this);
 
     }
 
@@ -51,4 +69,48 @@ public class ShopSettingsActivity extends AppCompatActivity {
         isEdit = true;
         startActivity(new Intent(this, IngredientsActivity.class));
     }
+
+    public void Deactivate(View view) {
+        ShowConfirmationPopup();
+    }
+
+    public void ShowConfirmationPopup() {
+        TextView tvCancel, tvMessage;
+        CardView cvYes, cvNo;
+        myDialog.setContentView(R.layout.popup_confirmation);
+
+        tvCancel = myDialog.findViewById(R.id.tvCancel);
+        tvMessage = myDialog.findViewById(R.id.tvMessage);
+        cvYes = myDialog.findViewById(R.id.cvYes);
+        cvNo = myDialog.findViewById(R.id.cvNo);
+
+        tvCancel.setOnClickListener(view -> myDialog.dismiss());
+
+        tvMessage.setText("All Sop information will be lost for good.\nAre you sure?");
+
+        cvYes.setOnClickListener(view -> DeactivateShop());
+
+        cvNo.setOnClickListener(view -> myDialog.dismiss());
+        Objects.requireNonNull(myDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        myDialog.show();
+    }
+
+    private void DeactivateShop() {
+        ShowLoadingPopup(this.myDialog, true);
+        StringRequest stringRequest = new StringRequest(Request.Method.PUT,
+                "http://" + getIpAddress() + "/shops/deactivate/" + getNewShop().getIntID(),
+                response -> {
+                    //Toast.makeText(this, response, Toast.LENGTH_LONG).s  ();
+                    ShowLoadingPopup(myDialog, false);
+                    startActivity(new Intent(this, MyShopsActivity.class));
+                }, error -> {
+            ShowLoadingPopup(myDialog, false);
+            Toast.makeText(this, error.toString(), Toast.LENGTH_LONG).show();
+        });
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
+
 }
