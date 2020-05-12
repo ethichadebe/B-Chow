@@ -35,7 +35,6 @@
             android:layout_centerHorizontal="true"
             android:fontFamily="sans-serif-medium"
             android:text="Edit Ingredient"
-            android:textColor="@color/Black"
             android:textSize="14sp" />
 
         <com.rengwuxian.materialedittext.MaterialEditText
@@ -70,7 +69,6 @@
                 android:gravity="center"
                 android:text="R:"
                 android:layout_marginEnd="20dp"
-                android:textColor="@color/Black"
                 android:textSize="20sp" />
 
             <com.rengwuxian.materialedittext.MaterialEditText

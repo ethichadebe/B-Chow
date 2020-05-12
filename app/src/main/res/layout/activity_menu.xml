@@ -24,7 +24,6 @@
             android:gravity="center"
             android:padding="10dp"
             android:text="@string/create_menu"
-            android:textColor="@color/Black"
             android:textSize="12sp"
             android:textStyle="bold" />
 
@@ -83,7 +82,6 @@
                 android:layout_marginEnd="5dp"
                 android:background="@drawable/ic_add_black_24dp"
                 android:fontFamily="sans-serif-medium"
-                android:textColor="@color/Black"
                 android:textSize="14sp" />
 
             <TextView
@@ -93,7 +91,6 @@
                 android:layout_margin="20dp"
                 android:fontFamily="sans-serif-condensed-medium"
                 android:text="@string/add_menu"
-                android:textColor="@color/Black"
                 android:textSize="18sp" />
 
         </LinearLayout>
@@ -125,7 +122,6 @@
             android:fontFamily="sans-serif-light"
             android:gravity="center"
             android:text="@string/my_menu"
-            android:textColor="@color/Black"
             android:textSize="14sp" />
 
         <View
@@ -226,7 +222,6 @@
                     android:gravity="center"
                     android:text="@string/retry"
                     android:textAllCaps="true"
-                    android:textColor="@color/Black"
                     android:textSize="14sp" />
             </androidx.cardview.widget.CardView>
 

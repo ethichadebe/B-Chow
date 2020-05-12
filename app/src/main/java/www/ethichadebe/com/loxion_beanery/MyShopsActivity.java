@@ -129,7 +129,7 @@ public class MyShopsActivity extends AppCompatActivity {
 
         JsonObjectRequest objectRequest = new JsonObjectRequest(
                 Request.Method.GET,
-                "http://" + getIpAddress() + "/shops/MyShops/" + getUser().getuID(), null,
+                getIpAddress() + "/shops/MyShops/" + getUser().getuID(), null,
                 response -> {
                     //Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
                     rlLoad.setVisibility(View.GONE);

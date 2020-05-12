@@ -142,7 +142,7 @@ public class MenuActivity extends AppCompatActivity {
 
         JsonObjectRequest objectRequest = new JsonObjectRequest(
                 Request.Method.DELETE,
-                "http://" + getIpAddress() + "/shops/Register/MenuItem/" +
+                getIpAddress() + "/shops/Register/MenuItem/" +
                         getNewShop().getMenuItems().get(position).getIntID() + "/" + getNewShop().getIntID(), null,
                 response -> {
                     ShowLoadingPopup(myDialog, false);
@@ -194,7 +194,7 @@ public class MenuActivity extends AppCompatActivity {
 
         JsonObjectRequest objectRequest = new JsonObjectRequest(
                 Request.Method.GET,
-                "http://" + getIpAddress() + "/shops/MenuItems/" + getNewShop().getIntID(), null,
+                getIpAddress() + "/shops/MenuItems/" + getNewShop().getIntID(), null,
                 response -> {
                     //Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
                     rlLoad.setVisibility(View.GONE);
@@ -240,22 +240,22 @@ public class MenuActivity extends AppCompatActivity {
 
     public void ShowPopup(int position) {
         TextView tvCancel, tvMessage;
-        CardView cvYes, cvNo;
+        Button btnYes, btnNo;
         myDialog.setContentView(R.layout.popup_confirmation);
 
         tvCancel = myDialog.findViewById(R.id.tvCancel);
         tvMessage = myDialog.findViewById(R.id.tvMessage);
-        cvYes = myDialog.findViewById(R.id.cvYes);
-        cvNo = myDialog.findViewById(R.id.cvNo);
+        btnYes = myDialog.findViewById(R.id.btnYes);
+        btnNo = myDialog.findViewById(R.id.btnNo);
 
         tvCancel.setOnClickListener(view -> myDialog.dismiss());
 
         tvMessage.setText("Are you sure?");
-        cvYes.setOnClickListener(view -> {
+        btnYes.setOnClickListener(view -> {
             DELETEIngredient(position);
         });
 
-        cvNo.setOnClickListener(view -> myDialog.dismiss());
+        btnNo.setOnClickListener(view -> myDialog.dismiss());
         Objects.requireNonNull(myDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         myDialog.show();
     }
@@ -267,7 +267,7 @@ public class MenuActivity extends AppCompatActivity {
 
         JsonObjectRequest objectRequest = new JsonObjectRequest(
                 Request.Method.GET,
-                "http://" + getIpAddress() + "/shops/Ingredients/" + getNewShop().getIntID(), null,
+                getIpAddress() + "/shops/Ingredients/" + getNewShop().getIntID(), null,
                 response -> {
                     ShowLoadingPopup(myDialog, false);
                     //Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();

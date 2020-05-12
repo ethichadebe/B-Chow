@@ -7,9 +7,11 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -101,7 +103,7 @@ public class LoginActivity extends AppCompatActivity {
                     .playOn(findViewById(R.id.vLoading));
         }
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
-                "http://" + getIpAddress() + "/users/Login",
+                getIpAddress() + "/users/Login",
                 response -> {
                     ShowLoadingPopup(myDialog, false);
                     try {
@@ -131,6 +133,11 @@ public class LoginActivity extends AppCompatActivity {
 
                     }
                 }, error -> {
+            if (error.toString().equals("com.android.volley.TimeoutError")) {
+                Toast.makeText(this, "Connection error. Please retry", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
+            }
             ShowLoadingPopup(myDialog, false);
             bsbBottomSheetBehavior.setHideable(false);
             bsbBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
@@ -149,29 +156,27 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void ShowConfirmationPopup() {
-        TextView tvCancel, tvMessage, tvYes, tvNo;
-        CardView cvYes, cvNo;
+        TextView tvCancel, tvMessage;
+        Button btnYes, btnNo;
         myDialog.setContentView(R.layout.popup_confirmation);
 
         tvCancel = myDialog.findViewById(R.id.tvCancel);
         tvMessage = myDialog.findViewById(R.id.tvMessage);
-        cvYes = myDialog.findViewById(R.id.cvYes);
-        cvNo = myDialog.findViewById(R.id.cvNo);
-        tvYes = myDialog.findViewById(R.id.tvYes);
-        tvNo = myDialog.findViewById(R.id.tvNo);
+        btnYes = myDialog.findViewById(R.id.btnYes);
+        btnNo = myDialog.findViewById(R.id.btnNo);
 
         tvCancel.setVisibility(View.GONE);
 
         tvMessage.setText("Seems like the user does not exist");
 
-        tvYes.setText("Create account");
-        cvYes.setOnClickListener(view -> {
+        btnYes.setText("Create account");
+        btnYes.setOnClickListener(view -> {
             myDialog.dismiss();
             startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
         });
 
-        tvNo.setText("Retry");
-        cvNo.setOnClickListener(view -> myDialog.dismiss());
+        btnNo.setText("Retry");
+        btnNo.setOnClickListener(view -> myDialog.dismiss());
         Objects.requireNonNull(myDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         myDialog.show();
         myDialog.setCancelable(false);
@@ -197,13 +202,10 @@ public class LoginActivity extends AppCompatActivity {
             mTextPassword.setHelperText("Field required");
         } else if (mTextUsername.getText().toString().isEmpty() &&
                 !Objects.requireNonNull(mTextPassword.getText()).toString().isEmpty()) {
-            mTextUsername.setHelperText("Field required");
-            mTextUsername.setUnderlineColor(getResources().getColor(R.color.Red));
-            mTextPassword.setUnderlineColor(getResources().getColor(R.color.Black));
+            mTextUsername.setError("Required");
         } else if (!mTextUsername.getText().toString().isEmpty() &&
                 Objects.requireNonNull(mTextPassword.getText()).toString().isEmpty()) {
-            mTextPassword.setUnderlineColor(getResources().getColor(R.color.Red));
-            mTextUsername.setUnderlineColor(getResources().getColor(R.color.Black));
+            mTextPassword.setError("Required");
             mTextPassword.setHelperText("Field required");
         } else {
             PostLogin(true);

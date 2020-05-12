@@ -20,7 +20,6 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:fontFamily="sans-serif-medium"
-            android:textColor="@color/Black"
             android:textSize="24sp" />
 
         <TextView
@@ -30,7 +29,6 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="12dp"
             android:fontFamily="sans-serif-light"
-            android:textColor="@color/Black"
             android:textSize="14sp" />
 
         <TextView
@@ -40,7 +38,6 @@
             android:layout_alignParentEnd="true"
             android:layout_margin="10dp"
             android:fontFamily="sans-serif-medium"
-            android:textColor="@color/Black"
             android:textSize="24sp" />
 
         <TextView
@@ -51,7 +48,6 @@
             android:layout_margin="10dp"
             android:fontFamily="sans-serif-medium"
             android:gravity="center"
-            android:textColor="@color/Black"
             android:textSize="22sp" />
 
         <LinearLayout
@@ -67,7 +63,6 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-light"
                 android:text="Extras:"
-                android:textColor="@color/Black"
                 android:textSize="20sp" />
 
             <TextView
@@ -78,7 +73,6 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
                 android:gravity="center"
-                android:textColor="@color/Black"
                 android:textSize="20sp" />
 
         </LinearLayout>

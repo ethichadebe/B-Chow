@@ -24,7 +24,6 @@
             android:gravity="center"
             android:padding="10dp"
             android:text="Shop settings"
-            android:textColor="@color/Black"
             android:textSize="12sp"
             android:textStyle="bold" />
 

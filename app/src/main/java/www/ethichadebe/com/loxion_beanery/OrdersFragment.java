@@ -128,7 +128,7 @@ public class OrdersFragment extends Fragment {
 
         JsonObjectRequest objectRequest = new JsonObjectRequest(
                 Request.Method.GET,
-                "http://" + getIpAddress() + "/orders/Upcoming/" + getUser().getuID(), null,
+                getIpAddress() + "/orders/Upcoming/" + getUser().getuID(), null,
                 response -> {
                     upcomingOrderItems = new ArrayList<>();
 
@@ -186,7 +186,7 @@ public class OrdersFragment extends Fragment {
 
         JsonObjectRequest objectRequest = new JsonObjectRequest(
                 Request.Method.GET,
-                "http://" + getIpAddress() + "/orders/Past/" + getUser().getuID(), null,
+                getIpAddress() + "/orders/Past/" + getUser().getuID(), null,
                 response -> {
                     //Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
                     rlLoad.setVisibility(View.GONE);
@@ -249,7 +249,7 @@ public class OrdersFragment extends Fragment {
     private void POSTOrder(String list, String extras, int sID, Double dblPrice) {
         ShowLoadingPopup(myDialog, true);
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
-                "http://" + getIpAddress() + "/orders/Order",
+                getIpAddress() + "/orders/Order",
                 response -> {
                     try {
                         JSONObject JSONResponse = new JSONObject(response);

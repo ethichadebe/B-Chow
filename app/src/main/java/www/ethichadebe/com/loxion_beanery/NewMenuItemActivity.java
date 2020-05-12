@@ -141,7 +141,7 @@ public class NewMenuItemActivity extends AppCompatActivity {
     private void POSTRegisterShopMenuItems() {
         HelperMethods.ShowLoadingPopup(myDialog, true);
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
-                "http://" + getIpAddress() + "/shops/Register/MenuItem",
+                getIpAddress() + "/shops/Register/MenuItem",
                 response -> {
                     HelperMethods.ShowLoadingPopup(myDialog, false);
                     try {
@@ -149,7 +149,7 @@ public class NewMenuItemActivity extends AppCompatActivity {
                         if (JSONData.getString("data").equals("saved")) {
                             JSONArray jsonArray = new JSONArray(JSONData.getString("response"));
                             JSONObject JSONResponse = jsonArray.getJSONObject(0);
-                            etPrice.setUnderlineColor(getResources().getColor(R.color.Black));
+                            etPrice.setUnderlineColor(getResources().getColor(R.color.gray));
                             etPrice.setText("");
                             startActivity(new Intent(NewMenuItemActivity.this, MenuActivity.class));
                         }
@@ -204,7 +204,7 @@ public class NewMenuItemActivity extends AppCompatActivity {
     private void PUTMenuItem() {
         HelperMethods.ShowLoadingPopup(myDialog, true);
         StringRequest stringRequest = new StringRequest(Request.Method.PUT,
-                "http://" + getIpAddress() + "/shops/Register/MenuItems/" + getNewShop().getMenuItems().get(getIntPosition()).getIntID(),
+                getIpAddress() + "/shops/Register/MenuItems/" + getNewShop().getMenuItems().get(getIntPosition()).getIntID(),
                 response -> {
                     //Toast.makeText(NewMenuItemActivity.this, response, Toast.LENGTH_LONG).show();
                     HelperMethods.ShowLoadingPopup(myDialog, false);

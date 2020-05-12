@@ -82,7 +82,7 @@ public class ExtraItemActivity extends AppCompatActivity {
 
         JsonObjectRequest objectRequest = new JsonObjectRequest(
                 Request.Method.GET,
-                "http://" + getIpAddress() + "/shops/Extras/"+getShopItem().getIntID(), null,
+                getIpAddress() + "/shops/Extras/"+getShopItem().getIntID(), null,
                 response -> {
                     //Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
                     rlLoad.setVisibility(View.GONE);
@@ -116,7 +116,7 @@ public class ExtraItemActivity extends AppCompatActivity {
     private void POSTOrder() {
         ShowLoadingPopup(myDialog, true);
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
-                "http://" + getIpAddress() + "/orders/Order",
+                getIpAddress() + "/orders/Order",
                 response -> {
                     try {
                         JSONObject JSONResponse = new JSONObject(response);

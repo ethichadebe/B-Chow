@@ -43,7 +43,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-medium"
-                android:textColor="@color/Black"
                 android:textSize="18sp" />
 
             <RelativeLayout
@@ -58,7 +57,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:fontFamily="sans-serif-light"
-                    android:textColor="@color/Black"
                     android:textSize="14sp" />
 
                 <LinearLayout
@@ -79,7 +77,6 @@
                         android:background="@color/Grey"
                         android:fontFamily="sans-serif-light"
                         android:padding="2dp"
-                        android:textColor="@color/Black"
                         android:textSize="12sp" />
 
                     <TextView
@@ -92,7 +89,6 @@
                         android:background="@color/Green"
                         android:fontFamily="sans-serif-light"
                         android:padding="2dp"
-                        android:textColor="@color/Black"
                         android:textSize="12sp" />
                 </LinearLayout>
 
@@ -173,7 +169,6 @@
                             android:fontFamily="sans-serif-light"
                             android:gravity="center"
                             android:text="@string/operating_hours"
-                            android:textColor="@color/Black"
                             android:textSize="14sp" />
 
                         <View
@@ -204,7 +199,6 @@
                                 android:layout_marginTop="12dp"
                                 android:fontFamily="sans-serif-medium"
                                 android:text="@string/monday"
-                                android:textColor="@color/Black"
                                 android:textSize="14sp" />
 
                             <TextView
@@ -213,7 +207,6 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="5dp"
                                 android:fontFamily="sans-serif-light"
-                                android:textColor="@color/Black"
                                 android:textSize="14sp" />
 
                         </LinearLayout>
@@ -230,7 +223,6 @@
                                 android:layout_marginTop="12dp"
                                 android:fontFamily="sans-serif-medium"
                                 android:text="@string/tuesday"
-                                android:textColor="@color/Black"
                                 android:textSize="14sp" />
 
                             <TextView
@@ -239,7 +231,6 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="5dp"
                                 android:fontFamily="sans-serif-light"
-                                android:textColor="@color/Black"
                                 android:textSize="14sp" />
                         </LinearLayout>
 
@@ -255,7 +246,6 @@
                                 android:layout_marginTop="12dp"
                                 android:fontFamily="sans-serif-medium"
                                 android:text="@string/wednesday"
-                                android:textColor="@color/Black"
                                 android:textSize="14sp" />
 
                             <TextView
@@ -264,7 +254,6 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="5dp"
                                 android:fontFamily="sans-serif-light"
-                                android:textColor="@color/Black"
                                 android:textSize="14sp" />
 
                         </LinearLayout>
@@ -289,7 +278,6 @@
                                 android:layout_marginTop="12dp"
                                 android:fontFamily="sans-serif-medium"
                                 android:text="@string/thursday"
-                                android:textColor="@color/Black"
                                 android:textSize="14sp" />
 
                             <TextView
@@ -298,7 +286,6 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="5dp"
                                 android:fontFamily="sans-serif-light"
-                                android:textColor="@color/Black"
                                 android:textSize="14sp" />
                         </LinearLayout>
 
@@ -314,7 +301,6 @@
                                 android:layout_marginTop="12dp"
                                 android:fontFamily="sans-serif-medium"
                                 android:text="@string/friday"
-                                android:textColor="@color/Black"
                                 android:textSize="14sp" />
 
                             <TextView
@@ -323,7 +309,6 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="5dp"
                                 android:fontFamily="sans-serif-light"
-                                android:textColor="@color/Black"
                                 android:textSize="14sp" />
 
                         </LinearLayout>
@@ -340,7 +325,6 @@
                                 android:layout_marginTop="12dp"
                                 android:fontFamily="sans-serif-medium"
                                 android:text="@string/saturday"
-                                android:textColor="@color/Black"
                                 android:textSize="14sp" />
 
                             <TextView
@@ -349,7 +333,6 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="5dp"
                                 android:fontFamily="sans-serif-light"
-                                android:textColor="@color/Black"
                                 android:textSize="14sp" />
                         </LinearLayout>
                     </LinearLayout>
@@ -372,7 +355,6 @@
                                 android:layout_marginTop="12dp"
                                 android:fontFamily="sans-serif-medium"
                                 android:text="@string/sunday"
-                                android:textColor="@color/Black"
                                 android:textSize="14sp" />
 
                             <TextView
@@ -381,7 +363,6 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="5dp"
                                 android:fontFamily="sans-serif-light"
-                                android:textColor="@color/Black"
                                 android:textSize="14sp" />
 
                         </LinearLayout>
@@ -398,7 +379,6 @@
                                 android:layout_marginTop="12dp"
                                 android:fontFamily="sans-serif-medium"
                                 android:text="@string/public_holiday"
-                                android:textColor="@color/Black"
                                 android:textSize="14sp" />
 
                             <TextView
@@ -407,7 +387,6 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="5dp"
                                 android:fontFamily="sans-serif-light"
-                                android:textColor="@color/Black"
                                 android:textSize="14sp" />
                         </LinearLayout>
 
@@ -422,7 +401,6 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="12dp"
                                 android:fontFamily="sans-serif-medium"
-                                android:textColor="@color/Black"
                                 android:textSize="14sp" />
 
                             <TextView
@@ -430,7 +408,6 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="5dp"
                                 android:fontFamily="sans-serif-light"
-                                android:textColor="@color/Black"
                                 android:textSize="14sp" />
                         </LinearLayout>
                     </LinearLayout>

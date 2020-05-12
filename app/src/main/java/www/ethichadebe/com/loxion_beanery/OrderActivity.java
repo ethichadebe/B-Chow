@@ -113,7 +113,7 @@ public class OrderActivity extends AppCompatActivity {
 
         JsonObjectRequest objectRequest = new JsonObjectRequest(
                 Request.Method.GET,
-                "http://" + getIpAddress() + "/shops/Ingredients/" + getShopItem().getIntID(), null,
+                getIpAddress() + "/shops/Ingredients/" + getShopItem().getIntID(), null,
                 response -> {
                     //Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
                     rlLoad.setVisibility(View.GONE);
@@ -185,7 +185,7 @@ public class OrderActivity extends AppCompatActivity {
     private void POSTOrder() {
         ShowLoadingPopup(myDialog, true);
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
-                "http://" + getIpAddress() + "/orders/Order",
+                getIpAddress() + "/orders/Order",
                 response -> {
                     try {
                         JSONObject JSONResponse = new JSONObject(response);
@@ -199,7 +199,11 @@ public class OrderActivity extends AppCompatActivity {
                     }
                 }, error -> {
             ShowLoadingPopup(myDialog, false);
-            Toast.makeText(this, error.toString(), Toast.LENGTH_LONG).show();
+            if (error.toString().equals("com.android.volley.TimeoutError")) {
+                Toast.makeText(this, "Connection error. Please retry", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
+            }
         }) {
             @Override
             protected Map<String, String> getParams() {
@@ -264,7 +268,6 @@ public class OrderActivity extends AppCompatActivity {
         }
         return dblPrice;
     }
-
 
     private int countCommas(String someString) {
         int count = 0;

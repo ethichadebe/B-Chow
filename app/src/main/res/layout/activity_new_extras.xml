@@ -24,7 +24,6 @@
             android:gravity="center"
             android:padding="10dp"
             android:text="@string/extras"
-            android:textColor="@color/Black"
             android:textSize="12sp"
             android:textStyle="bold" />
 
@@ -69,7 +68,6 @@
                 android:layout_centerHorizontal="true"
                 android:fontFamily="sans-serif-medium"
                 android:text="@string/add_an_extra"
-                android:textColor="@color/Black"
                 android:textSize="14sp" />
 
             <RelativeLayout
@@ -150,7 +148,6 @@
             android:gravity="center"
             android:layout_centerInParent="true"
             android:text="@string/my_extras"
-            android:textColor="@color/Black"
             android:textSize="14sp" />
 
         <View
@@ -252,7 +249,6 @@
                     android:gravity="center"
                     android:text="@string/retry"
                     android:textAllCaps="true"
-                    android:textColor="@color/Black"
                     android:textSize="14sp" />
             </androidx.cardview.widget.CardView>
         </RelativeLayout>

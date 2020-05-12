@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -57,6 +58,7 @@ public class ShopHomeActivity extends AppCompatActivity {
     private Dialog myDialog;
     private ImageView ivLike;
     private LinearLayout llLike;
+    private Button btnNext;
 
     public static MenuItem getMenuItem() {
         return menuItem;
@@ -80,6 +82,7 @@ public class ShopHomeActivity extends AppCompatActivity {
         ivLike = findViewById(R.id.ivLike);
         llLike = findViewById(R.id.llLike);
         tvLikes = findViewById(R.id.tvLikes);
+        btnNext = findViewById(R.id.btnNext);
         ivStar1 = findViewById(R.id.ivStar1);
         ivStar2 = findViewById(R.id.ivStar2);
         ivStar3 = findViewById(R.id.ivStar3);
@@ -91,6 +94,9 @@ public class ShopHomeActivity extends AppCompatActivity {
         tvAveTime = findViewById(R.id.tvAveTime);
         tvFullDescrpit = findViewById(R.id.tvFullDescrpit);
 
+        if(getShopItem().getIntStatus()==1){
+            btnNext.setVisibility(View.GONE);
+        }
         if(getShopItem() != null){
             GETMenu(findViewById(R.id.vLine), findViewById(R.id.vLineGrey));
         }
@@ -120,9 +126,11 @@ public class ShopHomeActivity extends AppCompatActivity {
         mAdapter.setOnItemClickListener(new MenuItemAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                menuItem = MenuItems.get(position);
-                ingredients = MenuItems.get(position).getStrMenu().split(", ");
-                startActivity(new Intent(ShopHomeActivity.this, OrderActivity.class));
+                if(getShopItem().getIntStatus()==1){
+                    menuItem = MenuItems.get(position);
+                    ingredients = MenuItems.get(position).getStrMenu().split(", ");
+                    startActivity(new Intent(ShopHomeActivity.this, OrderActivity.class));
+                }
             }
 
             @Override
@@ -152,7 +160,7 @@ public class ShopHomeActivity extends AppCompatActivity {
 
         JsonObjectRequest objectRequest = new JsonObjectRequest(
                 Request.Method.GET,
-                "http://" + getIpAddress() + "/shops/MenuItems/" + getShopItem().getIntID(), null,
+                getIpAddress() + "/shops/MenuItems/" + getShopItem().getIntID(), null,
                 response -> {
                     //Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
                     rlLoad.setVisibility(View.GONE);
@@ -198,7 +206,7 @@ public class ShopHomeActivity extends AppCompatActivity {
         llLike.setClickable(false);
         HelperMethods.ShowLoadingPopup(myDialog, true);
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
-                "http://" + getIpAddress() + "/shoplikes/",
+                getIpAddress() + "/shoplikes/",
                 response -> {
                     llLike.setClickable(true);
                     HelperMethods.ShowLoadingPopup(myDialog, false);
@@ -237,7 +245,7 @@ public class ShopHomeActivity extends AppCompatActivity {
 
         JsonObjectRequest objectRequest = new JsonObjectRequest(
                 Request.Method.DELETE,
-                "http://" + getIpAddress() + "/shoplikes/" + getUser().getuID() + "/" + getShopItem().getIntID(), null,
+                getIpAddress() + "/shoplikes/" + getUser().getuID() + "/" + getShopItem().getIntID(), null,
                 response -> {
                     llLike.setClickable(true);
                     HelperMethods.ShowLoadingPopup(myDialog, false);

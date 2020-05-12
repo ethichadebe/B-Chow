@@ -24,7 +24,6 @@
             android:gravity="center"
             android:padding="10dp"
             android:text="@string/ingredients"
-            android:textColor="@color/Black"
             android:textSize="12sp"
             android:textStyle="bold" />
 
@@ -99,7 +98,6 @@
                         android:layout_marginTop="12dp"
                         android:fontFamily="sans-serif-medium"
                         android:text="Lets start by creating a front view of your shop"
-                        android:textColor="@color/Black"
                         android:textSize="14sp" />
 
                     <RelativeLayout
@@ -229,7 +227,6 @@
                         android:layout_marginTop="12dp"
                         android:fontFamily="sans-serif-medium"
                         android:text="Now Lets get your profile page setup"
-                        android:textColor="@color/Black"
                         android:textSize="14sp" />
 
                     <RelativeLayout
@@ -284,7 +281,6 @@
                             android:layout_height="40dp"
                             android:fontFamily="sans-serif-condensed-medium"
                             android:text="Shop Name"
-                            android:textColor="@color/Black"
                             android:textSize="22sp" />
 
                         <LinearLayout
@@ -301,7 +297,6 @@
                                 android:fontFamily="sans-serif-light"
                                 android:padding="2dp"
                                 android:text="Selected Location"
-                                android:textColor="@color/Black"
                                 android:textSize="12sp" />
                         </LinearLayout>
 

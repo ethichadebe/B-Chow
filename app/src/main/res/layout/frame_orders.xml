@@ -26,7 +26,6 @@
                 android:fontFamily="sans-serif-medium"
                 android:textAllCaps="false"
                 android:text="@string/upcoming_orders"
-                android:textColor="@color/Black"
                 android:textSize="14sp" />
 
             <View
@@ -57,7 +56,6 @@
                 android:fontFamily="sans-serif-medium"
                 android:text="@string/past_orders"
                 android:textAllCaps="false"
-                android:textColor="@color/Black"
                 android:textSize="14sp" />
 
             <View
@@ -173,7 +171,6 @@
                     android:gravity="center"
                     android:text="Retry"
                     android:textAllCaps="true"
-                    android:textColor="@color/Black"
                     android:textSize="14sp" />
             </androidx.cardview.widget.CardView>
 
@@ -192,7 +189,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:fontFamily="sans-serif-medium"
-                android:text="You haven't ordered using this account"
+                android:text="No orders available"
                 android:textColor="@color/Grey"
                 android:textSize="20sp" />
 
@@ -217,7 +214,6 @@
                     android:gravity="center"
                     android:text="Start Ordering"
                     android:textAllCaps="true"
-                    android:textColor="@color/Black"
                     android:textSize="14sp" />
             </androidx.cardview.widget.CardView>
 

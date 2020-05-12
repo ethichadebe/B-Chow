@@ -18,6 +18,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.ImageView;
@@ -149,25 +150,25 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
 
     public void ShowConfirmationPopup() {
         TextView tvCancel, tvMessage;
-        CardView cvYes, cvNo;
+        Button btnYes, btnNo;
         myDialog.setContentView(R.layout.popup_confirmation);
 
         tvCancel = myDialog.findViewById(R.id.tvCancel);
         tvMessage = myDialog.findViewById(R.id.tvMessage);
-        cvYes = myDialog.findViewById(R.id.cvYes);
-        cvNo = myDialog.findViewById(R.id.cvNo);
+        btnYes = myDialog.findViewById(R.id.btnYes);
+        btnNo = myDialog.findViewById(R.id.btnNo);
 
         tvCancel.setOnClickListener(view -> myDialog.dismiss());
 
         tvMessage.setText("Would you like to save Changes made?");
 
-        cvYes.setOnClickListener(view -> {
+        btnYes.setOnClickListener(view -> {
             if (allFieldsEntered(mTextBoxes)) {
                 EditUserDetails();
             }
         });
 
-        cvNo.setOnClickListener(view -> finish());
+        btnNo.setOnClickListener(view -> finish());
         Objects.requireNonNull(myDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         myDialog.show();
         myDialog.setCancelable(false);
@@ -221,7 +222,7 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
 
     private void EditUserEmail(MaterialEditText number, TextView tvEdit, Dialog myDialog) {
         StringRequest stringRequest = new StringRequest(Request.Method.PUT,
-                "http://" + getIpAddress() + "/users/EditEmail",
+                getIpAddress() + "/users/EditEmail",
                 response -> {
                     Toast.makeText(EditUserProfileActivity.this, response, Toast.LENGTH_LONG).show();
                     tvEdit.setBackground(getResources().getDrawable(R.drawable.ripple_effect));
@@ -272,7 +273,7 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
 
     private void EditUserNumber(MaterialEditText number, TextView tvEdit, Dialog myDialog) {
         StringRequest stringRequest = new StringRequest(Request.Method.PUT,
-                "http://" + getIpAddress() + "/users/EditNumber",
+                getIpAddress() + "/users/EditNumber",
                 response -> {
                     Toast.makeText(EditUserProfileActivity.this, response, Toast.LENGTH_LONG).show();
                     tvEdit.setBackground(getResources().getDrawable(R.drawable.ripple_effect));
@@ -330,7 +331,7 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
     private void EditUserDetails() {
         HelperMethods.ShowLoadingPopup(myDialog, true);
         StringRequest stringRequest = new StringRequest(Request.Method.PUT,
-                "http://" + getIpAddress() + "/users/EditProfile",
+                getIpAddress() + "/users/EditProfile",
                 response -> {
                     HelperMethods.ShowLoadingPopup(myDialog, false);
                     try {

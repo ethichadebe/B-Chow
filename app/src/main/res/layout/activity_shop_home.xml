@@ -24,7 +24,6 @@
             android:gravity="center"
             android:padding="10dp"
             android:text=""
-            android:textColor="@color/Black"
             android:textSize="12sp"
             android:textStyle="bold" />
 
@@ -116,7 +115,6 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-condensed-medium"
                 android:text="Shop Name"
-                android:textColor="@color/Black"
                 android:textSize="22sp" />
 
             <LinearLayout
@@ -165,7 +163,6 @@
                     android:fontFamily="sans-serif-light"
                     android:padding="2dp"
                     android:text="2Km"
-                    android:textColor="@color/Black"
                     android:textSize="12sp" />
 
                 <TextView
@@ -175,11 +172,9 @@
                     android:layout_gravity="start"
                     android:layout_marginLeft="5dp"
                     android:layout_marginTop="12dp"
-                    android:background="@color/Green"
                     android:fontFamily="sans-serif-light"
                     android:padding="2dp"
                     android:text="10-15"
-                    android:textColor="@color/Black"
                     android:textSize="12sp" />
             </LinearLayout>
 
@@ -189,7 +184,6 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-condensed-light"
                 android:text="This is a more detailed description of the specific store, they can also provide additional details about their store like other things they serve besides kotas"
-                android:textColor="@color/Black"
                 android:textSize="14sp" />
         </LinearLayout>
 
@@ -215,7 +209,6 @@
                 android:layout_centerInParent="true"
                 android:fontFamily="sans-serif-medium"
                 android:text="Kota Menu"
-                android:textColor="@color/Black"
                 android:textSize="18sp" />
 
             <View
@@ -321,7 +314,6 @@
                     android:gravity="center"
                     android:text="Retry"
                     android:textAllCaps="true"
-                    android:textColor="@color/Black"
                     android:textSize="14sp" />
             </androidx.cardview.widget.CardView>
 
@@ -347,7 +339,7 @@
         android:layout_alignParentBottom="true"
         android:layout_gravity="center|bottom"
         android:background="@drawable/ripple_effect"
-        android:onClick="Custom"
         android:text="Custom kota"
+        android:onClick="Custom"
         android:textColor="@color/White" />
 </RelativeLayout>

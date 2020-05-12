@@ -124,13 +124,13 @@ public class RegisterShopActivity extends AppCompatActivity {
 
     public void ShowPopup() {
         TextView tvCancel, tvMessage;
-        CardView cvYes, cvNo;
+        Button btnYes, btnNo;
         myDialog.setContentView(R.layout.popup_confirmation);
 
         tvCancel = myDialog.findViewById(R.id.tvCancel);
         tvMessage = myDialog.findViewById(R.id.tvMessage);
-        cvYes = myDialog.findViewById(R.id.cvYes);
-        cvNo = myDialog.findViewById(R.id.cvNo);
+        btnYes = myDialog.findViewById(R.id.btnYes);
+        btnNo = myDialog.findViewById(R.id.btnNo);
 
         tvCancel.setOnClickListener(view -> myDialog.dismiss());
 
@@ -140,7 +140,7 @@ public class RegisterShopActivity extends AppCompatActivity {
             tvMessage.setText("All entered information will be lost\nAre you sure?");
         }
 
-        cvYes.setOnClickListener(view -> {
+        btnYes.setOnClickListener(view -> {
             if (getNewShop() != null) {
                 goBack = true;
                 PUTShop();
@@ -150,7 +150,7 @@ public class RegisterShopActivity extends AppCompatActivity {
             }
         });
 
-        cvNo.setOnClickListener(view -> myDialog.dismiss());
+        btnNo.setOnClickListener(view -> myDialog.dismiss());
         Objects.requireNonNull(myDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         myDialog.show();
     }
@@ -317,7 +317,7 @@ public class RegisterShopActivity extends AppCompatActivity {
 
         HelperMethods.ShowLoadingPopup(myDialog, true);
         StringRequest stringRequest = new StringRequest(Request.Method.PUT,
-                "http://" + getIpAddress() + "/shops/Register/" + getNewShop().getIntID(),
+                getIpAddress() + "/shops/Register/" + getNewShop().getIntID(),
                 response -> {
                     HelperMethods.ShowLoadingPopup(myDialog, false);
                     HelperMethods.ShowLoadingPopup(myDialog, false);

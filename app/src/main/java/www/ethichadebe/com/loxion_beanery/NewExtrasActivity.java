@@ -123,7 +123,7 @@ public class NewExtrasActivity extends AppCompatActivity {
     private void POSTRegisterShopExtra() {
         ShowLoadingPopup(myDialog, true);
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
-                "http://" + getIpAddress() + "/shops/Register/Extra",
+                getIpAddress() + "/shops/Register/Extra",
                 response -> {
                     ShowLoadingPopup(myDialog, false);
                     try {
@@ -140,7 +140,11 @@ public class NewExtrasActivity extends AppCompatActivity {
                     }
                 }, error -> {
             ShowLoadingPopup(myDialog, false);
-            Toast.makeText(NewExtrasActivity.this, error.toString(), Toast.LENGTH_LONG).show();
+            if (error.toString().equals("com.android.volley.TimeoutError")) {
+                Toast.makeText(this, "Connection error. Please retry", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
+            }
         }) {
             @Override
             protected Map<String, String> getParams() {
@@ -161,7 +165,7 @@ public class NewExtrasActivity extends AppCompatActivity {
 
         JsonObjectRequest objectRequest = new JsonObjectRequest(
                 Request.Method.DELETE,
-                "http://" + getIpAddress() + "/shops/Register/Extra/" + extraItems.get(position).getIntID(), null,   //+getUser().getuID()
+                getIpAddress() + "/shops/Register/Extra/" + extraItems.get(position).getIntID(), null,   //+getUser().getuID()
                 response -> {
                     ShowLoadingPopup(myDialog, false);
                     try {
@@ -189,14 +193,18 @@ public class NewExtrasActivity extends AppCompatActivity {
     private void PUTExtra(int position, String name) {
         ShowLoadingPopup(myDialog, true);
         StringRequest stringRequest = new StringRequest(Request.Method.PUT,
-                "http://" + getIpAddress() + "/shops/Register/Extra/" + extraItems.get(position).getIntID(),
+                getIpAddress() + "/shops/Register/Extra/" + extraItems.get(position).getIntID(),
                 response -> {
                     ShowLoadingPopup(myDialog, false);
                     extraItems.get(position).setStrExtraName(name);
                     mAdapter.notifyItemChanged(position);
                 }, error -> {
             HelperMethods.ShowLoadingPopup(myDialog, false);
-            //myDialog.dismiss();
+            if (error.toString().equals("com.android.volley.TimeoutError")) {
+                Toast.makeText(this, "Connection error. Please retry", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
+            }
         }) {
             @Override
             protected Map<String, String> getParams() {
@@ -253,7 +261,7 @@ public class NewExtrasActivity extends AppCompatActivity {
 
         JsonObjectRequest objectRequest = new JsonObjectRequest(
                 Request.Method.GET,
-                "http://" + getIpAddress() + "/shops/Extras/"+getNewShop().getIntID(), null,
+                getIpAddress() + "/shops/Extras/"+getNewShop().getIntID(), null,
                 response -> {
                     //Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
                     rlLoad.setVisibility(View.GONE);

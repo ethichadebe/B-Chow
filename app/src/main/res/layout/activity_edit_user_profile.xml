@@ -25,7 +25,6 @@
             android:gravity="center"
             android:padding="10dp"
             android:text="@string/user_profile"
-            android:textColor="@color/Black"
             android:textSize="12sp"
             android:textStyle="bold" />
 
@@ -60,7 +59,6 @@
             android:onClick="save"
             android:padding="10dp"
             android:text="@string/save"
-            android:textColor="@color/Black"
             android:textSize="12sp"
             android:textStyle="bold" />
 
@@ -278,7 +276,6 @@
                         android:onClick="editNumber"
                         android:padding="10dp"
                         android:text="@string/edit"
-                        android:textColor="@color/Black"
                         android:textSize="12sp"
                         android:textStyle="bold" />
 
@@ -325,7 +322,6 @@
                         android:onClick="editEmail"
                         android:padding="10dp"
                         android:text="@string/edit"
-                        android:textColor="@color/Black"
                         android:textSize="12sp"
                         android:textStyle="bold" />
 
@@ -343,7 +339,6 @@
                 android:padding="10dp"
                 android:onClick="ChangePassword"
                 android:text="Change Password"
-                android:textColor="@color/Black"
                 android:fontFamily="sans-serif-medium"
                 android:textSize="14sp"
                 android:textStyle="bold" />

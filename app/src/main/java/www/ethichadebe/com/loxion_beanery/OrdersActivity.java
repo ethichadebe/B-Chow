@@ -12,6 +12,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -154,23 +155,23 @@ public class OrdersActivity extends AppCompatActivity {
 
     public void ShowConfirmationPopup(final int position) {
         TextView tvCancel, tvMessage;
-        CardView cvYes, cvNo;
+        Button btnYes, btnNo;
         myDialog.setContentView(R.layout.popup_confirmation);
 
         tvCancel = myDialog.findViewById(R.id.tvCancel);
         tvMessage = myDialog.findViewById(R.id.tvMessage);
-        cvYes = myDialog.findViewById(R.id.cvYes);
-        cvNo = myDialog.findViewById(R.id.cvNo);
+        btnYes = myDialog.findViewById(R.id.btnYes);
+        btnNo = myDialog.findViewById(R.id.btnNo);
 
         tvCancel.setOnClickListener(view -> myDialog.dismiss());
 
         tvMessage.setText("Are you sure?");
 
-        cvYes.setOnClickListener(view -> {
+        btnYes.setOnClickListener(view -> {
             PUTCancel(position, myDialog);
         });
 
-        cvNo.setOnClickListener(view -> myDialog.dismiss());
+        btnNo.setOnClickListener(view -> myDialog.dismiss());
         Objects.requireNonNull(myDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         myDialog.show();
     }
@@ -196,7 +197,7 @@ public class OrdersActivity extends AppCompatActivity {
 
         JsonObjectRequest objectRequest = new JsonObjectRequest(
                 Request.Method.GET,
-                "http://" + getIpAddress() + "/orders/" + getNewShop().getIntID(), null,
+                getIpAddress() + "/orders/" + getNewShop().getIntID(), null,
                 response -> {
                     //Toast.makeText(this, response.toString(), Toast.LENGTH_SHORT).show();
                     rlLoad.setVisibility(View.GONE);
@@ -235,7 +236,7 @@ public class OrdersActivity extends AppCompatActivity {
     private void PUTReady(int position) {
         HelperMethods.ShowLoadingPopup(myDialog, true);
         StringRequest stringRequest = new StringRequest(Request.Method.PUT,
-                "http://" + getIpAddress() + "/orders/Ready/" + OrderItems.get(position).getIntID(),
+                getIpAddress() + "/orders/Ready/" + OrderItems.get(position).getIntID(),
                 response -> {
                     //Toast.makeText(this, response, Toast.LENGTH_LONG).show();
                     OrderItems.get(position).setStrStatus("Ready for collection");
@@ -256,7 +257,7 @@ public class OrdersActivity extends AppCompatActivity {
     private void PUTCancel(int position, Dialog myDialog) {
         HelperMethods.ShowLoadingPopup(this.myDialog, true);
         StringRequest stringRequest = new StringRequest(Request.Method.PUT,
-                "http://" + getIpAddress() + "/orders/Cancel/" + OrderItems.get(position).getIntID(),
+                getIpAddress() + "/orders/Cancel/" + OrderItems.get(position).getIntID(),
                 response -> {
                     //Toast.makeText(this, response, Toast.LENGTH_LONG).s  ();
                     myDialog.dismiss();
@@ -278,7 +279,7 @@ public class OrdersActivity extends AppCompatActivity {
     private void PUTCollected(int position, Dialog myDialog) {
         HelperMethods.ShowLoadingPopup(this.myDialog, true);
         StringRequest stringRequest = new StringRequest(Request.Method.PUT,
-                "http://" + getIpAddress() + "/orders/Collected/" + OrderItems.get(position).getIntID(),
+                getIpAddress() + "/orders/Collected/" + OrderItems.get(position).getIntID(),
                 response -> {
                     //Toast.makeText(this, response, Toast.LENGTH_LONG).s  ();
                     myDialog.dismiss();
@@ -300,7 +301,7 @@ public class OrdersActivity extends AppCompatActivity {
     private void PUTStatus(int status) {
         ShowLoadingPopup(myDialog, true);
         StringRequest stringRequest = new StringRequest(Request.Method.PUT,
-                "http://" + getIpAddress() + "/shops/Status/" + getNewShop().getIntID(),
+                getIpAddress() + "/shops/Status/" + getNewShop().getIntID(),
                 response -> {
                     ShowLoadingPopup(myDialog, false);
                 }, error -> {

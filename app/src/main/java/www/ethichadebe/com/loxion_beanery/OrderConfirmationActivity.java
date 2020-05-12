@@ -196,7 +196,7 @@ public class OrderConfirmationActivity extends AppCompatActivity {
     private void PUTArrived(int oID) {
         ShowLoadingPopup(myDialog, true);
         StringRequest stringRequest = new StringRequest(Request.Method.PUT,
-                "http://" + getIpAddress() + "/orders/Arrived/" + oID,
+                getIpAddress() + "/orders/Arrived/" + oID,
                 response -> {
                     //Toast.makeText(this, response, Toast.LENGTH_LONG).show();
                     ShowLoadingPopup(myDialog, false);
@@ -213,7 +213,7 @@ public class OrderConfirmationActivity extends AppCompatActivity {
     private void PUTCancel(int oID) {
         ShowLoadingPopup(this.myDialog, true);
         StringRequest stringRequest = new StringRequest(Request.Method.PUT,
-                "http://" + getIpAddress() + "/orders/Cancel/" + oID,
+                getIpAddress() + "/orders/Cancel/" + oID,
                 response -> {
                     //Toast.makeText(this, response, Toast.LENGTH_LONG).s  ();
                     ShowLoadingPopup(myDialog, false);
@@ -229,21 +229,21 @@ public class OrderConfirmationActivity extends AppCompatActivity {
 
     public void ShowConfirmationPopup(int ID) {
         TextView tvCancel, tvMessage;
-        CardView cvYes, cvNo;
+        Button btnYes, btnNo;
         myDialog.setContentView(R.layout.popup_confirmation);
 
         tvCancel = myDialog.findViewById(R.id.tvCancel);
         tvMessage = myDialog.findViewById(R.id.tvMessage);
-        cvYes = myDialog.findViewById(R.id.cvYes);
-        cvNo = myDialog.findViewById(R.id.cvNo);
+        btnYes = myDialog.findViewById(R.id.btnYes);
+        btnNo = myDialog.findViewById(R.id.btnNo);
 
         tvCancel.setOnClickListener(view -> myDialog.dismiss());
 
         tvMessage.setText("Are you sure?");
 
-        cvYes.setOnClickListener(view -> PUTCancel(ID));
+        btnYes.setOnClickListener(view -> PUTCancel(ID));
 
-        cvNo.setOnClickListener(view -> myDialog.dismiss());
+        btnNo.setOnClickListener(view -> myDialog.dismiss());
         Objects.requireNonNull(myDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         myDialog.show();
     }

@@ -120,7 +120,7 @@ public class RatingActivity extends AppCompatActivity {
     private void PUTRating() {
         ShowLoadingPopup(myDialog, true);
         StringRequest stringRequest = new StringRequest(Request.Method.PUT,
-                "http://" + getIpAddress() + "/orders/Rate/"+ getPastOrderItem().getIntID(),
+                getIpAddress() + "/orders/Rate/"+ getPastOrderItem().getIntID(),
                 response -> {
                     ShowLoadingPopup(myDialog, false);
                     try {

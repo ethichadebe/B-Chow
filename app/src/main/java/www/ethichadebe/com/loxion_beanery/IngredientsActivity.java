@@ -146,7 +146,7 @@ public class IngredientsActivity extends AppCompatActivity {
     private void POSTRegisterShopIngredients() {
         HelperMethods.ShowLoadingPopup(myDialog, true);
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
-                "http://" + getIpAddress() + "/shops/Register/Ingredient",
+                getIpAddress() + "/shops/Register/Ingredient",
                 response -> {
                     HelperMethods.ShowLoadingPopup(myDialog, false);
                     try {
@@ -155,8 +155,8 @@ public class IngredientsActivity extends AppCompatActivity {
                             tvEmpty.setVisibility(View.GONE);
                             JSONArray jsonArray = new JSONArray(JSONData.getString("response"));
                             JSONObject JSONResponse = jsonArray.getJSONObject(0);
-                            etName.setUnderlineColor(getResources().getColor(R.color.Black));
-                            etPrice.setUnderlineColor(getResources().getColor(R.color.Black));
+                            etName.setUnderlineColor(getResources().getColor(R.color.Grey));
+                            etPrice.setUnderlineColor(getResources().getColor(R.color.Grey));
                             getNewShop().getIngredientItems().add(new IngredientItem(JSONResponse.getInt("iID"),
                                     JSONResponse.getString("iName"), JSONResponse.getDouble("iPrice")));
                             mAdapter.notifyItemInserted(getNewShop().getIngredientItems().size());
@@ -196,7 +196,7 @@ public class IngredientsActivity extends AppCompatActivity {
 
         JsonObjectRequest objectRequest = new JsonObjectRequest(
                 Request.Method.DELETE,
-                "http://" + getIpAddress() + "/shops/Register/Ingredient/" + getNewShop().getIngredientItems().get(position).getIntID(), null,   //+getUser().getuID()
+                getIpAddress() + "/shops/Register/Ingredient/" + getNewShop().getIngredientItems().get(position).getIntID(), null,   //+getUser().getuID()
                 response -> {
                     HelperMethods.ShowLoadingPopup(myDialog, false);
                     try {
@@ -225,7 +225,7 @@ public class IngredientsActivity extends AppCompatActivity {
     private void PUTIngredient(int position, String IngredientName, String Price) {
         HelperMethods.ShowLoadingPopup(myDialog, true);
         StringRequest stringRequest = new StringRequest(Request.Method.PUT,
-                "http://" + getIpAddress() + "/shops/Register/Ingredient/" + getNewShop().getIngredientItems().get(position).getIntID(),
+                getIpAddress() + "/shops/Register/Ingredient/" + getNewShop().getIngredientItems().get(position).getIntID(),
                 response -> {
                     HelperMethods.ShowLoadingPopup(myDialog, false);
                     getNewShop().getIngredientItems().get(position).setStrIngredientName(IngredientName);
@@ -304,7 +304,7 @@ public class IngredientsActivity extends AppCompatActivity {
 
         JsonObjectRequest objectRequest = new JsonObjectRequest(
                 Request.Method.GET,
-                "http://" + getIpAddress() + "/shops/Ingredients/" + getNewShop().getIntID(), null,
+                getIpAddress() + "/shops/Ingredients/" + getNewShop().getIntID(), null,
                 response -> {
                     //Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
                     rlLoad.setVisibility(View.GONE);
@@ -344,22 +344,22 @@ public class IngredientsActivity extends AppCompatActivity {
 
     public void ShowPopup(int position) {
         TextView tvCancel, tvMessage;
-        CardView cvYes, cvNo;
+        Button btnYes, btnNo;
         myDialog.setContentView(R.layout.popup_confirmation);
 
         tvCancel = myDialog.findViewById(R.id.tvCancel);
         tvMessage = myDialog.findViewById(R.id.tvMessage);
-        cvYes = myDialog.findViewById(R.id.cvYes);
-        cvNo = myDialog.findViewById(R.id.cvNo);
+        btnYes = myDialog.findViewById(R.id.btnYes);
+        btnNo = myDialog.findViewById(R.id.btnNo);
 
         tvCancel.setOnClickListener(view -> myDialog.dismiss());
 
         tvMessage.setText("Are you sure?");
-        cvYes.setOnClickListener(view -> {
+        btnYes.setOnClickListener(view -> {
             DELETEIngredient(position);
         });
 
-        cvNo.setOnClickListener(view -> myDialog.dismiss());
+        btnNo.setOnClickListener(view -> myDialog.dismiss());
         Objects.requireNonNull(myDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         myDialog.show();
     }

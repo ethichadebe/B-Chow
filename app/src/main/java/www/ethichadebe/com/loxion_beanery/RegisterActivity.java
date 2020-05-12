@@ -147,7 +147,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
     private void POSTRegister() {
         HelperMethods.ShowLoadingPopup(myDialog, true);
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
-                "http://" + getIpAddress() + "/users/Register",
+                getIpAddress() + "/users/Register",
                 response -> {
                     HelperMethods.ShowLoadingPopup(myDialog, false);
                     Toast.makeText(RegisterActivity.this, response, Toast.LENGTH_LONG).show();
@@ -205,9 +205,9 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
             mCBOther.setTextColor(Color.argb(255, 255, 23, 23));
             return false;
         }
-        mCBMale.setTextColor(getResources().getColor(R.color.Black));
-        mCBFemale.setTextColor(getResources().getColor(R.color.Black));
-        mCBOther.setTextColor(getResources().getColor(R.color.Black));
+        mCBMale.setTextColor(getResources().getColor(R.color.Grey));
+        mCBFemale.setTextColor(getResources().getColor(R.color.Grey));
+        mCBOther.setTextColor(getResources().getColor(R.color.Grey));
         return true;
     }
 

@@ -58,21 +58,12 @@ public class ChangePasswordActivity extends AppCompatActivity {
             }
         });
 
-        etOld.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
 
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
+        etNew.setOnClickListener(view -> {
+            if (!etOld.hasFocus() && !Objects.requireNonNull(etOld.getText()).toString().isEmpty()){
                 CheckPassword();
             }
         });
-
     }
 
     private void CheckPassword() {
@@ -80,7 +71,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
         JsonObjectRequest objectRequest = new JsonObjectRequest(
                 Request.Method.GET,
-                "http://" + getIpAddress() + "/users/CheckPassword/" +getUser().getuID()+"/"+
+                getIpAddress() + "/users/CheckPassword/" +getUser().getuID()+"/"+
                         Objects.requireNonNull(etOld.getText()).toString(), null,
                 response -> {
                     //Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
@@ -111,7 +102,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
     private void ChangePassword() {
         ShowLoadingPopup(myDialog, true);
         StringRequest stringRequest = new StringRequest(Request.Method.PUT,
-                "http://" + getIpAddress() + "/users/ChangePassword/" + getUser().getuID(),
+                getIpAddress() + "/users/ChangePassword/" + getUser().getuID(),
                 response -> {
                     ShowLoadingPopup(myDialog, false);
                     if (!sharedPrefsIsEmpty(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE))) {

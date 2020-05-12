@@ -244,7 +244,7 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
     private void POSTRegisterShop() {
         HelperMethods.ShowLoadingPopup(myDialog, true);
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
-                "http://" + getIpAddress() + "/shops/Register",
+                getIpAddress() + "/shops/Register",
                 response -> {
                     HelperMethods.ShowLoadingPopup(myDialog, false);
                     getNewShop().setStrOperatingHRS(strTimes);      //Set Operating hours
@@ -283,7 +283,7 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
     private void PUTShop() {
         HelperMethods.ShowLoadingPopup(myDialog, true);
         StringRequest stringRequest = new StringRequest(Request.Method.PUT,
-                "http://" + getIpAddress() + "/shops/Register/" + getNewShop().getIntID(),
+                getIpAddress() + "/shops/Register/" + getNewShop().getIntID(),
                 response -> {
                     HelperMethods.ShowLoadingPopup(myDialog, false);
                     getNewShop().setStrOperatingHRS(strTimes);      //Set Operating hours
@@ -356,23 +356,23 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
 
     public void ShowPopup() {
         TextView tvCancel, tvMessage;
-        CardView cvYes, cvNo;
+        Button btnYes, btnNo;
         myDialog.setContentView(R.layout.popup_confirmation);
 
         tvCancel = myDialog.findViewById(R.id.tvCancel);
         tvMessage = myDialog.findViewById(R.id.tvMessage);
-        cvYes = myDialog.findViewById(R.id.cvYes);
-        cvNo = myDialog.findViewById(R.id.cvNo);
+        btnYes = myDialog.findViewById(R.id.btnYes);
+        btnNo = myDialog.findViewById(R.id.btnNo);
 
         tvCancel.setOnClickListener(view -> myDialog.dismiss());
 
         tvMessage.setText("Would you like to save changes before exiting?");
-        cvYes.setOnClickListener(view -> {
+        btnYes.setOnClickListener(view -> {
             goBack = true;
             PUTShop();
         });
 
-        cvNo.setOnClickListener(view ->finish());
+        btnNo.setOnClickListener(view ->finish());
         Objects.requireNonNull(myDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         myDialog.show();
     }
