@@ -11,33 +11,48 @@
         android:layout_centerInParent="true"
         android:layout_margin="20dp">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/ivLogo"
+        <LinearLayout
+            android:id="@+id/imgView_logo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="20dp"
-            android:fontFamily="sans-serif-medium"
-            android:outlineSpotShadowColor="@color/colorPrimary"
-            android:padding="50dp"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="3dp">
+            android:gravity="center"
+            android:orientation="vertical">
 
-            <ImageView
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:adjustViewBounds="true"
-                android:contentDescription="@string/logo"
-                android:scaleType="fitCenter"
-                android:src="@drawable/loxion_beanery_logo" />
-        </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:fontFamily="sans-serif-medium"
+                android:outlineSpotShadowColor="@color/colorPrimary"
+                android:padding="50dp"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="6dp">
+
+                <ImageView
+                    android:id="@+id/ivLogo"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    android:layout_gravity="center"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@string/logo"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/loxion_beanery_logo" />
+
+                <View
+                    android:id="@+id/vLoading"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/empty_btn_bg" />
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
 
         <ScrollView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/ivLogo">
+            android:layout_below="@id/imgView_logo">
 
             <RelativeLayout
                 android:id="@+id/rellay1"

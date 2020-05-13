@@ -43,14 +43,13 @@ import static util.HelperMethods.saveData;
 import static www.ethichadebe.com.loxion_beanery.ProfileFragment.isLogout;
 
 public class LoginActivity extends AppCompatActivity {
-    private RelativeLayout rellay1, rellay2;
+    private RelativeLayout rellay1;
     private CheckBox cbRemember;
     private Handler handler = new Handler();
     private Runnable runnable = new Runnable() {
         @Override
         public void run() {
             rellay1.setVisibility(View.VISIBLE);
-            rellay2.setVisibility(View.VISIBLE);
         }
     };
     private static User user;
@@ -64,7 +63,6 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         rellay1 = findViewById(R.id.rellay1);
-        rellay2 = findViewById(R.id.rellay2);
         mTextUsername = findViewById(R.id.txtUsername);
         mTextPassword = findViewById(R.id.txtPassword);
         cbRemember = findViewById(R.id.cbRemember);
@@ -196,10 +194,8 @@ public class LoginActivity extends AppCompatActivity {
     public void login(View view) {
         if (Objects.requireNonNull(mTextUsername.getText()).toString().isEmpty() &&
                 Objects.requireNonNull(mTextPassword.getText()).toString().isEmpty()) {
-            mTextUsername.setUnderlineColor(getResources().getColor(R.color.Red));
-            mTextPassword.setUnderlineColor(getResources().getColor(R.color.Red));
-            mTextUsername.setHelperText("Field required");
-            mTextPassword.setHelperText("Field required");
+            mTextUsername.setError("Required");
+            mTextPassword.setError("Required");
         } else if (mTextUsername.getText().toString().isEmpty() &&
                 !Objects.requireNonNull(mTextPassword.getText()).toString().isEmpty()) {
             mTextUsername.setError("Required");
