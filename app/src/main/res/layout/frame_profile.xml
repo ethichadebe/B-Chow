@@ -30,20 +30,6 @@
             android:textStyle="bold" />
 
         <LinearLayout
-            android:id="@+id/llBack"
-            android:layout_width="?attr/actionBarSize"
-            android:layout_height="?attr/actionBarSize"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentBottom="true"
-            android:gravity="center">
-
-            <TextView
-                style="@style/Base.TextAppearance.AppCompat.Body1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-
-        <LinearLayout
             android:id="@+id/llSettings"
             android:layout_width="?attr/actionBarSize"
             android:layout_height="?attr/actionBarSize"
@@ -105,96 +91,59 @@
 
     </RelativeLayout>
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:layout_below="@+id/rlHeader"
         android:layout_centerHorizontal="true"
-        android:layout_gravity="center"
-        android:layout_margin="20dp"
-        android:orientation="vertical">
+        android:layout_above="@id/tvLogOut"
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:src="@drawable/ic_date_24dp" />
+            android:layout_margin="20dp"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/tvDOB"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
-                android:textStyle="bold" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:src="@drawable/ic_person_pin_black_24dp" />
+                android:drawableStart="@drawable/ic_date_24dp"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center" />
 
             <TextView
                 android:id="@+id/tvSex"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
-                android:textStyle="bold" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:src="@drawable/ic_local_phone_black_24dp" />
+                android:layout_marginTop="20dp"
+                android:drawableStart="@drawable/ic_person_pin_black_24dp"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center" />
 
             <TextView
                 android:id="@+id/tvNumber"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
-                android:textStyle="bold" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_marginTop="25dp"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:src="@drawable/ic_email_black_24dp" />
+                android:layout_marginTop="20dp"
+                android:drawableStart="@drawable/ic_local_phone_black_24dp"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center" />
 
             <TextView
                 android:id="@+id/tvEmail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
-                android:textStyle="bold" />
+                android:layout_marginTop="20dp"
+                android:drawableStart="@drawable/ic_email_black_24dp"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center" />
         </LinearLayout>
-    </LinearLayout>
+    </ScrollView>
 
     <TextView
         android:id="@+id/tvLogOut"
@@ -202,10 +151,10 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/tvDeactivate"
         android:background="@drawable/ripple_effect_white"
+        android:fontFamily="sans-serif-medium"
         android:gravity="center"
         android:padding="10dp"
         android:text="Sign out"
-        android:fontFamily="sans-serif-medium"
         android:textSize="14sp"
         android:textStyle="bold" />
 
@@ -214,13 +163,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_marginTop="5dp"
         android:background="@drawable/ripple_effect_white"
+        android:fontFamily="sans-serif-medium"
         android:gravity="center"
         android:padding="10dp"
         android:text="Deactivate account"
         android:textColor="@color/Red"
-        android:layout_marginTop="5dp"
-        android:fontFamily="sans-serif-medium"
         android:textSize="14sp"
         android:textStyle="bold" />
 </RelativeLayout>
