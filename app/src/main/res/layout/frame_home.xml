@@ -11,8 +11,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
-        android:orientation="horizontal"
-        android:layout_marginEnd="5dp">
+        android:layout_marginEnd="5dp"
+        android:orientation="horizontal">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cvSearch"
@@ -46,13 +46,14 @@
                     android:layout_centerVertical="true"
                     android:layout_toEndOf="@id/tvSearch"
                     android:hint="@string/shop_name"
-                    app:met_clearButton="true"
-                    android:visibility="gone"
                     android:inputType="textPersonName"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:visibility="gone"
+                    app:met_clearButton="true" />
             </RelativeLayout>
 
         </androidx.cardview.widget.CardView>
+
         <androidx.cardview.widget.CardView
             android:id="@+id/cvLocation"
             android:layout_width="wrap_content"
@@ -81,12 +82,12 @@
                     android:id="@+id/tvLocationName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="14sp"
                     android:layout_centerVertical="true"
+                    android:layout_toEndOf="@id/tvLocation"
                     android:fontFamily="sans-serif-medium"
-                    android:textAllCaps="false"
                     android:text="@string/saved_location"
-                    android:layout_toEndOf="@id/tvLocation"/>
+                    android:textAllCaps="false"
+                    android:textSize="14sp" />
 
                 <com.rengwuxian.materialedittext.MaterialEditText
                     android:id="@+id/etLocationSearch"
@@ -95,10 +96,10 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:hint="@string/shop_name"
-                    app:met_clearButton="true"
-                    android:visibility="gone"
                     android:inputType="textPersonName"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:visibility="gone"
+                    app:met_clearButton="true" />
             </RelativeLayout>
 
         </androidx.cardview.widget.CardView>
