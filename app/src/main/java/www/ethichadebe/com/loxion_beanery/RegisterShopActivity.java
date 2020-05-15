@@ -1,6 +1,7 @@
 package www.ethichadebe.com.loxion_beanery;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
@@ -23,11 +24,18 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.common.api.Status;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.widget.Autocomplete;
+import com.google.android.libraries.places.widget.AutocompleteActivity;
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.mikelau.croperino.Croperino;
 import com.mikelau.croperino.CroperinoConfig;
 import com.mikelau.croperino.CroperinoFileUtil;
@@ -37,7 +45,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -54,7 +64,7 @@ import static www.ethichadebe.com.loxion_beanery.ShopSettingsActivity.isEdit;
 
 public class RegisterShopActivity extends AppCompatActivity {
     private Dialog myDialog;
-    private TextView tvName;
+    private TextView tvName, tvLocation;
     private MaterialEditText etName, etShortDescription, etFullDescription;
     private Boolean isBig, goBack;
     private Button btnNext;
@@ -75,6 +85,7 @@ public class RegisterShopActivity extends AppCompatActivity {
         etName = findViewById(R.id.etName);
         btnNext = findViewById(R.id.btnNext);
         tvName = findViewById(R.id.tvName);
+        tvLocation = findViewById(R.id.tvLocation);
         civSmall = findViewById(R.id.civSmall);
         civBig = findViewById(R.id.civBig);
         etShortDescription = findViewById(R.id.etShortDescription);
@@ -120,6 +131,7 @@ public class RegisterShopActivity extends AppCompatActivity {
 
             }
         });
+        Places.initialize(this, getResources().getString(R.string.google_maps_api_key));
     }
 
     public void ShowPopup() {
@@ -172,29 +184,39 @@ public class RegisterShopActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if ((requestCode == 100) && (resultCode == RESULT_OK)) {
+            Place place = Autocomplete.getPlaceFromIntent(Objects.requireNonNull(data));
 
-        switch (requestCode) {
-            case CroperinoConfig.REQUEST_TAKE_PHOTO:
-                if (resultCode == Activity.RESULT_OK) {
-                    Croperino.runCropImage(CroperinoFileUtil.getTempFile(), this, true, 29,
-                            10, R.color.gray, R.color.gray_variant);
-                }
-                break;
-            case CroperinoConfig.REQUEST_PICK_FILE:
-                if (resultCode == Activity.RESULT_OK) {
-                    CroperinoFileUtil.newGalleryFile(data, this);
-                    Croperino.runCropImage(CroperinoFileUtil.getTempFile(), this, true, 28,
-                            10, R.color.gray, R.color.gray_variant);
-                }
-                break;
-            case CroperinoConfig.REQUEST_CROP_PHOTO:
-                if (resultCode == Activity.RESULT_OK) {
-                    Uri i = Uri.fromFile(CroperinoFileUtil.getTempFile());
-                    setImage(i);
-                }
-                break;
-            default:
-                break;
+            tvLocation.setText(place.getAddress());
+            Toast.makeText(this, place.getLatLng().toString(), Toast.LENGTH_SHORT).show();
+        } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
+            Status status = Autocomplete.getStatusFromIntent(Objects.requireNonNull(data));
+            Toast.makeText(this, status.getStatusMessage(), Toast.LENGTH_SHORT).show();
+
+        } else {
+            switch (requestCode) {
+                case CroperinoConfig.REQUEST_TAKE_PHOTO:
+                    if (resultCode == Activity.RESULT_OK) {
+                        Croperino.runCropImage(CroperinoFileUtil.getTempFile(), this, true, 29,
+                                10, R.color.gray, R.color.gray_variant);
+                    }
+                    break;
+                case CroperinoConfig.REQUEST_PICK_FILE:
+                    if (resultCode == Activity.RESULT_OK) {
+                        CroperinoFileUtil.newGalleryFile(data, this);
+                        Croperino.runCropImage(CroperinoFileUtil.getTempFile(), this, true, 28,
+                                10, R.color.gray, R.color.gray_variant);
+                    }
+                    break;
+                case CroperinoConfig.REQUEST_CROP_PHOTO:
+                    if (resultCode == Activity.RESULT_OK) {
+                        Uri i = Uri.fromFile(CroperinoFileUtil.getTempFile());
+                        setImage(i);
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
@@ -366,5 +388,13 @@ public class RegisterShopActivity extends AppCompatActivity {
             }
 
         }
+    }
+
+    public void addLocation(View view) {
+        List<Place.Field> fieldList = Arrays.asList(Place.Field.ADDRESS, Place.Field.LAT_LNG, Place.Field.NAME);
+
+        Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY,
+                fieldList).build(this);
+        startActivityForResult(intent, 100);
     }
 }

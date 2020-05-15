@@ -164,10 +164,13 @@
 
 
                             <LinearLayout
+                                android:id="@+id/llLocation"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="10dp"
                                 android:layout_weight="1"
+                                android:gravity="center"
+                                android:onClick="addLocation"
                                 android:background="@drawable/ripple_effect_white"
                                 android:orientation="horizontal">
 
@@ -177,6 +180,7 @@
                                     android:src="@drawable/ic_add_location_black_24dp" />
 
                                 <TextView
+                                    android:id="@+id/tvLocation"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_alignParentBottom="true"
