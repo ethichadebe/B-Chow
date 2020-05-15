@@ -23,6 +23,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -70,6 +71,7 @@ public class RegisterShopActivity extends AppCompatActivity {
     private Button btnNext;
     private ImageView civSmall, civBig;
     private Bitmap bmSmall, bmBig;
+    private LinearLayout llLocation;
 
 
     @Override
@@ -90,6 +92,7 @@ public class RegisterShopActivity extends AppCompatActivity {
         civBig = findViewById(R.id.civBig);
         etShortDescription = findViewById(R.id.etShortDescription);
         etFullDescription = findViewById(R.id.etFullDescription);
+        llLocation = findViewById(R.id.llLocation);
 
         if (getNewShop() != null) {
             etName.setText(getNewShop().getStrShopName());
@@ -109,6 +112,10 @@ public class RegisterShopActivity extends AppCompatActivity {
 
         if (isEdit) {
             btnNext.setText("Save");
+        }
+
+        if (!Objects.requireNonNull(etName.getText()).toString().isEmpty()) {
+            tvName.setText(etName.getText().toString());
         }
 
         etName.addTextChangedListener(new TextWatcher() {
@@ -262,8 +269,14 @@ public class RegisterShopActivity extends AppCompatActivity {
     }
 
     public void next(View view) {
-        if (Objects.requireNonNull(etName.getText()).toString().isEmpty()) {
+        if (tvLocation.getText().toString().equals("Add shop location") &&
+                Objects.requireNonNull(etName.getText()).toString().isEmpty()) {
             etName.setError("required");
+            llLocation.setBackground(getResources().getDrawable(R.drawable.ripple_effect_red));
+        } else if (Objects.requireNonNull(etName.getText()).toString().isEmpty()) {
+            etName.setError("required");
+        } else if (tvLocation.getText().toString().equals("Add shop location")) {
+            llLocation.setBackground(getResources().getDrawable(R.drawable.ripple_effect_red));
         } else {
             if (getNewShop() == null) {
                 setNewShop(new MyShopItem(etName.getText().toString(),

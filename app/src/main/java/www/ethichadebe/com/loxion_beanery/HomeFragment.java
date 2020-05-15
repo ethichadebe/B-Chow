@@ -1,9 +1,10 @@
 package www.ethichadebe.com.loxion_beanery;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
-import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,6 +17,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -54,6 +57,15 @@ import static util.HelperMethods.handler;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 
 public class HomeFragment extends Fragment {
+    private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
+    private static final String COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
+    private static final int LOCATION_REQUEST_CODE = 1234;
+    private static boolean mLocationGranted = false;
+
+    public static boolean ismLocationGranted() {
+        return mLocationGranted;
+    }
+
     private RecyclerView mRecyclerView;
     private ShopItemAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -103,6 +115,11 @@ public class HomeFragment extends Fragment {
             shopItem = shopItems.get(position);
             startActivity(new Intent(getActivity(), ShopHomeActivity.class));
         });
+
+        //Get user location
+        if (isServicesOk()){
+            getLocationPermissions();
+        }
 
         Places.initialize(Objects.requireNonNull(getActivity()), getResources().getString(R.string.google_maps_api_key));
 
@@ -163,7 +180,6 @@ public class HomeFragment extends Fragment {
                     //Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
                     rlLoad.setVisibility(View.GONE);
                     //Loads shops starting with the one closest to user
-                    Location location = new Location("");
                     try {
                         if (response.getString("message").equals("shops")) {
                             JSONArray jsonArray = response.getJSONArray("shops");
@@ -224,6 +240,26 @@ public class HomeFragment extends Fragment {
 
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        Log.d(TAG, "onRequestPermissionsResult: called");
+        mLocationGranted = false;
+        if (requestCode == LOCATION_REQUEST_CODE) {
+            if (grantResults.length > 0) {
+
+                for (int grantResult : grantResults) {
+                    if (grantResult != PackageManager.PERMISSION_GRANTED) {
+                        Log.d(TAG, "onRequestPermissionsResult: Permissions failed");
+                        return;
+                    }
+                }
+                Log.d(TAG, "onRequestPermissionsResult: Permissions granted");
+                mLocationGranted = true;
+            }
+        }
+    }
+
     private boolean isServicesOk() {
         Log.d(TAG, "isServicesOk: checking google services version");
 
@@ -240,6 +276,24 @@ public class HomeFragment extends Fragment {
         }
 
         return false;
+    }
+    private void getLocationPermissions() {
+        Log.d(TAG, "getLocationPermissions: Getting location permissions");
+        String[] permissions = {FINE_LOCATION, COARSE_LOCATION};
+
+        if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getActivity()),
+                FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getActivity()),
+                    COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                Log.d(TAG, "getLocationPermissions: Location granted");
+                mLocationGranted = true;
+            } else {
+                ActivityCompat.requestPermissions(getActivity(), permissions, LOCATION_REQUEST_CODE);
+            }
+        } else {
+            ActivityCompat.requestPermissions(getActivity(), permissions, LOCATION_REQUEST_CODE);
+        }
+
     }
 
 }
