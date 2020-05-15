@@ -5,6 +5,8 @@ import android.location.Location;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.util.ArrayList;
 
 import www.ethichadebe.com.loxion_beanery.R;
@@ -24,13 +26,13 @@ public class MyShopItem extends ShopItem{
      * @param intLogoBig
      * @param strShortDescript
      * @param strFullDescript
-     * @param locLocation
+     * @param llLocation
      * @param strAveTime
      * @param intRating
      * @param strOperatingHRS
      */
     public MyShopItem(int intID, String strShopName, String strPosition, String intLogoSmall, String intLogoBig,
-                      String strShortDescript, String strFullDescript, String locLocation, String strAveTime,
+                      String strShortDescript, String strFullDescript, LatLng llLocation, String strAddress, String strAveTime,
                       int intRating, String strOperatingHRS, boolean isActive, int intStatus, Drawable draStatus,
                       int intnOrders) {
         this.intID = intID;
@@ -40,7 +42,8 @@ public class MyShopItem extends ShopItem{
         this.strLogoBig = intLogoBig;
         this.strShortDescript = strShortDescript;
         this.strFullDescript = strFullDescript;
-        this.strLocation = locLocation;
+        this.llLocation = llLocation;
+        this.strAddress = strAddress;
         this.strAveTime = strAveTime;
         this.intRating = intRating;
         this.strOperatingHRS = strOperatingHRS;
@@ -58,16 +61,16 @@ public class MyShopItem extends ShopItem{
      * @param intLogoBig
      * @param strShortDescript
      * @param strFullDescript
-     * @param locLocation
+     * @param llLocation
      */
     public MyShopItem(String strShopName, String strShortDescript, String strFullDescript, String intLogoSmall,
-                      String  intLogoBig, String locLocation) {
+                      String  intLogoBig, LatLng llLocation) {
         this.strShopName = strShopName;
         this.strLogoSmall = intLogoSmall;
         this.strLogoBig = intLogoBig;
         this.strShortDescript = strShortDescript;
         this.strFullDescript = strFullDescript;
-        this.strLocation = locLocation;
+        this.llLocation = llLocation;
     }
 
     public String getStrPosition() {

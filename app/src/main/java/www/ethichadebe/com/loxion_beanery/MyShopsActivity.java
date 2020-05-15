@@ -18,6 +18,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 import static www.ethichadebe.com.loxion_beanery.ShopSettingsActivity.isEdit;
@@ -155,7 +156,10 @@ public class MyShopsActivity extends AppCompatActivity {
                                 shopItems.add(new MyShopItem(Shops.getInt("sID"), Shops.getString("sName"),
                                         Shops.getString("uRole"), "Shops.getString('sSmallPicture'')",
                                         "Shops.getString('sBigPicture'')",Shops.getString("sShortDescrption"),
-                                        Shops.getString("sFullDescription"),Shops.getString("sLocation"), "10-15 mins",
+                                        Shops.getString("sFullDescription"),
+                                        new LatLng(Shops.getDouble("sLatitude"),
+                                                Shops.getDouble("sLongitude")),
+                                        Shops.getString("sAddress"), "10-15 mins",
                                         Shops.getInt("sRating"),Shops.getString("sOperatingHrs"), isActive,
                                         Shops.getInt("sStatus"), bgStatus, Shops.getInt("nOrders")));
                             }

@@ -175,7 +175,7 @@
         <androidx.core.widget.NestedScrollView
             android:id="@+id/bottom_sheet"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:background="@color/Red"
             app:behavior_hideable="true"
             app:behavior_peekHeight="50dp"
@@ -191,14 +191,13 @@
                     android:id="@+id/ivSign"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:layout_centerVertical="true"
                     android:contentDescription="@string/error_symbol"
                     android:src="@drawable/ic_error_outline_white_24dp" />
 
                 <TextView
-                    android:id="@+id/tvShopName"
+                    android:id="@+id/tvMessage"
                     android:layout_width="wrap_content"
-                    android:layout_height="40dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
                     android:layout_toStartOf="@+id/cvRetry"
                     android:layout_toEndOf="@id/ivSign"
@@ -208,6 +207,19 @@
                     android:textColor="@color/White"
                     android:textSize="18sp"
                     android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvError"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_toStartOf="@+id/cvRetry"
+                    android:layout_toEndOf="@id/ivSign"
+                    android:layout_below="@+id/tvMessage"
+                    android:fontFamily="sans-serif-light"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/White"
+                    android:textSize="12sp"/>
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cvRetry"

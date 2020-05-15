@@ -3,10 +3,14 @@ package SingleItem;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.util.ArrayList;
 
 public class ShopItem {
-    String strShopName, strShortDescript, strFullDescript, strAveTime, strOperatingHRS, strLogoSmall, strLogoBig, strLocation;
+    String strShopName, strShortDescript, strFullDescript, strAveTime, strOperatingHRS, strLogoSmall, strLogoBig,
+            strAddress;
+    LatLng llLocation;
     int intID = -1, intRating, intStatus;
     Drawable draStatus;
     private int intLikes = 0, isLiked, intAveTimeColor;
@@ -17,15 +21,17 @@ public class ShopItem {
     }
 
     public ShopItem(int intID, String strShopName, String intLogoSmall, String intLogoBig, String strShortDescript,
-                    String strFullDescript, String locLocation, String strAveTime, int intRating, String strOperatingHRS,
-                    int intLikes, int isLiked, int intAveTimeColor, int intStatus, Drawable draStatus) {
+                    String strFullDescript, LatLng llLocation, String strAddress, String strAveTime,
+                    int intRating, String strOperatingHRS, int intLikes, int isLiked, int intAveTimeColor, int intStatus,
+                    Drawable draStatus) {
         this.intID = intID;
         this.strShopName = strShopName;
         this.strLogoSmall = intLogoSmall;
         this.strLogoBig = intLogoBig;
         this.strShortDescript = strShortDescript;
         this.strFullDescript = strFullDescript;
-        this.strLocation = locLocation;
+        this.llLocation = llLocation;
+        this.strAddress = strAddress;
         this.strAveTime = strAveTime;
         this.intRating = intRating;
         this.strOperatingHRS = strOperatingHRS;
@@ -125,7 +131,6 @@ public class ShopItem {
         return draStatus;
     }
 
-
     public void setStrAveTime(String strAveTime) {
         this.strAveTime = strAveTime;
     }
@@ -146,12 +151,12 @@ public class ShopItem {
         this.strLogoBig = strLogoBig;
     }
 
-    public String getStrLocation() {
-        return strLocation;
+    public LatLng getLlLocation() {
+        return llLocation;
     }
 
-    public void setStrLocation(String strLocation) {
-        this.strLocation = strLocation;
+    public void setLlLocation(LatLng llLocation) {
+        this.llLocation = llLocation;
     }
 
     public void setIntRating(int intRating) {
@@ -180,6 +185,14 @@ public class ShopItem {
 
     public void setIntAveTimeColor(int intAveTimeColor) {
         this.intAveTimeColor = intAveTimeColor;
+    }
+
+    public String getStrAddress() {
+        return strAddress;
+    }
+
+    public void setStrAddress(String strAddress) {
+        this.strAddress = strAddress;
     }
 }
 

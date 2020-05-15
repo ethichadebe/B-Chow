@@ -32,6 +32,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.Autocomplete;
@@ -282,7 +283,7 @@ public class RegisterShopActivity extends AppCompatActivity {
                 setNewShop(new MyShopItem(etName.getText().toString(),
                         Objects.requireNonNull(etShortDescription.getText()).toString(),
                         Objects.requireNonNull(etFullDescription.getText()).toString(), getStringImage(bmSmall),
-                        getStringImage(bmBig), ""));
+                        getStringImage(bmBig), new LatLng(1.1,1.1)));
             }
 
             if (isEdit) {
@@ -372,7 +373,9 @@ public class RegisterShopActivity extends AppCompatActivity {
                 params.put("sSmallPicture", getStringImage(bmSmall));
                 params.put("sBigPicture", getStringImage(bmBig));
                 params.put("sOperatingHrs", getNewShop().getStrOperatingHRS());
-                params.put("sLocation", getNewShop().getStrLocation());
+                params.put("sLatitude", String.valueOf(getNewShop().getLlLocation().latitude));
+                params.put("sLongitude", String.valueOf(getNewShop().getLlLocation().longitude));
+                params.put("sAddress", getNewShop().getStrAddress());
                 return params;
             }
         };

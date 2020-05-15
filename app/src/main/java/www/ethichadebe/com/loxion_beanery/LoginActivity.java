@@ -44,6 +44,7 @@ import static www.ethichadebe.com.loxion_beanery.ProfileFragment.isLogout;
 
 public class LoginActivity extends AppCompatActivity {
     private RelativeLayout rellay1;
+    private TextView tvError;
     private CheckBox cbRemember;
     private Handler handler = new Handler();
     private Runnable runnable = new Runnable() {
@@ -65,6 +66,7 @@ public class LoginActivity extends AppCompatActivity {
         rellay1 = findViewById(R.id.rellay1);
         mTextUsername = findViewById(R.id.txtUsername);
         mTextPassword = findViewById(R.id.txtPassword);
+        tvError = findViewById(R.id.tvError);
         cbRemember = findViewById(R.id.cbRemember);
         View bsbBottomSheet = findViewById(R.id.bottom_sheet);
         bsbBottomSheetBehavior = BottomSheetBehavior.from(bsbBottomSheet);
@@ -72,7 +74,7 @@ public class LoginActivity extends AppCompatActivity {
 
         myDialog = new Dialog(this);
 
-        if (isLogout){
+        if (isLogout) {
             saveData(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE), "", "");
         }
 
@@ -119,7 +121,7 @@ public class LoginActivity extends AppCompatActivity {
                                     userData.getString("uSex"), userData.getString("uEmail"),
                                     userData.getString("uNumber"));
                             if (cbRemember.isChecked()) {//Check if remember me is checked
-                                isLogout=false;
+                                isLogout = false;
                                 saveData(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE),
                                         Objects.requireNonNull(mTextUsername.getText()).toString(),
                                         Objects.requireNonNull(mTextPassword.getText()).toString());
@@ -132,13 +134,17 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 }, error -> {
             if (error.toString().equals("com.android.volley.TimeoutError")) {
-                Toast.makeText(this, "Connection error. Please retry", Toast.LENGTH_SHORT).show();
+               tvError.setText("Connection timeout, Please try again");
+            }else if (error.toString().equals("com.android.volley.ServerError")) {
+               tvError.setText("Problem from our side, Please try again later");
+            } else if (error.toString().contains("UnknownHostException")) {
+               tvError.setText("Make sure you're connected");
             } else {
                 Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
             }
             ShowLoadingPopup(myDialog, false);
             bsbBottomSheetBehavior.setHideable(false);
-            bsbBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+            bsbBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
         }) {
             @Override
             protected Map<String, String> getParams() {
