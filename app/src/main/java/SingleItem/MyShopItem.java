@@ -64,13 +64,14 @@ public class MyShopItem extends ShopItem{
      * @param llLocation
      */
     public MyShopItem(String strShopName, String strShortDescript, String strFullDescript, String intLogoSmall,
-                      String  intLogoBig, LatLng llLocation) {
+                      String  intLogoBig, LatLng llLocation, String strAddress) {
         this.strShopName = strShopName;
         this.strLogoSmall = intLogoSmall;
         this.strLogoBig = intLogoBig;
         this.strShortDescript = strShortDescript;
         this.strFullDescript = strFullDescript;
         this.llLocation = llLocation;
+        this.strAddress = strAddress;
     }
 
     public String getStrPosition() {

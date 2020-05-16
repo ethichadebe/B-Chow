@@ -18,7 +18,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.Task;
 import java.util.Objects;
 
-import static www.ethichadebe.com.loxion_beanery.HomeFragment.ismLocationGranted;
+import static util.HelperMethods.ismLocationGranted;
 
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback{

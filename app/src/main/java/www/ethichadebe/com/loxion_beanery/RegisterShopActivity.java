@@ -73,6 +73,7 @@ public class RegisterShopActivity extends AppCompatActivity {
     private ImageView civSmall, civBig;
     private Bitmap bmSmall, bmBig;
     private LinearLayout llLocation;
+    private LatLng sLocation;
 
 
     @Override
@@ -196,7 +197,8 @@ public class RegisterShopActivity extends AppCompatActivity {
             Place place = Autocomplete.getPlaceFromIntent(Objects.requireNonNull(data));
 
             tvLocation.setText(place.getAddress());
-            Toast.makeText(this, place.getLatLng().toString(), Toast.LENGTH_SHORT).show();
+            llLocation.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
+            sLocation =place.getLatLng();
         } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
             Status status = Autocomplete.getStatusFromIntent(Objects.requireNonNull(data));
             Toast.makeText(this, status.getStatusMessage(), Toast.LENGTH_SHORT).show();
@@ -283,7 +285,7 @@ public class RegisterShopActivity extends AppCompatActivity {
                 setNewShop(new MyShopItem(etName.getText().toString(),
                         Objects.requireNonNull(etShortDescription.getText()).toString(),
                         Objects.requireNonNull(etFullDescription.getText()).toString(), getStringImage(bmSmall),
-                        getStringImage(bmBig), new LatLng(1.1,1.1)));
+                        getStringImage(bmBig), sLocation, tvLocation.getText().toString()));
             }
 
             if (isEdit) {

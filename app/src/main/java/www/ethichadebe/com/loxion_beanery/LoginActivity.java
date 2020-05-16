@@ -2,10 +2,13 @@ package www.ethichadebe.com.loxion_beanery;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -13,8 +16,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -22,6 +27,12 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
@@ -36,13 +47,27 @@ import java.util.Objects;
 import util.User;
 
 import static util.Constants.getIpAddress;
+import static util.HelperMethods.COARSE_LOCATION;
+import static util.HelperMethods.FINE_LOCATION;
+import static util.HelperMethods.LOCATION_REQUEST_CODE;
 import static util.HelperMethods.SHARED_PREFS;
 import static util.HelperMethods.ShowLoadingPopup;
+import static util.HelperMethods.ismLocationGranted;
 import static util.HelperMethods.loadData;
 import static util.HelperMethods.saveData;
+import static util.HelperMethods.setmLocationGranted;
 import static www.ethichadebe.com.loxion_beanery.ProfileFragment.isLogout;
 
 public class LoginActivity extends AppCompatActivity {
+    private static LatLng userLocation;
+    private static final int ERROR_DIALOG_REQUEST = 9001;
+
+    static LatLng getUserLocation() {
+        return userLocation;
+    }
+
+    private static final String TAG = "LoginActivity";
+    private FusedLocationProviderClient mFusedLocationProviderClient;
     private RelativeLayout rellay1;
     private TextView tvError;
     private CheckBox cbRemember;
@@ -73,6 +98,11 @@ public class LoginActivity extends AppCompatActivity {
         bsbBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
 
         myDialog = new Dialog(this);
+        //Get user location
+        if (isServicesOk()) {
+            getLocationPermissions();
+        }
+
 
         if (isLogout) {
             saveData(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE), "", "");
@@ -126,7 +156,7 @@ public class LoginActivity extends AppCompatActivity {
                                         Objects.requireNonNull(mTextUsername.getText()).toString(),
                                         Objects.requireNonNull(mTextPassword.getText()).toString());
                             }
-                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                            getDeviceLocation();
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -217,4 +247,91 @@ public class LoginActivity extends AppCompatActivity {
     public void register(View view) {
         startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
     }
+
+    private void getDeviceLocation() {
+        Log.d(TAG, "getDeviceLocation: getting current location");
+        mFusedLocationProviderClient =
+                LocationServices.getFusedLocationProviderClient(Objects.requireNonNull(this));
+
+        try {
+            if (ismLocationGranted()) {
+                Task location = mFusedLocationProviderClient.getLastLocation();
+                location.addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Log.d(TAG, "onComplete: location found");
+                        Location currentLocation = (Location) task.getResult();
+                        userLocation = new LatLng(Objects.requireNonNull(currentLocation).getLatitude(),
+                                currentLocation.getLongitude());
+                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+
+                    } else {
+                        Log.d(TAG, "onComplete: Unable to get location");
+                        Toast.makeText(this, "Unable to get current location",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        } catch (SecurityException e) {
+            Log.e(TAG, "getDeviceLocation: Security exception " + e.getMessage());
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        Log.d(TAG, "onRequestPermissionsResult: called");
+        setmLocationGranted(false);
+        if (requestCode == LOCATION_REQUEST_CODE) {
+            if (grantResults.length > 0) {
+
+                for (int grantResult : grantResults) {
+                    if (grantResult != PackageManager.PERMISSION_GRANTED) {
+                        Log.d(TAG, "onRequestPermissionsResult: Permissions failed");
+                        return;
+                    }
+                }
+                Log.d(TAG, "onRequestPermissionsResult: Permissions granted");
+                setmLocationGranted(true);
+            }
+        }
+    }
+
+    private void getLocationPermissions() {
+        Log.d(TAG, "getLocationPermissions: Getting location permissions");
+        String[] permissions = {FINE_LOCATION, COARSE_LOCATION};
+
+        if (ContextCompat.checkSelfPermission(this,
+                FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(this,
+                    COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                Log.d(TAG, "getLocationPermissions: Location granted");
+                setmLocationGranted(true);
+            } else {
+                ActivityCompat.requestPermissions(this, permissions, LOCATION_REQUEST_CODE);
+            }
+        } else {
+            ActivityCompat.requestPermissions(this, permissions, LOCATION_REQUEST_CODE);
+        }
+
+    }
+
+    private boolean isServicesOk() {
+        Log.d(TAG, "isServicesOk: checking google services version");
+
+        int available = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this);
+        if (available == ConnectionResult.SUCCESS) {
+            Log.d(TAG, "isServicesOk: google services is working");
+            return true;
+        } else if (GoogleApiAvailability.getInstance().isUserResolvableError(available)) {
+            Log.d(TAG, "isServicesOk: error occurred but can be fixed");
+            Dialog dialog = GoogleApiAvailability.getInstance().getErrorDialog(this, available, ERROR_DIALOG_REQUEST);
+            dialog.show();
+        } else {
+            Toast.makeText(this, "You cant make map requests", Toast.LENGTH_SHORT).show();
+        }
+
+        return false;
+    }
+
+
 }

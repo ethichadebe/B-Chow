@@ -58,19 +58,17 @@ import SingleItem.ShopItem;
 
 import static android.app.Activity.RESULT_OK;
 import static util.Constants.getIpAddress;
+import static util.HelperMethods.COARSE_LOCATION;
+import static util.HelperMethods.FINE_LOCATION;
+import static util.HelperMethods.LOCATION_REQUEST_CODE;
 import static util.HelperMethods.handler;
+import static util.HelperMethods.ismLocationGranted;
+import static util.HelperMethods.setmLocationGranted;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
+import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUserLocation;
 
 public class HomeFragment extends Fragment {
-    private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
-    private static final String COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
-    private static final int LOCATION_REQUEST_CODE = 1234;
-    private static boolean mLocationGranted = false;
     private FusedLocationProviderClient mFusedLocationProviderClient;
-
-    static boolean ismLocationGranted() {
-        return mLocationGranted;
-    }
 
     private RecyclerView mRecyclerView;
     private ShopItemAdapter mAdapter;
@@ -82,7 +80,6 @@ public class HomeFragment extends Fragment {
     private RelativeLayout rlLoad, rlError;
     private static ShopItem shopItem;
 
-    private static final int ERROR_DIALOG_REQUEST = 9001;
     private static final String TAG = "HomeFragment";
 
     static ShopItem getShopItem() {
@@ -111,19 +108,15 @@ public class HomeFragment extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
 
-        //Search for nearby shops
-        getDeviceLocation(v.findViewById(R.id.vLine), v.findViewById(R.id.vLineGrey));
         //ShopItem on click
         mAdapter.setOnItemClickListener(position -> {
             shopItem = shopItems.get(position);
             startActivity(new Intent(getActivity(), ShopHomeActivity.class));
         });
 
-        //Get user location
-        if (isServicesOk()) {
-            getLocationPermissions();
-        }
-
+        //Search for nearby shops
+        GETShops(v.findViewById(R.id.vLine), v.findViewById(R.id.vLineGrey), getUserLocation().latitude,
+                getUserLocation().longitude);
         Places.initialize(Objects.requireNonNull(getActivity()), getResources().getString(R.string.google_maps_api_key));
 
         //Retry button when network error occurs
@@ -155,7 +148,7 @@ public class HomeFragment extends Fragment {
 
         JsonObjectRequest objectRequest = new JsonObjectRequest(
                 Request.Method.GET,
-                getIpAddress() + "/shops/" + getUser().getuID()+"/"+latitude+"/"+longitude, null,
+                getIpAddress() + "/shops/" + getUser().getuID() + "/" + latitude + "/" + longitude, null,
                 response -> {
                     //Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
                     rlLoad.setVisibility(View.GONE);
@@ -198,7 +191,7 @@ public class HomeFragment extends Fragment {
                                         Shops.getString("sFullDescription"),
                                         new LatLng(Shops.getDouble("sLatitude"),
                                                 Shops.getDouble("sLongitude")),
-                                        Shops.getString("sAddress"),
+                                        Shops.getString("sAddress"),Shops.getDouble("distance"),
                                         Avetime, Shops.getInt("sRating"),
                                         Shops.getString("sOperatingHrs"), Shops.getInt("sLikes"),
                                         Shops.getInt("isLiked"), AveTimeColor, Shops.getInt("sStatus")
@@ -221,65 +214,8 @@ public class HomeFragment extends Fragment {
                     }
                 });
         requestQueue.add(objectRequest);
-
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        Log.d(TAG, "onRequestPermissionsResult: called");
-        mLocationGranted = false;
-        if (requestCode == LOCATION_REQUEST_CODE) {
-            if (grantResults.length > 0) {
-
-                for (int grantResult : grantResults) {
-                    if (grantResult != PackageManager.PERMISSION_GRANTED) {
-                        Log.d(TAG, "onRequestPermissionsResult: Permissions failed");
-                        return;
-                    }
-                }
-                Log.d(TAG, "onRequestPermissionsResult: Permissions granted");
-                mLocationGranted = true;
-            }
-        }
-    }
-
-    private boolean isServicesOk() {
-        Log.d(TAG, "isServicesOk: checking google services version");
-
-        int available = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(Objects.requireNonNull(getActivity()));
-        if (available == ConnectionResult.SUCCESS) {
-            Log.d(TAG, "isServicesOk: google services is working");
-            return true;
-        } else if (GoogleApiAvailability.getInstance().isUserResolvableError(available)) {
-            Log.d(TAG, "isServicesOk: error occurred but can be fixed");
-            Dialog dialog = GoogleApiAvailability.getInstance().getErrorDialog(getActivity(), available, ERROR_DIALOG_REQUEST);
-            dialog.show();
-        } else {
-            Toast.makeText(getActivity(), "You cant make map requests", Toast.LENGTH_SHORT).show();
-        }
-
-        return false;
-    }
-
-    private void getLocationPermissions() {
-        Log.d(TAG, "getLocationPermissions: Getting location permissions");
-        String[] permissions = {FINE_LOCATION, COARSE_LOCATION};
-
-        if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getActivity()),
-                FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getActivity()),
-                    COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                Log.d(TAG, "getLocationPermissions: Location granted");
-                mLocationGranted = true;
-            } else {
-                ActivityCompat.requestPermissions(getActivity(), permissions, LOCATION_REQUEST_CODE);
-            }
-        } else {
-            ActivityCompat.requestPermissions(getActivity(), permissions, LOCATION_REQUEST_CODE);
-        }
-
-    }
 
     private void getDeviceLocation(View vLine, View vLineGrey) {
         Log.d(TAG, "getDeviceLocation: getting current location");
@@ -294,7 +230,7 @@ public class HomeFragment extends Fragment {
                         Log.d(TAG, "onComplete: location found");
                         Location currentLocation = (Location) task.getResult();
 
-                        GETShops(vLine,vLineGrey, Objects.requireNonNull(currentLocation).getLatitude(),
+                        GETShops(vLine, vLineGrey, Objects.requireNonNull(currentLocation).getLatitude(),
                                 currentLocation.getLongitude());
 
                     } else {

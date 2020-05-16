@@ -1,5 +1,6 @@
 package util;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -21,9 +22,12 @@ import androidx.cardview.widget.CardView;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.google.android.gms.location.FusedLocationProviderClient;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.io.ByteArrayOutputStream;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -42,9 +46,21 @@ import www.ethichadebe.com.loxion_beanery.R;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 
 public class HelperMethods {
+    public static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
+    public static final String COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
+    public static final int LOCATION_REQUEST_CODE = 1234;
+    private static boolean mLocationGranted = false;
     public static final String SHARED_PREFS = "sharedPrefs";
     private static final String USERNAME = "Username";
     private static final String PASSWORD = "Password";
+
+    public static boolean ismLocationGranted() {
+        return mLocationGranted;
+    }
+
+    public static void setmLocationGranted(boolean mLocationGranted) {
+        HelperMethods.mLocationGranted = mLocationGranted;
+    }
 
     public static void ShowLoadingPopup(final Dialog myDialog, boolean show) {
         myDialog.setContentView(R.layout.popup_loading);
@@ -313,5 +329,14 @@ public class HelperMethods {
             return "0" + string;
         }
         return "" + string;
+
+    }
+
+    public static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        BigDecimal bd = BigDecimal.valueOf(value);
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
 }

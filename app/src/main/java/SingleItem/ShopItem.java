@@ -8,6 +8,7 @@ import com.google.android.gms.maps.model.LatLng;
 import java.util.ArrayList;
 
 public class ShopItem {
+    private Double dblDistance;
     String strShopName, strShortDescript, strFullDescript, strAveTime, strOperatingHRS, strLogoSmall, strLogoBig,
             strAddress;
     LatLng llLocation;
@@ -21,7 +22,7 @@ public class ShopItem {
     }
 
     public ShopItem(int intID, String strShopName, String intLogoSmall, String intLogoBig, String strShortDescript,
-                    String strFullDescript, LatLng llLocation, String strAddress, String strAveTime,
+                    String strFullDescript, LatLng llLocation, String strAddress, Double dblDistance, String strAveTime,
                     int intRating, String strOperatingHRS, int intLikes, int isLiked, int intAveTimeColor, int intStatus,
                     Drawable draStatus) {
         this.intID = intID;
@@ -32,6 +33,7 @@ public class ShopItem {
         this.strFullDescript = strFullDescript;
         this.llLocation = llLocation;
         this.strAddress = strAddress;
+        this.dblDistance = dblDistance;
         this.strAveTime = strAveTime;
         this.intRating = intRating;
         this.strOperatingHRS = strOperatingHRS;
@@ -193,6 +195,14 @@ public class ShopItem {
 
     public void setStrAddress(String strAddress) {
         this.strAddress = strAddress;
+    }
+
+    public Double getDblDistance() {
+        return dblDistance;
+    }
+
+    public void setDblDistance(Double dblDistance) {
+        this.dblDistance = dblDistance;
     }
 }
 
