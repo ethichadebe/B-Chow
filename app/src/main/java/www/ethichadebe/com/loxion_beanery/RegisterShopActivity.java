@@ -198,7 +198,7 @@ public class RegisterShopActivity extends AppCompatActivity {
 
             tvLocation.setText(place.getAddress());
             llLocation.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
-            sLocation =place.getLatLng();
+            sLocation = place.getLatLng();
         } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
             Status status = Autocomplete.getStatusFromIntent(Objects.requireNonNull(data));
             Toast.makeText(this, status.getStatusMessage(), Toast.LENGTH_SHORT).show();
@@ -363,6 +363,7 @@ public class RegisterShopActivity extends AppCompatActivity {
                         finish();
                     }
                 }, error -> {
+            HelperMethods.ShowLoadingPopup(myDialog, false);
             //myDialog.dismiss();
         }) {
             @Override
