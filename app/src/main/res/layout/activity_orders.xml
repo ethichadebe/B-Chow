@@ -148,7 +148,6 @@
                 android:gravity="center"
                 android:text="@string/open"
                 android:textAllCaps="false"
-                android:textColor="@color/White"
                 android:textSize="14sp" />
         </androidx.cardview.widget.CardView>
 
@@ -174,7 +173,6 @@
                 android:gravity="center"
                 android:text="@string/close"
                 android:textAllCaps="false"
-                android:textColor="@color/White"
                 android:textSize="14sp" />
         </androidx.cardview.widget.CardView>
     </RelativeLayout>

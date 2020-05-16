@@ -44,19 +44,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-medium"
+
                 android:textSize="18sp" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tvShopName"
-                android:orientation="vertical">
+                android:layout_below="@+id/tvShopName">
 
                 <TextView
                     android:id="@+id/tvShortDescript"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
                     android:fontFamily="sans-serif-light"
                     android:textSize="14sp" />
 
@@ -73,8 +72,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="start"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginTop="12dp"
                         android:background="@color/Grey"
                         android:fontFamily="sans-serif-light"
                         android:padding="2dp"
@@ -86,7 +83,6 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="start"
                         android:layout_marginStart="5dp"
-                        android:layout_marginTop="12dp"
                         android:background="@color/Green"
                         android:fontFamily="sans-serif-light"
                         android:padding="2dp"

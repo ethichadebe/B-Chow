@@ -43,6 +43,7 @@ import static util.HelperMethods.setStarRating;
 import static www.ethichadebe.com.loxion_beanery.HomeFragment.getShopItem;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 import static www.ethichadebe.com.loxion_beanery.MyShopsActivity.getNewShop;
+import static util.HelperMethods.roundOf;
 
 public class ShopHomeActivity extends AppCompatActivity {
 
@@ -110,7 +111,7 @@ public class ShopHomeActivity extends AppCompatActivity {
         setStarRating(getShopItem().getIntRating(), ivStar1, ivStar2, ivStar3, ivStar4, ivStar5);
 
         tvLikes.setText(String.valueOf(getShopItem().getIntLikes()));
-        tvDistance.setText("5km");//getShopItem().getDistance);
+        tvDistance.setText(roundOf(getShopItem().getDblDistance(),1)+"Km");
         tvAveTime.setText(getShopItem().getStrAveTime());
         tvFullDescrpit.setText(getShopItem().getStrFullDescript());
 

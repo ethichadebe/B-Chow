@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import SingleItem.ShopItem;
 import www.ethichadebe.com.loxion_beanery.R;
 
-import static util.HelperMethods.round;
+import static util.HelperMethods.roundOf;
 import static util.HelperMethods.setOHVISIBILITY;
 import static util.HelperMethods.setStarRating;
 
@@ -99,7 +99,7 @@ public class ShopItemAdapter extends RecyclerView.Adapter<ShopItemAdapter.ShopVi
         //holder.ivLogo.setImageResource(item.getIntLogoSmall());
         holder.tvShortDescript.setText(item.getStrShortDescript());
         //Calculate distance
-        holder.tvDistance.setText(round(item.getDblDistance(),1)+"Km");
+        holder.tvDistance.setText(roundOf(item.getDblDistance(),1)+"Km");
         holder.tvAveTime.setText(item.getStrAveTime());
 
         if (item.getIntStatus() == 0){
