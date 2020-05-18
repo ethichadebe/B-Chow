@@ -7,6 +7,7 @@ public class PastOrderItem extends OrderItem {
     private int intRating;
     private String strShopName, strTime;
 
+    PastOrderItem(){}
     public PastOrderItem(int intID, int sID, int intOrderNum, int intRating, String strShopName, String strTime,
                          String strMenu, String strExtras, Double dblPrice, String strStatus) {
         this.intID = intID;
