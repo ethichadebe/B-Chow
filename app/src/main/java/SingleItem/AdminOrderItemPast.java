@@ -1,5 +1,7 @@
 package SingleItem;
 
+import static util.HelperMethods.convertedDateTime;
+
 public class AdminOrderItemPast extends PastOrderItem {
     private String strTime, strFeedback;
 
@@ -15,7 +17,7 @@ public class AdminOrderItemPast extends PastOrderItem {
     }
 
     public String getStrTime() {
-        return strTime;
+        return convertedDateTime(strTime);
     }
 
     public String getStrFeedback() {

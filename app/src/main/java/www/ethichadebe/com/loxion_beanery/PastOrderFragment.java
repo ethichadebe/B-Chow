@@ -34,7 +34,9 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import Adapter.AdminOrderItemAdapter;
+import Adapter.AdminOrderItemPastAdapter;
 import SingleItem.AdminOrderItem;
+import SingleItem.AdminOrderItemPast;
 import util.HelperMethods;
 
 import static util.Constants.getIpAddress;
@@ -44,12 +46,13 @@ import static www.ethichadebe.com.loxion_beanery.MyShopsActivity.getNewShop;
 public class PastOrderFragment extends Fragment {
     private Dialog myDialog;
     private RecyclerView mRecyclerView;
-    private AdminOrderItemAdapter mAdapter;
+    private AdminOrderItemPastAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private ArrayList<AdminOrderItem> OrderItems;
+    private ArrayList<AdminOrderItemPast> OrderItems;
 
     private TextView tvEmpty;
     private RelativeLayout rlLoad, rlError;
+
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_past_order, container, false);
@@ -62,30 +65,12 @@ public class PastOrderFragment extends Fragment {
         myDialog = new Dialog(Objects.requireNonNull(getActivity()));
         OrderItems = new ArrayList<>();
         mLayoutManager = new LinearLayoutManager(getActivity());
-        mAdapter = new AdminOrderItemAdapter(OrderItems);
+        mAdapter = new AdminOrderItemPastAdapter(OrderItems);
 
 
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
-
-        mAdapter.setOnItemClickListener(new AdminOrderItemAdapter.OnItemClickListener() {
-
-            @Override
-            public void onCancelClick(int position) {
-                ShowConfirmationPopup(position);
-            }
-
-            @Override
-            public void onDoneClick(int position) {
-                PUTReady(position);
-            }
-
-            @Override
-            public void onCollectedClick(int position) {
-                PUTCollected(position, myDialog);
-            }
-        });
 
         GETOrders(v.findViewById(R.id.vLine), v.findViewById(R.id.vLineGrey));
 
@@ -93,26 +78,7 @@ public class PastOrderFragment extends Fragment {
         return v;
 
     }
-    private void ShowConfirmationPopup(final int position) {
-        TextView tvCancel, tvMessage;
-        Button btnYes, btnNo;
-        myDialog.setContentView(R.layout.popup_confirmation);
 
-        tvCancel = myDialog.findViewById(R.id.tvCancel);
-        tvMessage = myDialog.findViewById(R.id.tvMessage);
-        btnYes = myDialog.findViewById(R.id.btnYes);
-        btnNo = myDialog.findViewById(R.id.btnNo);
-
-        tvCancel.setOnClickListener(view -> myDialog.dismiss());
-
-        tvMessage.setText("Are you sure?");
-
-        btnYes.setOnClickListener(view -> PUTCancel(position, myDialog));
-
-        btnNo.setOnClickListener(view -> myDialog.dismiss());
-        Objects.requireNonNull(myDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        myDialog.show();
-    }
     private void GETOrders(View vLine, View vLineGrey) {
         rlError.setVisibility(View.GONE);
         rlLoad.setVisibility(View.VISIBLE);
@@ -121,7 +87,7 @@ public class PastOrderFragment extends Fragment {
 
         JsonObjectRequest objectRequest = new JsonObjectRequest(
                 Request.Method.GET,
-                getIpAddress() + "/orders/" + getNewShop().getIntID(), null,
+                getIpAddress() + "/orders/Past/" + getNewShop().getIntID(), null,
                 response -> {
                     //Toast.makeText(this, response.toString(), Toast.LENGTH_SHORT).show();
                     rlLoad.setVisibility(View.GONE);
@@ -132,9 +98,9 @@ public class PastOrderFragment extends Fragment {
                             JSONArray jsonArray = response.getJSONArray("orders");
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject Orders = jsonArray.getJSONObject(i);
-                                OrderItems.add(new AdminOrderItem(Orders.getInt("oID"), Orders.getInt("oID"),
+                                OrderItems.add(new AdminOrderItemPast(Orders.getInt("oID"), Orders.getInt("oID"),
                                         Orders.getString("oRecievedAt"), Orders.getString("oIngredients"),
-                                        Orders.getString("oExtras"), Orders.getString("oStatus"),
+                                        Orders.getString("oExtras"), Orders.getString("oFeedback"),
                                         Orders.getDouble("oPrice")));
                             }
                         } else if (response.getString("message").equals("empty")) {
@@ -155,67 +121,5 @@ public class PastOrderFragment extends Fragment {
                 });
         requestQueue.add(objectRequest);
 
-    }
-    private void PUTCancel(int position, Dialog myDialog) {
-        HelperMethods.ShowLoadingPopup(this.myDialog, true);
-        StringRequest stringRequest = new StringRequest(Request.Method.PUT,
-                getIpAddress() + "/orders/Cancel/" + OrderItems.get(position).getIntID(),
-                response -> {
-                    //Toast.makeText(this, response, Toast.LENGTH_LONG).s  ();
-                    myDialog.dismiss();
-                    OrderItems.remove(position);
-                    mAdapter.notifyItemRemoved(position);
-                    HelperMethods.ShowLoadingPopup(myDialog, false);
-                }, error -> {
-            if (error.toString().equals("com.android.volley.TimeoutError")) {
-                Toast.makeText(getActivity(), "Connection error. Please retry", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        RequestQueue requestQueue = Volley.newRequestQueue(Objects.requireNonNull(getActivity()));
-        requestQueue.add(stringRequest);
-    }
-    private void PUTReady(int position) {
-        HelperMethods.ShowLoadingPopup(myDialog, true);
-        StringRequest stringRequest = new StringRequest(Request.Method.PUT,
-                getIpAddress() + "/orders/Ready/" + OrderItems.get(position).getIntID(),
-                response -> {
-                    //Toast.makeText(this, response, Toast.LENGTH_LONG).show();
-                    OrderItems.get(position).setStrStatus("Ready for collection");
-                    mAdapter.notifyItemChanged(position);
-                    HelperMethods.ShowLoadingPopup(myDialog, false);
-                }, error -> {
-            if (error.toString().equals("com.android.volley.TimeoutError")) {
-                Toast.makeText(getActivity(), "Connection error. Please retry", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        RequestQueue requestQueue = Volley.newRequestQueue(Objects.requireNonNull(getActivity()));
-        requestQueue.add(stringRequest);
-    }
-    private void PUTCollected(int position, Dialog myDialog) {
-        HelperMethods.ShowLoadingPopup(this.myDialog, true);
-        StringRequest stringRequest = new StringRequest(Request.Method.PUT,
-                getIpAddress() + "/orders/Collected/" + OrderItems.get(position).getIntID(),
-                response -> {
-                    //Toast.makeText(this, response, Toast.LENGTH_LONG).s  ();
-                    myDialog.dismiss();
-                    OrderItems.remove(position);
-                    mAdapter.notifyItemRemoved(position);
-                    HelperMethods.ShowLoadingPopup(myDialog, false);
-                }, error -> {
-            if (error.toString().equals("com.android.volley.TimeoutError")) {
-                Toast.makeText(getActivity(), "Connection error. Please retry", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        RequestQueue requestQueue = Volley.newRequestQueue(Objects.requireNonNull(getActivity()));
-        requestQueue.add(stringRequest);
     }
 }

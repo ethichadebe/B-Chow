@@ -70,7 +70,7 @@ public class AdminOrderItemPastAdapter extends RecyclerView.Adapter<AdminOrderIt
         holder.tvExtras.setText(item.getStrExtras());
         holder.tvOrderNum.setText("Order number: " + item.getIntOderNum());
         holder.tvTime.setText(item.getStrTime());
-        //holder
+        holder.tvFeedback.setText(item.getStrFeedback());
         setStarRating(item.getIntRating(), holder.ivStar1, holder.ivStar2, holder.ivStar3, holder.ivStar4, holder.ivStar5);
 
 
