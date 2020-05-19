@@ -108,8 +108,7 @@ public class OrdersFragment extends Fragment {
         return v;
     }
 
-    private void setVisibility(int Left, int Right, RecyclerView recyclerViewGONE,
-                               RecyclerView recyclerViewVISIBLE) {
+    private void setVisibility(int Left, int Right, RecyclerView recyclerViewGONE,RecyclerView recyclerViewVISIBLE) {
         vRight.setVisibility(Right);
         vLeft.setVisibility(Left);
         vBottomLeft.setVisibility(Left);

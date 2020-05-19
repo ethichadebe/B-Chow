@@ -5,13 +5,14 @@ import static util.HelperMethods.convertedDateTime;
 public class AdminOrderItemPast extends PastOrderItem {
     private String strTime, strFeedback;
 
-    public AdminOrderItemPast(int intID, int intOderNum, String strTime, String strMenu, String strExtras, String strFeedback,
+    public AdminOrderItemPast(int intID, int intOderNum, String strTime, String strMenu, String strExtras,int intRating, String strFeedback,
                               Double dblPrice) {
         this.intID = intID;
         this.intOderNum = intOderNum;
         this.strTime = strTime;
         this.strMenu = strMenu;
         this.strExtras = strExtras;
+        this.intRating = intRating;
         this.strFeedback = strFeedback;
         this.dblPrice = dblPrice;
     }

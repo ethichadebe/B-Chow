@@ -87,12 +87,11 @@ public class PastOrderFragment extends Fragment {
 
         JsonObjectRequest objectRequest = new JsonObjectRequest(
                 Request.Method.GET,
-                getIpAddress() + "/orders/Past/" + getNewShop().getIntID(), null,
+                getIpAddress() + "/orders/AdminPastOrders/" + getNewShop().getIntID(), null,
                 response -> {
                     //Toast.makeText(this, response.toString(), Toast.LENGTH_SHORT).show();
                     rlLoad.setVisibility(View.GONE);
                     //Loads shops starting with the one closest to user
-                    Location location = new Location("");
                     try {
                         if (response.getString("message").equals("orders")) {
                             JSONArray jsonArray = response.getJSONArray("orders");
@@ -100,8 +99,8 @@ public class PastOrderFragment extends Fragment {
                                 JSONObject Orders = jsonArray.getJSONObject(i);
                                 OrderItems.add(new AdminOrderItemPast(Orders.getInt("oID"), Orders.getInt("oID"),
                                         Orders.getString("oRecievedAt"), Orders.getString("oIngredients"),
-                                        Orders.getString("oExtras"), Orders.getString("oFeedback"),
-                                        Orders.getDouble("oPrice")));
+                                        Orders.getString("oExtras"), Orders.getInt("oRating"),
+                                        Orders.getString("oFeedback"), Orders.getDouble("oPrice")));
                             }
                         } else if (response.getString("message").equals("empty")) {
                             tvEmpty.setVisibility(View.VISIBLE);

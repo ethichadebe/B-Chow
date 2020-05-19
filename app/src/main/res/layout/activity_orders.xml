@@ -106,6 +106,13 @@
         </androidx.cardview.widget.CardView>
     </RelativeLayout>
 
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/tvCompleteReg"
+        android:layout_below="@+id/llOpts"/>
+
     <TextView
         android:id="@+id/tvCompleteReg"
         android:layout_width="match_parent"
@@ -115,20 +122,13 @@
         android:background="@drawable/ripple_effect_red"
         android:fontFamily="sans-serif-medium"
         android:gravity="center"
+        android:layout_above="@+id/include"
         android:padding="10dp"
         android:text="Click here to complete shop registration"
         android:textColor="@color/White"
         android:textSize="14sp"
         android:textStyle="bold"
         android:visibility="gone" />
-
-
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/fragment_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/include"
-        android:layout_below="@+id/llOpts"/>
 
     <include
         android:id="@+id/include"
