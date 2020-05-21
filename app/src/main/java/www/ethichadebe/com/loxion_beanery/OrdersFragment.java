@@ -21,6 +21,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -143,7 +144,8 @@ public class OrdersFragment extends Fragment {
                                         Orders.getString("sName"), Orders.getInt("oID"),
                                         Orders.getString("createdAt"), Orders.getString("oIngredients"),
                                         Orders.getString("oExtras"), Orders.getDouble("oPrice"),
-                                        Orders.getString("oStatus")));
+                                        Orders.getString("oStatus"), new LatLng(Orders.getDouble("sLatitude"),
+                                        Orders.getDouble("sLongitude"))));
                             }
                         } else if (response.getString("message").equals("empty")) {
                             rlEmpty.setVisibility(View.VISIBLE);

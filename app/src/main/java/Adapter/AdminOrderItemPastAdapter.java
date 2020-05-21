@@ -65,13 +65,13 @@ public class AdminOrderItemPastAdapter extends RecyclerView.Adapter<AdminOrderIt
     public void onBindViewHolder(@NonNull OrderViewHolder holder, int position) {
         AdminOrderItemPast item = orderList.get(position);
 
+        setStarRating(item.getIntRating(), holder.ivStar1, holder.ivStar2, holder.ivStar3, holder.ivStar4, holder.ivStar5);
         holder.tvPrice.setText("R" + item.getDblPrice() + "0");
         holder.tvMenu.setText(item.getStrMenu());
         holder.tvExtras.setText(item.getStrExtras());
         holder.tvOrderNum.setText("Order number: " + item.getIntOderNum());
         holder.tvTime.setText(item.getStrTime());
         holder.tvFeedback.setText(item.getStrFeedback());
-        setStarRating(item.getIntRating(), holder.ivStar1, holder.ivStar2, holder.ivStar3, holder.ivStar4, holder.ivStar5);
 
 
     }

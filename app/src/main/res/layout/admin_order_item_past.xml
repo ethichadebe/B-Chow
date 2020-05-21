@@ -74,7 +74,6 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
                     android:fontFamily="sans-serif-light"
-                    android:text="@string/extras"
                     android:textSize="14sp" />
             </RelativeLayout>
         </RelativeLayout>
@@ -131,13 +130,29 @@
 
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/tvFeedback"
+            <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
-                android:fontFamily="sans-serif-medium"
-                android:textSize="14sp" />
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/rl1">
+
+                <TextView
+                    android:id="@+id/tv2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="Extras: "
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tvFeedback"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/tv2"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="sans-serif-light"
+                    android:textSize="14sp" />
+            </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
 
