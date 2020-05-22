@@ -226,11 +226,12 @@
         android:id="@+id/ivCenter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/llHead"
+        android:layout_above="@+id/llBottomNav"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
-        android:contentDescription="Recenter map"
+        android:layout_marginBottom="10dp"
+        android:contentDescription="@string/recenter_map"
         android:onClick="center"
         android:src="@drawable/ic_gps_fixed_black_24dp" />
 

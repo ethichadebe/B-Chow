@@ -65,6 +65,7 @@ public class OrderConfirmationActivity extends AppCompatActivity implements OnMa
             getDeviceLocation();
             mMap.setMyLocationEnabled(true);
             mMap.getUiSettings().setMyLocationButtonEnabled(false);
+            mMap.getUiSettings().setMapToolbarEnabled(false);
         }
     }
 
@@ -72,8 +73,6 @@ public class OrderConfirmationActivity extends AppCompatActivity implements OnMa
 
     private GoogleMap mMap;
     private FusedLocationProviderClient mFusedLocationProviderClient;
-
-    private ArrayList<LatLng> listPoints;
 
     private Button btFinish;
     private View vBackground;
@@ -174,7 +173,6 @@ public class OrderConfirmationActivity extends AppCompatActivity implements OnMa
         }
 
 
-        listPoints = new ArrayList<>();
         myDialog = new Dialog(this);
         btFinish = findViewById(R.id.btFinish);
         tvUpdate = findViewById(R.id.tvUpdate);
@@ -213,10 +211,8 @@ public class OrderConfirmationActivity extends AppCompatActivity implements OnMa
                     handler.postDelayed(runnable2, 0);
                     break;
             }
-            listPoints.add(getUpcomingOrderItem().getLlShop());
 
         } else {
-            listPoints.add(getShopItem().getLlLocation());
             handler.postDelayed(runnable, 0);
         }
 
@@ -325,22 +321,31 @@ public class OrderConfirmationActivity extends AppCompatActivity implements OnMa
                     if (task.isSuccessful()) {
                         Log.d(TAG, "onComplete: location found");
                         Location currentLocation = (Location) task.getResult();
-                        listPoints.add(new LatLng(Objects.requireNonNull(currentLocation).getLatitude(),
-                                currentLocation.getLongitude()));
-                        if (getUpcomingOrderItem() != null) {
-                            listPoints.add(getUpcomingOrderItem().getLlShop());
-                        } else {
-                            listPoints.add(getShopItem().getLlLocation());
-                        }
 
                         //Add marker to shop
-                        MarkerOptions markerOptions = new MarkerOptions().position(getUpcomingOrderItem().getLlShop())
-                                .title(getUpcomingOrderItem().getStrShopName());
-                        mMap.addMarker(markerOptions);
+                        MarkerOptions markerOptions;
+                        if (getUpcomingOrderItem() != null) {
+                            markerOptions = new MarkerOptions().position(getUpcomingOrderItem().getLlShop())
+                                    .title(getUpcomingOrderItem().getStrShopName());
+                            mMap.addMarker(markerOptions);
 
-                        new FetchURL(this).execute(getUrl(listPoints.get(0), listPoints.get(1)), "driving");
-                        moveCam(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()),
-                                getUpcomingOrderItem().getLlShop());
+                            new FetchURL(this).execute(getUrl(new
+                                    LatLng(Objects.requireNonNull(currentLocation).getLatitude(),
+                                    currentLocation.getLongitude()), getUpcomingOrderItem().getLlShop()), "driving");
+                            moveCam(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()),
+                                    getUpcomingOrderItem().getLlShop());
+                        } else {
+                            markerOptions = new MarkerOptions().position(getShopItem().getLlLocation())
+                                    .title(getShopItem().getStrShopName());
+                            mMap.addMarker(markerOptions);
+
+                            new FetchURL(this).execute(getUrl(new
+                                    LatLng(Objects.requireNonNull(currentLocation).getLatitude(),
+                                    currentLocation.getLongitude()), getShopItem().getLlLocation()), "driving");
+                            moveCam(new LatLng(Objects.requireNonNull(currentLocation).getLatitude(),
+                                    currentLocation.getLongitude()), getShopItem().getLlLocation());
+                        }
+
 
                     } else {
                         Log.d(TAG, "onComplete: Unable to get location");
