@@ -78,7 +78,7 @@ public class OrderConfirmationActivity extends AppCompatActivity implements OnMa
     private Button btFinish;
     private View vBackground;
     private ImageView ivCenter;
-    private TextView tvUpdate, tvUpdateMessage;
+    private TextView tvUpdate, tvUpdateMessage, tvUpdateSmall;
     private View[] vLineGrey = new View[3];
     private View[] vLineLoad = new View[4];
     private View[] vLine = new View[4];
@@ -127,9 +127,11 @@ public class OrderConfirmationActivity extends AppCompatActivity implements OnMa
 
             vBackground.setVisibility(View.VISIBLE);
             llNav.setVisibility(View.GONE);
+            ivCenter.setVisibility(View.GONE);
             cvNavigate.setVisibility(View.GONE);
             btFinish.setVisibility(View.VISIBLE);
 
+            tvUpdateSmall.setText("");
             tvUpdate.setText("Shop has been notified on your arrival");
             tvUpdateMessage.setText("and now lets patiently wait for the shop to complete the order");
             givGif.setImageResource(R.drawable.waiting);
@@ -154,8 +156,10 @@ public class OrderConfirmationActivity extends AppCompatActivity implements OnMa
             vBackground.setVisibility(View.VISIBLE);
             cvNavigate.setVisibility(View.GONE);
             llNav.setVisibility(View.GONE);
+            ivCenter.setVisibility(View.GONE);
             btFinish.setVisibility(View.VISIBLE);
 
+            tvUpdateSmall.setText("");
             tvUpdate.setText("Your order is ready for collection");
             tvUpdateMessage.setText("Your order is complete, Please collect and enjoy");
             givGif.setImageResource(R.drawable.eating);
@@ -174,6 +178,7 @@ public class OrderConfirmationActivity extends AppCompatActivity implements OnMa
 
         myDialog = new Dialog(this);
         btFinish = findViewById(R.id.btFinish);
+        tvUpdateSmall = findViewById(R.id.tvUpdateSmall);
         tvUpdate = findViewById(R.id.tvUpdate);
         cvCancel = findViewById(R.id.cvCancel);
         cvNavigate = findViewById(R.id.cvNavigate);
