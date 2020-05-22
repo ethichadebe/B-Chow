@@ -74,6 +74,7 @@ public class OrderConfirmationActivity extends AppCompatActivity implements OnMa
     private GoogleMap mMap;
     private FusedLocationProviderClient mFusedLocationProviderClient;
 
+    private Polyline currentPolyline;
     private Button btFinish;
     private View vBackground;
     private ImageView ivCenter;
@@ -161,8 +162,6 @@ public class OrderConfirmationActivity extends AppCompatActivity implements OnMa
             YoyoSlideRight(500, R.id.vLine3Load);
         }
     };
-
-    Polyline currentPolyline;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -308,7 +307,6 @@ public class OrderConfirmationActivity extends AppCompatActivity implements OnMa
         setUpcomingOrderItem(null);
         startActivity(new Intent(this, MainActivity.class));
     }
-
 
     private void getDeviceLocation() {
         Log.d(TAG, "getDeviceLocation: getting current location");
