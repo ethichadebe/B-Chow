@@ -2,14 +2,13 @@ package www.ethichadebe.com.loxion_beanery;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
-import androidx.fragment.app.Fragment;
 
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
-import android.os.AsyncTask;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -33,6 +32,8 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
@@ -48,9 +49,11 @@ import util.TaskLoadedCallback;
 import static util.Constants.getIpAddress;
 import static util.HelperMethods.ShowLoadingPopup;
 import static util.HelperMethods.ismLocationGranted;
+import static www.ethichadebe.com.loxion_beanery.HomeFragment.getShopItem;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 import static www.ethichadebe.com.loxion_beanery.OrderActivity.oID;
 import static www.ethichadebe.com.loxion_beanery.OrdersFragment.getUpcomingOrderItem;
+import static www.ethichadebe.com.loxion_beanery.OrdersFragment.setUpcomingOrderItem;
 
 public class OrderConfirmationActivity extends AppCompatActivity implements OnMapReadyCallback, TaskLoadedCallback {
     @Override
@@ -80,7 +83,7 @@ public class OrderConfirmationActivity extends AppCompatActivity implements OnMa
     private View[] vLineLoad = new View[4];
     private View[] vLine = new View[4];
     private Handler handler = new Handler();
-    private LinearLayout llNav;
+    private LinearLayout llNav, llBottomNav;
     private GifImageView givGif;
     private Dialog myDialog;
     private CardView cvCancel, cvNavigate;
@@ -101,7 +104,7 @@ public class OrderConfirmationActivity extends AppCompatActivity implements OnMa
             vLine[2].setVisibility(View.GONE);
 
             tvUpdate.setText("Order has been placed");
-            tvUpdateMessage.setText("Make your way to the shop within the next Hour");
+            tvUpdateMessage.setText("");
             givGif.setImageResource(R.drawable.driving);
             YoyoSlideRight(5000, R.id.vLine1Load);
         }
@@ -170,12 +173,14 @@ public class OrderConfirmationActivity extends AppCompatActivity implements OnMa
             startActivity(new Intent(this, LoginActivity.class));
         }
 
+
         listPoints = new ArrayList<>();
         myDialog = new Dialog(this);
         btFinish = findViewById(R.id.btFinish);
         tvUpdate = findViewById(R.id.tvUpdate);
         cvCancel = findViewById(R.id.cvCancel);
         cvNavigate = findViewById(R.id.cvNavigate);
+        llBottomNav = findViewById(R.id.llBottomNav);
         tvUpdateMessage = findViewById(R.id.tvUpdateMsg);
         llNav = findViewById(R.id.llNav);
         givGif = findViewById(R.id.givGif);
@@ -194,6 +199,8 @@ public class OrderConfirmationActivity extends AppCompatActivity implements OnMa
         vLine[1] = findViewById(R.id.vLine2);
         vLine[2] = findViewById(R.id.vLine3);
 
+        llBottomNav.post(() -> mMap.setPadding(0, 0, 0, llBottomNav.getHeight()));
+
         if (getUpcomingOrderItem() != null) {
             switch (getUpcomingOrderItem().getStrStatus()) {
                 case "Waiting arrival":
@@ -206,7 +213,10 @@ public class OrderConfirmationActivity extends AppCompatActivity implements OnMa
                     handler.postDelayed(runnable2, 0);
                     break;
             }
+            listPoints.add(getUpcomingOrderItem().getLlShop());
+
         } else {
+            listPoints.add(getShopItem().getLlLocation());
             handler.postDelayed(runnable, 0);
         }
 
@@ -231,6 +241,7 @@ public class OrderConfirmationActivity extends AppCompatActivity implements OnMa
 
     @Override
     public void onBackPressed() {
+        setUpcomingOrderItem(null);
         startActivity(new Intent(this, MainActivity.class));
     }
 
@@ -298,6 +309,7 @@ public class OrderConfirmationActivity extends AppCompatActivity implements OnMa
     }
 
     public void home(View view) {
+        setUpcomingOrderItem(null);
         startActivity(new Intent(this, MainActivity.class));
     }
 
@@ -315,7 +327,11 @@ public class OrderConfirmationActivity extends AppCompatActivity implements OnMa
                         Location currentLocation = (Location) task.getResult();
                         listPoints.add(new LatLng(Objects.requireNonNull(currentLocation).getLatitude(),
                                 currentLocation.getLongitude()));
-                        listPoints.add(getUpcomingOrderItem().getLlShop());
+                        if (getUpcomingOrderItem() != null) {
+                            listPoints.add(getUpcomingOrderItem().getLlShop());
+                        } else {
+                            listPoints.add(getShopItem().getLlLocation());
+                        }
 
                         //Add marker to shop
                         MarkerOptions markerOptions = new MarkerOptions().position(getUpcomingOrderItem().getLlShop())
@@ -324,7 +340,7 @@ public class OrderConfirmationActivity extends AppCompatActivity implements OnMa
 
                         new FetchURL(this).execute(getUrl(listPoints.get(0), listPoints.get(1)), "driving");
                         moveCam(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()),
-                                "My location", false);
+                                getUpcomingOrderItem().getLlShop());
 
                     } else {
                         Log.d(TAG, "onComplete: Unable to get location");
@@ -338,15 +354,12 @@ public class OrderConfirmationActivity extends AppCompatActivity implements OnMa
         }
     }
 
-    private void moveCam(LatLng latLng, String title, boolean displayMarker) {
-        Log.d(TAG, "moveCam: Moving camera to Lat: " + latLng.latitude + "Long: " + latLng.longitude);
+    private void moveCam(LatLng me, LatLng shop) {
+        //Log.d(TAG, "moveCam: Moving camera to Lat: " + latLng.latitude + "Long: " + latLng.longitude);
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+        builder.include(me).include(shop);
 
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15f));
-
-        if (displayMarker) {
-            MarkerOptions markerOptions = new MarkerOptions().position(latLng).title(title);
-            mMap.addMarker(markerOptions);
-        }
+        mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 100));
     }
 
     private void initMap() {
@@ -380,6 +393,21 @@ public class OrderConfirmationActivity extends AppCompatActivity implements OnMa
         if (currentPolyline != null) {
             currentPolyline.remove();
         }
-        currentPolyline= mMap.addPolyline((PolylineOptions) values[0]);
+        currentPolyline = mMap.addPolyline((PolylineOptions) values[0]);
+    }
+
+    public void navigate(View view) {
+        Uri gmmIntentUri;
+        if (getUpcomingOrderItem() != null) {
+            gmmIntentUri = Uri.parse("google.navigation:q=" + getUpcomingOrderItem().getLlShop().latitude + "," +
+                    getUpcomingOrderItem().getLlShop().longitude);
+        } else {
+            gmmIntentUri = Uri.parse("google.navigation:q=" + getShopItem().getLlLocation().latitude + "," +
+                    getShopItem().getLlLocation().longitude);
+        }
+
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+        mapIntent.setPackage("com.google.android.apps.maps");
+        startActivity(mapIntent);
     }
 }

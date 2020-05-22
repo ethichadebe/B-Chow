@@ -23,6 +23,7 @@
         android:id="@+id/llHead"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/places_ui_default_primary"
         android:orientation="vertical">
 
         <LinearLayout
@@ -35,11 +36,27 @@
                 android:id="@+id/tvUpdate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="12dp"
-                android:fontFamily="sans-serif-medium"
-                android:text="Order status"
-                android:textSize="14sp" />
+                android:layout_marginStart="5dp"
+                android:layout_toStartOf="@+id/cvRetry"
+                android:layout_toEndOf="@id/ivSign"
+                android:fontFamily="sans-serif-light"
+                android:gravity="center_vertical"
+                android:text="@string/network_error_occurred"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvError"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_toStartOf="@+id/cvRetry"
+                android:layout_toEndOf="@id/ivSign"
+                android:layout_below="@+id/tvMessage"
+                android:fontFamily="sans-serif-light"
+                android:text="Make your way to the shop before an hour or your order will be cancelled"
+                android:gravity="center_vertical"
+                android:textSize="12sp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -139,6 +156,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:onClick="navigate"
             android:background="@drawable/ripple_effect"
             android:padding="10dp">
 
@@ -208,9 +226,10 @@
         android:id="@+id/ivCenter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/llBottomNav"
+        android:layout_below="@+id/llHead"
         android:layout_alignParentEnd="true"
-        android:layout_margin="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
         android:contentDescription="Recenter map"
         android:onClick="center"
         android:src="@drawable/ic_gps_fixed_black_24dp" />

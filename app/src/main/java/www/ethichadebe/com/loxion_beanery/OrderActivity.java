@@ -78,7 +78,7 @@ public class OrderActivity extends AppCompatActivity {
         ingredientItemsChecked = new ArrayList<>();
         myDialog = new Dialog(this);
 
-        dblPrice = getMenuItem().getDblPrice();
+         dblPrice = getMenuItem().getDblPrice();
 
         GETIngredients(findViewById(R.id.vLine), findViewById(R.id.vLineGrey));
 

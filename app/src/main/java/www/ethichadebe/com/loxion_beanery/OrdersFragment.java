@@ -68,6 +68,9 @@ public class OrdersFragment extends Fragment {
         return upcomingOrderItem;
     }
 
+    public static void setUpcomingOrderItem(UpcomingOrderItem upcomingOrderItem) {
+        OrdersFragment.upcomingOrderItem = upcomingOrderItem;
+    }
 
     @Nullable
     @Override

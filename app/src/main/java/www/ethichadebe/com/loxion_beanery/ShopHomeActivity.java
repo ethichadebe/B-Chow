@@ -61,7 +61,7 @@ public class ShopHomeActivity extends AppCompatActivity {
     private LinearLayout llLike;
     private Button btnNext;
 
-    public static MenuItem getMenuItem() {
+    public static MenuItem  getMenuItem() {
         return menuItem;
     }
 
