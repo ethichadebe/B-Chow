@@ -52,8 +52,8 @@ import static util.HelperMethods.ismLocationGranted;
 import static www.ethichadebe.com.loxion_beanery.HomeFragment.getShopItem;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 import static www.ethichadebe.com.loxion_beanery.OrderActivity.oID;
-import static www.ethichadebe.com.loxion_beanery.OrdersFragment.getUpcomingOrderItem;
-import static www.ethichadebe.com.loxion_beanery.OrdersFragment.setUpcomingOrderItem;
+import static www.ethichadebe.com.loxion_beanery.UpcomingOrderFragmentCustomer.getUpcomingOrderItem;
+import static www.ethichadebe.com.loxion_beanery.UpcomingOrderFragmentCustomer.setUpcomingOrderItem;
 
 public class OrderConfirmationActivity extends AppCompatActivity implements OnMapReadyCallback, TaskLoadedCallback {
     @Override
