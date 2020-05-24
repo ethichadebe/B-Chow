@@ -136,6 +136,7 @@ public class MenuActivity extends AppCompatActivity {
         startActivity(new Intent(MenuActivity.this, NewMenuItemActivity.class));
     }
 
+
     private void DELETEIngredient(int position) {
         ShowLoadingPopup(myDialog, true);
         RequestQueue requestQueue = Volley.newRequestQueue(this);
