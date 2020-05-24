@@ -1,7 +1,6 @@
 package www.ethichadebe.com.loxion_beanery;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -135,7 +134,6 @@ public class MenuActivity extends AppCompatActivity {
     public void AddMenu(View view) {
         startActivity(new Intent(MenuActivity.this, NewMenuItemActivity.class));
     }
-
 
     private void DELETEIngredient(int position) {
         ShowLoadingPopup(myDialog, true);
@@ -298,5 +296,4 @@ public class MenuActivity extends AppCompatActivity {
         requestQueue.add(objectRequest);
 
     }
-
 }
