@@ -134,14 +134,7 @@ public class MenuActivity extends AppCompatActivity {
     }
 
     public void AddMenu(View view) {
-        //Make sure chips are always checked
-        for (IngredientItem ingredientItem : getNewShop().getIngredientItems()) {
-            if (ingredientItem.getStrIngredientName().toLowerCase().equals("chips")) {
-                Ingredients.add(ingredientItem);
-                dblPrice = ingredientItem.getDblPrice();
-                startActivity(new Intent(MenuActivity.this, NewMenuItemActivity.class));
-            }
-        }
+        startActivity(new Intent(MenuActivity.this, NewMenuItemActivity.class));
     }
 
     private void DELETEIngredient(int position) {

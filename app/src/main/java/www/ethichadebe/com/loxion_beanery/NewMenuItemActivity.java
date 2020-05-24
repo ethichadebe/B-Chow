@@ -93,7 +93,12 @@ public class NewMenuItemActivity extends AppCompatActivity {
         } else if (getNewShop().getIngredientItems() != null) {
             ingredientItems = new ArrayList<>();
             for (int i = 0; i < getNewShop().getIngredientItems().size(); i++) {
-                ingredientItems.add(new IngredientItemCheckbox(getNewShop().getIngredientItems().get(i), false, true));
+                if (getNewShop().getIngredientItems().get(i).getStrIngredientName().toLowerCase().equals("chips")) {
+                    ingredientItems.add(new IngredientItemCheckbox(getNewShop().getIngredientItems().get(i), true, true));
+                    dblPrice = getNewShop().getIngredientItems().get(i).getDblPrice();
+                }else {
+                    ingredientItems.add(new IngredientItemCheckbox(getNewShop().getIngredientItems().get(i), false, true));
+                }
             }
         }
 
