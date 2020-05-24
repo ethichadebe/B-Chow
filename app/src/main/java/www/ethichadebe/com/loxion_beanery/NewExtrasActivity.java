@@ -84,11 +84,13 @@ public class NewExtrasActivity extends AppCompatActivity {
         rlError = findViewById(R.id.rlError);
 
         GETExtras(findViewById(R.id.vLine),findViewById(R.id.vLineGrey));
+
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
         mAdapter = new ExtraItemAdapter(extraItems);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
+
         mAdapter.setOnExtraClickListener(new ExtraItemAdapter.OnExtraClickListener() {
             @Override
             public void onRemoveClick(int position) {

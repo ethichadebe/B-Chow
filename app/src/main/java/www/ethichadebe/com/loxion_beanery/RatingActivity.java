@@ -27,7 +27,7 @@ import static util.Constants.getIpAddress;
 import static util.HelperMethods.ShowLoadingPopup;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 import static www.ethichadebe.com.loxion_beanery.MainActivity.setIntFragment;
-import static www.ethichadebe.com.loxion_beanery.OrdersFragment.getPastOrderItem;
+import static www.ethichadebe.com.loxion_beanery.PastOrderFragmentCustomer.getPastOrderItem;
 
 public class RatingActivity extends AppCompatActivity {
     private ImageView ivStar1, ivStar2, ivStar3, ivStar4, ivStar5;

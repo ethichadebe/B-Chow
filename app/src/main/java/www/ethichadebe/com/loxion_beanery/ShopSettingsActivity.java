@@ -43,7 +43,7 @@ public class ShopSettingsActivity extends AppCompatActivity {
     }
 
     public void back(View view) {
-        finish();
+        startActivity(new Intent(this, OrdersActivity.class));
     }
 
     public void shop(View view) {
@@ -117,5 +117,8 @@ public class ShopSettingsActivity extends AppCompatActivity {
         requestQueue.add(stringRequest);
     }
 
-
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this, OrdersActivity.class));
+    }
 }

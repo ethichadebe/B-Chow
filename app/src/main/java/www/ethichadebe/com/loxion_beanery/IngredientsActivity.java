@@ -222,16 +222,18 @@ public class IngredientsActivity extends AppCompatActivity {
 
     }
 
-    private void PUTIngredient(int position, String IngredientName, String Price) {
+    private void PUTIngredient(int position, String IngredientName, String Price, String PreviousName) {
         HelperMethods.ShowLoadingPopup(myDialog, true);
         StringRequest stringRequest = new StringRequest(Request.Method.PUT,
-                getIpAddress() + "/shops/Register/Ingredient/" + getNewShop().getIngredientItems().get(position).getIntID(),
+                getIpAddress() + "/shops/Register/Ingredient/" +
+                        getNewShop().getIngredientItems().get(position).getIntID()+"/"+getNewShop().getIntID(),
                 response -> {
                     HelperMethods.ShowLoadingPopup(myDialog, false);
                     getNewShop().getIngredientItems().get(position).setStrIngredientName(IngredientName);
                     getNewShop().getIngredientItems().get(position).setDblPrice(Double.valueOf(Price));
                     mAdapter.notifyItemChanged(position);
                 }, error -> {
+            HelperMethods.ShowLoadingPopup(myDialog, false);
             if (error.toString().equals("com.android.volley.TimeoutError")) {
                 Toast.makeText(this, "Connection error. Please retry", Toast.LENGTH_SHORT).show();
             } else {
@@ -242,6 +244,7 @@ public class IngredientsActivity extends AppCompatActivity {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
 
+                params.put("iPrevious", PreviousName);
                 params.put("iName", IngredientName);
                 params.put("iPrice", Price);
                 return params;
@@ -268,7 +271,8 @@ public class IngredientsActivity extends AppCompatActivity {
         tvCancel.setOnClickListener(view -> myDialog.dismiss());
 
         btnEditOption.setOnClickListener(view -> {
-            if (Objects.requireNonNull(etName.getText()).toString().isEmpty() && Objects.requireNonNull(etPrice.getText()).toString().isEmpty()) {
+            if (Objects.requireNonNull(etName.getText()).toString().isEmpty() &&
+                    Objects.requireNonNull(etPrice.getText()).toString().isEmpty()) {
                 etPrice.setError("required");
                 etPrice.setError("required");
             } else if (Objects.requireNonNull(etPrice.getText()).toString().isEmpty()) {
@@ -276,7 +280,9 @@ public class IngredientsActivity extends AppCompatActivity {
             } else if (Objects.requireNonNull(etName.getText()).toString().isEmpty()) {
                 etPrice.setError("required");
             } else {
-                PUTIngredient(position, Objects.requireNonNull(etName.getText()).toString(), Objects.requireNonNull(etPrice.getText()).toString());
+                PUTIngredient(position, Objects.requireNonNull(etName.getText()).toString(),
+                        Objects.requireNonNull(etPrice.getText()).toString(),
+                        getNewShop().getIngredientItems().get(position).getStrIngredientName());
             }
         });
 
@@ -315,8 +321,10 @@ public class IngredientsActivity extends AppCompatActivity {
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject Ingredients = jsonArray.getJSONObject(i);
                                 ButtonVisibility(getNewShop().getIngredientItems(), btnNext);
-                                getNewShop().getIngredientItems().add(new IngredientItem(Ingredients.getInt("iID"),
-                                        Ingredients.getString("iName"), Ingredients.getDouble("iPrice")));
+                                getNewShop().getIngredientItems().add(new
+                                        IngredientItem(Ingredients.getInt("iID"),
+                                        Ingredients.getString("iName"),
+                                        Ingredients.getDouble("iPrice")));
                             }
                         } else if (response.getString("message").equals("empty")) {
                             tvEmpty.setVisibility(View.VISIBLE);
@@ -329,7 +337,8 @@ public class IngredientsActivity extends AppCompatActivity {
                     rlError.setVisibility(View.VISIBLE);
                     rlLoad.setVisibility(View.GONE);
                     if (error.toString().equals("com.android.volley.TimeoutError")) {
-                        Toast.makeText(this, "Connection error. Please retry", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Connection error. Please retry",
+                                Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
                     }

@@ -1,9 +1,6 @@
 package www.ethichadebe.com.loxion_beanery;
 
-import android.Manifest;
-import android.app.Dialog;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
@@ -18,8 +15,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,18 +25,11 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.Places;
-import com.google.android.libraries.places.api.model.Place;
-import com.google.android.libraries.places.widget.Autocomplete;
-import com.google.android.libraries.places.widget.AutocompleteActivity;
-import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import org.json.JSONArray;
@@ -49,21 +37,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
 
 import Adapter.ShopItemAdapter;
 import SingleItem.ShopItem;
 
-import static android.app.Activity.RESULT_OK;
 import static util.Constants.getIpAddress;
-import static util.HelperMethods.COARSE_LOCATION;
-import static util.HelperMethods.FINE_LOCATION;
-import static util.HelperMethods.LOCATION_REQUEST_CODE;
 import static util.HelperMethods.handler;
 import static util.HelperMethods.ismLocationGranted;
-import static util.HelperMethods.setmLocationGranted;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUserLocation;
 
@@ -191,7 +172,7 @@ public class HomeFragment extends Fragment {
                                         Shops.getString("sFullDescription"),
                                         new LatLng(Shops.getDouble("sLatitude"),
                                                 Shops.getDouble("sLongitude")),
-                                        Shops.getString("sAddress"),Shops.getDouble("distance"),
+                                        Shops.getString("sAddress"), Shops.getDouble("distance"),
                                         Avetime, Shops.getInt("sRating"),
                                         Shops.getString("sOperatingHrs"), Shops.getInt("sLikes"),
                                         Shops.getInt("isLiked"), AveTimeColor, Shops.getInt("sStatus")

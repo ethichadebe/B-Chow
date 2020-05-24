@@ -9,7 +9,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PagerViewAdapter extends FragmentPagerAdapter {
+public class SectionsPageAdapter extends FragmentPagerAdapter {
 
     private final List<Fragment> fragments = new ArrayList<>();
     private final List<String> fragmentsTitles = new ArrayList<>();
@@ -25,7 +25,7 @@ public class PagerViewAdapter extends FragmentPagerAdapter {
         return fragmentsTitles.get(position);
     }
 
-    public PagerViewAdapter(@NonNull FragmentManager fm, int behavior) {
+    public SectionsPageAdapter(@NonNull FragmentManager fm, int behavior) {
         super(fm, behavior);
     }
 

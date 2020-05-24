@@ -1,14 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MapsActivity" />
+
+    <View
+        android:id="@+id/vBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:background="@color/common_google_signin_btn_text_dark_default"/>
     <LinearLayout
         android:id="@+id/llHead"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/places_ui_default_primary"
         android:orientation="vertical">
 
         <LinearLayout
@@ -21,11 +36,27 @@
                 android:id="@+id/tvUpdate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="12dp"
-                android:fontFamily="sans-serif-medium"
-                android:text="Order status"
-                android:textSize="14sp" />
+                android:layout_marginStart="5dp"
+                android:layout_toStartOf="@+id/cvRetry"
+                android:layout_toEndOf="@id/ivSign"
+                android:fontFamily="sans-serif-light"
+                android:gravity="center_vertical"
+                android:text="@string/network_error_occurred"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvUpdateSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_toStartOf="@+id/cvRetry"
+                android:layout_toEndOf="@id/ivSign"
+                android:layout_below="@+id/tvMessage"
+                android:fontFamily="sans-serif-light"
+                android:text="Make your way to the shop before an hour or your order will be cancelled"
+                android:gravity="center_vertical"
+                android:textSize="12sp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -113,23 +144,26 @@
         android:layout_height="50dp"
         android:layout_rowWeight="1"
         android:layout_columnWeight="1"
+        android:layout_above="@id/llBottomNav"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="10dp"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="5dp"
         android:layout_weight="1"
-        android:layout_centerHorizontal="true"
-        android:layout_above="@id/llBottomNav"
-        android:layout_margin="10dp"
         app:cardCornerRadius="10dp"
         app:cardElevation="3dp">
+
         <RelativeLayout
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:onClick="navigate"
             android:background="@drawable/ripple_effect"
-            android:padding="10dp"
-            android:layout_height="match_parent">
+            android:padding="10dp">
+
             <View
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/ic_navigation_black_24dp"/>
+                android:background="@drawable/ic_navigation_black_24dp" />
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 
@@ -139,24 +173,26 @@
         android:layout_height="50dp"
         android:layout_rowWeight="1"
         android:layout_columnWeight="1"
+        android:layout_below="@id/llHead"
+        android:layout_margin="10dp"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="5dp"
-        android:onClick="home"
-        android:layout_below="@id/llHead"
         android:layout_weight="1"
+        android:onClick="home"
         android:padding="10dp"
-        android:layout_margin="10dp"
         app:cardCornerRadius="10dp"
         app:cardElevation="3dp">
+
         <RelativeLayout
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:background="@drawable/ripple_effect_white"
-            android:padding="10dp"
-            android:layout_height="match_parent">
+            android:padding="10dp">
+
             <View
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/ic_home_black_24dp"/>
+                android:background="@drawable/ic_home_black_24dp" />
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 
@@ -185,6 +221,19 @@
 
 
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/ivCenter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/llBottomNav"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:contentDescription="@string/recenter_map"
+        android:onClick="center"
+        android:src="@drawable/ic_gps_fixed_black_24dp" />
 
     <LinearLayout
         android:id="@+id/llBottomNav"

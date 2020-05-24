@@ -98,6 +98,10 @@ public class RegisterShopActivity extends AppCompatActivity {
 
         if (getNewShop() != null) {
             etName.setText(getNewShop().getStrShopName());
+            if (!getNewShop().getStrAddress().isEmpty()) {
+                tvLocation.setText(getNewShop().getStrAddress());
+                sLocation = getNewShop().getLlLocation();
+            }
             if (getNewShop().getStrShortDescript() != null) {
                 etShortDescription.setText(getNewShop().getStrShortDescript());
             }
@@ -357,12 +361,13 @@ public class RegisterShopActivity extends AppCompatActivity {
         StringRequest stringRequest = new StringRequest(Request.Method.PUT,
                 getIpAddress() + "/shops/Register/" + getNewShop().getIntID(),
                 response -> {
-                    HelperMethods.ShowLoadingPopup(myDialog, false);
+                    Toast.makeText(this, "saved", Toast.LENGTH_SHORT).show();
                     HelperMethods.ShowLoadingPopup(myDialog, false);
                     if (goBack) {
                         finish();
                     }
                 }, error -> {
+            Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
             HelperMethods.ShowLoadingPopup(myDialog, false);
             //myDialog.dismiss();
         }) {
@@ -370,15 +375,14 @@ public class RegisterShopActivity extends AppCompatActivity {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
 
-                params.put("sName", getNewShop().getStrShopName());
-                params.put("sShortDescrption", getNewShop().getStrShortDescript());
-                params.put("sFullDescription", getNewShop().getStrFullDescript());
+                params.put("sName", etName.getText().toString());
+                params.put("sShortDescrption", etShortDescription.getText().toString());
+                params.put("sFullDescription", etFullDescription.getText().toString());
                 params.put("sSmallPicture", getStringImage(bmSmall));
                 params.put("sBigPicture", getStringImage(bmBig));
-                params.put("sOperatingHrs", getNewShop().getStrOperatingHRS());
-                params.put("sLatitude", String.valueOf(getNewShop().getLlLocation().latitude));
-                params.put("sLongitude", String.valueOf(getNewShop().getLlLocation().longitude));
-                params.put("sAddress", getNewShop().getStrAddress());
+                params.put("sLatitude", String.valueOf(sLocation.latitude));
+                params.put("sLongitude", String.valueOf(sLocation.longitude));
+                params.put("sAddress", tvLocation.getText().toString());
                 return params;
             }
         };

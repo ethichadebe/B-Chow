@@ -78,7 +78,7 @@ public class MenuActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
 
-        if(isEdit){
+        if (isEdit) {
             btnNext.setText("Edit Extras");
         }
         //Set Button Visibility False if no menu item
@@ -92,12 +92,14 @@ public class MenuActivity extends AppCompatActivity {
             @Override
             public void onEditClick(int position) {
                 intPosition = position;
+                //Break the string of
                 String[] IngredientNames = getNewShop().getMenuItems().get(position).getStrMenu().split(", ");
                 for (String ingredient : IngredientNames) {
-                    for (IngredientItem ingredientItem : getNewShop().getIngredientItems())
+                    for (IngredientItem ingredientItem : getNewShop().getIngredientItems()) {
                         if (ingredientItem.getStrIngredientName().equals(ingredient)) {
                             Ingredients.add(ingredientItem);
                         }
+                    }
                 }
                 dblPrice = getNewShop().getMenuItems().get(position).getDblPrice();
                 startActivity(new Intent(MenuActivity.this, NewMenuItemActivity.class));
@@ -120,9 +122,9 @@ public class MenuActivity extends AppCompatActivity {
     }
 
     public void back(View view) {
-        if (isEdit){
-            finish();
-        }else {
+        if (isEdit) {
+            startActivity(new Intent(MenuActivity.this, ShopSettingsActivity.class));
+        } else {
             startActivity(new Intent(MenuActivity.this, IngredientsActivity.class));
         }
     }
@@ -132,7 +134,14 @@ public class MenuActivity extends AppCompatActivity {
     }
 
     public void AddMenu(View view) {
-        startActivity(new Intent(MenuActivity.this, NewMenuItemActivity.class));
+        //Make sure chips are always checked
+        for (IngredientItem ingredientItem : getNewShop().getIngredientItems()) {
+            if (ingredientItem.getStrIngredientName().toLowerCase().equals("chips")) {
+                Ingredients.add(ingredientItem);
+                dblPrice = ingredientItem.getDblPrice();
+                startActivity(new Intent(MenuActivity.this, NewMenuItemActivity.class));
+            }
+        }
     }
 
     private void DELETEIngredient(int position) {
@@ -177,9 +186,9 @@ public class MenuActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (isEdit){
-            finish();
-        }else {
+        if (isEdit) {
+            startActivity(new Intent(MenuActivity.this, ShopSettingsActivity.class));
+        } else {
             startActivity(new Intent(MenuActivity.this, IngredientsActivity.class));
         }
     }

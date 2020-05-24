@@ -17,6 +17,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -77,7 +78,7 @@ public class OrderActivity extends AppCompatActivity {
         ingredientItemsChecked = new ArrayList<>();
         myDialog = new Dialog(this);
 
-        dblPrice = getMenuItem().getDblPrice();
+         dblPrice = getMenuItem().getDblPrice();
 
         GETIngredients(findViewById(R.id.vLine), findViewById(R.id.vLineGrey));
 
@@ -164,7 +165,7 @@ public class OrderActivity extends AppCompatActivity {
     public void Order(View view) {
         if (nExtras > 0) {
             orderItem = new UpcomingOrderItem(getShopItem().getIntID(), "", 1, "",combineString(ingredientItems),
-                    "", dblPrice, "");
+                    "", dblPrice, "",new LatLng(0.0,0.0));
             startActivity(new Intent(this, ExtraItemActivity.class));
         } else {
             POSTOrder();

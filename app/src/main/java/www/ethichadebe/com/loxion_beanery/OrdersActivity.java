@@ -24,6 +24,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.tabs.TabLayout;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,6 +37,7 @@ import java.util.Objects;
 
 import Adapter.AdminOrderItemAdapter;
 import Adapter.PagerViewAdapter;
+import Adapter.SectionsPageAdapter;
 import SingleItem.AdminOrderItem;
 import util.HelperMethods;
 
@@ -47,12 +49,10 @@ import static www.ethichadebe.com.loxion_beanery.MyShopsActivity.getNewShop;
 
 public class OrdersActivity extends AppCompatActivity {
     private Dialog myDialog;
+    private CardView cvOpen, cvClosed;
     private TextView tvOpen, tvClosed, tvCompleteReg;
-    private View vBottomLeft, vBottomRight;
     private ViewPager viewPager;
     private PagerViewAdapter pagerViewAdapter;
-    private RelativeLayout rlLeft, rlRight;
-    private CardView cvOpen, cvClosed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,45 +64,11 @@ public class OrdersActivity extends AppCompatActivity {
 
         myDialog = new Dialog(this);
         cvOpen = findViewById(R.id.cvOpen);
-        vBottomLeft = findViewById(R.id.vBottomLeft);
-        vBottomRight = findViewById(R.id.vBottomRight);
-        rlLeft = findViewById(R.id.rlLeft);
-        rlRight = findViewById(R.id.rlRight);
-        viewPager = findViewById(R.id.fragment_container);
+        viewPager = findViewById(R.id.container);
         cvClosed = findViewById(R.id.cvClosed);
         tvOpen = findViewById(R.id.tvOpen);
         tvClosed = findViewById(R.id.tvClosed);
         tvCompleteReg = findViewById(R.id.tvCompleteReg);
-
-        pagerViewAdapter = new PagerViewAdapter(getSupportFragmentManager(),
-                FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-        viewPager.setAdapter(pagerViewAdapter);
-        vBottomRight.setBackgroundColor(getResources().getColor(R.color.white));
-        vBottomLeft.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-        rlLeft.setOnClickListener(view -> viewPager.setCurrentItem(0));
-        rlRight.setOnClickListener(view -> viewPager.setCurrentItem(1));
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                if (position == 0) {
-                    vBottomRight.setBackgroundColor(getResources().getColor(R.color.white));
-                    vBottomLeft.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                } else {
-                    vBottomRight.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                    vBottomLeft.setBackgroundColor(getResources().getColor(R.color.white));
-                }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
 
         tvClosed.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
         tvOpen.setBackground(getResources().getDrawable(R.drawable.ripple_effect_green));
@@ -151,8 +117,26 @@ public class OrdersActivity extends AppCompatActivity {
             tvOpen.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
             PUTStatus(0);
         });
+
+
+        pagerViewAdapter = new PagerViewAdapter(getSupportFragmentManager(),
+                FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+
+        TabLayout tabLayout = findViewById(R.id.tabs);
+        viewPager = findViewById(R.id.container);
+        setupViewPager(viewPager);
+
+        tabLayout.setupWithViewPager(viewPager);
+
     }
 
+    private void setupViewPager(ViewPager pager){
+        PagerViewAdapter pageAdapter = new PagerViewAdapter(getSupportFragmentManager(),
+                FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        pageAdapter.addFragment(new UpcomingOrderFragment(), "Upcoming orders");
+        pageAdapter.addFragment(new PastOrderFragment(), "Past orders");
+        pager.setAdapter(pageAdapter);
+    }
 
     public void back(View view) {
         startActivity(new Intent(this, MyShopsActivity.class));

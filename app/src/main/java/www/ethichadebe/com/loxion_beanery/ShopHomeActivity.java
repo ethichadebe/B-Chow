@@ -61,7 +61,7 @@ public class ShopHomeActivity extends AppCompatActivity {
     private LinearLayout llLike;
     private Button btnNext;
 
-    public static MenuItem getMenuItem() {
+    public static MenuItem  getMenuItem() {
         return menuItem;
     }
 
@@ -102,7 +102,7 @@ public class ShopHomeActivity extends AppCompatActivity {
             GETMenu(findViewById(R.id.vLine), findViewById(R.id.vLineGrey));
         }
 
-        if (getShopItem().isLiked() == 1) {
+        if (Objects.requireNonNull(getShopItem()).isLiked() == 1) {
             ivLike.setImageResource(R.drawable.ic_favorite_red_24dp);
         }
 
@@ -111,7 +111,7 @@ public class ShopHomeActivity extends AppCompatActivity {
         setStarRating(getShopItem().getIntRating(), ivStar1, ivStar2, ivStar3, ivStar4, ivStar5);
 
         tvLikes.setText(String.valueOf(getShopItem().getIntLikes()));
-        tvDistance.setText(roundOf(getShopItem().getDblDistance(),1)+"Km");
+        tvDistance.setText(getShopItem().getStrAddress());
         tvAveTime.setText(getShopItem().getStrAveTime());
         tvFullDescrpit.setText(getShopItem().getStrFullDescript());
 

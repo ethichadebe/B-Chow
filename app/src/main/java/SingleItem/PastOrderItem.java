@@ -4,8 +4,11 @@ import static util.HelperMethods.convertedDateTime;
 
 public class PastOrderItem extends OrderItem {
     private int sID;
-    private int intRating;
+    int intRating;
     private String strShopName, strTime;
+
+    PastOrderItem() {
+    }
 
     public PastOrderItem(int intID, int sID, int intOrderNum, int intRating, String strShopName, String strTime,
                          String strMenu, String strExtras, Double dblPrice, String strStatus) {
