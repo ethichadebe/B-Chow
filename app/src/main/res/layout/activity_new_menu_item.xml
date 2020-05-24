@@ -12,8 +12,8 @@
 
         <TextView
             android:id="@+id/tvType"
-            android:layout_width="match_parent"
             style="@style/Base.TextAppearance.AppCompat.Body1"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
@@ -31,17 +31,18 @@
         <LinearLayout
             android:id="@+id/llBack"
             android:layout_width="?attr/actionBarSize"
-            android:layout_alignParentBottom="true"
+            android:layout_height="?attr/actionBarSize"
             android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"
             android:background="@drawable/ripple_effect_white"
             android:gravity="center"
-            android:onClick="back"
-            android:layout_height="?attr/actionBarSize">
+            android:onClick="back">
+
             <TextView
-                android:layout_width="wrap_content"
                 style="@style/Base.TextAppearance.AppCompat.Body1"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/ic_keyboard_backspace_black_24dp"/>
+                android:background="@drawable/ic_keyboard_backspace_black_24dp" />
         </LinearLayout>
 
         <TextView
@@ -49,10 +50,10 @@
             style="@style/Base.TextAppearance.AppCompat.Body1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:layout_alignParentTop="true"
-            android:gravity="center"
             android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:gravity="center"
             android:padding="10dp"
             android:textColor="@color/White"
             android:textSize="12sp"
@@ -63,72 +64,72 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_above="@+id/rlTotal"
         android:layout_below="@id/llHead"
         android:layout_margin="10dp"
-        android:layout_height="match_parent"
-        android:scrollbars="vertical"/>
+        android:scrollbars="vertical" />
 
-    <androidx.cardview.widget.CardView android:layout_width="match_parent"
+    <androidx.cardview.widget.CardView
         android:id="@+id/rlTotal"
-        app:cardCornerRadius="12dp"
-        android:layout_height="wrap_content"
-        android:layout_columnWeight="1"
-        android:layout_rowWeight="1"
-        android:background="@drawable/ripple_effect_white"
-        app:cardElevation="3dp"
-        android:layout_above="@id/btnAdd"
-        android:layout_margin="5dp">
-
-    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp">
+        android:layout_rowWeight="1"
+        android:layout_columnWeight="1"
+        android:layout_above="@id/btnAdd"
+        android:layout_margin="5dp"
+        android:background="@drawable/ripple_effect_white"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="3dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-medium"
-            android:gravity="center"
-            android:text="Enter Price"
-            android:textSize="14sp" />
+            android:padding="10dp">
 
-        <TextView
-            android:id="@+id/tvHeading1"
-            android:layout_width="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toStartOf="@+id/etPrice"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-medium"
-            android:gravity="center"
-            android:text="R:"
-            android:layout_marginEnd="20dp"
-            android:textSize="20sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center"
+                android:text="Enter Price"
+                android:textSize="14sp" />
 
-        <com.rengwuxian.materialedittext.MaterialEditText
-            android:id="@+id/etPrice"
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_alignParentEnd="true"
-            android:ems="10"
-            android:textSize="14sp"
-            android:hint="Price"
-            android:inputType="numberDecimal"
-            app:met_floatingLabel="highlight" />
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/tvHeading1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="20dp"
+                android:layout_toStartOf="@+id/etPrice"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center"
+                android:text="R:"
+                android:textSize="20sp" />
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/etPrice"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:ems="10"
+                android:hint="Price"
+                android:inputType="numberDecimal"
+                android:textSize="14sp"
+                app:met_floatingLabel="highlight" />
+        </RelativeLayout>
     </androidx.cardview.widget.CardView>
 
     <Button
         android:id="@+id/btnAdd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Add"
-        android:visibility="gone"
-        android:onClick="add"
         android:layout_alignParentBottom="true"
         android:background="@drawable/ripple_effect"
+        android:onClick="add"
+        android:text="Add"
         android:textColor="@color/White"/>
 </RelativeLayout>

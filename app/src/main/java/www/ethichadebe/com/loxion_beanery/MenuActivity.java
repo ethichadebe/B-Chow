@@ -93,6 +93,7 @@ public class MenuActivity extends AppCompatActivity {
             @Override
             public void onEditClick(int position) {
                 intPosition = position;
+                //Break the string of
                 String[] IngredientNames = getNewShop().getMenuItems().get(position).getStrMenu().split(", ");
                 for (String ingredient : IngredientNames) {
                     for (IngredientItem ingredientItem : getNewShop().getIngredientItems())

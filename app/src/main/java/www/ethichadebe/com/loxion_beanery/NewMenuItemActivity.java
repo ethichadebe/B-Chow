@@ -1,7 +1,6 @@
 package www.ethichadebe.com.loxion_beanery;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -49,7 +48,6 @@ public class NewMenuItemActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager mLayoutManager;
     private Double dblPrice = 0.0;
     private MaterialEditText etPrice;
-    private CardView rlTotal;
     private Dialog myDialog;
     private Button btnAdd;
 
@@ -63,15 +61,16 @@ public class NewMenuItemActivity extends AppCompatActivity {
 
         btnAdd = findViewById(R.id.btnAdd);
         etPrice = findViewById(R.id.etPrice);
-        rlTotal = findViewById(R.id.rlTotal);
         myDialog = new Dialog(this);
 
+        //Check if There are checked ingredients
         if (getIngredients().size() > 0) {
             dblPrice = getDblPrice();
             etPrice.setText(String.valueOf(getDblPrice()));
             btnAdd.setText("Edit");
             ingredientItems = new ArrayList<>();
             etPrice.setText(String.valueOf(getDblPrice()));
+
             for (int i = 0; i < getIngredients().size(); i++) {
                 ingredientItems.add(new IngredientItemCheckbox(getIngredients().get(i), true, true));
             }
@@ -98,7 +97,6 @@ public class NewMenuItemActivity extends AppCompatActivity {
             }
         }
 
-        isChecked();
         mRecyclerView = findViewById(R.id.recyclerView);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
@@ -114,28 +112,9 @@ public class NewMenuItemActivity extends AppCompatActivity {
                 dblPrice -= ingredientItems.get(position).getDblPrice();
                 etPrice.setText(String.valueOf(dblPrice));
             }
-            isChecked();
         });
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
-    }
-
-    private void isChecked() {
-        boolean isChecked = false;           //Checks if there's at least one Ingredients checkbox selected
-        for (IngredientItemCheckbox item : ingredientItems) {
-            if (item.getChecked()) {
-                isChecked = true;
-                break;
-            }
-        }
-
-        if (isChecked) {
-            btnAdd.setVisibility(View.VISIBLE);
-            rlTotal.setVisibility(View.VISIBLE);
-        } else {
-            btnAdd.setVisibility(View.GONE);
-            rlTotal.setVisibility(View.GONE);
-        }
     }
 
     private void POSTRegisterShopMenuItems() {
