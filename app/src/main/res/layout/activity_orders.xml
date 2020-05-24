@@ -107,33 +107,40 @@
     </RelativeLayout>
 
     <androidx.viewpager.widget.ViewPager
-        android:id="@+id/fragment_container"
+        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/tvCompleteReg"
-        android:layout_below="@+id/llOpts"/>
+        android:layout_below="@+id/llOpts"
+        android:layout_above="@+id/appBar"
+        android:padding="4dp" />
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/common_google_signin_btn_text_dark_default" />
+    </com.google.android.material.appbar.AppBarLayout>
 
     <TextView
         android:id="@+id/tvCompleteReg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/appBar"
         android:layout_alignParentBottom="true"
         android:layout_marginTop="5dp"
         android:background="@drawable/ripple_effect_red"
         android:fontFamily="sans-serif-medium"
         android:gravity="center"
-        android:layout_above="@+id/include"
         android:padding="10dp"
         android:text="Click here to complete shop registration"
         android:textColor="@color/White"
         android:textSize="14sp"
         android:textStyle="bold"
         android:visibility="gone" />
-
-    <include
-        android:id="@+id/include"
-        layout="@layout/tab_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true" />
 </RelativeLayout>

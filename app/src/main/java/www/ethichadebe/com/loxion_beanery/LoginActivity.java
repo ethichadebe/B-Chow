@@ -29,9 +29,14 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResponse;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.rengwuxian.materialedittext.MaterialEditText;
@@ -164,11 +169,11 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 }, error -> {
             if (error.toString().equals("com.android.volley.TimeoutError")) {
-               tvError.setText("Connection timeout, Please try again");
-            }else if (error.toString().equals("com.android.volley.ServerError")) {
-               tvError.setText("Problem from our side, Please try again later");
+                tvError.setText("Connection timeout, Please try again");
+            } else if (error.toString().equals("com.android.volley.ServerError")) {
+                tvError.setText("Problem from our side, Please try again later");
             } else if (error.toString().contains("UnknownHostException")) {
-               tvError.setText("Make sure you're connected");
+                tvError.setText("Make sure you're connected");
             } else {
                 Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
             }

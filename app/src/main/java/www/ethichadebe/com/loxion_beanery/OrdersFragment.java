@@ -33,7 +33,7 @@ public class OrdersFragment extends Fragment {
         if (getUser() == null) {
             startActivity(new Intent(getActivity(), LoginActivity.class));
         }
-        sectionsPageAdapter = new SectionsPageAdapter(Objects.requireNonNull(getActivity()).getSupportFragmentManager(),
+        sectionsPageAdapter = new SectionsPageAdapter(Objects.requireNonNull(getChildFragmentManager()),
                 FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
 
         TabLayout tabLayout = v.findViewById(R.id.tabs);

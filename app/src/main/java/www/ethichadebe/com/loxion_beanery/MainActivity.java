@@ -9,6 +9,8 @@ import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.Objects;
+
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 
 public class MainActivity extends AppCompatActivity {
@@ -61,9 +63,8 @@ public class MainActivity extends AppCompatActivity {
                     break;
             }
 
-            assert selectedFragment != null;
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                    selectedFragment).commit();
+                    Objects.requireNonNull(selectedFragment)).commit();
 
             return true;
         });

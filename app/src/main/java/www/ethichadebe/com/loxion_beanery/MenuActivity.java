@@ -122,7 +122,7 @@ public class MenuActivity extends AppCompatActivity {
 
     public void back(View view) {
         if (isEdit){
-            finish();
+            startActivity(new Intent(MenuActivity.this, ShopSettingsActivity.class));
         }else {
             startActivity(new Intent(MenuActivity.this, IngredientsActivity.class));
         }
@@ -179,7 +179,7 @@ public class MenuActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         if (isEdit){
-            finish();
+            startActivity(new Intent(MenuActivity.this, ShopSettingsActivity.class));
         }else {
             startActivity(new Intent(MenuActivity.this, IngredientsActivity.class));
         }

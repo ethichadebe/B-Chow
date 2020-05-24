@@ -45,11 +45,11 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
     private Dialog myDialog;
     private MaterialEditText[] etOpen = new MaterialEditText[8];
     private MaterialEditText[] etClose = new MaterialEditText[8];
+    private TextView[] tvDays = new TextView[8];
+    private int[] intBackground = {0, 0, 0, 0, 0, 0, 0, 0};
     private String DayOfWeek, strTimes = "";
     private Button btnNext;
     private boolean goBack;
-    private TextView[] tvDays = new TextView[8];
-    private int[] intBackground = {0, 0, 0, 0, 0, 0, 0, 0};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,6 +128,7 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
 
         if (isEdit) {
             btnNext.setText("Save");
+            goBack=true;
         }
     }
 
@@ -285,7 +286,7 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
     private void PUTShop() {
         HelperMethods.ShowLoadingPopup(myDialog, true);
         StringRequest stringRequest = new StringRequest(Request.Method.PUT,
-                getIpAddress() + "/shops/Register/" + getNewShop().getIntID(),
+                getIpAddress() + "/shops/Register/OH/" + getNewShop().getIntID(),
                 response -> {
                     HelperMethods.ShowLoadingPopup(myDialog, false);
                     getNewShop().setStrOperatingHRS(strTimes);      //Set Operating hours
@@ -308,16 +309,7 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
 
-                params.put("sName", getNewShop().getStrShopName());
-                params.put("sShortDescrption", getNewShop().getStrShortDescript());
-                params.put("sFullDescription", getNewShop().getStrFullDescript());
-                params.put("sSmallPicture", getNewShop().getStrLogoSmall());
-                params.put("sBigPicture", getNewShop().getStrLogoBig());
-                params.put("sLatitude", String.valueOf(getNewShop().getLlLocation().latitude));
-                params.put("sLongitude", String.valueOf(getNewShop().getLlLocation().longitude));
-                params.put("sAddress", getNewShop().getStrAddress());
                 params.put("sOperatingHrs", combineString(etOpen, etClose));
-                params.put("uID", String.valueOf(getUser().getuID()));
                 return params;
             }
         };
@@ -380,6 +372,4 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
         Objects.requireNonNull(myDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         myDialog.show();
     }
-
-
 }
