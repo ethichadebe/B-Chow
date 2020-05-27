@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.android.volley.RequestQueue;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.Objects;
@@ -22,6 +23,7 @@ import Adapter.SectionsPageAdapter;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 
 public class OrdersFragment extends Fragment {
+    private static final String TAG = "OrdersFragment";
     private ViewPager viewPager;
     private SectionsPageAdapter sectionsPageAdapter;
 
@@ -52,5 +54,4 @@ public class OrdersFragment extends Fragment {
         pageAdapter.addFragment(new PastOrderFragmentCustomer(), "Past orders");
         pager.setAdapter(pageAdapter);
     }
-
 }

@@ -39,6 +39,7 @@ import static www.ethichadebe.com.loxion_beanery.NewExtrasActivity.isNew;
 import static www.ethichadebe.com.loxion_beanery.NewExtrasActivity.setIsNew;
 
 public class MyShopsActivity extends AppCompatActivity {
+    private static final String TAG = "MyShopsActivity";
     private ArrayList<MyShopItem> shopItems;
     private RelativeLayout rlError, rlLoad;
     private RecyclerView mRecyclerView;
@@ -55,6 +56,7 @@ public class MyShopsActivity extends AppCompatActivity {
     };
     private View bsbBottomSheet;
     private TextView tvEmpty;
+    private RequestQueue requestQueue;
 
 
     @Override
@@ -126,7 +128,7 @@ public class MyShopsActivity extends AppCompatActivity {
         rlError.setVisibility(View.GONE);
         rlLoad.setVisibility(View.VISIBLE);
         handler(vLine, vLineGrey);
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue = Volley.newRequestQueue(this);
 
         JsonObjectRequest objectRequest = new JsonObjectRequest(
                 Request.Method.GET,
@@ -179,6 +181,7 @@ public class MyShopsActivity extends AppCompatActivity {
                         Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
                     }
                 });
+        objectRequest.setTag(TAG);
         requestQueue.add(objectRequest);
 
     }
@@ -195,4 +198,11 @@ public class MyShopsActivity extends AppCompatActivity {
         MyShopsActivity.newShop = newShop;
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (requestQueue != null) {
+            requestQueue.cancelAll(TAG);
+        }
+    }
 }

@@ -41,7 +41,8 @@ import static www.ethichadebe.com.loxion_beanery.MenuActivity.setIngredients;
 import static www.ethichadebe.com.loxion_beanery.MyShopsActivity.getNewShop;
 
 public class NewMenuItemActivity extends AppCompatActivity {
-
+    private static final String TAG = "NewMenuItemActivity";
+    private RequestQueue requestQueue;
     private static ArrayList<IngredientItemCheckbox> ingredientItems;
     private RecyclerView mRecyclerView;
     private IngredientItemCheckboxAdapter mAdapter;
@@ -155,7 +156,8 @@ public class NewMenuItemActivity extends AppCompatActivity {
             }
         };
 
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue = Volley.newRequestQueue(this);
+        stringRequest.setTag(TAG);
         requestQueue.add(stringRequest);
     }
 
@@ -207,7 +209,8 @@ public class NewMenuItemActivity extends AppCompatActivity {
             }
         };
 
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue = Volley.newRequestQueue(this);
+        stringRequest.setTag(TAG);
         requestQueue.add(stringRequest);
     }
 
@@ -221,5 +224,13 @@ public class NewMenuItemActivity extends AppCompatActivity {
             }
         }
         return true;
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (requestQueue != null) {
+            requestQueue.cancelAll(TAG);
+        }
     }
 }

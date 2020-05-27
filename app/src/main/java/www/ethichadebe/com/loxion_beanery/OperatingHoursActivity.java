@@ -42,6 +42,8 @@ import static www.ethichadebe.com.loxion_beanery.MyShopsActivity.getNewShop;
 import static www.ethichadebe.com.loxion_beanery.ShopSettingsActivity.isEdit;
 
 public class OperatingHoursActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
+    private static final String TAG = "OperatingHoursActivity";
+    private RequestQueue requestQueue;
     private Dialog myDialog;
     private MaterialEditText[] etOpen = new MaterialEditText[8];
     private MaterialEditText[] etClose = new MaterialEditText[8];
@@ -279,7 +281,8 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
             }
         };
 
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue = Volley.newRequestQueue(this);
+        stringRequest.setTag(TAG);
         requestQueue.add(stringRequest);
     }
 
@@ -314,7 +317,8 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
             }
         };
 
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue = Volley.newRequestQueue(this);
+        stringRequest.setTag(TAG);
         requestQueue.add(stringRequest);
     }
 
@@ -371,5 +375,13 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
         btnNo.setOnClickListener(view ->finish());
         Objects.requireNonNull(myDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         myDialog.show();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (requestQueue != null) {
+            requestQueue.cancelAll(TAG);
+        }
     }
 }

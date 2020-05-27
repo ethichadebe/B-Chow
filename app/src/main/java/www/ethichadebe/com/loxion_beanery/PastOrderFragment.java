@@ -34,6 +34,8 @@ import static util.HelperMethods.handler;
 import static www.ethichadebe.com.loxion_beanery.MyShopsActivity.getNewShop;
 
 public class PastOrderFragment extends Fragment {
+    private static final String TAG = "PastOrderFragment";
+    private RequestQueue requestQueue;
     private RecyclerView mRecyclerView;
     private AdminOrderItemPastAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -71,7 +73,7 @@ public class PastOrderFragment extends Fragment {
         rlError.setVisibility(View.GONE);
         rlLoad.setVisibility(View.VISIBLE);
         handler(vLine, vLineGrey);
-        RequestQueue requestQueue = Volley.newRequestQueue(Objects.requireNonNull(getActivity()));
+        requestQueue = Volley.newRequestQueue(Objects.requireNonNull(getActivity()));
 
         JsonObjectRequest objectRequest = new JsonObjectRequest(
                 Request.Method.GET,
@@ -106,7 +108,16 @@ public class PastOrderFragment extends Fragment {
                         Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show();
                     }
                 });
+        objectRequest.setTag(TAG);
         requestQueue.add(objectRequest);
 
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (requestQueue != null) {
+            requestQueue.cancelAll(TAG);
+        }
     }
 }

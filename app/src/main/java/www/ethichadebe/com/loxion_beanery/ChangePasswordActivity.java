@@ -34,9 +34,13 @@ import static util.HelperMethods.sharedPrefsIsEmpty;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 
 public class ChangePasswordActivity extends AppCompatActivity {
+    private static final String TAG = "ChangePasswordActivity";
     private MaterialEditText etOld, etNew, etCNew;
     private Button btnSave;
     private Dialog myDialog;
+    private RequestQueue requestQueue;
+    private StringRequest stringRequest;
+    private JsonObjectRequest objectRequest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,21 +61,18 @@ public class ChangePasswordActivity extends AppCompatActivity {
                 etCNew.setError("Password does not match");
             }
         });
-
-
         etNew.setOnClickListener(view -> {
-            if (!etOld.hasFocus() && !Objects.requireNonNull(etOld.getText()).toString().isEmpty()){
+            if (!etOld.hasFocus() && !Objects.requireNonNull(etOld.getText()).toString().isEmpty()) {
                 CheckPassword();
             }
         });
     }
 
     private void CheckPassword() {
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-
-        JsonObjectRequest objectRequest = new JsonObjectRequest(
+        requestQueue = Volley.newRequestQueue(this);
+        objectRequest = new JsonObjectRequest(
                 Request.Method.GET,
-                getIpAddress() + "/users/CheckPassword/" +getUser().getuID()+"/"+
+                getIpAddress() + "/users/CheckPassword/" + getUser().getuID() + "/" +
                         Objects.requireNonNull(etOld.getText()).toString(), null,
                 response -> {
                     //Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
@@ -96,12 +97,13 @@ public class ChangePasswordActivity extends AppCompatActivity {
                         Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
                     }
                 });
+        objectRequest.setTag(TAG);
         requestQueue.add(objectRequest);
     }
 
     private void ChangePassword() {
         ShowLoadingPopup(myDialog, true);
-        StringRequest stringRequest = new StringRequest(Request.Method.PUT,
+        stringRequest = new StringRequest(Request.Method.PUT,
                 getIpAddress() + "/users/ChangePassword/" + getUser().getuID(),
                 response -> {
                     ShowLoadingPopup(myDialog, false);
@@ -128,11 +130,20 @@ public class ChangePasswordActivity extends AppCompatActivity {
             }
         };
 
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue = Volley.newRequestQueue(this);
+        stringRequest.setTag(TAG);
         requestQueue.add(stringRequest);
     }
 
     public void back(View view) {
         finish();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (requestQueue != null) {
+            requestQueue.cancelAll(TAG);
+        }
     }
 }

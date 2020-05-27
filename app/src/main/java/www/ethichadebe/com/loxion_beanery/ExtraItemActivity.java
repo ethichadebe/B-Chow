@@ -26,7 +26,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import Adapter.IngredientItemCheckboxAdapter;
-import SingleItem.ExtraItem;
 import SingleItem.IngredientItemCheckbox;
 
 import static util.Constants.getIpAddress;
@@ -35,17 +34,16 @@ import static util.HelperMethods.combineString;
 import static util.HelperMethods.handler;
 import static www.ethichadebe.com.loxion_beanery.HomeFragment.getShopItem;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
-import static www.ethichadebe.com.loxion_beanery.MyShopsActivity.getNewShop;
 import static www.ethichadebe.com.loxion_beanery.OrderActivity.getOrderItem;
 import static www.ethichadebe.com.loxion_beanery.OrderActivity.oID;
 
 public class ExtraItemActivity extends AppCompatActivity {
+    private static final String TAG = "ExtraItemActivity";
     private RelativeLayout rlLoad, rlError;
-    private RecyclerView mRecyclerView;
-    private IngredientItemCheckboxAdapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<IngredientItemCheckbox> ingredientItems;
     private Dialog myDialog;
+
+    private RequestQueue requestQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +52,7 @@ public class ExtraItemActivity extends AppCompatActivity {
 
         rlLoad = findViewById(R.id.rlLoad);
         rlError = findViewById(R.id.rlError);
-        mRecyclerView = findViewById(R.id.recyclerView);
+        RecyclerView mRecyclerView = findViewById(R.id.recyclerView);
         ingredientItems = new ArrayList<>();
         myDialog = new Dialog(this);
 
@@ -62,15 +60,13 @@ public class ExtraItemActivity extends AppCompatActivity {
         GETIngredients(findViewById(R.id.vLine), findViewById(R.id.vLineGrey));
 
         mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(this);
-        mAdapter = new IngredientItemCheckboxAdapter(ingredientItems);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
+        IngredientItemCheckboxAdapter mAdapter = new IngredientItemCheckboxAdapter(ingredientItems);
 
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
 
-        mAdapter.setOnItemClickListener(position -> {
-            ingredientItems.get(position).setChecked();
-        });
+        mAdapter.setOnItemClickListener(position -> ingredientItems.get(position).setChecked());
 
     }
 
@@ -78,11 +74,13 @@ public class ExtraItemActivity extends AppCompatActivity {
         rlError.setVisibility(View.GONE);
         rlLoad.setVisibility(View.VISIBLE);
         handler(vLine, vLineGrey);
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue = Volley.newRequestQueue(this);
 
+        //Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
+        //Loads shops starting with the one closest to user
         JsonObjectRequest objectRequest = new JsonObjectRequest(
                 Request.Method.GET,
-                getIpAddress() + "/shops/Extras/"+getShopItem().getIntID(), null,
+                getIpAddress() + "/shops/Extras/" + getShopItem().getIntID(), null,
                 response -> {
                     //Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
                     rlLoad.setVisibility(View.GONE);
@@ -93,7 +91,7 @@ public class ExtraItemActivity extends AppCompatActivity {
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject Extras = jsonArray.getJSONObject(i);
                                 ingredientItems.add(new IngredientItemCheckbox(Extras.getInt("eID"),
-                                        Extras.getString("eName"),0.0, false, false));
+                                        Extras.getString("eName"), 0.0, false, false));
                             }
                         }
                     } catch (JSONException e) {
@@ -109,6 +107,7 @@ public class ExtraItemActivity extends AppCompatActivity {
                         Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
                     }
                 });
+        objectRequest.setTag(TAG);
         requestQueue.add(objectRequest);
 
     }
@@ -148,7 +147,8 @@ public class ExtraItemActivity extends AppCompatActivity {
             }
         };
 
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue = Volley.newRequestQueue(this);
+        stringRequest.setTag(TAG);
         requestQueue.add(stringRequest);
     }
 
@@ -158,5 +158,13 @@ public class ExtraItemActivity extends AppCompatActivity {
 
     public void Order(View view) {
         POSTOrder();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (requestQueue != null) {
+            requestQueue.cancelAll(TAG);
+        }
     }
 }

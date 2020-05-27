@@ -46,7 +46,8 @@ import static www.ethichadebe.com.loxion_beanery.MyShopsActivity.getNewShop;
 import static util.HelperMethods.roundOf;
 
 public class ShopHomeActivity extends AppCompatActivity {
-
+    private static final String TAG = "ShopHomeActivity";
+    private RequestQueue requestQueue;
     private RecyclerView mRecyclerView;
     private MenuItemAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -157,7 +158,7 @@ public class ShopHomeActivity extends AppCompatActivity {
         rlError.setVisibility(View.GONE);
         rlLoad.setVisibility(View.VISIBLE);
         handler(vLine, vLineGrey);
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue = Volley.newRequestQueue(this);
 
         JsonObjectRequest objectRequest = new JsonObjectRequest(
                 Request.Method.GET,
@@ -186,6 +187,7 @@ public class ShopHomeActivity extends AppCompatActivity {
                         Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
                     }
                 });
+        objectRequest.setTag(TAG);
         requestQueue.add(objectRequest);
 
     }
@@ -235,14 +237,15 @@ public class ShopHomeActivity extends AppCompatActivity {
             }
         };
 
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue = Volley.newRequestQueue(this);
+        stringRequest.setTag(TAG);
         requestQueue.add(stringRequest);
     }
 
     private void DELETELike() {
         llLike.setClickable(false);
         HelperMethods.ShowLoadingPopup(myDialog, true);
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue = Volley.newRequestQueue(this);
 
         JsonObjectRequest objectRequest = new JsonObjectRequest(
                 Request.Method.DELETE,
@@ -270,6 +273,7 @@ public class ShopHomeActivity extends AppCompatActivity {
                         Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
                     }
                 });
+        objectRequest.setTag(TAG);
         requestQueue.add(objectRequest);
 
     }
@@ -278,5 +282,13 @@ public class ShopHomeActivity extends AppCompatActivity {
         menuItem = MenuItems.get(0);
         ingredients = "Chips".split(", ");
         startActivity(new Intent(ShopHomeActivity.this, OrderActivity.class));
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (requestQueue != null) {
+            requestQueue.cancelAll(TAG);
+        }
     }
 }

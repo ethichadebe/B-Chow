@@ -85,6 +85,7 @@ public class UpcomingOrderItemAdapter extends RecyclerView.Adapter<UpcomingOrder
             holder.tvComplete.setVisibility(View.VISIBLE);
             holder.tvComplete.setText("Status: "+item.getStrStatus());
         }else {
+            holder.tvComplete.setVisibility(View.GONE);
             holder.tvStatus.setVisibility(View.VISIBLE);
             holder.tvStatus.setText("Status: "+item.getStrStatus());
         }

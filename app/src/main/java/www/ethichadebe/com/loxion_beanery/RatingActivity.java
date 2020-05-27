@@ -30,6 +30,8 @@ import static www.ethichadebe.com.loxion_beanery.MainActivity.setIntFragment;
 import static www.ethichadebe.com.loxion_beanery.PastOrderFragmentCustomer.getPastOrderItem;
 
 public class RatingActivity extends AppCompatActivity {
+    private static final String TAG = "RatingActivity";
+    private RequestQueue requestQueue;
     private ImageView ivStar1, ivStar2, ivStar3, ivStar4, ivStar5;
     private Button btnNext;
     private Dialog myDialog;
@@ -149,8 +151,16 @@ public class RatingActivity extends AppCompatActivity {
             }
         };
 
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue = Volley.newRequestQueue(this);
+        stringRequest.setTag(TAG);
         requestQueue.add(stringRequest);
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (requestQueue != null) {
+            requestQueue.cancelAll(TAG);
+        }
+    }
 }

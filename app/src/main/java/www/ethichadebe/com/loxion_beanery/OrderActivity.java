@@ -43,6 +43,8 @@ import static www.ethichadebe.com.loxion_beanery.ShopHomeActivity.getMenuItem;
 import static www.ethichadebe.com.loxion_beanery.ShopHomeActivity.getMenuItems;
 
 public class OrderActivity extends AppCompatActivity {
+    private static final String TAG = "OrderActivity";
+    private RequestQueue requestQueue;
     private static UpcomingOrderItem orderItem;
     private ArrayList<IngredientItemCheckbox> ingredientItems;
     private ArrayList<IngredientItemCheckbox> ingredientItemsChecked;
@@ -110,7 +112,7 @@ public class OrderActivity extends AppCompatActivity {
         rlError.setVisibility(View.GONE);
         rlLoad.setVisibility(View.VISIBLE);
         handler(vLine, vLineGrey);
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue = Volley.newRequestQueue(this);
 
         JsonObjectRequest objectRequest = new JsonObjectRequest(
                 Request.Method.GET,
@@ -154,6 +156,7 @@ public class OrderActivity extends AppCompatActivity {
                         Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
                     }
                 });
+        objectRequest.setTag(TAG);
         requestQueue.add(objectRequest);
 
     }
@@ -218,7 +221,8 @@ public class OrderActivity extends AppCompatActivity {
             }
         };
 
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue = Volley.newRequestQueue(this);
+        stringRequest.setTag(TAG);
         requestQueue.add(stringRequest);
     }
 
@@ -317,5 +321,13 @@ public class OrderActivity extends AppCompatActivity {
 
         // Print all combination using temprary array 'data[]'
         combinationUtil(ingredientItems, data, 0, n - 1, 0, r);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (requestQueue != null) {
+            requestQueue.cancelAll(TAG);
+        }
     }
 }

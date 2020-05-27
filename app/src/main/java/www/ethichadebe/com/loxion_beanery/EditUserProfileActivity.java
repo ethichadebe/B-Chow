@@ -52,9 +52,10 @@ import static util.HelperMethods.allFieldsEntered;
 import static util.HelperMethods.saveData;
 import static util.HelperMethods.sharedPrefsIsEmpty;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
+import static www.ethichadebe.com.loxion_beanery.MainActivity.setIntFragment;
 
 public class EditUserProfileActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
-
+    private static final String TAG = "EditUserProfileActivity";
     private MaterialEditText[] mTextBoxes = new MaterialEditText[3];
     private CheckBox mCBMale, mCBFemale, mCBOther;
     private TextView tvNumber, tvEmail;
@@ -62,6 +63,9 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
     private Dialog myDialog;
     private boolean isBack = true;
     private ImageView civProfilePicture;
+
+    private RequestQueue requestQueue;
+    private StringRequest stringRequest;
 
     /*0 Name
     1 Surname
@@ -221,7 +225,7 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
     }
 
     private void EditUserEmail(MaterialEditText number, TextView tvEdit, Dialog myDialog) {
-        StringRequest stringRequest = new StringRequest(Request.Method.PUT,
+        stringRequest = new StringRequest(Request.Method.PUT,
                 getIpAddress() + "/users/EditEmail",
                 response -> {
                     Toast.makeText(EditUserProfileActivity.this, response, Toast.LENGTH_LONG).show();
@@ -267,12 +271,13 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
             }
         };
 
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue = Volley.newRequestQueue(this);
+        stringRequest.setTag(TAG);
         requestQueue.add(stringRequest);
     }
 
     private void EditUserNumber(MaterialEditText number, TextView tvEdit, Dialog myDialog) {
-        StringRequest stringRequest = new StringRequest(Request.Method.PUT,
+        stringRequest = new StringRequest(Request.Method.PUT,
                 getIpAddress() + "/users/EditNumber",
                 response -> {
                     Toast.makeText(EditUserProfileActivity.this, response, Toast.LENGTH_LONG).show();
@@ -324,13 +329,14 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
             }
         };
 
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue = Volley.newRequestQueue(this);
+        stringRequest.setTag(TAG);
         requestQueue.add(stringRequest);
     }
 
     private void EditUserDetails() {
         HelperMethods.ShowLoadingPopup(myDialog, true);
-        StringRequest stringRequest = new StringRequest(Request.Method.PUT,
+        stringRequest = new StringRequest(Request.Method.PUT,
                 getIpAddress() + "/users/EditProfile",
                 response -> {
                     HelperMethods.ShowLoadingPopup(myDialog, false);
@@ -349,6 +355,7 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
                             getUser().setuSex(JSONResponse.getString("uSex"));
                             getUser().setuSurname(JSONResponse.getString("uSurname"));
                             if (isBack) {
+                                setIntFragment(2);
                                 startActivity(new Intent(EditUserProfileActivity.this, MainActivity.class));
                             }//Check if user pressed back
                         }
@@ -377,7 +384,8 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
             }
         };
 
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue = Volley.newRequestQueue(this);
+        stringRequest.setTag(TAG);
         requestQueue.add(stringRequest);
     }
 
@@ -519,6 +527,14 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
             if (wasReadGranted && wasWriteGranted) {
                 prepareChooser();
             }
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (requestQueue != null) {
+            requestQueue.cancelAll(TAG);
         }
     }
 }

@@ -48,6 +48,8 @@ import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 import static www.ethichadebe.com.loxion_beanery.MyShopsActivity.getNewShop;
 
 public class OrdersActivity extends AppCompatActivity {
+    private static final String TAG = "OrdersActivity";
+    private RequestQueue requestQueue;
     private Dialog myDialog;
     private CardView cvOpen, cvClosed;
     private TextView tvOpen, tvClosed, tvCompleteReg;
@@ -175,9 +177,16 @@ public class OrdersActivity extends AppCompatActivity {
             }
         };
 
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue = Volley.newRequestQueue(this);
+        stringRequest.setTag(TAG);
         requestQueue.add(stringRequest);
     }
 
-
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (requestQueue != null) {
+            requestQueue.cancelAll(TAG);
+        }
+    }
 }

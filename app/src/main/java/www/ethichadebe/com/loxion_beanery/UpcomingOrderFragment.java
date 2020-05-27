@@ -42,6 +42,8 @@ import static util.HelperMethods.handler;
 import static www.ethichadebe.com.loxion_beanery.MyShopsActivity.getNewShop;
 
 public class UpcomingOrderFragment extends Fragment {
+    private static final String TAG = "UpcomingOrderFragment";
+    private RequestQueue requestQueue;
     private Dialog myDialog;
     private RecyclerView mRecyclerView;
     private AdminOrderItemAdapter mAdapter;
@@ -94,17 +96,19 @@ public class UpcomingOrderFragment extends Fragment {
     }
 
     private void ShowConfirmationPopup(final int position) {
-        TextView tvCancel, tvMessage;
+        TextView tvCancel, tvMessage, tvHeading;
         Button btnYes, btnNo;
         myDialog.setContentView(R.layout.popup_confirmation);
 
         tvCancel = myDialog.findViewById(R.id.tvCancel);
         tvMessage = myDialog.findViewById(R.id.tvMessage);
         btnYes = myDialog.findViewById(R.id.btnYes);
+        tvHeading = myDialog.findViewById(R.id.tvHeading);
         btnNo = myDialog.findViewById(R.id.btnNo);
 
         tvCancel.setOnClickListener(view -> myDialog.dismiss());
 
+        tvHeading.setText("Cancel order");
         tvMessage.setText("Are you sure?");
 
         btnYes.setOnClickListener(view -> PUTCancel(position, myDialog));
@@ -117,7 +121,7 @@ public class UpcomingOrderFragment extends Fragment {
         rlError.setVisibility(View.GONE);
         rlLoad.setVisibility(View.VISIBLE);
         handler(vLine, vLineGrey);
-        RequestQueue requestQueue = Volley.newRequestQueue(Objects.requireNonNull(getActivity()));
+        requestQueue = Volley.newRequestQueue(Objects.requireNonNull(getActivity()));
 
         JsonObjectRequest objectRequest = new JsonObjectRequest(
                 Request.Method.GET,
@@ -153,6 +157,7 @@ public class UpcomingOrderFragment extends Fragment {
                         Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show();
                     }
                 });
+        objectRequest.setTag(TAG);
         requestQueue.add(objectRequest);
 
     }
@@ -174,7 +179,8 @@ public class UpcomingOrderFragment extends Fragment {
             }
         });
 
-        RequestQueue requestQueue = Volley.newRequestQueue(Objects.requireNonNull(getActivity()));
+        requestQueue = Volley.newRequestQueue(Objects.requireNonNull(getActivity()));
+        stringRequest.setTag(TAG);
         requestQueue.add(stringRequest);
     }
     private void PUTReady(int position) {
@@ -194,7 +200,8 @@ public class UpcomingOrderFragment extends Fragment {
             }
         });
 
-        RequestQueue requestQueue = Volley.newRequestQueue(Objects.requireNonNull(getActivity()));
+        requestQueue = Volley.newRequestQueue(Objects.requireNonNull(getActivity()));
+        stringRequest.setTag(TAG);
         requestQueue.add(stringRequest);
     }
     private void PUTCollected(int position, Dialog myDialog) {
@@ -215,8 +222,16 @@ public class UpcomingOrderFragment extends Fragment {
             }
         });
 
-        RequestQueue requestQueue = Volley.newRequestQueue(Objects.requireNonNull(getActivity()));
+        requestQueue = Volley.newRequestQueue(Objects.requireNonNull(getActivity()));
+        stringRequest.setTag(TAG);
         requestQueue.add(stringRequest);
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (requestQueue != null) {
+            requestQueue.cancelAll(TAG);
+        }
+    }
 }

@@ -47,6 +47,8 @@ import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 import static www.ethichadebe.com.loxion_beanery.MyShopsActivity.getNewShop;
 
 public class UpcomingOrderFragmentCustomer extends Fragment {
+    private static final String TAG = "UpcomingOrderFragmentCu";
+    private RequestQueue requestQueue;
     private Dialog myDialog;
     private RecyclerView mRecyclerView;
     private UpcomingOrderItemAdapter mAdapter;
@@ -98,7 +100,7 @@ public class UpcomingOrderFragmentCustomer extends Fragment {
         rlError.setVisibility(View.GONE);
         rlLoad.setVisibility(View.VISIBLE);
         handler(vLine, vLineGrey);
-        RequestQueue requestQueue = Volley.newRequestQueue(Objects.requireNonNull(getActivity()));
+        requestQueue = Volley.newRequestQueue(Objects.requireNonNull(getActivity()));
 
         JsonObjectRequest objectRequest = new JsonObjectRequest(
                 Request.Method.GET,
@@ -135,7 +137,15 @@ public class UpcomingOrderFragmentCustomer extends Fragment {
                         Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show();
                     }
                 });
+        objectRequest.setTag(TAG);
         requestQueue.add(objectRequest);
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (requestQueue != null) {
+            requestQueue.cancelAll(TAG);
+        }
+    }
 }

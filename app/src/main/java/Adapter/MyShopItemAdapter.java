@@ -113,7 +113,7 @@ public class MyShopItemAdapter extends RecyclerView.Adapter<MyShopItemAdapter.Sh
         holder.tvShortDescript.setText(item.getStrShortDescript());
         holder.tvnOrders.setText(""+item.getIntnOrders());
         //Calculate distance
-        holder.tvDistance.setText("2Km");
+        holder.tvDistance.setText(item.getStrAddress());
         holder.tvAveTime.setText(item.getStrAveTime());
         switch (item.getIntRating()) {
             case 0:

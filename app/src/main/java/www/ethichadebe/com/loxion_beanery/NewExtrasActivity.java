@@ -44,13 +44,14 @@ import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 import static www.ethichadebe.com.loxion_beanery.MyShopsActivity.getNewShop;
 
 public class NewExtrasActivity extends AppCompatActivity {
+    private static final String TAG = "NewExtrasActivity";
     private static ArrayList<ExtraItem> extraItems;
     private RecyclerView mRecyclerView;
     private ExtraItemAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private TextView tvEmpty;
     private RelativeLayout rlLoad, rlError;
-
+private RequestQueue requestQueue;
     private Dialog myDialog;
 
     private static boolean isNew = false;
@@ -117,8 +118,7 @@ public class NewExtrasActivity extends AppCompatActivity {
     public void add(View view) {
         if (Objects.requireNonNull(etExtra.getText()).toString().isEmpty()) {
             etExtra.setError("required");
-        } else {
-            POSTRegisterShopExtra();
+        } else { POSTRegisterShopExtra();
         }
     }
 
@@ -157,13 +157,14 @@ public class NewExtrasActivity extends AppCompatActivity {
             }
         };
 
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue = Volley.newRequestQueue(this);
+        stringRequest.setTag(TAG);
         requestQueue.add(stringRequest);
     }
 
     private void DELETEExtra(int position) {
         ShowLoadingPopup(myDialog, true);
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue = Volley.newRequestQueue(this);
 
         JsonObjectRequest objectRequest = new JsonObjectRequest(
                 Request.Method.DELETE,
@@ -188,6 +189,7 @@ public class NewExtrasActivity extends AppCompatActivity {
                         Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
                     }
                 });
+        objectRequest.setTag(TAG);
         requestQueue.add(objectRequest);
 
     }
@@ -217,7 +219,8 @@ public class NewExtrasActivity extends AppCompatActivity {
             }
         };
 
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue = Volley.newRequestQueue(this);
+        stringRequest.setTag(TAG);
         requestQueue.add(stringRequest);
     }
 
@@ -259,7 +262,7 @@ public class NewExtrasActivity extends AppCompatActivity {
         rlError.setVisibility(View.GONE);
         rlLoad.setVisibility(View.VISIBLE);
         handler(vLine, vLineGrey);
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue = Volley.newRequestQueue(this);
 
         JsonObjectRequest objectRequest = new JsonObjectRequest(
                 Request.Method.GET,
@@ -291,8 +294,16 @@ public class NewExtrasActivity extends AppCompatActivity {
                         Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
                     }
                 });
+        objectRequest.setTag(TAG);
         requestQueue.add(objectRequest);
 
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (requestQueue != null) {
+            requestQueue.cancelAll(TAG);
+        }
+    }
 }

@@ -53,6 +53,8 @@ import static www.ethichadebe.com.loxion_beanery.MyShopsActivity.getNewShop;
 import static www.ethichadebe.com.loxion_beanery.OrderActivity.oID;
 
 public class PastOrderFragmentCustomer extends Fragment {
+    private static final String TAG = "PastOrderFragmentCustom";
+    private RequestQueue requestQueue;
     private Dialog myDialog;
     private RecyclerView mRecyclerView;
     private PastOrderItemAdapter mAdapter;
@@ -107,7 +109,7 @@ public class PastOrderFragmentCustomer extends Fragment {
         rlError.setVisibility(View.GONE);
         rlLoad.setVisibility(View.VISIBLE);
         handler(vLine, vLineGrey);
-        RequestQueue requestQueue = Volley.newRequestQueue(Objects.requireNonNull(getActivity()));
+        requestQueue = Volley.newRequestQueue(Objects.requireNonNull(getActivity()));
 
         JsonObjectRequest objectRequest = new JsonObjectRequest(
                 Request.Method.GET,
@@ -144,6 +146,7 @@ public class PastOrderFragmentCustomer extends Fragment {
                         Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show();
                     }
                 });
+        objectRequest.setTag(TAG);
         requestQueue.add(objectRequest);
 
     }
@@ -179,11 +182,20 @@ public class PastOrderFragmentCustomer extends Fragment {
             }
         };
 
-        RequestQueue requestQueue = Volley.newRequestQueue(Objects.requireNonNull(getActivity()));
+        requestQueue = Volley.newRequestQueue(Objects.requireNonNull(getActivity()));
+        stringRequest.setTag(TAG);
         requestQueue.add(stringRequest);
     }
 
     static PastOrderItem getPastOrderItem() {
         return pastOrderItem;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (requestQueue != null) {
+            requestQueue.cancelAll(TAG);
+        }
     }
 }

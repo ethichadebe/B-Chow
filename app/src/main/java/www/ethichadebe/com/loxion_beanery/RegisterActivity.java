@@ -40,6 +40,8 @@ import static util.HelperMethods.allFieldsEntered;
 import static util.HelperMethods.saveData;
 
 public class RegisterActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
+    private static final String TAG = "RegisterActivity";
+    private RequestQueue requestQueue;
     private RelativeLayout rellay1;
     private Dialog myDialog;
 
@@ -194,7 +196,8 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
             }
         };
 
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue = Volley.newRequestQueue(this);
+        stringRequest.setTag(TAG);
         requestQueue.add(stringRequest);
     }
 
@@ -228,5 +231,13 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
 
     public void login(View view) {
         startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (requestQueue != null) {
+            requestQueue.cancelAll(TAG);
+        }
     }
 }

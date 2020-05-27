@@ -30,7 +30,6 @@ import java.util.Objects;
 import Adapter.MenuItemAdapter;
 import SingleItem.IngredientItem;
 import SingleItem.MenuItem;
-import util.HelperMethods;
 
 import static util.Constants.getIpAddress;
 import static util.HelperMethods.ButtonVisibility;
@@ -52,6 +51,8 @@ public class MenuActivity extends AppCompatActivity {
     private Dialog myDialog;
     private Button btnNext;
     private RelativeLayout rlLoad, rlError;
+    private RequestQueue requestQueue;
+    private static final String TAG = "MenuActivity";
 
 
     @Override
@@ -139,7 +140,7 @@ public class MenuActivity extends AppCompatActivity {
 
     private void DELETEIngredient(int position) {
         ShowLoadingPopup(myDialog, true);
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue = Volley.newRequestQueue(this);
 
         JsonObjectRequest objectRequest = new JsonObjectRequest(
                 Request.Method.DELETE,
@@ -165,6 +166,7 @@ public class MenuActivity extends AppCompatActivity {
                         Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
                     }
                 });
+        objectRequest.setTag(TAG);
         requestQueue.add(objectRequest);
 
     }
@@ -191,7 +193,7 @@ public class MenuActivity extends AppCompatActivity {
         rlLoad.setVisibility(View.VISIBLE);
         getNewShop().setMenuItems(new ArrayList<>());
         handler(vLine, vLineGrey);
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue = Volley.newRequestQueue(this);
 
         JsonObjectRequest objectRequest = new JsonObjectRequest(
                 Request.Method.GET,
@@ -231,6 +233,7 @@ public class MenuActivity extends AppCompatActivity {
                         Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
                     }
                 });
+        objectRequest.setTag(TAG);
         requestQueue.add(objectRequest);
 
     }
@@ -264,7 +267,7 @@ public class MenuActivity extends AppCompatActivity {
     private void GETIngredients() {
         getNewShop().setIngredientItems(new ArrayList<>());
         ShowLoadingPopup(myDialog, true);
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue = Volley.newRequestQueue(this);
 
         JsonObjectRequest objectRequest = new JsonObjectRequest(
                 Request.Method.GET,
@@ -295,7 +298,16 @@ public class MenuActivity extends AppCompatActivity {
                         Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
                     }
                 });
+        objectRequest.setTag(TAG);
         requestQueue.add(objectRequest);
 
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (requestQueue != null) {
+            requestQueue.cancelAll(TAG);
+        }
     }
 }

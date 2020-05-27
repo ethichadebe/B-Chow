@@ -62,6 +62,7 @@ public class HomeFragment extends Fragment {
     private static ShopItem shopItem;
 
     private static final String TAG = "HomeFragment";
+    private RequestQueue requestQueue;
 
     static ShopItem getShopItem() {
         return shopItem;
@@ -125,7 +126,7 @@ public class HomeFragment extends Fragment {
         rlError.setVisibility(View.GONE);
         rlLoad.setVisibility(View.VISIBLE);
         handler(vLine, vLineGrey);
-        RequestQueue requestQueue = Volley.newRequestQueue(Objects.requireNonNull(getActivity()));
+        requestQueue = Volley.newRequestQueue(Objects.requireNonNull(getActivity()));
 
         JsonObjectRequest objectRequest = new JsonObjectRequest(
                 Request.Method.GET,
@@ -194,9 +195,9 @@ public class HomeFragment extends Fragment {
                         Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show();
                     }
                 });
+        objectRequest.setTag(TAG);
         requestQueue.add(objectRequest);
     }
-
 
     private void getDeviceLocation(View vLine, View vLineGrey) {
         Log.d(TAG, "getDeviceLocation: getting current location");
@@ -223,6 +224,14 @@ public class HomeFragment extends Fragment {
             }
         } catch (SecurityException e) {
             Log.e(TAG, "getDeviceLocation: Security exception " + e.getMessage());
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (requestQueue != null) {
+            requestQueue.cancelAll(TAG);
         }
     }
 

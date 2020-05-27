@@ -60,6 +60,8 @@ import static www.ethichadebe.com.loxion_beanery.UpcomingOrderFragmentCustomer.g
 import static www.ethichadebe.com.loxion_beanery.UpcomingOrderFragmentCustomer.setUpcomingOrderItem;
 
 public class OrderConfirmationActivity extends AppCompatActivity implements OnMapReadyCallback, TaskLoadedCallback {
+    private static final String TAG = "OrderConfirmationActivi";
+    private RequestQueue requestQueue;
     @Override
     public void onMapReady(GoogleMap googleMap) {
         Log.d(TAG, "onMapReady: Map is ready");
@@ -72,8 +74,6 @@ public class OrderConfirmationActivity extends AppCompatActivity implements OnMa
             mMap.getUiSettings().setMapToolbarEnabled(false);
         }
     }
-
-    private static final String TAG = "MapsActivity";
 
     private GoogleMap mMap;
     private FusedLocationProviderClient mFusedLocationProviderClient;
@@ -270,7 +270,8 @@ public class OrderConfirmationActivity extends AppCompatActivity implements OnMa
             Toast.makeText(this, error.toString(), Toast.LENGTH_LONG).show();
         });
 
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue = Volley.newRequestQueue(this);
+        stringRequest.setTag(TAG);
         requestQueue.add(stringRequest);
     }
 
@@ -287,7 +288,8 @@ public class OrderConfirmationActivity extends AppCompatActivity implements OnMa
             Toast.makeText(this, error.toString(), Toast.LENGTH_LONG).show();
         });
 
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue = Volley.newRequestQueue(this);
+        stringRequest.setTag(TAG);
         requestQueue.add(stringRequest);
     }
 
@@ -421,5 +423,13 @@ public class OrderConfirmationActivity extends AppCompatActivity implements OnMa
         Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
         mapIntent.setPackage("com.google.android.apps.maps");
         startActivity(mapIntent);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (requestQueue != null) {
+            requestQueue.cancelAll(TAG);
+        }
     }
 }

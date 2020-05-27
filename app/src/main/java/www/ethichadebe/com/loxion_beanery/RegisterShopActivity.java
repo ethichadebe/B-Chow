@@ -65,6 +65,8 @@ import static www.ethichadebe.com.loxion_beanery.MyShopsActivity.setNewShop;
 import static www.ethichadebe.com.loxion_beanery.ShopSettingsActivity.isEdit;
 
 public class RegisterShopActivity extends AppCompatActivity {
+    private static final String TAG = "RegisterShopActivity";
+    private RequestQueue requestQueue;
     private Dialog myDialog;
     private TextView tvName, tvLocation;
     private MaterialEditText etName, etShortDescription, etFullDescription;
@@ -336,7 +338,8 @@ public class RegisterShopActivity extends AppCompatActivity {
         if (getNewShop() != null) {
             if (!getNewShop().getStrShopName().equals(Objects.requireNonNull(etName.getText()).toString()) ||
                     !getNewShop().getStrFullDescript().equals(Objects.requireNonNull(etFullDescription.getText()).toString()) ||
-                    !getNewShop().getStrShortDescript().equals(Objects.requireNonNull(etShortDescription.getText()).toString())) {
+                    !getNewShop().getStrShortDescript().equals(Objects.requireNonNull(etShortDescription.getText()).toString()) ||
+                    !getNewShop().getStrAddress().equals(tvLocation.getText().toString())) {
                 ShowPopup();
             } else {
                 finish();
@@ -387,7 +390,8 @@ public class RegisterShopActivity extends AppCompatActivity {
             }
         };
 
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue = Volley.newRequestQueue(this);
+        stringRequest.setTag(TAG);
         requestQueue.add(stringRequest);
     }
 
@@ -396,7 +400,8 @@ public class RegisterShopActivity extends AppCompatActivity {
         if (getNewShop() != null) {
             if (!getNewShop().getStrShopName().equals(Objects.requireNonNull(etName.getText()).toString()) ||
                     !getNewShop().getStrFullDescript().equals(Objects.requireNonNull(etFullDescription.getText()).toString()) ||
-                    !getNewShop().getStrShortDescript().equals(Objects.requireNonNull(etShortDescription.getText()).toString())) {
+                    !getNewShop().getStrShortDescript().equals(Objects.requireNonNull(etShortDescription.getText()).toString()) ||
+                    !getNewShop().getStrAddress().equals(tvLocation.getText().toString())) {
                 ShowPopup();
             } else {
                 finish();
@@ -419,5 +424,13 @@ public class RegisterShopActivity extends AppCompatActivity {
         Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY,
                 fieldList).build(this);
         startActivityForResult(intent, 100);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (requestQueue != null) {
+            requestQueue.cancelAll(TAG);
+        }
     }
 }

@@ -27,6 +27,8 @@ import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 import static www.ethichadebe.com.loxion_beanery.MyShopsActivity.getNewShop;
 
 public class ShopSettingsActivity extends AppCompatActivity {
+    private static final String TAG = "ShopSettingsActivity";
+    private RequestQueue requestQueue;
     static boolean isEdit = false;
     private Dialog myDialog;
 
@@ -113,12 +115,21 @@ public class ShopSettingsActivity extends AppCompatActivity {
             }
         });
 
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue = Volley.newRequestQueue(this);
+        stringRequest.setTag(TAG);
         requestQueue.add(stringRequest);
     }
 
     @Override
     public void onBackPressed() {
         startActivity(new Intent(this, OrdersActivity.class));
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (requestQueue != null) {
+            requestQueue.cancelAll(TAG);
+        }
     }
 }
