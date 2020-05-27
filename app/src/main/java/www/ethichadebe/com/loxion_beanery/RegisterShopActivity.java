@@ -68,7 +68,7 @@ public class RegisterShopActivity extends AppCompatActivity {
     private static final String TAG = "RegisterShopActivity";
     private RequestQueue requestQueue;
     private Dialog myDialog;
-    private TextView tvName, tvLocation;
+    private TextView tvName, tvLocation,tvAddress;
     private MaterialEditText etName, etShortDescription, etFullDescription;
     private Boolean isBig, goBack;
     private Button btnNext;
@@ -89,6 +89,7 @@ public class RegisterShopActivity extends AppCompatActivity {
         goBack = false;
         myDialog = new Dialog(this);
         etName = findViewById(R.id.etName);
+        tvAddress = findViewById(R.id.tvAddress);
         btnNext = findViewById(R.id.btnNext);
         tvName = findViewById(R.id.tvName);
         tvLocation = findViewById(R.id.tvLocation);
@@ -102,6 +103,7 @@ public class RegisterShopActivity extends AppCompatActivity {
             etName.setText(getNewShop().getStrShopName());
             if (!getNewShop().getStrAddress().isEmpty()) {
                 tvLocation.setText(getNewShop().getStrAddress());
+                tvAddress.setText(getNewShop().getStrAddress());
                 sLocation = getNewShop().getLlLocation();
             }
             if (getNewShop().getStrShortDescript() != null) {
@@ -203,6 +205,7 @@ public class RegisterShopActivity extends AppCompatActivity {
             Place place = Autocomplete.getPlaceFromIntent(Objects.requireNonNull(data));
 
             tvLocation.setText(place.getAddress());
+            tvAddress.setText(place.getAddress());
             llLocation.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
             sLocation = place.getLatLng();
         } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {

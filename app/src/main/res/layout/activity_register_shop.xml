@@ -33,9 +33,9 @@
             android:layout_height="?attr/actionBarSize"
             android:layout_alignParentTop="true"
             android:layout_alignParentBottom="true"
-            android:onClick="back"
             android:background="@drawable/ripple_effect_white"
-            android:gravity="center">
+            android:gravity="center"
+            android:onClick="back">
 
             <TextView
                 style="@style/Base.TextAppearance.AppCompat.Body1"
@@ -121,8 +121,8 @@
                                 android:id="@+id/ivSmall"
                                 android:layout_width="100dp"
                                 android:layout_height="100dp"
-                                android:onClick="Small"
                                 android:layout_centerInParent="true"
+                                android:onClick="Small"
                                 android:src="@drawable/ic_add_a_photo_black_24dp" />
 
                             <TextView
@@ -169,9 +169,9 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="10dp"
                                 android:layout_weight="1"
+                                android:background="@drawable/ripple_effect_white"
                                 android:gravity="center"
                                 android:onClick="addLocation"
-                                android:background="@drawable/ripple_effect_white"
                                 android:orientation="horizontal">
 
                                 <ImageView
@@ -255,8 +255,8 @@
                                 android:id="@+id/ivBig"
                                 android:layout_width="100dp"
                                 android:layout_height="100dp"
-                                android:onClick="big"
                                 android:layout_centerInParent="true"
+                                android:onClick="big"
                                 android:src="@drawable/ic_add_a_photo_black_24dp" />
 
                             <TextView
@@ -287,22 +287,16 @@
                             android:text="Shop Name"
                             android:textSize="22sp" />
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
+                        <TextView
+                            android:id="@+id/tvAddress"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="start"
-                                android:layout_marginTop="12dp"
-                                android:background="@color/Grey"
-                                android:fontFamily="sans-serif-light"
-                                android:padding="2dp"
-                                android:text="Selected Location"
-                                android:textSize="12sp" />
-                        </LinearLayout>
+                            android:layout_gravity="start"
+                            android:layout_marginTop="12dp"
+                            android:background="@color/Grey"
+                            android:fontFamily="sans-serif-light"
+                            android:padding="2dp"
+                            android:textSize="12sp" />
 
                         <com.rengwuxian.materialedittext.MaterialEditText
                             android:id="@+id/etFullDescription"
