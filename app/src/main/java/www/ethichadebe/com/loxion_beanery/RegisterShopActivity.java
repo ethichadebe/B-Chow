@@ -60,6 +60,7 @@ import static util.Constants.getIpAddress;
 import static util.HelperMethods.StringToBitMap;
 import static util.HelperMethods.getStringImage;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
+import static www.ethichadebe.com.loxion_beanery.MainActivity.setIntFragment;
 import static www.ethichadebe.com.loxion_beanery.MyShopsFragment.getNewShop;
 import static www.ethichadebe.com.loxion_beanery.MyShopsFragment.setNewShop;
 import static www.ethichadebe.com.loxion_beanery.ShopSettingsActivity.isEdit;
@@ -175,7 +176,8 @@ public class RegisterShopActivity extends AppCompatActivity {
                 PUTShop();
             } else {
                 myDialog.dismiss();
-                startActivity(new Intent(this, MyShopsActivity.class));
+                startActivity(new Intent(this, MainActivity.class));
+                setIntFragment(3);
             }
         });
 
@@ -353,7 +355,8 @@ public class RegisterShopActivity extends AppCompatActivity {
                     !Objects.requireNonNull(etShortDescription.getText()).toString().isEmpty()) {
                 ShowPopup();
             } else {
-                startActivity(new Intent(this, MyShopsActivity.class));
+                startActivity(new Intent(this, MainActivity.class));
+                setIntFragment(3);
             }
         }
     }
@@ -415,7 +418,8 @@ public class RegisterShopActivity extends AppCompatActivity {
                     !Objects.requireNonNull(etShortDescription.getText()).toString().isEmpty()) {
                 ShowPopup();
             } else {
-                startActivity(new Intent(this, MyShopsActivity.class));
+                startActivity(new Intent(this, MainActivity.class));
+                setIntFragment(3);
             }
 
         }

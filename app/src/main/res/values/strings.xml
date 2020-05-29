@@ -84,7 +84,9 @@
     <string name="kota_menu">Kota Menu</string>
     <string name="custom_kota">Custom kota</string>
 
-    <string name="AdMob_app_ID">ca-app-pub-4662593343882096~2058237534</string>
+    <!-- Sample AdMob App ID: ca-app-pub-3940256099942544~3347511713 -->
+    <string name="AdMob_app_ID">ca-app-pub-3940256099942544~3347511713</string>
+    <!-- Sample AdMob Native App ID: ca-app-pub-3940256099942544/2247696110 -->
     <string name="AdMob_Native_ID">ca-app-pub-3940256099942544/2247696110</string>
     <string name="my_shops">My shops</string>
     <string name="profile">Profile</string>
