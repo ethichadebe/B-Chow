@@ -8,6 +8,8 @@ public class User {
     private String uSex;
     private String uEmail;
     private String uNumber;
+    private String uPassword;
+    private int uType;
 
 
     /**
@@ -19,8 +21,10 @@ public class User {
      * @param uSex
      * @param uEmail
      * @param uNumber
+     * @param uType
      */
-    public User(int uID, String uName, String uSurname, String uDOB, String uSex, String uEmail, String uNumber) {
+    public User(int uID, String uName, String uSurname, String uDOB, String uSex, String uEmail, String uNumber,
+                int uType, String uPassword) {
         this.uID = uID;
         this.uName = uName;
         this.uSurname = uSurname;
@@ -28,6 +32,31 @@ public class User {
         this.uSex = uSex;
         this.uEmail = uEmail;
         this.uNumber = uNumber;
+        this.uType = uType;
+        this.uPassword = uPassword;
+    }
+
+    /**
+     *
+     * @param uID
+     * @param uName
+     * @param uSurname
+     * @param uDOB
+     * @param uSex
+     * @param uEmail
+     * @param uNumber
+     * @param uType
+     */
+    public User(int uID, String uName, String uSurname, String uDOB, String uSex, String uEmail, String uNumber,
+                int uType) {
+        this.uID = uID;
+        this.uName = uName;
+        this.uSurname = uSurname;
+        this.uDOB = uDOB;
+        this.uSex = uSex;
+        this.uEmail = uEmail;
+        this.uNumber = uNumber;
+        this.uType = uType;
     }
 
     public int getuID() {
@@ -84,5 +113,25 @@ public class User {
 
     public void setuNumber(String uNumber) {
         this.uNumber = uNumber;
+    }
+
+    public int getAdmin() {
+        return uType;
+    }
+
+    public void setAdmin(int admin) {
+        uType = admin;
+    }
+
+    public String getuPassword() {
+        return uPassword;
+    }
+
+    public int getuType() {
+        return uType;
+    }
+
+    public void setuType(int uType) {
+        this.uType = uType;
     }
 }

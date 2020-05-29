@@ -79,11 +79,12 @@
     <string name="retry">Retry</string>
     <string name="done">Done</string>
     <string name="cancel">Cancel</string>
+
     <string name="like">Like</string>
     <string name="kota_menu">Kota Menu</string>
     <string name="custom_kota">Custom kota</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="recenter_map">Recenter map</string>
+    <string name="AdMob_app_ID">ca-app-pub-4662593343882096~2058237534</string>
+    <string name="AdMob_Native_ID">ca-app-pub-4662593343882096/3023834849</string>
 </resources>

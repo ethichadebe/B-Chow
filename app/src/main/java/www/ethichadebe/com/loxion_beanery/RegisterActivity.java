@@ -33,6 +33,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import util.HelperMethods;
+import util.User;
 
 import static util.Constants.getIpAddress;
 import static util.HelperMethods.SHARED_PREFS;
@@ -44,14 +45,19 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
     private RequestQueue requestQueue;
     private RelativeLayout rellay1;
     private Dialog myDialog;
+    private static User newUser;
+
+    public static User getNewUser() {
+        return newUser;
+    }
 
     /*0 Name
-    1 Surname
-    2 Number
-    3 Email
-    4 Password
-    5 CPassword
-    6 DOB*/
+        1 Surname
+        2 Number
+        3 Email
+        4 Password
+        5 CPassword
+        6 DOB*/
     private MaterialEditText[] mTextBoxes = new MaterialEditText[7];
     private CheckBox mCBMale, mCBFemale, mCBOther;
 
@@ -149,7 +155,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
     private void POSTRegister() {
         HelperMethods.ShowLoadingPopup(myDialog, true);
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
-                getIpAddress() + "/users/Register",
+                getIpAddress() + "/users/CheckStuff",
                 response -> {
                     HelperMethods.ShowLoadingPopup(myDialog, false);
                     Toast.makeText(RegisterActivity.this, response, Toast.LENGTH_LONG).show();
@@ -168,8 +174,14 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
                                 mTextBoxes[3].setError("Already exists");
                                 break;
                             case "Registered":
+                                newUser = new User(1, Objects.requireNonNull(mTextBoxes[0].getText()).toString(),
+                                        Objects.requireNonNull(mTextBoxes[1].getText()).toString(),
+                                        Objects.requireNonNull(mTextBoxes[6].getText()).toString(), UserSex,
+                                        Objects.requireNonNull(mTextBoxes[3].getText()).toString(),
+                                        Objects.requireNonNull(mTextBoxes[2].getText()).toString(), 0,
+                                        Objects.requireNonNull(mTextBoxes[4].getText()).toString());
                                 Toast.makeText(RegisterActivity.this, "Registered successfully", Toast.LENGTH_LONG).show();
-                                startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+                                startActivity(new Intent(RegisterActivity.this, UserTypeActivity.class));
                                 break;
                             default:
                                 Toast.makeText(RegisterActivity.this, "Something went wrong, try again", Toast.LENGTH_LONG).show();
@@ -185,13 +197,8 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                params.put("uName", Objects.requireNonNull(mTextBoxes[0].getText()).toString());
-                params.put("uSurname", Objects.requireNonNull(mTextBoxes[1].getText()).toString());
-                params.put("uDOB", Objects.requireNonNull(mTextBoxes[6].getText()).toString());
-                params.put("uSex", UserSex);
                 params.put("uEmail", Objects.requireNonNull(mTextBoxes[3].getText()).toString());
                 params.put("uNumber", Objects.requireNonNull(mTextBoxes[2].getText()).toString());
-                params.put("uPassword", Objects.requireNonNull(mTextBoxes[4].getText()).toString());
                 return params;
             }
         };
@@ -224,7 +231,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
     }
 
     public void register(View view) {
-       if (allFieldsEntered(mTextBoxes) && sexIsChecked() && passwordMatches()) {
+        if (allFieldsEntered(mTextBoxes) && sexIsChecked() && passwordMatches()) {
             POSTRegister();
         }
     }

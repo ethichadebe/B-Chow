@@ -1,7 +1,6 @@
 package SingleItem;
 
 import android.graphics.drawable.Drawable;
-import android.location.Location;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -9,14 +8,15 @@ import java.util.ArrayList;
 
 public class ShopItem {
     private Double dblDistance;
-    String strShopName, strShortDescript, strFullDescript, strAveTime, strOperatingHRS, strLogoSmall, strLogoBig,
+     String strShopName, strShortDescript, strFullDescript, strAveTime, strOperatingHRS, strLogoSmall, strLogoBig,
             strAddress;
-    LatLng llLocation;
+     LatLng llLocation;
     int intID = -1, intRating, intStatus;
-    Drawable draStatus;
+     Drawable draStatus;
     private int intLikes = 0, isLiked, intAveTimeColor;
     private ArrayList<IngredientItem> ingredientItems;
     private ArrayList<MenuItem> menuItems;
+    private boolean showAd;
 
     ShopItem() {
     }
@@ -24,7 +24,7 @@ public class ShopItem {
     public ShopItem(int intID, String strShopName, String intLogoSmall, String intLogoBig, String strShortDescript,
                     String strFullDescript, LatLng llLocation, String strAddress, Double dblDistance, String strAveTime,
                     int intRating, String strOperatingHRS, int intLikes, int isLiked, int intAveTimeColor, int intStatus,
-                    Drawable draStatus) {
+                    Drawable draStatus, boolean showAd) {
         this.intID = intID;
         this.strShopName = strShopName;
         this.strLogoSmall = intLogoSmall;
@@ -42,6 +42,7 @@ public class ShopItem {
         this.intLikes = intLikes;
         this.isLiked = isLiked;
         this.intAveTimeColor = intAveTimeColor;
+        this.showAd = showAd;
     }
 
     public int getIntID() {
@@ -203,6 +204,14 @@ public class ShopItem {
 
     public void setDblDistance(Double dblDistance) {
         this.dblDistance = dblDistance;
+    }
+
+    public boolean isShowAd() {
+        return showAd;
+    }
+
+    public void setShowAd(boolean showAd) {
+        this.showAd = showAd;
     }
 }
 

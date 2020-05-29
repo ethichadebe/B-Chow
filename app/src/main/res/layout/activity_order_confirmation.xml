@@ -11,7 +11,7 @@
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MapsActivity" />
+        tools:context=".UserTypeActivity" />
 
     <View
         android:id="@+id/vBackground"
@@ -231,7 +231,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
-        android:contentDescription="@string/recenter_map"
+        android:contentDescription="Recenter map"
         android:onClick="center"
         android:src="@drawable/ic_gps_fixed_black_24dp" />
 

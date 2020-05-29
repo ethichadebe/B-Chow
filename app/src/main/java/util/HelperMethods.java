@@ -339,4 +339,8 @@ public class HelperMethods {
         bd = bd.setScale(places, RoundingMode.HALF_UP);
         return bd.doubleValue();
     }
+
+    public static Boolean randomNumber(int max) {
+        return ((int) (Math.random() * max) + 1) == 1;
+    }
 }

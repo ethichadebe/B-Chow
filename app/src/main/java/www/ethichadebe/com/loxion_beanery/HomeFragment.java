@@ -25,6 +25,9 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
@@ -45,6 +48,7 @@ import SingleItem.ShopItem;
 import static util.Constants.getIpAddress;
 import static util.HelperMethods.handler;
 import static util.HelperMethods.ismLocationGranted;
+import static util.HelperMethods.randomNumber;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUserLocation;
 
@@ -86,9 +90,12 @@ public class HomeFragment extends Fragment {
         cvRetry = v.findViewById(R.id.cvRetry);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getActivity());
-        mAdapter = new ShopItemAdapter(shopItems);
+        mAdapter = new ShopItemAdapter(shopItems,getActivity(),getString(R.string.AdMob_Native_ID));
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
+
+        //Ads
+        MobileAds.initialize(getActivity());
 
         //ShopItem on click
         mAdapter.setOnItemClickListener(position -> {
@@ -177,7 +184,7 @@ public class HomeFragment extends Fragment {
                                         Avetime, Shops.getInt("sRating"),
                                         Shops.getString("sOperatingHrs"), Shops.getInt("sLikes"),
                                         Shops.getInt("isLiked"), AveTimeColor, Shops.getInt("sStatus")
-                                        , bgStatus));
+                                        , bgStatus, randomNumber(10)));
                             }
                         } else if (response.getString("message").equals("empty")) {
                             tvEmpty.setVisibility(View.VISIBLE);

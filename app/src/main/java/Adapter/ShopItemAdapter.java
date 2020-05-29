@@ -1,5 +1,6 @@
 package Adapter;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,12 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.gms.ads.AdLoader;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.formats.MediaView;
+import com.google.android.gms.ads.formats.UnifiedNativeAd;
+import com.google.android.gms.ads.formats.UnifiedNativeAdView;
 
 import java.util.ArrayList;
 
@@ -24,6 +31,9 @@ public class ShopItemAdapter extends RecyclerView.Adapter<ShopItemAdapter.ShopVi
 
     private ArrayList<ShopItem> ShopList;
     private OnItemClickListener mListener;
+    private Context context;
+    private String nativeAd_key;
+
 
     public interface OnItemClickListener {
         void onItemClick(int position);
@@ -35,13 +45,14 @@ public class ShopItemAdapter extends RecyclerView.Adapter<ShopItemAdapter.ShopVi
 
     static class ShopViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView tvShopName, tvShortDescript, tvDistance, tvAveTime,tvMore, tvClosed;
+        private TextView tvShopName, tvShortDescript, tvDistance, tvAveTime, tvMore, tvClosed;
         private TextView[] tvDays = new TextView[8];
         private ImageView ivLogo, ivStar1, ivStar2, ivStar3, ivStar4, ivStar5;
-        private LinearLayout llOpHours,llDropDown;
+        private LinearLayout llOpHours, llDropDown;
         private RelativeLayout rlStatus;
+        private UnifiedNativeAdView unifiedNativeAdView;
 
-        ShopViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
+        ShopViewHolder(@NonNull View itemView, final OnItemClickListener listener, Context context, String nativeAd_key) {
             super(itemView);
             tvShopName = itemView.findViewById(R.id.tvShopName);
             llOpHours = itemView.findViewById(R.id.llOpHours);
@@ -68,6 +79,17 @@ public class ShopItemAdapter extends RecyclerView.Adapter<ShopItemAdapter.ShopVi
             tvDays[6] = itemView.findViewById(R.id.tvSun);
             tvDays[7] = itemView.findViewById(R.id.tvPH);
 
+            unifiedNativeAdView = itemView.findViewById(R.id.unavAd);
+
+            AdLoader adLoader = new AdLoader.Builder(context, nativeAd_key)
+                    .forUnifiedNativeAd(unifiedNativeAd -> {
+                        // Show the ad.
+                        MapUnifiedNativeAdToView(itemView, unifiedNativeAd, unifiedNativeAdView);
+                    }).build();
+
+            adLoader.loadAd(new AdRequest.Builder().build());
+
+
             itemView.setOnClickListener(view -> {
                 if (listener != null) {
                     int position = getAdapterPosition();
@@ -77,10 +99,41 @@ public class ShopItemAdapter extends RecyclerView.Adapter<ShopItemAdapter.ShopVi
                 }
             });
         }
+
+        private void MapUnifiedNativeAdToView(@NonNull View itemView, UnifiedNativeAd unifiedNativeAd, UnifiedNativeAdView unifiedNativeAdView) {
+            unifiedNativeAdView.setMediaView(itemView.findViewById(R.id.mediaView));
+            unifiedNativeAdView.setHeadlineView(itemView.findViewById(R.id.tvHeadName));
+            unifiedNativeAdView.setBodyView(itemView.findViewById(R.id.tvBody));
+            unifiedNativeAdView.setCallToActionView(itemView.findViewById(R.id.tvLearnMore));
+
+            ((TextView) unifiedNativeAdView.getHeadlineView()).setText(unifiedNativeAd.getHeadline());
+
+            if (unifiedNativeAd.getBody() != null) {
+                ((TextView) unifiedNativeAdView.getBodyView()).setText(unifiedNativeAd.getBody());
+            } else {
+                unifiedNativeAdView.getBodyView().setVisibility(View.GONE);
+            }
+
+            if (unifiedNativeAd.getMediaContent() != null) {
+                unifiedNativeAdView.getMediaView().setMediaContent(unifiedNativeAd.getMediaContent());
+            } else {
+                unifiedNativeAdView.getMediaView().setVisibility(View.GONE);
+            }
+
+            if (unifiedNativeAd.getCallToAction() != null) {
+                ((TextView) unifiedNativeAdView.getCallToActionView()).setText(unifiedNativeAd.getCallToAction());
+            } else {
+                unifiedNativeAdView.getCallToActionView().setVisibility(View.GONE);
+            }
+
+            unifiedNativeAdView.setNativeAd(unifiedNativeAd);
+        }
     }
 
-    public ShopItemAdapter(ArrayList<ShopItem> shopList) {
+    public ShopItemAdapter(ArrayList<ShopItem> shopList, Context context, String nativeAd_key) {
         this.ShopList = shopList;
+        this.context = context;
+        this.nativeAd_key = nativeAd_key;
     }
 
     @NonNull
@@ -88,7 +141,7 @@ public class ShopItemAdapter extends RecyclerView.Adapter<ShopItemAdapter.ShopVi
     public ShopViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.shop_item, parent, false);
 
-        return new ShopViewHolder(v, mListener);
+        return new ShopViewHolder(v, mListener, context, nativeAd_key);
     }
 
     @Override
@@ -99,19 +152,23 @@ public class ShopItemAdapter extends RecyclerView.Adapter<ShopItemAdapter.ShopVi
         //holder.ivLogo.setImageResource(item.getIntLogoSmall());
         holder.tvShortDescript.setText(item.getStrShortDescript());
         //Calculate distance
-        holder.tvDistance.setText(roundOf(item.getDblDistance(),1)+"Km");
+        holder.tvDistance.setText(roundOf(item.getDblDistance(), 1) + "Km");
         holder.tvAveTime.setText(item.getStrAveTime());
 
-        if (item.getIntStatus() == 0){
+        if (!item.isShowAd()){
+            holder.unifiedNativeAdView.setVisibility(View.GONE);
+        }
+
+        if (item.getIntStatus() == 0) {
             holder.tvClosed.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             holder.tvClosed.setVisibility(View.GONE);
         }
 
         setStarRating(item.getIntRating(), holder.ivStar1, holder.ivStar2, holder.ivStar3, holder.ivStar4, holder.ivStar5);
 
         holder.llDropDown.setOnClickListener(view -> {
-            setOHVISIBILITY(holder.llOpHours, holder.tvMore,holder.tvDays, item.getStrOperatingHRS());
+            setOHVISIBILITY(holder.llOpHours, holder.tvMore, holder.tvDays, item.getStrOperatingHRS());
         });
 
         holder.tvAveTime.setBackgroundColor(item.getIntAveTimeColor());

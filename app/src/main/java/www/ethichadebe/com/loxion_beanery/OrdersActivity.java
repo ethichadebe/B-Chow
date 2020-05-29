@@ -66,10 +66,10 @@ public class OrdersActivity extends AppCompatActivity {
 
         myDialog = new Dialog(this);
         cvOpen = findViewById(R.id.cvOpen);
-        viewPager = findViewById(R.id.container);
         cvClosed = findViewById(R.id.cvClosed);
         tvOpen = findViewById(R.id.tvOpen);
         tvClosed = findViewById(R.id.tvClosed);
+        viewPager = findViewById(R.id.container);
         tvCompleteReg = findViewById(R.id.tvCompleteReg);
 
         tvClosed.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
