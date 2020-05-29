@@ -123,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
 
+
         bottomNavAdmin.setOnNavigationItemSelectedListener(menuItem -> {
             Fragment selectedFragment = null;
 

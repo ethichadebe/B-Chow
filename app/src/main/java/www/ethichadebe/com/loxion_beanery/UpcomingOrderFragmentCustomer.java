@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -39,7 +40,7 @@ import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 public class UpcomingOrderFragmentCustomer extends Fragment {
     private static final String TAG = "UpcomingOrderFragmentCu";
     private RequestQueue requestQueue;
-    private Dialog myDialog;
+
     private RecyclerView mRecyclerView;
     private UpcomingOrderItemAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -65,11 +66,11 @@ public class UpcomingOrderFragmentCustomer extends Fragment {
         rlEmpty = v.findViewById(R.id.rlEmpty);
         mRecyclerView = v.findViewById(R.id.upcomingRecyclerView);
 
-        myDialog = new Dialog(Objects.requireNonNull(getActivity()));
         upcomingOrderItems = new ArrayList<>();
         mLayoutManager = new LinearLayoutManager(getActivity());
         mAdapter = new UpcomingOrderItemAdapter(upcomingOrderItems);
 
+        rlLoad.setOnClickListener(view -> GETUpcomingOrders(v.findViewById(R.id.vLine), v.findViewById(R.id.vLineGrey)));
 
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(mLayoutManager);

@@ -99,36 +99,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:fontFamily="sans-serif-medium"
-                android:text="No orders available"
+                android:fontFamily="sans-serif-condensed-light"
+                android:text="No upcoming orders available"
                 android:textColor="@color/Grey"
                 android:textSize="20sp" />
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cvStartOrdering"
-                android:layout_width="150dp"
-                android:layout_height="40dp"
-                android:layout_rowWeight="1"
-                android:layout_columnWeight="1"
-                android:layout_below="@+id/tvEmpty"
-                android:layout_centerHorizontal="true"
-                android:layout_margin="10dp"
-                android:padding="50dp"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="3dp">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/ripple_effect_white"
-                    android:fontFamily="sans-serif-medium"
-                    android:gravity="center"
-                    android:text="Start Ordering"
-                    android:textAllCaps="true"
-                    android:textSize="14sp" />
-            </androidx.cardview.widget.CardView>
-
-
         </RelativeLayout>
     </LinearLayout>
 

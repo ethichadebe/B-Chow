@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -65,6 +66,8 @@ public class PastOrderFragmentCustomer extends Fragment {
         pastOrderItems = new ArrayList<>();
         mLayoutManager = new LinearLayoutManager(getActivity());
         mAdapter = new PastOrderItemAdapter(pastOrderItems);
+
+        rlLoad.setOnClickListener(view -> GETPastOrders(v.findViewById(R.id.vLine), v.findViewById(R.id.vLineGrey)));
 
 
         mRecyclerView.setHasFixedSize(true);
