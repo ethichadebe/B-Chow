@@ -18,8 +18,8 @@ import static util.HelperMethods.saveData;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 
 public class ProfileFragment extends Fragment {
-    private LinearLayout llBack, llSettings;
-    public static boolean isLogout = false;
+    private LinearLayout llEditProfile;
+    static boolean isLogout = false;
     private TextView tvNameSur, tvEmail, tvNumber, tvDOB, tvSex, tvDeactivate, tvLogOut;
 
     @Nullable
@@ -30,8 +30,7 @@ public class ProfileFragment extends Fragment {
         if (getUser() == null){
             startActivity(new Intent(getActivity(), LoginActivity.class));
         }
-        llBack = v.findViewById(R.id.llBack);
-        llSettings = v.findViewById(R.id.llSettings);
+        llEditProfile = v.findViewById(R.id.llEditProfile);
 
         tvNameSur = v.findViewById(R.id.tvNameSur);
         tvEmail = v.findViewById(R.id.tvEmail);
@@ -47,7 +46,7 @@ public class ProfileFragment extends Fragment {
         tvDOB.setText(getUser().getuDOB());
         tvSex.setText(getUser().getuSex());
 
-        llSettings.setOnClickListener(view -> startActivity(new Intent(getActivity(), UserSettingsActivity.class)));
+        llEditProfile.setOnClickListener(view -> startActivity(new Intent(getActivity(), EditUserProfileActivity.class)));
         tvLogOut.setOnClickListener(view -> {
             isLogout = true;
             startActivity(new Intent(getActivity(), LoginActivity.class));

@@ -71,7 +71,7 @@ public class MyShopsFragment extends Fragment {
 
         if (getUser() == null) {
             startActivity(new Intent(getActivity(), LoginActivity.class));
-        }
+        }//If app crashes, return to login
 
         newShop = null;
         bsbBottomSheet = v.findViewById(R.id.bottom_sheet);
@@ -98,6 +98,10 @@ public class MyShopsFragment extends Fragment {
         mRecyclerView.setAdapter(mAdapter);
 
         GETShops(v.findViewById(R.id.vLine), v.findViewById(R.id.vLineGrey));
+
+        if (getUser().getuType() == 2) {
+            llEdit.setVisibility(View.GONE);
+        }//If user is an employee then they cant add a shop
 
         llEdit.setOnClickListener(view -> startActivity(new Intent(getActivity(), RegisterShopActivity.class)));
         rlLoad.setOnClickListener(view -> GETShops(v.findViewById(R.id.vLine), v.findViewById(R.id.vLineGrey)));

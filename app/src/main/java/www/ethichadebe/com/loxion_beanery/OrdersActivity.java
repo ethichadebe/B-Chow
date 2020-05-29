@@ -9,6 +9,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,6 +17,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.HashMap;
@@ -32,6 +34,7 @@ public class OrdersActivity extends AppCompatActivity {
     private static final String TAG = "OrdersActivity";
     private RequestQueue requestQueue;
     private Dialog myDialog;
+    private LinearLayout llSettings;
     private CardView cvOpen, cvClosed;
     private TextView tvOpen, tvClosed, tvCompleteReg;
     private ViewPager viewPager;
@@ -48,10 +51,15 @@ public class OrdersActivity extends AppCompatActivity {
         myDialog = new Dialog(this);
         cvOpen = findViewById(R.id.cvOpen);
         cvClosed = findViewById(R.id.cvClosed);
+        llSettings = findViewById(R.id.llSettings);
         tvOpen = findViewById(R.id.tvOpen);
         tvClosed = findViewById(R.id.tvClosed);
         viewPager = findViewById(R.id.container);
         tvCompleteReg = findViewById(R.id.tvCompleteReg);
+
+        if (getUser().getuType() == 2) {
+            llSettings.setVisibility(View.GONE);
+        }//If user is an employee then they cant Update shop details
 
         tvClosed.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
         tvOpen.setBackground(getResources().getDrawable(R.drawable.ripple_effect_green));

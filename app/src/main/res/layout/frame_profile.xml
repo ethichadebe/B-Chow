@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/White"
@@ -25,13 +24,13 @@
             android:layout_marginBottom="0dp"
             android:gravity="center"
             android:padding="10dp"
-            android:text="Your Profile"
+            android:text="@string/profile"
             android:textSize="12sp"
             android:textStyle="bold" />
 
         <LinearLayout
-            android:id="@+id/llSettings"
-            android:layout_width="?attr/actionBarSize"
+            android:id="@+id/llEditProfile"
+            android:layout_width="wrap_content"
             android:layout_height="?attr/actionBarSize"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
@@ -40,10 +39,19 @@
             android:gravity="center">
 
             <TextView
+                android:id="@+id/tvShops"
                 style="@style/Base.TextAppearance.AppCompat.Body1"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/ic_settings_black_24dp" />
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/ripple_effect_white"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="@string/edit_profile"
+                android:textSize="12sp"
+                android:textStyle="bold" />
         </LinearLayout>
     </RelativeLayout>
 
@@ -82,7 +90,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="10dp"
-                    android:text="Ethic Hadebe"
                     android:textSize="21sp"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -154,7 +161,7 @@
         android:fontFamily="sans-serif-medium"
         android:gravity="center"
         android:padding="10dp"
-        android:text="Sign out"
+        android:text="@string/logout"
         android:textSize="14sp"
         android:textStyle="bold" />
 
@@ -168,7 +175,7 @@
         android:fontFamily="sans-serif-medium"
         android:gravity="center"
         android:padding="10dp"
-        android:text="Deactivate account"
+        android:text="@string/deactivate_account"
         android:textColor="@color/Red"
         android:textSize="14sp"
         android:textStyle="bold" />

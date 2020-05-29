@@ -94,4 +94,7 @@
     <string name="home">Home</string>
     <string name="create_shop">Create Shop</string>
     <string name="shop_registered">Shop registered</string>
+    <string name="logout">Logout</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="deactivate_account">Deactivate account</string>
 </resources>
