@@ -103,13 +103,18 @@ public class MainActivity extends AppCompatActivity {
                 bottomNavAdmin.setSelectedItemId(R.id.nav_orders);
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new OrdersFragment()).commit();
-
                 break;
             case 2:
                 intFragment = -1;
                 bottomNavAdmin.setSelectedItemId(R.id.nav_profile);
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new ProfileFragment()).commit();
+                break;
+            case 3:
+                intFragment = -1;
+                bottomNavAdmin.setSelectedItemId(R.id.nav_shops);
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new MyShopsFragment()).commit();
                 break;
             default:
                 //Start Fragment
@@ -130,6 +135,9 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case R.id.nav_profile:
                     selectedFragment = new ProfileFragment();
+                    break;
+                case R.id.nav_shops:
+                    selectedFragment = new MyShopsFragment();
                     break;
             }
 

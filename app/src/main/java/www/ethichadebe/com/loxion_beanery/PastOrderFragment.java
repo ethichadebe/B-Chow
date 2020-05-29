@@ -31,7 +31,7 @@ import SingleItem.AdminOrderItemPast;
 
 import static util.Constants.getIpAddress;
 import static util.HelperMethods.handler;
-import static www.ethichadebe.com.loxion_beanery.MyShopsActivity.getNewShop;
+import static www.ethichadebe.com.loxion_beanery.MyShopsFragment.getNewShop;
 
 public class PastOrderFragment extends Fragment {
     private static final String TAG = "PastOrderFragment";

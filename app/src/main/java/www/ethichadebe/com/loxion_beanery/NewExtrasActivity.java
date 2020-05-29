@@ -33,15 +33,13 @@ import java.util.Objects;
 
 import Adapter.ExtraItemAdapter;
 import SingleItem.ExtraItem;
-import SingleItem.IngredientItem;
 import util.HelperMethods;
 
 import static util.Constants.getIpAddress;
-import static util.HelperMethods.ButtonVisibility;
 import static util.HelperMethods.ShowLoadingPopup;
 import static util.HelperMethods.handler;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
-import static www.ethichadebe.com.loxion_beanery.MyShopsActivity.getNewShop;
+import static www.ethichadebe.com.loxion_beanery.MyShopsFragment.getNewShop;
 
 public class NewExtrasActivity extends AppCompatActivity {
     private static final String TAG = "NewExtrasActivity";

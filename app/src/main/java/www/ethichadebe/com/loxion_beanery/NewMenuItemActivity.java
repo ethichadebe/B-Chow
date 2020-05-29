@@ -38,7 +38,7 @@ import static www.ethichadebe.com.loxion_beanery.MenuActivity.getIngredients;
 import static www.ethichadebe.com.loxion_beanery.MenuActivity.getIntPosition;
 import static www.ethichadebe.com.loxion_beanery.MenuActivity.getDblPrice;
 import static www.ethichadebe.com.loxion_beanery.MenuActivity.setIngredients;
-import static www.ethichadebe.com.loxion_beanery.MyShopsActivity.getNewShop;
+import static www.ethichadebe.com.loxion_beanery.MyShopsFragment.getNewShop;
 
 public class NewMenuItemActivity extends AppCompatActivity {
     private static final String TAG = "NewMenuItemActivity";

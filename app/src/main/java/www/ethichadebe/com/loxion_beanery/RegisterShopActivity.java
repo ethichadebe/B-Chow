@@ -60,8 +60,8 @@ import static util.Constants.getIpAddress;
 import static util.HelperMethods.StringToBitMap;
 import static util.HelperMethods.getStringImage;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
-import static www.ethichadebe.com.loxion_beanery.MyShopsActivity.getNewShop;
-import static www.ethichadebe.com.loxion_beanery.MyShopsActivity.setNewShop;
+import static www.ethichadebe.com.loxion_beanery.MyShopsFragment.getNewShop;
+import static www.ethichadebe.com.loxion_beanery.MyShopsFragment.setNewShop;
 import static www.ethichadebe.com.loxion_beanery.ShopSettingsActivity.isEdit;
 
 public class RegisterShopActivity extends AppCompatActivity {

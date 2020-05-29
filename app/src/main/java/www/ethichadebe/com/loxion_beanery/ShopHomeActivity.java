@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -32,9 +31,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import Adapter.MenuItemAdapter;
-import SingleItem.ExtraItem;
 import SingleItem.MenuItem;
-import SingleItem.ShopItem;
 import util.HelperMethods;
 
 import static util.Constants.getIpAddress;
@@ -42,8 +39,6 @@ import static util.HelperMethods.handler;
 import static util.HelperMethods.setStarRating;
 import static www.ethichadebe.com.loxion_beanery.HomeFragment.getShopItem;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
-import static www.ethichadebe.com.loxion_beanery.MyShopsActivity.getNewShop;
-import static util.HelperMethods.roundOf;
 
 public class ShopHomeActivity extends AppCompatActivity {
     private static final String TAG = "ShopHomeActivity";

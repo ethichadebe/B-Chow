@@ -2,9 +2,6 @@ package www.ethichadebe.com.loxion_beanery;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.location.Location;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,15 +13,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -35,16 +29,12 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Objects;
 
-import Adapter.AdminOrderItemAdapter;
 import Adapter.UpcomingOrderItemAdapter;
-import SingleItem.AdminOrderItem;
 import SingleItem.UpcomingOrderItem;
-import util.HelperMethods;
 
 import static util.Constants.getIpAddress;
 import static util.HelperMethods.handler;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
-import static www.ethichadebe.com.loxion_beanery.MyShopsActivity.getNewShop;
 
 public class UpcomingOrderFragmentCustomer extends Fragment {
     private static final String TAG = "UpcomingOrderFragmentCu";

@@ -3,16 +3,11 @@ package www.ethichadebe.com.loxion_beanery;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.location.Location;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -20,7 +15,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -37,19 +31,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import Adapter.AdminOrderItemAdapter;
-import Adapter.AdminOrderItemPastAdapter;
 import Adapter.PastOrderItemAdapter;
-import SingleItem.AdminOrderItem;
-import SingleItem.AdminOrderItemPast;
 import SingleItem.PastOrderItem;
-import util.HelperMethods;
 
 import static util.Constants.getIpAddress;
 import static util.HelperMethods.ShowLoadingPopup;
 import static util.HelperMethods.handler;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
-import static www.ethichadebe.com.loxion_beanery.MyShopsActivity.getNewShop;
 import static www.ethichadebe.com.loxion_beanery.OrderActivity.oID;
 
 public class PastOrderFragmentCustomer extends Fragment {
