@@ -10,6 +10,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.ads.AdLoader;
@@ -50,6 +51,7 @@ public class ShopItemAdapter extends RecyclerView.Adapter<ShopItemAdapter.ShopVi
         private ImageView ivLogo, ivStar1, ivStar2, ivStar3, ivStar4, ivStar5;
         private LinearLayout llOpHours, llDropDown;
         private RelativeLayout rlStatus;
+        private CardView cdAd;
         private UnifiedNativeAdView unifiedNativeAdView;
 
         ShopViewHolder(@NonNull View itemView, final OnItemClickListener listener, Context context, String nativeAd_key) {
@@ -61,6 +63,7 @@ public class ShopItemAdapter extends RecyclerView.Adapter<ShopItemAdapter.ShopVi
             rlStatus = itemView.findViewById(R.id.rlStatus);
             tvClosed = itemView.findViewById(R.id.tvClosed);
             tvShortDescript = itemView.findViewById(R.id.tvShortDescript);
+            cdAd = itemView.findViewById(R.id.cdAd);
             ivStar1 = itemView.findViewById(R.id.ivStar1);
             ivStar2 = itemView.findViewById(R.id.ivStar2);
             ivStar3 = itemView.findViewById(R.id.ivStar3);
@@ -156,7 +159,7 @@ public class ShopItemAdapter extends RecyclerView.Adapter<ShopItemAdapter.ShopVi
         holder.tvAveTime.setText(item.getStrAveTime());
 
         if (!item.isShowAd()){
-            holder.unifiedNativeAdView.setVisibility(View.GONE);
+            holder.cdAd.setVisibility(View.GONE);
         }
 
         if (item.getIntStatus() == 0) {
