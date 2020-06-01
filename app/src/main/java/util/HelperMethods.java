@@ -1,16 +1,22 @@
 package util;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
+import android.os.Environment;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -18,14 +24,25 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.rengwuxian.materialedittext.MaterialEditText;
+import com.yalantis.ucrop.UCrop;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.ParseException;
@@ -46,6 +63,8 @@ import www.ethichadebe.com.loxion_beanery.R;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 
 public class HelperMethods {
+    public static final int STORAGE_PERMISSION = 1;
+    public static final int CAMERA_PERMISSION = 2;
     public static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
     public static final String COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
     public static final int LOCATION_REQUEST_CODE = 1234;
@@ -165,7 +184,8 @@ public class HelperMethods {
         editor.apply();
     }
 
-    public static void loadData(SharedPreferences sharedPreferences, MaterialEditText Username, MaterialEditText Password) {
+    public static void loadData(SharedPreferences sharedPreferences, MaterialEditText Username,
+                                MaterialEditText Password) {
         Password.setText(sharedPreferences.getString(PASSWORD, ""));
         Username.setText(sharedPreferences.getString(USERNAME, ""));
     }
@@ -213,8 +233,8 @@ public class HelperMethods {
         }
     }
 
-    public static String getStringImage(Bitmap image){
-        if (image != null){
+    public static String getStringImage(Bitmap image) {
+        if (image != null) {
             ByteArrayOutputStream bOut = new ByteArrayOutputStream();
             image.compress(Bitmap.CompressFormat.JPEG, 100, bOut);
             byte[] imageByte = bOut.toByteArray();
@@ -227,16 +247,17 @@ public class HelperMethods {
      * @param encodedString
      * @return bitmap (from given string)
      */
-    public static Bitmap StringToBitMap(String encodedString){
+    public static Bitmap StringToBitMap(String encodedString) {
         try {
-            byte [] encodeByte=Base64.decode(encodedString,Base64.DEFAULT);
-            Bitmap bitmap= BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            byte[] encodeByte = Base64.decode(encodedString, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
             return bitmap;
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.getMessage();
             return null;
         }
     }
+
     /**
      * Set Rating
      *
@@ -247,8 +268,8 @@ public class HelperMethods {
      * @param ivStar4
      * @param ivStar5
      */
-    public static void setStarRating(int rating, ImageView ivStar1, ImageView ivStar2, ImageView ivStar3, ImageView ivStar4,
-                                     ImageView ivStar5) {
+    public static void setStarRating(int rating, ImageView ivStar1, ImageView ivStar2, ImageView ivStar3,
+                                     ImageView ivStar4, ImageView ivStar5) {
         switch (rating) {
             case 0:
                 ivStar1.setImageResource(0);
@@ -342,5 +363,80 @@ public class HelperMethods {
 
     public static Boolean randomNumber(int max) {
         return ((int) (Math.random() * max) + 1) == 1;
+    }
+
+    public static void requestPermission(Activity activity, Context context, int permission) {
+        if (permission == STORAGE_PERMISSION) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(activity,
+                    Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                new AlertDialog.Builder(context)
+                        .setTitle("Permission needed")
+                        .setMessage("This permission is needed so you can gain access to your gallery")
+                        .setPositiveButton("Enable permission", (dialogInterface, i) -> {
+                            ActivityCompat.requestPermissions(activity,
+                                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, STORAGE_PERMISSION);
+
+                        })
+                        .setNegativeButton("close", (dialogInterface, i) -> {
+                            dialogInterface.dismiss();
+                        }).create().show();
+            } else {
+                ActivityCompat.requestPermissions(activity,
+                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, STORAGE_PERMISSION);
+            }
+        } else if (permission == CAMERA_PERMISSION) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(activity,
+                    Manifest.permission.CAMERA)) {
+                new AlertDialog.Builder(context)
+                        .setTitle("Permission needed")
+                        .setMessage("This permission is needed so you can gain access to your camera")
+                        .setPositiveButton("Enable permission", (dialogInterface, i) -> {
+                            ActivityCompat.requestPermissions(activity,
+                                    new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, CAMERA_PERMISSION);
+
+                        })
+                        .setNegativeButton("close", (dialogInterface, i) -> {
+                            dialogInterface.dismiss();
+                        }).create().show();
+            } else {
+                ActivityCompat.requestPermissions(activity,
+                        new String[]{Manifest.permission.CAMERA}, CAMERA_PERMISSION);
+            }
+        }
+    }
+
+    public static File createFile(String TAG) {
+        Log.d(TAG, "createFile: Creating File");
+        String filename = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+
+        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        try {
+            Log.d(TAG, "createFile: File created");
+            return File.createTempFile(filename, ".jpg", storageDir);
+        } catch (IOException e) {
+            Log.d(TAG, "createFile: " + e.toString());
+        }
+        return null;
+    }
+
+    public static void startCrop(Activity activity, File file, @NonNull Uri uri,int width,int height) {
+        //Crop
+        String destFilename = "SampleCropImg.jpg";
+
+        UCrop uCrop = UCrop.of(uri, Uri.fromFile(new File(file, destFilename)));
+        uCrop.withAspectRatio(width, height)
+                .withMaxResultSize(width, height)
+                .withOptions(getOptions())
+                .start(activity);
+
+    }
+
+    private static UCrop.Options getOptions() {
+        UCrop.Options options = new UCrop.Options();
+        options.setCompressionQuality(70);
+        options.setHideBottomControls(false);
+        options.setFreeStyleCropEnabled(false);
+
+        return options;
     }
 }

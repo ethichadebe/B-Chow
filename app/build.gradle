@@ -37,7 +37,7 @@ dependencies {
     implementation 'com.android.support:multidex:1.0.3'
 
     implementation 'com.android.support:cardview-v7:28.0.0'
-    implementation 'com.android.support:recyclerview-v7:28.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
 
     //Custom edittext
     implementation 'com.rengwuxian.materialedittext:library:2.1.4'
@@ -55,12 +55,16 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.5'
 
     //Cropper
-    implementation 'com.github.mike14u:croperino:1.1.8'
+    implementation 'com.github.yalantis:ucrop:2.2.5'
 
+    //Google maps
     implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.google.android.libraries.places:places:2.2.0'
     implementation 'com.android.support:design:28.0.0'
 
     //Google ads
     implementation 'com.google.android.gms:play-services-ads:19.1.0'
+
+    //RecyclerView
+    implementation 'com.github.mike14u:shimmer-recyclerview-x:1.0.3'
 }

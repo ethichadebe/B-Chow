@@ -29,6 +29,9 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -53,8 +56,10 @@ import util.TaskLoadedCallback;
 import static util.Constants.getIpAddress;
 import static util.HelperMethods.ShowLoadingPopup;
 import static util.HelperMethods.ismLocationGranted;
+import static util.HelperMethods.randomNumber;
 import static www.ethichadebe.com.loxion_beanery.HomeFragment.getShopItem;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
+import static www.ethichadebe.com.loxion_beanery.MainActivity.setIntFragment;
 import static www.ethichadebe.com.loxion_beanery.OrderActivity.oID;
 import static www.ethichadebe.com.loxion_beanery.UpcomingOrderFragmentCustomer.getUpcomingOrderItem;
 import static www.ethichadebe.com.loxion_beanery.UpcomingOrderFragmentCustomer.setUpcomingOrderItem;
@@ -62,6 +67,8 @@ import static www.ethichadebe.com.loxion_beanery.UpcomingOrderFragmentCustomer.s
 public class OrderConfirmationActivity extends AppCompatActivity implements OnMapReadyCallback, TaskLoadedCallback {
     private static final String TAG = "OrderConfirmationActivi";
     private RequestQueue requestQueue;
+    private InterstitialAd mInterstitialAd;
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         Log.d(TAG, "onMapReady: Map is ready");
@@ -180,6 +187,10 @@ public class OrderConfirmationActivity extends AppCompatActivity implements OnMa
         }
 
 
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId(getString(R.string.AdMob_Interstitial_ID));
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+
         myDialog = new Dialog(this);
         btFinish = findViewById(R.id.btFinish);
         tvUpdateSmall = findViewById(R.id.tvUpdateSmall);
@@ -231,7 +242,60 @@ public class OrderConfirmationActivity extends AppCompatActivity implements OnMa
                 ShowConfirmationPopup(getUpcomingOrderItem().getIntID());
             }
         });
-        btFinish.setOnClickListener(view -> startActivity(new Intent(this, MainActivity.class)));
+        btFinish.setOnClickListener(view -> {
+            if(oID == -1){//Set it to go back to orders page
+                setIntFragment(1);
+            }
+
+            //Show ad
+            if (mInterstitialAd.isLoaded() && randomNumber(1)) {
+                mInterstitialAd.show();
+            } else {
+                Log.d("TAG", "The interstitial wasn't loaded yet.");
+                startActivity(new Intent(this, MainActivity.class));
+            }
+
+        });
+
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                // Code to be executed when an ad finishes loading.
+            }
+
+            @Override
+            public void onAdFailedToLoad(int errorCode) {
+                // Code to be executed when an ad request fails.
+                if(oID == -1){//Set it to go back to orders page
+                    setIntFragment(1);
+                }
+                startActivity(new Intent(OrderConfirmationActivity.this, MainActivity.class));
+            }
+
+            @Override
+            public void onAdOpened() {
+                // Code to be executed when the ad is displayed.
+            }
+
+            @Override
+            public void onAdClicked() {
+                // Code to be executed when the user clicks on an ad.
+            }
+
+            @Override
+            public void onAdLeftApplication() {
+                // Code to be executed when the user has left the app.
+            }
+
+            @Override
+            public void onAdClosed() {
+                // Code to be executed when the interstitial ad is closed.
+                if(oID == -1){//Set it to go back to orders page
+                    setIntFragment(1);
+                }
+                startActivity(new Intent(OrderConfirmationActivity.this, MainActivity.class));
+            }
+        });
 
         initMap();
     }

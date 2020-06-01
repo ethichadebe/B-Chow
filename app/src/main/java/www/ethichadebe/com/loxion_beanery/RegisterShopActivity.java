@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 
 import android.Manifest;
 import android.app.Activity;
@@ -12,6 +13,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
@@ -20,6 +22,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -38,14 +41,13 @@ import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.AutocompleteActivity;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
-import com.mikelau.croperino.Croperino;
-import com.mikelau.croperino.CroperinoConfig;
-import com.mikelau.croperino.CroperinoFileUtil;
 import com.rengwuxian.materialedittext.MaterialEditText;
+import com.yalantis.ucrop.UCrop;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -57,8 +59,13 @@ import SingleItem.MyShopItem;
 import util.HelperMethods;
 
 import static util.Constants.getIpAddress;
+import static util.HelperMethods.CAMERA_PERMISSION;
+import static util.HelperMethods.STORAGE_PERMISSION;
 import static util.HelperMethods.StringToBitMap;
+import static util.HelperMethods.createFile;
 import static util.HelperMethods.getStringImage;
+import static util.HelperMethods.requestPermission;
+import static util.HelperMethods.startCrop;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 import static www.ethichadebe.com.loxion_beanery.MainActivity.setIntFragment;
 import static www.ethichadebe.com.loxion_beanery.MyShopsFragment.getNewShop;
@@ -69,7 +76,7 @@ public class RegisterShopActivity extends AppCompatActivity {
     private static final String TAG = "RegisterShopActivity";
     private RequestQueue requestQueue;
     private Dialog myDialog;
-    private TextView tvName, tvLocation,tvAddress;
+    private TextView tvName, tvLocation, tvAddress;
     private MaterialEditText etName, etShortDescription, etFullDescription;
     private Boolean isBig, goBack;
     private Button btnNext;
@@ -77,6 +84,7 @@ public class RegisterShopActivity extends AppCompatActivity {
     private Bitmap bmSmall, bmBig;
     private LinearLayout llLocation;
     private LatLng sLocation;
+    private String pathToFile;
 
 
     @Override
@@ -186,23 +194,10 @@ public class RegisterShopActivity extends AppCompatActivity {
         myDialog.show();
     }
 
-    private void prepareChooser() {
-        if (!isBig) {
-            Croperino.prepareChooser(this, "Choose Front facing Image", ContextCompat.getColor(this,
-                    R.color.colorPrimary));
-        } else {
-            Croperino.prepareChooser(this, "Choose Shop home image", ContextCompat.getColor(this,
-                    R.color.colorPrimary));
-        }
-    }
-
-    private void prepareCamera() {
-        Croperino.prepareCamera(this);
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Uri uri;
         if ((requestCode == 100) && (resultCode == RESULT_OK)) {
             Place place = Autocomplete.getPlaceFromIntent(Objects.requireNonNull(data));
 
@@ -213,71 +208,23 @@ public class RegisterShopActivity extends AppCompatActivity {
         } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
             Status status = Autocomplete.getStatusFromIntent(Objects.requireNonNull(data));
             Toast.makeText(this, status.getStatusMessage(), Toast.LENGTH_SHORT).show();
-
-        } else {
-            switch (requestCode) {
-                case CroperinoConfig.REQUEST_TAKE_PHOTO:
-                    if (resultCode == Activity.RESULT_OK) {
-                        Croperino.runCropImage(CroperinoFileUtil.getTempFile(), this, true, 29,
-                                10, R.color.gray, R.color.gray_variant);
-                    }
-                    break;
-                case CroperinoConfig.REQUEST_PICK_FILE:
-                    if (resultCode == Activity.RESULT_OK) {
-                        CroperinoFileUtil.newGalleryFile(data, this);
-                        Croperino.runCropImage(CroperinoFileUtil.getTempFile(), this, true, 28,
-                                10, R.color.gray, R.color.gray_variant);
-                    }
-                    break;
-                case CroperinoConfig.REQUEST_CROP_PHOTO:
-                    if (resultCode == Activity.RESULT_OK) {
-                        Uri i = Uri.fromFile(CroperinoFileUtil.getTempFile());
-                        setImage(i);
-                    }
-                    break;
-                default:
-                    break;
+        } else if ((requestCode == STORAGE_PERMISSION) && (resultCode == RESULT_OK)) {
+            uri = Objects.requireNonNull(data).getData();
+            if (uri != null) {
+                startCrop(this, getCacheDir(), uri, 400, 150);
             }
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        if (requestCode == CroperinoFileUtil.REQUEST_CAMERA) {
-            for (int i = 0; i < permissions.length; i++) {
-                String permission = permissions[i];
-                int grantResult = grantResults[i];
-
-                if (permission.equals(Manifest.permission.CAMERA)) {
-                    if (grantResult == PackageManager.PERMISSION_GRANTED) {
-                        prepareCamera();
-                    }
-                }
+        } else if ((requestCode == CAMERA_PERMISSION) && (resultCode == RESULT_OK)) {
+            if (BitmapFactory.decodeFile(pathToFile) != null) {
+                startCrop(this, getCacheDir(), Uri.fromFile(new File(pathToFile)), 400,150);
             }
-        } else if (requestCode == CroperinoFileUtil.REQUEST_EXTERNAL_STORAGE) {
-            boolean wasReadGranted = false;
-            boolean wasWriteGranted = false;
-
-            for (int i = 0; i < permissions.length; i++) {
-                String permission = permissions[i];
-                int grantResult = grantResults[i];
-
-                if (permission.equals(Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                    if (grantResult == PackageManager.PERMISSION_GRANTED) {
-                        wasReadGranted = true;
-                    }
+        } else if ((requestCode == UCrop.REQUEST_CROP) && (resultCode == RESULT_OK)) {
+            uri = UCrop.getOutput(Objects.requireNonNull(data));
+            if (uri != null) {
+                if (isBig){
+                    civBig.setImageURI(uri);
+                }else {
+                    civBig.setImageURI(uri);
                 }
-                if (permission.equals(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                    if (grantResult == PackageManager.PERMISSION_GRANTED) {
-                        wasWriteGranted = true;
-                    }
-                }
-            }
-
-            if (wasReadGranted && wasWriteGranted) {
-                prepareChooser();
             }
         }
     }
@@ -309,16 +256,12 @@ public class RegisterShopActivity extends AppCompatActivity {
 
     public void Small(View view) {
         isBig = false;
-        if (CroperinoFileUtil.verifyStoragePermissions(this)) {
-            prepareChooser();
-        }
+        ShowDPEditPopup();
     }
 
     public void big(View view) {
         isBig = true;
-        if (CroperinoFileUtil.verifyStoragePermissions(this)) {
-            prepareChooser();
-        }
+        ShowDPEditPopup();
     }
 
     private void setImage(Uri uri) {
@@ -439,5 +382,87 @@ public class RegisterShopActivity extends AppCompatActivity {
         if (requestQueue != null) {
             requestQueue.cancelAll(TAG);
         }
+    }
+
+    private void takePicture() {
+        Log.d(TAG, "takePicture: Taking picture");
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+        //Check if there's an app available to take picture
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            Log.d(TAG, "takePicture: getPackageManager()) != null");
+            File photo = null;
+            photo = createFile(TAG);
+            //Save picture into the photo var
+            if (photo != null) {
+                pathToFile = Objects.requireNonNull(photo).getAbsolutePath();
+                Uri photoUri = FileProvider.getUriForFile(this,
+                        "www.ethichadebe.com.loxion_beanery.fileprovider", photo);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+                Log.d(TAG, "takePicture: Start picture taking activity");
+                startActivityForResult(intent, CAMERA_PERMISSION);
+            }
+        }
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        if ((requestCode == STORAGE_PERMISSION) && ((grantResults.length) > 0) &&
+                grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            startActivityForResult(new Intent().setAction(Intent.ACTION_GET_CONTENT).setType("image/*"),
+                    STORAGE_PERMISSION);
+        } else if ((requestCode == CAMERA_PERMISSION) && ((grantResults.length) > 0) &&
+                grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            takePicture();
+        }
+    }
+
+    public void ShowDPEditPopup() {
+        TextView tvCancel, tvMessage;
+        Button btnYes, btnNo;
+        myDialog.setContentView(R.layout.popup_confirmation);
+
+        tvCancel = myDialog.findViewById(R.id.tvCancel);
+        tvMessage = myDialog.findViewById(R.id.tvMessage);
+        btnYes = myDialog.findViewById(R.id.btnYes);
+        btnNo = myDialog.findViewById(R.id.btnNo);
+
+        tvCancel.setOnClickListener(view -> myDialog.dismiss());
+
+        btnNo.setText("Open Gallery");
+        btnYes.setText("Open Camera");
+        tvMessage.setText("Change Profile Picture");
+
+        btnYes.setOnClickListener(view -> {
+            if (ContextCompat.checkSelfPermission(this,
+                    Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                Log.d(TAG, "ShowDPEditPopup: Take picture");
+                takePicture();
+                myDialog.dismiss();
+            } else {
+                myDialog.dismiss();
+                requestPermission(this, this, CAMERA_PERMISSION);
+            }
+
+        });
+
+        btnNo.setOnClickListener(view -> {
+            if (ContextCompat.checkSelfPermission(this,
+                    Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                myDialog.dismiss();
+                startActivityForResult(new Intent().setAction(Intent.ACTION_GET_CONTENT).setType("image/*"),
+                        STORAGE_PERMISSION);
+            } else {
+                myDialog.dismiss();
+                requestPermission(this, this, STORAGE_PERMISSION);
+            }
+        });
+
+        Objects.requireNonNull(myDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        myDialog.show();
+        myDialog.setCancelable(false);
+        myDialog.setCanceledOnTouchOutside(false);
     }
 }

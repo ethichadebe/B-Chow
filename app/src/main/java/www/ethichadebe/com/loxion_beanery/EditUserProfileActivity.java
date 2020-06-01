@@ -1,22 +1,34 @@
 package www.ethichadebe.com.loxion_beanery;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.DialogFragment;
 
 import android.Manifest;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.BitmapRegionDecoder;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -29,28 +41,41 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.mikelau.croperino.Croperino;
-import com.mikelau.croperino.CroperinoConfig;
-import com.mikelau.croperino.CroperinoFileUtil;
 import com.rengwuxian.materialedittext.MaterialEditText;
+import com.yalantis.ucrop.UCrop;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.URI;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Random;
 
 import util.HelperMethods;
 
-import static android.provider.Telephony.Carriers.PASSWORD;
+import static android.os.Environment.getExternalStoragePublicDirectory;
 import static util.Constants.getIpAddress;
+import static util.HelperMethods.CAMERA_PERMISSION;
 import static util.HelperMethods.SHARED_PREFS;
+import static util.HelperMethods.STORAGE_PERMISSION;
 import static util.HelperMethods.allFieldsEntered;
+import static util.HelperMethods.createFile;
+import static util.HelperMethods.requestPermission;
 import static util.HelperMethods.saveData;
 import static util.HelperMethods.sharedPrefsIsEmpty;
+import static util.HelperMethods.startCrop;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 import static www.ethichadebe.com.loxion_beanery.MainActivity.setIntFragment;
 
@@ -66,6 +91,7 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
 
     private RequestQueue requestQueue;
     private StringRequest stringRequest;
+    private String pathToFile;
 
     /*0 Name
     1 Surname
@@ -152,31 +178,60 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
         });
     }
 
-    public void ShowConfirmationPopup() {
-        TextView tvCancel, tvMessage;
-        Button btnYes, btnNo;
-        myDialog.setContentView(R.layout.popup_confirmation);
+    //Editing profile
+    private void EditUserDetails() {
+        HelperMethods.ShowLoadingPopup(myDialog, true);
+        stringRequest = new StringRequest(Request.Method.PUT,
+                getIpAddress() + "/users/EditProfile",
+                response -> {
+                    HelperMethods.ShowLoadingPopup(myDialog, false);
+                    try {
+                        JSONObject JSONData = new JSONObject(response);
+                        if (JSONData.getString("data").equals("saved")) {
+                            JSONArray jsonArray = new JSONArray(JSONData.getString("response"));
+                            JSONObject JSONResponse = jsonArray.getJSONObject(0);
 
-        tvCancel = myDialog.findViewById(R.id.tvCancel);
-        tvMessage = myDialog.findViewById(R.id.tvMessage);
-        btnYes = myDialog.findViewById(R.id.btnYes);
-        btnNo = myDialog.findViewById(R.id.btnNo);
-
-        tvCancel.setOnClickListener(view -> myDialog.dismiss());
-
-        tvMessage.setText("Would you like to save Changes made?");
-
-        btnYes.setOnClickListener(view -> {
-            if (allFieldsEntered(mTextBoxes)) {
-                EditUserDetails();
+                            Toast.makeText(EditUserProfileActivity.this, "Saved", Toast.LENGTH_LONG).show();
+                            getUser().setuDOB(JSONResponse.getString("uDOB"));
+                            getUser().setuEmail(JSONResponse.getString("uEmail"));
+                            getUser().setuID(JSONResponse.getInt("uID"));
+                            getUser().setuName(JSONResponse.getString("uName"));
+                            getUser().setuNumber(JSONResponse.getString("uNumber"));
+                            getUser().setuSex(JSONResponse.getString("uSex"));
+                            getUser().setuSurname(JSONResponse.getString("uSurname"));
+                            if (isBack) {
+                                setIntFragment(2);
+                                startActivity(new Intent(EditUserProfileActivity.this, MainActivity.class));
+                            }//Check if user pressed back
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }, error -> {
+            HelperMethods.ShowLoadingPopup(myDialog, false);
+            if (error.toString().equals("com.android.volley.TimeoutError")) {
+                Toast.makeText(this, "Connection error. Please retry", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
             }
-        });
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
 
-        btnNo.setOnClickListener(view -> finish());
-        Objects.requireNonNull(myDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        myDialog.show();
-        myDialog.setCancelable(false);
-        myDialog.setCanceledOnTouchOutside(false);
+                params.put("uName", Objects.requireNonNull(mTextBoxes[0].getText()).toString());
+                params.put("uSurname", Objects.requireNonNull(mTextBoxes[1].getText()).toString());
+                params.put("uDOB", Objects.requireNonNull(mTextBoxes[2].getText()).toString());
+                params.put("uSex", UserSex);
+                params.put("uID", String.valueOf(getUser().getuID()));
+
+                return params;
+            }
+        };
+
+        requestQueue = Volley.newRequestQueue(this);
+        stringRequest.setTag(TAG);
+        requestQueue.add(stringRequest);
     }
 
     @Override
@@ -203,24 +258,6 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
             case "other":
                 mCBOther.setChecked(true);
                 break;
-        }
-    }
-
-    public void back(View view) {
-        if (!(Objects.requireNonNull(mTextBoxes[0].getText()).toString().equals(getUser().getuName())) ||
-                !(Objects.requireNonNull(mTextBoxes[1].getText()).toString().equals(getUser().getuSurname())) ||
-                !(Objects.requireNonNull(mTextBoxes[2].getText()).toString().equals(getUser().getuDOB())) ||
-                !UserSex.equals(getUser().getuSex())) {
-            ShowConfirmationPopup();
-        } else {
-            finish();
-        }
-    }
-
-    public void save(View view) {
-        if (allFieldsEntered(mTextBoxes)) {
-            isBack = false;
-            EditUserDetails();
         }
     }
 
@@ -276,6 +313,7 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
         requestQueue.add(stringRequest);
     }
 
+    //Editing email and number
     private void EditUserNumber(MaterialEditText number, TextView tvEdit, Dialog myDialog) {
         stringRequest = new StringRequest(Request.Method.PUT,
                 getIpAddress() + "/users/EditNumber",
@@ -334,73 +372,6 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
         requestQueue.add(stringRequest);
     }
 
-    private void EditUserDetails() {
-        HelperMethods.ShowLoadingPopup(myDialog, true);
-        stringRequest = new StringRequest(Request.Method.PUT,
-                getIpAddress() + "/users/EditProfile",
-                response -> {
-                    HelperMethods.ShowLoadingPopup(myDialog, false);
-                    try {
-                        JSONObject JSONData = new JSONObject(response);
-                        if (JSONData.getString("data").equals("saved")) {
-                            JSONArray jsonArray = new JSONArray(JSONData.getString("response"));
-                            JSONObject JSONResponse = jsonArray.getJSONObject(0);
-
-                            Toast.makeText(EditUserProfileActivity.this, "Saved", Toast.LENGTH_LONG).show();
-                            getUser().setuDOB(JSONResponse.getString("uDOB"));
-                            getUser().setuEmail(JSONResponse.getString("uEmail"));
-                            getUser().setuID(JSONResponse.getInt("uID"));
-                            getUser().setuName(JSONResponse.getString("uName"));
-                            getUser().setuNumber(JSONResponse.getString("uNumber"));
-                            getUser().setuSex(JSONResponse.getString("uSex"));
-                            getUser().setuSurname(JSONResponse.getString("uSurname"));
-                            if (isBack) {
-                                setIntFragment(2);
-                                startActivity(new Intent(EditUserProfileActivity.this, MainActivity.class));
-                            }//Check if user pressed back
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }, error -> {
-            HelperMethods.ShowLoadingPopup(myDialog, false);
-            if (error.toString().equals("com.android.volley.TimeoutError")) {
-                Toast.makeText(this, "Connection error. Please retry", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-
-                params.put("uName", Objects.requireNonNull(mTextBoxes[0].getText()).toString());
-                params.put("uSurname", Objects.requireNonNull(mTextBoxes[1].getText()).toString());
-                params.put("uDOB", Objects.requireNonNull(mTextBoxes[2].getText()).toString());
-                params.put("uSex", UserSex);
-                params.put("uID", String.valueOf(getUser().getuID()));
-
-                return params;
-            }
-        };
-
-        requestQueue = Volley.newRequestQueue(this);
-        stringRequest.setTag(TAG);
-        requestQueue.add(stringRequest);
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (!(Objects.requireNonNull(mTextBoxes[0].getText()).toString().equals(getUser().getuName())) ||
-                !(Objects.requireNonNull(mTextBoxes[1].getText()).toString().equals(getUser().getuSurname())) ||
-                !(Objects.requireNonNull(mTextBoxes[2].getText()).toString().equals(getUser().getuDOB())) ||
-                !UserSex.equals(getUser().getuSex())) {
-            ShowConfirmationPopup();
-        } else {
-            finish();
-        }
-    }
-
     public void editEmail(View view) {
         ShowEditPopup("Edit email", "Email", getUser().getuEmail(), false);
     }
@@ -443,90 +414,159 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
         myDialog.setCanceledOnTouchOutside(false);
     }
 
-    public void ProfilePicture(View view) {
-        if (CroperinoFileUtil.verifyStoragePermissions(this)) {
-            prepareChooser();
-        }
-    }
-
     public void ChangePassword(View view) {
         startActivity(new Intent(this, ChangePasswordActivity.class));
     }
 
-    private void prepareChooser() {
-        Croperino.prepareChooser(this, "Capture photo...",
-                ContextCompat.getColor(this, android.R.color.background_dark));
+    //Done
+
+    /**
+     * trying to exit before saving
+     */
+    public void ShowConfirmationPopup() {
+        TextView tvCancel, tvMessage;
+        Button btnYes, btnNo;
+        myDialog.setContentView(R.layout.popup_confirmation);
+
+        tvCancel = myDialog.findViewById(R.id.tvCancel);
+        tvMessage = myDialog.findViewById(R.id.tvMessage);
+        btnYes = myDialog.findViewById(R.id.btnYes);
+        btnNo = myDialog.findViewById(R.id.btnNo);
+
+        tvCancel.setOnClickListener(view -> myDialog.dismiss());
+
+        tvMessage.setText("Would you like to save Changes made?");
+
+        btnYes.setOnClickListener(view -> {
+            if (allFieldsEntered(mTextBoxes)) {
+                EditUserDetails();
+            }
+        });
+
+        btnNo.setOnClickListener(view -> finish());
+        Objects.requireNonNull(myDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        myDialog.show();
+        myDialog.setCancelable(false);
+        myDialog.setCanceledOnTouchOutside(false);
     }
 
-    private void prepareCamera() {
-        Croperino.prepareCamera(this);
+    public void back(View view) {
+        if (!(Objects.requireNonNull(mTextBoxes[0].getText()).toString().equals(getUser().getuName())) ||
+                !(Objects.requireNonNull(mTextBoxes[1].getText()).toString().equals(getUser().getuSurname())) ||
+                !(Objects.requireNonNull(mTextBoxes[2].getText()).toString().equals(getUser().getuDOB())) ||
+                !UserSex.equals(getUser().getuSex())) {
+            ShowConfirmationPopup();
+        } else {
+            finish();
+        }
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        switch (requestCode) {
-            case CroperinoConfig.REQUEST_TAKE_PHOTO:
-                if (resultCode == Activity.RESULT_OK) {
-                    Croperino.runCropImage(CroperinoFileUtil.getTempFile(), this, true, 1, 1, R.color.gray, R.color.gray_variant);
-                }
-                break;
-            case CroperinoConfig.REQUEST_PICK_FILE:
-                if (resultCode == Activity.RESULT_OK) {
-                    CroperinoFileUtil.newGalleryFile(data, this);
-                    Croperino.runCropImage(CroperinoFileUtil.getTempFile(), this, true, 1, 1, R.color.gray, R.color.gray_variant);
-                }
-                break;
-            case CroperinoConfig.REQUEST_CROP_PHOTO:
-                if (resultCode == Activity.RESULT_OK) {
-                    Uri i = Uri.fromFile(CroperinoFileUtil.getTempFile());
-                    civProfilePicture.setImageURI(i);
-                }
-                break;
-            default:
-                break;
+    public void save(View view) {
+        if (allFieldsEntered(mTextBoxes)) {
+            isBack = false;
+            EditUserDetails();
         }
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    public void onBackPressed() {
+        if (!(Objects.requireNonNull(mTextBoxes[0].getText()).toString().equals(getUser().getuName())) ||
+                !(Objects.requireNonNull(mTextBoxes[1].getText()).toString().equals(getUser().getuSurname())) ||
+                !(Objects.requireNonNull(mTextBoxes[2].getText()).toString().equals(getUser().getuDOB())) ||
+                !UserSex.equals(getUser().getuSex())) {
+            ShowConfirmationPopup();
+        } else {
+            finish();
+        }
+    }
 
-        if (requestCode == CroperinoFileUtil.REQUEST_CAMERA) {
-            for (int i = 0; i < permissions.length; i++) {
-                String permission = permissions[i];
-                int grantResult = grantResults[i];
+    //Changing profile picture
+    public void ProfilePicture(View view) {
+        ShowDPEditPopup();
+    }
 
-                if (permission.equals(Manifest.permission.CAMERA)) {
-                    if (grantResult == PackageManager.PERMISSION_GRANTED) {
-                        prepareCamera();
-                    }
-                }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Uri uri;
+        //civProfilePicture.
+        if ((requestCode == STORAGE_PERMISSION) && (resultCode == RESULT_OK)) {
+            uri = Objects.requireNonNull(data).getData();
+            if (uri != null) {
+                startCrop(this, getCacheDir(), uri, 350, 350);
             }
-        } else if (requestCode == CroperinoFileUtil.REQUEST_EXTERNAL_STORAGE) {
-            boolean wasReadGranted = false;
-            boolean wasWriteGranted = false;
+        } else if ((requestCode == CAMERA_PERMISSION) && (resultCode == RESULT_OK)) {
+            if (BitmapFactory.decodeFile(pathToFile) != null) {
+                startCrop(this, getCacheDir(), Uri.fromFile(new File(pathToFile)),350, 350);
+            }
+        } else if ((requestCode == UCrop.REQUEST_CROP) && (resultCode == RESULT_OK)) {
+            uri = UCrop.getOutput(Objects.requireNonNull(data));
+            if (uri != null) {
+                civProfilePicture.setImageDrawable(null);
+                civProfilePicture.setImageURI(uri);
+            }
+        }
 
-            for (int i = 0; i < permissions.length; i++) {
-                String permission = permissions[i];
-                int grantResult = grantResults[i];
+    }
 
-                if (permission.equals(Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                    if (grantResult == PackageManager.PERMISSION_GRANTED) {
-                        wasReadGranted = true;
-                    }
-                }
-                if (permission.equals(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                    if (grantResult == PackageManager.PERMISSION_GRANTED) {
-                        wasWriteGranted = true;
-                    }
-                }
+
+    public void ShowDPEditPopup() {
+        TextView tvCancel, tvMessage;
+        Button btnYes, btnNo;
+        myDialog.setContentView(R.layout.popup_confirmation);
+
+        tvCancel = myDialog.findViewById(R.id.tvCancel);
+        tvMessage = myDialog.findViewById(R.id.tvMessage);
+        btnYes = myDialog.findViewById(R.id.btnYes);
+        btnNo = myDialog.findViewById(R.id.btnNo);
+
+        tvCancel.setOnClickListener(view -> myDialog.dismiss());
+
+        btnNo.setText("Open Gallery");
+        btnYes.setText("Open Camera");
+        tvMessage.setText("Change Profile Picture");
+
+        btnYes.setOnClickListener(view -> {
+            if (ContextCompat.checkSelfPermission(this,
+                    Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                Log.d(TAG, "ShowDPEditPopup: Take picture");
+                takePicture();
+                myDialog.dismiss();
+            } else {
+                myDialog.dismiss();
+                requestPermission(this, this, CAMERA_PERMISSION);
             }
 
-            if (wasReadGranted && wasWriteGranted) {
-                prepareChooser();
+        });
+
+        btnNo.setOnClickListener(view -> {
+            if (ContextCompat.checkSelfPermission(this,
+                    Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                myDialog.dismiss();
+                startActivityForResult(new Intent().setAction(Intent.ACTION_GET_CONTENT).setType("image/*"),
+                        STORAGE_PERMISSION);
+            } else {
+                myDialog.dismiss();
+                requestPermission(this, this, STORAGE_PERMISSION);
             }
+        });
+
+        Objects.requireNonNull(myDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        myDialog.show();
+        myDialog.setCancelable(false);
+        myDialog.setCanceledOnTouchOutside(false);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        if ((requestCode == STORAGE_PERMISSION) && ((grantResults.length) > 0) &&
+                grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            startActivityForResult(new Intent().setAction(Intent.ACTION_GET_CONTENT).setType("image/*"),
+                    STORAGE_PERMISSION);
+        } else if ((requestCode == CAMERA_PERMISSION) && ((grantResults.length) > 0) &&
+                grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            takePicture();
         }
     }
 
@@ -537,4 +577,27 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
             requestQueue.cancelAll(TAG);
         }
     }
+
+    private void takePicture() {
+        Log.d(TAG, "takePicture: Taking picture");
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+        //Check if there's an app available to take picture
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            Log.d(TAG, "takePicture: getPackageManager()) != null");
+            File photo = null;
+            photo = createFile(TAG);
+            //Save picture into the photo var
+            if (photo != null) {
+                pathToFile = Objects.requireNonNull(photo).getAbsolutePath();
+                Uri photoUri = FileProvider.getUriForFile(this,
+                        "www.ethichadebe.com.loxion_beanery.fileprovider", photo);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+                Log.d(TAG, "takePicture: Start picture taking activity");
+                startActivityForResult(intent, CAMERA_PERMISSION);
+            }
+        }
+
+    }
+
 }

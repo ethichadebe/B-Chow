@@ -20,4 +20,6 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 -keep class androidx.appcompat.widget.** { *; }
-
+-dontwarn com.mikelau.croperino.**
+-keep class com.mikelau.croperino.** { *; }
+-keep interface com.mikelau.croperino.** { *; }

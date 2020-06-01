@@ -33,6 +33,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.Places;
+import com.mikelau.views.shimmer.ShimmerRecyclerViewX;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import org.json.JSONArray;
@@ -90,7 +91,7 @@ public class HomeFragment extends Fragment {
         cvRetry = v.findViewById(R.id.cvRetry);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getActivity());
-        mAdapter = new ShopItemAdapter(shopItems,getActivity(),getString(R.string.AdMob_Native_ID));
+        mAdapter = new ShopItemAdapter(shopItems, getActivity(), getString(R.string.AdMob_Native_ID));
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
 

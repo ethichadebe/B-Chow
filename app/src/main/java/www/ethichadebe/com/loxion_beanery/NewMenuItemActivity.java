@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -134,7 +135,7 @@ public class NewMenuItemActivity extends AppCompatActivity {
                         if (JSONData.getString("data").equals("saved")) {
                             JSONArray jsonArray = new JSONArray(JSONData.getString("response"));
                             JSONObject JSONResponse = jsonArray.getJSONObject(0);
-                            etPrice.setUnderlineColor(getResources().getColor(R.color.gray));
+                            etPrice.setUnderlineColor(Color.GRAY);
                             etPrice.setText("");
                             startActivity(new Intent(NewMenuItemActivity.this, MenuActivity.class));
                         }

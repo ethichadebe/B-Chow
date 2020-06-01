@@ -37,7 +37,22 @@
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="@string/AdMob_app_ID"/>
+            android:value="@string/AdMob_app_ID" />
+
+        <activity
+            android:name="com.yalantis.ucrop.UCropActivity"
+            android:screenOrientation="fullSensor"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        
+        <provider
+            android:authorities="www.ethichadebe.com.loxion_beanery.fileprovider"
+            android:name="androidx.core.content.FileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"/>
+        </provider>
 
         <activity android:name=".UserTypeActivity" />
         <activity android:name=".ChangePasswordActivity" />

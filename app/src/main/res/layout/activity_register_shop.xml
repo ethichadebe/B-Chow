@@ -101,7 +101,7 @@
                         android:textSize="14sp" />
 
                     <RelativeLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="400dp"
                         android:layout_height="150dp">
 
                         <RelativeLayout

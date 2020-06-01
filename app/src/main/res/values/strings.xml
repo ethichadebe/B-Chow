@@ -88,6 +88,8 @@
     <string name="AdMob_app_ID">ca-app-pub-3940256099942544~3347511713</string>
     <!-- Sample AdMob Native App ID: ca-app-pub-3940256099942544/2247696110 -->
     <string name="AdMob_Native_ID">ca-app-pub-3940256099942544/2247696110</string>
+    <!-- Sample AdMob Interstitial App ID: ca-app-pub-3940256099942544/1033173712 -->
+    <string name="AdMob_Interstitial_ID">ca-app-pub-3940256099942544/1033173712</string>
     <string name="my_shops">My shops</string>
     <string name="profile">Profile</string>
     <string name="orders">Orders</string>
