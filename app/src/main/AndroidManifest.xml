@@ -68,7 +68,7 @@
         <activity android:name=".MenuActivity" />
         <activity android:name=".IngredientsActivity" />
         <activity android:name=".RegisterShopActivity" />
-        <activity android:name=".MyShopsActivity" />
+        <activity android:name=".UploadPicActivity" />
         <activity android:name=".OrderConfirmationActivity" />
         <activity android:name=".ProfileFragment" />
         <activity android:name=".OrderActivity" />

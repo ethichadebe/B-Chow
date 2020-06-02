@@ -103,7 +103,7 @@ public class ShopSettingsActivity extends AppCompatActivity {
                 response -> {
                     //Toast.makeText(this, response, Toast.LENGTH_LONG).s  ();
                     ShowLoadingPopup(myDialog, false);
-                    startActivity(new Intent(this, MyShopsActivity.class));
+                    startActivity(new Intent(this, UploadPicActivity.class));
                 }, error -> {
             ShowLoadingPopup(myDialog, false);
             if (error.toString().equals("com.android.volley.TimeoutError")) {

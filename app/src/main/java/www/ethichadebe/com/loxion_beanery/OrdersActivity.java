@@ -17,7 +17,6 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.HashMap;
@@ -130,12 +129,12 @@ public class OrdersActivity extends AppCompatActivity {
     }
 
     public void back(View view) {
-        startActivity(new Intent(this, MyShopsActivity.class));
+        startActivity(new Intent(this, UploadPicActivity.class));
     }
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(this, MyShopsActivity.class));
+        startActivity(new Intent(this, UploadPicActivity.class));
     }
 
     public void settings(View view) {

@@ -221,9 +221,11 @@ public class RegisterShopActivity extends AppCompatActivity {
             uri = UCrop.getOutput(Objects.requireNonNull(data));
             if (uri != null) {
                 if (isBig){
+                    civBig.setImageDrawable(null);
                     civBig.setImageURI(uri);
                 }else {
-                    civBig.setImageURI(uri);
+                    civSmall.setImageDrawable(null);
+                    civSmall.setImageURI(uri);
                 }
             }
         }
@@ -262,24 +264,6 @@ public class RegisterShopActivity extends AppCompatActivity {
     public void big(View view) {
         isBig = true;
         ShowDPEditPopup();
-    }
-
-    private void setImage(Uri uri) {
-        if (isBig) {
-            try {
-                bmBig = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            civBig.setImageURI(uri);
-        } else {
-            try {
-                bmSmall = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            civSmall.setImageURI(uri);
-        }
     }
 
     public void back(View view) {
@@ -433,7 +417,7 @@ public class RegisterShopActivity extends AppCompatActivity {
 
         btnNo.setText("Open Gallery");
         btnYes.setText("Open Camera");
-        tvMessage.setText("Change Profile Picture");
+        tvMessage.setText("Update shop cover picture");
 
         btnYes.setOnClickListener(view -> {
             if (ContextCompat.checkSelfPermission(this,

@@ -3,10 +3,12 @@ package util;
 import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -15,6 +17,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.provider.OpenableColumns;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
@@ -37,19 +40,28 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.yalantis.ucrop.UCrop;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Objects;
 import java.util.TimeZone;
 
@@ -419,7 +431,7 @@ public class HelperMethods {
         return null;
     }
 
-    public static void startCrop(Activity activity, File file, @NonNull Uri uri,int width,int height) {
+    public static void startCrop(Activity activity, File file, @NonNull Uri uri, int width, int height) {
         //Crop
         String destFilename = "SampleCropImg.jpg";
 

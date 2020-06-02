@@ -1,12 +1,10 @@
 package www.ethichadebe.com.loxion_beanery;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.RelativeLayout;
 
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 import static www.ethichadebe.com.loxion_beanery.MainActivity.setIntFragment;
@@ -29,7 +27,7 @@ public class UserSettingsActivity extends AppCompatActivity {
     }
 
     public void MyShops(View view) {
-        startActivity(new Intent(this, MyShopsActivity.class));
+        startActivity(new Intent(this, UploadPicActivity.class));
 
     }
 

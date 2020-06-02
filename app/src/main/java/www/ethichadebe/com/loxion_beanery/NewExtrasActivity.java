@@ -106,7 +106,7 @@ private RequestQueue requestQueue;
     public void next(View view) {
         getNewShop().setMenuItems(getNewShop().getMenuItems());
         isNew = true;
-        startActivity(new Intent(NewExtrasActivity.this, MyShopsActivity.class));
+        startActivity(new Intent(NewExtrasActivity.this, UploadPicActivity.class));
     }
 
     public void back(View view) {

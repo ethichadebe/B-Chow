@@ -17,14 +17,14 @@
             android:id="@+id/tvHeading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_above="@+id/llShop"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:gravity="center"
-            android:layout_alignParentTop="true"
-            android:layout_above="@+id/llShop"
             android:fontFamily="sans-serif-medium"
+            android:gravity="center"
             android:textSize="18sp" />
 
         <TextView
@@ -60,35 +60,47 @@
             <LinearLayout
                 android:id="@+id/rlButtons"
                 android:layout_width="match_parent"
-                android:orientation="horizontal"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true">
+                android:layout_above="@+id/tvRemove"
+                android:orientation="horizontal">
 
-                    <Button
-                        android:id="@+id/btnYes"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/ripple_effect_white"
-                        android:fontFamily="sans-serif-medium"
-                        android:gravity="center"
-                        android:text="Yes"
-                        android:textAllCaps="false"
-                        android:textSize="14sp" />
+                <Button
+                    android:id="@+id/btnYes"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/ripple_effect_white"
+                    android:fontFamily="sans-serif-medium"
+                    android:gravity="center"
+                    android:text="Yes"
+                    android:textAllCaps="false"
+                    android:textSize="14sp" />
 
-                    <Button
-                        android:id="@+id/btnNo"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/ripple_effect_white"
-                        android:fontFamily="sans-serif-medium"
-                        android:gravity="center"
-                        android:text="No"
-                        android:textAllCaps="false"
-                        android:textSize="14sp" />
-
+                <Button
+                    android:id="@+id/btnNo"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/ripple_effect_white"
+                    android:fontFamily="sans-serif-medium"
+                    android:gravity="center"
+                    android:text="No"
+                    android:textAllCaps="false"
+                    android:textSize="14sp" />
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvRemove"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/ripple_effect_white"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="Remove Pictire"
+                android:textColor="@color/Red"
+                android:textSize="14sp" />
 
         </RelativeLayout>
 

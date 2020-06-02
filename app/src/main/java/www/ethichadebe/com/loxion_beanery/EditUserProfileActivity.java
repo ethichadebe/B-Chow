@@ -2,31 +2,24 @@ package www.ethichadebe.com.loxion_beanery;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.DialogFragment;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.BitmapRegionDecoder;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -37,8 +30,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.NetworkResponse;
+import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.rengwuxian.materialedittext.MaterialEditText;
@@ -49,27 +47,23 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.URI;
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Random;
 
+import util.AppHelper;
 import util.HelperMethods;
+import util.VolleyMultipartRequest;
+import util.VolleySingleton;
 
-import static android.os.Environment.getExternalStoragePublicDirectory;
 import static util.Constants.getIpAddress;
 import static util.HelperMethods.CAMERA_PERMISSION;
 import static util.HelperMethods.SHARED_PREFS;
 import static util.HelperMethods.STORAGE_PERMISSION;
+import static util.HelperMethods.ShowLoadingPopup;
 import static util.HelperMethods.allFieldsEntered;
 import static util.HelperMethods.createFile;
 import static util.HelperMethods.requestPermission;
@@ -88,10 +82,10 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
     private Dialog myDialog;
     private boolean isBack = true;
     private ImageView civProfilePicture;
-
+    private Bitmap bProfilePicture;
     private RequestQueue requestQueue;
     private StringRequest stringRequest;
-    private String pathToFile;
+    private String pathToFile, fileName;
 
     /*0 Name
     1 Surname
@@ -180,18 +174,19 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
 
     //Editing profile
     private void EditUserDetails() {
-        HelperMethods.ShowLoadingPopup(myDialog, true);
+        ShowLoadingPopup(myDialog, true);
         stringRequest = new StringRequest(Request.Method.PUT,
                 getIpAddress() + "/users/EditProfile",
                 response -> {
-                    HelperMethods.ShowLoadingPopup(myDialog, false);
+                    ShowLoadingPopup(myDialog, false);
                     try {
                         JSONObject JSONData = new JSONObject(response);
                         if (JSONData.getString("data").equals("saved")) {
                             JSONArray jsonArray = new JSONArray(JSONData.getString("response"));
                             JSONObject JSONResponse = jsonArray.getJSONObject(0);
 
-                            Toast.makeText(EditUserProfileActivity.this, "Saved", Toast.LENGTH_LONG).show();
+                            Toast.makeText(EditUserProfileActivity.this, "Saved",
+                                    Toast.LENGTH_LONG).show();
                             getUser().setuDOB(JSONResponse.getString("uDOB"));
                             getUser().setuEmail(JSONResponse.getString("uEmail"));
                             getUser().setuID(JSONResponse.getInt("uID"));
@@ -201,14 +196,15 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
                             getUser().setuSurname(JSONResponse.getString("uSurname"));
                             if (isBack) {
                                 setIntFragment(2);
-                                startActivity(new Intent(EditUserProfileActivity.this, MainActivity.class));
+                                startActivity(new Intent(EditUserProfileActivity.this,
+                                        MainActivity.class));
                             }//Check if user pressed back
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }, error -> {
-            HelperMethods.ShowLoadingPopup(myDialog, false);
+            ShowLoadingPopup(myDialog, false);
             if (error.toString().equals("com.android.volley.TimeoutError")) {
                 Toast.makeText(this, "Connection error. Please retry", Toast.LENGTH_SHORT).show();
             } else {
@@ -219,12 +215,6 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
 
-                params.put("uName", Objects.requireNonNull(mTextBoxes[0].getText()).toString());
-                params.put("uSurname", Objects.requireNonNull(mTextBoxes[1].getText()).toString());
-                params.put("uDOB", Objects.requireNonNull(mTextBoxes[2].getText()).toString());
-                params.put("uSex", UserSex);
-                params.put("uID", String.valueOf(getUser().getuID()));
-
                 return params;
             }
         };
@@ -232,6 +222,102 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
         requestQueue = Volley.newRequestQueue(this);
         stringRequest.setTag(TAG);
         requestQueue.add(stringRequest);
+    }
+
+    private void saveProfileAccount() {
+        ShowLoadingPopup(myDialog, true);
+        // loading or check internet connection or something...
+        // ... then
+        String url = getIpAddress() + "/users/EditProfile";
+        VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.PUT, url,
+                response -> {
+                    ShowLoadingPopup(myDialog, false);
+                    String resultResponse = new String(response.data);
+                    try {
+                        JSONObject JSONData = new JSONObject(resultResponse);
+                        if (JSONData.getString("data").equals("saved")) {
+                            JSONArray jsonArray = new JSONArray(JSONData.getString("response"));
+                            JSONObject JSONResponse = jsonArray.getJSONObject(0);
+
+                            Toast.makeText(EditUserProfileActivity.this, "Saved",
+                                    Toast.LENGTH_LONG).show();
+                            getUser().setuDOB(JSONResponse.getString("uDOB"));
+                            getUser().setuEmail(JSONResponse.getString("uEmail"));
+                            getUser().setuID(JSONResponse.getInt("uID"));
+                            getUser().setuName(JSONResponse.getString("uName"));
+                            getUser().setuNumber(JSONResponse.getString("uNumber"));
+                            getUser().setuSex(JSONResponse.getString("uSex"));
+                            getUser().setuSurname(JSONResponse.getString("uSurname"));
+                            if (isBack) {
+                                setIntFragment(2);
+                                startActivity(new Intent(EditUserProfileActivity.this,
+                                        MainActivity.class));
+                            }//Check if user pressed back
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }, error -> {
+            ShowLoadingPopup(myDialog, false);
+            NetworkResponse networkResponse = error.networkResponse;
+            String errorMessage = "Unknown error";
+            if (networkResponse == null) {
+                if (error.getClass().equals(TimeoutError.class)) {
+                    errorMessage = "Request timeout";
+                } else if (error.getClass().equals(NoConnectionError.class)) {
+                    errorMessage = "Failed to connect server";
+                }
+            } else {
+                String result = new String(networkResponse.data);
+                try {
+                    JSONObject response = new JSONObject(result);
+                    String status = response.getString("status");
+                    String message = response.getString("message");
+
+                    Log.e("Error Status", status);
+                    Log.e("Error Message", message);
+
+                    if (networkResponse.statusCode == 404) {
+                        errorMessage = "Resource not found";
+                    } else if (networkResponse.statusCode == 401) {
+                        errorMessage = message + " Please login again";
+                    } else if (networkResponse.statusCode == 400) {
+                        errorMessage = message + " Check your inputs";
+                    } else if (networkResponse.statusCode == 500) {
+                        errorMessage = message + " Something is getting wrong";
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            Toast.makeText(this, "Error: "+ error.toString(), Toast.LENGTH_SHORT).show();
+            error.printStackTrace();
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("uName", Objects.requireNonNull(mTextBoxes[0].getText()).toString());
+                params.put("uSurname", Objects.requireNonNull(mTextBoxes[1].getText()).toString());
+                params.put("uDOB", Objects.requireNonNull(mTextBoxes[2].getText()).toString());
+                params.put("uSex", UserSex);
+                params.put("uID", String.valueOf(getUser().getuID()));
+                return params;
+            }
+
+            @Override
+            protected Map<String, VolleyMultipartRequest.DataPart> getByteData() {
+                Map<String, DataPart> params = new HashMap<>();
+                // file name could found file base or direct access from real path
+                // for now just get bitmap data from ImageView
+                params.put("ProfilePicture", new DataPart(getUser().getuName()+".jpg",
+                        AppHelper.getFileDataFromDrawable(getBaseContext(), civProfilePicture.getDrawable()),
+                        "image/jpeg"));
+
+                return params;
+            }
+        };
+
+        VolleySingleton.getInstance(getBaseContext()).addToRequestQueue(multipartRequest);
     }
 
     @Override
@@ -439,12 +525,13 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
 
         btnYes.setOnClickListener(view -> {
             if (allFieldsEntered(mTextBoxes)) {
-                EditUserDetails();
+                saveProfileAccount();
             }
         });
 
         btnNo.setOnClickListener(view -> finish());
-        Objects.requireNonNull(myDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        Objects.requireNonNull(myDialog.getWindow()).setBackgroundDrawable(new
+                ColorDrawable(Color.TRANSPARENT));
         myDialog.show();
         myDialog.setCancelable(false);
         myDialog.setCanceledOnTouchOutside(false);
@@ -464,7 +551,7 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
     public void save(View view) {
         if (allFieldsEntered(mTextBoxes)) {
             isBack = false;
-            EditUserDetails();
+            saveProfileAccount();
         }
     }
 
@@ -497,11 +584,18 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
             }
         } else if ((requestCode == CAMERA_PERMISSION) && (resultCode == RESULT_OK)) {
             if (BitmapFactory.decodeFile(pathToFile) != null) {
-                startCrop(this, getCacheDir(), Uri.fromFile(new File(pathToFile)),350, 350);
+                startCrop(this, getCacheDir(), Uri.fromFile(new File(pathToFile)), 350,
+                        350);
             }
         } else if ((requestCode == UCrop.REQUEST_CROP) && (resultCode == RESULT_OK)) {
             uri = UCrop.getOutput(Objects.requireNonNull(data));
             if (uri != null) {
+                try {
+                    bProfilePicture = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
+                    //Toast.makeText(this, "Converted", Toast.LENGTH_SHORT).show();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 civProfilePicture.setImageDrawable(null);
                 civProfilePicture.setImageURI(uri);
             }
@@ -585,11 +679,12 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
         //Check if there's an app available to take picture
         if (intent.resolveActivity(getPackageManager()) != null) {
             Log.d(TAG, "takePicture: getPackageManager()) != null");
-            File photo = null;
+            File photo;
             photo = createFile(TAG);
             //Save picture into the photo var
             if (photo != null) {
                 pathToFile = Objects.requireNonNull(photo).getAbsolutePath();
+                fileName = pathToFile.substring(pathToFile.lastIndexOf("/")+1);
                 Uri photoUri = FileProvider.getUriForFile(this,
                         "www.ethichadebe.com.loxion_beanery.fileprovider", photo);
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
