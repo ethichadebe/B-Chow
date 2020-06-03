@@ -152,7 +152,8 @@ public class LoginActivity extends AppCompatActivity {
                             user = new User(userData.getInt("uID"), userData.getString("uName"),
                                     userData.getString("uSurname"), userData.getString("uDOB"),
                                     userData.getString("uSex"), userData.getString("uEmail"),
-                                    userData.getString("uNumber"),userData.getInt("uType"));
+                                    userData.getString("uNumber"),userData.getInt("uType"),
+                                    userData.getString("uPicture"));
                             if (cbRemember.isChecked()) {//Check if remember me is checked
                                 isLogout = false;
                                 saveData(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE),

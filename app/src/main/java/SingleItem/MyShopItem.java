@@ -1,17 +1,10 @@
 package SingleItem;
 
 import android.graphics.drawable.Drawable;
-import android.location.Location;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.maps.model.LatLng;
 
-import java.util.ArrayList;
-
-import www.ethichadebe.com.loxion_beanery.R;
-
-public class MyShopItem extends ShopItem{
+public class MyShopItem extends ShopItem {
     private String strPosition = "";
     private int intnOrders;
     private boolean isActive = false;
@@ -57,17 +50,17 @@ public class MyShopItem extends ShopItem{
      * Shop Registration constructor
      *
      * @param strShopName
-     * @param intLogoSmall
-     * @param intLogoBig
+     * @param draLogoBig
+     * @param draLogoSmall
      * @param strShortDescript
      * @param strFullDescript
      * @param llLocation
      */
-    public MyShopItem(String strShopName, String strShortDescript, String strFullDescript, String intLogoSmall,
-                      String  intLogoBig, LatLng llLocation, String strAddress) {
+    public MyShopItem(String strShopName, String strShortDescript, String strFullDescript, Drawable draLogoSmall,
+                      Drawable draLogoBig, LatLng llLocation, String strAddress) {
         this.strShopName = strShopName;
-        this.strLogoSmall = intLogoSmall;
-        this.strLogoBig = intLogoBig;
+        this.draLogoBig = draLogoBig;
+        this.draLogoSmall = draLogoSmall;
         this.strShortDescript = strShortDescript;
         this.strFullDescript = strFullDescript;
         this.llLocation = llLocation;
@@ -83,7 +76,7 @@ public class MyShopItem extends ShopItem{
     }
 
     public boolean isActive() {
-        return isActive;
+        return !isActive;
     }
 
     public void setActive(boolean active) {

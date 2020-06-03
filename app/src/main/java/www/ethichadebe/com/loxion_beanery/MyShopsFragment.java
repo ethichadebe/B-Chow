@@ -103,7 +103,10 @@ public class MyShopsFragment extends Fragment {
             llEdit.setVisibility(View.GONE);
         }//If user is an employee then they cant add a shop
 
-        llEdit.setOnClickListener(view -> startActivity(new Intent(getActivity(), RegisterShopActivity.class)));
+        llEdit.setOnClickListener(view -> {
+            newShop = null;
+            startActivity(new Intent(getActivity(), RegisterShopActivity.class));
+        });
         rlLoad.setOnClickListener(view -> GETShops(v.findViewById(R.id.vLine), v.findViewById(R.id.vLineGrey)));
 
         mAdapter.setOnItemClickListerner(new MyShopItemAdapter.OnItemClickListener() {
@@ -189,7 +192,7 @@ public class MyShopsFragment extends Fragment {
         return newShop;
     }
 
-    public static void setNewShop(MyShopItem newShop) {
+    static void setNewShop(MyShopItem newShop) {
         MyShopsFragment.newShop = newShop;
     }
 

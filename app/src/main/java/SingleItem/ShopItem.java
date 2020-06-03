@@ -8,11 +8,11 @@ import java.util.ArrayList;
 
 public class ShopItem {
     private Double dblDistance;
-     String strShopName, strShortDescript, strFullDescript, strAveTime, strOperatingHRS, strLogoSmall, strLogoBig,
-            strAddress;
-     LatLng llLocation;
+    String strShopName, strShortDescript, strFullDescript, strAveTime, strOperatingHRS, strLogoSmall,
+            strLogoBig, strAddress;
+    LatLng llLocation;
     int intID = -1, intRating, intStatus;
-     Drawable draStatus;
+    Drawable draStatus, draLogoSmall, draLogoBig;
     private int intLikes = 0, isLiked, intAveTimeColor;
     private ArrayList<IngredientItem> ingredientItems;
     private ArrayList<MenuItem> menuItems;
@@ -21,10 +21,10 @@ public class ShopItem {
     ShopItem() {
     }
 
-    public ShopItem(int intID, String strShopName, String intLogoSmall, String intLogoBig, String strShortDescript,
-                    String strFullDescript, LatLng llLocation, String strAddress, Double dblDistance, String strAveTime,
-                    int intRating, String strOperatingHRS, int intLikes, int isLiked, int intAveTimeColor, int intStatus,
-                    Drawable draStatus, boolean showAd) {
+    public ShopItem(int intID, String strShopName, String intLogoSmall, String intLogoBig,
+                    String strShortDescript, String strFullDescript, LatLng llLocation, String strAddress,
+                    Double dblDistance, String strAveTime, int intRating, String strOperatingHRS, int intLikes,
+                    int isLiked, int intAveTimeColor, int intStatus, Drawable draStatus, boolean showAd) {
         this.intID = intID;
         this.strShopName = strShopName;
         this.strLogoSmall = intLogoSmall;
@@ -212,6 +212,22 @@ public class ShopItem {
 
     public void setShowAd(boolean showAd) {
         this.showAd = showAd;
+    }
+
+    public Drawable getDraLogoSmall() {
+        return draLogoSmall;
+    }
+
+    public void setDraLogoSmall(Drawable draLogoSmall) {
+        this.draLogoSmall = draLogoSmall;
+    }
+
+    public Drawable getDraLogoBig() {
+        return draLogoBig;
+    }
+
+    public void setDraLogoBig(Drawable draLogoBig) {
+        this.draLogoBig = draLogoBig;
     }
 }
 

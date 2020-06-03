@@ -82,7 +82,7 @@ public class OrdersActivity extends AppCompatActivity {
                 break;
         }
         //Check if Shop is fully registered
-        if (!getNewShop().isActive()) {
+        if (getNewShop().isActive()) {
             tvCompleteReg.setVisibility(View.VISIBLE);
         }
 

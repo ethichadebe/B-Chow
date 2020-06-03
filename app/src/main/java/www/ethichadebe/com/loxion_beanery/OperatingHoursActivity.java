@@ -10,20 +10,25 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.android.volley.NetworkResponse;
+import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.TimeoutError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -31,13 +36,19 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import util.AppHelper;
 import util.HelperMethods;
+import util.VolleyMultipartRequest;
+import util.VolleySingleton;
 
+import static util.AppHelper.getFileDataFromDrawable;
 import static util.Constants.getIpAddress;
+import static util.HelperMethods.ShowLoadingPopup;
 import static util.HelperMethods.addZero;
 import static util.HelperMethods.allFieldsEntered;
 import static util.HelperMethods.combineString;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
+import static www.ethichadebe.com.loxion_beanery.MainActivity.setIntFragment;
 import static www.ethichadebe.com.loxion_beanery.MyShopsFragment.getNewShop;
 import static www.ethichadebe.com.loxion_beanery.ShopSettingsActivity.isEdit;
 
@@ -245,14 +256,17 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
     }
 
     private void POSTRegisterShop() {
-        HelperMethods.ShowLoadingPopup(myDialog, true);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST,
-                getIpAddress() + "/shops/Register",
+        ShowLoadingPopup(myDialog, true);
+        Toast.makeText(this, String.valueOf(getNewShop().getDraLogoSmall()), Toast.LENGTH_SHORT).show();
+        // loading or check internet connection or something...
+        // ... then
+        String url = getIpAddress() + "/shops/Register";
+        VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.POST, url,
                 response -> {
                     HelperMethods.ShowLoadingPopup(myDialog, false);
                     getNewShop().setStrOperatingHRS(strTimes);      //Set Operating hours
                     try {
-                        JSONObject JSONResponse = new JSONObject(response);
+                        JSONObject JSONResponse = new JSONObject(String.valueOf(response));
                         getNewShop().setIntID(Integer.parseInt(JSONResponse.getString("data")));
                         getNewShop().setStrOperatingHRS(combineString(etOpen, etClose));
                         HelperMethods.ShowLoadingPopup(myDialog, false);
@@ -261,8 +275,40 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
                         e.printStackTrace();
                     }
                 }, error -> {
-            HelperMethods.ShowLoadingPopup(myDialog, false);
-            Toast.makeText(OperatingHoursActivity.this, error.toString(), Toast.LENGTH_LONG).show();
+            ShowLoadingPopup(myDialog, false);
+            NetworkResponse networkResponse = error.networkResponse;
+            String errorMessage = "Unknown error";
+            if (networkResponse == null) {
+                if (error.getClass().equals(TimeoutError.class)) {
+                    errorMessage = "Request timeout";
+                } else if (error.getClass().equals(NoConnectionError.class)) {
+                    errorMessage = "Failed to connect server";
+                }
+            } else {
+                String result = new String(networkResponse.data);
+                try {
+                    JSONObject response = new JSONObject(result);
+                    String status = response.getString("status");
+                    String message = response.getString("message");
+
+                    Log.e("Error Status", status);
+                    Log.e("Error Message", message);
+
+                    if (networkResponse.statusCode == 404) {
+                        errorMessage = "Resource not found";
+                    } else if (networkResponse.statusCode == 401) {
+                        errorMessage = message + " Please login again";
+                    } else if (networkResponse.statusCode == 400) {
+                        errorMessage = message + " Check your inputs";
+                    } else if (networkResponse.statusCode == 500) {
+                        errorMessage = message + " Something is getting wrong";
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            Toast.makeText(this, "Error: "+ error.toString(), Toast.LENGTH_SHORT).show();
+            error.printStackTrace();
         }) {
             @Override
             protected Map<String, String> getParams() {
@@ -270,8 +316,6 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
                 params.put("sName", getNewShop().getStrShopName());
                 params.put("sShortDescrption", getNewShop().getStrShortDescript());
                 params.put("sFullDescription", getNewShop().getStrFullDescript());
-                params.put("sSmallPicture", getNewShop().getStrLogoSmall());
-                params.put("sBigPicture", getNewShop().getStrLogoBig());
                 params.put("sLatitude", String.valueOf(getNewShop().getLlLocation().latitude));
                 params.put("sLongitude", String.valueOf(getNewShop().getLlLocation().longitude));
                 params.put("sAddress", getNewShop().getStrAddress());
@@ -279,12 +323,26 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
                 params.put("uID", String.valueOf(getUser().getuID()));
                 return params;
             }
+
+            @Override
+            protected Map<String, VolleyMultipartRequest.DataPart> getByteData() {
+                Map<String, DataPart> params = new HashMap<>();
+                // file name could found file base or direct access from real path
+                // for now just get bitmap data from ImageView
+                params.put("sSmallPicture", new DataPart("_"+getNewShop().getStrShopName()+".jpg",
+                        getFileDataFromDrawable(getBaseContext(), getNewShop().getDraLogoSmall()),
+                        "image/jpeg"));
+                params.put("sBigPicture", new DataPart("_"+getNewShop().getStrShopName()+".jpg",
+                        getFileDataFromDrawable(getBaseContext(), getNewShop().getDraLogoBig()),
+                        "image/jpeg"));
+
+                return params;
+            }
         };
 
-        requestQueue = Volley.newRequestQueue(this);
-        stringRequest.setTag(TAG);
-        requestQueue.add(stringRequest);
+        VolleySingleton.getInstance(getBaseContext()).addToRequestQueue(multipartRequest);
     }
+
 
     private void PUTShop() {
         HelperMethods.ShowLoadingPopup(myDialog, true);

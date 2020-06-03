@@ -160,7 +160,7 @@ public class MyShopItemAdapter extends RecyclerView.Adapter<MyShopItemAdapter.Sh
                 break;
         }
 
-        if (!item.isActive()){
+        if (item.isActive()){
             holder.tvCompleteReg.setVisibility(View.VISIBLE);
         }
 

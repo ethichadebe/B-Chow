@@ -1,22 +1,17 @@
 package www.ethichadebe.com.loxion_beanery;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -44,11 +39,7 @@ import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.yalantis.ucrop.UCrop;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.File;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -61,9 +52,7 @@ import util.HelperMethods;
 import static util.Constants.getIpAddress;
 import static util.HelperMethods.CAMERA_PERMISSION;
 import static util.HelperMethods.STORAGE_PERMISSION;
-import static util.HelperMethods.StringToBitMap;
 import static util.HelperMethods.createFile;
-import static util.HelperMethods.getStringImage;
 import static util.HelperMethods.requestPermission;
 import static util.HelperMethods.startCrop;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
@@ -81,7 +70,6 @@ public class RegisterShopActivity extends AppCompatActivity {
     private Boolean isBig, goBack;
     private Button btnNext;
     private ImageView civSmall, civBig;
-    private Bitmap bmSmall, bmBig;
     private LinearLayout llLocation;
     private LatLng sLocation;
     private String pathToFile;
@@ -120,12 +108,12 @@ public class RegisterShopActivity extends AppCompatActivity {
             }
             if (getNewShop().getStrFullDescript() != null)
                 etFullDescription.setText(getNewShop().getStrFullDescript());
-            if (!getNewShop().getStrLogoBig().equals("no image")) {
-                civBig.setImageBitmap(StringToBitMap(getNewShop().getStrLogoBig()));
+            if (getNewShop().getDraLogoBig() != null) {
+                civBig.setImageDrawable(getNewShop().getDraLogoBig());
             }
 
-            if (!getNewShop().getStrLogoSmall().equals("no image")) {
-                civSmall.setImageBitmap(StringToBitMap(getNewShop().getStrLogoSmall()));
+            if (getNewShop().getDraLogoSmall() != null) {
+                civSmall.setImageDrawable(getNewShop().getDraLogoSmall());
             }
         }//If user pressed back from Operation Hours activity
 
@@ -215,15 +203,15 @@ public class RegisterShopActivity extends AppCompatActivity {
             }
         } else if ((requestCode == CAMERA_PERMISSION) && (resultCode == RESULT_OK)) {
             if (BitmapFactory.decodeFile(pathToFile) != null) {
-                startCrop(this, getCacheDir(), Uri.fromFile(new File(pathToFile)), 400,150);
+                startCrop(this, getCacheDir(), Uri.fromFile(new File(pathToFile)), 400, 150);
             }
         } else if ((requestCode == UCrop.REQUEST_CROP) && (resultCode == RESULT_OK)) {
             uri = UCrop.getOutput(Objects.requireNonNull(data));
             if (uri != null) {
-                if (isBig){
+                if (isBig) {
                     civBig.setImageDrawable(null);
                     civBig.setImageURI(uri);
-                }else {
+                } else {
                     civSmall.setImageDrawable(null);
                     civSmall.setImageURI(uri);
                 }
@@ -241,17 +229,17 @@ public class RegisterShopActivity extends AppCompatActivity {
         } else if (tvLocation.getText().toString().equals("Add shop location")) {
             llLocation.setBackground(getResources().getDrawable(R.drawable.ripple_effect_red));
         } else {
-            if (getNewShop() == null) {
-                setNewShop(new MyShopItem(etName.getText().toString(),
-                        Objects.requireNonNull(etShortDescription.getText()).toString(),
-                        Objects.requireNonNull(etFullDescription.getText()).toString(), getStringImage(bmSmall),
-                        getStringImage(bmBig), sLocation, tvLocation.getText().toString()));
-            }
+            setNewShop(new MyShopItem(etName.getText().toString(),
+                    Objects.requireNonNull(etShortDescription.getText()).toString(),
+                    Objects.requireNonNull(etFullDescription.getText()).toString(),
+                    civSmall.getDrawable(), civBig.getDrawable(), sLocation,
+                    tvLocation.getText().toString()));
 
             if (isEdit) {
                 PUTShop();
             } else {
-                startActivity(new Intent(RegisterShopActivity.this, OperatingHoursActivity.class));
+                startActivity(new Intent(RegisterShopActivity.this,
+                        OperatingHoursActivity.class));
             }
         }
     }
@@ -314,8 +302,8 @@ public class RegisterShopActivity extends AppCompatActivity {
                 params.put("sName", etName.getText().toString());
                 params.put("sShortDescrption", etShortDescription.getText().toString());
                 params.put("sFullDescription", etFullDescription.getText().toString());
-                params.put("sSmallPicture", getStringImage(bmSmall));
-                params.put("sBigPicture", getStringImage(bmBig));
+                //params.put("sSmallPicture", getStringImage(bmSmall));
+                //params.put("sBigPicture", getStringImage(bmBig));
                 params.put("sLatitude", String.valueOf(sLocation.latitude));
                 params.put("sLongitude", String.valueOf(sLocation.longitude));
                 params.put("sAddress", tvLocation.getText().toString());

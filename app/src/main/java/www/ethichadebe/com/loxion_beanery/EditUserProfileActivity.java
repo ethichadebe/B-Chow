@@ -173,57 +173,6 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
     }
 
     //Editing profile
-    private void EditUserDetails() {
-        ShowLoadingPopup(myDialog, true);
-        stringRequest = new StringRequest(Request.Method.PUT,
-                getIpAddress() + "/users/EditProfile",
-                response -> {
-                    ShowLoadingPopup(myDialog, false);
-                    try {
-                        JSONObject JSONData = new JSONObject(response);
-                        if (JSONData.getString("data").equals("saved")) {
-                            JSONArray jsonArray = new JSONArray(JSONData.getString("response"));
-                            JSONObject JSONResponse = jsonArray.getJSONObject(0);
-
-                            Toast.makeText(EditUserProfileActivity.this, "Saved",
-                                    Toast.LENGTH_LONG).show();
-                            getUser().setuDOB(JSONResponse.getString("uDOB"));
-                            getUser().setuEmail(JSONResponse.getString("uEmail"));
-                            getUser().setuID(JSONResponse.getInt("uID"));
-                            getUser().setuName(JSONResponse.getString("uName"));
-                            getUser().setuNumber(JSONResponse.getString("uNumber"));
-                            getUser().setuSex(JSONResponse.getString("uSex"));
-                            getUser().setuSurname(JSONResponse.getString("uSurname"));
-                            if (isBack) {
-                                setIntFragment(2);
-                                startActivity(new Intent(EditUserProfileActivity.this,
-                                        MainActivity.class));
-                            }//Check if user pressed back
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }, error -> {
-            ShowLoadingPopup(myDialog, false);
-            if (error.toString().equals("com.android.volley.TimeoutError")) {
-                Toast.makeText(this, "Connection error. Please retry", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-
-                return params;
-            }
-        };
-
-        requestQueue = Volley.newRequestQueue(this);
-        stringRequest.setTag(TAG);
-        requestQueue.add(stringRequest);
-    }
-
     private void saveProfileAccount() {
         ShowLoadingPopup(myDialog, true);
         // loading or check internet connection or something...
@@ -248,6 +197,7 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
                             getUser().setuNumber(JSONResponse.getString("uNumber"));
                             getUser().setuSex(JSONResponse.getString("uSex"));
                             getUser().setuSurname(JSONResponse.getString("uSurname"));
+                            getUser().setuPicture(JSONResponse.getString("uPicture"));
                             if (isBack) {
                                 setIntFragment(2);
                                 startActivity(new Intent(EditUserProfileActivity.this,
@@ -290,7 +240,7 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
                     e.printStackTrace();
                 }
             }
-            Toast.makeText(this, "Error: "+ error.toString(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Error: " + error.toString(), Toast.LENGTH_SHORT).show();
             error.printStackTrace();
         }) {
             @Override
@@ -309,7 +259,7 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
                 Map<String, DataPart> params = new HashMap<>();
                 // file name could found file base or direct access from real path
                 // for now just get bitmap data from ImageView
-                params.put("ProfilePicture", new DataPart(getUser().getuName()+".jpg",
+                params.put("ProfilePicture", new DataPart("_" + getUser().getuName() + ".jpg",
                         AppHelper.getFileDataFromDrawable(getBaseContext(), civProfilePicture.getDrawable()),
                         "image/jpeg"));
 
@@ -684,7 +634,7 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
             //Save picture into the photo var
             if (photo != null) {
                 pathToFile = Objects.requireNonNull(photo).getAbsolutePath();
-                fileName = pathToFile.substring(pathToFile.lastIndexOf("/")+1);
+                fileName = pathToFile.substring(pathToFile.lastIndexOf("/") + 1);
                 Uri photoUri = FileProvider.getUriForFile(this,
                         "www.ethichadebe.com.loxion_beanery.fileprovider", photo);
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);

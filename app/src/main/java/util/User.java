@@ -1,19 +1,11 @@
 package util;
 
 public class User {
-    private int uID;
-    private String uName;
-    private String uSurname;
-    private String uDOB;
-    private String uSex;
-    private String uEmail;
-    private String uNumber;
-    private String uPassword;
-    private int uType;
+    private int uID, uType;
+    private String uName, uSurname, uDOB, uSex, uEmail, uNumber, uPassword, uPicture;
 
 
     /**
-     *
      * @param uID
      * @param uName
      * @param uSurname
@@ -24,7 +16,7 @@ public class User {
      * @param uType
      */
     public User(int uID, String uName, String uSurname, String uDOB, String uSex, String uEmail, String uNumber,
-                int uType, String uPassword) {
+                int uType, String uPassword, String uPicture) {
         this.uID = uID;
         this.uName = uName;
         this.uSurname = uSurname;
@@ -34,10 +26,10 @@ public class User {
         this.uNumber = uNumber;
         this.uType = uType;
         this.uPassword = uPassword;
+        this.uPicture = uPicture;
     }
 
     /**
-     *
      * @param uID
      * @param uName
      * @param uSurname
@@ -48,7 +40,7 @@ public class User {
      * @param uType
      */
     public User(int uID, String uName, String uSurname, String uDOB, String uSex, String uEmail, String uNumber,
-                int uType) {
+                int uType, String uPicture) {
         this.uID = uID;
         this.uName = uName;
         this.uSurname = uSurname;
@@ -57,6 +49,7 @@ public class User {
         this.uEmail = uEmail;
         this.uNumber = uNumber;
         this.uType = uType;
+        this.uPicture = uPicture;
     }
 
     public int getuID() {
@@ -133,5 +126,13 @@ public class User {
 
     public void setuType(int uType) {
         this.uType = uType;
+    }
+
+    public String getuPicture() {
+        return uPicture;
+    }
+
+    public void setuPicture(String uPicture) {
+        this.uPicture = uPicture;
     }
 }
