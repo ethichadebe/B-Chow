@@ -49,7 +49,7 @@ public class NewExtrasActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager mLayoutManager;
     private TextView tvEmpty;
     private RelativeLayout rlLoad, rlError;
-private RequestQueue requestQueue;
+    private RequestQueue requestQueue;
     private Dialog myDialog;
 
     private static boolean isNew = false;
@@ -82,7 +82,7 @@ private RequestQueue requestQueue;
         rlLoad = findViewById(R.id.rlLoad);
         rlError = findViewById(R.id.rlError);
 
-        GETExtras(findViewById(R.id.vLine),findViewById(R.id.vLineGrey));
+        GETExtras(findViewById(R.id.vLine), findViewById(R.id.vLineGrey));
 
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
@@ -116,7 +116,8 @@ private RequestQueue requestQueue;
     public void add(View view) {
         if (Objects.requireNonNull(etExtra.getText()).toString().isEmpty()) {
             etExtra.setError("required");
-        } else { POSTRegisterShopExtra();
+        } else {
+            POSTRegisterShopExtra();
         }
     }
 
@@ -201,7 +202,7 @@ private RequestQueue requestQueue;
                     extraItems.get(position).setStrExtraName(name);
                     mAdapter.notifyItemChanged(position);
                 }, error -> {
-            HelperMethods.ShowLoadingPopup(myDialog, false);
+            ShowLoadingPopup(myDialog, false);
             if (error.toString().equals("com.android.volley.TimeoutError")) {
                 Toast.makeText(this, "Connection error. Please retry", Toast.LENGTH_SHORT).show();
             } else {
@@ -225,7 +226,7 @@ private RequestQueue requestQueue;
     public void ShowEditExtraPopup(int position) {
         MaterialEditText etExtra;
         CardView cvEditOption;
-        TextView tvCancel,tvHeading;
+        TextView tvCancel, tvHeading;
         myDialog.setContentView(R.layout.popup_edit_text);
 
         etExtra = myDialog.findViewById(R.id.etExtra);
@@ -239,9 +240,9 @@ private RequestQueue requestQueue;
         tvCancel.setOnClickListener(view -> myDialog.dismiss());
 
         cvEditOption.setOnClickListener(view -> {
-            if (Objects.requireNonNull(etExtra.getText()).toString().isEmpty()){
+            if (Objects.requireNonNull(etExtra.getText()).toString().isEmpty()) {
                 etExtra.setError("required");
-            }else {
+            } else {
                 PUTExtra(position, Objects.requireNonNull(etExtra.getText()).toString());
             }
         });
@@ -253,7 +254,7 @@ private RequestQueue requestQueue;
     }
 
     public void reload(View view) {
-        GETExtras(findViewById(R.id.vLine),findViewById(R.id.vLineGrey));
+        GETExtras(findViewById(R.id.vLine), findViewById(R.id.vLineGrey));
     }
 
     private void GETExtras(View vLine, View vLineGrey) {
@@ -264,7 +265,7 @@ private RequestQueue requestQueue;
 
         JsonObjectRequest objectRequest = new JsonObjectRequest(
                 Request.Method.GET,
-                getIpAddress() + "/shops/Extras/"+getNewShop().getIntID(), null,
+                getIpAddress() + "/shops/Extras/" + getNewShop().getIntID(), null,
                 response -> {
                     //Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
                     rlLoad.setVisibility(View.GONE);
@@ -274,7 +275,7 @@ private RequestQueue requestQueue;
                             JSONArray jsonArray = response.getJSONArray("extras");
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject Extras = jsonArray.getJSONObject(i);
-                                        extraItems.add(new ExtraItem(Extras.getInt("eID"), Extras.getString("eName")));
+                                extraItems.add(new ExtraItem(Extras.getInt("eID"), Extras.getString("eName")));
                             }
                         } else if (response.getString("message").equals("empty")) {
                             tvEmpty.setVisibility(View.VISIBLE);

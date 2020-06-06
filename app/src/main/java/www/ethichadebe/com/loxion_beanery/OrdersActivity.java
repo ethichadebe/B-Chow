@@ -149,7 +149,7 @@ public class OrdersActivity extends AppCompatActivity {
                 response -> {
                     ShowLoadingPopup(myDialog, false);
                 }, error -> {
-            HelperMethods.ShowLoadingPopup(myDialog, false);
+            ShowLoadingPopup(myDialog, false);
             if (error.toString().equals("com.android.volley.TimeoutError")) {
                 Toast.makeText(this, "Connection error. Please retry", Toast.LENGTH_SHORT).show();
             } else {

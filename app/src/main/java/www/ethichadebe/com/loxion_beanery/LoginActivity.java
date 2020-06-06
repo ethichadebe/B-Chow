@@ -208,8 +208,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void ShowConfirmationPopup() {
-        TextView tvCancel, tvMessage;
-        Button btnYes, btnNo;
+        TextView tvCancel, tvMessage,btnYes, btnNo;
         myDialog.setContentView(R.layout.popup_confirmation);
 
         tvCancel = myDialog.findViewById(R.id.tvCancel);

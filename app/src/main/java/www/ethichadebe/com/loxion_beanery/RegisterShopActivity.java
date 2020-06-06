@@ -111,7 +111,6 @@ public class RegisterShopActivity extends AppCompatActivity {
             if (getNewShop().getDraLogoBig() != null) {
                 civBig.setImageDrawable(getNewShop().getDraLogoBig());
             }
-
             if (getNewShop().getDraLogoSmall() != null) {
                 civSmall.setImageDrawable(getNewShop().getDraLogoSmall());
             }
@@ -119,11 +118,11 @@ public class RegisterShopActivity extends AppCompatActivity {
 
         if (isEdit) {
             btnNext.setText("Save");
-        }
+        } //When user comes from shop settings
 
-        if (!Objects.requireNonNull(etName.getText()).toString().isEmpty()) {
+        /*if (!Objects.requireNonNull(etName.getText()).toString().isEmpty()) {
             tvName.setText(etName.getText().toString());
-        }
+        }*/
 
         etName.addTextChangedListener(new TextWatcher() {
             @Override
@@ -145,12 +144,13 @@ public class RegisterShopActivity extends AppCompatActivity {
 
             }
         });
+
+        //Initialize maps places
         Places.initialize(this, getResources().getString(R.string.google_maps_api_key));
     }
 
     public void ShowPopup() {
-        TextView tvCancel, tvMessage;
-        Button btnYes, btnNo;
+        TextView tvCancel, tvMessage,btnYes, btnNo;
         myDialog.setContentView(R.layout.popup_confirmation);
 
         tvCancel = myDialog.findViewById(R.id.tvCancel);
@@ -392,8 +392,7 @@ public class RegisterShopActivity extends AppCompatActivity {
     }
 
     public void ShowDPEditPopup() {
-        TextView tvCancel, tvMessage;
-        Button btnYes, btnNo;
+        TextView tvCancel, tvMessage,btnYes, btnNo;
         myDialog.setContentView(R.layout.popup_confirmation);
 
         tvCancel = myDialog.findViewById(R.id.tvCancel);

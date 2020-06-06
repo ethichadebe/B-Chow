@@ -76,8 +76,7 @@ public class UploadPicActivity extends AppCompatActivity {
 
 
     public void ShowDPEditPopup() {
-        TextView tvCancel, tvMessage;
-        Button btnYes, btnNo;
+        TextView tvCancel, tvMessage,btnYes, btnNo;
         myDialog.setContentView(R.layout.popup_confirmation);
 
         tvCancel = myDialog.findViewById(R.id.tvCancel);

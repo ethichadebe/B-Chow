@@ -6,7 +6,6 @@ import androidx.cardview.widget.CardView;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -23,16 +22,9 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
-
-import util.HelperMethods;
 
 import static util.Constants.getIpAddress;
-import static util.HelperMethods.SHARED_PREFS;
 import static util.HelperMethods.ShowLoadingPopup;
-import static util.HelperMethods.saveData;
-import static util.HelperMethods.sharedPrefsIsEmpty;
-import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 import static www.ethichadebe.com.loxion_beanery.RegisterActivity.getNewUser;
 
 public class UserTypeActivity extends AppCompatActivity {
@@ -106,11 +98,11 @@ public class UserTypeActivity extends AppCompatActivity {
     }
 
     private void POSTRegister() {
-        HelperMethods.ShowLoadingPopup(myDialog, true);
+        ShowLoadingPopup(myDialog, true);
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
                 getIpAddress() + "/users/Register",
                 response -> {
-                    HelperMethods.ShowLoadingPopup(myDialog, false);
+                    ShowLoadingPopup(myDialog, false);
                     Toast.makeText(this, response, Toast.LENGTH_LONG).show();
                     try {
                         JSONObject JSONResponse = new JSONObject(response);
@@ -123,7 +115,7 @@ public class UserTypeActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }, error -> {
-            HelperMethods.ShowLoadingPopup(myDialog, false);
+            ShowLoadingPopup(myDialog, false);
             Toast.makeText(this, error.toString(), Toast.LENGTH_LONG).show();
         }) {
             @Override

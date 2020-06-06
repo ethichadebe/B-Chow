@@ -35,6 +35,7 @@ import SingleItem.MenuItem;
 import util.HelperMethods;
 
 import static util.Constants.getIpAddress;
+import static util.HelperMethods.ShowLoadingPopup;
 import static util.HelperMethods.handler;
 import static util.HelperMethods.setStarRating;
 import static www.ethichadebe.com.loxion_beanery.HomeFragment.getShopItem;
@@ -202,12 +203,12 @@ public class ShopHomeActivity extends AppCompatActivity {
 
     private void POSTLike() {
         llLike.setClickable(false);
-        HelperMethods.ShowLoadingPopup(myDialog, true);
+        ShowLoadingPopup(myDialog, true);
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
                 getIpAddress() + "/shoplikes/",
                 response -> {
                     llLike.setClickable(true);
-                    HelperMethods.ShowLoadingPopup(myDialog, false);
+                    ShowLoadingPopup(myDialog, false);
                     try {
                         JSONObject JSONData = new JSONObject(response);
                         if (JSONData.getString("message").equals("saved")) {
@@ -220,7 +221,7 @@ public class ShopHomeActivity extends AppCompatActivity {
                     }
                 }, error -> {
             llLike.setClickable(true);
-            HelperMethods.ShowLoadingPopup(myDialog, false);
+            ShowLoadingPopup(myDialog, false);
             Toast.makeText(this, error.toString(), Toast.LENGTH_LONG).show();
         }) {
             @Override
@@ -239,7 +240,7 @@ public class ShopHomeActivity extends AppCompatActivity {
 
     private void DELETELike() {
         llLike.setClickable(false);
-        HelperMethods.ShowLoadingPopup(myDialog, true);
+        ShowLoadingPopup(myDialog, true);
         requestQueue = Volley.newRequestQueue(this);
 
         JsonObjectRequest objectRequest = new JsonObjectRequest(
@@ -247,7 +248,7 @@ public class ShopHomeActivity extends AppCompatActivity {
                 getIpAddress() + "/shoplikes/" + getUser().getuID() + "/" + getShopItem().getIntID(), null,
                 response -> {
                     llLike.setClickable(true);
-                    HelperMethods.ShowLoadingPopup(myDialog, false);
+                    ShowLoadingPopup(myDialog, false);
                     try {
                         JSONObject JSONData = new JSONObject(response.toString());
                         if (JSONData.getString("message").equals("removed")) {

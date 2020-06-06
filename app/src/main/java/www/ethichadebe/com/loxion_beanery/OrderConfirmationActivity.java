@@ -81,7 +81,7 @@ public class OrderConfirmationActivity extends AppCompatActivity implements OnMa
     private FusedLocationProviderClient mFusedLocationProviderClient;
 
     private Polyline currentPolyline;
-    private Button btFinish;
+    private Button btnOkay;
     private View vBackground;
     private ImageView ivCenter;
     private TextView tvUpdate, tvUpdateMessage, tvUpdateSmall;
@@ -135,7 +135,7 @@ public class OrderConfirmationActivity extends AppCompatActivity implements OnMa
             llNav.setVisibility(View.GONE);
             ivCenter.setVisibility(View.GONE);
             cvNavigate.setVisibility(View.GONE);
-            btFinish.setVisibility(View.VISIBLE);
+            btnOkay.setVisibility(View.VISIBLE);
 
             tvUpdateSmall.setText("");
             tvUpdate.setText("Shop has been notified on your arrival");
@@ -163,7 +163,7 @@ public class OrderConfirmationActivity extends AppCompatActivity implements OnMa
             cvNavigate.setVisibility(View.GONE);
             llNav.setVisibility(View.GONE);
             ivCenter.setVisibility(View.GONE);
-            btFinish.setVisibility(View.VISIBLE);
+            btnOkay.setVisibility(View.VISIBLE);
 
             tvUpdateSmall.setText("");
             tvUpdate.setText("Your order is ready for collection");
@@ -187,7 +187,7 @@ public class OrderConfirmationActivity extends AppCompatActivity implements OnMa
         mInterstitialAd.loadAd(new AdRequest.Builder().build());
 
         myDialog = new Dialog(this);
-        btFinish = findViewById(R.id.btFinish);
+        btnOkay = findViewById(R.id.btnOkay);
         tvUpdateSmall = findViewById(R.id.tvUpdateSmall);
         tvUpdate = findViewById(R.id.tvUpdate);
         cvCancel = findViewById(R.id.cvCancel);
@@ -237,19 +237,12 @@ public class OrderConfirmationActivity extends AppCompatActivity implements OnMa
                 ShowConfirmationPopup(getUpcomingOrderItem().getIntID());
             }
         });
-        btFinish.setOnClickListener(view -> {
+        btnOkay.setOnClickListener(view -> {
+            setUpcomingOrderItem(null);
             if (oID == -1) {//Set it to go back to orders page
                 setIntFragment(1);
             }
-
-            //Show ad
-            if (mInterstitialAd.isLoaded() && randomNumber(1)) {
-                mInterstitialAd.show();
-            } else {
-                Log.d("TAG", "The interstitial wasn't loaded yet.");
-                startActivity(new Intent(this, MainActivity.class));
-            }
-
+            showAd();
         });
 
         mInterstitialAd.setAdListener(new AdListener() {
@@ -293,6 +286,16 @@ public class OrderConfirmationActivity extends AppCompatActivity implements OnMa
         });
 
         initMap();
+    }
+
+    private void showAd() {
+        //Show ad
+        if (mInterstitialAd.isLoaded() && randomNumber(1)) {
+            mInterstitialAd.show();
+        } else {
+            Log.d("TAG", "The interstitial wasn't loaded yet.");
+            startActivity(new Intent(this, MainActivity.class));
+        }
     }
 
     private void YoyoSlideRight(int repeat, int vLine) {
@@ -343,6 +346,7 @@ public class OrderConfirmationActivity extends AppCompatActivity implements OnMa
                     //Toast.makeText(this, response, Toast.LENGTH_LONG).s  ();
                     ShowLoadingPopup(myDialog, false);
                     startActivity(new Intent(this, MainActivity.class));
+                    showAd();
                 }, error -> {
             ShowLoadingPopup(myDialog, false);
             Toast.makeText(this, error.toString(), Toast.LENGTH_LONG).show();

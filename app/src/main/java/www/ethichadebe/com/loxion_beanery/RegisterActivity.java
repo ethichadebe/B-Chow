@@ -37,6 +37,7 @@ import util.User;
 
 import static util.Constants.getIpAddress;
 import static util.HelperMethods.SHARED_PREFS;
+import static util.HelperMethods.ShowLoadingPopup;
 import static util.HelperMethods.allFieldsEntered;
 import static util.HelperMethods.saveData;
 
@@ -153,11 +154,11 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
     }
 
     private void POSTRegister() {
-        HelperMethods.ShowLoadingPopup(myDialog, true);
+        ShowLoadingPopup(myDialog, true);
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
                 getIpAddress() + "/users/CheckStuff",
                 response -> {
-                    HelperMethods.ShowLoadingPopup(myDialog, false);
+                    ShowLoadingPopup(myDialog, false);
                     Toast.makeText(RegisterActivity.this, response, Toast.LENGTH_LONG).show();
                     try {
                         JSONObject JSONResponse = new JSONObject(response);
@@ -191,7 +192,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
                         e.printStackTrace();
                     }
                 }, error -> {
-            HelperMethods.ShowLoadingPopup(myDialog, false);
+            ShowLoadingPopup(myDialog, false);
             Toast.makeText(RegisterActivity.this, error.toString(), Toast.LENGTH_LONG).show();
         }) {
             @Override

@@ -38,6 +38,7 @@ import SingleItem.AdminOrderItem;
 import util.HelperMethods;
 
 import static util.Constants.getIpAddress;
+import static util.HelperMethods.ShowLoadingPopup;
 import static util.HelperMethods.handler;
 import static www.ethichadebe.com.loxion_beanery.MyShopsFragment.getNewShop;
 
@@ -96,8 +97,7 @@ public class UpcomingOrderFragment extends Fragment {
     }
 
     private void ShowConfirmationPopup(final int position) {
-        TextView tvCancel, tvMessage, tvHeading;
-        Button btnYes, btnNo;
+        TextView tvCancel, tvMessage, tvHeading,btnYes, btnNo;
         myDialog.setContentView(R.layout.popup_confirmation);
 
         tvCancel = myDialog.findViewById(R.id.tvCancel);
@@ -162,7 +162,7 @@ public class UpcomingOrderFragment extends Fragment {
 
     }
     private void PUTCancel(int position, Dialog myDialog) {
-        HelperMethods.ShowLoadingPopup(this.myDialog, true);
+        ShowLoadingPopup(this.myDialog, true);
         StringRequest stringRequest = new StringRequest(Request.Method.PUT,
                 getIpAddress() + "/orders/Cancel/" + OrderItems.get(position).getIntID(),
                 response -> {
@@ -170,7 +170,7 @@ public class UpcomingOrderFragment extends Fragment {
                     myDialog.dismiss();
                     OrderItems.remove(position);
                     mAdapter.notifyItemRemoved(position);
-                    HelperMethods.ShowLoadingPopup(myDialog, false);
+                    ShowLoadingPopup(myDialog, false);
                 }, error -> {
             if (error.toString().equals("com.android.volley.TimeoutError")) {
                 Toast.makeText(getActivity(), "Connection error. Please retry", Toast.LENGTH_SHORT).show();
@@ -184,14 +184,14 @@ public class UpcomingOrderFragment extends Fragment {
         requestQueue.add(stringRequest);
     }
     private void PUTReady(int position) {
-        HelperMethods.ShowLoadingPopup(myDialog, true);
+        ShowLoadingPopup(myDialog, true);
         StringRequest stringRequest = new StringRequest(Request.Method.PUT,
                 getIpAddress() + "/orders/Ready/" + OrderItems.get(position).getIntID(),
                 response -> {
                     //Toast.makeText(this, response, Toast.LENGTH_LONG).show();
                     OrderItems.get(position).setStrStatus("Ready for collection");
                     mAdapter.notifyItemChanged(position);
-                    HelperMethods.ShowLoadingPopup(myDialog, false);
+                    ShowLoadingPopup(myDialog, false);
                 }, error -> {
             if (error.toString().equals("com.android.volley.TimeoutError")) {
                 Toast.makeText(getActivity(), "Connection error. Please retry", Toast.LENGTH_SHORT).show();
@@ -205,7 +205,7 @@ public class UpcomingOrderFragment extends Fragment {
         requestQueue.add(stringRequest);
     }
     private void PUTCollected(int position, Dialog myDialog) {
-        HelperMethods.ShowLoadingPopup(this.myDialog, true);
+        ShowLoadingPopup(this.myDialog, true);
         StringRequest stringRequest = new StringRequest(Request.Method.PUT,
                 getIpAddress() + "/orders/Collected/" + OrderItems.get(position).getIntID(),
                 response -> {
@@ -213,7 +213,7 @@ public class UpcomingOrderFragment extends Fragment {
                     myDialog.dismiss();
                     OrderItems.remove(position);
                     mAdapter.notifyItemRemoved(position);
-                    HelperMethods.ShowLoadingPopup(myDialog, false);
+                    ShowLoadingPopup(myDialog, false);
                 }, error -> {
             if (error.toString().equals("com.android.volley.TimeoutError")) {
                 Toast.makeText(getActivity(), "Connection error. Please retry", Toast.LENGTH_SHORT).show();
