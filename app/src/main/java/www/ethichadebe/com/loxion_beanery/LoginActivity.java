@@ -240,9 +240,9 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void Retry(View view) {
+        PostLogin(false);
         bsbBottomSheetBehavior.setHideable(true);
         bsbBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-        PostLogin(false);
     }
 
     public void login(View view) {
@@ -308,12 +308,9 @@ public class LoginActivity extends AppCompatActivity {
         result.addOnCompleteListener(task -> {
             try {
                 task.getResult(ApiException.class);
-                getDeviceLocation();
+                PostLogin(false);
             } catch (ApiException e) {
                 switch (e.getStatusCode()) {
-                    case LocationSettingsStatusCodes.SUCCESS:
-                        getDeviceLocation();
-                        break;
                     case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
                         try {
                             ResolvableApiException resolvableApiException = (ResolvableApiException) e;
@@ -402,7 +399,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if ((requestCode == REQUEST_CHECK_SETTINGS) && (resultCode == RESULT_OK)) {
-            getDeviceLocation();
+            PostLogin(false);
         }
     }
 }

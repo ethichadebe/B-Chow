@@ -16,7 +16,7 @@ public class User {
      * @param uType
      */
     public User(int uID, String uName, String uSurname, String uDOB, String uSex, String uEmail, String uNumber,
-                int uType, String uPassword, String uPicture) {
+                int uType, String uPassword) {
         this.uID = uID;
         this.uName = uName;
         this.uSurname = uSurname;
@@ -26,7 +26,6 @@ public class User {
         this.uNumber = uNumber;
         this.uType = uType;
         this.uPassword = uPassword;
-        this.uPicture = uPicture;
     }
 
     /**
@@ -40,7 +39,7 @@ public class User {
      * @param uType
      */
     public User(int uID, String uName, String uSurname, String uDOB, String uSex, String uEmail, String uNumber,
-                int uType, String uPicture) {
+                String uPicture, int uType) {
         this.uID = uID;
         this.uName = uName;
         this.uSurname = uSurname;

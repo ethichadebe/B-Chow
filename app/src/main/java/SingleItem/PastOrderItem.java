@@ -1,5 +1,7 @@
 package SingleItem;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import static util.HelperMethods.convertedDateTime;
 
 public class PastOrderItem extends OrderItem {
@@ -11,7 +13,7 @@ public class PastOrderItem extends OrderItem {
     }
 
     public PastOrderItem(int intID, int sID, int intOrderNum, int intRating, String strShopName, String strTime,
-                         String strMenu, String strExtras, Double dblPrice, String strStatus) {
+                         String strMenu, String strExtras, Double dblPrice, String strStatus, LatLng llShopLocation) {
         this.intID = intID;
         this.sID = sID;
         this.intOderNum = intOrderNum;
@@ -22,6 +24,7 @@ public class PastOrderItem extends OrderItem {
         this.strExtras = strExtras;
         this.dblPrice = dblPrice;
         this.strStatus = strStatus;
+        this.llShopLocation = llShopLocation;
     }
 
     public String getStrShopName() {

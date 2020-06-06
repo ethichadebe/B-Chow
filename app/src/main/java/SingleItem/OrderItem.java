@@ -1,12 +1,12 @@
 package SingleItem;
 
+import com.google.android.gms.maps.model.LatLng;
+
 public class OrderItem {
-    protected int intID;
-    int intOderNum;
+    protected int intID,intOderNum;
     protected Double dblPrice;
-    String strMenu;
-    String strExtras = "";
-    String strStatus;
+    protected String strMenu,strExtras = "",strStatus;
+    protected LatLng llShopLocation;
 
     public int getIntID() {
         return intID;
@@ -56,4 +56,11 @@ public class OrderItem {
         this.strExtras = strExtras;
     }
 
+    public LatLng getLlShopLocation() {
+        return llShopLocation;
+    }
+
+    public void setLlShopLocation(LatLng llShopLocation) {
+        this.llShopLocation = llShopLocation;
+    }
 }

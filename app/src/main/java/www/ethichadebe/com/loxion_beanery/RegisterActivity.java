@@ -51,7 +51,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
         return newUser;
     }
 
-    /*0 Name
+    /*  0 Name
         1 Surname
         2 Number
         3 Email

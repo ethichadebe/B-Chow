@@ -47,15 +47,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/imgView_logo"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="-3dp"
+        android:layout_marginBottom="3dp">
 
         <RelativeLayout
             android:id="@+id/rellay1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:visibility="gone"
-            android:layout_marginRight="20dp">
+            android:layout_marginRight="20dp"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/tv_login"
@@ -98,10 +100,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
-                    android:visibility="gone"
                     android:fontFamily="sans-serif-medium"
                     android:text="@string/forgot_password"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:visibility="gone" />
 
                 <CheckBox
                     android:id="@+id/cbRemember"
@@ -144,8 +146,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/btnLogin"
-                android:onClick="register"
-                android:gravity="center_horizontal">
+                android:gravity="center_horizontal"
+                android:onClick="register">
 
                 <TextView
                     android:id="@+id/tvReg"
@@ -159,8 +161,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-medium"
                     android:layout_toEndOf="@+id/tvReg"
+                    android:fontFamily="sans-serif-medium"
                     android:text="@string/register"
                     android:textSize="14sp" />
             </RelativeLayout>

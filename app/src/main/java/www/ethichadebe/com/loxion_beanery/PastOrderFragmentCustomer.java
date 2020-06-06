@@ -22,6 +22,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -119,7 +120,8 @@ public class PastOrderFragmentCustomer extends Fragment {
                                         Orders.getInt("oRating"), Orders.getString("sName"),
                                         Orders.getString("createdAt"), Orders.getString("oIngredients"),
                                         Orders.getString("oExtras"), Orders.getDouble("oPrice"),
-                                        Orders.getString("oStatus")));
+                                        Orders.getString("oStatus"), new LatLng(Orders.getDouble("sLatitude"),
+                                        Orders.getDouble("sLongitude"))));
                             }
                         } else if (response.getString("message").equals("empty")) {
                             rlEmpty.setVisibility(View.VISIBLE);
@@ -180,6 +182,10 @@ public class PastOrderFragmentCustomer extends Fragment {
 
     static PastOrderItem getPastOrderItem() {
         return pastOrderItem;
+    }
+
+    public static void setPastOrderItem(PastOrderItem pastOrderItem) {
+        PastOrderFragmentCustomer.pastOrderItem = pastOrderItem;
     }
 
     @Override

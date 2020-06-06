@@ -1,17 +1,13 @@
 package www.ethichadebe.com.loxion_beanery;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import android.app.Dialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
-import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -40,13 +36,11 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.Task;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
 import pl.droidsonroids.gif.GifImageView;
@@ -61,6 +55,8 @@ import static www.ethichadebe.com.loxion_beanery.HomeFragment.getShopItem;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 import static www.ethichadebe.com.loxion_beanery.MainActivity.setIntFragment;
 import static www.ethichadebe.com.loxion_beanery.OrderActivity.oID;
+import static www.ethichadebe.com.loxion_beanery.PastOrderFragmentCustomer.getPastOrderItem;
+import static www.ethichadebe.com.loxion_beanery.PastOrderFragmentCustomer.setPastOrderItem;
 import static www.ethichadebe.com.loxion_beanery.UpcomingOrderFragmentCustomer.getUpcomingOrderItem;
 import static www.ethichadebe.com.loxion_beanery.UpcomingOrderFragmentCustomer.setUpcomingOrderItem;
 
@@ -76,7 +72,6 @@ public class OrderConfirmationActivity extends AppCompatActivity implements OnMa
 
         if (ismLocationGranted()) {
             getDeviceLocation();
-            mMap.setMyLocationEnabled(true);
             mMap.getUiSettings().setMyLocationButtonEnabled(false);
             mMap.getUiSettings().setMapToolbarEnabled(false);
         }
@@ -116,7 +111,7 @@ public class OrderConfirmationActivity extends AppCompatActivity implements OnMa
 
             tvUpdate.setText("Order has been placed");
             tvUpdateMessage.setText("");
-            givGif.setImageResource(R.drawable.driving);
+            givGif.setImageResource(0);
             YoyoSlideRight(5000, R.id.vLine1Load);
         }
     };
@@ -243,7 +238,7 @@ public class OrderConfirmationActivity extends AppCompatActivity implements OnMa
             }
         });
         btFinish.setOnClickListener(view -> {
-            if(oID == -1){//Set it to go back to orders page
+            if (oID == -1) {//Set it to go back to orders page
                 setIntFragment(1);
             }
 
@@ -266,7 +261,7 @@ public class OrderConfirmationActivity extends AppCompatActivity implements OnMa
             @Override
             public void onAdFailedToLoad(int errorCode) {
                 // Code to be executed when an ad request fails.
-                if(oID == -1){//Set it to go back to orders page
+                if (oID == -1) {//Set it to go back to orders page
                     setIntFragment(1);
                 }
                 startActivity(new Intent(OrderConfirmationActivity.this, MainActivity.class));
@@ -290,7 +285,7 @@ public class OrderConfirmationActivity extends AppCompatActivity implements OnMa
             @Override
             public void onAdClosed() {
                 // Code to be executed when the interstitial ad is closed.
-                if(oID == -1){//Set it to go back to orders page
+                if (oID == -1) {//Set it to go back to orders page
                     setIntFragment(1);
                 }
                 startActivity(new Intent(OrderConfirmationActivity.this, MainActivity.class));
@@ -310,6 +305,7 @@ public class OrderConfirmationActivity extends AppCompatActivity implements OnMa
     @Override
     public void onBackPressed() {
         setUpcomingOrderItem(null);
+        setPastOrderItem(null);
         startActivity(new Intent(this, MainActivity.class));
     }
 
@@ -358,8 +354,7 @@ public class OrderConfirmationActivity extends AppCompatActivity implements OnMa
     }
 
     public void ShowConfirmationPopup(int ID) {
-        TextView tvCancel, tvMessage;
-        Button btnYes, btnNo;
+        TextView tvCancel, tvMessage, btnYes, btnNo;
         myDialog.setContentView(R.layout.popup_confirmation);
 
         tvCancel = myDialog.findViewById(R.id.tvCancel);
@@ -380,6 +375,7 @@ public class OrderConfirmationActivity extends AppCompatActivity implements OnMa
 
     public void home(View view) {
         setUpcomingOrderItem(null);
+        setPastOrderItem(null);
         startActivity(new Intent(this, MainActivity.class));
     }
 
@@ -407,6 +403,16 @@ public class OrderConfirmationActivity extends AppCompatActivity implements OnMa
                                     currentLocation.getLongitude()), getUpcomingOrderItem().getLlShop()), "driving");
                             moveCam(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()),
                                     getUpcomingOrderItem().getLlShop());
+                        } else if (getPastOrderItem() != null) {
+                            markerOptions = new MarkerOptions().position(getPastOrderItem().getLlShopLocation())
+                                    .title(getPastOrderItem().getStrShopName());
+                            mMap.addMarker(markerOptions);
+
+                            new FetchURL(this).execute(getUrl(new
+                                    LatLng(Objects.requireNonNull(currentLocation).getLatitude(),
+                                    currentLocation.getLongitude()), getPastOrderItem().getLlShopLocation()), "driving");
+                            moveCam(new LatLng(Objects.requireNonNull(currentLocation).getLatitude(),
+                                    currentLocation.getLongitude()), getPastOrderItem().getLlShopLocation());
                         } else {
                             markerOptions = new MarkerOptions().position(getShopItem().getLlLocation())
                                     .title(getShopItem().getStrShopName());
