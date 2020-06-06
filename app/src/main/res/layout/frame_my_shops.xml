@@ -11,7 +11,7 @@
         android:layout_height="?attr/actionBarSize">
 
         <LinearLayout
-            android:id="@+id/llEdit"
+            android:id="@+id/llNewShop"
             android:layout_width="wrap_content"
             android:layout_height="?attr/actionBarSize"
             android:layout_alignParentTop="true"

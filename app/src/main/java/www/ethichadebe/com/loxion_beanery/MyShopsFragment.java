@@ -1,8 +1,8 @@
 package www.ethichadebe.com.loxion_beanery;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -31,11 +31,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import Adapter.MyShopItemAdapter;
 import SingleItem.MyShopItem;
 
 import static util.Constants.getIpAddress;
+import static util.HelperMethods.ButtonVisibility;
+import static util.HelperMethods.ShowLoadingPopup;
 import static util.HelperMethods.handler;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 import static www.ethichadebe.com.loxion_beanery.NewExtrasActivity.isNew;
@@ -44,9 +47,10 @@ import static www.ethichadebe.com.loxion_beanery.ShopSettingsActivity.isEdit;
 
 public class MyShopsFragment extends Fragment {
     private static final String TAG = "MyShopsFragment";
+    private Dialog myDialog;
     private ArrayList<MyShopItem> shopItems;
     private RelativeLayout rlError, rlLoad;
-    private LinearLayout llEdit;
+    private LinearLayout llNewShop;
     private RecyclerView mRecyclerView;
     private MyShopItemAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -73,23 +77,30 @@ public class MyShopsFragment extends Fragment {
             startActivity(new Intent(getActivity(), LoginActivity.class));
         }//If app crashes, return to login
 
+
         newShop = null;
+
+        //Initialise bottom sheet
         bsbBottomSheet = v.findViewById(R.id.bottom_sheet);
         bsbBottomSheetBehavior = BottomSheetBehavior.from(bsbBottomSheet);
         bsbBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
 
+        //Display bottom sheet when shop has been registered
         if (isNew() && !isEdit) {
             bsbBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
             handler.postDelayed(runnable, 1500);
             setIsNew(false);
         }
+
+        //If a certain shop was being edited, return is change shop edit status to false
         isEdit = false;
 
+        myDialog = new Dialog(Objects.requireNonNull(getActivity()));
         shopItems = new ArrayList<>();
         rlError = v.findViewById(R.id.rlError);
         rlLoad = v.findViewById(R.id.rlLoad);
         tvEmpty = v.findViewById(R.id.tvEmpty);
-        llEdit = v.findViewById(R.id.llEdit);
+        llNewShop = v.findViewById(R.id.llNewShop);
         mRecyclerView = v.findViewById(R.id.recyclerView);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getActivity());
@@ -97,24 +108,29 @@ public class MyShopsFragment extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
 
+        //Get User Shops
         GETShops(v.findViewById(R.id.vLine), v.findViewById(R.id.vLineGrey));
+        rlLoad.setOnClickListener(view -> GETShops(v.findViewById(R.id.vLine), v.findViewById(R.id.vLineGrey)));
 
         if (getUser().getuType() == 2) {
-            llEdit.setVisibility(View.GONE);
+            llNewShop.setVisibility(View.GONE);
         }//If user is an employee then they cant add a shop
 
-        llEdit.setOnClickListener(view -> {
+        llNewShop.setOnClickListener(view -> {
             newShop = null;
             startActivity(new Intent(getActivity(), RegisterShopActivity.class));
         });
-        rlLoad.setOnClickListener(view -> GETShops(v.findViewById(R.id.vLine), v.findViewById(R.id.vLineGrey)));
 
         mAdapter.setOnItemClickListerner(new MyShopItemAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
                 newShop = shopItems.get(position);
                 startActivity(new Intent(getActivity(), OrdersActivity.class));
+            }
 
+            @Override
+            public void onItemDelete(int position) {
+                DELETEShop(position);
             }
 
             @Override
@@ -159,7 +175,7 @@ public class MyShopsFragment extends Fragment {
                                 }
                                 shopItems.add(new MyShopItem(Shops.getInt("sID"), Shops.getString("sName"),
                                         Shops.getString("uRole"), "Shops.getString('sSmallPicture'')",
-                                        "Shops.getString('sBigPicture'')", Shops.getString("sShortDescrption"),
+                                        Shops.getString("sBigPicture"), Shops.getString("sShortDescrption"),
                                         Shops.getString("sFullDescription"),
                                         new LatLng(Shops.getDouble("sLatitude"),
                                                 Shops.getDouble("sLongitude")),
@@ -202,5 +218,36 @@ public class MyShopsFragment extends Fragment {
         if (requestQueue != null) {
             requestQueue.cancelAll(TAG);
         }
+    }
+
+    private void DELETEShop(int position) {
+        ShowLoadingPopup(myDialog, true);
+        requestQueue = Volley.newRequestQueue(Objects.requireNonNull(getActivity()));
+
+        JsonObjectRequest objectRequest = new JsonObjectRequest(
+                Request.Method.DELETE,
+                getIpAddress() + "/shops/Delete/" + shopItems.get(position).getIntID(), null,
+                response -> {
+                    ShowLoadingPopup(myDialog, false);
+                    try {
+                        JSONObject JSONData = new JSONObject(response.toString());
+                        if (JSONData.getString("data").equals("removed")) {
+                            Toast.makeText(getActivity(), "Shop Deleted", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                },
+                error -> {
+                    ShowLoadingPopup(myDialog, false);
+                    if (error.toString().equals("com.android.volley.TimeoutError")) {
+                        Toast.makeText(getActivity(), "Connection error. Please retry", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+        objectRequest.setTag(TAG);
+        requestQueue.add(objectRequest);
+
     }
 }

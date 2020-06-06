@@ -44,7 +44,7 @@
             android:padding="5dp"
             android:layout_centerVertical="true"
             android:layout_toStartOf="@+id/ivEdit"
-            android:contentDescription="Edit" />
+            android:contentDescription="@string/edit" />
 
         <ImageView
             android:id="@+id/ivEdit"
@@ -55,7 +55,7 @@
             android:padding="5dp"
             android:layout_centerVertical="true"
             android:layout_toStartOf="@+id/ivDelete"
-            android:contentDescription="Edit" />
+            android:contentDescription="@string/edit" />
 
         <ImageView
             android:id="@+id/ivDelete"
@@ -67,7 +67,7 @@
             android:src="@drawable/ic_delete_black_24dp"
             android:layout_marginStart="5dp"
             android:layout_alignParentEnd="true"
-            android:contentDescription="Delete" />
+            android:contentDescription="@string/delete" />
 
     </RelativeLayout>
 

@@ -257,7 +257,6 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
 
     private void POSTRegisterShop() {
         ShowLoadingPopup(myDialog, true);
-        Toast.makeText(this, String.valueOf(getNewShop().getDraLogoSmall()), Toast.LENGTH_SHORT).show();
         // loading or check internet connection or something...
         // ... then
         String url = getIpAddress() + "/shops/Register";
@@ -270,7 +269,9 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
                         getNewShop().setIntID(Integer.parseInt(JSONResponse.getString("data")));
                         getNewShop().setStrOperatingHRS(combineString(etOpen, etClose));
                         HelperMethods.ShowLoadingPopup(myDialog, false);
-                        startActivity(new Intent(OperatingHoursActivity.this, IngredientsActivity.class));
+                        startActivity(new Intent(this, IngredientsActivity.class));
+                        Toast.makeText(this, "Started", Toast.LENGTH_SHORT).show();
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

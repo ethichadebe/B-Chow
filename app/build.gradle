@@ -59,7 +59,7 @@ dependencies {
 
     //Google maps
     implementation 'com.android.support:appcompat-v7:28.0.0'
-    implementation 'com.google.android.libraries.places:places:2.2.0'
+    implementation 'com.google.android.libraries.places:places:2.3.0'
     implementation 'com.android.support:design:28.0.0'
 
     //Google ads
@@ -69,6 +69,13 @@ dependencies {
     implementation 'com.github.mike14u:shimmer-recyclerview-x:1.0.3'
     
     //Picasso Url image Viewer
-    implementation 'com.squareup.picasso:picasso:2.5.2'
+    implementation 'com.squareup.picasso:picasso:2.71828'
+    
+    
+    //Online image displayer
+    implementation 'com.squareup.picasso:picasso:2.71828'
+
+    //Location
+    implementation 'com.google.android.gms:play-services-location:17.0.0'
 
 }

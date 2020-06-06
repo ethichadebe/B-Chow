@@ -12,11 +12,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 
 import SingleItem.MyShopItem;
 import www.ethichadebe.com.loxion_beanery.R;
 
+import static util.Constants.getIpAddress;
 import static util.HelperMethods.setOHVISIBILITY;
 
 public class MyShopItemAdapter extends RecyclerView.Adapter<MyShopItemAdapter.ShopViewHolder> {
@@ -26,6 +29,7 @@ public class MyShopItemAdapter extends RecyclerView.Adapter<MyShopItemAdapter.Sh
 
     public interface OnItemClickListener {
         void onItemClick(int position);
+        void onItemDelete(int position);
         void onItemClickResumeRegistration(int position);
     }
 
@@ -35,9 +39,10 @@ public class MyShopItemAdapter extends RecyclerView.Adapter<MyShopItemAdapter.Sh
 
     static class ShopViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView tvShopName, tvPosition, tvShortDescript, tvDistance, tvAveTime,tvMore, tvCompleteReg, tvnOrders;
+        private TextView tvShopName, tvPosition, tvShortDescript, tvDistance, tvAveTime,tvMore, tvCompleteReg,
+                tvnOrders;
         private TextView[] tvDays = new TextView[8];
-        private ImageView ivLogo, ivStar1, ivStar2, ivStar3, ivStar4, ivStar5;
+        private ImageView ivLogo, ivStar1, ivStar2, ivStar3, ivStar4, ivStar5, ivDelete;
         private LinearLayout llOpHours,llDropDown;
         private RelativeLayout rlStatus;
 
@@ -56,6 +61,7 @@ public class MyShopItemAdapter extends RecyclerView.Adapter<MyShopItemAdapter.Sh
             ivStar3 = itemView.findViewById(R.id.ivStar3);
             ivStar4 = itemView.findViewById(R.id.ivStar4);
             ivStar5 = itemView.findViewById(R.id.ivStar5);
+            ivDelete = itemView.findViewById(R.id.ivDelete);
             tvDistance = itemView.findViewById(R.id.tvDistance);
             tvAveTime = itemView.findViewById(R.id.tvAveTime);
             tvMore = itemView.findViewById(R.id.tvMore);
@@ -79,6 +85,15 @@ public class MyShopItemAdapter extends RecyclerView.Adapter<MyShopItemAdapter.Sh
                 }
             });
 
+            ivDelete.setOnClickListener(view -> {
+                if (listener != null) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        listener.onItemDelete(position);
+                    }
+                }
+            });
+
             tvCompleteReg.setOnClickListener(view -> {
                 if (listener != null) {
                     int position = getAdapterPosition();
@@ -98,7 +113,8 @@ public class MyShopItemAdapter extends RecyclerView.Adapter<MyShopItemAdapter.Sh
     @NonNull
     @Override
     public ShopViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.my_shop_item, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.my_shop_item, parent,
+                false);
 
         return new ShopViewHolder(v, mListener);
     }
@@ -109,7 +125,7 @@ public class MyShopItemAdapter extends RecyclerView.Adapter<MyShopItemAdapter.Sh
 
         holder.tvShopName.setText(item.getStrShopName());
         holder.tvPosition.setText(item.getStrPosition());
-        //holder.ivLogo.setImageResource(item.getIntLogoSmall());
+        Picasso.get().load(getIpAddress()+"/"+item.getStrLogoSmall()).into(holder.ivLogo);
         holder.tvShortDescript.setText(item.getStrShortDescript());
         holder.tvnOrders.setText(""+item.getIntnOrders());
         //Calculate distance
@@ -162,11 +178,17 @@ public class MyShopItemAdapter extends RecyclerView.Adapter<MyShopItemAdapter.Sh
 
         if (item.isActive()){
             holder.tvCompleteReg.setVisibility(View.VISIBLE);
+            //Display delete button if shop registration isn't complete
+            holder.ivDelete.setVisibility(View.VISIBLE);
+            holder.tvnOrders.setVisibility(View.GONE);
         }
 
-        holder.llDropDown.setOnClickListener(view -> setOHVISIBILITY(holder.llOpHours, holder.tvMore,holder.tvDays, item.getStrOperatingHRS()));
+        holder.llDropDown.setOnClickListener(view -> setOHVISIBILITY(holder.llOpHours, holder.tvMore,
+                holder.tvDays, item.getStrOperatingHRS()));
 
         holder.rlStatus.setBackground(item.getDraStatus());
+
+
     }
 
     @Override

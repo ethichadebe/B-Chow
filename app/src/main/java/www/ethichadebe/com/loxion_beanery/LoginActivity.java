@@ -2,6 +2,7 @@ package www.ethichadebe.com.loxion_beanery;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -29,9 +31,17 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.CommonStatusCodes;
+import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResponse;
+import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.rengwuxian.materialedittext.MaterialEditText;
@@ -51,14 +61,17 @@ import static util.HelperMethods.COARSE_LOCATION;
 import static util.HelperMethods.FINE_LOCATION;
 import static util.HelperMethods.LOCATION_REQUEST_CODE;
 import static util.HelperMethods.SHARED_PREFS;
+import static util.HelperMethods.STORAGE_PERMISSION;
 import static util.HelperMethods.ShowLoadingPopup;
 import static util.HelperMethods.ismLocationGranted;
 import static util.HelperMethods.loadData;
 import static util.HelperMethods.saveData;
 import static util.HelperMethods.setmLocationGranted;
+import static util.HelperMethods.startCrop;
 import static www.ethichadebe.com.loxion_beanery.ProfileFragment.isLogout;
 
 public class LoginActivity extends AppCompatActivity {
+    private static final int REQUEST_CHECK_SETTINGS = 200;
     private static LatLng userLocation;
     private static final int ERROR_DIALOG_REQUEST = 9001;
 
@@ -152,7 +165,7 @@ public class LoginActivity extends AppCompatActivity {
                             user = new User(userData.getInt("uID"), userData.getString("uName"),
                                     userData.getString("uSurname"), userData.getString("uDOB"),
                                     userData.getString("uSex"), userData.getString("uEmail"),
-                                    userData.getString("uNumber"),userData.getInt("uType"),
+                                    userData.getString("uNumber"), userData.getInt("uType"),
                                     userData.getString("uPicture"));
                             if (cbRemember.isChecked()) {//Check if remember me is checked
                                 isLogout = false;
@@ -255,8 +268,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void getDeviceLocation() {
         Log.d(TAG, "getDeviceLocation: getting current location");
-        mFusedLocationProviderClient =
-                LocationServices.getFusedLocationProviderClient(Objects.requireNonNull(this));
+        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(Objects.requireNonNull(this));
 
         try {
             if (ismLocationGranted()) {
@@ -264,21 +276,59 @@ public class LoginActivity extends AppCompatActivity {
                 location.addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         Log.d(TAG, "onComplete: location found");
-                        Location currentLocation = (Location) task.getResult();
-                        userLocation = new LatLng(Objects.requireNonNull(currentLocation).getLatitude(),
-                                currentLocation.getLongitude());
-                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                        if (task.getResult() == null) {
+                            turnOnLocation();
+                        } else {
+                            Location currentLocation = (Location) task.getResult();
+                            userLocation = new LatLng(Objects.requireNonNull(currentLocation).getLatitude(),
+                                    currentLocation.getLongitude());
+
+                            startActivity(new Intent(this, MainActivity.class));
+                        }
 
                     } else {
                         Log.d(TAG, "onComplete: Unable to get location");
-                        Toast.makeText(this, "Unable to get current location",
-                                Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Unable to get current location", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
         } catch (SecurityException e) {
             Log.e(TAG, "getDeviceLocation: Security exception " + e.getMessage());
         }
+    }
+
+    private void turnOnLocation() {
+        LocationRequest request = new LocationRequest().setFastestInterval(1500).setInterval(3000)
+                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder().addLocationRequest(request);
+        Task<LocationSettingsResponse> result = LocationServices.getSettingsClient(this)
+                .checkLocationSettings(builder.build());
+
+        result.addOnCompleteListener(task -> {
+            try {
+                task.getResult(ApiException.class);
+                getDeviceLocation();
+            } catch (ApiException e) {
+                switch (e.getStatusCode()) {
+                    case LocationSettingsStatusCodes.SUCCESS:
+                        getDeviceLocation();
+                        break;
+                    case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
+                        try {
+                            ResolvableApiException resolvableApiException = (ResolvableApiException) e;
+                            resolvableApiException.startResolutionForResult(this, REQUEST_CHECK_SETTINGS);
+                        } catch (IntentSender.SendIntentException ex) {
+                            ex.printStackTrace();
+                        } catch (ClassCastException ex) {
+
+                        }
+                        break;
+                    case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
+                        break;
+                }
+            }
+        });
     }
 
     @Override
@@ -329,7 +379,8 @@ public class LoginActivity extends AppCompatActivity {
             return true;
         } else if (GoogleApiAvailability.getInstance().isUserResolvableError(available)) {
             Log.d(TAG, "isServicesOk: error occurred but can be fixed");
-            Dialog dialog = GoogleApiAvailability.getInstance().getErrorDialog(this, available, ERROR_DIALOG_REQUEST);
+            Dialog dialog = GoogleApiAvailability.getInstance().getErrorDialog(this, available,
+                    ERROR_DIALOG_REQUEST);
             dialog.show();
         } else {
             Toast.makeText(this, "You cant make map requests", Toast.LENGTH_SHORT).show();
@@ -343,6 +394,15 @@ public class LoginActivity extends AppCompatActivity {
         super.onStop();
         if (requestQueue != null) {
             requestQueue.cancelAll(TAG);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if ((requestCode == REQUEST_CHECK_SETTINGS) && (resultCode == RESULT_OK)) {
+            getDeviceLocation();
         }
     }
 }

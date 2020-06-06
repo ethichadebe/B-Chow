@@ -37,7 +37,6 @@ public class ShopSettingsActivity extends AppCompatActivity {
         if (getUser() == null) {
             startActivity(new Intent(this, LoginActivity.class));
         }
-
         myDialog = new Dialog(this);
 
     }

@@ -99,4 +99,5 @@
     <string name="logout">Logout</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="deactivate_account">Deactivate account</string>
+    <string name="delete">Delete</string>
 </resources>
