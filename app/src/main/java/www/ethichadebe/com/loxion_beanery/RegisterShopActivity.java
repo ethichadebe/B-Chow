@@ -246,12 +246,20 @@ public class RegisterShopActivity extends AppCompatActivity {
 
     public void Small(View view) {
         isBig = false;
-        ShowDPEditPopup();
+        if (civSmall.getDrawable() != null){
+            ShowDPEditPopup(true, true);
+        }else{
+            ShowDPEditPopup(false, true);
+        }
     }
 
     public void big(View view) {
         isBig = true;
-        ShowDPEditPopup();
+        if (civBig.getDrawable() != null){
+            ShowDPEditPopup(true, false);
+        }else{
+            ShowDPEditPopup(false, false);
+        }
     }
 
     public void back(View view) {
@@ -391,17 +399,31 @@ public class RegisterShopActivity extends AppCompatActivity {
         }
     }
 
-    public void ShowDPEditPopup() {
-        TextView tvCancel, tvMessage,btnYes, btnNo;
+    public void ShowDPEditPopup(boolean theresPic, boolean isBig) {
+        TextView tvCancel, tvMessage,btnYes, btnNo,tvRemove;
         myDialog.setContentView(R.layout.popup_confirmation);
 
         tvCancel = myDialog.findViewById(R.id.tvCancel);
         tvMessage = myDialog.findViewById(R.id.tvMessage);
         btnYes = myDialog.findViewById(R.id.btnYes);
         btnNo = myDialog.findViewById(R.id.btnNo);
+        tvRemove = myDialog.findViewById(R.id.tvRemove);
 
+        if (theresPic){
+            tvRemove.setVisibility(View.VISIBLE);
+        }else {
+            tvRemove.setVisibility(View.GONE);
+        }
         tvCancel.setOnClickListener(view -> myDialog.dismiss());
 
+        tvRemove.setOnClickListener(view -> {
+            if (isBig){
+                civSmall.setImageDrawable(null);
+            }else {
+                civBig.setImageDrawable(null);
+            }
+            myDialog.dismiss();
+        });
         btnNo.setText("Open Gallery");
         btnYes.setText("Open Camera");
         tvMessage.setText("Update shop cover picture");
