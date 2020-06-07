@@ -460,14 +460,13 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
      * trying to exit before saving
      */
     public void ShowConfirmationPopup() {
-        TextView tvCancel, tvMessage,btnYes, btnNo;
+        TextView tvCancel, tvMessage, btnYes, btnNo;
         myDialog.setContentView(R.layout.popup_confirmation);
 
         tvCancel = myDialog.findViewById(R.id.tvCancel);
         tvMessage = myDialog.findViewById(R.id.tvMessage);
         btnYes = myDialog.findViewById(R.id.btnYes);
         btnNo = myDialog.findViewById(R.id.btnNo);
-
         tvCancel.setOnClickListener(view -> myDialog.dismiss());
 
         tvMessage.setText("Would you like to save Changes made?");
@@ -518,7 +517,7 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
 
     //Changing profile picture
     public void ProfilePicture(View view) {
-        ShowDPEditPopup();
+        ShowDPEditPopup(civProfilePicture.getDrawable() != null);
     }
 
     @Override
@@ -553,15 +552,26 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
     }
 
 
-    public void ShowDPEditPopup() {
-        TextView tvCancel, tvMessage;
-        Button btnYes, btnNo;
+    public void ShowDPEditPopup(boolean theresPic) {
+        TextView tvCancel, tvMessage,btnYes, btnNo, tvRemove;
         myDialog.setContentView(R.layout.popup_confirmation);
 
         tvCancel = myDialog.findViewById(R.id.tvCancel);
         tvMessage = myDialog.findViewById(R.id.tvMessage);
         btnYes = myDialog.findViewById(R.id.btnYes);
         btnNo = myDialog.findViewById(R.id.btnNo);
+        tvRemove = myDialog.findViewById(R.id.tvRemove);
+
+        if (theresPic) {
+            tvRemove.setVisibility(View.VISIBLE);
+        } else {
+            tvRemove.setVisibility(View.GONE);
+        }
+
+        tvRemove.setOnClickListener(view -> {
+            civProfilePicture.setImageDrawable(null);
+            myDialog.dismiss();
+        });
 
         tvCancel.setOnClickListener(view -> myDialog.dismiss());
 
