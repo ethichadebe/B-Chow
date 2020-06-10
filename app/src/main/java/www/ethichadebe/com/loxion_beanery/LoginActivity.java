@@ -208,7 +208,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void ShowConfirmationPopup() {
-        TextView tvCancel, tvMessage,btnYes, btnNo;
+        TextView tvCancel, tvMessage, btnYes, btnNo;
         myDialog.setContentView(R.layout.popup_confirmation);
 
         tvCancel = myDialog.findViewById(R.id.tvCancel);
@@ -227,7 +227,11 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         btnNo.setText("Retry");
-        btnNo.setOnClickListener(view -> myDialog.dismiss());
+        btnNo.setOnClickListener(view -> {
+            saveData(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE), "", "");
+            startActivity(new Intent(this, LoginActivity.class));
+            myDialog.dismiss();
+        });
         Objects.requireNonNull(myDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         myDialog.show();
         myDialog.setCancelable(false);

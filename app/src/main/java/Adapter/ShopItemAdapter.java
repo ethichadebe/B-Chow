@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -15,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.ads.AdLoader;
 import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.formats.MediaView;
 import com.google.android.gms.ads.formats.UnifiedNativeAd;
 import com.google.android.gms.ads.formats.UnifiedNativeAdView;
 
@@ -26,7 +26,6 @@ import www.ethichadebe.com.loxion_beanery.R;
 
 import static util.HelperMethods.roundOf;
 import static util.HelperMethods.setOHVISIBILITY;
-import static util.HelperMethods.setStarRating;
 
 public class ShopItemAdapter extends RecyclerView.Adapter<ShopItemAdapter.ShopViewHolder> {
 
@@ -48,15 +47,17 @@ public class ShopItemAdapter extends RecyclerView.Adapter<ShopItemAdapter.ShopVi
 
         private TextView tvShopName, tvShortDescript, tvDistance, tvAveTime, tvMore, tvClosed;
         private TextView[] tvDays = new TextView[8];
-        private ImageView ivLogo, ivStar1, ivStar2, ivStar3, ivStar4, ivStar5;
+        private ImageView ivLogo;
         private LinearLayout llOpHours, llDropDown;
         private RelativeLayout rlStatus;
         private CardView cdAd;
+        private RatingBar rbRating;
         private UnifiedNativeAdView unifiedNativeAdView;
 
         ShopViewHolder(@NonNull View itemView, final OnItemClickListener listener, Context context, String nativeAd_key) {
             super(itemView);
             tvShopName = itemView.findViewById(R.id.tvShopName);
+            rbRating = itemView.findViewById(R.id.rbRating);
             llOpHours = itemView.findViewById(R.id.llOpHours);
             llDropDown = itemView.findViewById(R.id.llDropDown);
             ivLogo = itemView.findViewById(R.id.ivLogo);
@@ -64,11 +65,6 @@ public class ShopItemAdapter extends RecyclerView.Adapter<ShopItemAdapter.ShopVi
             tvClosed = itemView.findViewById(R.id.tvClosed);
             tvShortDescript = itemView.findViewById(R.id.tvShortDescript);
             cdAd = itemView.findViewById(R.id.cdAd);
-            ivStar1 = itemView.findViewById(R.id.ivStar1);
-            ivStar2 = itemView.findViewById(R.id.ivStar2);
-            ivStar3 = itemView.findViewById(R.id.ivStar3);
-            ivStar4 = itemView.findViewById(R.id.ivStar4);
-            ivStar5 = itemView.findViewById(R.id.ivStar5);
             tvDistance = itemView.findViewById(R.id.tvDistance);
             tvAveTime = itemView.findViewById(R.id.tvAveTime);
             tvMore = itemView.findViewById(R.id.tvMore);
@@ -168,7 +164,6 @@ public class ShopItemAdapter extends RecyclerView.Adapter<ShopItemAdapter.ShopVi
             holder.tvClosed.setVisibility(View.GONE);
         }
 
-        setStarRating(item.getIntRating(), holder.ivStar1, holder.ivStar2, holder.ivStar3, holder.ivStar4, holder.ivStar5);
 
         holder.llDropDown.setOnClickListener(view -> {
             setOHVISIBILITY(holder.llOpHours, holder.tvMore, holder.tvDays, item.getStrOperatingHRS());
@@ -176,6 +171,8 @@ public class ShopItemAdapter extends RecyclerView.Adapter<ShopItemAdapter.ShopVi
 
         holder.tvAveTime.setBackgroundColor(item.getIntAveTimeColor());
         holder.rlStatus.setBackground(item.getDraStatus());
+        holder.rbRating.setRating(item.getIntRating());
+        //holder.ivLogo.se
     }
 
     @Override

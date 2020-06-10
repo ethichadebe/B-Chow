@@ -47,8 +47,6 @@ public class OrderActivity extends AppCompatActivity {
     private RequestQueue requestQueue;
     private static UpcomingOrderItem orderItem;
     private ArrayList<IngredientItemCheckbox> ingredientItems;
-    private ArrayList<IngredientItemCheckbox> ingredientItemsChecked;
-    private ArrayList<String> combinations;
     private RecyclerView mRecyclerView;
     private IngredientItemCheckboxAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -77,11 +75,10 @@ public class OrderActivity extends AppCompatActivity {
         rlError = findViewById(R.id.rlError);
         mRecyclerView = findViewById(R.id.recyclerView);
         ingredientItems = new ArrayList<>();
-        ingredientItemsChecked = new ArrayList<>();
         myDialog = new Dialog(this);
 
-         dblPrice = getMenuItem().getDblPrice();
-
+        //Get menu item price and display it
+        dblPrice = getMenuItem().getDblPrice();
         GETIngredients(findViewById(R.id.vLine), findViewById(R.id.vLineGrey));
 
         mRecyclerView.setHasFixedSize(true);
@@ -93,17 +90,7 @@ public class OrderActivity extends AppCompatActivity {
 
         mAdapter.setOnItemClickListener(position -> {
             ingredientItems.get(position).setChecked();
-            if (ingredientItems.get(position).getChecked()) {
-                ingredientItemsChecked.add(position, new IngredientItemCheckbox(ingredientItems.get(position).getIntID(),
-                        ingredientItems.get(position).getStrIngredientName(), ingredientItems.get(position).getDblPrice(),
-                        true, false));
-                Toast.makeText(this, combineString(ingredientItemsChecked), Toast.LENGTH_SHORT).show();
-                tvTotal.setText("R" + GetPrice() + "0");
-            } else {
-                ingredientItemsChecked.remove(position);
-                Toast.makeText(this, combineString(ingredientItemsChecked), Toast.LENGTH_SHORT).show();
-                tvTotal.setText("R" + GetPrice() + "0");
-            }
+            //TODO: Update price and menu list
         });
 
     }
@@ -124,21 +111,21 @@ public class OrderActivity extends AppCompatActivity {
                     try {
                         if (response.getString("message").equals("shops")) {
                             JSONArray jsonArray = response.getJSONArray("ingredients");
-                            ingredientItemsChecked = new ArrayList<>(jsonArray.length());
+                            //TODO: Remove temp variable
+                            String tempOutput = "";
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject Ingredient = jsonArray.getJSONObject(i);
                                 nExtras = Ingredient.getInt("nExtras");
                                 if (isChecked(Ingredient.getString("iName"))) {
-                                    ingredientItems.add(new IngredientItemCheckbox(Ingredient.getInt("iID"), Ingredient.getString("iName"),
-                                            Ingredient.getDouble("iPrice"), true, false));
-                                    ingredientItemsChecked.add(i, new IngredientItemCheckbox(Ingredient.getInt("iID"), Ingredient.getString("iName"),
-                                            Ingredient.getDouble("iPrice"), true, false));
+                                    tempOutput += Ingredient.getString("iName") + " ";
+                                    Toast.makeText(this, tempOutput, Toast.LENGTH_SHORT).show();
+                                    ingredientItems.add(new IngredientItemCheckbox(Ingredient.getInt("iID"),
+                                            Ingredient.getString("iName"), Ingredient.getDouble("iPrice"),
+                                            true, false));
                                 } else {
-                                    ingredientItems.add(new IngredientItemCheckbox(Ingredient.getInt("iID"), Ingredient.getString("iName"),
-                                            Ingredient.getDouble("iPrice"), false, false));
-                                    ingredientItemsChecked.add(i, new IngredientItemCheckbox(Ingredient.getInt("iID"),
-                                            "", Ingredient.getDouble("iPrice"), true, false));
-
+                                    ingredientItems.add(new IngredientItemCheckbox(Ingredient.getInt("iID"),
+                                            Ingredient.getString("iName"), Ingredient.getDouble("iPrice"),
+                                            false, false));
                                 }
                             }
                             tvTotal.setText("R" + dblPrice + "0");
@@ -167,8 +154,8 @@ public class OrderActivity extends AppCompatActivity {
 
     public void Order(View view) {
         if (nExtras > 0) {
-            orderItem = new UpcomingOrderItem(getShopItem().getIntID(), "", 1, "",combineString(ingredientItems),
-                    "", dblPrice, "",new LatLng(0.0,0.0));
+            orderItem = new UpcomingOrderItem(getShopItem().getIntID(), "", 1, "", combineString(ingredientItems),
+                    "", dblPrice, "", new LatLng(0.0, 0.0));
             startActivity(new Intent(this, ExtraItemActivity.class));
         } else {
             POSTOrder();
@@ -226,102 +213,6 @@ public class OrderActivity extends AppCompatActivity {
         requestQueue.add(stringRequest);
     }
 
-    private Double GetPrice() {
-        combinations = new ArrayList<>();
-        //Check if the menu already exists as is
-        for (MenuItem menuItem : getMenuItems()) {
-            if (combineString(ingredientItemsChecked).equals(menuItem.getStrMenu())) {
-                return menuItem.getDblPrice();
-            }
-        }
-
-        //If the menu does not exist as is then Break it down to all possible combinations that might exist
-        String[] ingreItems = combineString(ingredientItemsChecked).split(", ");
-        for (int i = 1; i < ingreItems.length; i++) {
-            printCombination(ingreItems, ingreItems.length, i);
-        }
-
-        //Check if anny match the the existing ones
-        ArrayList<MenuItem> matchFound = new ArrayList<>();
-        for (MenuItem menuItem : getMenuItems()) {
-            for (String combo : combinations) {
-                if (combo.equals(menuItem.getStrMenu())) {
-                    matchFound.add(menuItem);
-                }
-            }
-        }
-
-        //Check if any was found
-        if (matchFound.size() > 0) {
-            MenuItem maximum = matchFound.get(0);
-            int max = 0;
-            //Check for one with the most ingredients
-            for (MenuItem match : matchFound) {
-                if (countCommas(match.getStrMenu()) > max) {
-                    maximum = match;
-
-                    dblPrice = maximum.getDblPrice();
-                }
-            }
-
-            //Add the remaining ingredients
-            for (IngredientItemCheckbox ingredientItemCheckbox : ingredientItemsChecked) {
-                if (!maximum.getStrMenu().contains(ingredientItemCheckbox.getStrIngredientName())) {
-                    dblPrice += ingredientItemCheckbox.getDblPrice();
-                }
-            }
-        }
-        return dblPrice;
-    }
-
-    private int countCommas(String someString) {
-        int count = 0;
-        for (int i = 0; i < someString.length(); i++) {
-            if (someString.charAt(i) == ',') {
-                count++;
-            }
-        }
-        return count;
-    }
-
-    /* arr[] ---> Input Array
-    data[] ---> Temporary array to store current combination
-    start & end ---> Staring and Ending indexes in arr[]
-    index ---> Current index in data[]
-    r ---> Size of a combination to be printed */
-    private void combinationUtil(String[] ingredientItems, String[] data, int start,
-                                 int end, int index, int r) {
-        // Current combination is ready to be printed, print it
-        if (index == r) {
-            String combo = "";
-            for (int j = 0; j < r; j++) {
-                combo += data[j] + ", ";
-            }
-            if (combo.contains("Chips")) {
-                combinations.add(combineString(combo));
-            }
-            return;
-        }
-
-        // replace index with all possible elements. The condition
-        // "end-i+1 >= r-index" makes sure that including one element
-        // at index will make a combination with remaining elements
-        // at remaining positions
-        for (int i = start; i <= end && end - i + 1 >= r - index; i++) {
-            data[index] = ingredientItems[i];
-            combinationUtil(ingredientItems, data, i + 1, end, index + 1, r);
-        }
-    }
-
-    // The main function that prints all combinations of size r
-    // in ingredientItems[] of size n. This function mainly uses combinationUtil()
-    private void printCombination(String[] ingredientItems, int n, int r) {
-        // A temporary array to store all combination one by one
-        String[] data = new String[r];
-
-        // Print all combination using temprary array 'data[]'
-        combinationUtil(ingredientItems, data, 0, n - 1, 0, r);
-    }
 
     @Override
     protected void onStop() {

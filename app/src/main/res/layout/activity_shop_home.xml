@@ -70,8 +70,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_margin="10dp"
-                android:onClick="like"
                 android:gravity="center"
+                android:onClick="like"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -90,7 +90,7 @@
             </LinearLayout>
         </RelativeLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -103,76 +103,49 @@
                 android:fontFamily="sans-serif-condensed-medium"
                 android:textSize="22sp" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/tvDistance"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_below="@+id/tvName"
+                android:layout_gravity="start"
+                android:layout_marginTop="12dp"
+                android:background="@color/Grey"
+                android:fontFamily="sans-serif-light"
+                android:padding="2dp"
+                android:textSize="12sp" />
 
-                <TextView
-                    android:id="@+id/tvDistance"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    android:layout_marginTop="12dp"
-                    android:background="@color/Grey"
-                    android:fontFamily="sans-serif-light"
-                    android:padding="2dp"
-                    android:textSize="12sp" />
+            <TextView
+                android:id="@+id/tvAveTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvDistance"
+                android:layout_marginStart="5dp"
+                android:text="@string/add_an_ingredient"
+                android:fontFamily="sans-serif-light"
+                android:padding="2dp"
+                android:textSize="12sp" />
 
-                <TextView
-                    android:id="@+id/tvAveTime"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="12dp"
-                    android:fontFamily="sans-serif-light"
-                    android:padding="2dp"
-                    android:textSize="12sp" />
-                <ImageView
-                    android:id="@+id/ivStar5"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:contentDescription="@string/star5"
-                    android:src="@drawable/star" />
-
-                <ImageView
-                    android:id="@+id/ivStar4"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:contentDescription="@string/star4"
-                    android:src="@drawable/star" />
-
-                <ImageView
-                    android:id="@+id/ivStar3"
-                    android:layout_width="20dp"
-                    android:contentDescription="@string/star3"
-                    android:layout_height="20dp"
-                    android:src="@drawable/star" />
-
-                <ImageView
-                    android:id="@+id/ivStar2"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:contentDescription="@string/star2"
-                    android:src="@drawable/star" />
-
-                <ImageView
-                    android:id="@+id/ivStar1"
-                    android:layout_width="20dp"
-                    android:contentDescription="@string/star1"
-                    android:layout_height="20dp"
-                    android:src="@drawable/star" />
-
-            </LinearLayout>
+            <RatingBar
+                android:id="@+id/rbRating"
+                style="?android:attr/ratingBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_below="@+id/tvDistance"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:numStars="5"
+                android:layout_toEndOf="@id/tvAveTime"
+                android:src="@drawable/star"
+                android:stepSize="0.5" />
 
             <TextView
                 android:id="@+id/tvFullDescrpit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/rbRating"
                 android:fontFamily="sans-serif-condensed-light"
                 android:textSize="14sp" />
-        </LinearLayout>
+        </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -220,9 +193,9 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_alignParentBottom="true"
         android:layout_below="@+id/llShop"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -309,7 +282,7 @@
         android:layout_alignParentBottom="true"
         android:layout_gravity="center|bottom"
         android:background="@drawable/ripple_effect"
-        android:text="@string/custom_kota"
         android:onClick="Custom"
+        android:text="@string/custom_kota"
         android:textColor="@color/White" />
 </RelativeLayout>

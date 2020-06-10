@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,7 +38,6 @@ import util.HelperMethods;
 import static util.Constants.getIpAddress;
 import static util.HelperMethods.ShowLoadingPopup;
 import static util.HelperMethods.handler;
-import static util.HelperMethods.setStarRating;
 import static www.ethichadebe.com.loxion_beanery.HomeFragment.getShopItem;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 
@@ -51,12 +51,12 @@ public class ShopHomeActivity extends AppCompatActivity {
     private static String[] ingredients;
     private RelativeLayout rlLoad, rlError;
     private TextView tvName, tvDistance, tvAveTime, tvFullDescrpit, tvLikes;
-    private ImageView ivStar1, ivStar2, ivStar3, ivStar4, ivStar5;
     private static MenuItem menuItem;
     private Dialog myDialog;
     private ImageView ivLike;
     private LinearLayout llLike;
     private Button btnNext;
+    private RatingBar rbRating;
 
     public static MenuItem  getMenuItem() {
         return menuItem;
@@ -77,17 +77,13 @@ public class ShopHomeActivity extends AppCompatActivity {
         MenuItems = new ArrayList<>();
         myDialog = new Dialog(this);
         tvName = findViewById(R.id.tvName);
+        rbRating = findViewById(R.id.rbRating);
         ivLike = findViewById(R.id.ivLike);
         llLike = findViewById(R.id.llLike);
         tvLikes = findViewById(R.id.tvLikes);
         btnNext = findViewById(R.id.btnNext);
-        ivStar1 = findViewById(R.id.ivStar1);
-        ivStar2 = findViewById(R.id.ivStar2);
-        ivStar3 = findViewById(R.id.ivStar3);
         rlLoad = findViewById(R.id.rlLoad);
         rlError = findViewById(R.id.rlError);
-        ivStar4 = findViewById(R.id.ivStar4);
-        ivStar5 = findViewById(R.id.ivStar5);
         tvDistance = findViewById(R.id.tvDistance);
         tvAveTime = findViewById(R.id.tvAveTime);
         tvFullDescrpit = findViewById(R.id.tvFullDescrpit);
@@ -98,19 +94,15 @@ public class ShopHomeActivity extends AppCompatActivity {
         if(getShopItem() != null){
             GETMenu(findViewById(R.id.vLine), findViewById(R.id.vLineGrey));
         }
-
         if (Objects.requireNonNull(getShopItem()).isLiked() == 1) {
             ivLike.setImageResource(R.drawable.ic_favorite_red_24dp);
         }
-
         tvName.setText(getShopItem().getStrShopName());
-
-        setStarRating(getShopItem().getIntRating(), ivStar1, ivStar2, ivStar3, ivStar4, ivStar5);
-
         tvLikes.setText(String.valueOf(getShopItem().getIntLikes()));
         tvDistance.setText(getShopItem().getStrAddress());
         tvAveTime.setText(getShopItem().getStrAveTime());
         tvFullDescrpit.setText(getShopItem().getStrFullDescript());
+        rbRating.setRating(getShopItem().getIntRating());
 
         //Load menu items starting with the Cheapest
         mRecyclerView = findViewById(R.id.recyclerView);

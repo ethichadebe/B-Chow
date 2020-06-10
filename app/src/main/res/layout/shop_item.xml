@@ -41,6 +41,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/ivLogo"
+                android:layout_marginTop="1dp"
                 android:background="@drawable/ripple_effect_white"
                 android:orientation="vertical"
                 android:padding="10dp">
@@ -59,9 +60,10 @@
 
                     <LinearLayout
                         android:id="@+id/llHead"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
+                        android:gravity="center"
                         android:orientation="horizontal">
 
                         <TextView
@@ -85,47 +87,15 @@
                             android:padding="2dp"
                             android:textSize="12sp" />
 
-                        <LinearLayout
-                            android:id="@+id/llStars"
-                            android:layout_width="match_parent"
+                        <RatingBar
+                            android:id="@+id/rbRating"
+                            style="?android:attr/ratingBarStyleSmall"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <ImageView
-                                android:id="@+id/ivStar5"
-                                android:layout_width="20dp"
-                                android:layout_height="20dp"
-                                android:contentDescription="@string/star1"
-                                android:src="@drawable/star" />
-
-                            <ImageView
-                                android:id="@+id/ivStar4"
-                                android:layout_width="20dp"
-                                android:layout_height="20dp"
-                                android:contentDescription="@string/star2"
-                                android:src="@drawable/star" />
-
-                            <ImageView
-                                android:id="@+id/ivStar3"
-                                android:layout_width="20dp"
-                                android:layout_height="20dp"
-                                android:contentDescription="@string/star3"
-                                android:src="@drawable/star" />
-
-                            <ImageView
-                                android:id="@+id/ivStar2"
-                                android:layout_width="20dp"
-                                android:layout_height="20dp"
-                                android:contentDescription="@string/star4"
-                                android:src="@drawable/star" />
-
-                            <ImageView
-                                android:id="@+id/ivStar1"
-                                android:layout_width="20dp"
-                                android:layout_height="20dp"
-                                android:contentDescription="@string/star5"
-                                android:src="@drawable/star" />
-                        </LinearLayout>
+                            android:clickable="false"
+                            android:numStars="5"
+                            android:src="@drawable/star"
+                            android:stepSize="0.5" />
                     </LinearLayout>
 
                     <TextView
@@ -140,7 +110,7 @@
                         android:id="@+id/llOpHours"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/llHead"
+                        android:layout_below="@+id/tvShortDescript"
                         android:orientation="vertical"
                         android:visibility="gone">
 
@@ -148,7 +118,6 @@
                             android:id="@+id/rlHeading1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_below="@id/cvPass"
                             android:layout_marginLeft="10dp"
                             android:layout_marginRight="10dp">
 

@@ -39,6 +39,7 @@ import static util.Constants.getIpAddress;
 import static util.HelperMethods.ShowLoadingPopup;
 import static util.HelperMethods.handler;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
+import static www.ethichadebe.com.loxion_beanery.MainActivity.setIntFragment;
 import static www.ethichadebe.com.loxion_beanery.MyShopsFragment.getNewShop;
 
 public class NewExtrasActivity extends AppCompatActivity {
@@ -106,7 +107,8 @@ public class NewExtrasActivity extends AppCompatActivity {
     public void next(View view) {
         getNewShop().setMenuItems(getNewShop().getMenuItems());
         isNew = true;
-        startActivity(new Intent(NewExtrasActivity.this, UploadPicActivity.class));
+        setIntFragment(3);
+        startActivity(new Intent(NewExtrasActivity.this, MainActivity.class));
     }
 
     public void back(View view) {
@@ -130,6 +132,7 @@ public class NewExtrasActivity extends AppCompatActivity {
                     try {
                         JSONObject JSONData = new JSONObject(response);
                         if (JSONData.getString("data").equals("saved")) {
+                            tvEmpty.setVisibility(View.GONE);
                             JSONArray jsonArray = new JSONArray(JSONData.getString("response"));
                             JSONObject JSONResponse = jsonArray.getJSONObject(0);
                             extraItems.add(new ExtraItem(JSONResponse.getInt("eID"), JSONResponse.getString("eName")));
@@ -175,6 +178,9 @@ public class NewExtrasActivity extends AppCompatActivity {
                         if (JSONData.getString("data").equals("removed")) {
                             extraItems.remove(position);
                             mAdapter.notifyItemRemoved(position);
+                            if (extraItems.size()<1){
+                                tvEmpty.setVisibility(View.VISIBLE);
+                            }
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();

@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -29,7 +30,9 @@ public class MyShopItemAdapter extends RecyclerView.Adapter<MyShopItemAdapter.Sh
 
     public interface OnItemClickListener {
         void onItemClick(int position);
+
         void onItemDelete(int position);
+
         void onItemClickResumeRegistration(int position);
     }
 
@@ -39,15 +42,17 @@ public class MyShopItemAdapter extends RecyclerView.Adapter<MyShopItemAdapter.Sh
 
     static class ShopViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView tvShopName, tvPosition, tvShortDescript, tvDistance, tvAveTime,tvMore, tvCompleteReg,
+        private TextView tvShopName, tvPosition, tvShortDescript, tvDistance, tvAveTime, tvMore, tvCompleteReg,
                 tvnOrders;
         private TextView[] tvDays = new TextView[8];
-        private ImageView ivLogo, ivStar1, ivStar2, ivStar3, ivStar4, ivStar5, ivDelete;
-        private LinearLayout llOpHours,llDropDown;
+        private ImageView ivLogo, ivDelete;
+        private LinearLayout llOpHours, llDropDown;
         private RelativeLayout rlStatus;
+        private RatingBar rbRating;
 
         ShopViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
+            rbRating = itemView.findViewById(R.id.rbRating);
             tvShopName = itemView.findViewById(R.id.tvShopName);
             llOpHours = itemView.findViewById(R.id.llOpHours);
             llDropDown = itemView.findViewById(R.id.llDropDown);
@@ -56,11 +61,6 @@ public class MyShopItemAdapter extends RecyclerView.Adapter<MyShopItemAdapter.Sh
             tvPosition = itemView.findViewById(R.id.tvPosition);
             ivLogo = itemView.findViewById(R.id.ivLogo);
             tvShortDescript = itemView.findViewById(R.id.tvShortDescript);
-            ivStar1 = itemView.findViewById(R.id.ivStar1);
-            ivStar2 = itemView.findViewById(R.id.ivStar2);
-            ivStar3 = itemView.findViewById(R.id.ivStar3);
-            ivStar4 = itemView.findViewById(R.id.ivStar4);
-            ivStar5 = itemView.findViewById(R.id.ivStar5);
             ivDelete = itemView.findViewById(R.id.ivDelete);
             tvDistance = itemView.findViewById(R.id.tvDistance);
             tvAveTime = itemView.findViewById(R.id.tvAveTime);
@@ -125,58 +125,15 @@ public class MyShopItemAdapter extends RecyclerView.Adapter<MyShopItemAdapter.Sh
 
         holder.tvShopName.setText(item.getStrShopName());
         holder.tvPosition.setText(item.getStrPosition());
-        Picasso.get().load(getIpAddress()+"/"+item.getStrLogoSmall()).into(holder.ivLogo);
+        Picasso.get().load(getIpAddress() + "/" + item.getStrLogoSmall()).into(holder.ivLogo);
         holder.tvShortDescript.setText(item.getStrShortDescript());
-        holder.tvnOrders.setText(""+item.getIntnOrders());
+        holder.tvnOrders.setText("" + item.getIntnOrders());
         //Calculate distance
         holder.tvDistance.setText(item.getStrAddress());
         holder.tvAveTime.setText(item.getStrAveTime());
-        switch (item.getIntRating()) {
-            case 0:
-                holder.ivStar1.setImageResource(0);
-                holder.ivStar2.setImageResource(0);
-                holder.ivStar3.setImageResource(0);
-                holder.ivStar4.setImageResource(0);
-                holder.ivStar5.setImageResource(0);
-                break;
-            case 1:
-                holder.ivStar1.setImageResource(0);
-                holder.ivStar2.setImageResource(0);
-                holder.ivStar3.setImageResource(0);
-                holder.ivStar4.setImageResource(0);
-                holder.ivStar5.setVisibility(View.VISIBLE);
-                break;
-            case 2:
-                holder.ivStar1.setImageResource(0);
-                holder.ivStar2.setImageResource(0);
-                holder.ivStar3.setImageResource(0);
-                holder.ivStar4.setVisibility(View.VISIBLE);
-                holder.ivStar5.setVisibility(View.VISIBLE);
-                break;
-            case 3:
-                holder.ivStar1.setImageResource(0);
-                holder.ivStar2.setImageResource(0);
-                holder.ivStar3.setVisibility(View.VISIBLE);
-                holder.ivStar4.setVisibility(View.VISIBLE);
-                holder.ivStar5.setVisibility(View.VISIBLE);
-                break;
-            case 4:
-                holder.ivStar1.setImageResource(0);
-                holder.ivStar2.setVisibility(View.VISIBLE);
-                holder.ivStar3.setVisibility(View.VISIBLE);
-                holder.ivStar4.setVisibility(View.VISIBLE);
-                holder.ivStar5.setVisibility(View.VISIBLE);
-                break;
-            case 5:
-                holder.ivStar1.setVisibility(View.VISIBLE);
-                holder.ivStar2.setVisibility(View.VISIBLE);
-                holder.ivStar3.setVisibility(View.VISIBLE);
-                holder.ivStar4.setVisibility(View.VISIBLE);
-                holder.ivStar5.setVisibility(View.VISIBLE);
-                break;
-        }
+        holder.rbRating.setRating(item.getIntRating());
 
-        if (item.isActive()){
+        if (item.isActive()) {
             holder.tvCompleteReg.setVisibility(View.VISIBLE);
             //Display delete button if shop registration isn't complete
             holder.ivDelete.setVisibility(View.VISIBLE);

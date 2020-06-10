@@ -70,7 +70,6 @@ public class PastOrderFragmentCustomer extends Fragment {
 
         rlLoad.setOnClickListener(view -> GETPastOrders(v.findViewById(R.id.vLine), v.findViewById(R.id.vLineGrey)));
 
-
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);

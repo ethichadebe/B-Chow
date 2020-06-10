@@ -27,6 +27,7 @@ import util.HelperMethods;
 import static util.Constants.getIpAddress;
 import static util.HelperMethods.ShowLoadingPopup;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
+import static www.ethichadebe.com.loxion_beanery.MainActivity.setIntFragment;
 import static www.ethichadebe.com.loxion_beanery.MyShopsFragment.getNewShop;
 
 public class OrdersActivity extends AppCompatActivity {
@@ -129,12 +130,14 @@ public class OrdersActivity extends AppCompatActivity {
     }
 
     public void back(View view) {
-        startActivity(new Intent(this, UploadPicActivity.class));
+        setIntFragment(3);
+        startActivity(new Intent(this, MainActivity.class));
     }
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(this, UploadPicActivity.class));
+        setIntFragment(3);
+        startActivity(new Intent(this, MainActivity.class));
     }
 
     public void settings(View view) {

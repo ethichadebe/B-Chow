@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,8 +19,6 @@ import SingleItem.AdminOrderItemPast;
 import SingleItem.PastOrderItem;
 import www.ethichadebe.com.loxion_beanery.R;
 
-import static util.HelperMethods.setStarRating;
-
 public class AdminOrderItemPastAdapter extends RecyclerView.Adapter<AdminOrderItemPastAdapter.OrderViewHolder> {
 
     private ArrayList<AdminOrderItemPast> orderList;
@@ -27,24 +26,17 @@ public class AdminOrderItemPastAdapter extends RecyclerView.Adapter<AdminOrderIt
     static class OrderViewHolder extends RecyclerView.ViewHolder {
 
         private TextView tvPrice, tvMenu, tvExtras, tvOrderNum, tvTime, tvFeedback;
-        private ImageView ivStar1, ivStar2, ivStar3, ivStar4, ivStar5;
-        private LinearLayout llStars;
+        private RatingBar rbRating;
 
         OrderViewHolder(@NonNull View itemView) {
             super(itemView);
+            rbRating = itemView.findViewById(R.id.rbRating);
             tvPrice = itemView.findViewById(R.id.tvPrice);
             tvMenu = itemView.findViewById(R.id.tvMenu);
             tvExtras = itemView.findViewById(R.id.tvExtras);
             tvFeedback = itemView.findViewById(R.id.tvFeedback);
             tvOrderNum = itemView.findViewById(R.id.tvOrderNum);
             tvTime = itemView.findViewById(R.id.tvTime);
-            llStars = itemView.findViewById(R.id.llStars);
-
-            ivStar1 = itemView.findViewById(R.id.ivStar1);
-            ivStar2 = itemView.findViewById(R.id.ivStar2);
-            ivStar3 = itemView.findViewById(R.id.ivStar3);
-            ivStar4 = itemView.findViewById(R.id.ivStar4);
-            ivStar5 = itemView.findViewById(R.id.ivStar5);
 
         }
     }
@@ -65,7 +57,6 @@ public class AdminOrderItemPastAdapter extends RecyclerView.Adapter<AdminOrderIt
     public void onBindViewHolder(@NonNull OrderViewHolder holder, int position) {
         AdminOrderItemPast item = orderList.get(position);
 
-        setStarRating(item.getIntRating(), holder.ivStar1, holder.ivStar2, holder.ivStar3, holder.ivStar4, holder.ivStar5);
         holder.tvPrice.setText("R" + item.getDblPrice() + "0");
         holder.tvMenu.setText(item.getStrMenu());
         holder.tvExtras.setText(item.getStrExtras());
@@ -73,7 +64,7 @@ public class AdminOrderItemPastAdapter extends RecyclerView.Adapter<AdminOrderIt
         holder.tvTime.setText(item.getStrTime());
         holder.tvFeedback.setText(item.getStrFeedback());
 
-
+        holder.rbRating.setRating(item.getIntRating());
     }
 
     @Override

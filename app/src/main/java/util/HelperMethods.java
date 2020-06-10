@@ -255,66 +255,6 @@ public class HelperMethods {
         return "no image";
     }
 
-    /**
-     * Set Rating
-     *
-     * @param rating
-     * @param ivStar1
-     * @param ivStar2
-     * @param ivStar3
-     * @param ivStar4
-     * @param ivStar5
-     */
-    public static void setStarRating(int rating, ImageView ivStar1, ImageView ivStar2, ImageView ivStar3,
-                                     ImageView ivStar4, ImageView ivStar5) {
-        switch (rating) {
-            case 0:
-                ivStar1.setImageResource(0);
-                ivStar2.setImageResource(0);
-                ivStar3.setImageResource(0);
-                ivStar4.setImageResource(0);
-                ivStar5.setImageResource(0);
-                break;
-            case 1:
-                ivStar1.setImageResource(0);
-                ivStar2.setImageResource(0);
-                ivStar3.setImageResource(0);
-                ivStar4.setImageResource(0);
-                ivStar5.setVisibility(View.VISIBLE);
-                ivStar5.setVisibility(View.VISIBLE);
-                break;
-            case 2:
-                ivStar1.setImageResource(0);
-                ivStar2.setImageResource(0);
-                ivStar3.setImageResource(0);
-                ivStar4.setVisibility(View.VISIBLE);
-                ivStar5.setVisibility(View.VISIBLE);
-                break;
-            case 3:
-                ivStar1.setImageResource(0);
-                ivStar2.setImageResource(0);
-                ivStar3.setVisibility(View.VISIBLE);
-                ivStar4.setVisibility(View.VISIBLE);
-                ivStar5.setVisibility(View.VISIBLE);
-                break;
-            case 4:
-                ivStar1.setImageResource(0);
-                ivStar2.setVisibility(View.VISIBLE);
-                ivStar3.setVisibility(View.VISIBLE);
-                ivStar4.setVisibility(View.VISIBLE);
-                ivStar5.setVisibility(View.VISIBLE);
-                break;
-            case 5:
-                ivStar1.setVisibility(View.VISIBLE);
-                ivStar2.setVisibility(View.VISIBLE);
-                ivStar3.setVisibility(View.VISIBLE);
-                ivStar4.setVisibility(View.VISIBLE);
-                ivStar5.setVisibility(View.VISIBLE);
-                break;
-        }
-
-    }
-
     public static void setOHVISIBILITY(LinearLayout llOpHours, TextView tvMore, TextView[] tvDays, String OH) {
         setOHForEachDay(tvDays, OH);
         if (llOpHours.getVisibility() == View.GONE) {

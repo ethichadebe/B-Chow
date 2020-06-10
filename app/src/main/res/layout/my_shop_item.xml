@@ -34,6 +34,7 @@
             android:padding="10dp"
             android:textColor="@color/done"
             android:textSize="20sp" />
+
         <ImageView
             android:id="@+id/ivDelete"
             android:layout_width="36dp"
@@ -42,18 +43,18 @@
             android:background="@drawable/ripple_effect_white"
             android:contentDescription="@string/delete"
             android:padding="5dp"
-            android:visibility="gone"
-            android:src="@drawable/ic_delete_black_24dp" />
-
+            android:src="@drawable/ic_delete_black_24dp"
+            android:visibility="gone" />
 
         <RelativeLayout
             android:id="@+id/rlBody"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/ivLogo"
+            android:layout_marginTop="1dp"
             android:background="@drawable/ripple_effect_white"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="10dp">
 
             <TextView
                 android:id="@+id/tvPosition"
@@ -74,98 +75,57 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tvShopName"
-                android:orientation="vertical">
+                android:layout_below="@+id/tvShopName">
+
+                <TextView
+                    android:id="@+id/tvDistance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:background="@color/Grey"
+                    android:fontFamily="sans-serif-light"
+                    android:padding="2dp"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tvAveTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvDistance"
+                    android:layout_gravity="start"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/Green"
+                    android:fontFamily="sans-serif-light"
+                    android:padding="2dp"
+                    android:textSize="12sp" />
+
+                <RatingBar
+                    android:id="@+id/rbRating"
+                    style="?android:attr/ratingBarStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvDistance"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_toEndOf="@id/tvAveTime"
+                    android:clickable="false"
+                    android:numStars="5"
+                    android:src="@drawable/star"
+                    android:stepSize="0.5" />
 
                 <TextView
                     android:id="@+id/tvShortDescript"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
+                    android:layout_below="@+id/tvAveTime"
                     android:fontFamily="sans-serif-light"
                     android:textSize="14sp" />
-
-                <LinearLayout
-                    android:id="@+id/llHead"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/tvShortDescript"
-                    android:layout_marginTop="5dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/tvDistance"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginTop="12dp"
-                        android:background="@color/Grey"
-                        android:fontFamily="sans-serif-light"
-                        android:padding="2dp"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/tvAveTime"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginTop="12dp"
-                        android:background="@color/Green"
-                        android:fontFamily="sans-serif-light"
-                        android:padding="2dp"
-                        android:textSize="12sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/llStars"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/llHead"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:id="@+id/ivStar5"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:contentDescription="@string/star1"
-                        android:src="@drawable/star" />
-
-                    <ImageView
-                        android:id="@+id/ivStar4"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:contentDescription="@string/star2"
-                        android:src="@drawable/star" />
-
-                    <ImageView
-                        android:id="@+id/ivStar3"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:contentDescription="@string/star3"
-                        android:src="@drawable/star" />
-
-                    <ImageView
-                        android:id="@+id/ivStar2"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:contentDescription="@string/star4"
-                        android:src="@drawable/star" />
-
-                    <ImageView
-                        android:id="@+id/ivStar1"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:contentDescription="@string/star5"
-                        android:src="@drawable/star" />
-                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/llOpHours"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/llStars"
+                    android:layout_below="@+id/tvShortDescript"
                     android:orientation="vertical"
                     android:visibility="gone">
 
@@ -173,7 +133,6 @@
                         android:id="@+id/rlHeading1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/cvPass"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp">
 

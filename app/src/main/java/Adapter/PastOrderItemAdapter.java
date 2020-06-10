@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,8 +18,6 @@ import java.util.ArrayList;
 import SingleItem.PastOrderItem;
 import www.ethichadebe.com.loxion_beanery.R;
 
-import static util.HelperMethods.setStarRating;
-
 public class PastOrderItemAdapter extends RecyclerView.Adapter<PastOrderItemAdapter.OrderViewHolder> {
 
     private ArrayList<PastOrderItem> orderList;
@@ -26,26 +25,24 @@ public class PastOrderItemAdapter extends RecyclerView.Adapter<PastOrderItemAdap
 
     public interface OnItemClickListener {
         void OnItemReorderClick(int position);
-
         void OnItemClickRate(int position);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
         mListener = listener;
-
     }
 
     static class OrderViewHolder extends RecyclerView.ViewHolder {
 
         private TextView tvShopName, tvPrice, tvMenu, tvExtras, tvOrderNum, tvTime, tvStatus;
-        private ImageView ivStar1, ivStar2, ivStar3, ivStar4, ivStar5;
         private CardView cvRate, cvReorder;
-        private LinearLayout llStars;
+        private RatingBar rbRating;
 
         OrderViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
             tvShopName = itemView.findViewById(R.id.tvShopName);
             tvPrice = itemView.findViewById(R.id.tvPrice);
+            rbRating = itemView.findViewById(R.id.rbRating);
             tvMenu = itemView.findViewById(R.id.tvMenu);
             tvExtras = itemView.findViewById(R.id.tvExtras);
             tvStatus = itemView.findViewById(R.id.tvStatus);
@@ -53,13 +50,6 @@ public class PastOrderItemAdapter extends RecyclerView.Adapter<PastOrderItemAdap
             tvTime = itemView.findViewById(R.id.tvTime);
             cvRate = itemView.findViewById(R.id.cvRate);
             cvReorder = itemView.findViewById(R.id.cvReorder);
-            llStars = itemView.findViewById(R.id.llStars);
-
-            ivStar1 = itemView.findViewById(R.id.ivStar1);
-            ivStar2 = itemView.findViewById(R.id.ivStar2);
-            ivStar3 = itemView.findViewById(R.id.ivStar3);
-            ivStar4 = itemView.findViewById(R.id.ivStar4);
-            ivStar5 = itemView.findViewById(R.id.ivStar5);
 
             cvReorder.setOnClickListener(view -> {
                 if (listener != null) {
@@ -108,20 +98,17 @@ public class PastOrderItemAdapter extends RecyclerView.Adapter<PastOrderItemAdap
         if(item.getStrStatus().equals("Cancelled")){
             holder.tvStatus.setVisibility(View.VISIBLE);
             holder.cvRate.setVisibility(View.GONE);
-            holder.llStars.setVisibility(View.GONE);
+            holder.rbRating.setVisibility(View.GONE);
         } else if (item.getIntRating() == 0) {
             holder.tvStatus.setVisibility(View.GONE);
             holder.cvRate.setVisibility(View.VISIBLE);
-            holder.llStars.setVisibility(View.GONE);
+            holder.rbRating.setVisibility(View.GONE);
         }else {
             holder.tvStatus.setVisibility(View.GONE);
             holder.cvRate.setVisibility(View.GONE);
-            holder.llStars.setVisibility(View.VISIBLE);
-
-            setStarRating(item.getIntRating(), holder.ivStar1, holder.ivStar2, holder.ivStar3, holder.ivStar4, holder.ivStar5);
+            holder.rbRating.setVisibility(View.VISIBLE);
+            holder.rbRating.setRating(item.getIntRating());
         }
-
-
     }
 
     @Override

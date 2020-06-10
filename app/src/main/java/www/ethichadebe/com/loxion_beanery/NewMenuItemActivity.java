@@ -138,7 +138,7 @@ public class NewMenuItemActivity extends AppCompatActivity {
                             JSONObject JSONResponse = jsonArray.getJSONObject(0);
                             etPrice.setUnderlineColor(Color.GRAY);
                             etPrice.setText("");
-                            startActivity(new Intent(NewMenuItemActivity.this, MenuActivity.class));
+                            startActivity(new Intent(this, MenuActivity.class));
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -146,7 +146,7 @@ public class NewMenuItemActivity extends AppCompatActivity {
 
                 }, error -> {
             ShowLoadingPopup(myDialog, false);
-            Toast.makeText(NewMenuItemActivity.this, error.toString(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, error.toString(), Toast.LENGTH_LONG).show();
         }) {
             @Override
             protected Map<String, String> getParams() {
@@ -198,7 +198,7 @@ public class NewMenuItemActivity extends AppCompatActivity {
                     ShowLoadingPopup(myDialog, false);
                     getNewShop().getMenuItems().get(getIntPosition()).EditPriceNMenu(Double.valueOf(Objects.requireNonNull(etPrice.getText()).toString()), combineString(ingredientItems));
                     setIngredients(new ArrayList<>());
-                    startActivity(new Intent(NewMenuItemActivity.this, MenuActivity.class));
+                    startActivity(new Intent(this, MenuActivity.class));
                 }, error -> {
         }) {
             @Override
@@ -220,7 +220,7 @@ public class NewMenuItemActivity extends AppCompatActivity {
         if (getNewShop().getMenuItems() != null) {
             for (MenuItem menuItem : getNewShop().getMenuItems()) {
                 if (combineString(ingredientItems).equals(menuItem.getStrMenu())) {
-                    Toast.makeText(NewMenuItemActivity.this, "Menu item already exists.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, "Menu item already exists.", Toast.LENGTH_LONG).show();
                     return false;
                 }
             }
