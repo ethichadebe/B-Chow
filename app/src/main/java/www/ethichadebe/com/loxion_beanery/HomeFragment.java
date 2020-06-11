@@ -176,12 +176,9 @@ public class HomeFragment extends Fragment {
                                         break;
                                 }
                                 shopItems.add(new ShopItem(Shops.getInt("sID"), Shops.getString("sName"),
-                                        getIpAddress() + "/" + Shops.getString("sSmallPicture"),
-                                        getIpAddress() + "/" + Shops.getString("sBigPicture"),
-                                        Shops.getString("sShortDescrption"),
-                                        Shops.getString("sFullDescription"),
-                                        new LatLng(Shops.getDouble("sLatitude"),
-                                                Shops.getDouble("sLongitude")),
+                                        Shops.getString("sSmallPicture"),Shops.getString("sBigPicture"),
+                                        Shops.getString("sShortDescrption"),Shops.getString("sFullDescription"),
+                                        new LatLng(Shops.getDouble("sLatitude"),Shops.getDouble("sLongitude")),
                                         Shops.getString("sAddress"), Shops.getDouble("distance"),
                                         Avetime, Shops.getInt("sRating"),
                                         Shops.getString("sOperatingHrs"), Shops.getInt("sLikes"),

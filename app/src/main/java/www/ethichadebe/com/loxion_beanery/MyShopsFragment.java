@@ -176,8 +176,8 @@ public class MyShopsFragment extends Fragment {
                                 }
                                 shopItems.add(new MyShopItem(Shops.getInt("sID"), Shops.getString("sName"),
                                         Shops.getString("uRole"),
-                                        getIpAddress() + "/" + Shops.getString("sSmallPicture"),
-                                        getIpAddress() + "/" + Shops.getString("sBigPicture"),
+                                        Shops.getString("sSmallPicture"),
+                                        Shops.getString("sBigPicture"),
                                         Shops.getString("sShortDescrption"),
                                         Shops.getString("sFullDescription"),
                                         new LatLng(Shops.getDouble("sLatitude"),

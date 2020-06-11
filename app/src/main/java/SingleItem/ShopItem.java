@@ -6,6 +6,8 @@ import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 
+import static util.Constants.getIpAddress;
+
 public class ShopItem {
     private Double dblDistance;
     String strShopName, strShortDescript, strFullDescript, strAveTime, strOperatingHRS, strLogoSmall,
@@ -139,7 +141,7 @@ public class ShopItem {
     }
 
     public String getStrLogoSmall() {
-        return strLogoSmall;
+        return getIpAddress() + "/" + strLogoSmall;
     }
 
     public void setStrLogoSmall(String strLogoSmall) {
@@ -147,7 +149,7 @@ public class ShopItem {
     }
 
     public String getStrLogoBig() {
-        return strLogoBig;
+        return getIpAddress() + "/" + strLogoBig;
     }
 
     public void setStrLogoBig(String strLogoBig) {

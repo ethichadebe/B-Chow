@@ -1,5 +1,7 @@
 package util;
 
+import static util.Constants.getIpAddress;
+
 public class User {
     private int uID, uType;
     private String uName, uSurname, uDOB, uSex, uEmail, uNumber, uPassword, uPicture;
@@ -128,7 +130,7 @@ public class User {
     }
 
     public String getuPicture() {
-        return uPicture;
+        return getIpAddress() + "/" + uPicture;
     }
 
     public void setuPicture(String uPicture) {

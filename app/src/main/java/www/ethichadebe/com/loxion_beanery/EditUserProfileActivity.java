@@ -494,7 +494,8 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
                 !UserSex.equals(getUser().getuSex())) {
             ShowConfirmationPopup();
         } else {
-            finish();
+            setIntFragment(2);
+            startActivity(new Intent(EditUserProfileActivity.this, MainActivity.class));
         }
     }
 
@@ -513,7 +514,8 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
                 !UserSex.equals(getUser().getuSex())) {
             ShowConfirmationPopup();
         } else {
-            finish();
+            setIntFragment(2);
+            startActivity(new Intent(EditUserProfileActivity.this, MainActivity.class));
         }
     }
 
