@@ -70,7 +70,8 @@ public class MyShopsFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.frame_my_shops, container, false);
 
         if (getUser() == null) {
@@ -174,8 +175,10 @@ public class MyShopsFragment extends Fragment {
                                         break;
                                 }
                                 shopItems.add(new MyShopItem(Shops.getInt("sID"), Shops.getString("sName"),
-                                        Shops.getString("uRole"), "Shops.getString('sSmallPicture'')",
-                                        Shops.getString("sBigPicture"), Shops.getString("sShortDescrption"),
+                                        Shops.getString("uRole"),
+                                        getIpAddress() + "/" + Shops.getString("sSmallPicture"),
+                                        getIpAddress() + "/" + Shops.getString("sBigPicture"),
+                                        Shops.getString("sShortDescrption"),
                                         Shops.getString("sFullDescription"),
                                         new LatLng(Shops.getDouble("sLatitude"),
                                                 Shops.getDouble("sLongitude")),
@@ -232,6 +235,8 @@ public class MyShopsFragment extends Fragment {
                     try {
                         JSONObject JSONData = new JSONObject(response.toString());
                         if (JSONData.getString("data").equals("removed")) {
+                            shopItems.remove(position);
+                            mAdapter.notifyItemRemoved(position);
                             Toast.makeText(getActivity(), "Shop Deleted", Toast.LENGTH_SHORT).show();
                         }
                     } catch (JSONException e) {

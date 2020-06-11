@@ -21,6 +21,7 @@ import SingleItem.MyShopItem;
 import www.ethichadebe.com.loxion_beanery.R;
 
 import static util.Constants.getIpAddress;
+import static util.HelperMethods.DisplayImage;
 import static util.HelperMethods.setOHVISIBILITY;
 
 public class MyShopItemAdapter extends RecyclerView.Adapter<MyShopItemAdapter.ShopViewHolder> {
@@ -144,6 +145,7 @@ public class MyShopItemAdapter extends RecyclerView.Adapter<MyShopItemAdapter.Sh
                 holder.tvDays, item.getStrOperatingHRS()));
 
         holder.rlStatus.setBackground(item.getDraStatus());
+        DisplayImage(holder.ivLogo, item.getStrLogoSmall());
 
 
     }

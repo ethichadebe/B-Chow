@@ -38,8 +38,6 @@ public class ShopSettingsActivity extends AppCompatActivity {
             startActivity(new Intent(this, LoginActivity.class));
         }
         myDialog = new Dialog(this);
-
-        Toast.makeText(this, String.valueOf(getNewShop().getIntID()), Toast.LENGTH_SHORT).show();
     }
 
     public void back(View view) {

@@ -105,8 +105,8 @@ public class RegisterShopActivity extends AppCompatActivity {
         etFullDescription = findViewById(R.id.etFullDescription);
         llLocation = findViewById(R.id.llLocation);
 
-        strShopID = String.valueOf(getNewShop().getIntID());
         if (getNewShop() != null) {
+            strShopID = String.valueOf(getNewShop().getIntID());
             etName.setText(getNewShop().getStrShopName());
             if (!getNewShop().getStrAddress().isEmpty()) {
                 tvLocation.setText(getNewShop().getStrAddress());

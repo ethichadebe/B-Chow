@@ -264,14 +264,13 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
                 response -> {
                     HelperMethods.ShowLoadingPopup(myDialog, false);
                     getNewShop().setStrOperatingHRS(strTimes);      //Set Operating hours
+                    String resultResponse = new String(response.data);
                     try {
-                        JSONObject JSONResponse = new JSONObject(String.valueOf(response));
+                        Toast.makeText(this, resultResponse, Toast.LENGTH_SHORT).show();
+                        JSONObject JSONResponse = new JSONObject(resultResponse);
                         getNewShop().setIntID(Integer.parseInt(JSONResponse.getString("data")));
                         getNewShop().setStrOperatingHRS(combineString(etOpen, etClose));
-                        HelperMethods.ShowLoadingPopup(myDialog, false);
                         startActivity(new Intent(this, IngredientsActivity.class));
-                        Toast.makeText(this, "Started", Toast.LENGTH_SHORT).show();
-
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -330,10 +329,14 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
                 Map<String, DataPart> params = new HashMap<>();
                 // file name could found file base or direct access from real path
                 // for now just get bitmap data from ImageView
-                params.put("sSmallPicture", new DataPart("_" + getNewShop().getStrShopName().replace(" ", "_") + ".jpg",
+                params.put("sSmallPicture", new DataPart("_" + getNewShop().getStrShopName()
+                        .replace(" ", "_").replace(",", "_")
+                        .replace("'", "_") + ".jpg",
                         getFileDataFromDrawable(getBaseContext(), getNewShop().getDraLogoSmall()),
                         "image/jpeg"));
-                params.put("sBigPicture", new DataPart("_" + getNewShop().getStrShopName().replace(" ", "_") + ".jpg",
+                params.put("sBigPicture", new DataPart("_" + getNewShop().getStrShopName()
+                        .replace(" ", "_").replace(",", "_")
+                        .replace("'", "_") + ".jpg",
                         getFileDataFromDrawable(getBaseContext(), getNewShop().getDraLogoBig()),
                         "image/jpeg"));
 
@@ -343,7 +346,6 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
 
         VolleySingleton.getInstance(getBaseContext()).addToRequestQueue(multipartRequest);
     }
-
 
     private void PUTShop() {
         HelperMethods.ShowLoadingPopup(myDialog, true);
