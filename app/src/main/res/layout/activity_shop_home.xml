@@ -13,12 +13,12 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="150dp">
+            android:layout_height="250dp">
 
             <ImageView
                 android:id="@+id/ivBig"
                 android:layout_width="match_parent"
-                android:layout_height="350dp"
+                android:layout_height="250dp"
                 android:layout_centerInParent="true"
                 android:contentDescription="@string/logo" />
 
@@ -35,8 +35,8 @@
 
                 <ImageView
                     android:id="@+id/ivLike"
-                    android:layout_width="wrap_content"
-                    android:layout_height="9dp"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
                     android:contentDescription="@string/like"
                     android:src="@drawable/ic_favorite_border_black_24dp" />
 

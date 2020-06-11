@@ -102,7 +102,7 @@
 
                     <RelativeLayout
                         android:layout_width="400dp"
-                        android:layout_height="150dp">
+                        android:layout_height="200dp">
 
                         <RelativeLayout
                             android:id="@+id/rlSmallPicture"
@@ -206,110 +206,98 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cvShop2"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_rowWeight="1"
-                android:layout_columnWeight="1"
                 android:layout_below="@+id/cvShop"
-                android:layout_margin="5dp"
                 android:layout_marginBottom="10dp"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="3dp">
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvHeading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="Now Lets get your profile page setup"
+                    android:textSize="14sp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp">
+
+                    <RelativeLayout
+                        android:id="@+id/rlBigPicture"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:background="@drawable/ripple_effect_white"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/civBig"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+
+                        <ImageView
+                            android:id="@+id/ivBig"
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:layout_centerInParent="true"
+                            android:onClick="big"
+                            android:src="@drawable/ic_add_a_photo_black_24dp" />
+
+                        <TextView
+                            android:id="@+id/tvBigPicture"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_centerHorizontal="true"
+                            android:fontFamily="sans-serif-condensed-medium"
+                            android:gravity="center"
+                            android:text="Add Picture"
+                            android:textColor="@color/Grey"
+                            android:textSize="18sp" />
+                    </RelativeLayout>
+                </RelativeLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/tvHeading"
+                        android:id="@+id/tvName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:fontFamily="sans-serif-condensed-medium"
+                        android:text="Shop Name"
+                        android:textSize="22sp" />
+
+                    <TextView
+                        android:id="@+id/tvAddress"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
+                        android:layout_gravity="start"
                         android:layout_marginTop="12dp"
-                        android:fontFamily="sans-serif-medium"
-                        android:text="Now Lets get your profile page setup"
-                        android:textSize="14sp" />
+                        android:background="@color/Grey"
+                        android:fontFamily="sans-serif-light"
+                        android:padding="2dp"
+                        android:textSize="12sp" />
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="150dp">
-
-                        <RelativeLayout
-                            android:id="@+id/rlBigPicture"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="center"
-                            android:layout_marginEnd="5dp"
-                            android:background="@drawable/ripple_effect_white"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:id="@+id/civBig"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent" />
-
-                            <ImageView
-                                android:id="@+id/ivBig"
-                                android:layout_width="100dp"
-                                android:layout_height="100dp"
-                                android:layout_centerInParent="true"
-                                android:onClick="big"
-                                android:src="@drawable/ic_add_a_photo_black_24dp" />
-
-                            <TextView
-                                android:id="@+id/tvBigPicture"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentBottom="true"
-                                android:layout_centerHorizontal="true"
-                                android:fontFamily="sans-serif-condensed-medium"
-                                android:gravity="center"
-                                android:text="Add Picture"
-                                android:textColor="@color/Grey"
-                                android:textSize="18sp" />
-                        </RelativeLayout>
-                    </RelativeLayout>
-
-                    <LinearLayout
+                    <com.rengwuxian.materialedittext.MaterialEditText
+                        android:id="@+id/etFullDescription"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:orientation="vertical">
+                        android:ems="10"
+                        android:hint="Full description"
+                        android:textSize="14sp"
+                        app:met_floatingLabel="highlight" />
 
-                        <TextView
-                            android:id="@+id/tvName"
-                            android:layout_width="wrap_content"
-                            android:layout_height="40dp"
-                            android:fontFamily="sans-serif-condensed-medium"
-                            android:text="Shop Name"
-                            android:textSize="22sp" />
-
-                        <TextView
-                            android:id="@+id/tvAddress"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="start"
-                            android:layout_marginTop="12dp"
-                            android:background="@color/Grey"
-                            android:fontFamily="sans-serif-light"
-                            android:padding="2dp"
-                            android:textSize="12sp" />
-
-                        <com.rengwuxian.materialedittext.MaterialEditText
-                            android:id="@+id/etFullDescription"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:ems="10"
-                            android:hint="Full description"
-                            android:textSize="14sp"
-                            app:met_floatingLabel="highlight" />
-
-                    </LinearLayout>
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </LinearLayout>
 
         </RelativeLayout>
     </ScrollView>

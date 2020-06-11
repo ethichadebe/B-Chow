@@ -215,11 +215,19 @@ public class RegisterShopActivity extends AppCompatActivity {
         } else if ((requestCode == STORAGE_PERMISSION) && (resultCode == RESULT_OK)) {
             uri = Objects.requireNonNull(data).getData();
             if (uri != null) {
-                startCrop(this, getCacheDir(), uri, 400, 150);
+                if (isBig) {
+                    startCrop(this, getCacheDir(), uri, 720, 444);
+                } else {
+                    startCrop(this, getCacheDir(), uri, 720, 349);
+                }
             }
         } else if ((requestCode == CAMERA_PERMISSION) && (resultCode == RESULT_OK)) {
             if (BitmapFactory.decodeFile(pathToFile) != null) {
-                startCrop(this, getCacheDir(), Uri.fromFile(new File(pathToFile)), 400, 150);
+                if (isBig) {
+                    startCrop(this, getCacheDir(), Uri.fromFile(new File(pathToFile)), 720, 444);
+                } else {
+                    startCrop(this, getCacheDir(), Uri.fromFile(new File(pathToFile)), 720, 349);
+                }
             }
         } else if ((requestCode == UCrop.REQUEST_CROP) && (resultCode == RESULT_OK)) {
             uri = UCrop.getOutput(Objects.requireNonNull(data));
