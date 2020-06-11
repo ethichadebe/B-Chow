@@ -54,12 +54,12 @@ public class ShopHomeActivity extends AppCompatActivity {
     private TextView tvName, tvDistance, tvAveTime, tvFullDescrpit, tvLikes;
     private static MenuItem menuItem;
     private Dialog myDialog;
-    private ImageView ivLike,ivBig;
+    private ImageView ivLike, ivBig;
     private LinearLayout llLike;
-    private Button btnNext;
+    private Button bCustom;
     private RatingBar rbRating;
 
-    public static MenuItem  getMenuItem() {
+    public static MenuItem getMenuItem() {
         return menuItem;
     }
 
@@ -83,17 +83,17 @@ public class ShopHomeActivity extends AppCompatActivity {
         ivLike = findViewById(R.id.ivLike);
         llLike = findViewById(R.id.llLike);
         tvLikes = findViewById(R.id.tvLikes);
-        btnNext = findViewById(R.id.btnNext);
+        bCustom = findViewById(R.id.bCustom);
         rlLoad = findViewById(R.id.rlLoad);
         rlError = findViewById(R.id.rlError);
         tvDistance = findViewById(R.id.tvDistance);
         tvAveTime = findViewById(R.id.tvAveTime);
         tvFullDescrpit = findViewById(R.id.tvFullDescrpit);
 
-        if(getShopItem().getIntStatus()==1){
-            btnNext.setVisibility(View.GONE);
+        if (getShopItem().getIntStatus() != 1) {
+            bCustom.setVisibility(View.GONE);
         }
-        if(getShopItem() != null){
+        if (getShopItem() != null) {
             GETMenu(findViewById(R.id.vLine), findViewById(R.id.vLineGrey));
         }
         if (Objects.requireNonNull(getShopItem()).isLiked() == 1) {
@@ -119,7 +119,7 @@ public class ShopHomeActivity extends AppCompatActivity {
         mAdapter.setOnItemClickListener(new MenuItemAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                if(getShopItem().getIntStatus()==1){
+                if (getShopItem().getIntStatus() == 1) {
                     menuItem = MenuItems.get(position);
                     ingredients = MenuItems.get(position).getStrMenu().split(", ");
                     startActivity(new Intent(ShopHomeActivity.this, OrderActivity.class));

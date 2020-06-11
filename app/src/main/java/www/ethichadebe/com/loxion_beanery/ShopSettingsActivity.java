@@ -29,6 +29,7 @@ public class ShopSettingsActivity extends AppCompatActivity {
     private RequestQueue requestQueue;
     static boolean isEdit = false;
     private Dialog myDialog;
+    public static String strShopID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +39,8 @@ public class ShopSettingsActivity extends AppCompatActivity {
             startActivity(new Intent(this, LoginActivity.class));
         }
         myDialog = new Dialog(this);
+        strShopID = String.valueOf(getNewShop().getIntID());
+
     }
 
     public void back(View view) {

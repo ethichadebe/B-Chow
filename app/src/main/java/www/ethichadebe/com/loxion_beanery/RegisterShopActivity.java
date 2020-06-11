@@ -58,6 +58,7 @@ import util.VolleySingleton;
 import static util.AppHelper.getFileDataFromDrawable;
 import static util.Constants.getIpAddress;
 import static util.HelperMethods.CAMERA_PERMISSION;
+import static util.HelperMethods.DisplayImage;
 import static util.HelperMethods.STORAGE_PERMISSION;
 import static util.HelperMethods.ShowLoadingPopup;
 import static util.HelperMethods.combineString;
@@ -72,11 +73,10 @@ import static www.ethichadebe.com.loxion_beanery.ShopSettingsActivity.isEdit;
 
 public class RegisterShopActivity extends AppCompatActivity {
     private static final String TAG = "RegisterShopActivity";
-    private RequestQueue requestQueue;
     private Dialog myDialog;
     private TextView tvName, tvLocation, tvAddress;
     private MaterialEditText etName, etShortDescription, etFullDescription;
-    private Boolean isBig, goBack;
+    private Boolean isBig;
     private Button btnNext;
     private ImageView civSmall, civBig;
     private LinearLayout llLocation;
@@ -92,7 +92,6 @@ public class RegisterShopActivity extends AppCompatActivity {
             startActivity(new Intent(this, LoginActivity.class));
         } //Check if user is logged in
 
-        goBack = false;
         myDialog = new Dialog(this);
         etName = findViewById(R.id.etName);
         tvAddress = findViewById(R.id.tvAddress);
@@ -123,6 +122,14 @@ public class RegisterShopActivity extends AppCompatActivity {
             }
             if (getNewShop().getDraLogoSmall() != null) {
                 civSmall.setImageDrawable(getNewShop().getDraLogoSmall());
+            }
+
+            if (getNewShop().getStrLogoSmall() != null) {
+                DisplayImage(civSmall, getNewShop().getStrLogoSmall());
+            }
+
+            if (getNewShop().getStrLogoBig() != null) {
+                DisplayImage(civBig, getNewShop().getStrLogoBig());
             }
         }//If user pressed back from Operation Hours activity
 
@@ -178,7 +185,6 @@ public class RegisterShopActivity extends AppCompatActivity {
 
         btnYes.setOnClickListener(view -> {
             if (getNewShop() != null) {
-                goBack = true;
                 PUTShopDetails();
             } else {
                 myDialog.dismiss();
@@ -280,7 +286,8 @@ public class RegisterShopActivity extends AppCompatActivity {
                     !getNewShop().getStrAddress().equals(tvLocation.getText().toString())) {
                 ShowPopup();
             } else {
-                finish();
+                setIntFragment(3);
+                startActivity(new Intent(this, MainActivity.class));
             }
         } else {
             if (!Objects.requireNonNull(etName.getText()).toString().isEmpty() ||
@@ -288,8 +295,8 @@ public class RegisterShopActivity extends AppCompatActivity {
                     !Objects.requireNonNull(etShortDescription.getText()).toString().isEmpty()) {
                 ShowPopup();
             } else {
-                startActivity(new Intent(this, MainActivity.class));
                 setIntFragment(3);
+                startActivity(new Intent(this, MainActivity.class));
             }
         }
     }
@@ -303,7 +310,8 @@ public class RegisterShopActivity extends AppCompatActivity {
                     !getNewShop().getStrAddress().equals(tvLocation.getText().toString())) {
                 ShowPopup();
             } else {
-                finish();
+                setIntFragment(3);
+                startActivity(new Intent(this, MainActivity.class));
             }
         } else {
             if (!Objects.requireNonNull(etName.getText()).toString().isEmpty() ||
@@ -311,10 +319,9 @@ public class RegisterShopActivity extends AppCompatActivity {
                     !Objects.requireNonNull(etShortDescription.getText()).toString().isEmpty()) {
                 ShowPopup();
             } else {
-                startActivity(new Intent(this, MainActivity.class));
                 setIntFragment(3);
+                startActivity(new Intent(this, MainActivity.class));
             }
-
         }
     }
 
@@ -324,14 +331,6 @@ public class RegisterShopActivity extends AppCompatActivity {
         Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY,
                 fieldList).build(this);
         startActivityForResult(intent, 100);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if (requestQueue != null) {
-            requestQueue.cancelAll(TAG);
-        }
     }
 
     private void takePicture() {

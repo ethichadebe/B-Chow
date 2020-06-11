@@ -61,6 +61,7 @@ import util.VolleySingleton;
 
 import static util.Constants.getIpAddress;
 import static util.HelperMethods.CAMERA_PERMISSION;
+import static util.HelperMethods.DisplayImage;
 import static util.HelperMethods.SHARED_PREFS;
 import static util.HelperMethods.STORAGE_PERMISSION;
 import static util.HelperMethods.ShowLoadingPopup;
@@ -121,6 +122,7 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
         mTextBoxes[2].setText(getUser().getuDOB());
         tvEmail.setText(getUser().getuEmail());
         tvNumber.setText(getUser().getuNumber());
+        DisplayImage(civProfilePicture, getUser().getuPicture());
 
         switch (getUser().getuSex()) {
             case "male":
@@ -553,7 +555,7 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
 
 
     public void ShowDPEditPopup(boolean theresPic) {
-        TextView tvCancel, tvMessage,btnYes, btnNo, tvRemove;
+        TextView tvCancel, tvMessage, btnYes, btnNo, tvRemove;
         myDialog.setContentView(R.layout.popup_confirmation);
 
         tvCancel = myDialog.findViewById(R.id.tvCancel);

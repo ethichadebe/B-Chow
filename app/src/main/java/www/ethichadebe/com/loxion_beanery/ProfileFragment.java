@@ -9,10 +9,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import static android.content.Context.MODE_PRIVATE;
+import static util.HelperMethods.DisplayImage;
 import static util.HelperMethods.SHARED_PREFS;
 import static util.HelperMethods.saveData;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
@@ -21,6 +23,7 @@ public class ProfileFragment extends Fragment {
     private LinearLayout llEditProfile;
     static boolean isLogout = false;
     private TextView tvNameSur, tvEmail, tvNumber, tvDOB, tvSex, tvDeactivate, tvLogOut;
+    private ImageView civProfilePicture;
 
     @Nullable
     @Override
@@ -33,6 +36,7 @@ public class ProfileFragment extends Fragment {
         llEditProfile = v.findViewById(R.id.llEditProfile);
 
         tvNameSur = v.findViewById(R.id.tvNameSur);
+        civProfilePicture = v.findViewById(R.id.civProfilePicture);
         tvEmail = v.findViewById(R.id.tvEmail);
         tvNumber = v.findViewById(R.id.tvNumber);
         tvDOB = v.findViewById(R.id.tvDOB);
@@ -45,6 +49,7 @@ public class ProfileFragment extends Fragment {
         tvNumber.setText(getUser().getuNumber());
         tvDOB.setText(getUser().getuDOB());
         tvSex.setText(getUser().getuSex());
+        DisplayImage(civProfilePicture, getUser().getuPicture());
 
         llEditProfile.setOnClickListener(view -> startActivity(new Intent(getActivity(), EditUserProfileActivity.class)));
         tvLogOut.setOnClickListener(view -> {
