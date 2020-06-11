@@ -25,10 +25,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.NetworkResponse;
+import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
+import com.android.volley.TimeoutError;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.libraries.places.api.Places;
@@ -39,6 +40,9 @@ import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.yalantis.ucrop.UCrop;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -48,10 +52,15 @@ import java.util.Objects;
 
 import SingleItem.MyShopItem;
 import util.HelperMethods;
+import util.VolleyMultipartRequest;
+import util.VolleySingleton;
 
+import static util.AppHelper.getFileDataFromDrawable;
 import static util.Constants.getIpAddress;
 import static util.HelperMethods.CAMERA_PERMISSION;
 import static util.HelperMethods.STORAGE_PERMISSION;
+import static util.HelperMethods.ShowLoadingPopup;
+import static util.HelperMethods.combineString;
 import static util.HelperMethods.createFile;
 import static util.HelperMethods.requestPermission;
 import static util.HelperMethods.startCrop;
@@ -72,7 +81,7 @@ public class RegisterShopActivity extends AppCompatActivity {
     private ImageView civSmall, civBig;
     private LinearLayout llLocation;
     private LatLng sLocation;
-    private String pathToFile;
+    private String pathToFile, strShopID;
 
 
     @Override
@@ -96,6 +105,7 @@ public class RegisterShopActivity extends AppCompatActivity {
         etFullDescription = findViewById(R.id.etFullDescription);
         llLocation = findViewById(R.id.llLocation);
 
+        strShopID = String.valueOf(getNewShop().getIntID());
         if (getNewShop() != null) {
             etName.setText(getNewShop().getStrShopName());
             if (!getNewShop().getStrAddress().isEmpty()) {
@@ -150,7 +160,7 @@ public class RegisterShopActivity extends AppCompatActivity {
     }
 
     public void ShowPopup() {
-        TextView tvCancel, tvMessage,btnYes, btnNo;
+        TextView tvCancel, tvMessage, btnYes, btnNo;
         myDialog.setContentView(R.layout.popup_confirmation);
 
         tvCancel = myDialog.findViewById(R.id.tvCancel);
@@ -169,7 +179,7 @@ public class RegisterShopActivity extends AppCompatActivity {
         btnYes.setOnClickListener(view -> {
             if (getNewShop() != null) {
                 goBack = true;
-                PUTShop();
+                PUTShopDetails();
             } else {
                 myDialog.dismiss();
                 startActivity(new Intent(this, MainActivity.class));
@@ -236,7 +246,7 @@ public class RegisterShopActivity extends AppCompatActivity {
                     tvLocation.getText().toString()));
 
             if (isEdit) {
-                PUTShop();
+                PUTShopDetails();
             } else {
                 startActivity(new Intent(RegisterShopActivity.this,
                         OperatingHoursActivity.class));
@@ -246,18 +256,18 @@ public class RegisterShopActivity extends AppCompatActivity {
 
     public void Small(View view) {
         isBig = false;
-        if (civSmall.getDrawable() != null){
+        if (civSmall.getDrawable() != null) {
             ShowDPEditPopup(true, true);
-        }else{
+        } else {
             ShowDPEditPopup(false, true);
         }
     }
 
     public void big(View view) {
         isBig = true;
-        if (civBig.getDrawable() != null){
+        if (civBig.getDrawable() != null) {
             ShowDPEditPopup(true, false);
-        }else{
+        } else {
             ShowDPEditPopup(false, false);
         }
     }
@@ -282,46 +292,6 @@ public class RegisterShopActivity extends AppCompatActivity {
                 setIntFragment(3);
             }
         }
-    }
-
-    private void PUTShop() {
-        getNewShop().setStrShopName(Objects.requireNonNull(etName.getText()).toString());
-        getNewShop().setStrShortDescript(Objects.requireNonNull(etShortDescription.getText()).toString());
-        getNewShop().setStrFullDescript(Objects.requireNonNull(etFullDescription.getText()).toString());
-
-        HelperMethods.ShowLoadingPopup(myDialog, true);
-        StringRequest stringRequest = new StringRequest(Request.Method.PUT,
-                getIpAddress() + "/shops/Register/" + getNewShop().getIntID(),
-                response -> {
-                    Toast.makeText(this, "saved", Toast.LENGTH_SHORT).show();
-                    HelperMethods.ShowLoadingPopup(myDialog, false);
-                    if (goBack) {
-                        finish();
-                    }
-                }, error -> {
-            Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
-            HelperMethods.ShowLoadingPopup(myDialog, false);
-            //myDialog.dismiss();
-        }) {
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-
-                params.put("sName", etName.getText().toString());
-                params.put("sShortDescrption", etShortDescription.getText().toString());
-                params.put("sFullDescription", etFullDescription.getText().toString());
-                //params.put("sSmallPicture", getStringImage(bmSmall));
-                //params.put("sBigPicture", getStringImage(bmBig));
-                params.put("sLatitude", String.valueOf(sLocation.latitude));
-                params.put("sLongitude", String.valueOf(sLocation.longitude));
-                params.put("sAddress", tvLocation.getText().toString());
-                return params;
-            }
-        };
-
-        requestQueue = Volley.newRequestQueue(this);
-        stringRequest.setTag(TAG);
-        requestQueue.add(stringRequest);
     }
 
     @Override
@@ -399,8 +369,86 @@ public class RegisterShopActivity extends AppCompatActivity {
         }
     }
 
+    private void PUTShopDetails() {
+        ShowLoadingPopup(myDialog, true);
+        // loading or check internet connection or something...
+        // ... then
+        String url = getIpAddress() + "/shops/Register/" + strShopID;
+        VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.PUT, url,
+                response -> {
+                    HelperMethods.ShowLoadingPopup(myDialog, false);
+                    Toast.makeText(this, "saved", Toast.LENGTH_SHORT).show();
+
+                }, error -> {
+            ShowLoadingPopup(myDialog, false);
+            NetworkResponse networkResponse = error.networkResponse;
+            String errorMessage = "Unknown error";
+            if (networkResponse == null) {
+                if (error.getClass().equals(TimeoutError.class)) {
+                    errorMessage = "Request timeout";
+                } else if (error.getClass().equals(NoConnectionError.class)) {
+                    errorMessage = "Failed to connect server";
+                }
+            } else {
+                String result = new String(networkResponse.data);
+                try {
+                    JSONObject response = new JSONObject(result);
+                    String status = response.getString("status");
+                    String message = response.getString("message");
+
+                    Log.e("Error Status", status);
+                    Log.e("Error Message", message);
+
+                    if (networkResponse.statusCode == 404) {
+                        errorMessage = "Resource not found";
+                    } else if (networkResponse.statusCode == 401) {
+                        errorMessage = message + " Please login again";
+                    } else if (networkResponse.statusCode == 400) {
+                        errorMessage = message + " Check your inputs";
+                    } else if (networkResponse.statusCode == 500) {
+                        errorMessage = message + " Something is getting wrong";
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            Toast.makeText(this, "Error: " + error.toString(), Toast.LENGTH_SHORT).show();
+            error.printStackTrace();
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("sName", Objects.requireNonNull(etName.getText()).toString());
+                params.put("sShortDescrption", Objects.requireNonNull(etShortDescription.getText()).toString());
+                params.put("sFullDescription", Objects.requireNonNull(etFullDescription.getText()).toString());
+                params.put("sLatitude", String.valueOf(sLocation.latitude));
+                params.put("sLongitude", String.valueOf(sLocation.longitude));
+                params.put("sAddress", tvAddress.getText().toString());
+                params.put("uID", String.valueOf(getUser().getuID()));
+                return params;
+            }
+
+            @Override
+            protected Map<String, VolleyMultipartRequest.DataPart> getByteData() {
+                Map<String, DataPart> params = new HashMap<>();
+                // file name could found file base or direct access from real path
+                // for now just get bitmap data from ImageView
+                params.put("sSmallPicture", new DataPart("_" + getNewShop().getStrShopName().replace(" ", "_") + ".jpg",
+                        getFileDataFromDrawable(getBaseContext(), civSmall.getDrawable()),
+                        "image/jpeg"));
+                params.put("sBigPicture", new DataPart("_" + getNewShop().getStrShopName().replace(" ", "_") + ".jpg",
+                        getFileDataFromDrawable(getBaseContext(), civBig.getDrawable()),
+                        "image/jpeg"));
+
+                return params;
+            }
+        };
+
+        VolleySingleton.getInstance(getBaseContext()).addToRequestQueue(multipartRequest);
+    }
+
     public void ShowDPEditPopup(boolean theresPic, boolean isBig) {
-        TextView tvCancel, tvMessage,btnYes, btnNo,tvRemove;
+        TextView tvCancel, tvMessage, btnYes, btnNo, tvRemove;
         myDialog.setContentView(R.layout.popup_confirmation);
 
         tvCancel = myDialog.findViewById(R.id.tvCancel);
@@ -409,17 +457,17 @@ public class RegisterShopActivity extends AppCompatActivity {
         btnNo = myDialog.findViewById(R.id.btnNo);
         tvRemove = myDialog.findViewById(R.id.tvRemove);
 
-        if (theresPic){
+        if (theresPic) {
             tvRemove.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             tvRemove.setVisibility(View.GONE);
         }
         tvCancel.setOnClickListener(view -> myDialog.dismiss());
 
         tvRemove.setOnClickListener(view -> {
-            if (isBig){
+            if (isBig) {
                 civSmall.setImageDrawable(null);
-            }else {
+            } else {
                 civBig.setImageDrawable(null);
             }
             myDialog.dismiss();
