@@ -36,6 +36,7 @@ import SingleItem.MenuItem;
 import util.HelperMethods;
 
 import static util.Constants.getIpAddress;
+import static util.HelperMethods.DisplayImage;
 import static util.HelperMethods.ShowLoadingPopup;
 import static util.HelperMethods.handler;
 import static www.ethichadebe.com.loxion_beanery.HomeFragment.getShopItem;
@@ -53,7 +54,7 @@ public class ShopHomeActivity extends AppCompatActivity {
     private TextView tvName, tvDistance, tvAveTime, tvFullDescrpit, tvLikes;
     private static MenuItem menuItem;
     private Dialog myDialog;
-    private ImageView ivLike;
+    private ImageView ivLike,ivBig;
     private LinearLayout llLike;
     private Button btnNext;
     private RatingBar rbRating;
@@ -77,6 +78,7 @@ public class ShopHomeActivity extends AppCompatActivity {
         MenuItems = new ArrayList<>();
         myDialog = new Dialog(this);
         tvName = findViewById(R.id.tvName);
+        ivBig = findViewById(R.id.ivBig);
         rbRating = findViewById(R.id.rbRating);
         ivLike = findViewById(R.id.ivLike);
         llLike = findViewById(R.id.llLike);
@@ -103,6 +105,7 @@ public class ShopHomeActivity extends AppCompatActivity {
         tvAveTime.setText(getShopItem().getStrAveTime());
         tvFullDescrpit.setText(getShopItem().getStrFullDescript());
         rbRating.setRating(getShopItem().getIntRating());
+        DisplayImage(ivBig, getShopItem().getStrLogoBig());
 
         //Load menu items starting with the Cheapest
         mRecyclerView = findViewById(R.id.recyclerView);

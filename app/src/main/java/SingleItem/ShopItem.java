@@ -21,14 +21,14 @@ public class ShopItem {
     ShopItem() {
     }
 
-    public ShopItem(int intID, String strShopName, String intLogoSmall, String intLogoBig,
+    public ShopItem(int intID, String strShopName, String strLogoSmall, String strLogoBig,
                     String strShortDescript, String strFullDescript, LatLng llLocation, String strAddress,
                     Double dblDistance, String strAveTime, int intRating, String strOperatingHRS, int intLikes,
                     int isLiked, int intAveTimeColor, int intStatus, Drawable draStatus, boolean showAd) {
         this.intID = intID;
         this.strShopName = strShopName;
-        this.strLogoSmall = intLogoSmall;
-        this.strLogoBig = intLogoBig;
+        this.strLogoSmall = strLogoSmall;
+        this.strLogoBig = strLogoBig;
         this.strShortDescript = strShortDescript;
         this.strFullDescript = strFullDescript;
         this.llLocation = llLocation;

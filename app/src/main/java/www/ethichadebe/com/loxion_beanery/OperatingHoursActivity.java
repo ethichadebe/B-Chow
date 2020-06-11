@@ -141,7 +141,7 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
 
         if (isEdit) {
             btnNext.setText("Save");
-            goBack=true;
+            goBack = true;
         }
     }
 
@@ -237,9 +237,9 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
 
     public void back(View view) {
         if (isEdit) {
-            if (!combineString(etOpen, etClose).equals(getNewShop().getStrOperatingHRS())){
+            if (!combineString(etOpen, etClose).equals(getNewShop().getStrOperatingHRS())) {
                 ShowPopup();
-            }else {
+            } else {
                 finish();
             }
         } else {
@@ -308,7 +308,7 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
                     e.printStackTrace();
                 }
             }
-            Toast.makeText(this, "Error: "+ error.toString(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Error: " + error.toString(), Toast.LENGTH_SHORT).show();
             error.printStackTrace();
         }) {
             @Override
@@ -330,10 +330,10 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
                 Map<String, DataPart> params = new HashMap<>();
                 // file name could found file base or direct access from real path
                 // for now just get bitmap data from ImageView
-                params.put("sSmallPicture", new DataPart("_"+getNewShop().getStrShopName()+".jpg",
+                params.put("sSmallPicture", new DataPart("_" + getNewShop().getStrShopName().replace(" ", "_") + ".jpg",
                         getFileDataFromDrawable(getBaseContext(), getNewShop().getDraLogoSmall()),
                         "image/jpeg"));
-                params.put("sBigPicture", new DataPart("_"+getNewShop().getStrShopName()+".jpg",
+                params.put("sBigPicture", new DataPart("_" + getNewShop().getStrShopName().replace(" ", "_") + ".jpg",
                         getFileDataFromDrawable(getBaseContext(), getNewShop().getDraLogoBig()),
                         "image/jpeg"));
 
@@ -356,9 +356,9 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
                         JSONObject JSONResponse = new JSONObject(response);
                         getNewShop().setStrOperatingHRS(combineString(etOpen, etClose));
                         HelperMethods.ShowLoadingPopup(myDialog, false);
-                        if (goBack){
+                        if (goBack) {
                             finish();
-                        }else {
+                        } else {
                             startActivity(new Intent(OperatingHoursActivity.this, IngredientsActivity.class));
                         }
                     } catch (JSONException e) {
@@ -403,9 +403,9 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
     @Override
     public void onBackPressed() {
         if (isEdit) {
-            if (!combineString(etOpen, etClose).equals(getNewShop().getStrOperatingHRS())){
+            if (!combineString(etOpen, etClose).equals(getNewShop().getStrOperatingHRS())) {
                 ShowPopup();
-            }else {
+            } else {
                 finish();
             }
         } else {
@@ -414,7 +414,7 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
     }
 
     public void ShowPopup() {
-        TextView tvCancel, tvMessage,btnYes, btnNo;
+        TextView tvCancel, tvMessage, btnYes, btnNo;
         myDialog.setContentView(R.layout.popup_confirmation);
 
         tvCancel = myDialog.findViewById(R.id.tvCancel);
@@ -430,7 +430,7 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
             PUTShop();
         });
 
-        btnNo.setOnClickListener(view ->finish());
+        btnNo.setOnClickListener(view -> finish());
         Objects.requireNonNull(myDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         myDialog.show();
     }

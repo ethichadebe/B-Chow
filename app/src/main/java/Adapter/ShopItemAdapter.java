@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import SingleItem.ShopItem;
 import www.ethichadebe.com.loxion_beanery.R;
 
+import static util.HelperMethods.DisplayImage;
 import static util.HelperMethods.roundOf;
 import static util.HelperMethods.setOHVISIBILITY;
 
@@ -172,8 +173,9 @@ public class ShopItemAdapter extends RecyclerView.Adapter<ShopItemAdapter.ShopVi
         holder.tvAveTime.setBackgroundColor(item.getIntAveTimeColor());
         holder.rlStatus.setBackground(item.getDraStatus());
         holder.rbRating.setRating(item.getIntRating());
-        //holder.ivLogo.se
+        DisplayImage(holder.ivLogo, item.getStrLogoSmall());
     }
+
 
     @Override
     public int getItemCount() {

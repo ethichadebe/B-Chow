@@ -176,7 +176,8 @@ public class HomeFragment extends Fragment {
                                         break;
                                 }
                                 shopItems.add(new ShopItem(Shops.getInt("sID"), Shops.getString("sName"),
-                                        ""/*R.drawable.food*/, ""/*R.drawable.biglogo*/,
+                                        getIpAddress() + "/" + Shops.getString("sSmallPicture"),
+                                        getIpAddress() + "/" + Shops.getString("sBigPicture"),
                                         Shops.getString("sShortDescrption"),
                                         Shops.getString("sFullDescription"),
                                         new LatLng(Shops.getDouble("sLatitude"),

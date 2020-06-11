@@ -245,16 +245,6 @@ public class HelperMethods {
         }
     }
 
-    public static String getStringImage(Bitmap image) {
-        if (image != null) {
-            ByteArrayOutputStream bOut = new ByteArrayOutputStream();
-            image.compress(Bitmap.CompressFormat.JPEG, 100, bOut);
-            byte[] imageByte = bOut.toByteArray();
-            return Base64.encodeToString(imageByte, Base64.DEFAULT);
-        }
-        return "no image";
-    }
-
     public static void setOHVISIBILITY(LinearLayout llOpHours, TextView tvMore, TextView[] tvDays, String OH) {
         setOHForEachDay(tvDays, OH);
         if (llOpHours.getVisibility() == View.GONE) {
@@ -375,5 +365,10 @@ public class HelperMethods {
         options.setFreeStyleCropEnabled(false);
 
         return options;
+    }
+
+    public static void DisplayImage(ImageView imageView, String url){
+        LoadImage loadImage = new LoadImage(imageView);
+        loadImage.execute(url);
     }
 }
