@@ -48,7 +48,6 @@ public class MyShopItemAdapter extends RecyclerView.Adapter<MyShopItemAdapter.Sh
         private TextView[] tvDays = new TextView[8];
         private ImageView ivLogo, ivDelete;
         private LinearLayout llOpHours, llDropDown;
-        private RelativeLayout rlStatus;
         private RatingBar rbRating;
 
         ShopViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
@@ -58,7 +57,6 @@ public class MyShopItemAdapter extends RecyclerView.Adapter<MyShopItemAdapter.Sh
             llOpHours = itemView.findViewById(R.id.llOpHours);
             llDropDown = itemView.findViewById(R.id.llDropDown);
             tvnOrders = itemView.findViewById(R.id.tvnOrders);
-            rlStatus = itemView.findViewById(R.id.rlStatus);
             tvPosition = itemView.findViewById(R.id.tvPosition);
             ivLogo = itemView.findViewById(R.id.ivLogo);
             tvShortDescript = itemView.findViewById(R.id.tvShortDescript);
@@ -144,7 +142,6 @@ public class MyShopItemAdapter extends RecyclerView.Adapter<MyShopItemAdapter.Sh
         holder.llDropDown.setOnClickListener(view -> setOHVISIBILITY(holder.llOpHours, holder.tvMore,
                 holder.tvDays, item.getStrOperatingHRS()));
 
-        holder.rlStatus.setBackground(item.getDraStatus());
         DisplayImage(holder.ivLogo, item.getStrLogoSmall());
 
 

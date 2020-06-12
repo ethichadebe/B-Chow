@@ -166,15 +166,6 @@ public class HomeFragment extends Fragment {
                                         break;
                                 }//Set ave time
 
-                                Drawable bgStatus = null;
-                                switch (Shops.getInt("sStatus")) {
-                                    case 1:
-                                        bgStatus = getResources().getDrawable(R.drawable.empty_btn_bg_open);
-                                        break;
-                                    case 0:
-                                        bgStatus = getResources().getDrawable(R.drawable.empty_btn_bg_open_closed);
-                                        break;
-                                }
                                 shopItems.add(new ShopItem(Shops.getInt("sID"), Shops.getString("sName"),
                                         Shops.getString("sSmallPicture"),Shops.getString("sBigPicture"),
                                         Shops.getString("sShortDescrption"),Shops.getString("sFullDescription"),
@@ -182,8 +173,8 @@ public class HomeFragment extends Fragment {
                                         Shops.getString("sAddress"), Shops.getDouble("distance"),
                                         Avetime, Shops.getInt("sRating"),
                                         Shops.getString("sOperatingHrs"), Shops.getInt("sLikes"),
-                                        Shops.getInt("isLiked"), AveTimeColor, Shops.getInt("sStatus")
-                                        , bgStatus, randomNumber(10)));
+                                        Shops.getInt("isLiked"), AveTimeColor, Shops.getInt("sStatus"),
+                                        randomNumber(10)));
                             }
                         } else if (response.getString("message").equals("empty")) {
                             tvEmpty.setVisibility(View.VISIBLE);

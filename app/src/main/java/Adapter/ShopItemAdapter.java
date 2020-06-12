@@ -50,7 +50,6 @@ public class ShopItemAdapter extends RecyclerView.Adapter<ShopItemAdapter.ShopVi
         private TextView[] tvDays = new TextView[8];
         private ImageView ivLogo;
         private LinearLayout llOpHours, llDropDown;
-        private RelativeLayout rlStatus;
         private CardView cdAd;
         private RatingBar rbRating;
         private UnifiedNativeAdView unifiedNativeAdView;
@@ -62,7 +61,6 @@ public class ShopItemAdapter extends RecyclerView.Adapter<ShopItemAdapter.ShopVi
             llOpHours = itemView.findViewById(R.id.llOpHours);
             llDropDown = itemView.findViewById(R.id.llDropDown);
             ivLogo = itemView.findViewById(R.id.ivLogo);
-            rlStatus = itemView.findViewById(R.id.rlStatus);
             tvClosed = itemView.findViewById(R.id.tvClosed);
             tvShortDescript = itemView.findViewById(R.id.tvShortDescript);
             cdAd = itemView.findViewById(R.id.cdAd);
@@ -171,7 +169,6 @@ public class ShopItemAdapter extends RecyclerView.Adapter<ShopItemAdapter.ShopVi
         });
 
         holder.tvAveTime.setBackgroundColor(item.getIntAveTimeColor());
-        holder.rlStatus.setBackground(item.getDraStatus());
         holder.rbRating.setRating(item.getIntRating());
         DisplayImage(holder.ivLogo, item.getStrLogoSmall());
     }

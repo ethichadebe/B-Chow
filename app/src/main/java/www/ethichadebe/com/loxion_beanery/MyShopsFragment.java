@@ -165,26 +165,14 @@ public class MyShopsFragment extends Fragment {
                                 if (Shops.getInt("isActive") == 1) {
                                     isActive = true;
                                 }
-                                Drawable bgStatus = null;
-                                switch (Shops.getInt("sStatus")) {
-                                    case 1:
-                                        bgStatus = getResources().getDrawable(R.drawable.empty_btn_bg_open);
-                                        break;
-                                    case 0:
-                                        bgStatus = getResources().getDrawable(R.drawable.empty_btn_bg_open_closed);
-                                        break;
-                                }
                                 shopItems.add(new MyShopItem(Shops.getInt("sID"), Shops.getString("sName"),
-                                        Shops.getString("uRole"),
-                                        Shops.getString("sSmallPicture"),
-                                        Shops.getString("sBigPicture"),
-                                        Shops.getString("sShortDescrption"),
+                                        Shops.getString("uRole"), Shops.getString("sSmallPicture"),
+                                        Shops.getString("sBigPicture"), Shops.getString("sShortDescrption"),
                                         Shops.getString("sFullDescription"),
-                                        new LatLng(Shops.getDouble("sLatitude"),
-                                                Shops.getDouble("sLongitude")),
+                                        new LatLng(Shops.getDouble("sLatitude"), Shops.getDouble("sLongitude")),
                                         Shops.getString("sAddress"), "10-15 mins",
                                         Shops.getInt("sRating"), Shops.getString("sOperatingHrs"), isActive,
-                                        Shops.getInt("sStatus"), bgStatus, Shops.getInt("nOrders")));
+                                        Shops.getInt("sStatus"), Shops.getInt("nOrders")));
                             }
                         } else if (response.getString("message").equals("empty")) {
                             tvEmpty.setVisibility(View.VISIBLE);

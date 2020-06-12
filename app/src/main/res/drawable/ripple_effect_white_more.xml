@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ripple xmlns:android="http://schemas.android.com/apk/res/android"
     android:color="#000">
-    <item android:drawable="@color/places_ui_default_primary" />
+    <item android:drawable="@drawable/empty_btn_bg_open" />
 </ripple>

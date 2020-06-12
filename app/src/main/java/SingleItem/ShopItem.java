@@ -14,7 +14,7 @@ public class ShopItem {
             strLogoBig, strAddress;
     LatLng llLocation;
     int intID = -1, intRating, intStatus;
-    Drawable draStatus, draLogoSmall, draLogoBig;
+    Drawable draLogoSmall, draLogoBig;
     private int intLikes = 0, isLiked, intAveTimeColor;
     private ArrayList<IngredientItem> ingredientItems;
     private ArrayList<MenuItem> menuItems;
@@ -26,7 +26,7 @@ public class ShopItem {
     public ShopItem(int intID, String strShopName, String strLogoSmall, String strLogoBig,
                     String strShortDescript, String strFullDescript, LatLng llLocation, String strAddress,
                     Double dblDistance, String strAveTime, int intRating, String strOperatingHRS, int intLikes,
-                    int isLiked, int intAveTimeColor, int intStatus, Drawable draStatus, boolean showAd) {
+                    int isLiked, int intAveTimeColor, int intStatus,boolean showAd) {
         this.intID = intID;
         this.strShopName = strShopName;
         this.strLogoSmall = strLogoSmall;
@@ -40,7 +40,6 @@ public class ShopItem {
         this.intRating = intRating;
         this.strOperatingHRS = strOperatingHRS;
         this.intStatus = intStatus;
-        this.draStatus = draStatus;
         this.intLikes = intLikes;
         this.isLiked = isLiked;
         this.intAveTimeColor = intAveTimeColor;
@@ -132,10 +131,6 @@ public class ShopItem {
         return intStatus;
     }
 
-    public Drawable getDraStatus() {
-        return draStatus;
-    }
-
     public void setStrAveTime(String strAveTime) {
         this.strAveTime = strAveTime;
     }
@@ -170,10 +165,6 @@ public class ShopItem {
 
     public void setIntStatus(int intStatus) {
         this.intStatus = intStatus;
-    }
-
-    public void setDraStatus(Drawable draStatus) {
-        this.draStatus = draStatus;
     }
 
     public void setIntLikes(int intLikes) {
