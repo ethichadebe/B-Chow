@@ -25,8 +25,9 @@ public class MyShopItem extends ShopItem {
      * @param strOperatingHRS
      */
     public MyShopItem(int intID, String strShopName, String strPosition, String intLogoSmall, String intLogoBig,
-                      String strShortDescript, String strFullDescript, LatLng llLocation, String strAddress, String strAveTime,
-                      int intRating, String strOperatingHRS, boolean isActive, int intStatus,int intnOrders) {
+                      String strShortDescript, String strFullDescript, LatLng llLocation, String strAddress,
+                      String strAveTime, int intRating, String strOperatingHRS, boolean isActive, int intStatus,
+                      int intnOrders) {
         this.intID = intID;
         this.strShopName = strShopName;
         this.strPosition = strPosition;
@@ -87,5 +88,16 @@ public class MyShopItem extends ShopItem {
 
     public void setIntnOrders(int intnOrders) {
         this.intnOrders = intnOrders;
+    }
+
+    public void setShopEdit(String sName, String sShortD, String sFullD, Drawable sSmall, Drawable sBig, LatLng sLocation,
+                            String sAddress) {
+        this.strShopName = sName;
+        this.strShortDescript = sShortD;
+        this.strFullDescript = sFullD;
+        this.draLogoSmall = sSmall;
+        this.draLogoBig = sBig;
+        this.llLocation = sLocation;
+        this.strAddress = sAddress;
     }
 }

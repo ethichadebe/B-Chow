@@ -50,6 +50,7 @@ import static util.HelperMethods.combineString;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 import static www.ethichadebe.com.loxion_beanery.MainActivity.setIntFragment;
 import static www.ethichadebe.com.loxion_beanery.MyShopsFragment.getNewShop;
+import static www.ethichadebe.com.loxion_beanery.MyShopsFragment.isCompleteReg;
 import static www.ethichadebe.com.loxion_beanery.ShopSettingsActivity.isEdit;
 
 public class OperatingHoursActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
@@ -230,7 +231,11 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
             if (getNewShop().getIntID() == -1) {
                 POSTRegisterShop();
             } else {
-                PUTShop();
+                if (isCompleteReg){
+                    PUTCompleteReg();
+                }else {
+                    PUTShop();
+                }
             }
         }
     }
@@ -269,6 +274,100 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
                         Toast.makeText(this, resultResponse, Toast.LENGTH_SHORT).show();
                         JSONObject JSONResponse = new JSONObject(resultResponse);
                         getNewShop().setIntID(Integer.parseInt(JSONResponse.getString("data")));
+                        getNewShop().setStrOperatingHRS(combineString(etOpen, etClose));
+                        startActivity(new Intent(this, IngredientsActivity.class));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }, error -> {
+            ShowLoadingPopup(myDialog, false);
+            NetworkResponse networkResponse = error.networkResponse;
+            String errorMessage = "Unknown error";
+            if (networkResponse == null) {
+                if (error.getClass().equals(TimeoutError.class)) {
+                    errorMessage = "Request timeout";
+                } else if (error.getClass().equals(NoConnectionError.class)) {
+                    errorMessage = "Failed to connect server";
+                }
+            } else {
+                String result = new String(networkResponse.data);
+                try {
+                    JSONObject response = new JSONObject(result);
+                    String status = response.getString("status");
+                    String message = response.getString("message");
+
+                    Log.e("Error Status", status);
+                    Log.e("Error Message", message);
+
+                    if (networkResponse.statusCode == 404) {
+                        errorMessage = "Resource not found";
+                    } else if (networkResponse.statusCode == 401) {
+                        errorMessage = message + " Please login again";
+                    } else if (networkResponse.statusCode == 400) {
+                        errorMessage = message + " Check your inputs";
+                    } else if (networkResponse.statusCode == 500) {
+                        errorMessage = message + " Something is getting wrong";
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            Toast.makeText(this, "Error: " + error.toString(), Toast.LENGTH_SHORT).show();
+            error.printStackTrace();
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("sName", getNewShop().getStrShopName());
+                params.put("sShortDescrption", getNewShop().getStrShortDescript());
+                params.put("sFullDescription", getNewShop().getStrFullDescript());
+                params.put("sLatitude", String.valueOf(getNewShop().getLlLocation().latitude));
+                params.put("sLongitude", String.valueOf(getNewShop().getLlLocation().longitude));
+                params.put("sAddress", getNewShop().getStrAddress());
+                params.put("sOperatingHrs", combineString(etOpen, etClose));
+                params.put("uID", String.valueOf(getUser().getuID()));
+                return params;
+            }
+
+            @Override
+            protected Map<String, VolleyMultipartRequest.DataPart> getByteData() {
+                Map<String, DataPart> params = new HashMap<>();
+                // file name could found file base or direct access from real path
+                // for now just get bitmap data from ImageView
+                params.put("sSmallPicture", new DataPart("_" + getNewShop().getStrShopName()
+                        .replace(" ", "_").replace(",", "_")
+                        .replace("'", "_") + ".jpg",
+                        getFileDataFromDrawable(getBaseContext(), getNewShop().getDraLogoSmall()),
+                        "image/jpeg"));
+                params.put("sBigPicture", new DataPart("_" + getNewShop().getStrShopName()
+                        .replace(" ", "_").replace(",", "_")
+                        .replace("'", "_") + ".jpg",
+                        getFileDataFromDrawable(getBaseContext(), getNewShop().getDraLogoBig()),
+                        "image/jpeg"));
+
+                return params;
+            }
+        };
+
+        VolleySingleton.getInstance(getBaseContext()).addToRequestQueue(multipartRequest);
+    }
+
+    /**
+     * Completing registration
+     */
+    private void PUTCompleteReg() {
+        ShowLoadingPopup(myDialog, true);
+        // loading or check internet connection or something...
+        // ... then
+        String url = getIpAddress() + "/shops/CompleteRegister/" + getNewShop().getIntID();
+        VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.PUT, url,
+                response -> {
+                    HelperMethods.ShowLoadingPopup(myDialog, false);
+                    getNewShop().setStrOperatingHRS(strTimes);      //Set Operating hours
+                    String resultResponse = new String(response.data);
+                    try {
+                        Toast.makeText(this, resultResponse, Toast.LENGTH_SHORT).show();
+                        JSONObject JSONResponse = new JSONObject(resultResponse);
                         getNewShop().setStrOperatingHRS(combineString(etOpen, etClose));
                         startActivity(new Intent(this, IngredientsActivity.class));
                     } catch (JSONException e) {

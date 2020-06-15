@@ -56,6 +56,7 @@ public class MyShopsFragment extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
     private BottomSheetBehavior bsbBottomSheetBehavior;
     private static MyShopItem newShop;
+    static boolean isCompleteReg = false; //Check if user is completing registration
     private Handler handler = new Handler();
     private Runnable runnable = new Runnable() {
         @Override
@@ -79,7 +80,7 @@ public class MyShopsFragment extends Fragment {
             startActivity(new Intent(getActivity(), LoginActivity.class));
         }//If app crashes, return to login
 
-
+        isCompleteReg = false;
         newShop = null;
 
         //Initialise bottom sheet
@@ -140,6 +141,7 @@ public class MyShopsFragment extends Fragment {
             @Override
             public void onItemClickResumeRegistration(int position) {
                 newShop = shopItems.get(position);
+                isCompleteReg = true;
                 startActivity(new Intent(getActivity(), RegisterShopActivity.class));
             }
         });

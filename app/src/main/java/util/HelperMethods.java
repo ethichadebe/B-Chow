@@ -21,6 +21,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
+
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.rengwuxian.materialedittext.MaterialEditText;
@@ -46,7 +47,7 @@ import www.ethichadebe.com.loxion_beanery.R;
 
 public class HelperMethods {
     public static final int STORAGE_PERMISSION = 1;
-    public static final int CAMERA_PERMISSION = 2;
+    public static final int CAMERA_PERMISSION = 20;
     public static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
     public static final String COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
     public static final int LOCATION_REQUEST_CODE = 1234;
@@ -283,22 +284,22 @@ public class HelperMethods {
                         new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, STORAGE_PERMISSION);
             }
         } else if (permission == CAMERA_PERMISSION) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(activity,
-                    Manifest.permission.CAMERA)) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.CAMERA)) {
                 new AlertDialog.Builder(context)
                         .setTitle("Permission needed")
                         .setMessage("This permission is needed so you can gain access to your camera")
                         .setPositiveButton("Enable permission", (dialogInterface, i) -> {
                             ActivityCompat.requestPermissions(activity,
-                                    new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, CAMERA_PERMISSION);
+                                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA},
+                                    CAMERA_PERMISSION);
 
                         })
                         .setNegativeButton("close", (dialogInterface, i) -> {
                             dialogInterface.dismiss();
                         }).create().show();
             } else {
-                ActivityCompat.requestPermissions(activity,
-                        new String[]{Manifest.permission.CAMERA}, CAMERA_PERMISSION);
+                ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.CAMERA}, CAMERA_PERMISSION);
             }
         }
     }
@@ -349,8 +350,8 @@ public class HelperMethods {
         int month = cal.get(Calendar.MONTH);
         int day = cal.get(Calendar.DAY_OF_MONTH);
 
-        DatePickerDialog dialog = new DatePickerDialog(context, android.R.style.Theme_Black, dateSetListener, year,
-                month,day);
+        DatePickerDialog dialog = new DatePickerDialog(context, android.R.style.Theme_Holo_Light_Dialog_MinWidth,
+                dateSetListener, year, month, day);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
 

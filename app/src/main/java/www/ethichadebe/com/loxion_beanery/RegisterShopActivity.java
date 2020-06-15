@@ -28,7 +28,6 @@ import android.widget.Toast;
 import com.android.volley.NetworkResponse;
 import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.TimeoutError;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.model.LatLng;
@@ -61,13 +60,13 @@ import static util.HelperMethods.CAMERA_PERMISSION;
 import static util.HelperMethods.DisplayImage;
 import static util.HelperMethods.STORAGE_PERMISSION;
 import static util.HelperMethods.ShowLoadingPopup;
-import static util.HelperMethods.combineString;
 import static util.HelperMethods.createFile;
 import static util.HelperMethods.requestPermission;
 import static util.HelperMethods.startCrop;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 import static www.ethichadebe.com.loxion_beanery.MainActivity.setIntFragment;
 import static www.ethichadebe.com.loxion_beanery.MyShopsFragment.getNewShop;
+import static www.ethichadebe.com.loxion_beanery.MyShopsFragment.isCompleteReg;
 import static www.ethichadebe.com.loxion_beanery.MyShopsFragment.setNewShop;
 import static www.ethichadebe.com.loxion_beanery.ShopSettingsActivity.isEdit;
 
@@ -81,7 +80,7 @@ public class RegisterShopActivity extends AppCompatActivity {
     private ImageView civSmall, civBig;
     private LinearLayout llLocation;
     private LatLng sLocation;
-    private String pathToFile, strShopID;
+    private String pathToFile;
 
 
     @Override
@@ -105,7 +104,6 @@ public class RegisterShopActivity extends AppCompatActivity {
         llLocation = findViewById(R.id.llLocation);
 
         if (getNewShop() != null) {
-            strShopID = String.valueOf(getNewShop().getIntID());
             etName.setText(getNewShop().getStrShopName());
             if (!getNewShop().getStrAddress().isEmpty()) {
                 tvLocation.setText(getNewShop().getStrAddress());
@@ -136,10 +134,6 @@ public class RegisterShopActivity extends AppCompatActivity {
         if (isEdit) {
             btnNext.setText("Save");
         } //When user comes from shop settings
-
-        /*if (!Objects.requireNonNull(etName.getText()).toString().isEmpty()) {
-            tvName.setText(etName.getText().toString());
-        }*/
 
         etName.addTextChangedListener(new TextWatcher() {
             @Override
@@ -185,7 +179,7 @@ public class RegisterShopActivity extends AppCompatActivity {
 
         btnYes.setOnClickListener(view -> {
             if (getNewShop() != null) {
-                PUTShopDetails();
+                PUTShopDetails(true);
             } else {
                 myDialog.dismiss();
                 startActivity(new Intent(this, MainActivity.class));
@@ -253,15 +247,21 @@ public class RegisterShopActivity extends AppCompatActivity {
         } else if (tvLocation.getText().toString().equals("Add shop location")) {
             llLocation.setBackground(getResources().getDrawable(R.drawable.ripple_effect_red));
         } else {
-            setNewShop(new MyShopItem(etName.getText().toString(),
-                    Objects.requireNonNull(etShortDescription.getText()).toString(),
-                    Objects.requireNonNull(etFullDescription.getText()).toString(),
-                    civSmall.getDrawable(), civBig.getDrawable(), sLocation,
-                    tvLocation.getText().toString()));
-
             if (isEdit) {
-                PUTShopDetails();
+                PUTShopDetails(false);
             } else {
+                if (!isCompleteReg) {
+                    setNewShop(new MyShopItem(etName.getText().toString(),
+                            Objects.requireNonNull(etShortDescription.getText()).toString(),
+                            Objects.requireNonNull(etFullDescription.getText()).toString(),
+                            civSmall.getDrawable(), civBig.getDrawable(), sLocation,
+                            tvLocation.getText().toString()));
+                } else {
+                    getNewShop().setShopEdit(etName.getText().toString(),
+                            Objects.requireNonNull(etShortDescription.getText()).toString(),
+                            Objects.requireNonNull(etFullDescription.getText()).toString(), civSmall.getDrawable(),
+                            civBig.getDrawable(), sLocation, tvLocation.getText().toString());
+                }
                 startActivity(new Intent(RegisterShopActivity.this,
                         OperatingHoursActivity.class));
             }
@@ -287,50 +287,12 @@ public class RegisterShopActivity extends AppCompatActivity {
     }
 
     public void back(View view) {
-        if (getNewShop() != null) {
-            if (!getNewShop().getStrShopName().equals(Objects.requireNonNull(etName.getText()).toString()) ||
-                    !getNewShop().getStrFullDescript().equals(Objects.requireNonNull(etFullDescription.getText()).toString()) ||
-                    !getNewShop().getStrShortDescript().equals(Objects.requireNonNull(etShortDescription.getText()).toString()) ||
-                    !getNewShop().getStrAddress().equals(tvLocation.getText().toString())) {
-                ShowPopup();
-            } else {
-                setIntFragment(3);
-                startActivity(new Intent(this, MainActivity.class));
-            }
-        } else {
-            if (!Objects.requireNonNull(etName.getText()).toString().isEmpty() ||
-                    !Objects.requireNonNull(etFullDescription.getText()).toString().isEmpty() ||
-                    !Objects.requireNonNull(etShortDescription.getText()).toString().isEmpty()) {
-                ShowPopup();
-            } else {
-                setIntFragment(3);
-                startActivity(new Intent(this, MainActivity.class));
-            }
-        }
+        back();
     }
 
     @Override
     public void onBackPressed() {
-        if (getNewShop() != null) {
-            if (!getNewShop().getStrShopName().equals(Objects.requireNonNull(etName.getText()).toString()) ||
-                    !getNewShop().getStrFullDescript().equals(Objects.requireNonNull(etFullDescription.getText()).toString()) ||
-                    !getNewShop().getStrShortDescript().equals(Objects.requireNonNull(etShortDescription.getText()).toString()) ||
-                    !getNewShop().getStrAddress().equals(tvLocation.getText().toString())) {
-                ShowPopup();
-            } else {
-                setIntFragment(3);
-                startActivity(new Intent(this, MainActivity.class));
-            }
-        } else {
-            if (!Objects.requireNonNull(etName.getText()).toString().isEmpty() ||
-                    !Objects.requireNonNull(etFullDescription.getText()).toString().isEmpty() ||
-                    !Objects.requireNonNull(etShortDescription.getText()).toString().isEmpty()) {
-                ShowPopup();
-            } else {
-                setIntFragment(3);
-                startActivity(new Intent(this, MainActivity.class));
-            }
-        }
+        back();
     }
 
     public void addLocation(View view) {
@@ -348,7 +310,7 @@ public class RegisterShopActivity extends AppCompatActivity {
         //Check if there's an app available to take picture
         if (intent.resolveActivity(getPackageManager()) != null) {
             Log.d(TAG, "takePicture: getPackageManager()) != null");
-            File photo = null;
+            File photo;
             photo = createFile(TAG);
             //Save picture into the photo var
             if (photo != null) {
@@ -376,16 +338,24 @@ public class RegisterShopActivity extends AppCompatActivity {
         }
     }
 
-    private void PUTShopDetails() {
+    private void PUTShopDetails(boolean isBack) {
         ShowLoadingPopup(myDialog, true);
         // loading or check internet connection or something...
         // ... then
-        String url = getIpAddress() + "/shops/Register/" + strShopID;
+        String url = getIpAddress() + "/shops/Register/" + getNewShop().getIntID();
         VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.PUT, url,
                 response -> {
                     HelperMethods.ShowLoadingPopup(myDialog, false);
-                    Toast.makeText(this, "saved", Toast.LENGTH_SHORT).show();
 
+                    getNewShop().setStrShopName(Objects.requireNonNull(etName.getText()).toString());
+                    getNewShop().setStrFullDescript(Objects.requireNonNull(etFullDescription.getText()).toString());
+                    getNewShop().setStrShortDescript(Objects.requireNonNull(etShortDescription.getText()).toString());
+                    getNewShop().setStrAddress(tvLocation.getText().toString());
+                    Toast.makeText(this, "saved", Toast.LENGTH_SHORT).show();
+                    if (isBack) {
+                        //If user presses back in edit.
+                        finish();
+                    }
                 }, error -> {
             ShowLoadingPopup(myDialog, false);
             NetworkResponse networkResponse = error.networkResponse;
@@ -484,8 +454,8 @@ public class RegisterShopActivity extends AppCompatActivity {
         tvMessage.setText("Update shop cover picture");
 
         btnYes.setOnClickListener(view -> {
-            if (ContextCompat.checkSelfPermission(this,
-                    Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) ==
+                    PackageManager.PERMISSION_GRANTED) {
                 Log.d(TAG, "ShowDPEditPopup: Take picture");
                 takePicture();
                 myDialog.dismiss();
@@ -512,5 +482,28 @@ public class RegisterShopActivity extends AppCompatActivity {
         myDialog.show();
         myDialog.setCancelable(false);
         myDialog.setCanceledOnTouchOutside(false);
+    }
+
+    private void back() {
+        if (getNewShop() != null) {
+            if (!getNewShop().getStrShopName().equals(Objects.requireNonNull(etName.getText()).toString()) ||
+                    !getNewShop().getStrFullDescript().equals(Objects.requireNonNull(etFullDescription.getText()).toString()) ||
+                    !getNewShop().getStrShortDescript().equals(Objects.requireNonNull(etShortDescription.getText()).toString()) ||
+                    !getNewShop().getStrAddress().equals(tvLocation.getText().toString())) {
+                ShowPopup();
+            } else {
+                setIntFragment(3);
+                startActivity(new Intent(this, MainActivity.class));
+            }
+        } else {
+            if (!Objects.requireNonNull(etName.getText()).toString().isEmpty() ||
+                    !Objects.requireNonNull(etFullDescription.getText()).toString().isEmpty() ||
+                    !Objects.requireNonNull(etShortDescription.getText()).toString().isEmpty()) {
+                ShowPopup();
+            } else {
+                setIntFragment(3);
+                startActivity(new Intent(this, MainActivity.class));
+            }
+        }
     }
 }

@@ -39,7 +39,6 @@ public class UploadPicActivity extends AppCompatActivity {
     private Dialog myDialog;
     private String pathToFile;
     private ImageView civProfilePicture;
-    private RequestQueue requestQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,14 +130,6 @@ public class UploadPicActivity extends AppCompatActivity {
         } else if ((requestCode == CAMERA_PERMISSION) && ((grantResults.length) > 0) &&
                 grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             takePicture();
-        }
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if (requestQueue != null) {
-            requestQueue.cancelAll(TAG);
         }
     }
 
