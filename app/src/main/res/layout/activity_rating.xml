@@ -128,10 +128,8 @@
         android:id="@+id/btnNext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Rate"
         android:layout_alignParentBottom="true"
-        android:layout_gravity="center|bottom"
-        android:visibility="gone"
         android:background="@drawable/ripple_effect"
-        android:textColor="@color/White"/>
+        android:text="@string/rate"
+        android:textColor="@color/White" />
 </RelativeLayout>

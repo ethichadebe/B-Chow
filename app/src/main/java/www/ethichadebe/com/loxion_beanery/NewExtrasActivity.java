@@ -33,7 +33,6 @@ import java.util.Objects;
 
 import Adapter.ExtraItemAdapter;
 import SingleItem.ExtraItem;
-import util.HelperMethods;
 
 import static util.Constants.getIpAddress;
 import static util.HelperMethods.ShowLoadingPopup;
@@ -118,9 +117,20 @@ public class NewExtrasActivity extends AppCompatActivity {
     public void add(View view) {
         if (Objects.requireNonNull(etExtra.getText()).toString().isEmpty()) {
             etExtra.setError("required");
-        } else {
+        } else if (!exists()) {
             POSTRegisterShopExtra();
         }
+    }
+
+    private boolean exists() {
+        for(ExtraItem extraItem : extraItems){
+            if (Objects.requireNonNull(etExtra.getText()).toString().toLowerCase().
+                    equals(extraItem.getStrExtraName().toLowerCase())){
+                etExtra.setError("already exists");
+                return true;
+            }
+        }
+        return false;
     }
 
     private void POSTRegisterShopExtra() {
@@ -135,7 +145,8 @@ public class NewExtrasActivity extends AppCompatActivity {
                             tvEmpty.setVisibility(View.GONE);
                             JSONArray jsonArray = new JSONArray(JSONData.getString("response"));
                             JSONObject JSONResponse = jsonArray.getJSONObject(0);
-                            extraItems.add(new ExtraItem(JSONResponse.getInt("eID"), JSONResponse.getString("eName")));
+                            extraItems.add(new ExtraItem(JSONResponse.getInt("eID"),
+                                    JSONResponse.getString("eName")));
                             mAdapter.notifyItemInserted(extraItems.size());
                             etExtra.setText("");
                         }
@@ -170,7 +181,7 @@ public class NewExtrasActivity extends AppCompatActivity {
 
         JsonObjectRequest objectRequest = new JsonObjectRequest(
                 Request.Method.DELETE,
-                getIpAddress() + "/shops/Register/Extra/" + extraItems.get(position).getIntID(), null,   //+getUser().getuID()
+                getIpAddress() + "/shops/Register/Extra/" + extraItems.get(position).getIntID(), null,
                 response -> {
                     ShowLoadingPopup(myDialog, false);
                     try {
@@ -178,7 +189,7 @@ public class NewExtrasActivity extends AppCompatActivity {
                         if (JSONData.getString("data").equals("removed")) {
                             extraItems.remove(position);
                             mAdapter.notifyItemRemoved(position);
-                            if (extraItems.size()<1){
+                            if (extraItems.size() < 1) {
                                 tvEmpty.setVisibility(View.VISIBLE);
                             }
                         }

@@ -100,4 +100,5 @@
     <string name="edit_profile">Edit Profile</string>
     <string name="deactivate_account">Deactivate account</string>
     <string name="delete">Delete</string>
+    <string name="rate">Rate</string>
 </resources>
