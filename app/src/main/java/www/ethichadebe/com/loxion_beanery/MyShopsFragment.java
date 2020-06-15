@@ -2,7 +2,6 @@ package www.ethichadebe.com.loxion_beanery;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -15,6 +14,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -66,6 +66,7 @@ public class MyShopsFragment extends Fragment {
     private View bsbBottomSheet;
     private TextView tvEmpty;
     private RequestQueue requestQueue;
+    private CardView cvRetry;
 
 
     @Nullable
@@ -85,6 +86,8 @@ public class MyShopsFragment extends Fragment {
         bsbBottomSheet = v.findViewById(R.id.bottom_sheet);
         bsbBottomSheetBehavior = BottomSheetBehavior.from(bsbBottomSheet);
         bsbBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+
+        cvRetry = v.findViewById(R.id.cvRetry);
 
         //Display bottom sheet when shop has been registered
         if (isNew() && !isEdit) {
@@ -111,7 +114,7 @@ public class MyShopsFragment extends Fragment {
 
         //Get User Shops
         GETShops(v.findViewById(R.id.vLine), v.findViewById(R.id.vLineGrey));
-        rlLoad.setOnClickListener(view -> GETShops(v.findViewById(R.id.vLine), v.findViewById(R.id.vLineGrey)));
+        cvRetry.setOnClickListener(view -> GETShops(v.findViewById(R.id.vLine), v.findViewById(R.id.vLineGrey)));
 
         if (getUser().getuType() == 2) {
             llNewShop.setVisibility(View.GONE);
