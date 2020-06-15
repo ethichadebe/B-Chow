@@ -67,6 +67,7 @@ import static util.HelperMethods.STORAGE_PERMISSION;
 import static util.HelperMethods.ShowLoadingPopup;
 import static util.HelperMethods.allFieldsEntered;
 import static util.HelperMethods.createFile;
+import static util.HelperMethods.displayDatePicker;
 import static util.HelperMethods.requestPermission;
 import static util.HelperMethods.saveData;
 import static util.HelperMethods.sharedPrefsIsEmpty;
@@ -74,7 +75,7 @@ import static util.HelperMethods.startCrop;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 import static www.ethichadebe.com.loxion_beanery.MainActivity.setIntFragment;
 
-public class EditUserProfileActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
+public class EditUserProfileActivity extends AppCompatActivity {
     private static final String TAG = "EditUserProfileActivity";
     private MaterialEditText[] mTextBoxes = new MaterialEditText[3];
     private CheckBox mCBMale, mCBFemale, mCBOther;
@@ -138,8 +139,7 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
 
         //Date p[icker
         mTextBoxes[2].setOnClickListener(view -> {
-            DialogFragment datePickeer = new DatePickerFragment();
-            datePickeer.show(getSupportFragmentManager(), "date picker");
+            displayDatePicker(this, mTextBoxes[2]);
         });
 
         setCheck(getUser().getuSex());
@@ -271,19 +271,7 @@ public class EditUserProfileActivity extends AppCompatActivity implements DatePi
 
         VolleySingleton.getInstance(getBaseContext()).addToRequestQueue(multipartRequest);
     }
-
-    @Override
-    public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.YEAR, i);
-        calendar.set(Calendar.MONTH, i1);
-        calendar.set(Calendar.DAY_OF_MONTH, i2);
-
-        String strCurrentDate = DateFormat.getDateInstance(DateFormat.DATE_FIELD).format(calendar.getTime());
-        mTextBoxes[2].setText(strCurrentDate);
-
-    }
-
+    
     private void setCheck(String Checked) {
         UserSex = Checked;
         switch (Checked) {

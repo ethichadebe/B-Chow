@@ -1,6 +1,5 @@
 package www.ethichadebe.com.loxion_beanery;
 
-import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -8,14 +7,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.CheckBox;
-import android.widget.DatePicker;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-import androidx.fragment.app.DialogFragment;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -26,22 +21,20 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.DateFormat;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import util.HelperMethods;
 import util.User;
 
 import static util.Constants.getIpAddress;
 import static util.HelperMethods.SHARED_PREFS;
 import static util.HelperMethods.ShowLoadingPopup;
 import static util.HelperMethods.allFieldsEntered;
+import static util.HelperMethods.displayDatePicker;
 import static util.HelperMethods.saveData;
 
-public class RegisterActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
+public class RegisterActivity extends AppCompatActivity {
     private static final String TAG = "RegisterActivity";
     private RequestQueue requestQueue;
     private RelativeLayout rellay1;
@@ -99,8 +92,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
 
         //Date p[icker
         mTextBoxes[6].setOnClickListener(view -> {
-            DialogFragment datePicker = new DatePickerFragment();
-            datePicker.show(getSupportFragmentManager(), "date picker");
+            displayDatePicker(this, mTextBoxes[6]);
         });
 
         //Handling Checkbox click events
@@ -139,18 +131,6 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
     @Override
     public void onBackPressed() {
         this.finishAffinity();
-    }
-
-    @Override
-    public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.YEAR, i);
-        calendar.set(Calendar.MONTH, i1);
-        calendar.set(Calendar.DAY_OF_MONTH, i2);
-
-        String strCurrentDate = DateFormat.getDateInstance(DateFormat.DATE_FIELD).format(calendar.getTime());
-        mTextBoxes[6].setText(strCurrentDate);
-
     }
 
     private void POSTRegister() {

@@ -2,77 +2,47 @@ package util;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.content.ContentResolver;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
-import android.provider.MediaStore;
-import android.provider.OpenableColumns;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
-
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
-import com.google.android.gms.location.FusedLocationProviderClient;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.yalantis.ucrop.UCrop;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Objects;
 import java.util.TimeZone;
 
-import SingleItem.IngredientItem;
 import SingleItem.IngredientItemCheckbox;
-import www.ethichadebe.com.loxion_beanery.IngredientsActivity;
-import www.ethichadebe.com.loxion_beanery.LoginActivity;
-import www.ethichadebe.com.loxion_beanery.MenuActivity;
 import www.ethichadebe.com.loxion_beanery.R;
 
-import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 
 public class HelperMethods {
     public static final int STORAGE_PERMISSION = 1;
@@ -84,6 +54,7 @@ public class HelperMethods {
     public static final String SHARED_PREFS = "sharedPrefs";
     private static final String USERNAME = "Username";
     private static final String PASSWORD = "Password";
+    private static DatePickerDialog.OnDateSetListener dateSetListener;
 
     public static boolean ismLocationGranted() {
         return mLocationGranted;
@@ -367,8 +338,30 @@ public class HelperMethods {
         return options;
     }
 
-    public static void DisplayImage(ImageView imageView, String url){
+    public static void DisplayImage(ImageView imageView, String url) {
         LoadImage loadImage = new LoadImage(imageView);
         loadImage.execute(url);
+    }
+
+    public static void displayDatePicker(Context context, TextView tv) {
+        Calendar cal = Calendar.getInstance();
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH);
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog dialog = new DatePickerDialog(context, android.R.style.Theme_Black, dateSetListener, year,
+                month,day);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
+
+        dateSetListener = (datePicker, year1, month1, day1) -> {
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.YEAR, year1);
+            calendar.set(Calendar.MONTH, month1);
+            calendar.set(Calendar.DAY_OF_MONTH, day1);
+
+            String strCurrentDate = DateFormat.getDateInstance(DateFormat.DATE_FIELD).format(calendar.getTime());
+            tv.setText(strCurrentDate);
+        };
     }
 }
