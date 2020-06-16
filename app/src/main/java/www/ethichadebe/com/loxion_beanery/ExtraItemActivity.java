@@ -91,7 +91,8 @@ public class ExtraItemActivity extends AppCompatActivity {
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject Extras = jsonArray.getJSONObject(i);
                                 ingredientItems.add(new IngredientItemCheckbox(Extras.getInt("eID"),
-                                        Extras.getString("eName"), 0.0, false, false));
+                                        Extras.getString("eName"), 0.0, false, false,
+                                        true));
                             }
                         }
                     } catch (JSONException e) {

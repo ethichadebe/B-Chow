@@ -75,7 +75,8 @@ public class NewMenuItemActivity extends AppCompatActivity {
             etPrice.setText(String.valueOf(getDblPrice()));
 
             for (int i = 0; i < getIngredients().size(); i++) {
-                ingredientItems.add(new IngredientItemCheckbox(getIngredients().get(i), true, true));
+                ingredientItems.add(new IngredientItemCheckbox(getIngredients().get(i), true, true,
+                        true));
             }
 
             for (int i = 0; i < getNewShop().getIngredientItems().size(); i++) {
@@ -90,17 +91,20 @@ public class NewMenuItemActivity extends AppCompatActivity {
                 if (!isThere) {
                     ingredientItems.add(new IngredientItemCheckbox(getNewShop().getIngredientItems().get(i).getIntID(),
                             getNewShop().getIngredientItems().get(i).getStrIngredientName(),
-                            getNewShop().getIngredientItems().get(i).getDblPrice(), false, true));
+                            getNewShop().getIngredientItems().get(i).getDblPrice(), false, true,
+                            true));
                 }
             }
         } else if (getNewShop().getIngredientItems() != null) {
             ingredientItems = new ArrayList<>();
             for (int i = 0; i < getNewShop().getIngredientItems().size(); i++) {
                 if (getNewShop().getIngredientItems().get(i).getStrIngredientName().toLowerCase().equals("chips")) {
-                    ingredientItems.add(new IngredientItemCheckbox(getNewShop().getIngredientItems().get(i), true, true));
+                    ingredientItems.add(new IngredientItemCheckbox(getNewShop().getIngredientItems().get(i),
+                            true,true, true));
                     dblPrice = getNewShop().getIngredientItems().get(i).getDblPrice();
                 }else {
-                    ingredientItems.add(new IngredientItemCheckbox(getNewShop().getIngredientItems().get(i), false, true));
+                    ingredientItems.add(new IngredientItemCheckbox(getNewShop().getIngredientItems().get(i),
+                            false, true, true));
                 }
             }
         }
@@ -192,11 +196,14 @@ public class NewMenuItemActivity extends AppCompatActivity {
     private void PUTMenuItem() {
         ShowLoadingPopup(myDialog, true);
         StringRequest stringRequest = new StringRequest(Request.Method.PUT,
-                getIpAddress() + "/shops/Register/MenuItems/" + getNewShop().getMenuItems().get(getIntPosition()).getIntID(),
+                getIpAddress() + "/shops/Register/MenuItems/" +
+                        getNewShop().getMenuItems().get(getIntPosition()).getIntID(),
                 response -> {
                     //Toast.makeText(NewMenuItemActivity.this, response, Toast.LENGTH_LONG).show();
                     ShowLoadingPopup(myDialog, false);
-                    getNewShop().getMenuItems().get(getIntPosition()).EditPriceNMenu(Double.valueOf(Objects.requireNonNull(etPrice.getText()).toString()), combineString(ingredientItems));
+                    getNewShop().getMenuItems().get(getIntPosition()).
+                            EditPriceNMenu(Double.valueOf(Objects.requireNonNull(etPrice.getText()).toString()),
+                                    combineString(ingredientItems));
                     setIngredients(new ArrayList<>());
                     startActivity(new Intent(this, MenuActivity.class));
                 }, error -> {

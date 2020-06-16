@@ -46,6 +46,9 @@ import www.ethichadebe.com.loxion_beanery.R;
 
 
 public class HelperMethods {
+    public static final String ANSI_GREEN = "\u001B[32m";
+    public static final String ANSI_YELLOW = "\u001B[33m";
+
     public static final int STORAGE_PERMISSION = 1;
     public static final int CAMERA_PERMISSION = 20;
     public static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;

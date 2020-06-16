@@ -30,6 +30,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import Adapter.IngredientItemCheckboxAdapter;
+import SingleItem.IngredientItem;
 import SingleItem.IngredientItemCheckbox;
 import SingleItem.MenuItem;
 import SingleItem.UpcomingOrderItem;
@@ -84,7 +85,7 @@ public class OrderActivity extends AppCompatActivity {
         if (getMenuItem() != null) {
             dblPrice = getMenuItem().getDblPrice();
         }
-        GETIngredients(findViewById(R.id.vLine), findViewById(R.id.vLineGrey),getMenuItem() != null);
+        GETIngredients(findViewById(R.id.vLine), findViewById(R.id.vLineGrey), getMenuItem() != null);
 
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
@@ -97,6 +98,7 @@ public class OrderActivity extends AppCompatActivity {
             combos = "";
             ingredientItems.get(position).setChecked();
             storeCombos();
+            System.out.println("Combobined string: " + combineString(ingredientItems));
         });
 
     }
@@ -122,15 +124,16 @@ public class OrderActivity extends AppCompatActivity {
                                 if (isChecked(Ingredient.getString("iName"))) {
                                     ingredientItems.add(new IngredientItemCheckbox(Ingredient.getInt("iID"),
                                             Ingredient.getString("iName"), Ingredient.getDouble("iPrice"),
-                                            true, false));
+                                            true, false,
+                                            isCompulsory(Ingredient.getString("iName"))));
                                 } else {
                                     ingredientItems.add(new IngredientItemCheckbox(Ingredient.getInt("iID"),
                                             Ingredient.getString("iName"), Ingredient.getDouble("iPrice"),
-                                            false, false));
+                                            false, false,
+                                            isCompulsory(Ingredient.getString("iName"))));
                                 }
                             }
 
-                            
 
                             tvTotal.setText("R" + dblPrice + "0");
                         }
@@ -227,10 +230,10 @@ public class OrderActivity extends AppCompatActivity {
 
 
     /* arr[]  ---> Input Array
-data[] ---> Temporary array to store current combination
-start & end ---> Staring and Ending indexes in arr[]
-index  ---> Current index in data[]
-r ---> Size of a combination to be printed */
+    data[] ---> Temporary array to store current combination
+    start & end ---> Staring and Ending indexes in arr[]
+    index  ---> Current index in data[]
+    r ---> Size of a combination to be printed */
     private void combinationUtil(String[] arr, String[] data, int start, int end, int index, int r) {
         // Current combination is ready to be printed, print it
         if (index == r) {
@@ -239,9 +242,7 @@ r ---> Size of a combination to be printed */
                 combo += data[j] + ", ";
 
             }
-            if (combo.toLowerCase().contains("chips")) {
-                combos += combineString(combo) + "~";
-            }
+            combos += combineString(combo) + "~";
             return;
         }
 
@@ -262,27 +263,66 @@ r ---> Size of a combination to be printed */
         String[] data = new String[r];
 
         // Print all combination using temporary array 'data[]'
+        Log.d(TAG, "printCombination: it gets here");
         combinationUtil(arr, data, 0, n - 1, 0, r);
     }
 
     private void storeCombos() {
-        for (int i = 1; i <= combineString(ingredientItems).split(", ").length; i++) {
-
+        for (int i = combineString(ingredientItems).split(", ").length; i >= 1; i--) {
+            Log.d(TAG, "storeCombos: it gets here");
             printCombination(combineString(ingredientItems).split(", "),
                     combineString(ingredientItems).split(", ").length, i);
         }
+        findMatch();
+    }
 
-        Log.d(TAG, "storeCombos: Find match");
+    private void findMatch() {
+        Log.d(TAG, "findMatch: finding match");
         for (String combo : combos.split("~")) {
-            Log.d(TAG, "storeCombos: " + combo);
             for (MenuItem menuItem : getMenuItems()) {
+                Log.d(TAG, "findMatch: it gets here");
                 if (menuItem.getStrMenu().toLowerCase().equals(combo.toLowerCase())) {
+                    //Check if the combo is == to the menu selected
+                    System.out.println("--------------------------------------------------------------");
+                    System.out.println("Combo: " + combo);
+                    System.out.println("Menu item: " + menuItem.getStrMenu());
+                    System.out.println("Extra ingredients: " + extraIngredients(menuItem));
                     dblPrice = menuItem.getDblPrice();
+                    if (!extraIngredients(menuItem).isEmpty()) {
+                        addExtras(menuItem);
+                    }
                     tvTotal.setText("R" + dblPrice + "0");
+                    return;
                 }
             }
         }
-
     }
 
+    private String extraIngredients(MenuItem menuItem) {
+        String leftIngredientItems = combineString(ingredientItems);
+        for (String ingredient : menuItem.getStrMenu().split(", ")) {
+            Log.d(TAG, "extraIngredients: it gets here");
+            leftIngredientItems = leftIngredientItems.replace(ingredient, "");
+        }
+
+        return leftIngredientItems.trim();
+    }
+
+    private void addExtras(MenuItem menuItem) {
+        for (String extra : extraIngredients(menuItem).split(", ")) {
+            for (IngredientItemCheckbox ingredientItem : ingredientItems) {
+                if (ingredientItem.getStrIngredientName().toLowerCase().equals(extra.toLowerCase())) {
+                    dblPrice += ingredientItem.getDblPrice();
+                }
+            }
+        }
+    }
+
+    private boolean isCompulsory(String ingredient) {
+        for (MenuItem menuItem : getMenuItems()) {
+            if (!menuItem.getStrMenu().contains(ingredient))
+                return true;
+        }
+        return false;
+    }
 }
