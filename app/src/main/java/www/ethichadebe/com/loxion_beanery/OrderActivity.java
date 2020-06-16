@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -48,6 +50,8 @@ public class OrderActivity extends AppCompatActivity {
     private static UpcomingOrderItem orderItem;
     private ArrayList<IngredientItemCheckbox> ingredientItems;
     private RecyclerView mRecyclerView;
+    private String combos;
+
     private IngredientItemCheckboxAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private TextView tvTotal;
@@ -69,7 +73,6 @@ public class OrderActivity extends AppCompatActivity {
             startActivity(new Intent(this, LoginActivity.class));
         }
 
-
         tvTotal = findViewById(R.id.tvTotal);
         rlLoad = findViewById(R.id.rlLoad);
         rlError = findViewById(R.id.rlError);
@@ -78,8 +81,10 @@ public class OrderActivity extends AppCompatActivity {
         myDialog = new Dialog(this);
 
         //Get menu item price and display it
-        dblPrice = getMenuItem().getDblPrice();
-        GETIngredients(findViewById(R.id.vLine), findViewById(R.id.vLineGrey));
+        if (getMenuItem() != null) {
+            dblPrice = getMenuItem().getDblPrice();
+        }
+        GETIngredients(findViewById(R.id.vLine), findViewById(R.id.vLineGrey),getMenuItem() != null);
 
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
@@ -89,13 +94,14 @@ public class OrderActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(mAdapter);
 
         mAdapter.setOnItemClickListener(position -> {
+            combos = "";
             ingredientItems.get(position).setChecked();
-            //TODO: Update price and menu list
+            storeCombos();
         });
 
     }
 
-    private void GETIngredients(View vLine, View vLineGrey) {
+    private void GETIngredients(View vLine, View vLineGrey, boolean isNotCustom) {
         rlError.setVisibility(View.GONE);
         rlLoad.setVisibility(View.VISIBLE);
         handler(vLine, vLineGrey);
@@ -105,20 +111,15 @@ public class OrderActivity extends AppCompatActivity {
                 Request.Method.GET,
                 getIpAddress() + "/shops/Ingredients/" + getShopItem().getIntID(), null,
                 response -> {
-                    //Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
                     rlLoad.setVisibility(View.GONE);
                     //Loads shops starting with the one closest to user
                     try {
                         if (response.getString("message").equals("shops")) {
                             JSONArray jsonArray = response.getJSONArray("ingredients");
-                            //TODO: Remove temp variable
-                            String tempOutput = "";
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject Ingredient = jsonArray.getJSONObject(i);
                                 nExtras = Ingredient.getInt("nExtras");
                                 if (isChecked(Ingredient.getString("iName"))) {
-                                    tempOutput += Ingredient.getString("iName") + " ";
-                                    Toast.makeText(this, tempOutput, Toast.LENGTH_SHORT).show();
                                     ingredientItems.add(new IngredientItemCheckbox(Ingredient.getInt("iID"),
                                             Ingredient.getString("iName"), Ingredient.getDouble("iPrice"),
                                             true, false));
@@ -128,6 +129,9 @@ public class OrderActivity extends AppCompatActivity {
                                             false, false));
                                 }
                             }
+
+                            
+
                             tvTotal.setText("R" + dblPrice + "0");
                         }
                     } catch (JSONException e) {
@@ -213,7 +217,6 @@ public class OrderActivity extends AppCompatActivity {
         requestQueue.add(stringRequest);
     }
 
-
     @Override
     protected void onStop() {
         super.onStop();
@@ -221,4 +224,65 @@ public class OrderActivity extends AppCompatActivity {
             requestQueue.cancelAll(TAG);
         }
     }
+
+
+    /* arr[]  ---> Input Array
+data[] ---> Temporary array to store current combination
+start & end ---> Staring and Ending indexes in arr[]
+index  ---> Current index in data[]
+r ---> Size of a combination to be printed */
+    private void combinationUtil(String[] arr, String[] data, int start, int end, int index, int r) {
+        // Current combination is ready to be printed, print it
+        if (index == r) {
+            String combo = "";
+            for (int j = 0; j < r; j++) {
+                combo += data[j] + ", ";
+
+            }
+            if (combo.toLowerCase().contains("chips")) {
+                combos += combineString(combo) + "~";
+            }
+            return;
+        }
+
+        // replace index with all possible elements. The condition
+        // "end-i+1 >= r-index" makes sure that including one element
+        // at index will make a combination with remaining elements
+        // at remaining positions
+        for (int i = start; i <= end && end - i + 1 >= r - index; i++) {
+            data[index] = arr[i];
+            combinationUtil(arr, data, i + 1, end, index + 1, r);
+        }
+    }
+
+    // The main function that prints all combinations of size r
+    // in arr[] of size n. This function mainly uses combinationUtil()
+    private void printCombination(String[] arr, int n, int r) {
+        // A temporary array to store all combination one by one
+        String[] data = new String[r];
+
+        // Print all combination using temporary array 'data[]'
+        combinationUtil(arr, data, 0, n - 1, 0, r);
+    }
+
+    private void storeCombos() {
+        for (int i = 1; i <= combineString(ingredientItems).split(", ").length; i++) {
+
+            printCombination(combineString(ingredientItems).split(", "),
+                    combineString(ingredientItems).split(", ").length, i);
+        }
+
+        Log.d(TAG, "storeCombos: Find match");
+        for (String combo : combos.split("~")) {
+            Log.d(TAG, "storeCombos: " + combo);
+            for (MenuItem menuItem : getMenuItems()) {
+                if (menuItem.getStrMenu().toLowerCase().equals(combo.toLowerCase())) {
+                    dblPrice = menuItem.getDblPrice();
+                    tvTotal.setText("R" + dblPrice + "0");
+                }
+            }
+        }
+
+    }
+
 }

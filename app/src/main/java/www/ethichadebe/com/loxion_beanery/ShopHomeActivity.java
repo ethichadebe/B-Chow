@@ -52,7 +52,7 @@ public class ShopHomeActivity extends AppCompatActivity {
     private static String[] ingredients;
     private RelativeLayout rlLoad, rlError;
     private TextView tvName, tvDistance, tvAveTime, tvFullDescrpit, tvLikes;
-    private static MenuItem menuItem;
+    private static MenuItem menuItem = null;
     private Dialog myDialog;
     private ImageView ivLike, ivBig;
     private LinearLayout llLike;
@@ -270,8 +270,6 @@ public class ShopHomeActivity extends AppCompatActivity {
     }
 
     public void Custom(View view) {
-        menuItem = MenuItems.get(0);
-        ingredients = "Chips".split(", ");
         startActivity(new Intent(ShopHomeActivity.this, OrderActivity.class));
     }
 
