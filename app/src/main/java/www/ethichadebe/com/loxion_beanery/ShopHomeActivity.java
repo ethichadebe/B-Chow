@@ -52,16 +52,11 @@ public class ShopHomeActivity extends AppCompatActivity {
     private static String[] ingredients;
     private RelativeLayout rlLoad, rlError;
     private TextView tvName, tvDistance, tvAveTime, tvFullDescrpit, tvLikes;
-    private static MenuItem menuItem = null;
     private Dialog myDialog;
     private ImageView ivLike, ivBig;
     private LinearLayout llLike;
     private Button bCustom;
     private RatingBar rbRating;
-
-    public static MenuItem getMenuItem() {
-        return menuItem;
-    }
 
     public static ArrayList<MenuItem> getMenuItems() {
         return MenuItems;
@@ -120,7 +115,6 @@ public class ShopHomeActivity extends AppCompatActivity {
             @Override
             public void onItemClick(int position) {
                 if (getShopItem().getIntStatus() == 1) {
-                    menuItem = MenuItems.get(position);
                     ingredients = MenuItems.get(position).getStrMenu().split(", ");
                     startActivity(new Intent(ShopHomeActivity.this, OrderActivity.class));
                 }
@@ -139,6 +133,9 @@ public class ShopHomeActivity extends AppCompatActivity {
 
     public static String[] getIngredients() {
         return ingredients;
+    }
+    public static void setIngredients(String[] ingredients) {
+        ShopHomeActivity.ingredients = ingredients;
     }
 
     public void back(View view) {

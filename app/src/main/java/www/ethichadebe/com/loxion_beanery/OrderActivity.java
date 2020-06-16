@@ -42,8 +42,8 @@ import static util.HelperMethods.handler;
 import static www.ethichadebe.com.loxion_beanery.HomeFragment.getShopItem;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 import static www.ethichadebe.com.loxion_beanery.ShopHomeActivity.getIngredients;
-import static www.ethichadebe.com.loxion_beanery.ShopHomeActivity.getMenuItem;
 import static www.ethichadebe.com.loxion_beanery.ShopHomeActivity.getMenuItems;
+import static www.ethichadebe.com.loxion_beanery.ShopHomeActivity.setIngredients;
 
 public class OrderActivity extends AppCompatActivity {
     private static final String TAG = "OrderActivity";
@@ -51,7 +51,7 @@ public class OrderActivity extends AppCompatActivity {
     private static UpcomingOrderItem orderItem;
     private ArrayList<IngredientItemCheckbox> ingredientItems;
     private RecyclerView mRecyclerView;
-    private String combos;
+    private String combos = "";
 
     private IngredientItemCheckboxAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -81,11 +81,7 @@ public class OrderActivity extends AppCompatActivity {
         ingredientItems = new ArrayList<>();
         myDialog = new Dialog(this);
 
-        //Get menu item price and display it
-        if (getMenuItem() != null) {
-            dblPrice = getMenuItem().getDblPrice();
-        }
-        GETIngredients(findViewById(R.id.vLine), findViewById(R.id.vLineGrey), getMenuItem() != null);
+        GETIngredients(findViewById(R.id.vLine), findViewById(R.id.vLineGrey), getIngredients() == null);
 
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
@@ -98,12 +94,11 @@ public class OrderActivity extends AppCompatActivity {
             combos = "";
             ingredientItems.get(position).setChecked();
             storeCombos();
-            System.out.println("Combobined string: " + combineString(ingredientItems));
         });
 
     }
 
-    private void GETIngredients(View vLine, View vLineGrey, boolean isNotCustom) {
+    private void GETIngredients(View vLine, View vLineGrey, boolean isCustom) {
         rlError.setVisibility(View.GONE);
         rlLoad.setVisibility(View.VISIBLE);
         handler(vLine, vLineGrey);
@@ -124,18 +119,21 @@ public class OrderActivity extends AppCompatActivity {
                                 if (isChecked(Ingredient.getString("iName"))) {
                                     ingredientItems.add(new IngredientItemCheckbox(Ingredient.getInt("iID"),
                                             Ingredient.getString("iName"), Ingredient.getDouble("iPrice"),
-                                            true, false,
+                                            true, true,
+                                            isCompulsory(Ingredient.getString("iName"))));
+                                } else if (isCustom) {
+                                    ingredientItems.add(new IngredientItemCheckbox(Ingredient.getInt("iID"),
+                                            Ingredient.getString("iName"), Ingredient.getDouble("iPrice"),
+                                            !isCompulsory(Ingredient.getString("iName")), true,
                                             isCompulsory(Ingredient.getString("iName"))));
                                 } else {
                                     ingredientItems.add(new IngredientItemCheckbox(Ingredient.getInt("iID"),
                                             Ingredient.getString("iName"), Ingredient.getDouble("iPrice"),
-                                            false, false,
+                                            false, true,
                                             isCompulsory(Ingredient.getString("iName"))));
                                 }
                             }
-
-
-                            tvTotal.setText("R" + dblPrice + "0");
+                            storeCombos();
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -156,6 +154,13 @@ public class OrderActivity extends AppCompatActivity {
     }
 
     public void back(View view) {
+        setIngredients(null);
+        finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        setIngredients(null);
         finish();
     }
 
@@ -268,6 +273,7 @@ public class OrderActivity extends AppCompatActivity {
     }
 
     private void storeCombos() {
+        Log.d(TAG, "storeCombos: combineString(ingredientItems).contains(\", \")");
         for (int i = combineString(ingredientItems).split(", ").length; i >= 1; i--) {
             Log.d(TAG, "storeCombos: it gets here");
             printCombination(combineString(ingredientItems).split(", "),
@@ -280,8 +286,9 @@ public class OrderActivity extends AppCompatActivity {
         Log.d(TAG, "findMatch: finding match");
         for (String combo : combos.split("~")) {
             for (MenuItem menuItem : getMenuItems()) {
-                Log.d(TAG, "findMatch: it gets here");
+                Log.d(TAG, "findMatch: it gets here combo: " + combo);
                 if (menuItem.getStrMenu().toLowerCase().equals(combo.toLowerCase())) {
+                    Log.d(TAG, "findMatch: match gotten");
                     //Check if the combo is == to the menu selected
                     System.out.println("--------------------------------------------------------------");
                     System.out.println("Combo: " + combo);
