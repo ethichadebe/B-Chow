@@ -3,11 +3,11 @@
     package="www.ethichadebe.com.loxion_beanery">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.CAMERA" />
 
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
@@ -39,13 +39,8 @@
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="@string/AdMob_app_ID" />
 
-        <activity
-            android:name="com.yalantis.ucrop.UCropActivity"
-            android:screenOrientation="fullSensor"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        
         <provider
-            android:authorities="www.ethichadebe.com.loxion_beanery.fileprovider"
+            android:authorities="www.ethichadebe.com.loxion_beanery"
             android:name="androidx.core.content.FileProvider"
             android:exported="false"
             android:grantUriPermissions="true">

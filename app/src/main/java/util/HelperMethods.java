@@ -8,27 +8,19 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
-import android.os.Environment;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.rengwuxian.materialedittext.MaterialEditText;
-import com.yalantis.ucrop.UCrop;
-
-import java.io.File;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DateFormat;
@@ -46,9 +38,6 @@ import www.ethichadebe.com.loxion_beanery.R;
 
 
 public class HelperMethods {
-    public static final String ANSI_GREEN = "\u001B[32m";
-    public static final String ANSI_YELLOW = "\u001B[33m";
-
     public static final int STORAGE_PERMISSION = 1;
     public static final int CAMERA_PERMISSION = 20;
     public static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
@@ -307,40 +296,6 @@ public class HelperMethods {
         }
     }
 
-    public static File createFile(String TAG) {
-        Log.d(TAG, "createFile: Creating File");
-        String filename = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-
-        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-        try {
-            Log.d(TAG, "createFile: File created");
-            return File.createTempFile(filename, ".jpg", storageDir);
-        } catch (IOException e) {
-            Log.d(TAG, "createFile: " + e.toString());
-        }
-        return null;
-    }
-
-    public static void startCrop(Activity activity, File file, @NonNull Uri uri, int width, int height) {
-        //Crop
-        String destFilename = "SampleCropImg.jpg";
-
-        UCrop uCrop = UCrop.of(uri, Uri.fromFile(new File(file, destFilename)));
-        uCrop.withAspectRatio(width, height)
-                .withMaxResultSize(width, height)
-                .withOptions(getOptions())
-                .start(activity);
-
-    }
-
-    private static UCrop.Options getOptions() {
-        UCrop.Options options = new UCrop.Options();
-        options.setCompressionQuality(70);
-        options.setHideBottomControls(false);
-        options.setFreeStyleCropEnabled(false);
-
-        return options;
-    }
 
     public static void DisplayImage(ImageView imageView, String url) {
         LoadImage loadImage = new LoadImage(imageView);

@@ -4,28 +4,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
-import androidx.fragment.app.DialogFragment;
 
-import android.Manifest;
-import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,44 +22,32 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
 import com.android.volley.TimeoutError;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.rengwuxian.materialedittext.MaterialEditText;
-import com.yalantis.ucrop.UCrop;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
-import java.io.IOException;
-import java.text.DateFormat;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
 import util.AppHelper;
-import util.HelperMethods;
 import util.VolleyMultipartRequest;
 import util.VolleySingleton;
+import www.ethichadebe.co.za.uploadpicture.UploadImage;
 
 import static util.Constants.getIpAddress;
-import static util.HelperMethods.CAMERA_PERMISSION;
 import static util.HelperMethods.DisplayImage;
 import static util.HelperMethods.SHARED_PREFS;
-import static util.HelperMethods.STORAGE_PERMISSION;
 import static util.HelperMethods.ShowLoadingPopup;
 import static util.HelperMethods.allFieldsEntered;
-import static util.HelperMethods.createFile;
 import static util.HelperMethods.displayDatePicker;
-import static util.HelperMethods.requestPermission;
 import static util.HelperMethods.saveData;
 import static util.HelperMethods.sharedPrefsIsEmpty;
-import static util.HelperMethods.startCrop;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 import static www.ethichadebe.com.loxion_beanery.MainActivity.setIntFragment;
 
@@ -84,10 +60,10 @@ public class EditUserProfileActivity extends AppCompatActivity {
     private Dialog myDialog;
     private boolean isBack = true;
     private ImageView civProfilePicture;
-    private Bitmap bProfilePicture;
     private RequestQueue requestQueue;
     private StringRequest stringRequest;
-    private String pathToFile, fileName;
+
+    private UploadImage uploadImage;
 
     /*0 Name
     1 Surname
@@ -172,6 +148,9 @@ public class EditUserProfileActivity extends AppCompatActivity {
                 mCBFemale.setChecked(true);
             }
         });
+
+        uploadImage = new UploadImage(this, this, getPackageManager(), myDialog, civProfilePicture,
+                "www.ethichadebe.com.loxion_beanery", TAG);
     }
 
     //Editing profile
@@ -271,7 +250,7 @@ public class EditUserProfileActivity extends AppCompatActivity {
 
         VolleySingleton.getInstance(getBaseContext()).addToRequestQueue(multipartRequest);
     }
-    
+
     private void setCheck(String Checked) {
         UserSex = Checked;
         switch (Checked) {
@@ -509,110 +488,19 @@ public class EditUserProfileActivity extends AppCompatActivity {
 
     //Changing profile picture
     public void ProfilePicture(View view) {
-        ShowDPEditPopup(civProfilePicture.getDrawable() != null);
+        uploadImage.start();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Uri uri;
-        //civProfilePicture.
-        if ((requestCode == STORAGE_PERMISSION) && (resultCode == RESULT_OK)) {
-            uri = Objects.requireNonNull(data).getData();
-            if (uri != null) {
-                startCrop(this, getCacheDir(), uri, 350, 350);
-            }
-        } else if ((requestCode == CAMERA_PERMISSION) && (resultCode == RESULT_OK)) {
-            if (BitmapFactory.decodeFile(pathToFile) != null) {
-                startCrop(this, getCacheDir(), Uri.fromFile(new File(pathToFile)), 350,
-                        350);
-            }
-        } else if ((requestCode == UCrop.REQUEST_CROP) && (resultCode == RESULT_OK)) {
-            uri = UCrop.getOutput(Objects.requireNonNull(data));
-            if (uri != null) {
-                try {
-                    bProfilePicture = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
-                    //Toast.makeText(this, "Converted", Toast.LENGTH_SHORT).show();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                civProfilePicture.setImageDrawable(null);
-                civProfilePicture.setImageURI(uri);
-            }
-        }
-
-    }
-
-
-    public void ShowDPEditPopup(boolean theresPic) {
-        TextView tvCancel, tvMessage, btnYes, btnNo, tvRemove;
-        myDialog.setContentView(R.layout.popup_confirmation);
-
-        tvCancel = myDialog.findViewById(R.id.tvCancel);
-        tvMessage = myDialog.findViewById(R.id.tvMessage);
-        btnYes = myDialog.findViewById(R.id.btnYes);
-        btnNo = myDialog.findViewById(R.id.btnNo);
-        tvRemove = myDialog.findViewById(R.id.tvRemove);
-
-        if (theresPic) {
-            tvRemove.setVisibility(View.VISIBLE);
-        } else {
-            tvRemove.setVisibility(View.GONE);
-        }
-
-        tvRemove.setOnClickListener(view -> {
-            civProfilePicture.setImageDrawable(null);
-            myDialog.dismiss();
-        });
-
-        tvCancel.setOnClickListener(view -> myDialog.dismiss());
-
-        btnNo.setText("Open Gallery");
-        btnYes.setText("Open Camera");
-        tvMessage.setText("Change Profile Picture");
-
-        btnYes.setOnClickListener(view -> {
-            if (ContextCompat.checkSelfPermission(this,
-                    Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-                Log.d(TAG, "ShowDPEditPopup: Take picture");
-                takePicture();
-                myDialog.dismiss();
-            } else {
-                myDialog.dismiss();
-                requestPermission(this, this, CAMERA_PERMISSION);
-            }
-
-        });
-
-        btnNo.setOnClickListener(view -> {
-            if (ContextCompat.checkSelfPermission(this,
-                    Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                myDialog.dismiss();
-                startActivityForResult(new Intent().setAction(Intent.ACTION_GET_CONTENT).setType("image/*"),
-                        STORAGE_PERMISSION);
-            } else {
-                myDialog.dismiss();
-                requestPermission(this, this, STORAGE_PERMISSION);
-            }
-        });
-
-        Objects.requireNonNull(myDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        myDialog.show();
-        myDialog.setCancelable(false);
-        myDialog.setCanceledOnTouchOutside(false);
+        uploadImage.onActivityResult(getCacheDir(), requestCode, requestCode, data);
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
-        if ((requestCode == STORAGE_PERMISSION) && ((grantResults.length) > 0) &&
-                grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            startActivityForResult(new Intent().setAction(Intent.ACTION_GET_CONTENT).setType("image/*"),
-                    STORAGE_PERMISSION);
-        } else if ((requestCode == CAMERA_PERMISSION) && ((grantResults.length) > 0) &&
-                grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            takePicture();
-        }
+        uploadImage.onRequestPermissionsResult(requestCode, grantResults);
     }
 
     @Override
@@ -621,29 +509,6 @@ public class EditUserProfileActivity extends AppCompatActivity {
         if (requestQueue != null) {
             requestQueue.cancelAll(TAG);
         }
-    }
-
-    private void takePicture() {
-        Log.d(TAG, "takePicture: Taking picture");
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
-        //Check if there's an app available to take picture
-        if (intent.resolveActivity(getPackageManager()) != null) {
-            Log.d(TAG, "takePicture: getPackageManager()) != null");
-            File photo;
-            photo = createFile(TAG);
-            //Save picture into the photo var
-            if (photo != null) {
-                pathToFile = Objects.requireNonNull(photo).getAbsolutePath();
-                fileName = pathToFile.substring(pathToFile.lastIndexOf("/") + 1);
-                Uri photoUri = FileProvider.getUriForFile(this,
-                        "www.ethichadebe.com.loxion_beanery.fileprovider", photo);
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
-                Log.d(TAG, "takePicture: Start picture taking activity");
-                startActivityForResult(intent, CAMERA_PERMISSION);
-            }
-        }
-
     }
 
 }

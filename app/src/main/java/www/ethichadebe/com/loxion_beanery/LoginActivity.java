@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -32,7 +31,6 @@ import com.daimajia.androidanimations.library.YoYo;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
@@ -41,7 +39,6 @@ import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResponse;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.rengwuxian.materialedittext.MaterialEditText;
@@ -61,13 +58,11 @@ import static util.HelperMethods.COARSE_LOCATION;
 import static util.HelperMethods.FINE_LOCATION;
 import static util.HelperMethods.LOCATION_REQUEST_CODE;
 import static util.HelperMethods.SHARED_PREFS;
-import static util.HelperMethods.STORAGE_PERMISSION;
 import static util.HelperMethods.ShowLoadingPopup;
 import static util.HelperMethods.ismLocationGranted;
 import static util.HelperMethods.loadData;
 import static util.HelperMethods.saveData;
 import static util.HelperMethods.setmLocationGranted;
-import static util.HelperMethods.startCrop;
 import static www.ethichadebe.com.loxion_beanery.ProfileFragment.isLogout;
 
 public class LoginActivity extends AppCompatActivity {
@@ -139,7 +134,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void PostLogin(boolean isPopup) {
-        if (isPopup || (rellay1.getVisibility() == View.VISIBLE)) {
+        Log.d(TAG, "PostLogin: call login method");
+        if (isPopup && (rellay1.getVisibility() == View.VISIBLE)) {
             ShowLoadingPopup(myDialog, true);
         } else {
             YoYo.with(Techniques.FadeIn)
@@ -150,13 +146,16 @@ public class LoginActivity extends AppCompatActivity {
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
                 getIpAddress() + "/users/Login",
                 response -> {
+                    Log.d(TAG, "PostLogin: Response from server " + response);
                     ShowLoadingPopup(myDialog, false);
                     try {
                         JSONObject JSONResponse = new JSONObject(response);
 
                         if (JSONResponse.getString("data").equals("false")) {
+                            Log.d(TAG, "PostLogin: User not found");
                             ShowConfirmationPopup();
                         } else {
+                            Log.d(TAG, "PostLogin: User found");
                             JSONObject ObjData = new JSONObject(response);
                             JSONArray ArrData = ObjData.getJSONArray("data");
                             JSONObject userData = ArrData.getJSONObject(0);
@@ -174,6 +173,7 @@ public class LoginActivity extends AppCompatActivity {
                                         Objects.requireNonNull(mTextUsername.getText()).toString(),
                                         Objects.requireNonNull(mTextPassword.getText()).toString());
                             }
+                            Log.d(TAG, "PostLogin: Getting device location");
                             getDeviceLocation();
                         }
                     } catch (JSONException e) {
@@ -181,6 +181,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     }
                 }, error -> {
+            Log.d(TAG, "PostLogin: error " + error);
             if (error.toString().equals("com.android.volley.TimeoutError")) {
                 tvError.setText("Connection timeout, Please try again");
             } else if (error.toString().equals("com.android.volley.ServerError")) {
@@ -271,7 +272,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void getDeviceLocation() {
-        Log.d(TAG, "getDeviceLocation: getting current location");
+        Log.d(TAG, "PostLogin getDeviceLocation: getting current location");
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(Objects.requireNonNull(this));
 
         try {
@@ -279,8 +280,9 @@ public class LoginActivity extends AppCompatActivity {
                 Task location = mFusedLocationProviderClient.getLastLocation();
                 location.addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        Log.d(TAG, "onComplete: location found");
+                        Log.d(TAG, "PostLogin onComplete: location found");
                         if (task.getResult() == null) {
+                            Log.d(TAG, "PostLogin turnOnLocation: location is null");
                             turnOnLocation();
                         } else {
                             Location currentLocation = (Location) task.getResult();
@@ -291,7 +293,7 @@ public class LoginActivity extends AppCompatActivity {
                         }
 
                     } else {
-                        Log.d(TAG, "onComplete: Unable to get location");
+                        Log.d(TAG, "PostLogin onComplete: Unable to get location");
                         Toast.makeText(this, "Unable to get current location", Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -302,6 +304,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void turnOnLocation() {
+        Log.d(TAG, "PostLogin turnOnLocation: trying to turn on location");
         LocationRequest request = new LocationRequest().setFastestInterval(1500).setInterval(3000)
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
@@ -311,12 +314,17 @@ public class LoginActivity extends AppCompatActivity {
 
         result.addOnCompleteListener(task -> {
             try {
+                Log.d(TAG, "PostLogin turnOnLocation: gets here");
                 task.getResult(ApiException.class);
+
+                //Successful
+                Log.d(TAG, "PostLogin turnOnLocation: successful");
                 PostLogin(false);
             } catch (ApiException e) {
                 switch (e.getStatusCode()) {
                     case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
                         try {
+                            Log.d(TAG, "PostLogin turnOnLocation: Turning on location");
                             ResolvableApiException resolvableApiException = (ResolvableApiException) e;
                             resolvableApiException.startResolutionForResult(this, REQUEST_CHECK_SETTINGS);
                         } catch (IntentSender.SendIntentException ex) {
