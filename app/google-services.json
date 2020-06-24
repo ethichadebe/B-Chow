@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "859474424594",
+    "firebase_url": "https://loxion-beanery-78c17.firebaseio.com",
+    "project_id": "loxion-beanery-78c17",
+    "storage_bucket": "loxion-beanery-78c17.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:859474424594:android:5519da0353cdd55d33b9cb",
+        "android_client_info": {
+          "package_name": "www.ethichadebe.com.loxion_beanery"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "859474424594-kl0scge2flsu5bovmhq0or9fi0rd638h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "www.ethichadebe.com.loxion_beanery",
+            "certificate_hash": "731734a909b254bff83f3c9bef2f10afe87e2e09"
+          }
+        },
+        {
+          "client_id": "859474424594-k23urq6l5rc3d1cg7mdiqauhl943ic9a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDI-VxInkB9xdmZj5xkN-XrCew_GrQLQXc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "859474424594-k23urq6l5rc3d1cg7mdiqauhl943ic9a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
