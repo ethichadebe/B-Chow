@@ -35,12 +35,14 @@ import java.util.Objects;
 
 import Adapter.PastOrderItemAdapter;
 import SingleItem.PastOrderItem;
+import SingleItem.UpcomingOrderItem;
 
 import static util.Constants.getIpAddress;
 import static util.HelperMethods.ShowLoadingPopup;
 import static util.HelperMethods.handler;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
-import static www.ethichadebe.com.loxion_beanery.OrderActivity.oID;
+import static www.ethichadebe.com.loxion_beanery.MainActivity.getUpcomingOrderItem;
+import static www.ethichadebe.com.loxion_beanery.MainActivity.setUpcomingOrderItem;
 
 public class PastOrderFragmentCustomer extends Fragment {
     private static final String TAG = "PastOrderFragmentCustom";
@@ -148,11 +150,16 @@ public class PastOrderFragmentCustomer extends Fragment {
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
                 getIpAddress() + "/orders/Order",
                 response -> {
+                    ShowLoadingPopup(myDialog, false);
                     try {
-                        JSONObject JSONResponse = new JSONObject(response);
-                        oID = JSONResponse.getInt("data");
-                        ShowLoadingPopup(myDialog, false);
-                        if (oID != -1) {
+                        JSONObject Orders = new JSONObject(response);
+                        setUpcomingOrderItem(new UpcomingOrderItem(Orders.getInt("oID"),
+                                Orders.getString("sName"), Orders.getInt("oNumber"),
+                                Orders.getString("createdAt"), Orders.getString("oIngredients"),
+                                Orders.getString("oExtras"), Orders.getDouble("oPrice"),
+                                Orders.getString("oStatus"), new LatLng(Orders.getDouble("sLatitude"),
+                                Orders.getDouble("sLongitude"))));
+                        if (getUpcomingOrderItem() != null) {
                             startActivity(new Intent(getActivity(), OrderConfirmationActivity.class));
                         }
                     } catch (JSONException e) {

@@ -12,11 +12,23 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.Objects;
 
+import SingleItem.UpcomingOrderItem;
+
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 
 public class MainActivity extends AppCompatActivity {
     private static int intFragment;
     private BottomNavigationView bottomNav, bottomNavAdmin;
+    private static UpcomingOrderItem upcomingOrderItem;
+
+    static UpcomingOrderItem getUpcomingOrderItem() {
+        return upcomingOrderItem;
+    }
+
+    static void setUpcomingOrderItem(UpcomingOrderItem upcomingOrderItem) {
+        MainActivity.upcomingOrderItem = upcomingOrderItem;
+    }
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

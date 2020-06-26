@@ -8,7 +8,6 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -41,6 +40,8 @@ import static util.HelperMethods.combineString;
 import static util.HelperMethods.handler;
 import static www.ethichadebe.com.loxion_beanery.HomeFragment.getShopItem;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
+import static www.ethichadebe.com.loxion_beanery.MainActivity.getUpcomingOrderItem;
+import static www.ethichadebe.com.loxion_beanery.MainActivity.setUpcomingOrderItem;
 import static www.ethichadebe.com.loxion_beanery.ShopHomeActivity.getIngredients;
 import static www.ethichadebe.com.loxion_beanery.ShopHomeActivity.getMenuItems;
 import static www.ethichadebe.com.loxion_beanery.ShopHomeActivity.setIngredients;
@@ -58,7 +59,6 @@ public class OrderActivity extends AppCompatActivity {
     private TextView tvTotal;
     private Double dblPrice = 0.0;
     private int nExtras = 0;
-    static int oID = -1;
     private RelativeLayout rlLoad, rlError;
     private Dialog myDialog;
 
@@ -190,15 +190,22 @@ public class OrderActivity extends AppCompatActivity {
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
                 getIpAddress() + "/orders/Order",
                 response -> {
+                    ShowLoadingPopup(myDialog, false);
                     try {
-                        JSONObject JSONResponse = new JSONObject(response);
-                        oID = JSONResponse.getInt("data");
-                        ShowLoadingPopup(myDialog, false);
-                        if (oID != -1) {
-                            startActivity(new Intent(OrderActivity.this, OrderConfirmationActivity.class));
+                        Log.d(TAG, "POSTOrder: Response " + response);
+                        JSONObject Orders = new JSONObject(response);
+                        setUpcomingOrderItem(new UpcomingOrderItem(Orders.getInt("oID"),
+                                Orders.getString("sName"), Orders.getInt("oNumber"),
+                                Orders.getString("createdAt"), Orders.getString("oIngredients"),
+                                Orders.getString("oExtras"), Orders.getDouble("oPrice"),
+                                Orders.getString("oStatus"), new LatLng(Orders.getDouble("sLatitude"),
+                                Orders.getDouble("sLongitude"))));
+                        if (getUpcomingOrderItem() != null) {
+                            Log.d(TAG, "POSTOrder: Starting activity");
+                            startActivity(new Intent(this, OrderConfirmationActivity.class));
                         }
                     } catch (JSONException e) {
-                        e.printStackTrace();
+                        Log.d(TAG, "POSTOrder: exception " +e.toString());
                     }
                 }, error -> {
             ShowLoadingPopup(myDialog, false);

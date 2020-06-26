@@ -16,6 +16,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,6 +28,7 @@ import java.util.Map;
 
 import Adapter.IngredientItemCheckboxAdapter;
 import SingleItem.IngredientItemCheckbox;
+import SingleItem.UpcomingOrderItem;
 
 import static util.Constants.getIpAddress;
 import static util.HelperMethods.ShowLoadingPopup;
@@ -34,8 +36,9 @@ import static util.HelperMethods.combineString;
 import static util.HelperMethods.handler;
 import static www.ethichadebe.com.loxion_beanery.HomeFragment.getShopItem;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
+import static www.ethichadebe.com.loxion_beanery.MainActivity.getUpcomingOrderItem;
+import static www.ethichadebe.com.loxion_beanery.MainActivity.setUpcomingOrderItem;
 import static www.ethichadebe.com.loxion_beanery.OrderActivity.getOrderItem;
-import static www.ethichadebe.com.loxion_beanery.OrderActivity.oID;
 
 public class ExtraItemActivity extends AppCompatActivity {
     private static final String TAG = "ExtraItemActivity";
@@ -118,11 +121,16 @@ public class ExtraItemActivity extends AppCompatActivity {
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
                 getIpAddress() + "/orders/Order",
                 response -> {
+                    ShowLoadingPopup(myDialog, false);
                     try {
-                        JSONObject JSONResponse = new JSONObject(response);
-                        oID = JSONResponse.getInt("data");
-                        ShowLoadingPopup(myDialog, false);
-                        if (oID != -1) {
+                        JSONObject Orders = new JSONObject(response);
+                        setUpcomingOrderItem(new UpcomingOrderItem(Orders.getInt("oID"),
+                                Orders.getString("sName"), Orders.getInt("oNumber"),
+                                Orders.getString("createdAt"), Orders.getString("oIngredients"),
+                                Orders.getString("oExtras"), Orders.getDouble("oPrice"),
+                                Orders.getString("oStatus"), new LatLng(Orders.getDouble("sLatitude"),
+                                Orders.getDouble("sLongitude"))));
+                        if (getUpcomingOrderItem() != null) {
                             startActivity(new Intent(this, OrderConfirmationActivity.class));
                         }
                     } catch (JSONException e) {

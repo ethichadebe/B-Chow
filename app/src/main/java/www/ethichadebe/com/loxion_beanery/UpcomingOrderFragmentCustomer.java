@@ -36,6 +36,7 @@ import SingleItem.UpcomingOrderItem;
 import static util.Constants.getIpAddress;
 import static util.HelperMethods.handler;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
+import static www.ethichadebe.com.loxion_beanery.MainActivity.setUpcomingOrderItem;
 
 public class UpcomingOrderFragmentCustomer extends Fragment {
     private static final String TAG = "UpcomingOrderFragmentCu";
@@ -45,16 +46,6 @@ public class UpcomingOrderFragmentCustomer extends Fragment {
     private UpcomingOrderItemAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<UpcomingOrderItem> upcomingOrderItems;
-    private static UpcomingOrderItem upcomingOrderItem;
-
-    static UpcomingOrderItem getUpcomingOrderItem() {
-        return upcomingOrderItem;
-    }
-
-    static void setUpcomingOrderItem(UpcomingOrderItem upcomingOrderItem) {
-        UpcomingOrderFragmentCustomer.upcomingOrderItem = upcomingOrderItem;
-    }
-
     private RelativeLayout rlLoad, rlError, rlEmpty;
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -77,7 +68,7 @@ public class UpcomingOrderFragmentCustomer extends Fragment {
         mRecyclerView.setAdapter(mAdapter);
 
         mAdapter.setOnItemClickListener(position -> {
-            upcomingOrderItem = upcomingOrderItems.get(position);
+            setUpcomingOrderItem(upcomingOrderItems.get(position));
             startActivity(new Intent(getActivity(), OrderConfirmationActivity.class));
         });
         GETUpcomingOrders(v.findViewById(R.id.vLine), v.findViewById(R.id.vLineGrey));

@@ -1,6 +1,5 @@
 package www.ethichadebe.com.loxion_beanery;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
@@ -54,12 +53,11 @@ import static util.HelperMethods.ismLocationGranted;
 import static util.HelperMethods.randomNumber;
 import static www.ethichadebe.com.loxion_beanery.HomeFragment.getShopItem;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
+import static www.ethichadebe.com.loxion_beanery.MainActivity.getUpcomingOrderItem;
 import static www.ethichadebe.com.loxion_beanery.MainActivity.setIntFragment;
-import static www.ethichadebe.com.loxion_beanery.OrderActivity.oID;
+import static www.ethichadebe.com.loxion_beanery.MainActivity.setUpcomingOrderItem;
 import static www.ethichadebe.com.loxion_beanery.PastOrderFragmentCustomer.getPastOrderItem;
 import static www.ethichadebe.com.loxion_beanery.PastOrderFragmentCustomer.setPastOrderItem;
-import static www.ethichadebe.com.loxion_beanery.UpcomingOrderFragmentCustomer.getUpcomingOrderItem;
-import static www.ethichadebe.com.loxion_beanery.UpcomingOrderFragmentCustomer.setUpcomingOrderItem;
 
 public class OrderConfirmationActivity extends AppCompatActivity implements OnMapReadyCallback, TaskLoadedCallback {
     private static final String TAG = "OrderConfirmationActivi";
@@ -119,7 +117,6 @@ public class OrderConfirmationActivity extends AppCompatActivity implements OnMa
     private Runnable runnable1 = new Runnable() {
         @Override
         public void run() {
-            oID = -1;
             vLineGrey[0].setVisibility(View.GONE);
             vLineGrey[1].setVisibility(View.VISIBLE);
 
@@ -242,17 +239,13 @@ public class OrderConfirmationActivity extends AppCompatActivity implements OnMa
         }
 
         tvCancel.setOnClickListener(view -> {
-            if (oID != -1) {
-                ShowConfirmationPopup(oID);
-            } else {
+            if (getUpcomingOrderItem() != null) {
                 ShowConfirmationPopup(getUpcomingOrderItem().getIntID());
             }
         });
         tvOkay.setOnClickListener(view -> {
             setUpcomingOrderItem(null);
-            if (oID == -1) {//Set it to go back to orders page
-                setIntFragment(1);
-            }
+            setIntFragment(1);
             showAd();
         });
 
@@ -265,9 +258,7 @@ public class OrderConfirmationActivity extends AppCompatActivity implements OnMa
             @Override
             public void onAdFailedToLoad(int errorCode) {
                 // Code to be executed when an ad request fails.
-                if (oID == -1) {//Set it to go back to orders page
-                    setIntFragment(1);
-                }
+                setIntFragment(1);
                 startActivity(new Intent(OrderConfirmationActivity.this, MainActivity.class));
             }
 
@@ -289,9 +280,7 @@ public class OrderConfirmationActivity extends AppCompatActivity implements OnMa
             @Override
             public void onAdClosed() {
                 // Code to be executed when the interstitial ad is closed.
-                if (oID == -1) {//Set it to go back to orders page
-                    setIntFragment(1);
-                }
+                setIntFragment(1);
                 startActivity(new Intent(OrderConfirmationActivity.this, MainActivity.class));
             }
         });
@@ -324,9 +313,7 @@ public class OrderConfirmationActivity extends AppCompatActivity implements OnMa
     }
 
     public void arrived(View view) {
-        if (oID != -1) {
-            PUTArrived(oID);
-        } else {
+        if (getUpcomingOrderItem() != null) {
             PUTArrived(getUpcomingOrderItem().getIntID());
         }
     }
@@ -418,103 +405,79 @@ public class OrderConfirmationActivity extends AppCompatActivity implements OnMa
                                     currentLocation.getLongitude()), getUpcomingOrderItem().getLlShop()), "driving");
                             moveCam(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()),
                                     getUpcomingOrderItem().getLlShop());
-                        } else if (getPastOrderItem() != null) {
-                            markerOptions = new MarkerOptions().position(getPastOrderItem().getLlShopLocation())
-                                    .title(getPastOrderItem().getStrShopName());
-                            mMap.addMarker(markerOptions);
-
-                            new FetchURL(this).execute(getUrl(new
-                                    LatLng(Objects.requireNonNull(currentLocation).getLatitude(),
-                                    currentLocation.getLongitude()), getPastOrderItem().getLlShopLocation()), "driving");
-                            moveCam(new LatLng(Objects.requireNonNull(currentLocation).getLatitude(),
-                                    currentLocation.getLongitude()), getPastOrderItem().getLlShopLocation());
                         } else {
-                            markerOptions = new MarkerOptions().position(getShopItem().getLlLocation())
-                                    .title(getShopItem().getStrShopName());
-                            mMap.addMarker(markerOptions);
-
-                            new FetchURL(this).execute(getUrl(new
-                                    LatLng(Objects.requireNonNull(currentLocation).getLatitude(),
-                                    currentLocation.getLongitude()), getShopItem().getLlLocation()), "driving");
-                            moveCam(new LatLng(Objects.requireNonNull(currentLocation).getLatitude(),
-                                    currentLocation.getLongitude()), getShopItem().getLlLocation());
+                            Log.d(TAG, "onComplete: Unable to get location");
+                            Toast.makeText(this, "Unable to get current location", Toast.LENGTH_SHORT).show();
                         }
-
-
-                    } else {
-                        Log.d(TAG, "onComplete: Unable to get location");
-                        Toast.makeText(this, "Unable to get current location",
-                                Toast.LENGTH_SHORT).show();
-                    }
-                });
+                    });
+                }
+            } catch(SecurityException e){
+                Log.e(TAG, "getDeviceLocation: Security exception " + e.getMessage());
             }
-        } catch (SecurityException e) {
-            Log.e(TAG, "getDeviceLocation: Security exception " + e.getMessage());
-        }
-    }
-
-    private void moveCam(LatLng me, LatLng shop) {
-        //Log.d(TAG, "moveCam: Moving camera to Lat: " + latLng.latitude + "Long: " + latLng.longitude);
-        LatLngBounds.Builder builder = new LatLngBounds.Builder();
-        builder.include(me).include(shop);
-
-        mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 100));
-    }
-
-    private void initMap() {
-        Log.d(TAG, "initMap: Initialising map");
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-        Objects.requireNonNull(mapFragment).getMapAsync(this);
-    }
-
-    public void center(View view) {
-        getDeviceLocation();
-    }
-
-    private String getUrl(LatLng origin, LatLng dest) {
-        // Origin of route
-        String str_origin = "origin=" + origin.latitude + "," + origin.longitude;
-        // Destination of route
-        String str_dest = "destination=" + dest.latitude + "," + dest.longitude;
-        // Mode
-        String mode = "mode=driving";
-        // Building the parameters to the web service
-        String parameters = str_origin + "&" + str_dest + "&" + mode;
-        // Output format
-        String output = "json";
-        // Building the url to the web service
-        return "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters + "&key=" +
-                getString(R.string.google_maps_api_key);
-    }
-
-    @Override
-    public void onTaskDone(Object... values) {
-        if (currentPolyline != null) {
-            currentPolyline.remove();
-        }
-        currentPolyline = mMap.addPolyline((PolylineOptions) values[0]);
-    }
-
-    public void navigate(View view) {
-        Uri gmmIntentUri;
-        if (getUpcomingOrderItem() != null) {
-            gmmIntentUri = Uri.parse("google.navigation:q=" + getUpcomingOrderItem().getLlShop().latitude + "," +
-                    getUpcomingOrderItem().getLlShop().longitude);
-        } else {
-            gmmIntentUri = Uri.parse("google.navigation:q=" + getShopItem().getLlLocation().latitude + "," +
-                    getShopItem().getLlLocation().longitude);
         }
 
-        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-        mapIntent.setPackage("com.google.android.apps.maps");
-        startActivity(mapIntent);
-    }
+        private void moveCam (LatLng me, LatLng shop){
+            //Log.d(TAG, "moveCam: Moving camera to Lat: " + latLng.latitude + "Long: " + latLng.longitude);
+            LatLngBounds.Builder builder = new LatLngBounds.Builder();
+            builder.include(me).include(shop);
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if (requestQueue != null) {
-            requestQueue.cancelAll(TAG);
+            mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 100));
+        }
+
+        private void initMap () {
+            Log.d(TAG, "initMap: Initialising map");
+            SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+            Objects.requireNonNull(mapFragment).getMapAsync(this);
+        }
+
+        public void center (View view){
+            getDeviceLocation();
+        }
+
+        private String getUrl (LatLng origin, LatLng dest){
+            // Origin of route
+            String str_origin = "origin=" + origin.latitude + "," + origin.longitude;
+            // Destination of route
+            String str_dest = "destination=" + dest.latitude + "," + dest.longitude;
+            // Mode
+            String mode = "mode=driving";
+            // Building the parameters to the web service
+            String parameters = str_origin + "&" + str_dest + "&" + mode;
+            // Output format
+            String output = "json";
+            // Building the url to the web service
+            return "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters + "&key=" +
+                    getString(R.string.google_maps_api_key);
+        }
+
+        @Override
+        public void onTaskDone (Object...values){
+            if (currentPolyline != null) {
+                currentPolyline.remove();
+            }
+            currentPolyline = mMap.addPolyline((PolylineOptions) values[0]);
+        }
+
+        public void navigate (View view){
+            Uri gmmIntentUri;
+            if (getUpcomingOrderItem() != null) {
+                gmmIntentUri = Uri.parse("google.navigation:q=" + getUpcomingOrderItem().getLlShop().latitude + "," +
+                        getUpcomingOrderItem().getLlShop().longitude);
+            } else {
+                gmmIntentUri = Uri.parse("google.navigation:q=" + getShopItem().getLlLocation().latitude + "," +
+                        getShopItem().getLlLocation().longitude);
+            }
+
+            Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+            mapIntent.setPackage("com.google.android.apps.maps");
+            startActivity(mapIntent);
+        }
+
+        @Override
+        protected void onStop () {
+            super.onStop();
+            if (requestQueue != null) {
+                requestQueue.cancelAll(TAG);
+            }
         }
     }
-}
