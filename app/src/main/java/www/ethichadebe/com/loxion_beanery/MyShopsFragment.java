@@ -166,18 +166,15 @@ public class MyShopsFragment extends Fragment {
                             JSONArray jsonArray = response.getJSONArray("shops");
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject Shops = jsonArray.getJSONObject(i);
-                                boolean isActive = false;
-                                if (Shops.getInt("isActive") == 1) {
-                                    isActive = true;
-                                }
                                 shopItems.add(new MyShopItem(Shops.getInt("sID"), Shops.getString("sName"),
                                         Shops.getString("uRole"), Shops.getString("sSmallPicture"),
                                         Shops.getString("sBigPicture"), Shops.getString("sShortDescrption"),
                                         Shops.getString("sFullDescription"),
                                         new LatLng(Shops.getDouble("sLatitude"), Shops.getDouble("sLongitude")),
                                         Shops.getString("sAddress"), "10-15 mins",
-                                        Shops.getInt("sRating"), Shops.getString("sOperatingHrs"), isActive,
-                                        Shops.getInt("sStatus"), Shops.getInt("nOrders")));
+                                        Shops.getInt("sRating"), Shops.getString("sOperatingHrs"),
+                                        Shops.getInt("isActive") == 1,Shops.getInt("sStatus"),
+                                        Shops.getInt("nOrders")));
                             }
                         } else if (response.getString("message").equals("empty")) {
                             tvEmpty.setVisibility(View.VISIBLE);
@@ -204,7 +201,7 @@ public class MyShopsFragment extends Fragment {
         return newShop;
     }
 
-    static void setNewShop(MyShopItem newShop) {
+    public static void setNewShop(MyShopItem newShop) {
         MyShopsFragment.newShop = newShop;
     }
 

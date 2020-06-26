@@ -1,5 +1,6 @@
-package www.ethichadebe.com.loxion_beanery;
+package util;
 
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -8,24 +9,36 @@ import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
-
-import android.util.Log;
+import androidx.core.app.NotificationManagerCompat;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
+import SingleItem.MyShopItem;
+import www.ethichadebe.com.loxion_beanery.MainActivity;
+import www.ethichadebe.com.loxion_beanery.OrdersActivity;
+import www.ethichadebe.com.loxion_beanery.R;
+
+import static util.App.INCOMING_ORDER;
 import static util.Constants.getIpAddress;
 import static www.ethichadebe.com.loxion_beanery.MyShopsFragment.getNewShop;
+import static www.ethichadebe.com.loxion_beanery.MyShopsFragment.setNewShop;
 
 /**
  * NOTE: There can only be one service in each app that receives FCM messages. If multiple
@@ -40,6 +53,10 @@ import static www.ethichadebe.com.loxion_beanery.MyShopsFragment.getNewShop;
  */
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private static final String TAG = "MyFirebaseMsgService";
+    private PendingIntent pendingIntent;
+    private Intent intent = null;
+
+    private NotificationManagerCompat notificationManager;
 
     /**
      * Called when message is received.
@@ -49,6 +66,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     // [START receive_message]
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
+        notificationManager = NotificationManagerCompat.from(this);
+
         // [START_EXCLUDE]
         // There are two types of messages data messages and notification messages. Data messages
         // are handled
@@ -73,12 +92,27 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         if (remoteMessage.getData().size() > 0) {
             Log.d(TAG, "Message data payload: " + remoteMessage.getData());
 
+            JSONObject Shops = new JSONObject(remoteMessage.getData());
+            try {
+                setNewShop(new MyShopItem(Integer.parseInt(Shops.getString("sID")),
+                        "", "", "", "", "",
+                        "", new LatLng(Double.parseDouble(Shops.getString("sLatitude")),
+                        Double.parseDouble(Shops.getString("sLongitude"))), "",
+                        Shops.getString("sAveTime"), 0, "",
+                        Integer.parseInt(Shops.getString("isActive")) == 1,
+                        Integer.parseInt(Shops.getString("sStatus")), 0));
+            } catch (JSONException e) {
+                Log.d(TAG, "payload exception: " + e.toString());
+            }
+
         }
 
         // Check if message contains a notification payload.
         if (remoteMessage.getNotification() != null) {
             Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
-            sendNotification(remoteMessage.getNotification().getTitle(),remoteMessage.getNotification().getBody());
+            sendIncomingOrder(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody(),
+                    Objects.requireNonNull(remoteMessage.getNotification().getClickAction()));
+
         }
 
         // Also if you intend on generating your own notifications as a result of a received FCM
@@ -145,10 +179,18 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
      *
      * @param messageBody FCM message body received.
      */
-    private void sendNotification(String title, String messageBody) {
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
+    private void sendNotification(String title, String messageBody, String click_action) {
+        switch (click_action) {
+            case "OrdersActivity":
+                intent = new Intent(this, OrdersActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                break;
+            case "UpcomingOrderFragmentCustomer":
+                intent = new Intent(this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                break;
+        }
+        pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);
 
         String channelId = getString(R.string.default_notification_channel_id);
@@ -156,7 +198,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         NotificationCompat.Builder notificationBuilder =
                 new NotificationCompat.Builder(this, channelId)
                         .setSmallIcon(R.drawable.food)
-                        .setContentTitle(title)
+                        .setContentTitle("Order #" + title)
                         .setContentText(messageBody)
                         .setAutoCancel(true)
                         .setSound(defaultSoundUri)
@@ -174,5 +216,28 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
 
         notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+    }
+
+    private void sendIncomingOrder(String title, String messageBody, String click_action) {
+        //Opening activity
+        intent = new Intent(this, OrdersActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
+                PendingIntent.FLAG_ONE_SHOT);
+
+        //Setting sound
+        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        Notification notificationBuilder = new NotificationCompat.Builder(this, INCOMING_ORDER)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setSmallIcon(R.drawable.food)
+                .setContentTitle("Order #" + title)
+                .setContentText(messageBody)
+                .setAutoCancel(true)
+                .setSound(defaultSoundUri)
+                .setContentIntent(pendingIntent)
+                .build();
+
+        notificationManager.notify(Integer.parseInt(title), notificationBuilder);
+
     }
 }

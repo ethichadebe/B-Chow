@@ -21,8 +21,8 @@ import com.google.android.material.tabs.TabLayout;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import Adapter.PagerViewAdapter;
-import util.HelperMethods;
 
 import static util.Constants.getIpAddress;
 import static util.HelperMethods.ShowLoadingPopup;
@@ -38,6 +38,7 @@ public class OrdersActivity extends AppCompatActivity {
     private CardView cvOpen, cvClosed;
     private TextView tvOpen, tvClosed, tvCompleteReg;
     private ViewPager viewPager;
+    private int sID;
     private PagerViewAdapter pagerViewAdapter;
 
     @Override
@@ -64,28 +65,55 @@ public class OrdersActivity extends AppCompatActivity {
         tvClosed.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
         tvOpen.setBackground(getResources().getDrawable(R.drawable.ripple_effect_green));
 
-        switch (getNewShop().getIntStatus()) {
-            case 1:
-                cvClosed.setClickable(true);
-                cvOpen.setClickable(false);
+        if (getNewShop() != null) {
+            sID = getNewShop().getIntID();
+            switch (getNewShop().getIntStatus()) {
+                case 1:
+                    cvClosed.setClickable(true);
+                    cvOpen.setClickable(false);
 
-                tvClosed.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
-                tvOpen.setBackground(getResources().getDrawable(R.drawable.ripple_effect_green));
-                PUTStatus(1);
-                break;
-            case 0:
-                cvClosed.setClickable(false);
-                cvOpen.setClickable(true);
+                    tvClosed.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
+                    tvOpen.setBackground(getResources().getDrawable(R.drawable.ripple_effect_green));
+                    PUTStatus(1, getNewShop().getIntID());
+                    break;
+                case 0:
+                    cvClosed.setClickable(false);
+                    cvOpen.setClickable(true);
 
-                tvClosed.setBackground(getResources().getDrawable(R.drawable.ripple_effect_red));
-                tvOpen.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
-                PUTStatus(0);
-                break;
-        }
-        //Check if Shop is fully registered
-        if (getNewShop().isActive()) {
-            tvCompleteReg.setVisibility(View.VISIBLE);
-        }
+                    tvClosed.setBackground(getResources().getDrawable(R.drawable.ripple_effect_red));
+                    tvOpen.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
+                    PUTStatus(0, getNewShop().getIntID());
+                    break;
+            }
+            //Check if Shop is fully registered
+            if (getNewShop().isActive()) {
+                tvCompleteReg.setVisibility(View.VISIBLE);
+            }
+        }/*else {
+            sID = getIncomingOrderItem().getIntID();
+            switch (getIncomingOrderItem().getIntStatus()) {
+                case 1:
+                    cvClosed.setClickable(true);
+                    cvOpen.setClickable(false);
+
+                    tvClosed.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
+                    tvOpen.setBackground(getResources().getDrawable(R.drawable.ripple_effect_green));
+                    PUTStatus(1, getIncomingOrderItem().getIntID());
+                    break;
+                case 0:
+                    cvClosed.setClickable(false);
+                    cvOpen.setClickable(true);
+
+                    tvClosed.setBackground(getResources().getDrawable(R.drawable.ripple_effect_red));
+                    tvOpen.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
+                    PUTStatus(0, getIncomingOrderItem().getIntID());
+                    break;
+            }
+            //Check if Shop is fully registered
+            if (getIncomingOrderItem().isActive()) {
+                tvCompleteReg.setVisibility(View.VISIBLE);
+            }
+        }*/
 
         tvCompleteReg.setOnClickListener(view -> {
             startActivity(new Intent(this, RegisterShopActivity.class));
@@ -97,7 +125,7 @@ public class OrdersActivity extends AppCompatActivity {
 
             tvClosed.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
             tvOpen.setBackground(getResources().getDrawable(R.drawable.ripple_effect_green));
-            PUTStatus(1);
+            PUTStatus(1, sID);
         });
 
         cvClosed.setOnClickListener(view -> {
@@ -106,7 +134,7 @@ public class OrdersActivity extends AppCompatActivity {
 
             tvClosed.setBackground(getResources().getDrawable(R.drawable.ripple_effect_red));
             tvOpen.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
-            PUTStatus(0);
+            PUTStatus(0, sID);
         });
 
 
@@ -121,7 +149,7 @@ public class OrdersActivity extends AppCompatActivity {
 
     }
 
-    private void setupViewPager(ViewPager pager){
+    private void setupViewPager(ViewPager pager) {
         PagerViewAdapter pageAdapter = new PagerViewAdapter(getSupportFragmentManager(),
                 FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         pageAdapter.addFragment(new UpcomingOrderFragment(), "Upcoming orders");
@@ -145,10 +173,10 @@ public class OrdersActivity extends AppCompatActivity {
     }
 
 
-    private void PUTStatus(int status) {
+    private void PUTStatus(int status, int sID) {
         ShowLoadingPopup(myDialog, true);
         StringRequest stringRequest = new StringRequest(Request.Method.PUT,
-                getIpAddress() + "/shops/Status/" + getNewShop().getIntID(),
+                getIpAddress() + "/shops/Status/" + sID,
                 response -> {
                     ShowLoadingPopup(myDialog, false);
                 }, error -> {

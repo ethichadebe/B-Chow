@@ -405,79 +405,81 @@ public class OrderConfirmationActivity extends AppCompatActivity implements OnMa
                                     currentLocation.getLongitude()), getUpcomingOrderItem().getLlShop()), "driving");
                             moveCam(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()),
                                     getUpcomingOrderItem().getLlShop());
-                        } else {
-                            Log.d(TAG, "onComplete: Unable to get location");
-                            Toast.makeText(this, "Unable to get current location", Toast.LENGTH_SHORT).show();
                         }
-                    });
-                }
-            } catch(SecurityException e){
-                Log.e(TAG, "getDeviceLocation: Security exception " + e.getMessage());
+                    } else {
+                        Log.d(TAG, "onComplete: Unable to get location");
+                        Toast.makeText(this, "Unable to get current location",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
-        }
-
-        private void moveCam (LatLng me, LatLng shop){
-            //Log.d(TAG, "moveCam: Moving camera to Lat: " + latLng.latitude + "Long: " + latLng.longitude);
-            LatLngBounds.Builder builder = new LatLngBounds.Builder();
-            builder.include(me).include(shop);
-
-            mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 100));
-        }
-
-        private void initMap () {
-            Log.d(TAG, "initMap: Initialising map");
-            SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-            Objects.requireNonNull(mapFragment).getMapAsync(this);
-        }
-
-        public void center (View view){
-            getDeviceLocation();
-        }
-
-        private String getUrl (LatLng origin, LatLng dest){
-            // Origin of route
-            String str_origin = "origin=" + origin.latitude + "," + origin.longitude;
-            // Destination of route
-            String str_dest = "destination=" + dest.latitude + "," + dest.longitude;
-            // Mode
-            String mode = "mode=driving";
-            // Building the parameters to the web service
-            String parameters = str_origin + "&" + str_dest + "&" + mode;
-            // Output format
-            String output = "json";
-            // Building the url to the web service
-            return "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters + "&key=" +
-                    getString(R.string.google_maps_api_key);
-        }
-
-        @Override
-        public void onTaskDone (Object...values){
-            if (currentPolyline != null) {
-                currentPolyline.remove();
-            }
-            currentPolyline = mMap.addPolyline((PolylineOptions) values[0]);
-        }
-
-        public void navigate (View view){
-            Uri gmmIntentUri;
-            if (getUpcomingOrderItem() != null) {
-                gmmIntentUri = Uri.parse("google.navigation:q=" + getUpcomingOrderItem().getLlShop().latitude + "," +
-                        getUpcomingOrderItem().getLlShop().longitude);
-            } else {
-                gmmIntentUri = Uri.parse("google.navigation:q=" + getShopItem().getLlLocation().latitude + "," +
-                        getShopItem().getLlLocation().longitude);
-            }
-
-            Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-            mapIntent.setPackage("com.google.android.apps.maps");
-            startActivity(mapIntent);
-        }
-
-        @Override
-        protected void onStop () {
-            super.onStop();
-            if (requestQueue != null) {
-                requestQueue.cancelAll(TAG);
-            }
+        } catch (SecurityException e) {
+            Log.e(TAG, "getDeviceLocation: Security exception " + e.getMessage());
         }
     }
+
+    private void moveCam(LatLng me, LatLng shop) {
+        //Log.d(TAG, "moveCam: Moving camera to Lat: " + latLng.latitude + "Long: " + latLng.longitude);
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+        builder.include(me).include(shop);
+
+        mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 100));
+    }
+
+    private void initMap() {
+        Log.d(TAG, "initMap: Initialising map");
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        Objects.requireNonNull(mapFragment).getMapAsync(this);
+    }
+
+    public void center(View view) {
+        getDeviceLocation();
+    }
+
+    private String getUrl(LatLng origin, LatLng dest) {
+        // Origin of route
+        String str_origin = "origin=" + origin.latitude + "," + origin.longitude;
+        // Destination of route
+        String str_dest = "destination=" + dest.latitude + "," + dest.longitude;
+        // Mode
+        String mode = "mode=driving";
+        // Building the parameters to the web service
+        String parameters = str_origin + "&" + str_dest + "&" + mode;
+        // Output format
+        String output = "json";
+        // Building the url to the web service
+        return "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters + "&key=" +
+                getString(R.string.google_maps_api_key);
+    }
+
+    @Override
+    public void onTaskDone(Object... values) {
+        if (currentPolyline != null) {
+            currentPolyline.remove();
+        }
+        currentPolyline = mMap.addPolyline((PolylineOptions) values[0]);
+    }
+
+    public void navigate(View view) {
+        Uri gmmIntentUri;
+        if (getUpcomingOrderItem() != null) {
+            gmmIntentUri = Uri.parse("google.navigation:q=" + getUpcomingOrderItem().getLlShop().latitude + "," +
+                    getUpcomingOrderItem().getLlShop().longitude);
+        } else {
+            gmmIntentUri = Uri.parse("google.navigation:q=" + getShopItem().getLlLocation().latitude + "," +
+                    getShopItem().getLlLocation().longitude);
+        }
+
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+        mapIntent.setPackage("com.google.android.apps.maps");
+        startActivity(mapIntent);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (requestQueue != null) {
+            requestQueue.cancelAll(TAG);
+        }
+    }
+}
