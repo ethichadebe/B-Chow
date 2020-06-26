@@ -24,56 +24,64 @@
             android:textSize="14sp" />
 
         <RelativeLayout
-            android:layout_width="match_parent"
+            android:id="@+id/rlOrderInfo"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
             <RelativeLayout
-                android:id="@+id/rl1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true">
+                android:id="@+id/rlMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:id="@+id/tvPrice"
-                    android:layout_width="wrap_content"
+                    android:layout_width="?attr/actionBarSize"
                     android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-medium"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/tv1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/tvPrice"
+                    android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
                     android:fontFamily="sans-serif-medium"
-                    android:text="Extras: "
+                    android:gravity="center_vertical"
+                    android:text="Price"
                     android:textSize="14sp" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/rl1">
 
                 <TextView
                     android:id="@+id/tvMenu"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="10dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_toEndOf="@+id/tvPrice"
                     android:fontFamily="sans-serif-light"
-                    android:text="@string/extras"
+                    android:gravity="center_vertical"
+                    android:text="@string/my_menu"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlExtras"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rlMenu">
+
+                <TextView
+                    android:id="@+id/tvExtraslbl"
+                    android:layout_width="?attr/actionBarSize"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:fontFamily="sans-serif-medium"
+                    android:gravity="center_vertical"
+                    android:text="Extras: "
                     android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/tvExtras"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/tvMenu"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="10dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_toEndOf="@+id/tvExtraslbl"
                     android:fontFamily="sans-serif-light"
+                    android:gravity="center_vertical"
+                    android:text="@string/extras"
                     android:textSize="14sp" />
             </RelativeLayout>
         </RelativeLayout>
@@ -104,7 +112,7 @@
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/rl1">
+                android:layout_toEndOf="@id/rlOrderInfo">
 
                 <TextView
                     android:id="@+id/tv2"

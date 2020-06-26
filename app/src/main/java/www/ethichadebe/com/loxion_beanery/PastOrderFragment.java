@@ -57,7 +57,6 @@ public class PastOrderFragment extends Fragment {
         mLayoutManager = new LinearLayoutManager(getActivity());
         mAdapter = new AdminOrderItemPastAdapter(OrderItems);
 
-
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
@@ -87,10 +86,11 @@ public class PastOrderFragment extends Fragment {
                             JSONArray jsonArray = response.getJSONArray("orders");
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject Orders = jsonArray.getJSONObject(i);
-                                OrderItems.add(new AdminOrderItemPast(Orders.getInt("oID"), Orders.getInt("oID"),
-                                        Orders.getString("oRecievedAt"), Orders.getString("oIngredients"),
-                                        Orders.getString("oExtras"), Orders.getInt("oRating"),
-                                        Orders.getString("oFeedback"), Orders.getDouble("oPrice")));
+                                OrderItems.add(new AdminOrderItemPast(Orders.getInt("oID"),
+                                        Orders.getInt("oNumber"), Orders.getString("oRecievedAt"),
+                                        Orders.getString("oIngredients"), Orders.getString("oExtras"),
+                                        Orders.getInt("oRating"), Orders.getString("oFeedback"),
+                                        Orders.getDouble("oPrice")));
                             }
                         } else if (response.getString("message").equals("empty")) {
                             tvEmpty.setVisibility(View.VISIBLE);

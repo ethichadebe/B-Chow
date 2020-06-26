@@ -11,6 +11,10 @@ public class IngredientItem {
         this.dblPrice = dblPrice;
     }
 
+    public IngredientItem(String strIngredientName) {
+        this.strIngredientName = strIngredientName;
+    }
+
     public int getIntID() {
         return intID;
     }

@@ -106,7 +106,7 @@ public class UpcomingOrderFragmentCustomer extends Fragment {
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject Orders = jsonArray.getJSONObject(i);
                                 upcomingOrderItems.add(new UpcomingOrderItem(Orders.getInt("oID"),
-                                        Orders.getString("sName"), Orders.getInt("oID"),
+                                        Orders.getString("sName"), Orders.getInt("oNumber"),
                                         Orders.getString("createdAt"), Orders.getString("oIngredients"),
                                         Orders.getString("oExtras"), Orders.getDouble("oPrice"),
                                         Orders.getString("oStatus"), new LatLng(Orders.getDouble("sLatitude"),

@@ -63,7 +63,7 @@ dependencies {
     implementation 'com.android.support:design:28.0.0'
 
     //Google ads
-    implementation 'com.google.android.gms:play-services-ads:19.1.0'
+    implementation 'com.google.android.gms:play-services-ads:19.2.0'
 
     //RecyclerView
     implementation 'com.github.mike14u:shimmer-recyclerview-x:1.0.3'
@@ -71,7 +71,7 @@ dependencies {
     //Picasso Url image Viewer
     implementation 'com.squareup.picasso:picasso:2.71828'
 
-    //Online image displayer
+    //Online image displaye r
     implementation 'com.squareup.picasso:picasso:2.71828'
 
     //Location
@@ -79,4 +79,7 @@ dependencies {
 
     // Add the SDK for Firebase Cloud Messaging
     implementation 'com.google.firebase:firebase-messaging:20.2.1'
+    
+    //Animate display
+    implementation 'com.allattentionhere:fabulousfilter:0.0.5'
 }

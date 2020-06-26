@@ -16,12 +16,7 @@
     <string name="tuesday">Tuesday</string>
     <string name="monday">Monday</string>
     <string name="logo">Logo</string>
-    <string name="star1">Star1</string>
-    <string name="star2">Star2</string>
-    <string name="google_maps_api_key">AIzaSyDgvAm8ZJ5h5Kk4Y6yiu_LWRNQZRhvPmPQ</string>
-    <string name="star3">Star3</string>
-    <string name="star4">Star4</string>
-    <string name="star5">Star5</string>
+    <string name="google_maps_api_key">AIzaSyBcup6Q9P4y4NlZFefYR_CytYlTxzIM6oI</string>
     <string name="wednesday">Wednesday</string>
     <string name="thursday">Thursday</string>
     <string name="friday">Friday</string>
@@ -73,7 +68,6 @@
     <string name="extra_e_g_tomato_sauce">Extra (e.g Tomato sauce)</string>
     <string name="add_an_extra">Add an extra</string>
     <string name="extras">Extras</string>
-    <string name="okay">Okay</string>
     <string name="are_you_sure">Are You Sure</string>
     <string name="place_order">Place order</string>
     <string name="retry">Retry</string>
@@ -111,5 +105,6 @@
      -->
     <!-- [START fcm_default_icon_string] -->
     <string name="default_notification_channel_name" translatable="true">Weather</string>
+    <string name="okay">Okay</string>
 
 </resources>

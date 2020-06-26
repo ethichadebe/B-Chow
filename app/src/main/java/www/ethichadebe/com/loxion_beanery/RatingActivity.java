@@ -1,13 +1,14 @@
 package www.ethichadebe.com.loxion_beanery;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.Toast;
 
@@ -20,9 +21,15 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+
+import Adapter.AdminOrderItemPastAdapter;
+import Adapter.IngreRateItemAdapter;
+import SingleItem.AdminOrderItemPast;
+import SingleItem.IngredientItem;
 
 import static util.Constants.getIpAddress;
 import static util.HelperMethods.ShowLoadingPopup;
@@ -37,6 +44,12 @@ public class RatingActivity extends AppCompatActivity {
     private Dialog myDialog;
     private MaterialEditText etFeedback;
     private RatingBar rbRating;
+
+    private RecyclerView mRecyclerView;
+    private IngreRateItemAdapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+    private ArrayList<IngredientItem> ingredientItems;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +72,20 @@ public class RatingActivity extends AppCompatActivity {
             }
         });
         btnNext.setOnClickListener(view -> PUTRating());
+
+        mRecyclerView = findViewById(R.id.recyclerView);
+
+        ingredientItems = new ArrayList<>();
+        mLayoutManager = new LinearLayoutManager(this);
+        mAdapter = new IngreRateItemAdapter(ingredientItems);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setAdapter(mAdapter);
+
+        for (String ingredient : getPastOrderItem().getStrMenu().split(", ")){
+            ingredientItems.add(new IngredientItem(ingredient));
+        }
+
     }
 
     public void back(View view) {

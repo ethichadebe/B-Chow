@@ -115,7 +115,7 @@ public class PastOrderFragmentCustomer extends Fragment {
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject Orders = jsonArray.getJSONObject(i);
                                 pastOrderItems.add(new PastOrderItem(Orders.getInt("oID"),
-                                        Orders.getInt("sID"), Orders.getInt("oID"),
+                                        Orders.getInt("sID"), Orders.getInt("oNumber"),
                                         Orders.getInt("oRating"), Orders.getString("sName"),
                                         Orders.getString("createdAt"), Orders.getString("oIngredients"),
                                         Orders.getString("oExtras"), Orders.getDouble("oPrice"),

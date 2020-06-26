@@ -358,7 +358,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 //Successful
                 Log.d(TAG, "PostLogin turnOnLocation: successful");
-                PostLogin(false);
+                getDeviceLocation();
             } catch (ApiException e) {
                 switch (e.getStatusCode()) {
                     case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:

@@ -1,5 +1,6 @@
 package www.ethichadebe.com.loxion_beanery;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
@@ -13,7 +14,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -40,6 +40,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 import java.util.Objects;
 
@@ -79,20 +80,19 @@ public class OrderConfirmationActivity extends AppCompatActivity implements OnMa
 
     private GoogleMap mMap;
     private FusedLocationProviderClient mFusedLocationProviderClient;
-
     private Polyline currentPolyline;
-    private Button btnOkay;
     private View vBackground;
-    private ImageView ivCenter;
-    private TextView tvUpdate, tvUpdateMessage, tvUpdateSmall;
+    private ImageView ivCenter, ivGoogle;
+    private LinearLayout llOptions;
+    private TextView tvUpdate, tvUpdateSmall, tvOkay, tvCancel, tvShopName, tvMenuList, tvExtrasList, tvOrderNum;
     private View[] vLineGrey = new View[3];
     private View[] vLineLoad = new View[4];
     private View[] vLine = new View[4];
     private Handler handler = new Handler();
-    private LinearLayout llNav, llBottomNav;
-    private GifImageView givGif;
     private Dialog myDialog;
-    private CardView cvCancel, cvNavigate;
+    private GifImageView gifIcon;
+    private CardView cvNavigate, cvBottom;
+    private BottomSheetBehavior bottomSheetBehavior;
 
     private Runnable runnable = new Runnable() {
         @Override
@@ -110,8 +110,8 @@ public class OrderConfirmationActivity extends AppCompatActivity implements OnMa
             vLine[2].setVisibility(View.GONE);
 
             tvUpdate.setText("Order has been placed");
-            tvUpdateMessage.setText("");
-            givGif.setImageResource(0);
+            tvUpdateSmall.setText("Make sure you've arrived at the shop before and hour");
+            gifIcon.setImageResource(R.drawable.driving);
             YoyoSlideRight(5000, R.id.vLine1Load);
         }
     };
@@ -132,15 +132,15 @@ public class OrderConfirmationActivity extends AppCompatActivity implements OnMa
             vLine[2].setVisibility(View.GONE);
 
             vBackground.setVisibility(View.VISIBLE);
-            llNav.setVisibility(View.GONE);
             ivCenter.setVisibility(View.GONE);
+            ivGoogle.setVisibility(View.GONE);
             cvNavigate.setVisibility(View.GONE);
-            btnOkay.setVisibility(View.VISIBLE);
+            tvOkay.setVisibility(View.VISIBLE);
+            llOptions.setVisibility(View.GONE);
 
-            tvUpdateSmall.setText("");
-            tvUpdate.setText("Shop has been notified on your arrival");
-            tvUpdateMessage.setText("and now lets patiently wait for the shop to complete the order");
-            givGif.setImageResource(R.drawable.waiting);
+            tvUpdate.setText("The Shop has been notified on your arrival");
+            tvUpdateSmall.setText("and now lets patiently wait for the shop to complete the order");
+            gifIcon.setImageResource(R.drawable.waiting);
             YoyoSlideRight(5000, R.id.vLine2Load);
         }
     };
@@ -161,17 +161,19 @@ public class OrderConfirmationActivity extends AppCompatActivity implements OnMa
 
             vBackground.setVisibility(View.VISIBLE);
             cvNavigate.setVisibility(View.GONE);
-            llNav.setVisibility(View.GONE);
             ivCenter.setVisibility(View.GONE);
-            btnOkay.setVisibility(View.VISIBLE);
+            ivGoogle.setVisibility(View.GONE);
+            tvOkay.setVisibility(View.VISIBLE);
+            llOptions.setVisibility(View.GONE);
 
-            tvUpdateSmall.setText("");
             tvUpdate.setText("Your order is ready for collection");
-            tvUpdateMessage.setText("Your order is complete, Please collect and enjoy");
-            givGif.setImageResource(R.drawable.eating);
+            tvUpdateSmall.setText("Your order is complete, Please collect and enjoy");
+            gifIcon.setImageResource(R.drawable.eating);
             YoyoSlideRight(500, R.id.vLine3Load);
         }
     };
+    private Runnable runnableExpand = () -> bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+    private Runnable runnableCollapse = () -> bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -187,16 +189,19 @@ public class OrderConfirmationActivity extends AppCompatActivity implements OnMa
         mInterstitialAd.loadAd(new AdRequest.Builder().build());
 
         myDialog = new Dialog(this);
-        btnOkay = findViewById(R.id.btnOkay);
+        tvOkay = findViewById(R.id.tvOkay);
         tvUpdateSmall = findViewById(R.id.tvUpdateSmall);
         tvUpdate = findViewById(R.id.tvUpdate);
-        cvCancel = findViewById(R.id.cvCancel);
+        tvCancel = findViewById(R.id.tvCancel);
+        tvMenuList = findViewById(R.id.tvMenuList);
+        tvOrderNum = findViewById(R.id.tvOrderNum);
+        llOptions = findViewById(R.id.llOptions);
+        ivGoogle = findViewById(R.id.ivGoogle);
+        tvShopName = findViewById(R.id.tvShopName);
+        tvExtrasList = findViewById(R.id.tvExtrasList);
         cvNavigate = findViewById(R.id.cvNavigate);
-        llBottomNav = findViewById(R.id.llBottomNav);
-        tvUpdateMessage = findViewById(R.id.tvUpdateMsg);
-        llNav = findViewById(R.id.llNav);
-        givGif = findViewById(R.id.givGif);
-
+        gifIcon = findViewById(R.id.gifIcon);
+        cvBottom = findViewById(R.id.cvBottom);
         vBackground = findViewById(R.id.vBackground);
         ivCenter = findViewById(R.id.ivCenter);
 
@@ -211,9 +216,15 @@ public class OrderConfirmationActivity extends AppCompatActivity implements OnMa
         vLine[1] = findViewById(R.id.vLine2);
         vLine[2] = findViewById(R.id.vLine3);
 
-        llBottomNav.post(() -> mMap.setPadding(0, 0, 0, llBottomNav.getHeight()));
+        bottomSheetBehavior = BottomSheetBehavior.from(cvBottom);
+        handler.postDelayed(runnableExpand, 2000);
+        handler.postDelayed(runnableCollapse, 5000);
 
         if (getUpcomingOrderItem() != null) {
+            tvShopName.setText(getUpcomingOrderItem().getStrShopName());
+            tvMenuList.setText(getUpcomingOrderItem().getStrMenu());
+            tvExtrasList.setText(getUpcomingOrderItem().getStrExtras());
+            tvOrderNum.setText(String.valueOf(getUpcomingOrderItem().getIntOderNum()));
             switch (getUpcomingOrderItem().getStrStatus()) {
                 case "Waiting arrival":
                     handler.postDelayed(runnable, 0);
@@ -230,14 +241,14 @@ public class OrderConfirmationActivity extends AppCompatActivity implements OnMa
             handler.postDelayed(runnable, 0);
         }
 
-        cvCancel.setOnClickListener(view -> {
+        tvCancel.setOnClickListener(view -> {
             if (oID != -1) {
                 ShowConfirmationPopup(oID);
             } else {
                 ShowConfirmationPopup(getUpcomingOrderItem().getIntID());
             }
         });
-        btnOkay.setOnClickListener(view -> {
+        tvOkay.setOnClickListener(view -> {
             setUpcomingOrderItem(null);
             if (oID == -1) {//Set it to go back to orders page
                 setIntFragment(1);
