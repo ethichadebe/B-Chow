@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,11 +34,11 @@ import java.util.Objects;
 
 import Adapter.AdminOrderItemAdapter;
 import SingleItem.AdminOrderItem;
-import util.HelperMethods;
 
 import static util.Constants.getIpAddress;
 import static util.HelperMethods.ShowLoadingPopup;
 import static util.HelperMethods.handler;
+import static util.MyFirebaseMessagingService.NotifoID;
 import static www.ethichadebe.com.loxion_beanery.MyShopsFragment.getNewShop;
 
 public class UpcomingOrderFragment extends Fragment {
@@ -53,6 +52,7 @@ public class UpcomingOrderFragment extends Fragment {
 
     private TextView tvEmpty;
     private RelativeLayout rlLoad, rlError;
+
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_upcoming_order, container, false);
@@ -81,7 +81,7 @@ public class UpcomingOrderFragment extends Fragment {
 
             @Override
             public void onDoneClick(int position) {
-                PUTReady(position);
+                PUTReady(position, getNewShop().getIntID());
             }
 
             @Override
@@ -97,7 +97,7 @@ public class UpcomingOrderFragment extends Fragment {
     }
 
     private void ShowConfirmationPopup(final int position) {
-        TextView tvCancel, tvMessage, tvHeading,btnYes, btnNo;
+        TextView tvCancel, tvMessage, tvHeading, btnYes, btnNo;
         myDialog.setContentView(R.layout.popup_confirmation);
 
         tvCancel = myDialog.findViewById(R.id.tvCancel);
@@ -117,6 +117,7 @@ public class UpcomingOrderFragment extends Fragment {
         Objects.requireNonNull(myDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         myDialog.show();
     }
+
     private void GETOrders(View vLine, View vLineGrey) {
         rlError.setVisibility(View.GONE);
         rlLoad.setVisibility(View.VISIBLE);
@@ -129,8 +130,6 @@ public class UpcomingOrderFragment extends Fragment {
                 response -> {
                     //Toast.makeText(this, response.toString(), Toast.LENGTH_SHORT).show();
                     rlLoad.setVisibility(View.GONE);
-                    //Loads shops starting with the one closest to user
-                    Location location = new Location("");
                     try {
                         if (response.getString("message").equals("orders")) {
                             JSONArray jsonArray = response.getJSONArray("orders");
@@ -141,6 +140,7 @@ public class UpcomingOrderFragment extends Fragment {
                                         Orders.getString("oExtras"), Orders.getString("oStatus"),
                                         Orders.getDouble("oPrice")));
                             }
+                            mRecyclerView.scrollToPosition(getPosition(NotifoID));
                         } else if (response.getString("message").equals("empty")) {
                             tvEmpty.setVisibility(View.VISIBLE);
                         }
@@ -161,6 +161,7 @@ public class UpcomingOrderFragment extends Fragment {
         requestQueue.add(objectRequest);
 
     }
+
     private void PUTCancel(int position, Dialog myDialog) {
         ShowLoadingPopup(this.myDialog, true);
         StringRequest stringRequest = new StringRequest(Request.Method.PUT,
@@ -183,16 +184,18 @@ public class UpcomingOrderFragment extends Fragment {
         stringRequest.setTag(TAG);
         requestQueue.add(stringRequest);
     }
-    private void PUTReady(int position) {
+
+    private void PUTReady(int position, int sID) {
         ShowLoadingPopup(myDialog, true);
         StringRequest stringRequest = new StringRequest(Request.Method.PUT,
-                getIpAddress() + "/orders/Ready/" + OrderItems.get(position).getIntID(),
+                getIpAddress() + "/orders/Ready/" + OrderItems.get(position).getIntID() + "/" + sID,
                 response -> {
+                    ShowLoadingPopup(myDialog, false);
                     //Toast.makeText(this, response, Toast.LENGTH_LONG).show();
                     OrderItems.get(position).setStrStatus("Ready for collection");
                     mAdapter.notifyItemChanged(position);
-                    ShowLoadingPopup(myDialog, false);
                 }, error -> {
+            ShowLoadingPopup(myDialog, false);
             if (error.toString().equals("com.android.volley.TimeoutError")) {
                 Toast.makeText(getActivity(), "Connection error. Please retry", Toast.LENGTH_SHORT).show();
             } else {
@@ -204,6 +207,7 @@ public class UpcomingOrderFragment extends Fragment {
         stringRequest.setTag(TAG);
         requestQueue.add(stringRequest);
     }
+
     private void PUTCollected(int position, Dialog myDialog) {
         ShowLoadingPopup(this.myDialog, true);
         StringRequest stringRequest = new StringRequest(Request.Method.PUT,
@@ -233,5 +237,14 @@ public class UpcomingOrderFragment extends Fragment {
         if (requestQueue != null) {
             requestQueue.cancelAll(TAG);
         }
+    }
+
+    private int getPosition(int oID) {
+        for (int i = 0; i < OrderItems.size(); i++) {
+            if (OrderItems.get(i).getIntID() == oID) {
+                return i;
+            }
+        }
+        return -1;
     }
 }

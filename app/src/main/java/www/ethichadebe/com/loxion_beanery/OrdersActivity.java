@@ -89,31 +89,7 @@ public class OrdersActivity extends AppCompatActivity {
             if (getNewShop().isActive()) {
                 tvCompleteReg.setVisibility(View.VISIBLE);
             }
-        }/*else {
-            sID = getIncomingOrderItem().getIntID();
-            switch (getIncomingOrderItem().getIntStatus()) {
-                case 1:
-                    cvClosed.setClickable(true);
-                    cvOpen.setClickable(false);
-
-                    tvClosed.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
-                    tvOpen.setBackground(getResources().getDrawable(R.drawable.ripple_effect_green));
-                    PUTStatus(1, getIncomingOrderItem().getIntID());
-                    break;
-                case 0:
-                    cvClosed.setClickable(false);
-                    cvOpen.setClickable(true);
-
-                    tvClosed.setBackground(getResources().getDrawable(R.drawable.ripple_effect_red));
-                    tvOpen.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
-                    PUTStatus(0, getIncomingOrderItem().getIntID());
-                    break;
-            }
-            //Check if Shop is fully registered
-            if (getIncomingOrderItem().isActive()) {
-                tvCompleteReg.setVisibility(View.VISIBLE);
-            }
-        }*/
+        }
 
         tvCompleteReg.setOnClickListener(view -> {
             startActivity(new Intent(this, RegisterShopActivity.class));

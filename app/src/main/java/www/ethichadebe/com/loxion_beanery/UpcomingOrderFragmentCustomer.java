@@ -35,6 +35,7 @@ import SingleItem.UpcomingOrderItem;
 
 import static util.Constants.getIpAddress;
 import static util.HelperMethods.handler;
+import static util.MyFirebaseMessagingService.NotifoID;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 import static www.ethichadebe.com.loxion_beanery.MainActivity.setUpcomingOrderItem;
 
@@ -98,10 +99,13 @@ public class UpcomingOrderFragmentCustomer extends Fragment {
                                 JSONObject Orders = jsonArray.getJSONObject(i);
                                 upcomingOrderItems.add(new UpcomingOrderItem(Orders.getInt("oID"),
                                         Orders.getString("sName"), Orders.getInt("oNumber"),
-                                        Orders.getString("createdAt"), Orders.getString("oIngredients"),
+                                        Orders.getString("oCreatedAt"), Orders.getString("oIngredients"),
                                         Orders.getString("oExtras"), Orders.getDouble("oPrice"),
                                         Orders.getString("oStatus"), new LatLng(Orders.getDouble("sLatitude"),
                                         Orders.getDouble("sLongitude"))));
+                            }
+                            if (NotifoID != -1){
+                                mRecyclerView.scrollToPosition(getPosition(NotifoID));
                             }
                         } else if (response.getString("message").equals("empty")) {
                             rlEmpty.setVisibility(View.VISIBLE);
@@ -129,5 +133,13 @@ public class UpcomingOrderFragmentCustomer extends Fragment {
         if (requestQueue != null) {
             requestQueue.cancelAll(TAG);
         }
+    }
+    private int getPosition(int oID) {
+        for (int i = 0; i < upcomingOrderItems.size(); i++) {
+            if (upcomingOrderItems  .get(i).getIntID() == oID) {
+                return i;
+            }
+        }
+        return -1;
     }
 }
