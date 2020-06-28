@@ -4,7 +4,7 @@ import static util.Constants.getIpAddress;
 
 public class User {
     private int uID, uType;
-    private String uName, uSurname, uDOB, uSex, uEmail, uNumber, uPassword, uPicture;
+    private String uName, uSurname, uDOB, uSex, uEmail, uNumber, uPicture,uPassword;
 
 
     /**
@@ -117,10 +117,6 @@ public class User {
         uType = admin;
     }
 
-    public String getuPassword() {
-        return uPassword;
-    }
-
     public int getuType() {
         return uType;
     }
@@ -135,5 +131,9 @@ public class User {
 
     public void setuPicture(String uPicture) {
         this.uPicture = uPicture;
+    }
+
+    public String getuPassword() {
+        return uPassword;
     }
 }

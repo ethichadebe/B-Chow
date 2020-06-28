@@ -82,7 +82,7 @@ public class RegisterActivity extends AppCompatActivity {
         mTextBoxes[5] = findViewById(R.id.txtCPass);
         mTextBoxes[6] = findViewById(R.id.txtDOB);
 
-        saveData(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE), "", "");
+        saveData(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE), null, false);
 
         //CheckBoxes
         mCBMale = findViewById(R.id.cbMale);

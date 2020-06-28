@@ -341,8 +341,7 @@ public class EditUserProfileActivity extends AppCompatActivity {
                                 tvNumber.setText(getUser().getuNumber());
                                 if (!sharedPrefsIsEmpty(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE))) {
                                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                                        saveData(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE), getUser().getuNumber(),
-                                                getSharedPreferences(SHARED_PREFS, MODE_PRIVATE).getString("Password", ""));
+                                        saveData(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE), getUser(),true);
                                     }
                                 }
                                 break;

@@ -109,7 +109,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
                     ShowLoadingPopup(myDialog, false);
                     if (!sharedPrefsIsEmpty(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE))) {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                            saveData(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE), getUser().getuNumber(), Objects.requireNonNull(etNew.getText()).toString());
+                            saveData(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE), getUser(), true);
                         }
                     }
                     finish();

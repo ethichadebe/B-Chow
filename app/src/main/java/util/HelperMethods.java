@@ -21,6 +21,7 @@ import androidx.core.app.ActivityCompat;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.rengwuxian.materialedittext.MaterialEditText;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DateFormat;
@@ -46,8 +47,16 @@ public class HelperMethods {
     public static final int LOCATION_REQUEST_CODE = 1234;
     private static boolean mLocationGranted = false;
     public static final String SHARED_PREFS = "sharedPrefs";
-    private static final String USERNAME = "Username";
-    private static final String PASSWORD = "Password";
+    private static final String U_NUMBER = "uNumber";
+    private static final String U_ID = "uID";
+    private static final String U_NAME = "uName";
+    private static final String U_SURNAME = "uSurname";
+    private static final String U_DOB = "uDOB";
+    private static final String U_SEX = "uSex";
+    private static final String U_EMAIL = "uEmail";
+    private static final String U_PICTURE = "uPicture";
+    private static final String U_TYPE = "uType";
+    private static final String REMEMBER_ME = "rememberMe";
     private static DatePickerDialog.OnDateSetListener dateSetListener;
 
     public static boolean ismLocationGranted() {
@@ -152,23 +161,38 @@ public class HelperMethods {
         return allEntered;
     }
 
-    public static void saveData(SharedPreferences sharedPreferences, String Username, String Password) {
+    public static void saveData(SharedPreferences sharedPreferences, User user, boolean rememberMe) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(REMEMBER_ME, rememberMe);
+        if (user != null) {
+            editor.putInt(U_ID, user.getuID());
+            editor.putString(U_NAME, Objects.requireNonNull(user.getuName()));
+            editor.putString(U_SURNAME, Objects.requireNonNull(user.getuSurname()));
+            editor.putString(U_DOB, Objects.requireNonNull(user.getuDOB()));
+            editor.putString(U_SEX, Objects.requireNonNull(user.getuSex()));
+            editor.putString(U_EMAIL, Objects.requireNonNull(user.getuEmail()));
+            editor.putString(U_NUMBER, Objects.requireNonNull(user.getuNumber()));
+            editor.putString(U_PICTURE, Objects.requireNonNull(user.getuPicture()));
+            editor.putInt(U_TYPE, user.getuType());
 
-        editor.putString(USERNAME, Objects.requireNonNull(Username));
-        editor.putString(PASSWORD, Objects.requireNonNull(Password));
-
+        }
         editor.apply();
     }
 
-    public static void loadData(SharedPreferences sharedPreferences, MaterialEditText Username,
-                                MaterialEditText Password) {
-        Password.setText(sharedPreferences.getString(PASSWORD, ""));
-        Username.setText(sharedPreferences.getString(USERNAME, ""));
+    public static User loadData(SharedPreferences sharedPreferences) {
+        return new User(sharedPreferences.getInt(U_ID, 0), sharedPreferences.getString(U_NAME, ""),
+                sharedPreferences.getString(U_SURNAME, ""), sharedPreferences.getString(U_DOB, ""),
+                sharedPreferences.getString(U_SEX, ""), sharedPreferences.getString(U_EMAIL, ""),
+                sharedPreferences.getString(U_NUMBER, ""), sharedPreferences.getString(U_PICTURE, ""),
+                sharedPreferences.getInt(U_TYPE, 0));
+    }
+
+    public static boolean checkData(SharedPreferences sharedPreferences) {
+        return sharedPreferences.getBoolean(REMEMBER_ME, false);
     }
 
     public static boolean sharedPrefsIsEmpty(SharedPreferences sharedPreferences) {
-        return Objects.requireNonNull(sharedPreferences.getString(PASSWORD, "")).isEmpty();
+        return Objects.requireNonNull(sharedPreferences.getString(U_NAME, "")).isEmpty();
     }
 
     public static String combineString(ArrayList<IngredientItemCheckbox> ingredientItems) {

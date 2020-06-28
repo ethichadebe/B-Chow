@@ -67,6 +67,7 @@ import static util.HelperMethods.FINE_LOCATION;
 import static util.HelperMethods.LOCATION_REQUEST_CODE;
 import static util.HelperMethods.SHARED_PREFS;
 import static util.HelperMethods.ShowLoadingPopup;
+import static util.HelperMethods.checkData;
 import static util.HelperMethods.ismLocationGranted;
 import static util.HelperMethods.loadData;
 import static util.HelperMethods.saveData;
@@ -121,15 +122,16 @@ public class LoginActivity extends AppCompatActivity {
             getLocationPermissions();
         }
 
+
+        //When user clicks logout from the user profile, clear saved data
         if (isLogout) {
-            saveData(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE), "", "");
+            saveData(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE), null, false);
         }
 
         //Check if shared prefs are empty
-        loadData(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE), mTextUsername, mTextPassword);
-        if (!Objects.requireNonNull(mTextUsername.getText()).toString().isEmpty() &&
-                !Objects.requireNonNull(mTextPassword.getText()).toString().isEmpty()) {
-            PostLogin(false);
+        if (checkData(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE))) {
+            user = loadData(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE));
+            getDeviceLocation();
         } else {
             handler.postDelayed(runnable, 3000);
         }
@@ -182,9 +184,7 @@ public class LoginActivity extends AppCompatActivity {
                                     userData.getInt("uType"));
                             if (cbRemember.isChecked()) {//Check if remember me is checked
                                 isLogout = false;
-                                saveData(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE),
-                                        Objects.requireNonNull(mTextUsername.getText()).toString(),
-                                        Objects.requireNonNull(mTextPassword.getText()).toString());
+                                saveData(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE), user, true);
                             }
                             Log.d(TAG, "PostLogin: Getting device location");
                             FirebaseMessaging.getInstance().subscribeToTopic(String.valueOf(userData.getInt("uID")))
@@ -253,7 +253,7 @@ public class LoginActivity extends AppCompatActivity {
 
         btnNo.setText("Retry");
         btnNo.setOnClickListener(view -> {
-            saveData(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE), "", "");
+            saveData(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE), null, false);
             startActivity(new Intent(this, LoginActivity.class));
             myDialog.dismiss();
         });
