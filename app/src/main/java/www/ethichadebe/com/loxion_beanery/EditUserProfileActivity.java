@@ -45,10 +45,13 @@ import static util.HelperMethods.DisplayImage;
 import static util.HelperMethods.SHARED_PREFS;
 import static util.HelperMethods.ShowLoadingPopup;
 import static util.HelperMethods.allFieldsEntered;
+import static util.HelperMethods.checkData;
 import static util.HelperMethods.displayDatePicker;
+import static util.HelperMethods.loadData;
 import static util.HelperMethods.saveData;
 import static util.HelperMethods.sharedPrefsIsEmpty;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
+import static www.ethichadebe.com.loxion_beanery.LoginActivity.setUser;
 import static www.ethichadebe.com.loxion_beanery.MainActivity.setIntFragment;
 
 public class EditUserProfileActivity extends AppCompatActivity {
@@ -72,8 +75,8 @@ public class EditUserProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_user_profile);
-        if (getUser() == null) {
-            startActivity(new Intent(this, LoginActivity.class));
+        if (checkData(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE))) {
+            setUser(loadData(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE)));
         }
 
         myDialog = new Dialog(this);

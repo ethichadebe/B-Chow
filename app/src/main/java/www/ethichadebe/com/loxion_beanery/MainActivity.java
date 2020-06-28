@@ -14,7 +14,11 @@ import java.util.Objects;
 
 import SingleItem.UpcomingOrderItem;
 
+import static util.HelperMethods.SHARED_PREFS;
+import static util.HelperMethods.checkData;
+import static util.HelperMethods.loadData;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
+import static www.ethichadebe.com.loxion_beanery.LoginActivity.setUser;
 
 public class MainActivity extends AppCompatActivity {
     private static int intFragment;
@@ -38,8 +42,9 @@ public class MainActivity extends AppCompatActivity {
         bottomNav = findViewById(R.id.bottom_navigation);
         bottomNavAdmin = findViewById(R.id.bottom_navigation_admin);
 
-        if (getUser() == null) {
-            startActivity(new Intent(this, LoginActivity.class));
+        //heck if user is logged in
+        if (checkData(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE))) {
+            setUser(loadData(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE)));
         }
 
         if (getUser().getuType() == 3) {

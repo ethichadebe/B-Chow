@@ -31,11 +31,15 @@ import SingleItem.IngredientItemCheckbox;
 import SingleItem.UpcomingOrderItem;
 
 import static util.Constants.getIpAddress;
+import static util.HelperMethods.SHARED_PREFS;
 import static util.HelperMethods.ShowLoadingPopup;
+import static util.HelperMethods.checkData;
 import static util.HelperMethods.combineString;
 import static util.HelperMethods.handler;
+import static util.HelperMethods.loadData;
 import static www.ethichadebe.com.loxion_beanery.HomeFragment.getShopItem;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
+import static www.ethichadebe.com.loxion_beanery.LoginActivity.setUser;
 import static www.ethichadebe.com.loxion_beanery.MainActivity.getUpcomingOrderItem;
 import static www.ethichadebe.com.loxion_beanery.MainActivity.setUpcomingOrderItem;
 import static www.ethichadebe.com.loxion_beanery.OrderActivity.getOrderItem;
@@ -52,6 +56,10 @@ public class ExtraItemActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_extra_item);
+
+        if (checkData(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE))) {
+            setUser(loadData(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE)));
+        }
 
         rlLoad = findViewById(R.id.rlLoad);
         rlError = findViewById(R.id.rlError);

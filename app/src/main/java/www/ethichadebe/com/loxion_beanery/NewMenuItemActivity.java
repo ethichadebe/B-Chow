@@ -33,9 +33,13 @@ import SingleItem.MenuItem;
 import util.HelperMethods;
 
 import static util.Constants.getIpAddress;
+import static util.HelperMethods.SHARED_PREFS;
 import static util.HelperMethods.ShowLoadingPopup;
+import static util.HelperMethods.checkData;
 import static util.HelperMethods.combineString;
+import static util.HelperMethods.loadData;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
+import static www.ethichadebe.com.loxion_beanery.LoginActivity.setUser;
 import static www.ethichadebe.com.loxion_beanery.MenuActivity.getIngredients;
 import static www.ethichadebe.com.loxion_beanery.MenuActivity.getIntPosition;
 import static www.ethichadebe.com.loxion_beanery.MenuActivity.getDblPrice;
@@ -58,8 +62,9 @@ public class NewMenuItemActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_menu_item);
-        if (getUser() == null) {
-            startActivity(new Intent(this, LoginActivity.class));
+        //heck if user is logged in
+        if (checkData(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE))) {
+            setUser(loadData(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE)));
         }
 
         btnAdd = findViewById(R.id.btnAdd);

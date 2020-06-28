@@ -267,6 +267,10 @@ public class LoginActivity extends AppCompatActivity {
         return user;
     }
 
+    public static void setUser(User user) {
+        LoginActivity.user = user;
+    }
+
     public void Retry(View view) {
         PostLogin(false);
         bsbBottomSheetBehavior.setHideable(true);

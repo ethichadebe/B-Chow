@@ -25,8 +25,12 @@ import java.util.Map;
 import Adapter.PagerViewAdapter;
 
 import static util.Constants.getIpAddress;
+import static util.HelperMethods.SHARED_PREFS;
 import static util.HelperMethods.ShowLoadingPopup;
+import static util.HelperMethods.checkData;
+import static util.HelperMethods.loadData;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
+import static www.ethichadebe.com.loxion_beanery.LoginActivity.setUser;
 import static www.ethichadebe.com.loxion_beanery.MainActivity.setIntFragment;
 import static www.ethichadebe.com.loxion_beanery.MyShopsFragment.getNewShop;
 
@@ -45,8 +49,9 @@ public class OrdersActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_orders);
-        if (getUser() == null) {
-            startActivity(new Intent(this, LoginActivity.class));
+        //heck if user is logged in
+        if (checkData(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE))) {
+            setUser(loadData(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE)));
         }
 
         myDialog = new Dialog(this);

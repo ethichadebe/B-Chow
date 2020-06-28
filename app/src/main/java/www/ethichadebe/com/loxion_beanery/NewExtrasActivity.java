@@ -35,9 +35,13 @@ import Adapter.ExtraItemAdapter;
 import SingleItem.ExtraItem;
 
 import static util.Constants.getIpAddress;
+import static util.HelperMethods.SHARED_PREFS;
 import static util.HelperMethods.ShowLoadingPopup;
+import static util.HelperMethods.checkData;
 import static util.HelperMethods.handler;
+import static util.HelperMethods.loadData;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
+import static www.ethichadebe.com.loxion_beanery.LoginActivity.setUser;
 import static www.ethichadebe.com.loxion_beanery.MainActivity.setIntFragment;
 import static www.ethichadebe.com.loxion_beanery.MyShopsFragment.getNewShop;
 
@@ -69,8 +73,9 @@ public class NewExtrasActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_extras);
-        if (getUser() == null) {
-            startActivity(new Intent(this, LoginActivity.class));
+        //heck if user is logged in
+        if (checkData(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE))) {
+            setUser(loadData(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE)));
         }
 
         etExtra = findViewById(R.id.etExtra);

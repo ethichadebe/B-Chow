@@ -47,11 +47,15 @@ import Adapter.ShopItemAdapter;
 import SingleItem.ShopItem;
 
 import static util.Constants.getIpAddress;
+import static util.HelperMethods.SHARED_PREFS;
+import static util.HelperMethods.checkData;
 import static util.HelperMethods.handler;
 import static util.HelperMethods.ismLocationGranted;
+import static util.HelperMethods.loadData;
 import static util.HelperMethods.randomNumber;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUserLocation;
+import static www.ethichadebe.com.loxion_beanery.LoginActivity.setUser;
 
 public class HomeFragment extends Fragment {
     private FusedLocationProviderClient mFusedLocationProviderClient;
@@ -78,9 +82,6 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.frame_home, container, false);
-        if (getUser() == null) {
-            startActivity(new Intent(getActivity(), LoginActivity.class));
-        }//heck if user is logged in
         shopItems = new ArrayList<>();
         mRecyclerView = v.findViewById(R.id.recyclerView);
         rlLoad = v.findViewById(R.id.rlLoad);

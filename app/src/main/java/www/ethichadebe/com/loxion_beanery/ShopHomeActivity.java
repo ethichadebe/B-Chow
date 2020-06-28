@@ -37,10 +37,14 @@ import util.HelperMethods;
 
 import static util.Constants.getIpAddress;
 import static util.HelperMethods.DisplayImage;
+import static util.HelperMethods.SHARED_PREFS;
 import static util.HelperMethods.ShowLoadingPopup;
+import static util.HelperMethods.checkData;
 import static util.HelperMethods.handler;
+import static util.HelperMethods.loadData;
 import static www.ethichadebe.com.loxion_beanery.HomeFragment.getShopItem;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
+import static www.ethichadebe.com.loxion_beanery.LoginActivity.setUser;
 
 public class ShopHomeActivity extends AppCompatActivity {
     private static final String TAG = "ShopHomeActivity";
@@ -66,8 +70,9 @@ public class ShopHomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop_home);
-        if (getUser() == null) {
-            startActivity(new Intent(this, LoginActivity.class));
+        //heck if user is logged in
+        if (checkData(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE))) {
+            setUser(loadData(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE)));
         }
 
         MenuItems = new ArrayList<>();

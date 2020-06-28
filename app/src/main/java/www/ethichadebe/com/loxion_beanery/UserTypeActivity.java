@@ -24,7 +24,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static util.Constants.getIpAddress;
+import static util.HelperMethods.SHARED_PREFS;
 import static util.HelperMethods.ShowLoadingPopup;
+import static util.HelperMethods.checkData;
+import static util.HelperMethods.loadData;
+import static www.ethichadebe.com.loxion_beanery.LoginActivity.setUser;
 import static www.ethichadebe.com.loxion_beanery.RegisterActivity.getNewUser;
 
 public class UserTypeActivity extends AppCompatActivity {
@@ -42,6 +46,10 @@ public class UserTypeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_type);
 
+        //heck if user is logged in
+        if (checkData(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE))) {
+            setUser(loadData(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE)));
+        }
         myDialog = new Dialog(this);
 
         cvOwner = findViewById(R.id.cvOwner);

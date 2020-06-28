@@ -12,6 +12,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import www.ethichadebe.co.za.uploadpicture.UploadImage;
 
+import static util.HelperMethods.SHARED_PREFS;
+import static util.HelperMethods.checkData;
+import static util.HelperMethods.loadData;
+import static www.ethichadebe.com.loxion_beanery.LoginActivity.setUser;
+
 public class UploadPicActivity extends AppCompatActivity {
     private static final String TAG = "UploadPicActivity";
     private Dialog myDialog;
@@ -23,6 +28,10 @@ public class UploadPicActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_pic);
+        //heck if user is logged in
+        if (checkData(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE))) {
+            setUser(loadData(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE)));
+        }
         myDialog = new Dialog(this);
         civProfilePicture = findViewById(R.id.civProfilePicture);
 
