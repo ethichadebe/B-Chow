@@ -264,7 +264,7 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
         ShowLoadingPopup(myDialog, true);
         // loading or check internet connection or something...
         // ... then
-        String url = getIpAddress() + "/shops/Register";
+        String url = getIpAddress() + "/shops/RegisterShop";
         VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.POST, url,
                 response -> {
                     HelperMethods.ShowLoadingPopup(myDialog, false);
@@ -317,6 +317,7 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
         }) {
             @Override
             protected Map<String, String> getParams() {
+                Log.d(TAG, "next: Shop Name: " + getNewShop().getStrShopName());
                 Map<String, String> params = new HashMap<>();
                 params.put("sName", getNewShop().getStrShopName());
                 params.put("sShortDescrption", getNewShop().getStrShortDescript());

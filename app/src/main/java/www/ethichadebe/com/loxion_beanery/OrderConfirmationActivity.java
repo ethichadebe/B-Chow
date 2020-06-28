@@ -328,7 +328,7 @@ public class OrderConfirmationActivity extends AppCompatActivity implements OnMa
                     handler.postDelayed(runnable1, 0);
                 }, error -> {
             ShowLoadingPopup(myDialog, false);
-            Toast.makeText(this, error.toString(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this,    error.toString(), Toast.LENGTH_LONG).show();
         });
 
         requestQueue = Volley.newRequestQueue(this);

@@ -187,6 +187,16 @@ public class LoginActivity extends AppCompatActivity {
                                         Objects.requireNonNull(mTextPassword.getText()).toString());
                             }
                             Log.d(TAG, "PostLogin: Getting device location");
+                            FirebaseMessaging.getInstance().subscribeToTopic(String.valueOf(userData.getInt("uID")))
+                                    .addOnCompleteListener(task -> {
+                                        String msg = "msg_subscribed";
+                                        if (!task.isSuccessful()) {
+                                            msg = "msg_subscribe_failed";
+                                        }
+                                        Log.d(TAG, msg);
+                                        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+                                    });
+
                             getDeviceLocation();
                         }
                     } catch (JSONException e) {

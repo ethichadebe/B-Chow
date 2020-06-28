@@ -71,7 +71,7 @@ dependencies {
     //Picasso Url image Viewer
     implementation 'com.squareup.picasso:picasso:2.71828'
 
-    //Online image displaye r
+    //Online image displayer
     implementation 'com.squareup.picasso:picasso:2.71828'
 
     //Location

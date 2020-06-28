@@ -196,7 +196,7 @@ public class OrderActivity extends AppCompatActivity {
                         JSONObject Orders = new JSONObject(response);
                         setUpcomingOrderItem(new UpcomingOrderItem(Orders.getInt("oID"),
                                 Orders.getString("sName"), Orders.getInt("oNumber"),
-                                Orders.getString("createdAt"), Orders.getString("oIngredients"),
+                                Orders.getString("oCreatedAt"), Orders.getString("oIngredients"),
                                 Orders.getString("oExtras"), Orders.getDouble("oPrice"),
                                 Orders.getString("oStatus"), new LatLng(Orders.getDouble("sLatitude"),
                                 Orders.getDouble("sLongitude"))));
@@ -239,7 +239,6 @@ public class OrderActivity extends AppCompatActivity {
             requestQueue.cancelAll(TAG);
         }
     }
-
 
     /* arr[]  ---> Input Array
     data[] ---> Temporary array to store current combination

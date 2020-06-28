@@ -4,6 +4,7 @@ package www.ethichadebe.com.loxion_beanery;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -119,7 +120,7 @@ public class PastOrderFragmentCustomer extends Fragment {
                                 pastOrderItems.add(new PastOrderItem(Orders.getInt("oID"),
                                         Orders.getInt("sID"), Orders.getInt("oNumber"),
                                         Orders.getInt("oRating"), Orders.getString("sName"),
-                                        Orders.getString("createdAt"), Orders.getString("oIngredients"),
+                                        Orders.getString("oCreatedAt"), Orders.getString("oIngredients"),
                                         Orders.getString("oExtras"), Orders.getDouble("oPrice"),
                                         Orders.getString("oStatus"), new LatLng(Orders.getDouble("sLatitude"),
                                         Orders.getDouble("sLongitude"))));
@@ -128,7 +129,7 @@ public class PastOrderFragmentCustomer extends Fragment {
                             rlEmpty.setVisibility(View.VISIBLE);
                         }
                     } catch (JSONException e) {
-                        e.printStackTrace();
+                        Log.d(TAG, "GETPastOrders: exception: " + e.toString());
                     }
                 },
                 error -> {

@@ -228,6 +228,7 @@ public class RegisterShopActivity extends AppCompatActivity {
                             Objects.requireNonNull(etFullDescription.getText()).toString(), ivImages[0].getDrawable(),
                             ivImages[1].getDrawable(), sLocation, tvLocation.getText().toString());
                 }
+                Log.d(TAG, "next: Shop Name: " + getNewShop().getStrShopName());
                 startActivity(new Intent(RegisterShopActivity.this,
                         OperatingHoursActivity.class));
             }
@@ -264,7 +265,7 @@ public class RegisterShopActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
-        uploadImage.onRequestPermissionsResult(requestCode, grantResults,index);
+        uploadImage.onRequestPermissionsResult(requestCode, grantResults, index);
     }
 
     private void PUTShopDetails(boolean isBack) {
