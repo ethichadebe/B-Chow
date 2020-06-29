@@ -23,16 +23,18 @@
                 android:id="@+id/tvShopName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
+                android:layout_centerHorizontal="true"
+                android:text="@string/shop_name"
                 android:fontFamily="sans-serif-medium"
                 android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/tvTime"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:layout_below="@+id/tvShopName"
+                android:text="Time"
                 android:fontFamily="sans-serif-light"
                 android:textSize="14sp" />
 

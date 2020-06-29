@@ -5,21 +5,37 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.location.Location;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.ResolvableApiException;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResponse;
+import com.google.android.gms.location.LocationSettingsStatusCodes;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.Task;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.math.BigDecimal;
@@ -35,13 +51,12 @@ import java.util.Objects;
 import java.util.TimeZone;
 
 import SingleItem.IngredientItemCheckbox;
-import SingleItem.OrderItem;
+import www.ethichadebe.com.loxion_beanery.MainActivity;
 import www.ethichadebe.com.loxion_beanery.R;
 
 
-public class HelperMethods {
-    public static final int STORAGE_PERMISSION = 1;
-    public static final int CAMERA_PERMISSION = 20;
+public class HelperMethods extends AppCompatActivity {
+    private static final String TAG = "HelperMethods";
     public static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
     public static final String COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
     public static final int LOCATION_REQUEST_CODE = 1234;
@@ -49,9 +64,12 @@ public class HelperMethods {
     public static final String SHARED_PREFS = "sharedPrefs";
     private static final String U_NUMBER = "uNumber";
     private static final String U_ID = "uID";
+    public static final int REQUEST_CHECK_SETTINGS = 200;
     private static final String U_NAME = "uName";
     private static final String U_SURNAME = "uSurname";
-    private static final String U_DOB = "uDOB";
+    private static final String U_ADDRESS = "uAddress";
+    private static final String U_LONGITUDE = "uLongitude";
+    private static final String U_LATITUDE = "uLatitude";
     private static final String U_SEX = "uSex";
     private static final String U_EMAIL = "uEmail";
     private static final String U_PICTURE = "uPicture";
@@ -113,7 +131,7 @@ public class HelperMethods {
             outputFormat.setTimeZone(TimeZone.getTimeZone("GMT+2"));
             return outputFormat.format(date);
         } catch (ParseException e) {
-            System.out.println(e);
+            Log.d(TAG, "convertedTime: " + e.toString());
         }
         return "";
     }
@@ -128,7 +146,7 @@ public class HelperMethods {
             outputTime = outputFormat.format(date);
             outputFormat.setTimeZone(TimeZone.getTimeZone("GMT+2"));
         } catch (ParseException e) {
-            System.out.println(e);
+            Log.d(TAG, "convertedDateTime: " + e.toString());
         }
         return outputTime;
     }
@@ -168,7 +186,9 @@ public class HelperMethods {
             editor.putInt(U_ID, user.getuID());
             editor.putString(U_NAME, Objects.requireNonNull(user.getuName()));
             editor.putString(U_SURNAME, Objects.requireNonNull(user.getuSurname()));
-            editor.putString(U_DOB, Objects.requireNonNull(user.getuDOB()));
+            editor.putString(U_ADDRESS, Objects.requireNonNull(user.getuAddress()));
+            editor.putString(U_LATITUDE, String.valueOf(user.getuLocation().latitude));
+            editor.putString(U_LONGITUDE, String.valueOf(user.getuLocation().longitude));
             editor.putString(U_SEX, Objects.requireNonNull(user.getuSex()));
             editor.putString(U_EMAIL, Objects.requireNonNull(user.getuEmail()));
             editor.putString(U_NUMBER, Objects.requireNonNull(user.getuNumber()));
@@ -179,12 +199,42 @@ public class HelperMethods {
         editor.apply();
     }
 
+    public void getDeviceLocation(Context context, Activity activity, FusedLocationProviderClient mFusedLocationProviderClient) {
+        Log.d(TAG, "PostLogin getDeviceLocation: getting current location");
+        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(Objects.requireNonNull(context));
+
+        try {
+            if (ismLocationGranted()) {
+                Task location = mFusedLocationProviderClient.getLastLocation();
+                location.addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Log.d(TAG, "PostLogin onComplete: location found");
+                        if (task.getResult() == null) {
+                            Log.d(TAG, "PostLogin turnOnLocation: location is null");
+                            //turnOnLocation(context, activity);
+                        } else {
+                            Location currentLocation = (Location) task.getResult();
+                            //      userLocation = new LatLng(Objects.requireNonNull(currentLocation).getLatitude(),currentLocation.getLongitude());
+                        }
+
+                    } else {
+                        Log.d(TAG, "PostLogin onComplete: Unable to get location");
+                        Toast.makeText(context, "Unable to get current location", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        } catch (SecurityException e) {
+            Log.e(TAG, "getDeviceLocation: Security exception " + e.getMessage());
+        }
+    }
+
     public static User loadData(SharedPreferences sharedPreferences) {
-        return new User(sharedPreferences.getInt(U_ID, 0), sharedPreferences.getString(U_NAME, ""),
-                sharedPreferences.getString(U_SURNAME, ""), sharedPreferences.getString(U_DOB, ""),
-                sharedPreferences.getString(U_SEX, ""), sharedPreferences.getString(U_EMAIL, ""),
-                sharedPreferences.getString(U_NUMBER, ""), sharedPreferences.getString(U_PICTURE, ""),
-                sharedPreferences.getInt(U_TYPE, 0));
+        return new User(sharedPreferences.getInt(U_ID, 0), sharedPreferences.getString(U_NAME, ""), sharedPreferences.getString(U_SURNAME, ""),
+                sharedPreferences.getString(U_ADDRESS, ""),
+                new LatLng(Double.parseDouble(Objects.requireNonNull(sharedPreferences.getString(U_LONGITUDE, ""))),
+                        Double.parseDouble(Objects.requireNonNull(sharedPreferences.getString(U_LATITUDE, "")))),
+                sharedPreferences.getString(U_SEX, ""), sharedPreferences.getString(U_EMAIL, ""), sharedPreferences.getString(U_NUMBER, ""),
+                sharedPreferences.getString(U_PICTURE, ""), sharedPreferences.getInt(U_TYPE, 0));
     }
 
     public static boolean checkData(SharedPreferences sharedPreferences) {
@@ -281,47 +331,6 @@ public class HelperMethods {
         return ((int) (Math.random() * max) + 1) == 1;
     }
 
-    public static void requestPermission(Activity activity, Context context, int permission) {
-        if (permission == STORAGE_PERMISSION) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(activity,
-                    Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                new AlertDialog.Builder(context)
-                        .setTitle("Permission needed")
-                        .setMessage("This permission is needed so you can gain access to your gallery")
-                        .setPositiveButton("Enable permission", (dialogInterface, i) -> {
-                            ActivityCompat.requestPermissions(activity,
-                                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, STORAGE_PERMISSION);
-
-                        })
-                        .setNegativeButton("close", (dialogInterface, i) -> {
-                            dialogInterface.dismiss();
-                        }).create().show();
-            } else {
-                ActivityCompat.requestPermissions(activity,
-                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, STORAGE_PERMISSION);
-            }
-        } else if (permission == CAMERA_PERMISSION) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.CAMERA)) {
-                new AlertDialog.Builder(context)
-                        .setTitle("Permission needed")
-                        .setMessage("This permission is needed so you can gain access to your camera")
-                        .setPositiveButton("Enable permission", (dialogInterface, i) -> {
-                            ActivityCompat.requestPermissions(activity,
-                                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA},
-                                    CAMERA_PERMISSION);
-
-                        })
-                        .setNegativeButton("close", (dialogInterface, i) -> {
-                            dialogInterface.dismiss();
-                        }).create().show();
-            } else {
-                ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.CAMERA}, CAMERA_PERMISSION);
-            }
-        }
-    }
-
-
     public static void DisplayImage(ImageView imageView, String url) {
         LoadImage loadImage = new LoadImage(imageView);
         loadImage.execute(url);
@@ -335,7 +344,7 @@ public class HelperMethods {
 
         DatePickerDialog dialog = new DatePickerDialog(context, android.R.style.Theme_Holo_Light_Dialog_MinWidth,
                 dateSetListener, year, month, day);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
 
         dateSetListener = (datePicker, year1, month1, day1) -> {

@@ -38,7 +38,6 @@ import SingleItem.AdminOrderItem;
 import static util.Constants.getIpAddress;
 import static util.HelperMethods.ShowLoadingPopup;
 import static util.HelperMethods.handler;
-import static util.MyFirebaseMessagingService.NotifoID;
 import static www.ethichadebe.com.loxion_beanery.MyShopsFragment.getNewShop;
 
 public class UpcomingOrderFragment extends Fragment {
@@ -140,7 +139,7 @@ public class UpcomingOrderFragment extends Fragment {
                                         Orders.getString("oExtras"), Orders.getString("oStatus"),
                                         Orders.getDouble("oPrice")));
                             }
-                            mRecyclerView.scrollToPosition(getPosition(NotifoID));
+                            //mRecyclerView.scrollToPosition(getPosition(NotifoID));
                         } else if (response.getString("message").equals("empty")) {
                             tvEmpty.setVisibility(View.VISIBLE);
                         }

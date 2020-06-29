@@ -1,14 +1,11 @@
 package util;
 
 import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.os.Build;
+import android.os.Bundle;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -54,10 +51,16 @@ import static www.ethichadebe.com.loxion_beanery.MyShopsFragment.setNewShop;
  * </intent-filter>
  */
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
+    public static final String O_ID = "oID";
+    public static final String S_ID = "sID";
+    public static final String S_LATITUDE = "sLatitude";
+    public static final String S_LONGITUDE = "sLongitude";
+    public static final String S_AVE_TIME = "sAveTime";
+    public static final String IS_ACTIVE = "isActive";
+    public static final String S_STATUS = "sStatus";
     private static final String TAG = "MyFirebaseMsgService";
     private PendingIntent pendingIntent;
     private Intent intent = null;
-    public static int NotifoID;
     private NotificationManagerCompat notificationManager;
 
     /**
@@ -91,39 +94,22 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Log.d(TAG, "From: " + remoteMessage.getFrom());
 
         // Check if message contains a data payload.
-        if (remoteMessage.getData().size() > 0) {
+        if (remoteMessage.getData().size() > 0 && (remoteMessage.getNotification() != null)) {
             Log.d(TAG, "Message data payload: " + remoteMessage.getData());
-
-            JSONObject Shops = new JSONObject(remoteMessage.getData());
-            try {
-                NotifoID = Integer.parseInt(Shops.getString("oID"));
-                setNewShop(new MyShopItem(Integer.parseInt(Shops.getString("sID")),
-                        "", "", "", "", "",
-                        "", new LatLng(Double.parseDouble(Shops.getString("sLatitude")),
-                        Double.parseDouble(Shops.getString("sLongitude"))), "",
-                        Shops.getString("sAveTime"), 0, "",
-                        Integer.parseInt(Shops.getString("isActive")) == 1,
-                        Integer.parseInt(Shops.getString("sStatus")), 0));
-            } catch (JSONException e) {
-                Log.d(TAG, "payload exception: " + e.toString());
-            }
-
-        }
-
-        // Check if message contains a notification payload.
-        if (remoteMessage.getNotification() != null) {
             Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
             switch (Objects.requireNonNull(remoteMessage.getNotification().getClickAction())) {
                 case "UpcomingOrderFragment":
-                    sendReadyForCollection(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody());
+                    sendReadyForCollection(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody(),
+                            new JSONObject(remoteMessage.getData()));
                     break;
                 default:
                     sendIncomingOrder(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody());
                     break;
-            }
 
+            }
         }
 
+        // Check if message contains a notification payload.
         // Also if you intend on generating your own notifications as a result of a received FCM
         // message, here is where that should be initiated. See sendNotification method below.
 
@@ -211,13 +197,29 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     }
 
-    private void sendReadyForCollection(String title, String messageBody) {
-        //Opening activity
+    private void sendReadyForCollection(String title, String messageBody, JSONObject Order) {
+        //Set the fragment that should open (orders fragment)
         setIntFragment(1);
-        intent = new Intent(this, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+        Intent intent = new Intent(this, MainActivity.class);
+
+        //Create bundle to hold the incoming information
+        Bundle bundle = new Bundle();
+        try {
+            bundle.putInt(S_ID, Integer.parseInt(Order.getString("sID")));
+            bundle.putInt(O_ID, Integer.parseInt(Order.getString("oID")));
+            bundle.putInt(S_STATUS, Integer.parseInt(Order.getString("sStatus")));
+            bundle.putDouble(S_LATITUDE, Double.parseDouble(Order.getString("sLatitude")));
+            bundle.putDouble(S_LONGITUDE, Double.parseDouble(Order.getString("sLongitude")));
+            bundle.putBoolean(IS_ACTIVE, Integer.parseInt(Order.getString("isActive")) == 1);
+            bundle.putString(S_AVE_TIME, Order.getString("sAveTime"));
+        } catch (JSONException e) {
+            Log.d(TAG, "payload exception: " + e.toString());
+        }
+
+        intent.putExtras(bundle);
         pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
-                PendingIntent.FLAG_ONE_SHOT);
+                PendingIntent.FLAG_CANCEL_CURRENT);
 
         //Setting sound
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);

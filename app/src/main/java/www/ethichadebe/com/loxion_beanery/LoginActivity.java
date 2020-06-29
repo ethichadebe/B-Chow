@@ -1,15 +1,13 @@
 package www.ethichadebe.com.loxion_beanery;
 
+import android.app.Activity;
 import android.app.Dialog;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.location.Location;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -35,19 +33,15 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.ResolvableApiException;
-import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResponse;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
@@ -59,32 +53,26 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import util.HelperMethods;
 import util.User;
 
 import static util.Constants.getIpAddress;
 import static util.HelperMethods.COARSE_LOCATION;
 import static util.HelperMethods.FINE_LOCATION;
 import static util.HelperMethods.LOCATION_REQUEST_CODE;
+import static util.HelperMethods.REQUEST_CHECK_SETTINGS;
 import static util.HelperMethods.SHARED_PREFS;
 import static util.HelperMethods.ShowLoadingPopup;
 import static util.HelperMethods.checkData;
-import static util.HelperMethods.ismLocationGranted;
 import static util.HelperMethods.loadData;
 import static util.HelperMethods.saveData;
 import static util.HelperMethods.setmLocationGranted;
 import static www.ethichadebe.com.loxion_beanery.ProfileFragment.isLogout;
 
 public class LoginActivity extends AppCompatActivity {
-    private static final int REQUEST_CHECK_SETTINGS = 200;
-    private static LatLng userLocation;
     private static final int ERROR_DIALOG_REQUEST = 9001;
 
-    static LatLng getUserLocation() {
-        return userLocation;
-    }
-
     private static final String TAG = "LoginActivity";
-    private FusedLocationProviderClient mFusedLocationProviderClient;
     private RelativeLayout rellay1;
     private TextView tvError;
     private CheckBox cbRemember;
@@ -99,14 +87,12 @@ public class LoginActivity extends AppCompatActivity {
     private Dialog myDialog;
     private MaterialEditText mTextPassword, mTextUsername;
     private BottomSheetBehavior bsbBottomSheetBehavior;
-
     private RequestQueue requestQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
         rellay1 = findViewById(R.id.rellay1);
         mTextUsername = findViewById(R.id.txtUsername);
         mTextPassword = findViewById(R.id.txtPassword);
@@ -131,7 +117,7 @@ public class LoginActivity extends AppCompatActivity {
         //Check if shared prefs are empty
         if (checkData(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE))) {
             user = loadData(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE));
-            getDeviceLocation();
+            turnOnLocation(this, this);
         } else {
             handler.postDelayed(runnable, 3000);
         }
@@ -146,6 +132,42 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         this.finishAffinity();
+    }
+    public void turnOnLocation(Context context, Activity activity) {
+        Log.d(TAG, "PostLogin turnOnLocation: trying to turn on location");
+        LocationRequest request = new LocationRequest().setFastestInterval(1500).setInterval(3000)
+                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder().addLocationRequest(request);
+        Task<LocationSettingsResponse> result = LocationServices.getSettingsClient(context)
+                .checkLocationSettings(builder.build());
+
+        result.addOnCompleteListener(task -> {
+            try {
+                Log.d(TAG, "PostLogin turnOnLocation: gets here");
+                task.getResult(ApiException.class);
+
+                //Successful
+                Log.d(TAG, "PostLogin turnOnLocation: successful");
+                startActivity(new Intent(this, MainActivity.class));
+            } catch (ApiException e) {
+                switch (e.getStatusCode()) {
+                    case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
+                        try {
+                            Log.d(TAG, "PostLogin turnOnLocation: Turning on location");
+                            ResolvableApiException resolvableApiException = (ResolvableApiException) e;
+                            resolvableApiException.startResolutionForResult(activity, REQUEST_CHECK_SETTINGS);
+                        } catch (IntentSender.SendIntentException ex) {
+                            Log.d(TAG, "locationIsTurnedOn: " + ex.toString());
+                        } catch (ClassCastException ex) {
+                            Log.d(TAG, "locationIsTurnedOn: " + ex.toString());
+                        }
+                        break;
+                    case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
+                        break;
+                }
+            }
+        });
     }
 
     private void PostLogin(boolean isPopup) {
@@ -176,12 +198,10 @@ public class LoginActivity extends AppCompatActivity {
                             JSONObject userData = ArrData.getJSONObject(0);
                             //Toast.makeText(LoginActivity.this, userData.toString(), Toast.LENGTH_LONG).show();
 
-                            user = new User(userData.getInt("uID"), userData.getString("uName"),
-                                    userData.getString("uSurname"), userData.getString("uDOB"),
-                                    userData.getString("uSex"), userData.getString("uEmail"),
-                                    userData.getString("uNumber"),
-                                    userData.getString("uPicture"),
-                                    userData.getInt("uType"));
+                            user = new User(userData.getInt("uID"), userData.getString("uName"), userData.getString("uSurname"),
+                                    userData.getString("uAddress"), new LatLng(userData.getDouble("uLongitude"),
+                                    userData.getDouble("uLatitude")), userData.getString("uSex"), userData.getString("uEmail"),
+                                    userData.getString("uNumber"), userData.getString("uPicture"), userData.getInt("uType"));
                             if (cbRemember.isChecked()) {//Check if remember me is checked
                                 isLogout = false;
                                 saveData(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE), user, true);
@@ -194,13 +214,12 @@ public class LoginActivity extends AppCompatActivity {
                                             msg = "msg_subscribe_failed";
                                         }
                                         Log.d(TAG, msg);
-                                        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
                                     });
 
-                            getDeviceLocation();
+                            turnOnLocation(this, this);
                         }
                     } catch (JSONException e) {
-                        e.printStackTrace();
+                        Log.d(TAG, "PostLogin: Exception: " + e.toString());
 
                     }
                 }, error -> {
@@ -298,75 +317,6 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
     }
 
-    private void getDeviceLocation() {
-        Log.d(TAG, "PostLogin getDeviceLocation: getting current location");
-        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(Objects.requireNonNull(this));
-
-        try {
-            if (ismLocationGranted()) {
-                Task location = mFusedLocationProviderClient.getLastLocation();
-                location.addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        Log.d(TAG, "PostLogin onComplete: location found");
-                        if (task.getResult() == null) {
-                            Log.d(TAG, "PostLogin turnOnLocation: location is null");
-                            turnOnLocation();
-                        } else {
-                            Location currentLocation = (Location) task.getResult();
-                            userLocation = new LatLng(Objects.requireNonNull(currentLocation).getLatitude(),
-                                    currentLocation.getLongitude());
-
-                            startActivity(new Intent(this, MainActivity.class));
-                        }
-
-                    } else {
-                        Log.d(TAG, "PostLogin onComplete: Unable to get location");
-                        Toast.makeText(this, "Unable to get current location", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-        } catch (SecurityException e) {
-            Log.e(TAG, "getDeviceLocation: Security exception " + e.getMessage());
-        }
-    }
-
-    private void turnOnLocation() {
-        Log.d(TAG, "PostLogin turnOnLocation: trying to turn on location");
-        LocationRequest request = new LocationRequest().setFastestInterval(1500).setInterval(3000)
-                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-
-        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder().addLocationRequest(request);
-        Task<LocationSettingsResponse> result = LocationServices.getSettingsClient(this)
-                .checkLocationSettings(builder.build());
-
-        result.addOnCompleteListener(task -> {
-            try {
-                Log.d(TAG, "PostLogin turnOnLocation: gets here");
-                task.getResult(ApiException.class);
-
-                //Successful
-                Log.d(TAG, "PostLogin turnOnLocation: successful");
-                getDeviceLocation();
-            } catch (ApiException e) {
-                switch (e.getStatusCode()) {
-                    case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
-                        try {
-                            Log.d(TAG, "PostLogin turnOnLocation: Turning on location");
-                            ResolvableApiException resolvableApiException = (ResolvableApiException) e;
-                            resolvableApiException.startResolutionForResult(this, REQUEST_CHECK_SETTINGS);
-                        } catch (IntentSender.SendIntentException ex) {
-                            ex.printStackTrace();
-                        } catch (ClassCastException ex) {
-
-                        }
-                        break;
-                    case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
-                        break;
-                }
-            }
-        });
-    }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
@@ -438,7 +388,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if ((requestCode == REQUEST_CHECK_SETTINGS) && (resultCode == RESULT_OK)) {
-            PostLogin(false);
+            startActivity(new Intent(this, MainActivity.class));
         }
     }
 }

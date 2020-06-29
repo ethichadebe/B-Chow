@@ -19,7 +19,6 @@
             android:id="@+id/tvShopName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
             android:fontFamily="sans-serif-medium"
             android:text="My Shop"
             android:textSize="20sp" />

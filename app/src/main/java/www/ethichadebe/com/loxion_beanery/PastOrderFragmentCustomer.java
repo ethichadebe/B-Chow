@@ -13,7 +13,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -156,7 +155,7 @@ public class PastOrderFragmentCustomer extends Fragment {
                         JSONObject Orders = new JSONObject(response);
                         setUpcomingOrderItem(new UpcomingOrderItem(Orders.getInt("oID"),
                                 Orders.getString("sName"), Orders.getInt("oNumber"),
-                                Orders.getString("createdAt"), Orders.getString("oIngredients"),
+                                Orders.getString("oCreatedAt"), Orders.getString("oIngredients"),
                                 Orders.getString("oExtras"), Orders.getDouble("oPrice"),
                                 Orders.getString("oStatus"), new LatLng(Orders.getDouble("sLatitude"),
                                 Orders.getDouble("sLongitude"))));

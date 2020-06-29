@@ -32,10 +32,11 @@ import java.util.Objects;
 
 import Adapter.UpcomingOrderItemAdapter;
 import SingleItem.UpcomingOrderItem;
+import util.MyFirebaseMessagingService;
 
 import static util.Constants.getIpAddress;
 import static util.HelperMethods.handler;
-import static util.MyFirebaseMessagingService.NotifoID;
+import static util.MyFirebaseMessagingService.O_ID;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 import static www.ethichadebe.com.loxion_beanery.MainActivity.setUpcomingOrderItem;
 
@@ -48,6 +49,7 @@ public class UpcomingOrderFragmentCustomer extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<UpcomingOrderItem> upcomingOrderItems;
     private RelativeLayout rlLoad, rlError, rlEmpty;
+    private Bundle bundle;
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -57,6 +59,8 @@ public class UpcomingOrderFragmentCustomer extends Fragment {
         rlError = v.findViewById(R.id.rlError);
         rlEmpty = v.findViewById(R.id.rlEmpty);
         mRecyclerView = v.findViewById(R.id.upcomingRecyclerView);
+        Intent mIntent = new Intent(getActivity(), MyFirebaseMessagingService.class);
+        bundle = mIntent.getExtras();
 
         upcomingOrderItems = new ArrayList<>();
         mLayoutManager = new LinearLayoutManager(getActivity());
@@ -104,8 +108,8 @@ public class UpcomingOrderFragmentCustomer extends Fragment {
                                         Orders.getString("oStatus"), new LatLng(Orders.getDouble("sLatitude"),
                                         Orders.getDouble("sLongitude"))));
                             }
-                            if (NotifoID != -1){
-                                mRecyclerView.scrollToPosition(getPosition(NotifoID));
+                            if (bundle != null){
+                                mRecyclerView.scrollToPosition(getPosition(bundle.getInt(O_ID)));
                             }
                         } else if (response.getString("message").equals("empty")) {
                             rlEmpty.setVisibility(View.VISIBLE);

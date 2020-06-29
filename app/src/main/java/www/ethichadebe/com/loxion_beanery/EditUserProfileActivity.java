@@ -25,13 +25,22 @@ import com.android.volley.RequestQueue;
 import com.android.volley.TimeoutError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.widget.Autocomplete;
+import com.google.android.libraries.places.widget.AutocompleteActivity;
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -65,7 +74,7 @@ public class EditUserProfileActivity extends AppCompatActivity {
     private ImageView civProfilePicture;
     private RequestQueue requestQueue;
     private StringRequest stringRequest;
-
+    private LatLng sLocation;
     private UploadImage uploadImage;
 
     /*0 Name
@@ -88,7 +97,7 @@ public class EditUserProfileActivity extends AppCompatActivity {
         //Textboxes
         mTextBoxes[0] = findViewById(R.id.txtName);
         mTextBoxes[1] = findViewById(R.id.txtSurname);
-        mTextBoxes[2] = findViewById(R.id.txtDOB);
+        mTextBoxes[2] = findViewById(R.id.tvAddress);
 
         //CheckBoxes
         mCBMale = findViewById(R.id.cbMale);
@@ -99,7 +108,7 @@ public class EditUserProfileActivity extends AppCompatActivity {
 
         mTextBoxes[0].setText(getUser().getuName());
         mTextBoxes[1].setText(getUser().getuSurname());
-        mTextBoxes[2].setText(getUser().getuDOB());
+        mTextBoxes[2].setText(getUser().getuAddress());
         tvEmail.setText(getUser().getuEmail());
         tvNumber.setText(getUser().getuNumber());
         DisplayImage(civProfilePicture, getUser().getuPicture());
@@ -116,9 +125,16 @@ public class EditUserProfileActivity extends AppCompatActivity {
                 break;
         }
 
+        //Initialize maps places
+        Places.initialize(this, getResources().getString(R.string.google_maps_api_key));
+
         //Date p[icker
         mTextBoxes[2].setOnClickListener(view -> {
-            displayDatePicker(this, mTextBoxes[2]);
+            List<Place.Field> fieldList = Arrays.asList(Place.Field.ADDRESS, Place.Field.LAT_LNG, Place.Field.NAME);
+
+            Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY,
+                    fieldList).build(this);
+            startActivityForResult(intent, 100);
         });
 
         setCheck(getUser().getuSex());
@@ -174,7 +190,8 @@ public class EditUserProfileActivity extends AppCompatActivity {
 
                             Toast.makeText(EditUserProfileActivity.this, "Saved",
                                     Toast.LENGTH_LONG).show();
-                            getUser().setuDOB(JSONResponse.getString("uDOB"));
+                            getUser().setuAddress(JSONResponse.getString("uAddress"));
+                            getUser().setuLocation(new LatLng(JSONResponse.getDouble("uLatitude"), JSONResponse.getDouble("uLongitude")));
                             getUser().setuEmail(JSONResponse.getString("uEmail"));
                             getUser().setuID(JSONResponse.getInt("uID"));
                             getUser().setuName(JSONResponse.getString("uName"));
@@ -233,6 +250,8 @@ public class EditUserProfileActivity extends AppCompatActivity {
                 params.put("uName", Objects.requireNonNull(mTextBoxes[0].getText()).toString());
                 params.put("uSurname", Objects.requireNonNull(mTextBoxes[1].getText()).toString());
                 params.put("uDOB", Objects.requireNonNull(mTextBoxes[2].getText()).toString());
+                params.put("uLatitude", String.valueOf(sLocation.latitude));
+                params.put("uLongitude", String.valueOf(sLocation.longitude));
                 params.put("uSex", UserSex);
                 params.put("uID", String.valueOf(getUser().getuID()));
                 return params;
@@ -344,7 +363,7 @@ public class EditUserProfileActivity extends AppCompatActivity {
                                 tvNumber.setText(getUser().getuNumber());
                                 if (!sharedPrefsIsEmpty(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE))) {
                                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                                        saveData(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE), getUser(),true);
+                                        saveData(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE), getUser(), true);
                                     }
                                 }
                                 break;
@@ -457,15 +476,7 @@ public class EditUserProfileActivity extends AppCompatActivity {
     }
 
     public void back(View view) {
-        if (!(Objects.requireNonNull(mTextBoxes[0].getText()).toString().equals(getUser().getuName())) ||
-                !(Objects.requireNonNull(mTextBoxes[1].getText()).toString().equals(getUser().getuSurname())) ||
-                !(Objects.requireNonNull(mTextBoxes[2].getText()).toString().equals(getUser().getuDOB())) ||
-                !UserSex.equals(getUser().getuSex())) {
-            ShowConfirmationPopup();
-        } else {
-            setIntFragment(2);
-            startActivity(new Intent(EditUserProfileActivity.this, MainActivity.class));
-        }
+        back();
     }
 
     public void save(View view) {
@@ -477,9 +488,13 @@ public class EditUserProfileActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        back();
+    }
+
+    private void back() {
         if (!(Objects.requireNonNull(mTextBoxes[0].getText()).toString().equals(getUser().getuName())) ||
                 !(Objects.requireNonNull(mTextBoxes[1].getText()).toString().equals(getUser().getuSurname())) ||
-                !(Objects.requireNonNull(mTextBoxes[2].getText()).toString().equals(getUser().getuDOB())) ||
+                !(Objects.requireNonNull(mTextBoxes[2].getText()).toString().equals(getUser().getuAddress())) ||
                 !UserSex.equals(getUser().getuSex())) {
             ShowConfirmationPopup();
         } else {
@@ -496,6 +511,15 @@ public class EditUserProfileActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if ((requestCode == 100) && (resultCode == RESULT_OK)) {
+            Place place = Autocomplete.getPlaceFromIntent(Objects.requireNonNull(data));
+
+            mTextBoxes[6].setText(place.getAddress());
+            sLocation = place.getLatLng();
+        } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
+            Status status = Autocomplete.getStatusFromIntent(Objects.requireNonNull(data));
+            Toast.makeText(this, status.getStatusMessage(), Toast.LENGTH_SHORT).show();
+        }
         uploadImage.onActivityResult(getCacheDir(), requestCode, requestCode, data);
     }
 

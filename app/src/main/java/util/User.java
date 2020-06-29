@@ -1,29 +1,34 @@
 package util;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import static util.Constants.getIpAddress;
 
 public class User {
     private int uID, uType;
-    private String uName, uSurname, uDOB, uSex, uEmail, uNumber, uPicture,uPassword;
-
+    private String uName, uSurname, uSex, uEmail, uNumber, uPicture, uPassword, uAddress;
+    private LatLng uLocation;
 
     /**
-     * @param uID
-     * @param uName
-     * @param uSurname
-     * @param uDOB
-     * @param uSex
-     * @param uEmail
-     * @param uNumber
-     * @param uType
+     * @param uID        user database ID
+     * @param uName      user name
+     * @param uSurname   user surname
+     * @param uSex       user gender
+     * @param uEmail     user email
+     * @param uNumber    user phone number
+     * @param uType      user Type(Beanery owner, employee, customer)
+     * @param uPassword  user Password
+     * @param uAddress   user saved address
+     * @param uLocation user Coordinates
      */
-    public User(int uID, String uName, String uSurname, String uDOB, String uSex, String uEmail, String uNumber,
+    public User(int uID, String uName, String uSurname, String uAddress, LatLng uLocation, String uSex, String uEmail, String uNumber,
                 int uType, String uPassword) {
         this.uID = uID;
         this.uName = uName;
         this.uSurname = uSurname;
-        this.uDOB = uDOB;
         this.uSex = uSex;
+        this.uAddress = uAddress;
+        this.uLocation = uLocation;
         this.uEmail = uEmail;
         this.uNumber = uNumber;
         this.uType = uType;
@@ -31,22 +36,25 @@ public class User {
     }
 
     /**
-     * @param uID
-     * @param uName
-     * @param uSurname
-     * @param uDOB
-     * @param uSex
-     * @param uEmail
-     * @param uNumber
-     * @param uType
+     * @param uID        user database ID
+     * @param uName      user name
+     * @param uSurname   user surname
+     * @param uSex       user gender
+     * @param uEmail     user email
+     * @param uNumber    user phone number
+     * @param uPicture   user profile picture
+     * @param uType      user Type(Beanery owner, employee, customer)
+     * @param uAddress   user saved address
+     * @param uLocation user Coordinates
      */
-    public User(int uID, String uName, String uSurname, String uDOB, String uSex, String uEmail, String uNumber,
+    public User(int uID, String uName, String uSurname, String uAddress, LatLng uLocation, String uSex, String uEmail, String uNumber,
                 String uPicture, int uType) {
         this.uID = uID;
         this.uName = uName;
         this.uSurname = uSurname;
-        this.uDOB = uDOB;
         this.uSex = uSex;
+        this.uAddress = uAddress;
+        this.uLocation = uLocation;
         this.uEmail = uEmail;
         this.uNumber = uNumber;
         this.uType = uType;
@@ -77,14 +85,6 @@ public class User {
         this.uSurname = uSurname;
     }
 
-    public String getuDOB() {
-        return uDOB;
-    }
-
-    public void setuDOB(String uDOB) {
-        this.uDOB = uDOB;
-    }
-
     public String getuSex() {
         return uSex;
     }
@@ -109,14 +109,6 @@ public class User {
         this.uNumber = uNumber;
     }
 
-    public int getAdmin() {
-        return uType;
-    }
-
-    public void setAdmin(int admin) {
-        uType = admin;
-    }
-
     public int getuType() {
         return uType;
     }
@@ -135,5 +127,21 @@ public class User {
 
     public String getuPassword() {
         return uPassword;
+    }
+
+    public String getuAddress() {
+        return uAddress;
+    }
+
+    public void setuAddress(String uAddress) {
+        this.uAddress = uAddress;
+    }
+
+    public LatLng getuLocation() {
+        return uLocation;
+    }
+
+    public void setuLocation(LatLng uLocation) {
+        this.uLocation = uLocation;
     }
 }

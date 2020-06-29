@@ -100,12 +100,12 @@
                         app:met_helperText="" />
 
                     <com.rengwuxian.materialedittext.MaterialEditText
-                        android:id="@+id/txtDOB"
+                        android:id="@+id/tvAddress"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ems="10"
                         android:focusable="false"
-                        android:hint="@string/date_of_birth"
+                        android:hint="Address"
                         android:textSize="14sp"
                         app:met_floatingLabel="highlight"
                         app:met_helperText="" />

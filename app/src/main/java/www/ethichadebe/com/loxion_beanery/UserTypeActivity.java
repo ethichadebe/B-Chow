@@ -131,7 +131,9 @@ public class UserTypeActivity extends AppCompatActivity {
                 Map<String, String> params = new HashMap<>();
                 params.put("uName", getNewUser().getuName());
                 params.put("uSurname", getNewUser().getuSurname());
-                params.put("uDOB", getNewUser().getuDOB());
+                params.put("uAddress", getNewUser().getuAddress());
+                params.put("uLatitude", String.valueOf(getNewUser().getuLocation().latitude));
+                params.put("uLongitude", String.valueOf(getNewUser().getuLocation().longitude));
                 params.put("uSex", getNewUser().getuSex());
                 params.put("uEmail", getNewUser().getuEmail());
                 params.put("uNumber", getNewUser().getuNumber());

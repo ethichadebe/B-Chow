@@ -22,7 +22,7 @@ import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 public class ProfileFragment extends Fragment {
     private LinearLayout llEditProfile;
     static boolean isLogout = false;
-    private TextView tvNameSur, tvEmail, tvNumber, tvDOB, tvSex, tvDeactivate, tvLogOut;
+    private TextView tvNameSur, tvEmail, tvNumber, tvAddress, tvSex, tvDeactivate, tvLogOut;
     private ImageView civProfilePicture;
 
     @Nullable
@@ -39,7 +39,7 @@ public class ProfileFragment extends Fragment {
         civProfilePicture = v.findViewById(R.id.civProfilePicture);
         tvEmail = v.findViewById(R.id.tvEmail);
         tvNumber = v.findViewById(R.id.tvNumber);
-        tvDOB = v.findViewById(R.id.tvDOB);
+        tvAddress = v.findViewById(R.id.tvAddress);
         tvSex = v.findViewById(R.id.tvSex);
         tvDeactivate = v.findViewById(R.id.tvDeactivate);
         tvLogOut = v.findViewById(R.id.tvLogOut);
@@ -47,7 +47,7 @@ public class ProfileFragment extends Fragment {
         tvNameSur.setText(getUser().getuName() + " " + getUser().getuSurname());
         tvEmail.setText(getUser().getuEmail());
         tvNumber.setText(getUser().getuNumber());
-        tvDOB.setText(getUser().getuDOB());
+        tvAddress.setText(getUser().getuAddress());
         tvSex.setText(getUser().getuSex());
         DisplayImage(civProfilePicture, getUser().getuPicture());
 

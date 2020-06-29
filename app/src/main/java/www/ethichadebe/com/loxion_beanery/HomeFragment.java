@@ -1,7 +1,6 @@
 package www.ethichadebe.com.loxion_beanery;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,14 +25,14 @@ import com.android.volley.toolbox.Volley;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.Places;
-import com.mikelau.views.shimmer.ShimmerRecyclerViewX;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.widget.Autocomplete;
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import org.json.JSONArray;
@@ -41,21 +40,18 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 import Adapter.ShopItemAdapter;
 import SingleItem.ShopItem;
 
 import static util.Constants.getIpAddress;
-import static util.HelperMethods.SHARED_PREFS;
-import static util.HelperMethods.checkData;
 import static util.HelperMethods.handler;
 import static util.HelperMethods.ismLocationGranted;
-import static util.HelperMethods.loadData;
 import static util.HelperMethods.randomNumber;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
-import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUserLocation;
-import static www.ethichadebe.com.loxion_beanery.LoginActivity.setUser;
 
 public class HomeFragment extends Fragment {
     private FusedLocationProviderClient mFusedLocationProviderClient;
@@ -63,9 +59,9 @@ public class HomeFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private ShopItemAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private TextView tvEmpty, tvSearch;
+    private TextView tvEmpty, tvSearch, tvAddress;
     private MaterialEditText etSearch;
-    private CardView cvRetry;
+    private CardView cvRetry, cvAddress;
     private static ArrayList<ShopItem> shopItems;
     private RelativeLayout rlLoad, rlError;
     private static ShopItem shopItem;
@@ -88,6 +84,8 @@ public class HomeFragment extends Fragment {
         rlError = v.findViewById(R.id.rlError);
         tvEmpty = v.findViewById(R.id.tvEmpty);
         tvSearch = v.findViewById(R.id.tvSearch);
+        tvAddress = v.findViewById(R.id.tvAddress);
+        cvAddress = v.findViewById(R.id.cvAddress);
         etSearch = v.findViewById(R.id.etSearch);
         cvRetry = v.findViewById(R.id.cvRetry);
         mRecyclerView.setHasFixedSize(true);
@@ -105,9 +103,10 @@ public class HomeFragment extends Fragment {
             startActivity(new Intent(getActivity(), ShopHomeActivity.class));
         });
 
+        tvAddress.setText(getUser().getuAddress());
         //Search for nearby shops
-        GETShops(v.findViewById(R.id.vLine), v.findViewById(R.id.vLineGrey), getUserLocation().latitude,
-                getUserLocation().longitude);
+        GETShops(v.findViewById(R.id.vLine), v.findViewById(R.id.vLineGrey), getUser().getuLocation().latitude,
+                getUser().getuLocation().longitude);
         Places.initialize(Objects.requireNonNull(getActivity()), getResources().getString(R.string.google_maps_api_key));
 
         //Retry button when network error occurs
@@ -117,6 +116,7 @@ public class HomeFragment extends Fragment {
         tvSearch.setOnClickListener(view -> {
             if (etSearch.getVisibility() == View.GONE) {
                 tvSearch.setBackground(getResources().getDrawable(R.drawable.ic_keyboard_backspace_black_24dp));
+                cvAddress.setVisibility(View.GONE);
                 etSearch.setVisibility(View.VISIBLE);
                 YoYo.with(Techniques.SlideInRight)
                         .duration(1000)
@@ -125,7 +125,20 @@ public class HomeFragment extends Fragment {
             } else {
                 tvSearch.setBackground(getResources().getDrawable(R.drawable.ic_search_black_24dp));
                 etSearch.setVisibility(View.GONE);
+                cvAddress.setVisibility(View.VISIBLE);
             }
+        });
+
+        //Initialize maps places
+        Places.initialize(getActivity(), getResources().getString(R.string.google_maps_api_key));
+
+        cvAddress.setOnClickListener(view -> {
+            List<Place.Field> fieldList = Arrays.asList(Place.Field.ADDRESS, Place.Field.LAT_LNG, Place.Field.NAME);
+
+            Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY,
+                    fieldList).build(getActivity());
+            startActivityForResult(intent, 100);
+
         });
 
         return v;
@@ -168,9 +181,9 @@ public class HomeFragment extends Fragment {
                                 }//Set ave time
 
                                 shopItems.add(new ShopItem(Shops.getInt("sID"), Shops.getString("sName"),
-                                        Shops.getString("sSmallPicture"),Shops.getString("sBigPicture"),
-                                        Shops.getString("sShortDescrption"),Shops.getString("sFullDescription"),
-                                        new LatLng(Shops.getDouble("sLatitude"),Shops.getDouble("sLongitude")),
+                                        Shops.getString("sSmallPicture"), Shops.getString("sBigPicture"),
+                                        Shops.getString("sShortDescrption"), Shops.getString("sFullDescription"),
+                                        new LatLng(Shops.getDouble("sLatitude"), Shops.getDouble("sLongitude")),
                                         Shops.getString("sAddress"), Shops.getDouble("distance"),
                                         Avetime, Shops.getInt("sRating"),
                                         Shops.getString("sOperatingHrs"), Shops.getInt("sLikes"),

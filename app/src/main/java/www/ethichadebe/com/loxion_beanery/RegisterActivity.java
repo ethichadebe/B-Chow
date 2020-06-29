@@ -16,12 +16,21 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.widget.Autocomplete;
+import com.google.android.libraries.places.widget.AutocompleteActivity;
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -40,6 +49,7 @@ public class RegisterActivity extends AppCompatActivity {
     private RelativeLayout rellay1;
     private Dialog myDialog;
     private static User newUser;
+    private LatLng sLocation;
 
     public static User getNewUser() {
         return newUser;
@@ -51,7 +61,7 @@ public class RegisterActivity extends AppCompatActivity {
         3 Email
         4 Password
         5 CPassword
-        6 DOB*/
+        6 Address*/
     private MaterialEditText[] mTextBoxes = new MaterialEditText[7];
     private CheckBox mCBMale, mCBFemale, mCBOther;
 
@@ -73,6 +83,9 @@ public class RegisterActivity extends AppCompatActivity {
         myDialog = new Dialog(this);
         handler.postDelayed(runnable, 500);
 
+        //Initialize maps places
+        Places.initialize(this, getResources().getString(R.string.google_maps_api_key));
+
         //Textboxes
         mTextBoxes[0] = findViewById(R.id.txtName);
         mTextBoxes[1] = findViewById(R.id.txtSurname);
@@ -80,7 +93,7 @@ public class RegisterActivity extends AppCompatActivity {
         mTextBoxes[3] = findViewById(R.id.txtEmail);
         mTextBoxes[4] = findViewById(R.id.txtPass);
         mTextBoxes[5] = findViewById(R.id.txtCPass);
-        mTextBoxes[6] = findViewById(R.id.txtDOB);
+        mTextBoxes[6] = findViewById(R.id.tvAddress);
 
         saveData(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE), null, false);
 
@@ -92,7 +105,11 @@ public class RegisterActivity extends AppCompatActivity {
 
         //Date p[icker
         mTextBoxes[6].setOnClickListener(view -> {
-            displayDatePicker(this, mTextBoxes[6]);
+            List<Place.Field> fieldList = Arrays.asList(Place.Field.ADDRESS, Place.Field.LAT_LNG, Place.Field.NAME);
+
+            Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY,
+                    fieldList).build(this);
+            startActivityForResult(intent, 100);
         });
 
         //Handling Checkbox click events
@@ -156,9 +173,8 @@ public class RegisterActivity extends AppCompatActivity {
                                 break;
                             case "Registered":
                                 newUser = new User(1, Objects.requireNonNull(mTextBoxes[0].getText()).toString(),
-                                        Objects.requireNonNull(mTextBoxes[1].getText()).toString(),
-                                        Objects.requireNonNull(mTextBoxes[6].getText()).toString(), UserSex,
-                                        Objects.requireNonNull(mTextBoxes[3].getText()).toString(),
+                                        Objects.requireNonNull(mTextBoxes[1].getText()).toString(), Objects.requireNonNull(mTextBoxes[6].getText()).toString(),
+                                        sLocation, UserSex, Objects.requireNonNull(mTextBoxes[3].getText()).toString(),
                                         Objects.requireNonNull(mTextBoxes[2].getText()).toString(), 0,
                                         Objects.requireNonNull(mTextBoxes[4].getText()).toString());
                                 Toast.makeText(RegisterActivity.this, "Registered successfully", Toast.LENGTH_LONG).show();
@@ -226,6 +242,20 @@ public class RegisterActivity extends AppCompatActivity {
         super.onStop();
         if (requestQueue != null) {
             requestQueue.cancelAll(TAG);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if ((requestCode == 100) && (resultCode == RESULT_OK)) {
+            Place place = Autocomplete.getPlaceFromIntent(Objects.requireNonNull(data));
+
+            mTextBoxes[6].setText(place.getAddress());
+            sLocation = place.getLatLng();
+        } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
+            Status status = Autocomplete.getStatusFromIntent(Objects.requireNonNull(data));
+            Toast.makeText(this, status.getStatusMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 }
