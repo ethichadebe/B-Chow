@@ -1,5 +1,8 @@
 package SingleItem;
 
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+
 import com.google.android.gms.maps.model.LatLng;
 
 import static util.HelperMethods.convertedTime;
@@ -9,8 +12,8 @@ public class UpcomingOrderItem extends OrderItem{
     private String strTime;
     private LatLng llShop;
 
-    public UpcomingOrderItem(int intID, String strShopName, int intOrderNum, String strTime, String strMenu,String strExtras, Double dblPrice,
-                             String strStatus, LatLng llShop) {
+    public UpcomingOrderItem(int intID, String strShopName, int intOrderNum, String strTime, String strMenu, String strExtras, Double dblPrice,
+                             String strStatus, LatLng llShop, Drawable isSelected) {
         this.intID = intID;
         this.strShopName = strShopName;
         this.intOderNum = intOrderNum;
@@ -20,6 +23,7 @@ public class UpcomingOrderItem extends OrderItem{
         this.strExtras = strExtras;
         this.strStatus = strStatus;
         this.llShop = llShop;
+        this.isSelected = isSelected;
     }
 
     public String getStrShopName() {

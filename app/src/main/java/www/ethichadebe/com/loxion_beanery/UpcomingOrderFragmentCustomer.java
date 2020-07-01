@@ -1,12 +1,11 @@
 package www.ethichadebe.com.loxion_beanery;
 
-import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -38,18 +37,17 @@ import static util.Constants.getIpAddress;
 import static util.HelperMethods.handler;
 import static util.MyFirebaseMessagingService.O_ID;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
+import static www.ethichadebe.com.loxion_beanery.MainActivity.getUpcomingOrderItem;
 import static www.ethichadebe.com.loxion_beanery.MainActivity.setUpcomingOrderItem;
 
 public class UpcomingOrderFragmentCustomer extends Fragment {
     private static final String TAG = "UpcomingOrderFragmentCu";
     private RequestQueue requestQueue;
-
     private RecyclerView mRecyclerView;
     private UpcomingOrderItemAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<UpcomingOrderItem> upcomingOrderItems;
     private RelativeLayout rlLoad, rlError, rlEmpty;
-    private Bundle bundle;
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -59,8 +57,6 @@ public class UpcomingOrderFragmentCustomer extends Fragment {
         rlError = v.findViewById(R.id.rlError);
         rlEmpty = v.findViewById(R.id.rlEmpty);
         mRecyclerView = v.findViewById(R.id.upcomingRecyclerView);
-        Intent mIntent = new Intent(getActivity(), MyFirebaseMessagingService.class);
-        bundle = mIntent.getExtras();
 
         upcomingOrderItems = new ArrayList<>();
         mLayoutManager = new LinearLayoutManager(getActivity());
@@ -106,11 +102,9 @@ public class UpcomingOrderFragmentCustomer extends Fragment {
                                         Orders.getString("oCreatedAt"), Orders.getString("oIngredients"),
                                         Orders.getString("oExtras"), Orders.getDouble("oPrice"),
                                         Orders.getString("oStatus"), new LatLng(Orders.getDouble("sLatitude"),
-                                        Orders.getDouble("sLongitude"))));
+                                        Orders.getDouble("sLongitude")), getSetSelected(Orders.getInt("oID"))));
                             }
-                            if (bundle != null){
-                                mRecyclerView.scrollToPosition(getPosition(bundle.getInt(O_ID)));
-                            }
+                            scrollToPosition();
                         } else if (response.getString("message").equals("empty")) {
                             rlEmpty.setVisibility(View.VISIBLE);
                         }
@@ -138,12 +132,22 @@ public class UpcomingOrderFragmentCustomer extends Fragment {
             requestQueue.cancelAll(TAG);
         }
     }
-    private int getPosition(int oID) {
-        for (int i = 0; i < upcomingOrderItems.size(); i++) {
-            if (upcomingOrderItems  .get(i).getIntID() == oID) {
-                return i;
+
+    private void scrollToPosition() {
+        if ((getUpcomingOrderItem() != null)) {
+            for (int i = 0; i < upcomingOrderItems.size(); i++) {
+                if (upcomingOrderItems.get(i).getIntID() == getUpcomingOrderItem().getIntID()) {
+                    mRecyclerView.scrollToPosition(i);
+                    return;
+                }
             }
         }
-        return -1;
+    }
+
+    private Drawable getSetSelected(int oID) {
+        if ((getUpcomingOrderItem() != null) && (getUpcomingOrderItem().getIntID() == oID)) {
+            return getResources().getDrawable(R.color.colorPrimaryTrans);
+        }
+        return getResources().getDrawable(R.color.common_google_signin_btn_text_dark_default);
     }
 }

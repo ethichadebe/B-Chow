@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -13,14 +14,17 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.util.Objects;
 
 import SingleItem.UpcomingOrderItem;
+import util.MyFirebaseMessagingService;
 
 import static util.HelperMethods.SHARED_PREFS;
 import static util.HelperMethods.checkData;
 import static util.HelperMethods.loadData;
+import static util.MyFirebaseMessagingService.O_ID;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.setUser;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = "MainActivity";
     private static int intFragment;
     private BottomNavigationView bottomNav, bottomNavAdmin;
     private static UpcomingOrderItem upcomingOrderItem;
@@ -45,6 +49,17 @@ public class MainActivity extends AppCompatActivity {
         //heck if user is logged in
         if (checkData(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE))) {
             setUser(loadData(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE)));
+        }
+
+        Intent intent = getIntent();
+        int oID = intent.getIntExtra(O_ID, -1);
+
+        Log.d(TAG, "onCreate: Check bundle " + oID);
+        if (oID != -1) {
+            Log.d(TAG, "onCreate: bundle is not empty " + oID);
+            upcomingOrderItem = new UpcomingOrderItem(oID, "", 1, "", "", "", 0.0, "",
+                    null, null);
+            intFragment = 1;
         }
 
         if (getUser().getuType() == 3) {

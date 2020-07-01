@@ -172,7 +172,7 @@ public class OrderActivity extends AppCompatActivity {
     public void Order(View view) {
         if (nExtras > 0) {
             orderItem = new UpcomingOrderItem(getShopItem().getIntID(), "", 1, "", combineString(ingredientItems),
-                    "", dblPrice, "", new LatLng(0.0, 0.0));
+                    "", dblPrice, "", new LatLng(0.0, 0.0), null);
             startActivity(new Intent(this, ExtraItemActivity.class));
         } else {
             POSTOrder();
@@ -204,7 +204,7 @@ public class OrderActivity extends AppCompatActivity {
                                 Orders.getString("oCreatedAt"), Orders.getString("oIngredients"),
                                 Orders.getString("oExtras"), Orders.getDouble("oPrice"),
                                 Orders.getString("oStatus"), new LatLng(Orders.getDouble("sLatitude"),
-                                Orders.getDouble("sLongitude"))));
+                                Orders.getDouble("sLongitude")),null));
                         if (getUpcomingOrderItem() != null) {
                             Log.d(TAG, "POSTOrder: Starting activity");
                             startActivity(new Intent(this, OrderConfirmationActivity.class));

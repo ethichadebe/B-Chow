@@ -1,9 +1,13 @@
 package SingleItem;
 
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+
 import com.google.android.gms.maps.model.LatLng;
 
 public class OrderItem {
     protected int intID,intOderNum;
+    protected Drawable isSelected;
     protected Double dblPrice;
     protected String strMenu,strExtras = "",strStatus;
     protected LatLng llShopLocation;
@@ -62,5 +66,13 @@ public class OrderItem {
 
     public void setLlShopLocation(LatLng llShopLocation) {
         this.llShopLocation = llShopLocation;
+    }
+
+    public Drawable isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(Drawable selected) {
+        isSelected = selected;
     }
 }

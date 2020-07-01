@@ -511,16 +511,16 @@ public class EditUserProfileActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        uploadImage.onActivityResult(getCacheDir(), requestCode, requestCode, data);
         if ((requestCode == 100) && (resultCode == RESULT_OK)) {
             Place place = Autocomplete.getPlaceFromIntent(Objects.requireNonNull(data));
 
-            mTextBoxes[6].setText(place.getAddress());
+            mTextBoxes[2].setText(place.getAddress());
             sLocation = place.getLatLng();
         } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
             Status status = Autocomplete.getStatusFromIntent(Objects.requireNonNull(data));
             Toast.makeText(this, status.getStatusMessage(), Toast.LENGTH_SHORT).show();
         }
-        uploadImage.onActivityResult(getCacheDir(), requestCode, requestCode, data);
     }
 
     @Override

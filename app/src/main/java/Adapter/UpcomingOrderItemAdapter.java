@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -23,19 +24,20 @@ public class UpcomingOrderItemAdapter extends RecyclerView.Adapter<UpcomingOrder
     private ArrayList<UpcomingOrderItem> orderList;
     private OnItemClickListener mListener;
 
-    public interface OnItemClickListener{
+    public interface OnItemClickListener {
         void OnItemClickTrack(int position);
     }
 
-    public void setOnItemClickListener(OnItemClickListener listener){
+    public void setOnItemClickListener(OnItemClickListener listener) {
         mListener = listener;
 
     }
 
-    static class OrderViewHolder extends RecyclerView.ViewHolder{
+    static class OrderViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView tvShopName, tvPrice, tvMenu,tvExtras, tvOrderNum, tvTime,tvStatus,tvComplete;
+        private TextView tvShopName, tvPrice, tvMenu, tvExtras, tvOrderNum, tvTime, tvStatus, tvComplete;
         private CardView cvTrack;
+        private LinearLayout llShop;
 
         OrderViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
@@ -48,10 +50,11 @@ public class UpcomingOrderItemAdapter extends RecyclerView.Adapter<UpcomingOrder
             tvStatus = itemView.findViewById(R.id.tvStatus);
             tvTime = itemView.findViewById(R.id.tvTime);
             cvTrack = itemView.findViewById(R.id.cvTrack);
+            llShop = itemView.findViewById(R.id.llShop);
             cvTrack.setOnClickListener(view -> {
-                if (listener != null){
-                    int position =getAdapterPosition();
-                    if (position != RecyclerView.NO_POSITION){
+                if (listener != null) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
                         listener.OnItemClickTrack(position);
                     }
                 }
@@ -59,7 +62,7 @@ public class UpcomingOrderItemAdapter extends RecyclerView.Adapter<UpcomingOrder
         }
     }
 
-    public UpcomingOrderItemAdapter(ArrayList<UpcomingOrderItem> shopList){
+    public UpcomingOrderItemAdapter(ArrayList<UpcomingOrderItem> shopList) {
         this.orderList = shopList;
     }
 
@@ -76,19 +79,21 @@ public class UpcomingOrderItemAdapter extends RecyclerView.Adapter<UpcomingOrder
         UpcomingOrderItem item = orderList.get(position);
 
         holder.tvShopName.setText(item.getStrShopName());
-        holder.tvPrice.setText("R" + item.getDblPrice()+"0");
-       holder.tvExtras.setText(item.getStrExtras());
+        holder.tvPrice.setText("R" + item.getDblPrice() + "0");
+        holder.tvExtras.setText(item.getStrExtras());
         holder.tvMenu.setText(item.getStrMenu());
         holder.tvOrderNum.setText("Order number: " + item.getIntOderNum());
         holder.tvTime.setText(item.getStrTime());
-        if (item.getStrStatus().equals("Ready for collection")){
+        if (item.getStrStatus().equals("Ready for collection")) {
             holder.tvComplete.setVisibility(View.VISIBLE);
-            holder.tvComplete.setText("Status: "+item.getStrStatus());
-        }else {
+            holder.tvComplete.setText("Status: " + item.getStrStatus());
+        } else {
             holder.tvComplete.setVisibility(View.GONE);
             holder.tvStatus.setVisibility(View.VISIBLE);
-            holder.tvStatus.setText("Status: "+item.getStrStatus());
+            holder.tvStatus.setText("Status: " + item.getStrStatus());
         }
+
+        holder.llShop.setBackground(item.isSelected());
     }
 
     @Override

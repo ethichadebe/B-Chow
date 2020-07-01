@@ -198,28 +198,24 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     }
 
     private void sendReadyForCollection(String title, String messageBody, JSONObject Order) {
-        //Set the fragment that should open (orders fragment)
-        setIntFragment(1);
-
+        int oID = -1;
         Intent intent = new Intent(this, MainActivity.class);
 
-        //Create bundle to hold the incoming information
-        Bundle bundle = new Bundle();
         try {
+            oID = Integer.parseInt(Order.getString("oID"));
+            intent.putExtra(O_ID, Integer.parseInt(Order.getString("oID")));
+            /*bundle.putInt(S_STATUS, Integer.parseInt(Order.getString("sStatus")));
             bundle.putInt(S_ID, Integer.parseInt(Order.getString("sID")));
-            bundle.putInt(O_ID, Integer.parseInt(Order.getString("oID")));
-            bundle.putInt(S_STATUS, Integer.parseInt(Order.getString("sStatus")));
             bundle.putDouble(S_LATITUDE, Double.parseDouble(Order.getString("sLatitude")));
             bundle.putDouble(S_LONGITUDE, Double.parseDouble(Order.getString("sLongitude")));
             bundle.putBoolean(IS_ACTIVE, Integer.parseInt(Order.getString("isActive")) == 1);
-            bundle.putString(S_AVE_TIME, Order.getString("sAveTime"));
+            bundle.putString(S_AVE_TIME, Order.getString("sAveTime"));*/
+            Log.d(TAG, "sendReadyForCollection: " + oID);
         } catch (JSONException e) {
             Log.d(TAG, "payload exception: " + e.toString());
         }
 
-        intent.putExtras(bundle);
-        pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
-                PendingIntent.FLAG_CANCEL_CURRENT);
+        pendingIntent = PendingIntent.getActivity(this, oID /* Request code */, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         //Setting sound
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
@@ -233,7 +229,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setContentIntent(pendingIntent)
                 .build();
 
-        notificationManager.notify(Integer.parseInt(title), notificationBuilder);
+        notificationManager.notify(oID, notificationBuilder);
 
     }
 }

@@ -158,7 +158,7 @@ public class PastOrderFragmentCustomer extends Fragment {
                                 Orders.getString("oCreatedAt"), Orders.getString("oIngredients"),
                                 Orders.getString("oExtras"), Orders.getDouble("oPrice"),
                                 Orders.getString("oStatus"), new LatLng(Orders.getDouble("sLatitude"),
-                                Orders.getDouble("sLongitude"))));
+                                Orders.getDouble("sLongitude")),null));
                         if (getUpcomingOrderItem() != null) {
                             startActivity(new Intent(getActivity(), OrderConfirmationActivity.class));
                         }
