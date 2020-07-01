@@ -36,7 +36,7 @@ public class AdminOrderItemAdapter extends RecyclerView.Adapter<AdminOrderItemAd
 
         private TextView tvMenu,tvExtras, tvTime, tvOrderNum, tvPrice;
         private CardView cvDone, cvCancel,cvReady;
-        private RelativeLayout rlOptions;
+        private RelativeLayout rlOptions,rlOrder;
 
         AdminOrderViewHolder(@NonNull View itemView, final AdminOrderItemAdapter.OnItemClickListener listener) {
             super(itemView);
@@ -51,6 +51,7 @@ public class AdminOrderItemAdapter extends RecyclerView.Adapter<AdminOrderItemAd
             cvReady = itemView.findViewById(R.id.cvReady);
 
             rlOptions = itemView.findViewById(R.id.rlOptions);
+            rlOrder = itemView.findViewById(R.id.rlOrder);
 
             cvDone.setOnClickListener(view -> {
                 if (listener != null) {
@@ -107,6 +108,7 @@ public class AdminOrderItemAdapter extends RecyclerView.Adapter<AdminOrderItemAd
             holder.rlOptions.setVisibility(View.GONE);
             holder.cvReady.setVisibility(View.VISIBLE);
         }
+        holder.rlOrder.setBackground(item.isSelected());
     }
 
     @Override

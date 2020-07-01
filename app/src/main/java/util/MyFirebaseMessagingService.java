@@ -58,6 +58,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public static final String S_AVE_TIME = "sAveTime";
     public static final String IS_ACTIVE = "isActive";
     public static final String S_STATUS = "sStatus";
+    public static final String S_ADDRESS = "sAddress";
+    public static final String S_OH = "sOH";
     private static final String TAG = "MyFirebaseMsgService";
     private PendingIntent pendingIntent;
     private Intent intent = null;
@@ -102,10 +104,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     sendReadyForCollection(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody(),
                             new JSONObject(remoteMessage.getData()));
                     break;
-                default:
-                    sendIncomingOrder(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody());
+                case "OrdersActivity":
+                    sendIncomingOrder(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody(),
+                            new JSONObject(remoteMessage.getData()));
                     break;
-
             }
         }
 
@@ -169,21 +171,31 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         requestQueue.add(stringRequest);
     }
 
-    /**
-     * Create and show a simple notification containing the received FCM message.
-     *
-     * @param messageBody FCM message body received.
-     */
-    private void sendIncomingOrder(String title, String messageBody) {
-        //Opening activity
-        intent = new Intent(this, OrdersActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
-                PendingIntent.FLAG_ONE_SHOT);
+    private void sendIncomingOrder(String title, String messageBody, JSONObject Order) {
+        int oID = -1;
+        Intent intent = new Intent(this, OrdersActivity.class);
+
+        try {
+            oID = Integer.parseInt(Order.getString("oID"));
+            intent.putExtra(O_ID, Integer.parseInt(Order.getString("oID")));
+            intent.putExtra(S_ID, Integer.parseInt(Order.getString("sID")));
+            intent.putExtra(S_STATUS, Integer.parseInt(Order.getString("sStatus")));
+            intent.putExtra(S_LATITUDE, Double.parseDouble(Order.getString("sLatitude")));
+            intent.putExtra(S_LONGITUDE, Double.parseDouble(Order.getString("sLongitude")));
+            intent.putExtra(IS_ACTIVE, Integer.parseInt(Order.getString("isActive")) == 1);
+            intent.putExtra(S_ADDRESS, Order.getString("sAddress"));
+            intent.putExtra(S_OH, Order.getString("sOperatingHrs"));
+            intent.putExtra(S_AVE_TIME, Order.getString("sAveTime"));
+            Log.d(TAG, "sendReadyForCollection: " + oID);
+        } catch (JSONException e) {
+            Log.d(TAG, "payload exception: " + e.toString());
+        }
+
+        pendingIntent = PendingIntent.getActivity(this, oID /* Request code */, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         //Setting sound
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        Notification notificationBuilder = new NotificationCompat.Builder(this, INCOMING_ORDER)
+        Notification notificationBuilder = new NotificationCompat.Builder(this, READY_FOR_COLLECTION)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setSmallIcon(R.drawable.food)
                 .setContentTitle("Order #" + title)
@@ -193,7 +205,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setContentIntent(pendingIntent)
                 .build();
 
-        notificationManager.notify(Integer.parseInt(title), notificationBuilder);
+        notificationManager.notify(oID, notificationBuilder);
 
     }
 

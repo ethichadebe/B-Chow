@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
             setUser(loadData(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE)));
         }
 
+        //Get notification data
         Intent intent = getIntent();
         int oID = intent.getIntExtra(O_ID, -1);
 

@@ -12,17 +12,17 @@ public class MyShopItem extends ShopItem {
     /**
      * Standard constructor + operating Hours
      *
-     * @param intID
-     * @param strShopName
-     * @param strPosition
-     * @param intLogoSmall
-     * @param intLogoBig
-     * @param strShortDescript
-     * @param strFullDescript
-     * @param llLocation
-     * @param strAveTime
-     * @param intRating
-     * @param strOperatingHRS
+     * @param intID shop ID
+     * @param strShopName shop name
+     * @param strPosition user position
+     * @param intLogoSmall shop front logo
+     * @param intLogoBig shop main logo
+     * @param strShortDescript short description
+     * @param strFullDescript long description
+     * @param llLocation shop location
+     * @param strAveTime shop average delivery time
+     * @param intRating shop rating
+     * @param strOperatingHRS Operating hoours
      */
     public MyShopItem(int intID, String strShopName, String strPosition, String intLogoSmall, String intLogoBig,
                       String strShortDescript, String strFullDescript, LatLng llLocation, String strAddress,
@@ -48,12 +48,12 @@ public class MyShopItem extends ShopItem {
     /**
      * Shop Registration constructor
      *
-     * @param strShopName
+     * @param strShopName shop name
      * @param draLogoBig
      * @param draLogoSmall
-     * @param strShortDescript
-     * @param strFullDescript
-     * @param llLocation
+     * @param strShortDescript short description
+     * @param strFullDescript long description
+     * @param llLocation shop location
      */
     public MyShopItem(String strShopName, String strShortDescript, String strFullDescript, Drawable draLogoSmall,
                       Drawable draLogoBig, LatLng llLocation, String strAddress) {
