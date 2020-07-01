@@ -5,7 +5,6 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.os.Bundle;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -16,7 +15,6 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -27,17 +25,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import SingleItem.MyShopItem;
 import www.ethichadebe.com.loxion_beanery.MainActivity;
 import www.ethichadebe.com.loxion_beanery.OrdersActivity;
 import www.ethichadebe.com.loxion_beanery.R;
 
-import static util.App.INCOMING_ORDER;
 import static util.App.READY_FOR_COLLECTION;
 import static util.Constants.getIpAddress;
-import static www.ethichadebe.com.loxion_beanery.MainActivity.setIntFragment;
 import static www.ethichadebe.com.loxion_beanery.MyShopsFragment.getNewShop;
-import static www.ethichadebe.com.loxion_beanery.MyShopsFragment.setNewShop;
 
 /**
  * NOTE: There can only be one service in each app that receives FCM messages. If multiple
@@ -60,6 +54,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public static final String S_STATUS = "sStatus";
     public static final String S_ADDRESS = "sAddress";
     public static final String S_OH = "sOH";
+    public static final String O_PAST = "oPast";
     private static final String TAG = "MyFirebaseMsgService";
     private PendingIntent pendingIntent;
     private Intent intent = null;
@@ -102,6 +97,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             switch (Objects.requireNonNull(remoteMessage.getNotification().getClickAction())) {
                 case "UpcomingOrderFragment":
                     sendReadyForCollection(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody(),
+                            new JSONObject(remoteMessage.getData()));
+                    break;
+                case "PastOrderFragment":
+                    sendRating(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody(),
                             new JSONObject(remoteMessage.getData()));
                     break;
                 case "OrdersActivity":
@@ -200,6 +199,49 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setSmallIcon(R.drawable.food)
                 .setContentTitle("Order #" + title)
                 .setContentText(messageBody)
+                .setColor(getResources().getColor(R.color.colorPrimary))
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(messageBody))
+                .setAutoCancel(true)
+                .setSound(defaultSoundUri)
+                .setContentIntent(pendingIntent)
+                .build();
+
+        notificationManager.notify(oID, notificationBuilder);
+
+    }
+
+    private void sendRating(String title, String messageBody, JSONObject Order) {
+        int oID = -1;
+        Intent intent = new Intent(this, OrdersActivity.class);
+
+        try {
+            oID = Integer.parseInt(Order.getString("oID"));
+            intent.putExtra(O_ID, Integer.parseInt(Order.getString("oID")));
+            intent.putExtra(S_ID, Integer.parseInt(Order.getString("sID")));
+            intent.putExtra(S_STATUS, Integer.parseInt(Order.getString("sStatus")));
+            intent.putExtra(S_LATITUDE, Double.parseDouble(Order.getString("sLatitude")));
+            intent.putExtra(S_LONGITUDE, Double.parseDouble(Order.getString("sLongitude")));
+            intent.putExtra(IS_ACTIVE, Integer.parseInt(Order.getString("isActive")) == 1);
+            intent.putExtra(S_ADDRESS, Order.getString("sAddress"));
+            intent.putExtra(S_OH, Order.getString("sOperatingHrs"));
+            intent.putExtra(S_AVE_TIME, Order.getString("sAveTime"));
+            intent.putExtra(O_PAST, "Past");
+            Log.d(TAG, "sendReadyForCollection: " + oID);
+        } catch (JSONException e) {
+            Log.d(TAG, "payload exception: " + e.toString());
+        }
+
+        pendingIntent = PendingIntent.getActivity(this, oID /* Request code */, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        //Setting sound
+        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        Notification notificationBuilder = new NotificationCompat.Builder(this, READY_FOR_COLLECTION)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setSmallIcon(R.drawable.food)
+                .setContentTitle("Order #" + title)
+                .setContentText(messageBody)
+                .setColor(getResources().getColor(R.color.colorPrimary))
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(messageBody))
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
                 .setContentIntent(pendingIntent)
@@ -216,12 +258,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         try {
             oID = Integer.parseInt(Order.getString("oID"));
             intent.putExtra(O_ID, Integer.parseInt(Order.getString("oID")));
-            /*bundle.putInt(S_STATUS, Integer.parseInt(Order.getString("sStatus")));
-            bundle.putInt(S_ID, Integer.parseInt(Order.getString("sID")));
-            bundle.putDouble(S_LATITUDE, Double.parseDouble(Order.getString("sLatitude")));
-            bundle.putDouble(S_LONGITUDE, Double.parseDouble(Order.getString("sLongitude")));
-            bundle.putBoolean(IS_ACTIVE, Integer.parseInt(Order.getString("isActive")) == 1);
-            bundle.putString(S_AVE_TIME, Order.getString("sAveTime"));*/
             Log.d(TAG, "sendReadyForCollection: " + oID);
         } catch (JSONException e) {
             Log.d(TAG, "payload exception: " + e.toString());
@@ -235,6 +271,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setSmallIcon(R.drawable.food)
                 .setContentTitle("Order #" + title)
+                .setColor(getResources().getColor(R.color.colorPrimary))
                 .setContentText(messageBody)
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)

@@ -1,5 +1,6 @@
 package www.ethichadebe.com.loxion_beanery;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,6 +33,7 @@ import SingleItem.AdminOrderItemPast;
 import static util.Constants.getIpAddress;
 import static util.HelperMethods.handler;
 import static www.ethichadebe.com.loxion_beanery.MyShopsFragment.getNewShop;
+import static www.ethichadebe.com.loxion_beanery.OrdersActivity.oID;
 
 public class PastOrderFragment extends Fragment {
     private static final String TAG = "PastOrderFragment";
@@ -39,7 +41,7 @@ public class PastOrderFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private AdminOrderItemPastAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private ArrayList<AdminOrderItemPast> OrderItems;
+    private ArrayList<AdminOrderItemPast> orderItems;
 
     private TextView tvEmpty;
     private RelativeLayout rlLoad, rlError;
@@ -53,9 +55,9 @@ public class PastOrderFragment extends Fragment {
         rlError = v.findViewById(R.id.rlError);
         mRecyclerView = v.findViewById(R.id.recyclerView);
 
-        OrderItems = new ArrayList<>();
+        orderItems = new ArrayList<>();
         mLayoutManager = new LinearLayoutManager(getActivity());
-        mAdapter = new AdminOrderItemPastAdapter(OrderItems);
+        mAdapter = new AdminOrderItemPastAdapter(orderItems);
 
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -86,12 +88,13 @@ public class PastOrderFragment extends Fragment {
                             JSONArray jsonArray = response.getJSONArray("orders");
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject Orders = jsonArray.getJSONObject(i);
-                                OrderItems.add(new AdminOrderItemPast(Orders.getInt("oID"),
+                                orderItems.add(new AdminOrderItemPast(Orders.getInt("oID"),
                                         Orders.getInt("oNumber"), Orders.getString("oRecievedAt"),
                                         Orders.getString("oIngredients"), Orders.getString("oExtras"),
                                         Orders.getInt("oRating"), Orders.getString("oFeedback"),
-                                        Orders.getDouble("oPrice")));
+                                        Orders.getDouble("oPrice"),getSetSelected(Orders.getInt("oID"))));
                             }
+                            scrollToPosition();
                         } else if (response.getString("message").equals("empty")) {
                             tvEmpty.setVisibility(View.VISIBLE);
                         }
@@ -120,4 +123,24 @@ public class PastOrderFragment extends Fragment {
             requestQueue.cancelAll(TAG);
         }
     }
+
+    private void scrollToPosition() {
+        if ((oID != -1)) {
+            for (int i = 0; i < orderItems.size(); i++) {
+                if (orderItems.get(i).getIntID() == oID) {
+                    mRecyclerView.scrollToPosition(i);
+                    return;
+                }
+            }
+        }
+    }
+
+    private Drawable getSetSelected(int oID) {
+        if ((OrdersActivity.oID == oID)) {
+            return getResources().getDrawable(R.color.colorPrimaryTrans);
+        }
+        return getResources().getDrawable(R.color.common_google_signin_btn_text_dark_default);
+    }
+
+
 }

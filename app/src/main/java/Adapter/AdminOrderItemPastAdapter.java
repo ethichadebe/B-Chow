@@ -27,6 +27,7 @@ public class AdminOrderItemPastAdapter extends RecyclerView.Adapter<AdminOrderIt
 
         private TextView tvPrice, tvMenu, tvExtras, tvOrderNum, tvTime, tvFeedback;
         private RatingBar rbRating;
+        private LinearLayout llOrderItem;
 
         OrderViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -37,6 +38,7 @@ public class AdminOrderItemPastAdapter extends RecyclerView.Adapter<AdminOrderIt
             tvFeedback = itemView.findViewById(R.id.tvFeedback);
             tvOrderNum = itemView.findViewById(R.id.tvOrderNum);
             tvTime = itemView.findViewById(R.id.tvTime);
+            llOrderItem = itemView.findViewById(R.id.llOrderItem);
 
         }
     }
@@ -65,6 +67,7 @@ public class AdminOrderItemPastAdapter extends RecyclerView.Adapter<AdminOrderIt
         holder.tvFeedback.setText(item.getStrFeedback());
 
         holder.rbRating.setRating(item.getIntRating());
+        holder.llOrderItem.setBackground(item.isSelected());
     }
 
     @Override

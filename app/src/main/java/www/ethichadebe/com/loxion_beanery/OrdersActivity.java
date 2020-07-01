@@ -34,6 +34,7 @@ import static util.HelperMethods.checkData;
 import static util.HelperMethods.loadData;
 import static util.MyFirebaseMessagingService.IS_ACTIVE;
 import static util.MyFirebaseMessagingService.O_ID;
+import static util.MyFirebaseMessagingService.O_PAST;
 import static util.MyFirebaseMessagingService.S_ADDRESS;
 import static util.MyFirebaseMessagingService.S_ID;
 import static util.MyFirebaseMessagingService.S_LATITUDE;
@@ -56,6 +57,7 @@ public class OrdersActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private int sID;
     public static int oID = -1;
+    private boolean isPast = false;
     private PagerViewAdapter pagerViewAdapter;
 
     @Override
@@ -93,10 +95,13 @@ public class OrdersActivity extends AppCompatActivity {
             String oh = intent.getStringExtra(S_OH);
             boolean isActive = intent.getIntExtra(IS_ACTIVE, -1) == 1;
             int status = intent.getIntExtra(S_STATUS, -1);
-
+            if (!intent.getStringExtra(O_PAST).isEmpty()) {
+                isPast = true;
+            }
             Log.d(TAG, "onCreate: bundle is not empty " + oID);
             setNewShop(new MyShopItem(shopID, name, "", smallLogo, bigLogo, shortDescript, longDescript, location, address, "", 0,
                     oh, isActive, status, 0));
+            intent.removeExtra(O_ID);
         }
         if (getUser().getuType() == 2) {
             llSettings.setVisibility(View.GONE);
@@ -160,8 +165,10 @@ public class OrdersActivity extends AppCompatActivity {
         TabLayout tabLayout = findViewById(R.id.tabs);
         viewPager = findViewById(R.id.container);
         setupViewPager(viewPager);
-
         tabLayout.setupWithViewPager(viewPager);
+        if (isPast){
+            viewPager.setCurrentItem(1, true);
+        }
 
     }
 

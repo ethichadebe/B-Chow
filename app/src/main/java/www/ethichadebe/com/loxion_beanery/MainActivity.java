@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
             upcomingOrderItem = new UpcomingOrderItem(oID, "", 1, "", "", "", 0.0, "",
                     null, null);
             intFragment = 1;
+            intent.removeExtra(O_ID);
         }
 
         if (getUser().getuType() == 3) {
