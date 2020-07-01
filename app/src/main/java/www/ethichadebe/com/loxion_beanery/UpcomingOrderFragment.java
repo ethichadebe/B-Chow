@@ -41,6 +41,7 @@ import static util.HelperMethods.ShowLoadingPopup;
 import static util.HelperMethods.handler;
 import static www.ethichadebe.com.loxion_beanery.MainActivity.getUpcomingOrderItem;
 import static www.ethichadebe.com.loxion_beanery.MyShopsFragment.getNewShop;
+import static www.ethichadebe.com.loxion_beanery.OrdersActivity.oID;
 
 public class UpcomingOrderFragment extends Fragment {
     private static final String TAG = "UpcomingOrderFragment";
@@ -241,9 +242,9 @@ public class UpcomingOrderFragment extends Fragment {
     }
 
     private void scrollToPosition() {
-        if ((getUpcomingOrderItem() != null)) {
+        if ((oID != -1)) {
             for (int i = 0; i < orderItems.size(); i++) {
-                if (orderItems.get(i).getIntID() == OrdersActivity.oID) {
+                if (orderItems.get(i).getIntID() == oID) {
                     mRecyclerView.scrollToPosition(i);
                     return;
                 }
