@@ -32,9 +32,6 @@ public class OrdersFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.frame_orders, container, false);
-        if (getUser() == null) {
-            startActivity(new Intent(getActivity(), LoginActivity.class));
-        }
         sectionsPageAdapter = new SectionsPageAdapter(Objects.requireNonNull(getChildFragmentManager()),
                 FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
 

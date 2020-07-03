@@ -9,7 +9,7 @@ import android.os.Build;
 public class App extends Application {
     private static final String TAG = "App";
     public static final String INCOMING_ORDER = "incoming_order";
-    public static final String READY_FOR_COLLECTION = "ready_for collection";
+    public static final String READY_FOR_COLLECTION = "ready_for_collection";
 
     @Override
     public void onCreate() {

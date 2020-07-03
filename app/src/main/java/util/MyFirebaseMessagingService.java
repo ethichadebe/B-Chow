@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Bundle;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -47,6 +48,11 @@ import static www.ethichadebe.com.loxion_beanery.MyShopsFragment.getNewShop;
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public static final String O_ID = "oID";
     public static final String S_ID = "sID";
+    public static final String S_NAME = "sName";
+    public static final String S_SMALL_PICTURE = "sSmallPicture";
+    public static final String S_BIG_PICTURE = "sBigPicture";
+    public static final String S_SHORT_DESCRIPT = "sShortDescrption";
+    public static final String S_FULL_DESCRIPT = "sFullDescription";
     public static final String S_LATITUDE = "sLatitude";
     public static final String S_LONGITUDE = "sLongitude";
     public static final String S_AVE_TIME = "sAveTime";
@@ -54,10 +60,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public static final String S_STATUS = "sStatus";
     public static final String S_ADDRESS = "sAddress";
     public static final String S_OH = "sOH";
-    public static final String O_PAST = "oPast";
+    public static final String O_PAST = "isPast";
     private static final String TAG = "MyFirebaseMsgService";
-    private PendingIntent pendingIntent;
-    private Intent intent = null;
     private NotificationManagerCompat notificationManager;
 
     /**
@@ -70,134 +74,101 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public void onMessageReceived(RemoteMessage remoteMessage) {
         notificationManager = NotificationManagerCompat.from(this);
 
-        // [START_EXCLUDE]
-        // There are two types of messages data messages and notification messages. Data messages
-        // are handled
-        // here in onMessageReceived whether the app is in the foreground or background. Data
-        // messages are the type
-        // traditionally used with GCM. Notification messages are only received here in
-        // onMessageReceived when the app
-        // is in the foreground. When the app is in the background an automatically generated
-        // notification is displayed.
-        // When the user taps on the notification they are returned to the app. Messages
-        // containing both notification
-        // and data payloads are treated as notification messages. The Firebase console always
-        // sends notification
-        // messages. For more see: https://firebase.google.com/docs/cloud-messaging/concept-options
-        // [END_EXCLUDE]
-
-        // TODO(developer): Handle FCM messages here.
-        // Not getting messages here? See why this may be: https://goo.gl/39bRNJ
         Log.d(TAG, "From: " + remoteMessage.getFrom());
 
         // Check if message contains a data payload.
         if (remoteMessage.getData().size() > 0 && (remoteMessage.getNotification() != null)) {
             Log.d(TAG, "Message data payload: " + remoteMessage.getData());
             Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
+            JSONObject Order = new JSONObject(remoteMessage.getData());
+            Intent intent;
+            Bundle bundle;
             switch (Objects.requireNonNull(remoteMessage.getNotification().getClickAction())) {
-                case "UpcomingOrderFragment":
-                    sendReadyForCollection(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody(),
-                            new JSONObject(remoteMessage.getData()));
-                    break;
-                case "PastOrderFragment":
-                    sendRating(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody(),
-                            new JSONObject(remoteMessage.getData()));
+                case "MainActivity":
+                    intent = new Intent(this, MainActivity.class);
+                    bundle = new Bundle();
+
+                    try {
+                        String oID = Order.getString("oID");
+                        bundle.putString(O_ID, oID);
+                        intent.putExtras(bundle);
+                        sendReadyForCollection(intent, Objects.requireNonNull(remoteMessage.getNotification().getTitle()),
+                                remoteMessage.getNotification().getBody(),
+                                Integer.parseInt(oID));
+                    } catch (JSONException e) {
+                        Log.d(TAG, "payload exception: " + e.toString());
+                    }
                     break;
                 case "OrdersActivity":
-                    sendIncomingOrder(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody(),
-                            new JSONObject(remoteMessage.getData()));
+                    intent = new Intent(this, OrdersActivity.class);
+                    bundle = new Bundle();
+
+                    try {
+                        String oID = Order.getString("oID");
+                        bundle.putString(O_ID, oID);
+                        bundle.putString(S_ID, Order.getString("sID"));
+                        bundle.putString(S_STATUS, Order.getString("sStatus"));
+                        bundle.putString(S_BIG_PICTURE, Order.getString("sBigPicture"));
+                        bundle.putString(S_SMALL_PICTURE, Order.getString("sSmallPicture"));
+                        bundle.putString(S_SHORT_DESCRIPT, Order.getString("sShortDescrption"));
+                        bundle.putString(S_FULL_DESCRIPT, Order.getString("sFullDescription"));
+                        bundle.putString(S_LATITUDE, Order.getString("sLatitude"));
+                        bundle.putString(S_LONGITUDE, Order.getString("sLongitude"));
+                        bundle.putString(IS_ACTIVE, Order.getString("isActive"));
+                        bundle.putString(S_ADDRESS, Order.getString("sAddress"));
+                        bundle.putString(S_OH, Order.getString("sOperatingHrs"));
+                        bundle.putString(S_AVE_TIME, Order.getString("sAveTime"));
+                        bundle.putString(O_PAST, Order.getString("isPast"));
+                        intent.putExtras(bundle);
+
+                        if (Order.getString("isPast").equals("false")) {
+                            sendIncomingOrder(intent, Objects.requireNonNull(remoteMessage.getNotification().getTitle()),
+                                    remoteMessage.getNotification().getBody(),
+                                    Integer.parseInt(oID));
+                        } else {
+                            sendRating(intent, Objects.requireNonNull(remoteMessage.getNotification().getTitle()),
+                                    remoteMessage.getNotification().getBody(),
+                                    Integer.parseInt(oID));
+                        }
+
+                    } catch (JSONException e) {
+                        Log.d(TAG, "payload exception: " + e.toString());
+                    }
                     break;
             }
         }
 
-        // Check if message contains a notification payload.
-        // Also if you intend on generating your own notifications as a result of a received FCM
-        // message, here is where that should be initiated. See sendNotification method below.
-
-    }
-    // [END receive_message]
-
-
-    // [START on_new_token]
-
-    /**
-     * Called if InstanceID token is updated. This may occur if the security of
-     * the previous token had been compromised. Note that this is called when the InstanceID token
-     * is initially generated so this is where you would retrieve the token.
-     */
-    @Override
-    public void onNewToken(@NonNull String token) {
-        Log.d(TAG, "Refreshed token: " + token);
-
-        // If you want to send messages to this application instance or
-        // manage this apps subscriptions on the server side, send the
-        // Instance ID token to your app server.
-        PUTShop(token);
-    }
-    // [END on_new_token]
-
-    /**
-     * Persist token to third-party servers.
-     * <p>
-     * Modify this method to associate the user's FCM InstanceID token with any server-side account
-     * maintained by your application.
-     *
-     * @param token The new token.
-     */
-    private void PUTShop(String token) {
-        RequestQueue requestQueue;
-        StringRequest stringRequest = new StringRequest(Request.Method.PUT,
-                getIpAddress() + "/shops/Register/OH/" + getNewShop().getIntID(),
-                response -> {
-                    /*try {
-                        JSONObject JSONResponse = new JSONObject(response);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }*/
-                }, error -> {
-        }) {
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-
-                params.put("rToken", token);
-                return params;
-            }
-        };
-
-        requestQueue = Volley.newRequestQueue(this);
-        stringRequest.setTag(TAG);
-        requestQueue.add(stringRequest);
     }
 
-    private void sendIncomingOrder(String title, String messageBody, JSONObject Order) {
-        int oID = -1;
-        Intent intent = new Intent(this, OrdersActivity.class);
+    private void sendIncomingOrder(Intent intent, String title, String messageBody, int oID) {
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, oID /* Request code */, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        //Setting sound
+        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        Notification notificationBuilder = new NotificationCompat.Builder(this, READY_FOR_COLLECTION)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setContentTitle(title)
+                .setContentText(messageBody)
+                .setSmallIcon(R.drawable.food)
+                .setColor(getResources().getColor(R.color.colorPrimary))
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(messageBody))
+                .setAutoCancel(true)
+                .setSound(defaultSoundUri)
+                .setContentIntent(pendingIntent)
+                .build();
 
-        try {
-            oID = Integer.parseInt(Order.getString("oID"));
-            intent.putExtra(O_ID, Integer.parseInt(Order.getString("oID")));
-            intent.putExtra(S_ID, Integer.parseInt(Order.getString("sID")));
-            intent.putExtra(S_STATUS, Integer.parseInt(Order.getString("sStatus")));
-            intent.putExtra(S_LATITUDE, Double.parseDouble(Order.getString("sLatitude")));
-            intent.putExtra(S_LONGITUDE, Double.parseDouble(Order.getString("sLongitude")));
-            intent.putExtra(IS_ACTIVE, Integer.parseInt(Order.getString("isActive")) == 1);
-            intent.putExtra(S_ADDRESS, Order.getString("sAddress"));
-            intent.putExtra(S_OH, Order.getString("sOperatingHrs"));
-            intent.putExtra(S_AVE_TIME, Order.getString("sAveTime"));
-            Log.d(TAG, "sendReadyForCollection: " + oID);
-        } catch (JSONException e) {
-            Log.d(TAG, "payload exception: " + e.toString());
-        }
+        notificationManager.notify(oID, notificationBuilder);
 
-        pendingIntent = PendingIntent.getActivity(this, oID /* Request code */, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+    }
+
+    private void sendRating(Intent intent, String title, String messageBody, int oID) {
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, oID /* Request code */, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         //Setting sound
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         Notification notificationBuilder = new NotificationCompat.Builder(this, READY_FOR_COLLECTION)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setSmallIcon(R.drawable.food)
-                .setContentTitle("Order #" + title)
+                .setContentTitle(title)
                 .setContentText(messageBody)
                 .setColor(getResources().getColor(R.color.colorPrimary))
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(messageBody))
@@ -210,67 +181,15 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     }
 
-    private void sendRating(String title, String messageBody, JSONObject Order) {
-        int oID = -1;
-        Intent intent = new Intent(this, OrdersActivity.class);
-
-        try {
-            oID = Integer.parseInt(Order.getString("oID"));
-            intent.putExtra(O_ID, Integer.parseInt(Order.getString("oID")));
-            intent.putExtra(S_ID, Integer.parseInt(Order.getString("sID")));
-            intent.putExtra(S_STATUS, Integer.parseInt(Order.getString("sStatus")));
-            intent.putExtra(S_LATITUDE, Double.parseDouble(Order.getString("sLatitude")));
-            intent.putExtra(S_LONGITUDE, Double.parseDouble(Order.getString("sLongitude")));
-            intent.putExtra(IS_ACTIVE, Integer.parseInt(Order.getString("isActive")) == 1);
-            intent.putExtra(S_ADDRESS, Order.getString("sAddress"));
-            intent.putExtra(S_OH, Order.getString("sOperatingHrs"));
-            intent.putExtra(S_AVE_TIME, Order.getString("sAveTime"));
-            intent.putExtra(O_PAST, "Past");
-            Log.d(TAG, "sendReadyForCollection: " + oID);
-        } catch (JSONException e) {
-            Log.d(TAG, "payload exception: " + e.toString());
-        }
-
-        pendingIntent = PendingIntent.getActivity(this, oID /* Request code */, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+    private void sendReadyForCollection(Intent intent, String title, String messageBody, int oID) {
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, oID /* Request code */, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         //Setting sound
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         Notification notificationBuilder = new NotificationCompat.Builder(this, READY_FOR_COLLECTION)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setSmallIcon(R.drawable.food)
-                .setContentTitle("Order #" + title)
-                .setContentText(messageBody)
-                .setColor(getResources().getColor(R.color.colorPrimary))
-                .setStyle(new NotificationCompat.BigTextStyle().bigText(messageBody))
-                .setAutoCancel(true)
-                .setSound(defaultSoundUri)
-                .setContentIntent(pendingIntent)
-                .build();
-
-        notificationManager.notify(oID, notificationBuilder);
-
-    }
-
-    private void sendReadyForCollection(String title, String messageBody, JSONObject Order) {
-        int oID = -1;
-        Intent intent = new Intent(this, MainActivity.class);
-
-        try {
-            oID = Integer.parseInt(Order.getString("oID"));
-            intent.putExtra(O_ID, Integer.parseInt(Order.getString("oID")));
-            Log.d(TAG, "sendReadyForCollection: " + oID);
-        } catch (JSONException e) {
-            Log.d(TAG, "payload exception: " + e.toString());
-        }
-
-        pendingIntent = PendingIntent.getActivity(this, oID /* Request code */, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        //Setting sound
-        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        Notification notificationBuilder = new NotificationCompat.Builder(this, READY_FOR_COLLECTION)
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setSmallIcon(R.drawable.food)
-                .setContentTitle("Order #" + title)
+                .setContentTitle(title)
                 .setColor(getResources().getColor(R.color.colorPrimary))
                 .setContentText(messageBody)
                 .setAutoCancel(true)

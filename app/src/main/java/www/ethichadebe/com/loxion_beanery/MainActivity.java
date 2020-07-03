@@ -52,16 +52,14 @@ public class MainActivity extends AppCompatActivity {
         }
 
         //Get notification data
-        Intent intent = getIntent();
-        int oID = intent.getIntExtra(O_ID, -1);
-
-        Log.d(TAG, "onCreate: Check bundle " + oID);
-        if (oID != -1) {
+        if (getIntent().getExtras() != null) {
+            Bundle intent = getIntent().getExtras();
+            int oID = Integer.parseInt(Objects.requireNonNull(Objects.requireNonNull(intent).getString(O_ID)));
             Log.d(TAG, "onCreate: bundle is not empty " + oID);
             upcomingOrderItem = new UpcomingOrderItem(oID, "", 1, "", "", "", 0.0, "",
                     null, null);
             intFragment = 1;
-            intent.removeExtra(O_ID);
+            intent.remove(O_ID);
         }
 
         if (getUser().getuType() == 3) {
@@ -175,6 +173,9 @@ public class MainActivity extends AppCompatActivity {
                     selectedFragment = new MyShopsFragment();
                     break;
             }
+            bottomNavAdmin.setOnNavigationItemReselectedListener(menuItem1 -> {
+
+            });
 
             //First fragment
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,

@@ -130,7 +130,7 @@ public class MyShopItemAdapter extends RecyclerView.Adapter<MyShopItemAdapter.Sh
         //Calculate distance
         holder.tvDistance.setText(item.getStrAddress());
         holder.tvAveTime.setText(item.getStrAveTime());
-        holder.rbRating.setRating(item.getIntRating());
+        holder.rbRating.setRating(Float.parseFloat(String.valueOf(item.getIntRating())));
 
         if (item.isActive()) {
             holder.tvCompleteReg.setVisibility(View.VISIBLE);

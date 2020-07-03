@@ -172,7 +172,7 @@ public class MyShopsFragment extends Fragment {
                                         Shops.getString("sFullDescription"),
                                         new LatLng(Shops.getDouble("sLatitude"), Shops.getDouble("sLongitude")),
                                         Shops.getString("sAddress"), "10-15 mins",
-                                        Shops.getInt("sRating"), Shops.getString("sOperatingHrs"),
+                                        Shops.getDouble("sRating"), Shops.getString("sOperatingHrs"),
                                         Shops.getInt("isActive") == 1,Shops.getInt("sStatus"),
                                         Shops.getInt("nOrders")));
                             }

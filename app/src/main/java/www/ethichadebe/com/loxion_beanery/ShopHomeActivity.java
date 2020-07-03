@@ -104,7 +104,7 @@ public class ShopHomeActivity extends AppCompatActivity {
         tvDistance.setText(getShopItem().getStrAddress());
         tvAveTime.setText(getShopItem().getStrAveTime());
         tvFullDescrpit.setText(getShopItem().getStrFullDescript());
-        rbRating.setRating(getShopItem().getIntRating());
+        rbRating.setRating(Float.parseFloat(String.valueOf(getShopItem().getIntRating())));
         DisplayImage(ivBig, getShopItem().getStrLogoBig());
 
         //Load menu items starting with the Cheapest

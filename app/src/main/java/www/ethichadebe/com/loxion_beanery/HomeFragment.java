@@ -185,7 +185,7 @@ public class HomeFragment extends Fragment {
                                         Shops.getString("sShortDescrption"), Shops.getString("sFullDescription"),
                                         new LatLng(Shops.getDouble("sLatitude"), Shops.getDouble("sLongitude")),
                                         Shops.getString("sAddress"), Shops.getDouble("distance"),
-                                        Avetime, Shops.getInt("sRating"),
+                                        Avetime, Shops.getDouble("sRating"),
                                         Shops.getString("sOperatingHrs"), Shops.getInt("sLikes"),
                                         Shops.getInt("isLiked"), AveTimeColor, Shops.getInt("sStatus"),
                                         randomNumber(10)));

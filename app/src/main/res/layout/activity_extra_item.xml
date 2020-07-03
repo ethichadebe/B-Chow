@@ -133,6 +133,7 @@
                 android:layout_rowWeight="1"
                 android:layout_columnWeight="1"
                 android:layout_below="@+id/tvError"
+                android:onClick="reload"
                 android:layout_centerHorizontal="true"
                 android:layout_margin="10dp"
                 android:padding="50dp"

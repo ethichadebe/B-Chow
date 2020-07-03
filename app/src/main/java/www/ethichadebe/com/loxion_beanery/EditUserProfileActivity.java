@@ -55,7 +55,6 @@ import static util.HelperMethods.SHARED_PREFS;
 import static util.HelperMethods.ShowLoadingPopup;
 import static util.HelperMethods.allFieldsEntered;
 import static util.HelperMethods.checkData;
-import static util.HelperMethods.displayDatePicker;
 import static util.HelperMethods.loadData;
 import static util.HelperMethods.saveData;
 import static util.HelperMethods.sharedPrefsIsEmpty;
@@ -94,7 +93,7 @@ public class EditUserProfileActivity extends AppCompatActivity {
         tvNumber = findViewById(R.id.tvNumber);
         tvEmail = findViewById(R.id.tvEmail);
 
-        //Textboxes
+        //Text boxes
         mTextBoxes[0] = findViewById(R.id.txtName);
         mTextBoxes[1] = findViewById(R.id.txtSurname);
         mTextBoxes[2] = findViewById(R.id.tvAddress);
@@ -241,6 +240,7 @@ public class EditUserProfileActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
+            Log.d(TAG, "saveProfileAccount: " + errorMessage);
             Toast.makeText(this, "Error: " + error.toString(), Toast.LENGTH_SHORT).show();
             error.printStackTrace();
         }) {

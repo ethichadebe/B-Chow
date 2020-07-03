@@ -111,13 +111,15 @@
                                 <ImageView
                                     android:id="@+id/civProfilePicture"
                                     android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content" />
+                                    android:layout_height="wrap_content"
+                                    android:contentDescription="@string/profile_picture" />
 
                                 <ImageView
                                     android:id="@+id/ivSmall"
                                     android:layout_width="50dp"
                                     android:layout_height="50dp"
                                     android:layout_centerInParent="true"
+                                    android:contentDescription="@string/change_profile_picture_button"
                                     android:onClick="ProfilePicture"
                                     android:src="@drawable/ic_add_a_photo_black_24dp" />
 
@@ -179,8 +181,7 @@
                         android:layout_toEndOf="@+id/ivAddress"
                         android:ems="10"
                         android:focusable="false"
-                        android:hint="@string/date_of_birth"
-                        android:paddingEnd="10dp"
+                        android:hint="@string/address"
                         android:textSize="14sp"
                         app:met_floatingLabel="highlight"
                         app:met_iconLeft="@drawable/ic_date_24dp" />
@@ -330,7 +331,7 @@
                 android:gravity="center"
                 android:onClick="ChangePassword"
                 android:padding="10dp"
-                android:text="Change Password"
+                android:text="@string/change_password"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 

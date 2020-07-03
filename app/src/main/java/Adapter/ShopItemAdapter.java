@@ -169,7 +169,7 @@ public class ShopItemAdapter extends RecyclerView.Adapter<ShopItemAdapter.ShopVi
         });
 
         holder.tvAveTime.setBackgroundColor(item.getIntAveTimeColor());
-        holder.rbRating.setRating(item.getIntRating());
+        holder.rbRating.setRating(Float.parseFloat(String.valueOf(item.getIntRating())));
         DisplayImage(holder.ivLogo, item.getStrLogoSmall());
     }
 

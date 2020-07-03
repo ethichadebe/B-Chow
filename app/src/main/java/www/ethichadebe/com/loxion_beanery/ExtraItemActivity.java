@@ -137,7 +137,7 @@ public class ExtraItemActivity extends AppCompatActivity {
                                 Orders.getString("oCreatedAt"), Orders.getString("oIngredients"),
                                 Orders.getString("oExtras"), Orders.getDouble("oPrice"),
                                 Orders.getString("oStatus"), new LatLng(Orders.getDouble("sLatitude"),
-                                Orders.getDouble("sLongitude")),null));
+                                Orders.getDouble("sLongitude")), null));
                         if (getUpcomingOrderItem() != null) {
                             startActivity(new Intent(this, OrderConfirmationActivity.class));
                         }
@@ -171,6 +171,10 @@ public class ExtraItemActivity extends AppCompatActivity {
 
     public void back(View view) {
         finish();
+    }
+
+    public void reload(View view) {
+        GETIngredients(findViewById(R.id.vLine), findViewById(R.id.vLineGrey));
     }
 
     public void Order(View view) {

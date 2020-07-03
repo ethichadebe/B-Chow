@@ -61,7 +61,7 @@
         android:layout_below="@id/tvHeading1"
         android:fontFamily="sans-serif-light"
         android:gravity="center"
-        android:text="(You can change this in the futere)"
+        android:text="(You can change this in the future)"
         android:textSize="12sp" />
 
     <LinearLayout

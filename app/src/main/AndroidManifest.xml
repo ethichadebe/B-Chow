@@ -60,15 +60,28 @@
         <activity android:name=".EditUserProfileActivity" />
         <activity android:name=".ShopSettingsActivity" />
         <activity android:name=".NewMenuItemActivity" />
-        <activity android:name=".OrdersActivity" />
+        <activity android:name=".OrdersActivity">
+            <intent-filter>
+                <action android:name="OrdersActivity" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+
+        </activity>
         <activity android:name=".MenuActivity" />
         <activity android:name=".IngredientsActivity" />
         <activity android:name=".RegisterShopActivity" />
         <activity android:name=".UploadPicActivity" />
         <activity android:name=".OrderConfirmationActivity" />
-        <activity android:name=".OrderActivity" />
+        <activity android:name=".OrderActivity"/>
         <activity android:name=".ShopHomeActivity" />
-        <activity android:name=".MainActivity" />
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="MainActivity" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+        </activity>
         <activity android:name=".RegisterActivity" />
         <activity android:name=".LoginActivity">
             <intent-filter>

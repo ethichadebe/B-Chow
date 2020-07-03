@@ -90,7 +90,7 @@
                     android:clickable="false"
                     android:numStars="5"
                     android:src="@drawable/star"
-                    android:stepSize="0.5" />
+                    android:stepSize="0.1" />
 
                 <TextView
                     android:id="@+id/tvShortDescript"

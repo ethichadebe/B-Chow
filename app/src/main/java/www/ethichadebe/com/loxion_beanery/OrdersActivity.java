@@ -23,6 +23,7 @@ import com.google.android.material.tabs.TabLayout;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import Adapter.PagerViewAdapter;
 import SingleItem.MyShopItem;
@@ -36,10 +37,15 @@ import static util.MyFirebaseMessagingService.IS_ACTIVE;
 import static util.MyFirebaseMessagingService.O_ID;
 import static util.MyFirebaseMessagingService.O_PAST;
 import static util.MyFirebaseMessagingService.S_ADDRESS;
+import static util.MyFirebaseMessagingService.S_BIG_PICTURE;
+import static util.MyFirebaseMessagingService.S_FULL_DESCRIPT;
 import static util.MyFirebaseMessagingService.S_ID;
 import static util.MyFirebaseMessagingService.S_LATITUDE;
 import static util.MyFirebaseMessagingService.S_LONGITUDE;
+import static util.MyFirebaseMessagingService.S_NAME;
 import static util.MyFirebaseMessagingService.S_OH;
+import static util.MyFirebaseMessagingService.S_SHORT_DESCRIPT;
+import static util.MyFirebaseMessagingService.S_SMALL_PICTURE;
 import static util.MyFirebaseMessagingService.S_STATUS;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.setUser;
@@ -80,28 +86,30 @@ public class OrdersActivity extends AppCompatActivity {
         tvCompleteReg = findViewById(R.id.tvCompleteReg);
 
         //Get notification data
-        Intent intent = getIntent();
-        oID = intent.getIntExtra(O_ID, -1);
-        Log.d(TAG, "onCreate: Check bundle " + oID);
-        if (oID != -1) {
-            int shopID = intent.getIntExtra(S_ID, -1);
-            String name = intent.getStringExtra(S_ID);
-            String smallLogo = intent.getStringExtra(S_ID);
-            String bigLogo = intent.getStringExtra(S_ID);
-            String shortDescript = intent.getStringExtra(S_ID);
-            String longDescript = intent.getStringExtra(S_ID);
-            LatLng location = new LatLng(intent.getDoubleExtra(S_LATITUDE, -1), intent.getDoubleExtra(S_LONGITUDE, -1));
-            String address = intent.getStringExtra(S_ADDRESS);
-            String oh = intent.getStringExtra(S_OH);
-            boolean isActive = intent.getIntExtra(IS_ACTIVE, -1) == 1;
-            int status = intent.getIntExtra(S_STATUS, -1);
-            if (!intent.getStringExtra(O_PAST).isEmpty()) {
-                isPast = true;
-            }
+        if (getIntent().getExtras() != null) {
+            Bundle intent = getIntent().getExtras();
+            oID = Integer.parseInt(Objects.requireNonNull(Objects.requireNonNull(intent).getString(O_ID)));
+            Log.d(TAG, "onCreate: Check bundle " + oID);
+            int shopID = Integer.parseInt(Objects.requireNonNull(intent.getString(S_ID)));
+            String name = intent.getString(S_NAME);
+            String smallLogo = intent.getString(S_SMALL_PICTURE);
+            String bigLogo = intent.getString(S_BIG_PICTURE);
+            String shortDescript = intent.getString(S_SHORT_DESCRIPT);
+            String longDescript = intent.getString(S_FULL_DESCRIPT);
+            LatLng location = new LatLng(Double.parseDouble(Objects.requireNonNull(intent.getString(S_LATITUDE))),
+                    Double.parseDouble(Objects.requireNonNull(intent.getString(S_LONGITUDE))));
+            String address = intent.getString(S_ADDRESS);
+            String oh = intent.getString(S_OH);
+            int status = Integer.parseInt(Objects.requireNonNull(intent.getString(S_STATUS)));
+            boolean isActive = Integer.parseInt(Objects.requireNonNull(intent.getString(IS_ACTIVE))) == 1;
+            isPast = !intent.getString(O_PAST).equals("false");
+
             Log.d(TAG, "onCreate: bundle is not empty " + oID);
             setNewShop(new MyShopItem(shopID, name, "", smallLogo, bigLogo, shortDescript, longDescript, location, address, "", 0,
                     oh, isActive, status, 0));
-            intent.removeExtra(O_ID);
+
+            Log.d(TAG, "payload: " + getNewShop().getStrShopName());
+            intent.remove(O_ID);
         }
         if (getUser().getuType() == 2) {
             llSettings.setVisibility(View.GONE);
@@ -166,7 +174,7 @@ public class OrdersActivity extends AppCompatActivity {
         viewPager = findViewById(R.id.container);
         setupViewPager(viewPager);
         tabLayout.setupWithViewPager(viewPager);
-        if (isPast){
+        if (isPast) {
             viewPager.setCurrentItem(1, true);
         }
 

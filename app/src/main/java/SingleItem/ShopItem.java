@@ -10,11 +10,12 @@ import static util.Constants.getIpAddress;
 
 public class ShopItem {
     private Double dblDistance;
-    String strShopName, strShortDescript, strFullDescript, strAveTime, strOperatingHRS, strLogoSmall,
+    protected String strShopName, strShortDescript, strFullDescript, strAveTime, strOperatingHRS, strLogoSmall,
             strLogoBig, strAddress;
-    LatLng llLocation;
-    int intID = -1, intRating, intStatus;
-    Drawable draLogoSmall, draLogoBig;
+    protected LatLng llLocation;
+    protected int intID = -1, intStatus;
+    protected Drawable draLogoSmall, draLogoBig;
+    protected double intRating;
     private int intLikes = 0, isLiked, intAveTimeColor;
     private ArrayList<IngredientItem> ingredientItems;
     private ArrayList<MenuItem> menuItems;
@@ -25,7 +26,7 @@ public class ShopItem {
 
     public ShopItem(int intID, String strShopName, String strLogoSmall, String strLogoBig,
                     String strShortDescript, String strFullDescript, LatLng llLocation, String strAddress,
-                    Double dblDistance, String strAveTime, int intRating, String strOperatingHRS, int intLikes,
+                    Double dblDistance, String strAveTime, double intRating, String strOperatingHRS, int intLikes,
                     int isLiked, int intAveTimeColor, int intStatus,boolean showAd) {
         this.intID = intID;
         this.strShopName = strShopName;
@@ -83,7 +84,7 @@ public class ShopItem {
         return strAveTime;
     }
 
-    public int getIntRating() {
+    public double getIntRating() {
         return intRating;
     }
 
@@ -159,7 +160,7 @@ public class ShopItem {
         this.llLocation = llLocation;
     }
 
-    public void setIntRating(int intRating) {
+    public void setIntRating(double intRating) {
         this.intRating = intRating;
     }
 

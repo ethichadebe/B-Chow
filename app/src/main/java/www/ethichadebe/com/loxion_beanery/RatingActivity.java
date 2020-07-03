@@ -49,10 +49,10 @@ public class RatingActivity extends AppCompatActivity {
     private MaterialEditText etFeedback;
     private RatingBar rbRating;
 
-    private RecyclerView mRecyclerView;
+    /*private RecyclerView mRecyclerView;
     private IngreRateItemAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private ArrayList<IngredientItem> ingredientItems;
+    private ArrayList<IngredientItem> ingredientItems;*/
 
 
     @Override
@@ -71,25 +71,25 @@ public class RatingActivity extends AppCompatActivity {
         rbRating = findViewById(R.id.rbRating);
         rbRating.setOnRatingBarChangeListener((ratingBar, intRating, b) -> {
             if (rbRating.getRating() != 0) {
-                btnNext.setVisibility(View.VISIBLE);
+                btnNext.setBackground(getResources().getDrawable(R.drawable.ripple_effect));
             } else {
-                btnNext.setVisibility(View.GONE);
+                btnNext.setBackground(getResources().getDrawable(R.color.colorPrimaryGrad));
             }
         });
         btnNext.setOnClickListener(view -> PUTRating());
 
-        mRecyclerView = findViewById(R.id.recyclerView);
+        /*mRecyclerView = findViewById(R.id.recyclerView);
 
         ingredientItems = new ArrayList<>();
         mLayoutManager = new LinearLayoutManager(this);
         mAdapter = new IngreRateItemAdapter(ingredientItems);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setAdapter(mAdapter);*/
 
-        for (String ingredient : getPastOrderItem().getStrMenu().split(", ")){
+        /*for (String ingredient : getPastOrderItem().getStrMenu().split(", ")){
             ingredientItems.add(new IngredientItem(ingredient));
-        }
+        }*/
 
     }
 
