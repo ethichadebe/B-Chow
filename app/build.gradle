@@ -55,7 +55,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.5'
 
     //Cropper
-    implementation 'com.github.ethichadebe:Upload-image-android:1.1.2'
+    implementation 'com.github.ethichadebe:Upload-image-android:1.1.4'
 
     //Google maps
     implementation 'com.android.support:appcompat-v7:28.0.0'

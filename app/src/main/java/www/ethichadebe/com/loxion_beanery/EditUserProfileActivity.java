@@ -70,11 +70,11 @@ public class EditUserProfileActivity extends AppCompatActivity {
     private static String UserSex;
     private Dialog myDialog;
     private boolean isBack = true;
-    private ImageView civProfilePicture;
+    private ImageView[] ivImages = new ImageView[1];
+    private UploadImage uploadImage;
     private RequestQueue requestQueue;
     private StringRequest stringRequest;
     private LatLng sLocation;
-    private UploadImage uploadImage;
 
     /*0 Name
     1 Surname
@@ -88,7 +88,6 @@ public class EditUserProfileActivity extends AppCompatActivity {
         }
 
         myDialog = new Dialog(this);
-
         //TextView
         tvNumber = findViewById(R.id.tvNumber);
         tvEmail = findViewById(R.id.tvEmail);
@@ -103,15 +102,17 @@ public class EditUserProfileActivity extends AppCompatActivity {
         mCBFemale = findViewById(R.id.cbFemale);
         mCBOther = findViewById(R.id.cbOther);
 
-        civProfilePicture = findViewById(R.id.civProfilePicture);
+        ivImages[0] = findViewById(R.id.civProfilePicture);
 
         mTextBoxes[0].setText(getUser().getuName());
         mTextBoxes[1].setText(getUser().getuSurname());
         mTextBoxes[2].setText(getUser().getuAddress());
         tvEmail.setText(getUser().getuEmail());
         tvNumber.setText(getUser().getuNumber());
-        DisplayImage(civProfilePicture, getUser().getuPicture());
+        DisplayImage(ivImages[0], getUser().getuPicture());
 
+        uploadImage = new UploadImage(this, this, getPackageManager(), myDialog, ivImages,
+                "www.ethichadebe.com.loxion_beanery", TAG);
         switch (getUser().getuSex()) {
             case "male":
                 mCBMale.setChecked(true);
@@ -167,8 +168,6 @@ public class EditUserProfileActivity extends AppCompatActivity {
             }
         });
 
-        uploadImage = new UploadImage(this, this, getPackageManager(), myDialog, civProfilePicture,
-                "www.ethichadebe.com.loxion_beanery", TAG);
     }
 
     //Editing profile
@@ -263,7 +262,7 @@ public class EditUserProfileActivity extends AppCompatActivity {
                 // file name could found file base or direct access from real path
                 // for now just get bitmap data from ImageView
                 params.put("ProfilePicture", new DataPart("_" + getUser().getuName() + ".jpg",
-                        AppHelper.getFileDataFromDrawable(getBaseContext(), civProfilePicture.getDrawable()),
+                        AppHelper.getFileDataFromDrawable(getBaseContext(), ivImages[0].getDrawable()),
                         "image/jpeg"));
 
                 return params;
@@ -505,13 +504,13 @@ public class EditUserProfileActivity extends AppCompatActivity {
 
     //Changing profile picture
     public void ProfilePicture(View view) {
-        uploadImage.start();
+        uploadImage.start(0);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        uploadImage.onActivityResult(getCacheDir(), requestCode, requestCode, data);
+        uploadImage.onActivityResult(getCacheDir(), requestCode, resultCode, data, 0);
         if ((requestCode == 100) && (resultCode == RESULT_OK)) {
             Place place = Autocomplete.getPlaceFromIntent(Objects.requireNonNull(data));
 
@@ -526,7 +525,7 @@ public class EditUserProfileActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
-        uploadImage.onRequestPermissionsResult(requestCode, grantResults);
+        uploadImage.onRequestPermissionsResult(requestCode, grantResults, 0);
     }
 
     @Override

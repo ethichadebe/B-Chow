@@ -68,9 +68,9 @@ public class RegisterShopActivity extends AppCompatActivity {
     private MaterialEditText etName, etShortDescription, etFullDescription;
     private Button btnNext;
     private ImageView[] ivImages = new ImageView[2];
+    private UploadImage uploadImage;
     private LinearLayout llLocation;
     private LatLng sLocation;
-    private UploadImage uploadImage;
     private int index;
 
 

@@ -38,6 +38,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.Task;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
+import java.io.FileNotFoundException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DateFormat;
@@ -332,8 +333,12 @@ public class HelperMethods extends AppCompatActivity {
     }
 
     public static void DisplayImage(ImageView imageView, String url) {
-        LoadImage loadImage = new LoadImage(imageView);
-        loadImage.execute(url);
+        try {
+            LoadImage loadImage = new LoadImage(imageView);
+            loadImage.execute(url);
+        }catch (Exception e){
+            Log.d(TAG, "DisplayImage: " + e.toString());
+        }
     }
 
     public static void displayDatePicker(Context context, TextView tv) {
