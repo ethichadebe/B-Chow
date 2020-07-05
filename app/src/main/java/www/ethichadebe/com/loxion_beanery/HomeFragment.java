@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -59,8 +60,9 @@ public class HomeFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private ShopItemAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private TextView tvEmpty, tvSearch, tvAddress;
+    private TextView tvEmpty, tvAddress;
     private MaterialEditText etSearch;
+    private LottieAnimationView lottieSearch;
     private CardView cvRetry, cvAddress;
     private static ArrayList<ShopItem> shopItems;
     private RelativeLayout rlLoad, rlError;
@@ -83,7 +85,7 @@ public class HomeFragment extends Fragment {
         rlLoad = v.findViewById(R.id.rlLoad);
         rlError = v.findViewById(R.id.rlError);
         tvEmpty = v.findViewById(R.id.tvEmpty);
-        tvSearch = v.findViewById(R.id.tvSearch);
+        lottieSearch = v.findViewById(R.id.lottieSearch);
         tvAddress = v.findViewById(R.id.tvAddress);
         cvAddress = v.findViewById(R.id.cvAddress);
         etSearch = v.findViewById(R.id.etSearch);
@@ -113,9 +115,11 @@ public class HomeFragment extends Fragment {
         cvRetry.setOnClickListener(view -> getDeviceLocation(v.findViewById(R.id.vLine), v.findViewById(R.id.vLineGrey)));
 
         //Search Button on click
-        tvSearch.setOnClickListener(view -> {
+        lottieSearch.setOnClickListener(view -> {
             if (etSearch.getVisibility() == View.GONE) {
-                tvSearch.setBackground(getResources().getDrawable(R.drawable.ic_keyboard_backspace_black_24dp));
+                lottieSearch.setSpeed(1);
+                lottieSearch.playAnimation();
+
                 cvAddress.setVisibility(View.GONE);
                 etSearch.setVisibility(View.VISIBLE);
                 YoYo.with(Techniques.SlideInRight)
@@ -123,7 +127,8 @@ public class HomeFragment extends Fragment {
                         .repeat(0)
                         .playOn(etSearch);
             } else {
-                tvSearch.setBackground(getResources().getDrawable(R.drawable.ic_search_black_24dp));
+                lottieSearch.setSpeed(-1);
+                lottieSearch.playAnimation();
                 etSearch.setVisibility(View.GONE);
                 cvAddress.setVisibility(View.VISIBLE);
             }

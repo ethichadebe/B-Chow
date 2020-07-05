@@ -22,14 +22,15 @@
             android:layout_height="wrap_content"
             android:padding="5dp">
 
-            <TextView
-                android:id="@+id/tvSearch"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:layout_margin="5dp"
-                android:background="@drawable/ic_search_black_24dp" />
+            <!--Like Layout-->
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/lottieSearch"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:gravity="center"
+                android:onClick="like"
+                app:layout_anchorGravity="bottom|end|right"
+                app:lottie_rawRes="@raw/search_location" />
 
             <com.rengwuxian.materialedittext.MaterialEditText
                 android:id="@+id/etSearch"
@@ -37,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:layout_toEndOf="@id/tvSearch"
+                android:layout_toEndOf="@id/lottieSearch"
                 android:hint="@string/shop_name"
                 android:inputType="textPersonName"
                 android:textSize="14sp"
