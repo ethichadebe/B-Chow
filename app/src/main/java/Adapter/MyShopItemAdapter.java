@@ -4,6 +4,7 @@ package Adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
@@ -14,6 +15,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
+
+import net.cachapa.expandablelayout.ExpandableLayout;
 
 import java.util.ArrayList;
 
@@ -47,14 +50,14 @@ public class MyShopItemAdapter extends RecyclerView.Adapter<MyShopItemAdapter.Sh
                 tvnOrders;
         private TextView[] tvDays = new TextView[8];
         private ImageView ivLogo, ivDelete;
-        private LinearLayout llOpHours, llDropDown;
+        private LinearLayout  llDropDown;
         private RatingBar rbRating;
+        private ExpandableLayout expandableLayout;
 
         ShopViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
             rbRating = itemView.findViewById(R.id.rbRating);
             tvShopName = itemView.findViewById(R.id.tvShopName);
-            llOpHours = itemView.findViewById(R.id.llOpHours);
             llDropDown = itemView.findViewById(R.id.llDropDown);
             tvnOrders = itemView.findViewById(R.id.tvnOrders);
             tvPosition = itemView.findViewById(R.id.tvPosition);
@@ -65,6 +68,8 @@ public class MyShopItemAdapter extends RecyclerView.Adapter<MyShopItemAdapter.Sh
             tvAveTime = itemView.findViewById(R.id.tvAveTime);
             tvMore = itemView.findViewById(R.id.tvMore);
             tvCompleteReg = itemView.findViewById(R.id.tvCompleteReg);
+            expandableLayout = itemView.findViewById(R.id.expandable_layout);
+            expandableLayout.setInterpolator(new OvershootInterpolator());
 
             tvDays[0] = itemView.findViewById(R.id.tvMon);
             tvDays[1] = itemView.findViewById(R.id.tvTue);
@@ -139,7 +144,7 @@ public class MyShopItemAdapter extends RecyclerView.Adapter<MyShopItemAdapter.Sh
             holder.tvnOrders.setVisibility(View.GONE);
         }
 
-        holder.llDropDown.setOnClickListener(view -> setOHVISIBILITY(holder.llOpHours, holder.tvMore,
+        holder.llDropDown.setOnClickListener(view -> setOHVISIBILITY(holder.expandableLayout, holder.tvMore,
                 holder.tvDays, item.getStrOperatingHRS()));
 
         DisplayImage(holder.ivLogo, item.getStrLogoSmall());

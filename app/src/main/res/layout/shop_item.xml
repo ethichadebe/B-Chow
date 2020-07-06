@@ -27,6 +27,7 @@
             android:gravity="center"
             android:text="Closed"
             android:textColor="@color/White" />
+
         <RelativeLayout
             android:id="@+id/rlBody"
             android:layout_width="match_parent"
@@ -100,282 +101,291 @@
                     android:fontFamily="sans-serif-light"
                     android:textSize="14sp" />
 
-                <LinearLayout
-                    android:id="@+id/llOpHours"
+                <net.cachapa.expandablelayout.ExpandableLayout
+                    android:id="@+id/expandable_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    app:el_duration="1000"
                     android:layout_below="@+id/tvShortDescript"
-                    android:orientation="vertical"
-                    android:visibility="gone">
-
-                    <RelativeLayout
-                        android:id="@+id/rlHeading1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp">
-
-                        <View
-                            android:layout_width="wrap_content"
-                            android:layout_height="1dp"
-                            android:layout_alignParentStart="true"
-                            android:layout_centerInParent="true"
-                            android:layout_marginEnd="5dp"
-                            android:layout_toStartOf="@id/tvHeading3"
-                            android:background="@color/Grey" />
-
-                        <TextView
-                            android:id="@+id/tvHeading3"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
-                            android:layout_marginTop="12dp"
-                            android:fontFamily="sans-serif-light"
-                            android:gravity="center"
-                            android:text="@string/operating_hours"
-                            android:textSize="14sp" />
-
-                        <View
-                            android:layout_width="wrap_content"
-                            android:layout_height="1dp"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerInParent="true"
-                            android:layout_marginStart="5dp"
-                            android:layout_toEndOf="@id/tvHeading3"
-                            android:background="@color/Grey" />
-                    </RelativeLayout>
+                    app:el_expanded="false"
+                    app:el_parallax="0.5">
 
                     <LinearLayout
+                        android:id="@+id/llOpHours"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:baselineAligned="false"
-                        android:orientation="horizontal">
+                        android:orientation="vertical">
+
+                        <RelativeLayout
+                            android:id="@+id/rlHeading1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp">
+
+                            <View
+                                android:layout_width="wrap_content"
+                                android:layout_height="1dp"
+                                android:layout_alignParentStart="true"
+                                android:layout_centerInParent="true"
+                                android:layout_marginEnd="5dp"
+                                android:layout_toStartOf="@id/tvHeading3"
+                                android:background="@color/Grey" />
+
+                            <TextView
+                                android:id="@+id/tvHeading3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:layout_marginTop="12dp"
+                                android:fontFamily="sans-serif-light"
+                                android:gravity="center"
+                                android:text="@string/operating_hours"
+                                android:textSize="14sp" />
+
+                            <View
+                                android:layout_width="wrap_content"
+                                android:layout_height="1dp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerInParent="true"
+                                android:layout_marginStart="5dp"
+                                android:layout_toEndOf="@id/tvHeading3"
+                                android:background="@color/Grey" />
+                        </RelativeLayout>
 
                         <LinearLayout
-                            android:layout_width="0dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
+                            android:baselineAligned="false"
+                            android:orientation="horizontal">
 
-                            <TextView
-                                android:layout_width="wrap_content"
+                            <LinearLayout
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="12dp"
-                                android:fontFamily="sans-serif-medium"
-                                android:text="@string/monday"
-                                android:textSize="14sp" />
+                                android:layout_weight="1"
+                                android:orientation="vertical">
 
-                            <TextView
-                                android:id="@+id/tvMon"
-                                android:layout_width="wrap_content"
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="12dp"
+                                    android:fontFamily="sans-serif-medium"
+                                    android:text="@string/monday"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:id="@+id/tvMon"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="5dp"
+                                    android:fontFamily="sans-serif-light"
+                                    android:textSize="14sp" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="5dp"
-                                android:fontFamily="sans-serif-light"
-                                android:textSize="14sp" />
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="12dp"
+                                    android:fontFamily="sans-serif-medium"
+                                    android:text="@string/tuesday"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:id="@+id/tvTue"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="5dp"
+                                    android:fontFamily="sans-serif-light"
+                                    android:textSize="14sp" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="12dp"
+                                    android:fontFamily="sans-serif-medium"
+                                    android:text="@string/wednesday"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:id="@+id/tvWed"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="5dp"
+                                    android:fontFamily="sans-serif-light"
+                                    android:textSize="14sp" />
+
+                            </LinearLayout>
 
                         </LinearLayout>
 
                         <LinearLayout
-                            android:layout_width="0dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
+                            android:baselineAligned="false"
+                            android:orientation="horizontal">
 
-                            <TextView
-                                android:layout_width="wrap_content"
+                            <LinearLayout
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="12dp"
-                                android:fontFamily="sans-serif-medium"
-                                android:text="@string/tuesday"
-                                android:textSize="14sp" />
+                                android:layout_weight="1"
+                                android:orientation="vertical">
 
-                            <TextView
-                                android:id="@+id/tvTue"
-                                android:layout_width="wrap_content"
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="12dp"
+                                    android:fontFamily="sans-serif-medium"
+                                    android:text="@string/thursday"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:id="@+id/tvThu"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="5dp"
+                                    android:fontFamily="sans-serif-light"
+                                    android:textSize="14sp" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="5dp"
-                                android:fontFamily="sans-serif-light"
-                                android:textSize="14sp" />
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="12dp"
+                                    android:fontFamily="sans-serif-medium"
+                                    android:text="@string/friday"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:id="@+id/tvFri"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="5dp"
+                                    android:fontFamily="sans-serif-light"
+                                    android:textSize="14sp" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="12dp"
+                                    android:fontFamily="sans-serif-medium"
+                                    android:text="@string/saturday"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:id="@+id/tvSat"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="5dp"
+                                    android:fontFamily="sans-serif-light"
+                                    android:textSize="14sp" />
+                            </LinearLayout>
                         </LinearLayout>
 
                         <LinearLayout
-                            android:layout_width="0dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
+                            android:baselineAligned="false"
+                            android:orientation="horizontal">
 
-                            <TextView
-                                android:layout_width="wrap_content"
+                            <LinearLayout
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="12dp"
-                                android:fontFamily="sans-serif-medium"
-                                android:text="@string/wednesday"
-                                android:textSize="14sp" />
+                                android:layout_weight="1"
+                                android:orientation="vertical">
 
-                            <TextView
-                                android:id="@+id/tvWed"
-                                android:layout_width="wrap_content"
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="12dp"
+                                    android:fontFamily="sans-serif-medium"
+                                    android:text="@string/sunday"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:id="@+id/tvSun"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="5dp"
+                                    android:fontFamily="sans-serif-light"
+                                    android:textSize="14sp" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="5dp"
-                                android:fontFamily="sans-serif-light"
-                                android:textSize="14sp" />
+                                android:layout_weight="1"
+                                android:orientation="vertical">
 
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="12dp"
+                                    android:fontFamily="sans-serif-medium"
+                                    android:text="@string/public_holiday"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:id="@+id/tvPH"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="5dp"
+                                    android:fontFamily="sans-serif-light"
+                                    android:textSize="14sp" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="12dp"
+                                    android:fontFamily="sans-serif-medium"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="5dp"
+                                    android:fontFamily="sans-serif-light"
+                                    android:textSize="14sp" />
+                            </LinearLayout>
                         </LinearLayout>
-
                     </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:baselineAligned="false"
-                        android:orientation="horizontal">
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="12dp"
-                                android:fontFamily="sans-serif-medium"
-                                android:text="@string/thursday"
-                                android:textSize="14sp" />
-
-                            <TextView
-                                android:id="@+id/tvThu"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="5dp"
-                                android:fontFamily="sans-serif-light"
-                                android:textSize="14sp" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="12dp"
-                                android:fontFamily="sans-serif-medium"
-                                android:text="@string/friday"
-                                android:textSize="14sp" />
-
-                            <TextView
-                                android:id="@+id/tvFri"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="5dp"
-                                android:fontFamily="sans-serif-light"
-                                android:textSize="14sp" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="12dp"
-                                android:fontFamily="sans-serif-medium"
-                                android:text="@string/saturday"
-                                android:textSize="14sp" />
-
-                            <TextView
-                                android:id="@+id/tvSat"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="5dp"
-                                android:fontFamily="sans-serif-light"
-                                android:textSize="14sp" />
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:baselineAligned="false"
-                        android:orientation="horizontal">
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="12dp"
-                                android:fontFamily="sans-serif-medium"
-                                android:text="@string/sunday"
-                                android:textSize="14sp" />
-
-                            <TextView
-                                android:id="@+id/tvSun"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="5dp"
-                                android:fontFamily="sans-serif-light"
-                                android:textSize="14sp" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="12dp"
-                                android:fontFamily="sans-serif-medium"
-                                android:text="@string/public_holiday"
-                                android:textSize="14sp" />
-
-                            <TextView
-                                android:id="@+id/tvPH"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="5dp"
-                                android:fontFamily="sans-serif-light"
-                                android:textSize="14sp" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="12dp"
-                                android:fontFamily="sans-serif-medium"
-                                android:textSize="14sp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="5dp"
-                                android:fontFamily="sans-serif-light"
-                                android:textSize="14sp" />
-                        </LinearLayout>
-                    </LinearLayout>
-                </LinearLayout>
+                </net.cachapa.expandablelayout.ExpandableLayout>
 
             </RelativeLayout>
         </RelativeLayout>
@@ -401,8 +411,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvCompleteReg"
-            android:gravity="center"
             android:background="@drawable/empty_btn_bg_open"
+            android:gravity="center"
             android:orientation="horizontal">
 
             <TextView

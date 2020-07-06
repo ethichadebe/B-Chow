@@ -88,6 +88,10 @@ dependencies {
 
     implementation 'androidx.palette:palette:1.0.0'
 
-    //lOTTIE ANIMATIONS
+    //Lottie animations
     implementation 'com.airbnb.android:lottie:3.4.0'
+
+    //Expandable layout
+    implementation 'net.cachapa.expandablelayout:expandablelayout:2.9.2'
+
 }

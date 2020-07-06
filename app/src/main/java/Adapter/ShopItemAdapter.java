@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
@@ -18,6 +19,8 @@ import com.google.android.gms.ads.AdLoader;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.formats.UnifiedNativeAd;
 import com.google.android.gms.ads.formats.UnifiedNativeAdView;
+
+import net.cachapa.expandablelayout.ExpandableLayout;
 
 import java.util.ArrayList;
 
@@ -53,6 +56,7 @@ public class ShopItemAdapter extends RecyclerView.Adapter<ShopItemAdapter.ShopVi
         private CardView cdAd;
         private RatingBar rbRating;
         private UnifiedNativeAdView unifiedNativeAdView;
+        private ExpandableLayout expandableLayout;
 
         ShopViewHolder(@NonNull View itemView, final OnItemClickListener listener, Context context, String nativeAd_key) {
             super(itemView);
@@ -67,6 +71,8 @@ public class ShopItemAdapter extends RecyclerView.Adapter<ShopItemAdapter.ShopVi
             tvDistance = itemView.findViewById(R.id.tvDistance);
             tvAveTime = itemView.findViewById(R.id.tvAveTime);
             tvMore = itemView.findViewById(R.id.tvMore);
+            expandableLayout = itemView.findViewById(R.id.expandable_layout);
+            expandableLayout.setInterpolator(new OvershootInterpolator());
 
             tvDays[0] = itemView.findViewById(R.id.tvMon);
             tvDays[1] = itemView.findViewById(R.id.tvTue);
@@ -165,7 +171,7 @@ public class ShopItemAdapter extends RecyclerView.Adapter<ShopItemAdapter.ShopVi
 
 
         holder.llDropDown.setOnClickListener(view -> {
-            setOHVISIBILITY(holder.llOpHours, holder.tvMore, holder.tvDays, item.getStrOperatingHRS());
+            setOHVISIBILITY(holder.expandableLayout, holder.tvMore, holder.tvDays, item.getStrOperatingHRS());
         });
 
         holder.tvAveTime.setBackgroundColor(item.getIntAveTimeColor());

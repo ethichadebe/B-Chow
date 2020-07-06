@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="250dp"
         android:fitsSystemWindows="true"
+        android:background="@color/common_google_signin_btn_text_dark_default"
         android:theme="@style/ThemeOverlay.MaterialComponents.Dark">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
@@ -259,7 +260,6 @@
         android:layout_height="250dp"
         android:contentDescription="@string/logo"
         android:fitsSystemWindows="true"
-        android:background="@color/common_google_signin_btn_text_dark_default"
         android:scaleType="centerCrop"
         app:layout_anchor="@+id/aplAppBar"
         app:layout_anchorGravity="center"

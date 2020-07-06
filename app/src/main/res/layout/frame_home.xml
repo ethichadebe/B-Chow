@@ -67,7 +67,7 @@
             android:layout_height="wrap_content"
             android:padding="5dp">
 
-            <TextView
+            <View
                 android:id="@+id/tvAddressLbl"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
@@ -90,6 +90,35 @@
 
     </androidx.cardview.widget.CardView>
 
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvFilter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_rowWeight="1"
+        android:layout_columnWeight="1"
+        android:layout_margin="5dp"
+        android:layout_toEndOf="@+id/cvAddress"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="3dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp">
+
+            <View
+                android:id="@+id/tvFilterLbl"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_margin="5dp"
+                android:background="@drawable/ic_filter" />
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"

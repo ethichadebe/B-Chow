@@ -38,6 +38,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.Task;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
+import net.cachapa.expandablelayout.ExpandableLayout;
+
 import java.io.FileNotFoundException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -285,21 +287,13 @@ public class HelperMethods extends AppCompatActivity {
         }
     }
 
-    public static void setOHVISIBILITY(LinearLayout llOpHours, TextView tvMore, TextView[] tvDays, String OH) {
+    public static void setOHVISIBILITY(ExpandableLayout expandableLayout, TextView tvMore, TextView[] tvDays, String OH) {
         setOHForEachDay(tvDays, OH);
-        if (llOpHours.getVisibility() == View.GONE) {
-            llOpHours.setVisibility(View.VISIBLE);
-            YoYo.with(Techniques.SlideInDown)
-                    .duration(500)
-                    .repeat(0)
-                    .playOn(llOpHours);
+        if (!expandableLayout.isExpanded()) {
+            expandableLayout.expand();
             tvMore.setText("Show less");
         } else {
-            YoYo.with(Techniques.SlideOutUp)
-                    .duration(500)
-                    .repeat(0)
-                    .playOn(llOpHours);
-            llOpHours.setVisibility(View.GONE);
+            expandableLayout.collapse();
             tvMore.setText("Show more");
         }
     }
