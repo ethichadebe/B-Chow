@@ -94,4 +94,8 @@ dependencies {
     //Expandable layout
     implementation 'net.cachapa.expandablelayout:expandablelayout:2.9.2'
 
+    //Scalable size unit
+    implementation 'com.intuit.sdp:sdp-android:1.0.6'
+    implementation 'com.intuit.ssp:ssp-android:1.0.6'
+
 }

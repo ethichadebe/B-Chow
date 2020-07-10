@@ -20,7 +20,7 @@
             android:fitsSystemWindows="true"
             app:collapsedTitleTextAppearance="@style/CollapsedAppBar"
             app:contentScrim="@color/places_ui_default_primary"
-            app:expandedTitleTextAppearance="@style/ExpandedAppBar"
+            app:expandedTitleMarginBottom="0dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
             <View
@@ -28,6 +28,16 @@
                 android:layout_height="50dp"
                 android:layout_gravity="bottom"
                 android:background="@drawable/fade_background" />
+            <ImageView
+                android:id="@+id/ivBig"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:contentDescription="@string/logo"
+                android:fitsSystemWindows="true"
+                android:scaleType="centerCrop"
+                app:layout_anchor="@+id/aplAppBar"
+                app:layout_anchorGravity="center"
+                app:layout_collapseMode="parallax" />
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/tToolBar"
@@ -254,15 +264,5 @@
         app:backgroundTint="@color/colorPrimary"
         app:rippleColor="@color/White" />
 
-    <ImageView
-        android:id="@+id/ivBig"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:contentDescription="@string/logo"
-        android:fitsSystemWindows="true"
-        android:scaleType="centerCrop"
-        app:layout_anchor="@+id/aplAppBar"
-        app:layout_anchorGravity="center"
-        app:layout_collapseMode="parallax" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

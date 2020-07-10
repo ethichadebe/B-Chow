@@ -454,7 +454,7 @@
                 <com.google.android.gms.ads.formats.MediaView
                     android:id="@+id/mediaView"
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
+                    android:layout_height="200dp"
                     android:layout_gravity="center"
                     android:background="@drawable/ripple_effect_white"
                     android:contentDescription="@string/logo"
