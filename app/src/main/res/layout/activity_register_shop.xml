@@ -22,9 +22,9 @@
             android:layout_marginTop="0dp"
             android:layout_marginBottom="0dp"
             android:gravity="center"
-            android:padding="10dp"
+            android:padding="@dimen/_8sdp"
             android:text="@string/ingredients"
-            android:textSize="12sp"
+            android:textSize="@dimen/_10ssp"
             android:textStyle="bold" />
 
         <LinearLayout
@@ -78,21 +78,21 @@
                 android:id="@+id/llShop"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="@dimen/_8sdp"
                 android:orientation="vertical">
                 <TextView
                     android:id="@+id/tvHeading1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="@dimen/_10sdp"
                     android:fontFamily="sans-serif-medium"
                     android:text="Lets start by creating a front view of your shop"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/_12ssp" />
 
                 <RelativeLayout
-                    android:layout_width="400dp"
-                    android:layout_height="200dp">
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_160sdp">
 
                     <RelativeLayout
                         android:id="@+id/rlSmallPicture"
@@ -109,8 +109,8 @@
 
                         <ImageView
                             android:id="@+id/ivSmall"
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
+                            android:layout_width="@dimen/_70sdp"
+                            android:layout_height="@dimen/_70sdp"
                             android:layout_centerInParent="true"
                             android:onClick="Small"
                             android:src="@drawable/ic_add_a_photo_black_24dp" />
@@ -124,32 +124,32 @@
                             android:fontFamily="sans-serif-condensed-medium"
                             android:text="Add Picture"
                             android:textColor="@color/Grey"
-                            android:textSize="18sp" />
+                            android:textSize="@dimen/_16ssp" />
                     </RelativeLayout>
                 </RelativeLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
+                    android:layout_margin="@dimen/_8sdp"
                     android:orientation="vertical">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="1dp"
+                        android:layout_marginBottom="@dimen/_1sdp"
                         android:orientation="horizontal">
 
                         <com.rengwuxian.materialedittext.MaterialEditText
                             android:id="@+id/etName"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginEnd="5dp"
+                            android:layout_marginEnd="@dimen/_3sdp"
                             android:layout_weight="1"
                             android:ems="10"
                             android:hint="Shop name"
                             android:inputType="textPersonName"
-                            android:textSize="14sp"
+                            android:textSize="@dimen/_12ssp"
                             app:met_floatingLabel="highlight" />
 
 
@@ -157,7 +157,7 @@
                             android:id="@+id/llLocation"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="@dimen/_8sdp"
                             android:layout_weight="1"
                             android:background="@drawable/ripple_effect_white"
                             android:gravity="center"
@@ -179,7 +179,7 @@
                                 android:gravity="center"
                                 android:text="Add shop location"
                                 android:textColor="@color/Grey"
-                                android:textSize="18sp" />
+                                android:textSize="@dimen/_16ssp" />
                         </LinearLayout>
                     </LinearLayout>
 
@@ -189,7 +189,7 @@
                         android:layout_height="wrap_content"
                         android:ems="10"
                         android:hint="Short description"
-                        android:textSize="14sp"
+                        android:textSize="@dimen/_12ssp"
                         app:met_floatingLabel="highlight" />
 
                 </LinearLayout>
@@ -199,7 +199,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/llShop"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="@dimen/_8sdp"
                 android:orientation="vertical">
 
                 <TextView
@@ -207,14 +207,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="@dimen/_8sdp"
                     android:fontFamily="sans-serif-medium"
                     android:text="Now Lets get your profile page setup"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/_12ssp" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="250dp">
+                    android:layout_height="@dimen/_185sdp">
 
                     <RelativeLayout
                         android:id="@+id/rlBigPicture"
@@ -231,8 +231,8 @@
 
                         <ImageView
                             android:id="@+id/ivBig"
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
+                            android:layout_width="@dimen/_70sdp"
+                            android:layout_height="@dimen/_70sdp"
                             android:layout_centerInParent="true"
                             android:onClick="big"
                             android:src="@drawable/ic_add_a_photo_black_24dp" />
@@ -247,34 +247,34 @@
                             android:gravity="center"
                             android:text="Add Picture"
                             android:textColor="@color/Grey"
-                            android:textSize="18sp" />
+                            android:textSize="@dimen/_16ssp" />
                     </RelativeLayout>
                 </RelativeLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
+                    android:layout_margin="@dimen/_8sdp"
                     android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/tvName"
                         android:layout_width="wrap_content"
-                        android:layout_height="40dp"
+                        android:layout_height="@dimen/_35sdp"
                         android:fontFamily="sans-serif-condensed-medium"
                         android:text="Shop Name"
-                        android:textSize="22sp" />
+                        android:textSize="@dimen/_18ssp" />
 
                     <TextView
                         android:id="@+id/tvAddress"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="start"
-                        android:layout_marginTop="12dp"
+                        android:layout_marginTop="@dimen/_10sdp"
                         android:background="@color/Grey"
                         android:fontFamily="sans-serif-light"
                         android:padding="2dp"
-                        android:textSize="12sp" />
+                        android:textSize="@dimen/_10ssp" />
 
                     <com.rengwuxian.materialedittext.MaterialEditText
                         android:id="@+id/etFullDescription"
@@ -282,7 +282,7 @@
                         android:layout_height="wrap_content"
                         android:ems="10"
                         android:hint="Full description"
-                        android:textSize="14sp"
+                        android:textSize="@dimen/_12ssp"
                         app:met_floatingLabel="highlight" />
 
                 </LinearLayout>

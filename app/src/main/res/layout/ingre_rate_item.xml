@@ -7,15 +7,15 @@
         android:id="@+id/rlIngredientHeading"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp">
+        android:layout_marginLeft="@dimen/_8sdp"
+        android:layout_marginRight="@dimen/_8sdp">
 
         <View
             android:layout_width="wrap_content"
             android:layout_height="1dp"
             android:layout_alignParentStart="true"
             android:layout_centerInParent="true"
-            android:layout_marginEnd="5dp"
+            android:layout_marginEnd="@dimen/_3sdp"
             android:layout_toStartOf="@id/tvIngredient"
             android:background="@color/Grey" />
 
@@ -27,14 +27,14 @@
             android:fontFamily="sans-serif-light"
             android:gravity="center"
             android:text="Ingredient"
-            android:textSize="14sp" />
+            android:textSize="@dimen/_12ssp" />
 
         <View
             android:layout_width="wrap_content"
             android:layout_height="1dp"
             android:layout_alignParentEnd="true"
             android:layout_centerInParent="true"
-            android:layout_marginStart="5dp"
+            android:layout_marginStart="@dimen/_3sdp"
             android:layout_toEndOf="@id/tvIngredient"
             android:background="@color/Grey" />
     </RelativeLayout>
@@ -45,7 +45,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/rlIngredientHeading"
         android:layout_centerHorizontal="true"
-        android:padding="5dp">
+        android:padding="@dimen/_3sdp">
 
         <RatingBar
             android:id="@+id/rbRating"

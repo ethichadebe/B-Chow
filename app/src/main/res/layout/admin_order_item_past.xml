@@ -4,8 +4,8 @@
     android:layout_height="wrap_content"
     android:layout_rowWeight="1"
     android:layout_columnWeight="1"
-    android:layout_margin="5dp"
-    app:cardCornerRadius="10dp"
+    android:layout_margin="@dimen/_3sdp"
+    app:cardCornerRadius="@dimen/_8sdp"
     app:cardElevation="3dp">
 
     <LinearLayout
@@ -14,7 +14,7 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="vertical"
-        android:padding="10dp">
+        android:padding="@dimen/_8sdp">
 
         <TextView
             android:id="@+id/tvTime"
@@ -22,7 +22,7 @@
             android:layout_height="match_parent"
             android:fontFamily="sans-serif-light"
             android:text="15:20"
-            android:textSize="14sp" />
+            android:textSize="@dimen/_12ssp" />
 
         <RelativeLayout
             android:id="@+id/rlOrderInfo"
@@ -43,18 +43,18 @@
                     android:fontFamily="sans-serif-medium"
                     android:gravity="center_vertical"
                     android:text="Price"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/_12ssp" />
 
                 <TextView
                     android:id="@+id/tvMenu"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
+                    android:layout_marginStart="@dimen/_3sdp"
                     android:layout_toEndOf="@+id/tvPrice"
                     android:fontFamily="sans-serif-light"
                     android:gravity="center_vertical"
                     android:text="@string/my_menu"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/_12ssp" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -72,18 +72,18 @@
                     android:fontFamily="sans-serif-medium"
                     android:gravity="center_vertical"
                     android:text="Extras: "
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/_12ssp" />
 
                 <TextView
                     android:id="@+id/tvExtras"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
+                    android:layout_marginStart="@dimen/_3sdp"
                     android:layout_toEndOf="@+id/tvExtraslbl"
                     android:fontFamily="sans-serif-light"
                     android:gravity="center_vertical"
                     android:text="@string/extras"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/_12ssp" />
             </RelativeLayout>
         </RelativeLayout>
 
@@ -96,9 +96,9 @@
                 android:id="@+id/tvOrderNum"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="@dimen/_8sdp"
                 android:fontFamily="sans-serif-medium"
-                android:textSize="14sp" />
+                android:textSize="@dimen/_12ssp" />
 
             <RatingBar
                 android:id="@+id/rbRating"
@@ -122,16 +122,16 @@
                     android:layout_centerVertical="true"
                     android:fontFamily="sans-serif-medium"
                     android:text="Feedback: "
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/_12ssp" />
 
                 <TextView
                     android:id="@+id/tvFeedback"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toEndOf="@+id/tv2"
-                    android:layout_marginStart="5dp"
+                    android:layout_marginStart="@dimen/_3sdp"
                     android:fontFamily="sans-serif-light"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/_12ssp" />
             </RelativeLayout>
         </LinearLayout>
     </LinearLayout>

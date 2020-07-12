@@ -18,13 +18,10 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="0dp"
-            android:layout_marginBottom="0dp"
             android:gravity="center"
-            android:padding="10dp"
+            android:padding="@dimen/_8sdp"
             android:text="@string/extras"
-            android:textSize="12sp"
+            android:textSize="@dimen/_12ssp"
             android:textStyle="bold" />
 
         <LinearLayout
@@ -52,10 +49,10 @@
         android:layout_below="@+id/llHead"
         android:layout_columnWeight="1"
         android:layout_rowWeight="1"
-        android:layout_margin="5dp"
-        android:layout_marginBottom="10dp"
+        android:layout_margin="@dimen/_3sdp"
+        android:layout_marginBottom="@dimen/_8sdp"
         app:cardElevation="3dp"
-        app:cardCornerRadius="10dp">
+        app:cardCornerRadius="@dimen/_8sdp">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -64,19 +61,19 @@
                 android:id="@+id/tvHeading2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="@dimen/_8sdp"
                 android:layout_centerHorizontal="true"
                 android:fontFamily="sans-serif-medium"
                 android:text="@string/add_an_extra"
-                android:textSize="14sp" />
+                android:textSize="@dimen/_14ssp" />
 
             <RelativeLayout
                 android:id="@+id/rlTotal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:layout_marginBottom="@dimen/_8sdp"
                 android:layout_below="@+id/tvHeading2">
 
                 <com.rengwuxian.materialedittext.MaterialEditText
@@ -84,10 +81,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/_14ssp"
                     android:ems="10"
                     android:layout_alignParentStart="true"
-                    android:layout_marginEnd="20dp"
+                    android:layout_marginEnd="@dimen/_18sdp"
                     android:layout_toStartOf="@id/btnAddOption"
                     android:hint="@string/extra_e_g_tomato_sauce"
                     android:inputType="textPersonName"
@@ -95,22 +92,22 @@
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/btnAddOption"
-                    android:layout_width="100dp"
-                    android:layout_height="40dp"
+                    android:layout_width="@dimen/_60sdp"
+                    android:layout_height="@dimen/_35sdp"
                     android:layout_columnWeight="1"
                     android:layout_rowWeight="1"
                     app:cardElevation="3dp"
                     android:fontFamily="sans-serif-medium"
-                    android:layout_marginBottom="20dp"
+                    android:layout_marginBottom="@dimen/_18sdp"
                     android:layout_alignParentEnd="true"
-                    android:padding="50dp"
+                    android:padding="@dimen/_40sdp"
                     android:onClick="add"
                     android:layout_centerVertical="true"
-                    app:cardCornerRadius="10dp">
+                    app:cardCornerRadius="@dimen/_8sdp">
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:textSize="14sp"
+                        android:textSize="@dimen/_14ssp"
                         android:background="@drawable/ripple_effect"
                         android:gravity="center"
                         android:fontFamily="sans-serif-medium"
@@ -126,38 +123,38 @@
         android:id="@+id/rlHeading1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="@dimen/_8sdp"
         android:layout_below="@id/cvPass"
-        android:layout_marginRight="10dp">
+        android:layout_marginRight="@dimen/_8sdp">
 
         <View
             android:layout_width="wrap_content"
-            android:layout_height="1dp"
+            android:layout_height="@dimen/_1sdp"
             android:layout_alignParentStart="true"
             android:layout_toStartOf="@id/tvHeading3"
             android:layout_centerInParent="true"
-            android:layout_marginEnd="5dp"
+            android:layout_marginEnd="@dimen/_3sdp"
             android:background="@color/Grey"/>
 
         <TextView
             android:id="@+id/tvHeading3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="@dimen/_10sdp"
             android:fontFamily="sans-serif-light"
             android:gravity="center"
             android:layout_centerInParent="true"
             android:text="@string/my_extras"
-            android:textSize="14sp" />
+            android:textSize="@dimen/_14ssp" />
 
         <View
             android:layout_width="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_toEndOf="@id/tvHeading3"
             android:layout_centerInParent="true"
-            android:layout_marginStart="5dp"
+            android:layout_marginStart="@dimen/_3sdp"
             android:background="@color/Grey"
-            android:layout_height="1dp"/>
+            android:layout_height="@dimen/_1sdp"/>
     </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -180,7 +177,7 @@
 
         <RelativeLayout
             android:id="@+id/rlLoad"
-            android:layout_width="200dp"
+            android:layout_width="@dimen/_140sdp"
             android:layout_height="wrap_content">
 
             <View
@@ -189,7 +186,7 @@
                 android:layout_height="3dp"
                 android:layout_centerInParent="true"
                 android:layout_gravity="bottom"
-                android:layout_margin="2dp"
+                android:layout_margin="@dimen/_2sdp"
                 android:background="@color/Grey" />
 
             <View
@@ -198,7 +195,7 @@
                 android:layout_height="3dp"
                 android:layout_centerInParent="true"
                 android:layout_gravity="bottom"
-                android:layout_margin="2dp"
+                android:layout_margin="@dimen/_2sdp"
                 android:background="@color/colorPrimary" />
         </RelativeLayout>
 
@@ -211,8 +208,8 @@
 
             <ImageView
                 android:id="@+id/ivError"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="@dimen/_70sdp"
+                android:layout_height="@dimen/_70sdp"
                 android:layout_centerHorizontal="true"
                 android:contentDescription="@string/error_symbol"
                 android:src="@drawable/ic_error_outline_black_24dp" />
@@ -226,19 +223,19 @@
                 android:fontFamily="sans-serif-medium"
                 android:text="@string/network_error"
                 android:textColor="@color/Grey"
-                android:textSize="20sp" />
+                android:textSize="@dimen/_18ssp" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cvRetry"
-                android:layout_width="100dp"
-                android:layout_height="40dp"
+                android:layout_width="@dimen/_60sdp"
+                android:layout_height="@dimen/_35sdp"
                 android:layout_rowWeight="1"
                 android:layout_columnWeight="1"
                 android:layout_below="@+id/tvError"
                 android:layout_centerHorizontal="true"
-                android:layout_margin="10dp"
-                android:padding="50dp"
-                app:cardCornerRadius="10dp"
+                android:layout_margin="@dimen/_8sdp"
+                android:padding="@dimen/_40sdp"
+                app:cardCornerRadius="@dimen/_8sdp"
                 app:cardElevation="3dp">
 
                 <TextView
@@ -249,7 +246,7 @@
                     android:gravity="center"
                     android:text="@string/retry"
                     android:textAllCaps="true"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/_14ssp" />
             </androidx.cardview.widget.CardView>
         </RelativeLayout>
 
@@ -258,11 +255,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-medium"
-            android:layout_margin="10dp"
+            android:layout_margin="@dimen/_8sdp"
             android:gravity="center"
             android:text="Add the list of all extras"
             android:textColor="@color/Grey"
-            android:textSize="20sp"
+            android:textSize="@dimen/_18ssp"
             android:visibility="gone" />
     </LinearLayout>
     <Button

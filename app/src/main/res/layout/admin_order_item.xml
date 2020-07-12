@@ -4,57 +4,57 @@
     android:layout_height="wrap_content"
     android:layout_rowWeight="1"
     android:layout_columnWeight="1"
-    android:layout_margin="5dp"
-    app:cardCornerRadius="10dp"
+    android:layout_margin="@dimen/_3sdp"
+    app:cardCornerRadius="@dimen/_8sdp"
     app:cardElevation="3dp">
 
     <RelativeLayout
         android:id="@+id/rlOrder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="5dp">
+        android:padding="@dimen/_3sdp">
 
         <TextView
             android:id="@+id/tvOrderNum"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_margin="@dimen/_8sdp"
             android:fontFamily="sans-serif-medium"
-            android:textSize="24sp" />
+            android:textSize="@dimen/_20ssp" />
 
         <TextView
             android:id="@+id/tvTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="@dimen/_10sdp"
             android:fontFamily="sans-serif-light"
-            android:textSize="14sp" />
+            android:textSize="@dimen/_12ssp" />
 
         <TextView
             android:id="@+id/tvPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_margin="10dp"
+            android:layout_margin="@dimen/_8sdp"
             android:fontFamily="sans-serif-medium"
-            android:textSize="24sp" />
+            android:textSize="@dimen/_20ssp" />
 
         <TextView
             android:id="@+id/tvMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/tvTime"
-            android:layout_margin="10dp"
+            android:layout_margin="@dimen/_8sdp"
             android:fontFamily="sans-serif-medium"
             android:gravity="center"
-            android:textSize="22sp" />
+            android:textSize="@dimen/_18ssp" />
 
         <LinearLayout
             android:id="@+id/llExtras"
             android:layout_width="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
             android:layout_below="@id/tvMenu"
             android:orientation="horizontal"
             android:layout_height="wrap_content">
@@ -63,17 +63,17 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-light"
                 android:text="Extras:"
-                android:textSize="20sp" />
+                android:textSize="@dimen/_18ssp" />
 
             <TextView
                 android:id="@+id/tvExtras"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-light"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:layout_marginEnd="@dimen/_8sdp"
                 android:gravity="center"
-                android:textSize="20sp" />
+                android:textSize="@dimen/_18ssp" />
 
         </LinearLayout>
         <RelativeLayout
@@ -84,15 +84,15 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cvDone"
-                android:layout_width="100dp"
-                android:layout_height="40dp"
+                android:layout_width="@dimen/_80sdp"
+                android:layout_height="@dimen/_30sdp"
                 android:layout_rowWeight="1"
                 android:layout_columnWeight="1"
                 android:layout_centerVertical="true"
-                android:layout_margin="10dp"
+                android:layout_margin="@dimen/_8sdp"
                 android:fontFamily="sans-serif-medium"
-                android:padding="50dp"
-                app:cardCornerRadius="10dp"
+                android:padding="@dimen/_40sdp"
+                app:cardCornerRadius="@dimen/_8sdp"
                 app:cardElevation="3dp">
 
                 <TextView
@@ -104,21 +104,21 @@
                     android:text="DONE"
                     android:textAllCaps="false"
                     android:textColor="@color/White"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/_12ssp" />
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cvCancel"
-                android:layout_width="100dp"
-                android:layout_height="40dp"
+                android:layout_width="@dimen/_80sdp"
+                android:layout_height="@dimen/_30sdp"
                 android:layout_rowWeight="1"
                 android:layout_columnWeight="1"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:layout_margin="10dp"
+                android:layout_margin="@dimen/_8sdp"
                 android:fontFamily="sans-serif-medium"
-                android:padding="50dp"
-                app:cardCornerRadius="10dp"
+                android:padding="@dimen/_40sdp"
+                app:cardCornerRadius="@dimen/_8sdp"
                 app:cardElevation="3dp">
 
                 <TextView
@@ -130,21 +130,21 @@
                     android:text="CANCEL"
                     android:textAllCaps="false"
                     android:textColor="@color/White"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/_12ssp" />
             </androidx.cardview.widget.CardView>
         </RelativeLayout>
         <androidx.cardview.widget.CardView
             android:id="@+id/cvReady"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="@dimen/_30sdp"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
             android:layout_below="@+id/rlOptions"
-            android:layout_margin="10dp"
+            android:layout_margin="@dimen/_8sdp"
             android:fontFamily="sans-serif-medium"
             android:visibility="gone"
-            android:padding="50dp"
-            app:cardCornerRadius="10dp"
+            android:padding="@dimen/_40sdp"
+            app:cardCornerRadius="@dimen/_8sdp"
             app:cardElevation="3dp">
 
             <TextView
@@ -156,7 +156,7 @@
                 android:text="Collected"
                 android:textAllCaps="false"
                 android:textColor="@color/White"
-                android:textSize="14sp" />
+                android:textSize="@dimen/_12ssp" />
         </androidx.cardview.widget.CardView>
 
     </RelativeLayout>

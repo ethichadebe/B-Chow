@@ -6,11 +6,11 @@
     android:layout_rowWeight="1"
     android:layout_columnWeight="1"
     android:layout_gravity="center"
-    app:cardCornerRadius="10dp"
+    app:cardCornerRadius="@dimen/_8sdp"
     app:cardElevation="6dp">
 
     <RelativeLayout
-        android:layout_width="350dp"
+        android:layout_width="@dimen/_260sdp"
         android:layout_height="wrap_content">
 
         <TextView
@@ -18,59 +18,59 @@
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:layout_alignParentEnd="true"
-            android:layout_marginStart="5dp"
+            android:layout_marginStart="@dimen/_3sdp"
             android:background="@drawable/ripple_effect_white"
             android:fontFamily="sans-serif-medium"
             android:gravity="center"
             android:text="@string/x"
-            android:textSize="20sp"
+            android:textSize="@dimen/_18sdp"
             android:textStyle="bold" />
         <TextView
             android:id="@+id/tvHeading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/_8sdp"
             android:gravity="center"
             android:layout_toStartOf="@id/tvCancel"
             android:layout_alignParentStart="true"
             android:fontFamily="sans-serif-medium"
-            android:textSize="14sp" />
+            android:textSize="@dimen/_12ssp" />
 
         <RelativeLayout
             android:id="@+id/rlBody"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvHeading"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp">
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            android:layout_marginBottom="@dimen/_8sdp">
 
             <com.rengwuxian.materialedittext.MaterialEditText
                 android:id="@+id/etExtra"
-                android:layout_width="202dp"
-                android:layout_height="58dp"
+                android:layout_width="@dimen/_140sdp"
+                android:layout_height="@dimen/_40sdp"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
-                android:layout_marginEnd="28dp"
+                android:layout_marginEnd="@dimen/_22sdp"
                 android:layout_toStartOf="@id/cvEditOption"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:textSize="14sp"
+                android:textSize="@dimen/_12ssp"
                 app:met_floatingLabel="highlight" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cvEditOption"
-                android:layout_width="100dp"
-                android:layout_height="40dp"
+                android:layout_width="@dimen/_80sdp"
+                android:layout_height="@dimen/_30sdp"
                 android:layout_rowWeight="1"
                 android:layout_columnWeight="1"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="@dimen/_18sdp"
                 android:fontFamily="sans-serif-medium"
-                android:padding="50dp"
-                app:cardCornerRadius="10dp"
+                android:padding="@dimen/_40sdp"
+                app:cardCornerRadius="@dimen/_8sdp"
                 app:cardElevation="3dp">
 
                 <TextView
@@ -83,7 +83,7 @@
                     android:text="@string/edit"
                     android:textAllCaps="false"
                     android:textColor="@color/White"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/_12ssp" />
             </androidx.cardview.widget.CardView>
         </RelativeLayout>
     </RelativeLayout>

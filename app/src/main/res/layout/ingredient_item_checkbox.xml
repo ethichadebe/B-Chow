@@ -7,17 +7,17 @@
     android:layout_columnWeight="1"
     android:layout_rowWeight="1"
     app:cardElevation="3dp"
-    android:layout_margin="5dp"
-    app:cardCornerRadius="10dp">
+    android:layout_margin="@dimen/_3sdp"
+    app:cardCornerRadius="@dimen/_8sdp">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_margin="10dp"
+        android:layout_margin="@dimen/_8sdp"
         android:layout_height="wrap_content">
         <CheckBox
             android:id="@+id/tvIngredientName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
+            android:textSize="@dimen/_12ssp"
             android:layout_centerVertical="true"
             android:layout_alignParentStart="true"
             android:layout_toStartOf="@id/tvPrice"
@@ -28,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-medium"
-            android:textSize="14sp"
+            android:textSize="@dimen/_12ssp"
             android:layout_centerVertical="true"
             android:layout_alignParentEnd="true"
             />

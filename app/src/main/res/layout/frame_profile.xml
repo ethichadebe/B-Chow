@@ -23,9 +23,9 @@
             android:layout_marginTop="0dp"
             android:layout_marginBottom="0dp"
             android:gravity="center"
-            android:padding="10dp"
+            android:padding="@dimen/_8sdp"
             android:text="@string/profile"
-            android:textSize="12sp"
+            android:textSize="@dimen/_10ssp"
             android:textStyle="bold" />
 
         <LinearLayout
@@ -48,9 +48,9 @@
                 android:background="@drawable/ripple_effect_white"
                 android:fontFamily="sans-serif-condensed-medium"
                 android:gravity="center"
-                android:padding="10dp"
+                android:padding="@dimen/_8sdp"
                 android:text="@string/edit_profile"
-                android:textSize="12sp"
+                android:textSize="@dimen/_10ssp"
                 android:textStyle="bold" />
         </LinearLayout>
     </RelativeLayout>
@@ -66,23 +66,23 @@
             android:layout_height="wrap_content"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
-            android:layout_margin="5dp"
+            android:layout_margin="@dimen/_3sdp"
             android:background="@drawable/ripple_effect_white"
-            app:cardCornerRadius="12dp"
+            app:cardCornerRadius="@dimen/_10sdp"
             app:cardElevation="3dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="10dp">
+                android:padding="@dimen/_8sdp">
 
                 <androidx.cardview.widget.CardView
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
+                    android:layout_width="@dimen/_120sdp"
+                    android:layout_height="@dimen/_120sdp"
                     android:layout_gravity="center"
                     android:background="@drawable/ripple_effect_white"
-                    app:cardCornerRadius="100dp">
+                    app:cardCornerRadius="@dimen/_80sdp">
 
                         <ImageView
                             android:id="@+id/civProfilePicture"
@@ -95,8 +95,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="10dp"
-                    android:textSize="21sp"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:textSize="@dimen/_20ssp"
                     android:textStyle="bold" />
             </LinearLayout>
 
@@ -114,7 +114,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
+            android:layout_margin="@dimen/_18sdp"
             android:orientation="vertical">
 
             <TextView
@@ -130,7 +130,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="@dimen/_18sdp"
                 android:drawableStart="@drawable/ic_person_pin_black_24dp"
                 android:fontFamily="sans-serif-medium"
                 android:gravity="center" />
@@ -140,7 +140,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="@dimen/_18sdp"
                 android:drawableStart="@drawable/ic_local_phone_black_24dp"
                 android:fontFamily="sans-serif-medium"
                 android:gravity="center" />
@@ -150,7 +150,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="@dimen/_18sdp"
                 android:drawableStart="@drawable/ic_email_black_24dp"
                 android:fontFamily="sans-serif-medium"
                 android:gravity="center" />
@@ -165,9 +165,9 @@
         android:background="@drawable/ripple_effect_white"
         android:fontFamily="sans-serif-medium"
         android:gravity="center"
-        android:padding="10dp"
+        android:padding="@dimen/_8sdp"
         android:text="@string/logout"
-        android:textSize="14sp"
+        android:textSize="@dimen/_12ssp"
         android:textStyle="bold" />
 
     <TextView
@@ -175,13 +175,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="@dimen/_3sdp"
         android:background="@drawable/ripple_effect_white"
         android:fontFamily="sans-serif-medium"
         android:gravity="center"
-        android:padding="10dp"
+        android:padding="@dimen/_8sdp"
         android:text="@string/deactivate_account"
         android:textColor="@color/Red"
-        android:textSize="14sp"
+        android:textSize="@dimen/_12ssp"
         android:textStyle="bold" />
 </RelativeLayout>

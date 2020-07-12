@@ -56,16 +56,16 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cvOpen"
-            android:layout_width="100dp"
-            android:layout_height="40dp"
+            android:layout_width="@dimen/_70sdp"
+            android:layout_height="@dimen/_30sdp"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:layout_margin="10dp"
+            android:layout_margin="@dimen/_8sdp"
             android:fontFamily="sans-serif-medium"
-            android:padding="50dp"
-            app:cardCornerRadius="10dp"
+            android:padding="@dimen/_40sdp"
+            app:cardCornerRadius="@dimen/_8sdp"
             app:cardElevation="3dp">
 
             <TextView
@@ -77,20 +77,20 @@
                 android:gravity="center"
                 android:text="@string/open"
                 android:textAllCaps="false"
-                android:textSize="14sp" />
+                android:textSize="@dimen/_14ssp" />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cvClosed"
-            android:layout_width="100dp"
-            android:layout_height="40dp"
+            android:layout_width="@dimen/_70sdp"
+            android:layout_height="@dimen/_30sdp"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
             android:layout_alignParentEnd="true"
-            android:layout_margin="10dp"
+            android:layout_margin="@dimen/_8sdp"
             android:fontFamily="sans-serif-medium"
-            android:padding="50dp"
-            app:cardCornerRadius="10dp"
+            android:padding="@dimen/_40sdp"
+            app:cardCornerRadius="@dimen/_8sdp"
             app:cardElevation="3dp">
 
             <TextView
@@ -102,7 +102,7 @@
                 android:gravity="center"
                 android:text="@string/close"
                 android:textAllCaps="false"
-                android:textSize="14sp" />
+                android:textSize="@dimen/_14ssp" />
         </androidx.cardview.widget.CardView>
     </RelativeLayout>
 
@@ -112,7 +112,7 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/tvCompleteReg"
         android:layout_below="@+id/llOpts"
-        android:padding="4dp" />
+        android:padding="@dimen/_2sdp" />
 
     <TextView
         android:id="@+id/tvCompleteReg"
@@ -120,14 +120,14 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/appBar"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="@dimen/_3sdp"
         android:background="@drawable/ripple_effect_red"
         android:fontFamily="sans-serif-medium"
         android:gravity="center"
-        android:padding="10dp"
+        android:padding="@dimen/_8sdp"
         android:text="Click here to complete shop registration"
         android:textColor="@color/White"
-        android:textSize="14sp"
+        android:textSize="@dimen/_14ssp"
         android:textStyle="bold"
         android:visibility="gone" />
 

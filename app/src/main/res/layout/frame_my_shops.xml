@@ -30,9 +30,9 @@
                 android:background="@drawable/ripple_effect_white"
                 android:fontFamily="sans-serif-condensed-medium"
                 android:gravity="center"
-                android:padding="10dp"
+                android:padding="@dimen/_8sdp"
                 android:text="@string/create_shop"
-                android:textSize="12sp"
+                android:textSize="@dimen/_10ssp"
                 android:textStyle="bold" />
         </LinearLayout>
     </RelativeLayout>
@@ -53,33 +53,33 @@
         <androidx.core.widget.NestedScrollView
             android:id="@+id/bottom_sheet"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="@dimen/_40sdp"
             android:background="@color/done"
             app:behavior_hideable="true"
-            app:behavior_peekHeight="50dp"
+            app:behavior_peekHeight="@dimen/_40sdp"
             app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
+                android:layout_margin="@dimen/_3sdp"
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_height="@dimen/_30sdp"
                     android:src="@drawable/check" />
 
                 <TextView
                     android:id="@+id/tvShopName"
                     android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="5dp"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_marginStart="@dimen/_3sdp"
                     android:fontFamily="sans-serif-light"
                     android:gravity="center"
                     android:text="@string/shop_registered"
                     android:textColor="@color/White"
-                    android:textSize="20sp"
+                    android:textSize="@dimen/_18ssp"
                     android:textStyle="bold" />
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
@@ -94,7 +94,7 @@
 
         <RelativeLayout
             android:id="@+id/rlLoad"
-            android:layout_width="200dp"
+            android:layout_width="@dimen/_140sdp"
             android:layout_height="wrap_content">
 
             <View
@@ -103,7 +103,7 @@
                 android:layout_height="3dp"
                 android:layout_centerInParent="true"
                 android:layout_gravity="bottom"
-                android:layout_margin="2dp"
+                android:layout_margin="@dimen/_1sdp"
                 android:layout_weight="1"
                 android:background="@color/Grey" />
 
@@ -113,7 +113,7 @@
                 android:layout_height="3dp"
                 android:layout_centerInParent="true"
                 android:layout_gravity="bottom"
-                android:layout_margin="2dp"
+                android:layout_margin="@dimen/_1sdp"
                 android:layout_weight="1"
                 android:background="@color/colorPrimary" />
 
@@ -127,8 +127,8 @@
 
             <ImageView
                 android:id="@+id/ivError"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="@dimen/_60sdp"
+                android:layout_height="@dimen/_60sdp"
                 android:layout_centerHorizontal="true"
                 android:contentDescription="@string/error_symbol"
                 android:src="@drawable/ic_error_outline_black_24dp" />
@@ -142,19 +142,19 @@
                 android:fontFamily="sans-serif-medium"
                 android:text="@string/network_error"
                 android:textColor="@color/Grey"
-                android:textSize="20sp" />
+                android:textSize="@dimen/_18ssp" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cvRetry"
-                android:layout_width="100dp"
-                android:layout_height="40dp"
+                android:layout_width="@dimen/_80sdp"
+                android:layout_height="@dimen/_30sdp"
                 android:layout_rowWeight="1"
                 android:layout_columnWeight="1"
                 android:layout_below="@+id/tvError"
                 android:layout_centerHorizontal="true"
-                android:layout_margin="10dp"
-                android:padding="50dp"
-                app:cardCornerRadius="10dp"
+                android:layout_margin="@dimen/_8sdp"
+                android:padding="@dimen/_40sdp"
+                app:cardCornerRadius="@dimen/_8sdp"
                 app:cardElevation="3dp">
 
                 <TextView
@@ -165,10 +165,8 @@
                     android:gravity="center"
                     android:text="@string/retry"
                     android:textAllCaps="true"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/_12ssp" />
             </androidx.cardview.widget.CardView>
-
-
         </RelativeLayout>
 
         <TextView
@@ -178,7 +176,7 @@
             android:fontFamily="sans-serif-medium"
             android:text="You haven't registered any shops"
             android:textColor="@color/Grey"
-            android:textSize="20sp"
+            android:textSize="@dimen/_18ssp"
             android:visibility="gone" />
 
     </LinearLayout>

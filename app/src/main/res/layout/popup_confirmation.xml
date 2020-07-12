@@ -6,12 +6,12 @@
     android:layout_rowWeight="1"
     android:layout_columnWeight="1"
     android:layout_gravity="center"
-    app:cardCornerRadius="10dp"
+    app:cardCornerRadius="@dimen/_8sdp"
     app:cardElevation="6dp">
 
     <RelativeLayout
-        android:layout_width="300dp"
-        android:layout_height="200dp">
+        android:layout_width="@dimen/_200sdp"
+        android:layout_height="@dimen/_140sdp">
 
         <TextView
             android:id="@+id/tvHeading"
@@ -21,11 +21,11 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
             android:fontFamily="sans-serif-medium"
             android:gravity="center"
-            android:textSize="18sp" />
+            android:textSize="@dimen/_16ssp" />
 
 
         <RelativeLayout
@@ -42,7 +42,7 @@
                 android:fontFamily="sans-serif-medium"
                 android:gravity="center"
                 android:text="Are You Sure"
-                android:textSize="14sp" />
+                android:textSize="@dimen/_12ssp" />
 
             <TextView
                 android:id="@+id/tvRemove"
@@ -52,11 +52,11 @@
                 android:background="@drawable/ripple_effect_white"
                 android:fontFamily="sans-serif-medium"
                 android:gravity="center"
-                android:padding="10dp"
+                android:padding="@dimen/_8sdp"
                 android:visibility="gone"
                 android:text="Remove Pictire"
                 android:textColor="@color/Red"
-                android:textSize="14sp" />
+                android:textSize="@dimen/_12ssp" />
 
             <LinearLayout
                 android:id="@+id/rlButtons"
@@ -74,9 +74,9 @@
                     android:fontFamily="sans-serif-medium"
                     android:gravity="center"
                     android:textAllCaps="false"
-                    android:padding="10dp"
+                    android:padding="@dimen/_8sdp"
                     android:text="Yes"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/_12ssp" />
 
                 <TextView
                     android:id="@+id/btnNo"
@@ -87,9 +87,9 @@
                     android:fontFamily="sans-serif-medium"
                     android:gravity="center"
                     android:textAllCaps="false"
-                    android:padding="10dp"
+                    android:padding="@dimen/_8sdp"
                     android:text="No"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/_12ssp" />
             </LinearLayout>
         </RelativeLayout>
         <TextView
@@ -97,12 +97,12 @@
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:layout_alignParentEnd="true"
-            android:layout_marginStart="5dp"
+            android:layout_marginStart="@dimen/_3sdp"
             android:background="@drawable/ripple_effect_white"
             android:fontFamily="sans-serif-medium"
             android:gravity="center"
             android:text="X"
-            android:textSize="20sp"
+            android:textSize="@dimen/_18ssp"
             android:textStyle="bold" />
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

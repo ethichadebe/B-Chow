@@ -8,7 +8,7 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/aplAppBar"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="@dimen/_185sdp"
         android:fitsSystemWindows="true"
         android:background="@color/common_google_signin_btn_text_dark_default"
         android:theme="@style/ThemeOverlay.MaterialComponents.Dark">
@@ -20,18 +20,17 @@
             android:fitsSystemWindows="true"
             app:collapsedTitleTextAppearance="@style/CollapsedAppBar"
             app:contentScrim="@color/places_ui_default_primary"
-            app:expandedTitleMarginBottom="0dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="@dimen/_50sdp"
                 android:layout_gravity="bottom"
                 android:background="@drawable/fade_background" />
             <ImageView
                 android:id="@+id/ivBig"
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
+                android:layout_height="@dimen/_185sdp"
                 android:contentDescription="@string/logo"
                 android:fitsSystemWindows="true"
                 android:scaleType="centerCrop"
@@ -55,8 +54,8 @@
     <!--Like Layout-->
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/lottieLike"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="@dimen/_70sdp"
+        android:layout_height="@dimen/_70sdp"
         android:gravity="center"
         android:onClick="like"
         app:layout_anchor="@id/aplAppBar"
@@ -80,7 +79,7 @@
                 android:id="@+id/rlShop"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="@dimen/_8sdp"
                 android:orientation="vertical">
 
                 <TextView
@@ -88,11 +87,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="@dimen/_10sdp"
                     android:background="@color/Grey"
                     android:fontFamily="sans-serif-light"
-                    android:padding="2dp"
-                    android:textSize="12sp" />
+                    android:padding="@dimen/_1sdp"
+                    android:textSize="@dimen/_10sdp" />
 
                 <TextView
                     android:id="@+id/tvAveTime"
@@ -100,8 +99,8 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tvDistance"
                     android:fontFamily="sans-serif-light"
-                    android:padding="2dp"
-                    android:textSize="12sp" />
+                    android:padding="@dimen/_1sdp"
+                    android:textSize="@dimen/_10sdp" />
 
                 <RatingBar
                     android:id="@+id/rbRating"
@@ -121,21 +120,21 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/rbRating"
                     android:fontFamily="sans-serif-condensed-light"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/_12sdp" />
             </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp">
+                android:layout_marginLeft="@dimen/_8sdp"
+                android:layout_marginRight="@dimen/_8sdp">
 
                 <View
                     android:layout_width="wrap_content"
-                    android:layout_height="1dp"
+                    android:layout_height="@dimen/_1sdp"
                     android:layout_alignParentStart="true"
                     android:layout_centerInParent="true"
-                    android:layout_marginEnd="5dp"
+                    android:layout_marginEnd="@dimen/_3sdp"
                     android:layout_toStartOf="@id/tvHeading1"
                     android:background="@color/Grey" />
 
@@ -146,14 +145,14 @@
                     android:layout_centerInParent="true"
                     android:fontFamily="sans-serif-medium"
                     android:text="@string/kota_menu"
-                    android:textSize="18sp" />
+                    android:textSize="@dimen/_16sdp" />
 
                 <View
                     android:layout_width="wrap_content"
-                    android:layout_height="1dp"
+                    android:layout_height="@dimen/_1sdp"
                     android:layout_alignParentEnd="true"
                     android:layout_centerInParent="true"
-                    android:layout_marginStart="5dp"
+                    android:layout_marginStart="@dimen/_3sdp"
                     android:layout_toEndOf="@id/tvHeading1"
                     android:background="@color/Grey" />
             </RelativeLayout>
@@ -178,25 +177,25 @@
 
             <RelativeLayout
                 android:id="@+id/rlLoad"
-                android:layout_width="200dp"
+                android:layout_width="@dimen/_140sdp"
                 android:layout_height="wrap_content">
 
                 <View
                     android:id="@+id/vLineGrey"
                     android:layout_width="match_parent"
-                    android:layout_height="3dp"
+                    android:layout_height="@dimen/_2sdp"
                     android:layout_centerInParent="true"
                     android:layout_gravity="bottom"
-                    android:layout_margin="2dp"
+                    android:layout_margin="@dimen/_1sdp"
                     android:background="@color/Grey" />
 
                 <View
                     android:id="@+id/vLine"
                     android:layout_width="match_parent"
-                    android:layout_height="3dp"
+                    android:layout_height="@dimen/_2sdp"
                     android:layout_centerInParent="true"
                     android:layout_gravity="bottom"
-                    android:layout_margin="2dp"
+                    android:layout_margin="@dimen/_1sdp"
                     android:background="@color/colorPrimary" />
 
             </RelativeLayout>
@@ -209,8 +208,8 @@
 
                 <ImageView
                     android:id="@+id/ivError"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
+                    android:layout_width="@dimen/_70sdp"
+                    android:layout_height="@dimen/_70sdp"
                     android:layout_centerHorizontal="true"
                     android:contentDescription="@string/error_symbol"
                     android:src="@drawable/ic_error_outline_black_24dp" />
@@ -224,20 +223,20 @@
                     android:fontFamily="sans-serif-medium"
                     android:text="@string/network_error"
                     android:textColor="@color/Grey"
-                    android:textSize="20sp" />
+                    android:textSize="@dimen/_16sdp" />
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cvRetry"
-                    android:layout_width="100dp"
-                    android:layout_height="40dp"
+                    android:layout_width="@dimen/_60sdp"
+                    android:layout_height="@dimen/_30sdp"
                     android:layout_rowWeight="1"
                     android:layout_columnWeight="1"
                     android:layout_below="@+id/tvError"
                     android:layout_centerHorizontal="true"
-                    android:layout_margin="10dp"
-                    android:padding="50dp"
-                    app:cardCornerRadius="10dp"
-                    app:cardElevation="3dp">
+                    android:layout_margin="@dimen/_8sdp"
+                    android:padding="@dimen/_50sdp"
+                    app:cardCornerRadius="@dimen/_8sdp"
+                    app:cardElevation="@dimen/_2sdp">
 
                     <TextView
                         android:layout_width="match_parent"
@@ -247,7 +246,7 @@
                         android:gravity="center"
                         android:text="@string/retry"
                         android:textAllCaps="true"
-                        android:textSize="14sp" />
+                        android:textSize="@dimen/_12sdp" />
                 </androidx.cardview.widget.CardView>
             </RelativeLayout>
         </LinearLayout>
@@ -258,7 +257,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_margin="5dp"
+        android:layout_margin="@dimen/_3sdp"
         android:onClick="Custom"
         android:src="@drawable/ic_add_grey_24dp"
         app:backgroundTint="@color/colorPrimary"
