@@ -7,13 +7,13 @@
         android:id="@+id/rlShop"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:padding="2dp">
+        android:layout_margin="@dimen/_4sdp"
+        android:padding="@dimen/_2sdp">
 
         <ImageView
             android:id="@+id/ivLogo"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="@dimen/_155sdp"
             android:layout_gravity="center"
             android:background="@drawable/ripple_effect_white"
             android:contentDescription="@string/logo"
@@ -22,10 +22,10 @@
         <TextView
             android:id="@+id/tvClosed"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="@dimen/_155sdp"
             android:background="@color/Transparent_DarkGrey"
             android:gravity="center"
-            android:text="Closed"
+            android:text="@string/closed"
             android:textColor="@color/White" />
 
         <RelativeLayout
@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-light"
                 android:gravity="end"
-                android:textSize="14sp" />
+                android:textSize="@dimen/_12ssp" />
 
             <TextView
                 android:id="@+id/tvShopName"
@@ -50,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tvPosition"
                 android:fontFamily="sans-serif-medium"
-                android:textSize="18sp" />
+                android:textSize="@dimen/_16ssp" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -64,8 +64,8 @@
                     android:layout_gravity="start"
                     android:background="@color/Grey"
                     android:fontFamily="sans-serif-light"
-                    android:padding="2dp"
-                    android:textSize="12sp" />
+                    android:padding="@dimen/_1sdp"
+                    android:textSize="@dimen/_10ssp" />
 
                 <TextView
                     android:id="@+id/tvAveTime"
@@ -73,11 +73,11 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tvDistance"
                     android:layout_gravity="start"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="@dimen/_3sdp"
                     android:background="@color/Green"
                     android:fontFamily="sans-serif-light"
-                    android:padding="2dp"
-                    android:textSize="12sp" />
+                    android:padding="@dimen/_1sdp"
+                    android:textSize="@dimen/_10ssp" />
 
                 <RatingBar
                     android:id="@+id/rbRating"
@@ -85,8 +85,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tvDistance"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginStart="@dimen/_3sdp"
+                    android:layout_marginTop="@dimen/_3sdp"
                     android:layout_toEndOf="@id/tvAveTime"
                     android:clickable="false"
                     android:numStars="5"
@@ -99,7 +99,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tvAveTime"
                     android:fontFamily="sans-serif-light"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/_12ssp" />
 
                 <net.cachapa.expandablelayout.ExpandableLayout
                     android:id="@+id/expandable_layout"
@@ -120,15 +120,15 @@
                             android:id="@+id/rlHeading1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginRight="10dp">
+                            android:layout_marginLeft="@dimen/_8sdp"
+                            android:layout_marginRight="@dimen/_8sdp">
 
                             <View
                                 android:layout_width="wrap_content"
-                                android:layout_height="1dp"
+                                android:layout_height="@dimen/_1sdp"
                                 android:layout_alignParentStart="true"
                                 android:layout_centerInParent="true"
-                                android:layout_marginEnd="5dp"
+                                android:layout_marginEnd="@dimen/_3sdp"
                                 android:layout_toStartOf="@id/tvHeading3"
                                 android:background="@color/Grey" />
 
@@ -137,18 +137,18 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerInParent="true"
-                                android:layout_marginTop="12dp"
+                                android:layout_marginTop="@dimen/_10sdp"
                                 android:fontFamily="sans-serif-light"
                                 android:gravity="center"
                                 android:text="@string/operating_hours"
-                                android:textSize="14sp" />
+                                android:textSize="@dimen/_12ssp" />
 
                             <View
                                 android:layout_width="wrap_content"
-                                android:layout_height="1dp"
+                                android:layout_height="@dimen/_1sdp"
                                 android:layout_alignParentEnd="true"
                                 android:layout_centerInParent="true"
-                                android:layout_marginStart="5dp"
+                                android:layout_marginStart="@dimen/_3sdp"
                                 android:layout_toEndOf="@id/tvHeading3"
                                 android:background="@color/Grey" />
                         </RelativeLayout>
@@ -168,18 +168,18 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="12dp"
+                                    android:layout_marginTop="@dimen/_10sdp"
                                     android:fontFamily="sans-serif-medium"
                                     android:text="@string/monday"
-                                    android:textSize="14sp" />
+                                    android:textSize="@dimen/_12ssp" />
 
                                 <TextView
                                     android:id="@+id/tvMon"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="5dp"
+                                    android:layout_marginTop="@dimen/_3sdp"
                                     android:fontFamily="sans-serif-light"
-                                    android:textSize="14sp" />
+                                    android:textSize="@dimen/_12ssp" />
 
                             </LinearLayout>
 
@@ -192,18 +192,18 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="12dp"
+                                    android:layout_marginTop="@dimen/_10sdp"
                                     android:fontFamily="sans-serif-medium"
                                     android:text="@string/tuesday"
-                                    android:textSize="14sp" />
+                                    android:textSize="@dimen/_12ssp" />
 
                                 <TextView
                                     android:id="@+id/tvTue"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="5dp"
+                                    android:layout_marginTop="@dimen/_3sdp"
                                     android:fontFamily="sans-serif-light"
-                                    android:textSize="14sp" />
+                                    android:textSize="@dimen/_12ssp" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -215,18 +215,18 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="12dp"
+                                    android:layout_marginTop="@dimen/_10sdp"
                                     android:fontFamily="sans-serif-medium"
                                     android:text="@string/wednesday"
-                                    android:textSize="14sp" />
+                                    android:textSize="@dimen/_12ssp" />
 
                                 <TextView
                                     android:id="@+id/tvWed"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="5dp"
+                                    android:layout_marginTop="@dimen/_3sdp"
                                     android:fontFamily="sans-serif-light"
-                                    android:textSize="14sp" />
+                                    android:textSize="@dimen/_12ssp" />
 
                             </LinearLayout>
 
@@ -247,18 +247,18 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="12dp"
+                                    android:layout_marginTop="@dimen/_10sdp"
                                     android:fontFamily="sans-serif-medium"
                                     android:text="@string/thursday"
-                                    android:textSize="14sp" />
+                                    android:textSize="@dimen/_12ssp" />
 
                                 <TextView
                                     android:id="@+id/tvThu"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="5dp"
+                                    android:layout_marginTop="@dimen/_3sdp"
                                     android:fontFamily="sans-serif-light"
-                                    android:textSize="14sp" />
+                                    android:textSize="@dimen/_12ssp" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -270,18 +270,18 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="12dp"
+                                    android:layout_marginTop="@dimen/_10sdp"
                                     android:fontFamily="sans-serif-medium"
                                     android:text="@string/friday"
-                                    android:textSize="14sp" />
+                                    android:textSize="@dimen/_12ssp" />
 
                                 <TextView
                                     android:id="@+id/tvFri"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="5dp"
+                                    android:layout_marginTop="@dimen/_3sdp"
                                     android:fontFamily="sans-serif-light"
-                                    android:textSize="14sp" />
+                                    android:textSize="@dimen/_12ssp" />
 
                             </LinearLayout>
 
@@ -294,18 +294,18 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="12dp"
+                                    android:layout_marginTop="@dimen/_10sdp"
                                     android:fontFamily="sans-serif-medium"
                                     android:text="@string/saturday"
-                                    android:textSize="14sp" />
+                                    android:textSize="@dimen/_12ssp" />
 
                                 <TextView
                                     android:id="@+id/tvSat"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="5dp"
+                                    android:layout_marginTop="@dimen/_3sdp"
                                     android:fontFamily="sans-serif-light"
-                                    android:textSize="14sp" />
+                                    android:textSize="@dimen/_12ssp" />
                             </LinearLayout>
                         </LinearLayout>
 
@@ -324,18 +324,18 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="12dp"
+                                    android:layout_marginTop="@dimen/_10sdp"
                                     android:fontFamily="sans-serif-medium"
                                     android:text="@string/sunday"
-                                    android:textSize="14sp" />
+                                    android:textSize="@dimen/_12ssp" />
 
                                 <TextView
                                     android:id="@+id/tvSun"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="5dp"
+                                    android:layout_marginTop="@dimen/_3sdp"
                                     android:fontFamily="sans-serif-light"
-                                    android:textSize="14sp" />
+                                    android:textSize="@dimen/_12ssp" />
 
                             </LinearLayout>
 
@@ -348,18 +348,18 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="12dp"
+                                    android:layout_marginTop="@dimen/_10sdp"
                                     android:fontFamily="sans-serif-medium"
                                     android:text="@string/public_holiday"
-                                    android:textSize="14sp" />
+                                    android:textSize="@dimen/_12ssp" />
 
                                 <TextView
                                     android:id="@+id/tvPH"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="5dp"
+                                    android:layout_marginTop="@dimen/_3sdp"
                                     android:fontFamily="sans-serif-light"
-                                    android:textSize="14sp" />
+                                    android:textSize="@dimen/_12ssp" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -371,16 +371,16 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="12dp"
+                                    android:layout_marginTop="@dimen/_10sdp"
                                     android:fontFamily="sans-serif-medium"
-                                    android:textSize="14sp" />
+                                    android:textSize="@dimen/_12ssp" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="5dp"
+                                    android:layout_marginTop="@dimen/_3sdp"
                                     android:fontFamily="sans-serif-light"
-                                    android:textSize="14sp" />
+                                    android:textSize="@dimen/_12ssp" />
                             </LinearLayout>
                         </LinearLayout>
                     </LinearLayout>
@@ -395,14 +395,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/rlBody"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="@dimen/_3sdp"
             android:background="@drawable/ripple_effect_red"
             android:fontFamily="sans-serif-medium"
             android:gravity="center"
-            android:padding="10dp"
-            android:text="Click here to complete shop registration"
+            android:padding="@dimen/_8sdp"
+            android:text="@string/click_here_to_complete_shop_registration"
             android:textColor="@color/White"
-            android:textSize="14sp"
+            android:textSize="@dimen/_12ssp"
             android:textStyle="bold"
             android:visibility="gone" />
 
@@ -422,9 +422,9 @@
                 android:background="@drawable/ripple_effect_white_more"
                 android:fontFamily="sans-serif-light"
                 android:gravity="center"
-                android:padding="10dp"
+                android:padding="@dimen/_8sdp"
                 android:text="@string/show_more"
-                android:textSize="14sp"
+                android:textSize="@dimen/_12ssp"
                 android:textStyle="bold" />
         </LinearLayout>
     </RelativeLayout>
@@ -436,9 +436,9 @@
         android:layout_rowWeight="1"
         android:layout_columnWeight="1"
         android:layout_below="@+id/rlShop"
-        android:layout_margin="5dp"
-        android:layout_marginTop="10dp"
-        app:cardCornerRadius="10dp"
+        android:layout_margin="@dimen/_3sdp"
+        android:layout_marginTop="@dimen/_8sdp"
+        app:cardCornerRadius="@dimen/_8sdp"
         app:cardElevation="3dp">
 
         <com.google.android.gms.ads.formats.UnifiedNativeAdView
@@ -454,7 +454,7 @@
                 <com.google.android.gms.ads.formats.MediaView
                     android:id="@+id/mediaView"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
+                    android:layout_height="@dimen/_155sdp"
                     android:layout_gravity="center"
                     android:background="@drawable/ripple_effect_white"
                     android:contentDescription="@string/logo"
@@ -467,14 +467,14 @@
                     android:layout_below="@+id/mediaView"
                     android:background="@drawable/ripple_effect_white"
                     android:orientation="vertical"
-                    android:padding="10dp">
+                    android:padding="@dimen/_8sdp">
 
                     <TextView
                         android:id="@+id/tvHeadName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-medium"
-                        android:textSize="18sp" />
+                        android:textSize="@dimen/_16ssp" />
 
                     <TextView
                         android:id="@+id/tvBody"
@@ -482,7 +482,7 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/tvHeadName"
                         android:fontFamily="sans-serif-light"
-                        android:textSize="14sp" />
+                        android:textSize="@dimen/_12ssp" />
                 </RelativeLayout>
 
                 <TextView
@@ -493,8 +493,8 @@
                     android:background="@drawable/ripple_effect_white"
                     android:fontFamily="sans-serif-light"
                     android:gravity="center"
-                    android:padding="10dp"
-                    android:textSize="14sp"
+                    android:padding="@dimen/_8sdp"
+                    android:textSize="@dimen/_12ssp"
                     android:textStyle="bold" />
             </RelativeLayout>
         </com.google.android.gms.ads.formats.UnifiedNativeAdView>
