@@ -118,7 +118,7 @@ public class User {
     }
 
     public String getuPicture() {
-        return getIpAddress() + "/" + uPicture;
+        return uPicture;
     }
 
     public void setuPicture(String uPicture) {

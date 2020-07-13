@@ -128,7 +128,7 @@ public class EditUserProfileActivity extends AppCompatActivity {
         //Initialize maps places
         Places.initialize(this, getResources().getString(R.string.google_maps_api_key));
 
-        //Date p[icker
+        //Change Address
         mTextBoxes[2].setOnClickListener(view -> {
             List<Place.Field> fieldList = Arrays.asList(Place.Field.ADDRESS, Place.Field.LAT_LNG, Place.Field.NAME);
 
@@ -197,6 +197,7 @@ public class EditUserProfileActivity extends AppCompatActivity {
                             getUser().setuSex(JSONResponse.getString("uSex"));
                             getUser().setuSurname(JSONResponse.getString("uSurname"));
                             getUser().setuPicture(JSONResponse.getString("uPicture"));
+                            saveData(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE), getUser(), true);
                             if (isBack) {
                                 setIntFragment(2);
                                 startActivity(new Intent(EditUserProfileActivity.this,
@@ -248,7 +249,7 @@ public class EditUserProfileActivity extends AppCompatActivity {
                 Map<String, String> params = new HashMap<>();
                 params.put("uName", Objects.requireNonNull(mTextBoxes[0].getText()).toString());
                 params.put("uSurname", Objects.requireNonNull(mTextBoxes[1].getText()).toString());
-                params.put("uDOB", Objects.requireNonNull(mTextBoxes[2].getText()).toString());
+                params.put("uAddress", Objects.requireNonNull(mTextBoxes[2].getText()).toString());
                 params.put("uLatitude", String.valueOf(sLocation.latitude));
                 params.put("uLongitude", String.valueOf(sLocation.longitude));
                 params.put("uSex", UserSex);
@@ -261,7 +262,7 @@ public class EditUserProfileActivity extends AppCompatActivity {
                 Map<String, DataPart> params = new HashMap<>();
                 // file name could found file base or direct access from real path
                 // for now just get bitmap data from ImageView
-                params.put("ProfilePicture", new DataPart("_" + getUser().getuName() + ".jpg",
+                params.put("ProfilePicture", new DataPart("User" + getUser().getuID() + ".jpg",
                         AppHelper.getFileDataFromDrawable(getBaseContext(), ivImages[0].getDrawable()),
                         "image/jpeg"));
 
@@ -462,6 +463,7 @@ public class EditUserProfileActivity extends AppCompatActivity {
 
         btnYes.setOnClickListener(view -> {
             if (allFieldsEntered(mTextBoxes)) {
+                isBack = true;
                 saveProfileAccount();
             }
         });

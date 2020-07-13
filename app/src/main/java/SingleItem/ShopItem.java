@@ -137,7 +137,7 @@ public class ShopItem {
     }
 
     public String getStrLogoSmall() {
-        return getIpAddress() + "/" + strLogoSmall;
+        return strLogoSmall;
     }
 
     public void setStrLogoSmall(String strLogoSmall) {
@@ -145,7 +145,7 @@ public class ShopItem {
     }
 
     public String getStrLogoBig() {
-        return getIpAddress() + "/" + strLogoBig;
+        return strLogoBig;
     }
 
     public void setStrLogoBig(String strLogoBig) {

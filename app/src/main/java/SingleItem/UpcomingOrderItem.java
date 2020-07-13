@@ -13,7 +13,7 @@ public class UpcomingOrderItem extends OrderItem{
     private LatLng llShop;
 
     public UpcomingOrderItem(int intID, String strShopName, int intOrderNum, String strTime, String strMenu, String strExtras, Double dblPrice,
-                             String strStatus, LatLng llShop, Drawable isSelected) {
+                             String strStatus, LatLng llShop, Drawable isSelected, int statusColor) {
         this.intID = intID;
         this.strShopName = strShopName;
         this.intOderNum = intOrderNum;
@@ -24,6 +24,7 @@ public class UpcomingOrderItem extends OrderItem{
         this.strStatus = strStatus;
         this.llShop = llShop;
         this.isSelected = isSelected;
+        this.statusColor = statusColor;
     }
 
     public String getStrShopName() {

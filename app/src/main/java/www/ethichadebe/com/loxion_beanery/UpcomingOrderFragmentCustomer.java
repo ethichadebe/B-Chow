@@ -102,7 +102,7 @@ public class UpcomingOrderFragmentCustomer extends Fragment {
                                         Orders.getString("oCreatedAt"), Orders.getString("oIngredients"),
                                         Orders.getString("oExtras"), Orders.getDouble("oPrice"),
                                         Orders.getString("oStatus"), new LatLng(Orders.getDouble("sLatitude"),
-                                        Orders.getDouble("sLongitude")), getSetSelected(Orders.getInt("oID"))));
+                                        Orders.getDouble("sLongitude")), getSetSelected(Orders.getInt("oID")), getResources().getColor(R.color.done)));
                             }
                             scrollToPosition();
                         } else if (response.getString("message").equals("empty")) {

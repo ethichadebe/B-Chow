@@ -35,7 +35,7 @@ public class UpcomingOrderItemAdapter extends RecyclerView.Adapter<UpcomingOrder
 
     static class OrderViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView tvShopName, tvPrice, tvMenu, tvExtras, tvOrderNum, tvTime, tvStatus, tvComplete;
+        private TextView tvShopName, tvPrice, tvMenu, tvExtras, tvOrderNum, tvTime, tvStatus;
         private CardView cvTrack;
         private LinearLayout llShop;
 
@@ -46,7 +46,6 @@ public class UpcomingOrderItemAdapter extends RecyclerView.Adapter<UpcomingOrder
             tvMenu = itemView.findViewById(R.id.tvMenu);
             tvExtras = itemView.findViewById(R.id.tvExtras);
             tvOrderNum = itemView.findViewById(R.id.tvOrderNum);
-            tvComplete = itemView.findViewById(R.id.tvComplete);
             tvStatus = itemView.findViewById(R.id.tvStatus);
             tvTime = itemView.findViewById(R.id.tvTime);
             cvTrack = itemView.findViewById(R.id.cvTrack);
@@ -85,14 +84,9 @@ public class UpcomingOrderItemAdapter extends RecyclerView.Adapter<UpcomingOrder
         holder.tvOrderNum.setText("Order number: " + item.getIntOderNum());
         holder.tvTime.setText(item.getStrTime());
         if (item.getStrStatus().equals("Ready for collection")) {
-            holder.tvComplete.setVisibility(View.VISIBLE);
-            holder.tvComplete.setText("Status: " + item.getStrStatus());
-        } else {
-            holder.tvComplete.setVisibility(View.GONE);
-            holder.tvStatus.setVisibility(View.VISIBLE);
-            holder.tvStatus.setText("Status: " + item.getStrStatus());
+            holder.tvStatus.setTextColor(item.getStatusColor());
         }
-
+        holder.tvStatus.setText(item.getStrStatus());
         holder.llShop.setBackground(item.isSelected());
     }
 
