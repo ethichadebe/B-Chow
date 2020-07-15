@@ -56,7 +56,6 @@ public class MainActivity extends AppCompatActivity {
             Bundle intent = getIntent().getExtras();
             int oID = Integer.parseInt(Objects.requireNonNull(Objects.requireNonNull(intent).getString(O_ID)));
             Log.d(TAG, "onCreate: bundle is not empty " + oID);
-            //TODO: Make sure status is up to date
             upcomingOrderItem = new UpcomingOrderItem(oID, "", 1, "", "", "", 0.0, "",
                     null, null, getResources().getColor(R.color.done));
             intFragment = 1;

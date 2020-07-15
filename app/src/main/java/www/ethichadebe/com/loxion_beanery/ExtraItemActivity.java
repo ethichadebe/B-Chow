@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -17,6 +18,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -139,7 +141,15 @@ public class ExtraItemActivity extends AppCompatActivity {
                                 Orders.getString("oStatus"), new LatLng(Orders.getDouble("sLatitude"),
                                 Orders.getDouble("sLongitude")), null, getResources().getColor(R.color.done)));
                         if (getUpcomingOrderItem() != null) {
-                            startActivity(new Intent(this, OrderConfirmationActivity.class));
+                            FirebaseMessaging.getInstance().subscribeToTopic(String.valueOf(10))//getShopItem().getIntID()))
+                                    .addOnCompleteListener(task -> {
+                                        startActivity(new Intent(this, OrderConfirmationActivity.class));
+                                        String msg = "msg_subscribed";
+                                        if (!task.isSuccessful()) {
+                                            msg = "msg_subscribe_failed";
+                                        }
+                                        Log.d(TAG, msg);
+                                    });
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();

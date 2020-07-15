@@ -26,10 +26,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import www.ethichadebe.com.loxion_beanery.LoginActivity;
 import www.ethichadebe.com.loxion_beanery.MainActivity;
 import www.ethichadebe.com.loxion_beanery.OrdersActivity;
 import www.ethichadebe.com.loxion_beanery.R;
 
+import static util.App.ORDER_CANCELLED;
 import static util.App.READY_FOR_COLLECTION;
 import static util.Constants.getIpAddress;
 import static www.ethichadebe.com.loxion_beanery.MyShopsFragment.getNewShop;
@@ -93,6 +95,18 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                         bundle.putString(O_ID, oID);
                         intent.putExtras(bundle);
                         sendReadyForCollection(intent, Objects.requireNonNull(remoteMessage.getNotification().getTitle()),
+                                remoteMessage.getNotification().getBody(),
+                                Integer.parseInt(oID));
+                    } catch (JSONException e) {
+                        Log.d(TAG, "payload exception: " + e.toString());
+                    }
+                    break;
+                case "LoginActivity":
+                    intent = new Intent(this, LoginActivity.class);
+
+                    try {
+                        String oID = Order.getString("oID");
+                        sendOrderCancelled(intent, Objects.requireNonNull(remoteMessage.getNotification().getTitle()),
                                 remoteMessage.getNotification().getBody(),
                                 Integer.parseInt(oID));
                     } catch (JSONException e) {
@@ -191,6 +205,27 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setSmallIcon(R.drawable.food)
                 .setContentTitle(title)
                 .setColor(getResources().getColor(R.color.colorPrimary))
+                .setContentText(messageBody)
+                .setAutoCancel(true)
+                .setSound(defaultSoundUri)
+                .setContentIntent(pendingIntent)
+                .build();
+
+        notificationManager.notify(oID, notificationBuilder);
+
+    }
+
+    private void sendOrderCancelled(Intent intent, String title, String messageBody, int oID) {
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, oID /* Request code */, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        //Setting sound
+        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        Notification notificationBuilder = new NotificationCompat.Builder(this, ORDER_CANCELLED)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setSmallIcon(R.drawable.food)
+                .setContentTitle(title)
+                .setColor(getResources().getColor(R.color.colorPrimary))
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(messageBody))
                 .setContentText(messageBody)
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)

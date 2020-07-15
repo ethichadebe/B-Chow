@@ -2,6 +2,8 @@ package www.ethichadebe.com.loxion_beanery;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,6 +22,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.tabs.TabLayout;
+import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -127,7 +130,6 @@ public class OrdersActivity extends AppCompatActivity {
 
                     tvClosed.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
                     tvOpen.setBackground(getResources().getDrawable(R.drawable.ripple_effect_green));
-                    PUTStatus(1, getNewShop().getIntID());
                     break;
                 case 0:
                     cvClosed.setClickable(false);
@@ -135,7 +137,6 @@ public class OrdersActivity extends AppCompatActivity {
 
                     tvClosed.setBackground(getResources().getDrawable(R.drawable.ripple_effect_red));
                     tvOpen.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
-                    PUTStatus(0, getNewShop().getIntID());
                     break;
             }
             //Check if Shop is fully registered
@@ -149,21 +150,15 @@ public class OrdersActivity extends AppCompatActivity {
         });
 
         cvOpen.setOnClickListener(view -> {
-            cvClosed.setClickable(true);
-            cvOpen.setClickable(false);
-
-            tvClosed.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
-            tvOpen.setBackground(getResources().getDrawable(R.drawable.ripple_effect_green));
-            PUTStatus(1, sID);
+            PUTStatus(1, sID, "");
         });
 
         cvClosed.setOnClickListener(view -> {
-            cvClosed.setClickable(false);
-            cvOpen.setClickable(true);
-
-            tvClosed.setBackground(getResources().getDrawable(R.drawable.ripple_effect_red));
-            tvOpen.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
-            PUTStatus(0, sID);
+            if (getNewShop().getIntnOrders() > 0) {
+                showPopup();
+            } else {
+                PUTStatus(0, sID, "");
+            }
         });
 
 
@@ -203,13 +198,59 @@ public class OrdersActivity extends AppCompatActivity {
         startActivity(new Intent(OrdersActivity.this, ShopSettingsActivity.class));
     }
 
+    public void showPopup() {
+        TextView tvCancel, tvMessage, btnYes, btnNo;
+        MaterialEditText etMore;
+        myDialog.setContentView(R.layout.popup_confirmation_more);
 
-    private void PUTStatus(int status, int sID) {
+        tvCancel = myDialog.findViewById(R.id.tvCancel);
+        tvMessage = myDialog.findViewById(R.id.tvMessage);
+        btnYes = myDialog.findViewById(R.id.btnYes);
+        btnNo = myDialog.findViewById(R.id.btnNo);
+        etMore = myDialog.findViewById(R.id.etMore);
+
+        tvCancel.setOnClickListener(view -> myDialog.dismiss());
+
+        tvMessage.setText("Closing will automatically cancel all incomplete orders.\n Are you sure?");
+
+        btnYes.setOnClickListener(view -> {
+            tvClosed.setBackground(getResources().getDrawable(R.drawable.ripple_effect_red));
+            tvOpen.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
+            PUTStatus(0, sID, etMore.getText().toString());
+        });
+
+        btnNo.setOnClickListener(view -> myDialog.dismiss());
+        Objects.requireNonNull(myDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        myDialog.show();
+    }
+
+    private void PUTStatus(int status, int sID, String moreInfo) {
         ShowLoadingPopup(myDialog, true);
         StringRequest stringRequest = new StringRequest(Request.Method.PUT,
                 getIpAddress() + "/shops/Status/" + sID,
                 response -> {
                     ShowLoadingPopup(myDialog, false);
+                    if (status == 0) {
+                        finish();
+                        cvClosed.setClickable(false);
+                        cvOpen.setClickable(true);
+
+                        startActivity(getIntent());
+
+                        getNewShop().setIntStatus(0);
+
+                        tvClosed.setBackground(getResources().getDrawable(R.drawable.ripple_effect_red));
+                        tvOpen.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
+                    } else {
+                        cvClosed.setClickable(true);
+                        cvOpen.setClickable(false);
+
+                        getNewShop().setIntStatus(1);
+
+                        tvClosed.setBackground(getResources().getDrawable(R.drawable.ripple_effect_white));
+                        tvOpen.setBackground(getResources().getDrawable(R.drawable.ripple_effect_green));
+
+                    }
                 }, error -> {
             ShowLoadingPopup(myDialog, false);
             if (error.toString().equals("com.android.volley.TimeoutError")) {
@@ -223,6 +264,9 @@ public class OrdersActivity extends AppCompatActivity {
                 Map<String, String> params = new HashMap<>();
 
                 params.put("sStatus", String.valueOf(status));
+                params.put("sNorders", String.valueOf(status));
+                params.put("sName", getNewShop().getStrShopName());
+                params.put("sFeedback", moreInfo);
                 return params;
             }
         };

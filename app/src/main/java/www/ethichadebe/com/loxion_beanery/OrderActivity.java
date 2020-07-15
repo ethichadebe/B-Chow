@@ -19,6 +19,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -207,7 +208,15 @@ public class OrderActivity extends AppCompatActivity {
                                 Orders.getDouble("sLongitude")), null, getResources().getColor(R.color.done)));
                         if (getUpcomingOrderItem() != null) {
                             Log.d(TAG, "POSTOrder: Starting activity");
-                            startActivity(new Intent(this, OrderConfirmationActivity.class));
+                            FirebaseMessaging.getInstance().subscribeToTopic(String.valueOf(getShopItem().getIntID()))
+                                    .addOnCompleteListener(task -> {
+                                        startActivity(new Intent(this, OrderConfirmationActivity.class));
+                                        String msg = "msg_subscribed";
+                                        if (!task.isSuccessful()) {
+                                            msg = "msg_subscribe_failed";
+                                        }
+                                        Log.d(TAG, msg);
+                                    });
                         }
                     } catch (JSONException e) {
                         Log.d(TAG, "POSTOrder: exception " + e.toString());

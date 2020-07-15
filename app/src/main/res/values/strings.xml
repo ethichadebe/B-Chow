@@ -113,5 +113,6 @@
     <string name="closed">Closed</string>
     <string name="click_here_to_complete_shop_registration">Click here to complete shop registration</string>
     <string name="status">Status</string>
+    <string name="more_information">More information</string>
 
 </resources>

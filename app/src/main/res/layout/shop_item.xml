@@ -13,7 +13,7 @@
         <ImageView
             android:id="@+id/ivLogo"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_155sdp"
+            android:layout_height="@dimen/_150sdp"
             android:layout_gravity="center"
             android:background="@drawable/ripple_effect_white"
             android:contentDescription="@string/logo"

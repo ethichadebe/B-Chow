@@ -6,12 +6,15 @@ import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import static android.content.Context.MODE_PRIVATE;
 import static util.HelperMethods.DisplayImage;
@@ -20,6 +23,7 @@ import static util.HelperMethods.saveData;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 
 public class ProfileFragment extends Fragment {
+    private static final String TAG = "ProfileFragment";
     private LinearLayout llEditProfile;
     static boolean isLogout = false;
     private TextView tvNameSur, tvEmail, tvNumber, tvAddress, tvSex, tvDeactivate, tvLogOut;
@@ -54,6 +58,14 @@ public class ProfileFragment extends Fragment {
         llEditProfile.setOnClickListener(view -> startActivity(new Intent(getActivity(), EditUserProfileActivity.class)));
         tvLogOut.setOnClickListener(view -> {
             isLogout = true;
+            FirebaseMessaging.getInstance().unsubscribeFromTopic(String.valueOf(getUser().getuID()))
+                    .addOnCompleteListener(task -> {
+                        String msg = "msg_subscribed";
+                        if (!task.isSuccessful()) {
+                            msg = "msg_subscribe_failed";
+                        }
+                        Log.d(TAG, msg);
+                    });
             startActivity(new Intent(getActivity(), LoginActivity.class));
         });
         return v;
