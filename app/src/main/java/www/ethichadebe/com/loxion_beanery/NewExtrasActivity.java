@@ -55,6 +55,7 @@ public class NewExtrasActivity extends AppCompatActivity {
     private RelativeLayout rlLoad, rlError;
     private RequestQueue requestQueue;
     private Dialog myDialog;
+    private CardView cvRetry;
 
     private static boolean isNew = false;
 
@@ -86,9 +87,10 @@ public class NewExtrasActivity extends AppCompatActivity {
         tvEmpty = findViewById(R.id.tvEmpty);
         rlLoad = findViewById(R.id.rlLoad);
         rlError = findViewById(R.id.rlError);
+        cvRetry = findViewById(R.id.cvRetry);
 
         GETExtras(findViewById(R.id.vLine), findViewById(R.id.vLineGrey));
-
+        cvRetry.setOnClickListener(v -> GETExtras(findViewById(R.id.vLine), findViewById(R.id.vLineGrey)));
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
         mAdapter = new ExtraItemAdapter(extraItems);

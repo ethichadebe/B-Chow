@@ -1,6 +1,7 @@
 package www.ethichadebe.com.loxion_beanery;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -51,6 +52,7 @@ public class ExtraItemActivity extends AppCompatActivity {
     private RelativeLayout rlLoad, rlError;
     private ArrayList<IngredientItemCheckbox> ingredientItems;
     private Dialog myDialog;
+    private CardView cvRetry;
 
     private RequestQueue requestQueue;
 
@@ -65,13 +67,13 @@ public class ExtraItemActivity extends AppCompatActivity {
 
         rlLoad = findViewById(R.id.rlLoad);
         rlError = findViewById(R.id.rlError);
+        cvRetry = findViewById(R.id.cvRetry);
         RecyclerView mRecyclerView = findViewById(R.id.recyclerView);
         ingredientItems = new ArrayList<>();
         myDialog = new Dialog(this);
 
-        //ingredientItems.add(new IngredientItemCheckbox(1,"Extras.getString(eName)",0.0, false, false));
         GETIngredients(findViewById(R.id.vLine), findViewById(R.id.vLineGrey));
-
+        cvRetry.setOnClickListener(v -> GETIngredients(findViewById(R.id.vLine), findViewById(R.id.vLineGrey)));
         mRecyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         IngredientItemCheckboxAdapter mAdapter = new IngredientItemCheckboxAdapter(ingredientItems);
@@ -142,15 +144,9 @@ public class ExtraItemActivity extends AppCompatActivity {
                                 Orders.getDouble("sLongitude")), null, getResources().getColor(R.color.done)));
                         if (getUpcomingOrderItem() != null) {
                             FirebaseMessaging.getInstance().subscribeToTopic(getShopItem().getStrShopName().replaceAll("[^a-zA-Z0-9]","_") +
-                                    getShopItem().getIntID())
-                                    .addOnCompleteListener(task -> {
-                                        startActivity(new Intent(this, OrderConfirmationActivity.class));
-                                        String msg = "msg_subscribed";
-                                        if (!task.isSuccessful()) {
-                                            msg = "msg_subscribe_failed";
-                                        }
-                                        Log.d(TAG, msg);
-                                    });
+                                    getShopItem().getIntID());
+                            FirebaseMessaging.getInstance().subscribeToTopic(String.valueOf(Orders.getInt("oID")));
+                            startActivity(new Intent(this, OrderConfirmationActivity.class));
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();

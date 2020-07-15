@@ -41,7 +41,7 @@
         android:layout_weight="1"
         android:padding="@dimen/_8sdp"
         app:cardCornerRadius="@dimen/_3sdp"
-        app:cardElevation="3dp">
+        app:cardElevation="@dimen/_2sdp">
 
         <RelativeLayout
             android:layout_width="?attr/actionBarSize"
@@ -98,7 +98,7 @@
             app:behavior_hideable="false"
             app:behavior_peekHeight="@dimen/_70sdp"
             app:cardCornerRadius="@dimen/_3sdp"
-            app:cardElevation="3dp"
+            app:cardElevation="@dimen/_2sdp"
             app:layout_behavior="@string/bottom_sheet_behavior"
             app:layout_insetEdge="bottom">
 
@@ -111,7 +111,7 @@
                 <View
                     android:id="@+id/vLine1Load"
                     android:layout_width="0dp"
-                    android:layout_height="3dp"
+                    android:layout_height="@dimen/_2sdp"
                     android:layout_gravity="bottom"
                     android:layout_margin="@dimen/_1sdp"
                     android:layout_weight="1"
@@ -124,7 +124,7 @@
                     <View
                         android:id="@+id/vLine1"
                         android:layout_width="0dp"
-                        android:layout_height="3dp"
+                        android:layout_height="@dimen/_2sdp"
                         android:layout_gravity="bottom"
                         android:layout_margin="@dimen/_1sdp"
                         android:layout_weight="1"
@@ -133,7 +133,7 @@
                     <View
                         android:id="@+id/vLine2Grey"
                         android:layout_width="0dp"
-                        android:layout_height="3dp"
+                        android:layout_height="@dimen/_2sdp"
                         android:layout_gravity="bottom"
                         android:layout_margin="@dimen/_1sdp"
                         android:layout_weight="1"
@@ -142,7 +142,7 @@
                     <View
                         android:id="@+id/vLine2Load"
                         android:layout_width="0dp"
-                        android:layout_height="3dp"
+                        android:layout_height="@dimen/_2sdp"
                         android:layout_gravity="bottom"
                         android:layout_margin="@dimen/_1sdp"
                         android:layout_weight="1"
@@ -151,7 +151,7 @@
                     <View
                         android:id="@+id/vLine2"
                         android:layout_width="0dp"
-                        android:layout_height="3dp"
+                        android:layout_height="@dimen/_2sdp"
                         android:layout_gravity="bottom"
                         android:layout_margin="@dimen/_1sdp"
                         android:layout_weight="1"
@@ -160,7 +160,7 @@
                     <View
                         android:id="@+id/vLine3Grey"
                         android:layout_width="0dp"
-                        android:layout_height="3dp"
+                        android:layout_height="@dimen/_2sdp"
                         android:layout_gravity="bottom"
                         android:layout_margin="@dimen/_1sdp"
                         android:layout_weight="1"
@@ -169,7 +169,7 @@
                     <View
                         android:id="@+id/vLine3Load"
                         android:layout_width="0dp"
-                        android:layout_height="3dp"
+                        android:layout_height="@dimen/_2sdp"
                         android:layout_gravity="bottom"
                         android:layout_margin="@dimen/_1sdp"
                         android:layout_weight="1"
@@ -178,7 +178,7 @@
                     <View
                         android:id="@+id/vLine3"
                         android:layout_width="0dp"
-                        android:layout_height="3dp"
+                        android:layout_height="@dimen/_2sdp"
                         android:layout_gravity="bottom"
                         android:layout_margin="@dimen/_1sdp"
                         android:layout_weight="1"
@@ -333,7 +333,7 @@
                         android:layout_weight="1"
                         android:layout_centerHorizontal="true"
                         app:cardCornerRadius="@dimen/_3sdp"
-                        app:cardElevation="3dp">
+                        app:cardElevation="@dimen/_2sdp">
 
                         <RelativeLayout
                             android:layout_width="match_parent"

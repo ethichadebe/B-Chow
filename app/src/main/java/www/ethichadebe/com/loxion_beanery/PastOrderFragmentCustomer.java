@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -53,6 +54,7 @@ public class PastOrderFragmentCustomer extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<PastOrderItem> pastOrderItems;
     private static PastOrderItem pastOrderItem;
+    private CardView cvRetry;
 
     private RelativeLayout rlLoad, rlError, rlEmpty;
 
@@ -61,6 +63,7 @@ public class PastOrderFragmentCustomer extends Fragment {
         View v = inflater.inflate(R.layout.fragment_past_order_customer, container, false);
 
         rlEmpty = v.findViewById(R.id.rlEmpty);
+        cvRetry = v.findViewById(R.id.cvRetry);
         rlLoad = v.findViewById(R.id.rlLoad);
         rlError = v.findViewById(R.id.rlError);
         mRecyclerView = v.findViewById(R.id.pastRecyclerView);
@@ -70,7 +73,7 @@ public class PastOrderFragmentCustomer extends Fragment {
         mLayoutManager = new LinearLayoutManager(getActivity());
         mAdapter = new PastOrderItemAdapter(pastOrderItems);
 
-        rlLoad.setOnClickListener(view -> GETPastOrders(v.findViewById(R.id.vLine), v.findViewById(R.id.vLineGrey)));
+        cvRetry.setOnClickListener(view -> GETPastOrders(v.findViewById(R.id.vLine), v.findViewById(R.id.vLineGrey)));
 
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(mLayoutManager);

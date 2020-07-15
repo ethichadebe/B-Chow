@@ -25,12 +25,15 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.rengwuxian.materialedittext.MaterialEditText;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 import Adapter.AdminOrderItemAdapter;
@@ -51,7 +54,7 @@ public class UpcomingOrderFragment extends Fragment {
     private AdminOrderItemAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<AdminOrderItem> orderItems;
-private CardView cvRetry;
+    private CardView cvRetry;
     private TextView tvEmpty;
     private RelativeLayout rlLoad, rlError;
 
@@ -99,20 +102,22 @@ private CardView cvRetry;
 
     private void ShowConfirmationPopup(final int position) {
         TextView tvCancel, tvMessage, tvHeading, btnYes, btnNo;
-        myDialog.setContentView(R.layout.popup_confirmation);
+        MaterialEditText etMore;
+        myDialog.setContentView(R.layout.popup_confirmation_more);
 
         tvCancel = myDialog.findViewById(R.id.tvCancel);
         tvMessage = myDialog.findViewById(R.id.tvMessage);
         btnYes = myDialog.findViewById(R.id.btnYes);
         tvHeading = myDialog.findViewById(R.id.tvHeading);
         btnNo = myDialog.findViewById(R.id.btnNo);
+        etMore = myDialog.findViewById(R.id.etMore);
 
         tvCancel.setOnClickListener(view -> myDialog.dismiss());
 
         tvHeading.setText("Cancel order");
         tvMessage.setText("Are you sure?");
 
-        btnYes.setOnClickListener(view -> PUTCancel(position, myDialog));
+        btnYes.setOnClickListener(view -> PUTCancel(position, myDialog, Objects.requireNonNull(etMore.getText()).toString()));
 
         btnNo.setOnClickListener(view -> myDialog.dismiss());
         Objects.requireNonNull(myDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -163,7 +168,7 @@ private CardView cvRetry;
 
     }
 
-    private void PUTCancel(int position, Dialog myDialog) {
+    private void PUTCancel(int position, Dialog myDialog, String more) {
         ShowLoadingPopup(this.myDialog, true);
         StringRequest stringRequest = new StringRequest(Request.Method.PUT,
                 getIpAddress() + "/orders/Cancel/" + orderItems.get(position).getIntID(),
@@ -179,7 +184,13 @@ private CardView cvRetry;
             } else {
                 Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show();
             }
-        });
+        }){
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("feedback", Objects.requireNonNull(more));
+                return params;
+            }};
 
         requestQueue = Volley.newRequestQueue(Objects.requireNonNull(getActivity()));
         stringRequest.setTag(TAG);
@@ -257,5 +268,4 @@ private CardView cvRetry;
         }
         return getResources().getDrawable(R.color.common_google_signin_btn_text_dark_default);
     }
-
 }

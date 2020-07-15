@@ -2,6 +2,7 @@ package www.ethichadebe.com.loxion_beanery;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -64,6 +65,7 @@ public class ShopHomeActivity extends AppCompatActivity {
     private FloatingActionButton fabCustom;
     private RatingBar rbRating;
     private LinearLayout llShop;
+    private CardView cvRetry;
 
     public static ArrayList<MenuItem> getMenuItems() {
         return MenuItems;
@@ -116,6 +118,7 @@ public class ShopHomeActivity extends AppCompatActivity {
         fabCustom = findViewById(R.id.fabCustom);
         rlLoad = findViewById(R.id.rlLoad);
         rlShop = findViewById(R.id.rlShop);
+        cvRetry = findViewById(R.id.cvRetry);
         llShop = findViewById(R.id.llShop);
         rlError = findViewById(R.id.rlError);
         tvDistance = findViewById(R.id.tvDistance);
@@ -128,6 +131,7 @@ public class ShopHomeActivity extends AppCompatActivity {
         if (getShopItem() != null) {
             GETMenu(findViewById(R.id.vLine), findViewById(R.id.vLineGrey));
         }
+        rlShop.setOnClickListener(v -> GETMenu(findViewById(R.id.vLine), findViewById(R.id.vLineGrey)));
         if (Objects.requireNonNull(getShopItem()).isLiked() == 1) {
             lottieAnimationView.setSpeed(1);
             lottieAnimationView.playAnimation();

@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -42,7 +43,7 @@ public class PastOrderFragment extends Fragment {
     private AdminOrderItemPastAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<AdminOrderItemPast> orderItems;
-
+private CardView cvRetry;
     private TextView tvEmpty;
     private RelativeLayout rlLoad, rlError;
 
@@ -51,6 +52,7 @@ public class PastOrderFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_past_order, container, false);
 
         tvEmpty = v.findViewById(R.id.tvEmpty);
+        cvRetry = v.findViewById(R.id.cvRetry);
         rlLoad = v.findViewById(R.id.rlLoad);
         rlError = v.findViewById(R.id.rlError);
         mRecyclerView = v.findViewById(R.id.recyclerView);
@@ -64,7 +66,7 @@ public class PastOrderFragment extends Fragment {
         mRecyclerView.setAdapter(mAdapter);
 
         GETOrders(v.findViewById(R.id.vLine), v.findViewById(R.id.vLineGrey));
-
+        cvRetry.setOnClickListener(v1 -> GETOrders(v1.findViewById(R.id.vLine), v1.findViewById(R.id.vLineGrey)));
 
         return v;
 

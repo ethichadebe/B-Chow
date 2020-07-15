@@ -1,6 +1,7 @@
 package www.ethichadebe.com.loxion_beanery;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -35,6 +36,7 @@ import SingleItem.IngredientItemCheckbox;
 import SingleItem.MenuItem;
 import SingleItem.UpcomingOrderItem;
 
+import static android.view.View.*;
 import static util.Constants.getIpAddress;
 import static util.HelperMethods.SHARED_PREFS;
 import static util.HelperMethods.ShowLoadingPopup;
@@ -66,6 +68,7 @@ public class OrderActivity extends AppCompatActivity {
     private int nExtras = 0;
     private RelativeLayout rlLoad, rlError;
     private Dialog myDialog;
+    private CardView cvRetry;
 
     public static UpcomingOrderItem getOrderItem() {
         return orderItem;
@@ -81,6 +84,7 @@ public class OrderActivity extends AppCompatActivity {
         }
 
         tvTotal = findViewById(R.id.tvTotal);
+        cvRetry = findViewById(R.id.cvRetry);
         rlLoad = findViewById(R.id.rlLoad);
         rlError = findViewById(R.id.rlError);
         mRecyclerView = findViewById(R.id.recyclerView);
@@ -88,7 +92,7 @@ public class OrderActivity extends AppCompatActivity {
         myDialog = new Dialog(this);
 
         GETIngredients(findViewById(R.id.vLine), findViewById(R.id.vLineGrey), getIngredients() == null);
-
+        cvRetry.setOnClickListener(v -> GETIngredients(findViewById(R.id.vLine), findViewById(R.id.vLineGrey), getIngredients() == null));
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
         mAdapter = new IngredientItemCheckboxAdapter(ingredientItems);
@@ -105,8 +109,8 @@ public class OrderActivity extends AppCompatActivity {
     }
 
     private void GETIngredients(View vLine, View vLineGrey, boolean isCustom) {
-        rlError.setVisibility(View.GONE);
-        rlLoad.setVisibility(View.VISIBLE);
+        rlError.setVisibility(GONE);
+        rlLoad.setVisibility(VISIBLE);
         handler(vLine, vLineGrey);
         requestQueue = Volley.newRequestQueue(this);
 
@@ -114,7 +118,7 @@ public class OrderActivity extends AppCompatActivity {
                 Request.Method.GET,
                 getIpAddress() + "/shops/Ingredients/" + getShopItem().getIntID(), null,
                 response -> {
-                    rlLoad.setVisibility(View.GONE);
+                    rlLoad.setVisibility(GONE);
                     //Loads shops starting with the one closest to user
                     try {
                         if (response.getString("message").equals("shops")) {
@@ -146,8 +150,8 @@ public class OrderActivity extends AppCompatActivity {
                     }
                 },
                 error -> {
-                    rlError.setVisibility(View.VISIBLE);
-                    rlLoad.setVisibility(View.GONE);
+                    rlError.setVisibility(VISIBLE);
+                    rlLoad.setVisibility(GONE);
                     if (error.toString().equals("com.android.volley.TimeoutError")) {
                         Toast.makeText(this, "Connection error. Please retry", Toast.LENGTH_SHORT).show();
                     } else {
@@ -208,15 +212,10 @@ public class OrderActivity extends AppCompatActivity {
                                 Orders.getDouble("sLongitude")), null, getResources().getColor(R.color.done)));
                         if (getUpcomingOrderItem() != null) {
                             Log.d(TAG, "POSTOrder: Starting activity");
-                            FirebaseMessaging.getInstance().subscribeToTopic(getShopItem().getStrShopName().replaceAll("[^a-zA-Z0-9]","_") + getShopItem().getIntID())
-                                    .addOnCompleteListener(task -> {
-                                        startActivity(new Intent(this, OrderConfirmationActivity.class));
-                                        String msg = "msg_subscribed";
-                                        if (!task.isSuccessful()) {
-                                            msg = "msg_subscribe_failed";
-                                        }
-                                        Log.d(TAG, msg);
-                                    });
+                            FirebaseMessaging.getInstance().subscribeToTopic(getShopItem().getStrShopName().replaceAll("[^a-zA-Z0-9]","_") +
+                                    getShopItem().getIntID());
+                            FirebaseMessaging.getInstance().subscribeToTopic(String.valueOf(Orders.getInt("oID")));
+                            startActivity(new Intent(this, OrderConfirmationActivity.class));
                         }
                     } catch (JSONException e) {
                         Log.d(TAG, "POSTOrder: exception " + e.toString());

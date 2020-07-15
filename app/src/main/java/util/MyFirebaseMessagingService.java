@@ -98,8 +98,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
                     try {
                         String sID = Order.getString("sID");
-                        String sName = Order.getString("sName");
-                        FirebaseMessaging.getInstance().unsubscribeFromTopic(sName.replaceAll("[^a-zA-Z0-9]","_") + sID)
+                        String topic = Order.getString("topic");
+                        FirebaseMessaging.getInstance().unsubscribeFromTopic(topic)
                                 .addOnCompleteListener(task -> {
                                     sendOrderCancelled(intent, Objects.requireNonNull(remoteMessage.getNotification().getTitle()),
                                             remoteMessage.getNotification().getBody(),Integer.parseInt(sID));

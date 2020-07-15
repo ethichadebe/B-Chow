@@ -52,7 +52,7 @@ public class IngredientsActivity extends AppCompatActivity {
     private IngredientItemAdapter mAdapter;
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
-    private CardView btnAddOption;
+    private CardView btnAddOption,cvRetry;
     private MaterialEditText etName, etPrice;
     private Dialog myDialog;
     private TextView tvEmpty;
@@ -75,13 +75,14 @@ public class IngredientsActivity extends AppCompatActivity {
         etName = findViewById(R.id.etName);
         btnAddOption = findViewById(R.id.btnAddOption);
         etPrice = findViewById(R.id.etPrice);
+        cvRetry = findViewById(R.id.cvRetry);
 
         tvEmpty = findViewById(R.id.tvEmpty);
         rlLoad = findViewById(R.id.rlLoad);
         rlError = findViewById(R.id.rlError);
 
         GETIngredients(findViewById(R.id.vLine), findViewById(R.id.vLineGrey));
-
+        cvRetry.setOnClickListener(v -> GETIngredients(findViewById(R.id.vLine), findViewById(R.id.vLineGrey)));
         ButtonVisibility(getNewShop().getIngredientItems(), btnNext);
 
         btnAddOption.setOnClickListener(view -> {

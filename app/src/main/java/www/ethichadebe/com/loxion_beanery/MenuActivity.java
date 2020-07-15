@@ -1,6 +1,7 @@
 package www.ethichadebe.com.loxion_beanery;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -55,6 +56,7 @@ public class MenuActivity extends AppCompatActivity {
     private Dialog myDialog;
     private Button btnNext;
     private RelativeLayout rlLoad, rlError;
+    private CardView cvRetry;
     private RequestQueue requestQueue;
     private static final String TAG = "MenuActivity";
 
@@ -75,7 +77,7 @@ public class MenuActivity extends AppCompatActivity {
         btnNext = findViewById(R.id.btnNext);
 
         GETMenuItems(findViewById(R.id.vLine), findViewById(R.id.vLineGrey));
-
+        cvRetry.setOnClickListener(v -> GETMenuItems(findViewById(R.id.vLine), findViewById(R.id.vLineGrey)));
         Ingredients = new ArrayList<>();
         mRecyclerView = findViewById(R.id.recyclerView);
         mRecyclerView.setHasFixedSize(true);
