@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -48,6 +49,7 @@ public class UpcomingOrderFragmentCustomer extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<UpcomingOrderItem> upcomingOrderItems;
     private RelativeLayout rlLoad, rlError, rlEmpty;
+    private CardView cvRetry;
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -56,13 +58,14 @@ public class UpcomingOrderFragmentCustomer extends Fragment {
         rlLoad = v.findViewById(R.id.rlLoad);
         rlError = v.findViewById(R.id.rlError);
         rlEmpty = v.findViewById(R.id.rlEmpty);
+        cvRetry = v.findViewById(R.id.cvRetry);
         mRecyclerView = v.findViewById(R.id.upcomingRecyclerView);
 
         upcomingOrderItems = new ArrayList<>();
         mLayoutManager = new LinearLayoutManager(getActivity());
         mAdapter = new UpcomingOrderItemAdapter(upcomingOrderItems);
 
-        rlLoad.setOnClickListener(view -> GETUpcomingOrders(v.findViewById(R.id.vLine), v.findViewById(R.id.vLineGrey)));
+        cvRetry.setOnClickListener(view -> GETUpcomingOrders(v.findViewById(R.id.vLine), v.findViewById(R.id.vLineGrey)));
 
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -102,7 +105,8 @@ public class UpcomingOrderFragmentCustomer extends Fragment {
                                         Orders.getString("oCreatedAt"), Orders.getString("oIngredients"),
                                         Orders.getString("oExtras"), Orders.getDouble("oPrice"),
                                         Orders.getString("oStatus"), new LatLng(Orders.getDouble("sLatitude"),
-                                        Orders.getDouble("sLongitude")), getSetSelected(Orders.getInt("oID")), getResources().getColor(R.color.done)));
+                                        Orders.getDouble("sLongitude")), getSetSelected(Orders.getInt("oID")),
+                                        getResources().getColor(R.color.done)));
                             }
                             scrollToPosition();
                         } else if (response.getString("message").equals("empty")) {

@@ -8,6 +8,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -50,7 +51,7 @@ public class UpcomingOrderFragment extends Fragment {
     private AdminOrderItemAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<AdminOrderItem> orderItems;
-
+private CardView cvRetry;
     private TextView tvEmpty;
     private RelativeLayout rlLoad, rlError;
 
@@ -62,12 +63,11 @@ public class UpcomingOrderFragment extends Fragment {
         rlLoad = v.findViewById(R.id.rlLoad);
         rlError = v.findViewById(R.id.rlError);
         mRecyclerView = v.findViewById(R.id.recyclerView);
-
+        cvRetry = v.findViewById(R.id.cvRetry);
         myDialog = new Dialog(Objects.requireNonNull(getActivity()));
         orderItems = new ArrayList<>();
         mLayoutManager = new LinearLayoutManager(getActivity());
         mAdapter = new AdminOrderItemAdapter(orderItems);
-
 
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -93,7 +93,7 @@ public class UpcomingOrderFragment extends Fragment {
 
         GETOrders(v.findViewById(R.id.vLine), v.findViewById(R.id.vLineGrey));
 
-
+        cvRetry.setOnClickListener(v1 -> GETOrders(v1.findViewById(R.id.vLine), v1.findViewById(R.id.vLineGrey)));
         return v;
     }
 

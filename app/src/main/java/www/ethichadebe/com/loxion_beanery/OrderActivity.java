@@ -208,7 +208,7 @@ public class OrderActivity extends AppCompatActivity {
                                 Orders.getDouble("sLongitude")), null, getResources().getColor(R.color.done)));
                         if (getUpcomingOrderItem() != null) {
                             Log.d(TAG, "POSTOrder: Starting activity");
-                            FirebaseMessaging.getInstance().subscribeToTopic(String.valueOf(getShopItem().getIntID()))
+                            FirebaseMessaging.getInstance().subscribeToTopic(getShopItem().getStrShopName().replaceAll("[^a-zA-Z0-9]","_") + getShopItem().getIntID())
                                     .addOnCompleteListener(task -> {
                                         startActivity(new Intent(this, OrderConfirmationActivity.class));
                                         String msg = "msg_subscribed";

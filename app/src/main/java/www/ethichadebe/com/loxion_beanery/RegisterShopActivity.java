@@ -345,10 +345,12 @@ public class RegisterShopActivity extends AppCompatActivity {
                 Map<String, DataPart> params = new HashMap<>();
                 // file name could found file base or direct access from real path
                 // for now just get bitmap data from ImageView
-                params.put("sSmallPicture", new DataPart("small" + getNewShop().getStrShopName().replace("\\W", "_") + ".jpg",
+                params.put("sSmallPicture", new DataPart("small" +
+                        getNewShop().getStrShopName().replace("[^a-zA-Z0-9]", "_") + ".jpg",
                         getFileDataFromDrawable(getBaseContext(), ivImages[0].getDrawable()),
                         "image/jpeg"));
-                params.put("sBigPicture", new DataPart("big" + getNewShop().getStrShopName().replace("\\W", "_") + ".jpg",
+                params.put("sBigPicture", new DataPart("big" +
+                        getNewShop().getStrShopName().replaceAll("[^a-zA-Z0-9]","_") + ".jpg",
                         getFileDataFromDrawable(getBaseContext(), ivImages[1].getDrawable()),
                         "image/jpeg"));
 

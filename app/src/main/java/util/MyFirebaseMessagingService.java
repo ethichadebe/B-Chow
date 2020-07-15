@@ -8,22 +8,16 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
 import www.ethichadebe.com.loxion_beanery.LoginActivity;
@@ -33,8 +27,6 @@ import www.ethichadebe.com.loxion_beanery.R;
 
 import static util.App.ORDER_CANCELLED;
 import static util.App.READY_FOR_COLLECTION;
-import static util.Constants.getIpAddress;
-import static www.ethichadebe.com.loxion_beanery.MyShopsFragment.getNewShop;
 
 /**
  * NOTE: There can only be one service in each app that receives FCM messages. If multiple
@@ -105,10 +97,18 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     intent = new Intent(this, LoginActivity.class);
 
                     try {
-                        String oID = Order.getString("oID");
-                        sendOrderCancelled(intent, Objects.requireNonNull(remoteMessage.getNotification().getTitle()),
-                                remoteMessage.getNotification().getBody(),
-                                Integer.parseInt(oID));
+                        String sID = Order.getString("sID");
+                        String sName = Order.getString("sName");
+                        FirebaseMessaging.getInstance().unsubscribeFromTopic(sName.replaceAll("[^a-zA-Z0-9]","_") + sID)
+                                .addOnCompleteListener(task -> {
+                                    sendOrderCancelled(intent, Objects.requireNonNull(remoteMessage.getNotification().getTitle()),
+                                            remoteMessage.getNotification().getBody(),Integer.parseInt(sID));
+                                    String msg = "msg_subscribed";
+                                    if (!task.isSuccessful()) {
+                                        msg = "msg_subscribe_failed";
+                                    }
+                                    Log.d(TAG, msg);
+                                });
                     } catch (JSONException e) {
                         Log.d(TAG, "payload exception: " + e.toString());
                     }

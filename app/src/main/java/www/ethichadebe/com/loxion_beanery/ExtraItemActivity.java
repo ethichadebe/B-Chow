@@ -141,7 +141,8 @@ public class ExtraItemActivity extends AppCompatActivity {
                                 Orders.getString("oStatus"), new LatLng(Orders.getDouble("sLatitude"),
                                 Orders.getDouble("sLongitude")), null, getResources().getColor(R.color.done)));
                         if (getUpcomingOrderItem() != null) {
-                            FirebaseMessaging.getInstance().subscribeToTopic(String.valueOf(10))//getShopItem().getIntID()))
+                            FirebaseMessaging.getInstance().subscribeToTopic(getShopItem().getStrShopName().replaceAll("[^a-zA-Z0-9]","_") +
+                                    getShopItem().getIntID())
                                     .addOnCompleteListener(task -> {
                                         startActivity(new Intent(this, OrderConfirmationActivity.class));
                                         String msg = "msg_subscribed";
