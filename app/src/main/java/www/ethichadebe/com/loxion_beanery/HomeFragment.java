@@ -170,19 +170,15 @@ public class HomeFragment extends Fragment {
                                 String Avetime = "";
                                 int AveTimeColor = 0;
 
-                                switch (Shops.getString("sAveTime")) {
-                                    case "<10":
-                                        Avetime = "less than 10 mins";
-                                        AveTimeColor = getResources().getColor(R.color.Green);
-                                        break;
-                                    case "10-15":
+                                if (Shops.getDouble("sAveTime")<10) {
+                                    Avetime = "less than 10 mins";
+                                    AveTimeColor = getResources().getColor(R.color.Green);
+                                }else if (Shops.getDouble("sAveTime")<15) {
                                         Avetime = "10 - 15 mins";
                                         AveTimeColor = getResources().getColor(R.color.Yellow);
-                                        break;
-                                    case ">20":
+                                }else if (Shops.getDouble("sAveTime")>15) {
                                         Avetime = "Longer than 20 mins";
                                         AveTimeColor = getResources().getColor(R.color.Red);
-                                        break;
                                 }//Set ave time
 
                                 shopItems.add(new ShopItem(Shops.getInt("sID"), Shops.getString("sName"),

@@ -181,7 +181,7 @@
         android:gravity="center"
         android:padding="@dimen/_8sdp"
         android:text="@string/deactivate_account"
-        android:textColor="@color/Red"
+        android:textColor="@color/RedColor"
         android:textSize="@dimen/_12ssp"
         android:textStyle="bold" />
 </RelativeLayout>

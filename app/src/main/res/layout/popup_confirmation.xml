@@ -55,7 +55,7 @@
                 android:padding="@dimen/_8sdp"
                 android:visibility="gone"
                 android:text="Remove Pictire"
-                android:textColor="@color/Red"
+                android:textColor="@color/RedColor"
                 android:textSize="@dimen/_12ssp" />
 
             <LinearLayout

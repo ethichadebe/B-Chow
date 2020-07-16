@@ -291,7 +291,7 @@
         android:padding="@dimen/_8sdp"
         android:onClick="Deactivate"
         android:text="@string/deactivate_shop"
-        android:textColor="@color/Red"
+        android:textColor="@color/RedColor"
         android:textSize="@dimen/_12ssp"
         android:textStyle="bold" />
 

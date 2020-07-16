@@ -8,8 +8,9 @@
     <color name="White">#ffffff</color>
     <color name="Grey">#D5D4D4</color>
     <color name="Green">#98FF3E</color>
-    <color name="Yellow">#FFBF3E</color>
-    <color name="Red">#FF3E3E</color>
+    <color name="Yellow">#70FFBF3E</color>
+    <color name="RedColor">#FF3E3E</color>
+    <color name="Red">#75FF3E3E</color>
     <color name="dark_gray">#373737</color>
     <color name="Transparent_Grey">#27C2C2C2</color>
     <color name="Transparent_Bright">#72FFFFFF</color>

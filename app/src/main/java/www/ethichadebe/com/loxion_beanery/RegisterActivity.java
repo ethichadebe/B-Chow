@@ -177,7 +177,6 @@ public class RegisterActivity extends AppCompatActivity {
                                         sLocation, UserSex, Objects.requireNonNull(mTextBoxes[3].getText()).toString(),
                                         Objects.requireNonNull(mTextBoxes[2].getText()).toString(), 0,
                                         Objects.requireNonNull(mTextBoxes[4].getText()).toString());
-                                Toast.makeText(RegisterActivity.this, "Registered successfully", Toast.LENGTH_LONG).show();
                                 startActivity(new Intent(RegisterActivity.this, UserTypeActivity.class));
                                 break;
                             default:

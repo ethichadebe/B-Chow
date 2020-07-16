@@ -117,7 +117,9 @@ public class UserTypeActivity extends AppCompatActivity {
 
                             if (JSONResponse.getString("data").equals("Registered")){
                                 Toast.makeText(this, "Registered successfully", Toast.LENGTH_LONG).show();
-                                startActivity(new Intent(this, LoginActivity.class));
+                                Intent intent = new Intent(this, UploadPicActivity.class);
+                                intent.putExtra("U_ID", JSONResponse.getInt("uID"));
+                                startActivity(intent);
                             }
                     } catch (JSONException e) {
                         e.printStackTrace();
