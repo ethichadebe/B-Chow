@@ -65,7 +65,7 @@ public class RegisterActivity extends AppCompatActivity {
     private MaterialEditText[] mTextBoxes = new MaterialEditText[7];
     private CheckBox mCBMale, mCBFemale, mCBOther;
 
-    private String UserSex = "";
+    private String UserSex;
     Handler handler = new Handler();
     Runnable runnable = new Runnable() {
         @Override
@@ -79,6 +79,7 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+        UserSex = "";
         rellay1 = findViewById(R.id.rellay1);
         myDialog = new Dialog(this);
         handler.postDelayed(runnable, 500);
@@ -114,31 +115,31 @@ public class RegisterActivity extends AppCompatActivity {
 
         //Handling Checkbox click events
         mCBMale.setOnClickListener(view -> {
+            UserSex = "male";
             sexIsChecked();
             if (mCBMale.isChecked()) {
                 mCBFemale.setChecked(false);
                 mCBOther.setChecked(false);
-                UserSex = "male";
             } else {
                 mCBMale.setChecked(true);
             }
         });
         mCBOther.setOnClickListener(view -> {
+            UserSex = "other";
             sexIsChecked();
             if (mCBOther.isChecked()) {
                 mCBMale.setChecked(false);
                 mCBFemale.setChecked(false);
-                UserSex = "other";
             } else {
                 mCBOther.setChecked(true);
             }
         });
         mCBFemale.setOnClickListener(view -> {
+            UserSex = "female";
             sexIsChecked();
             if (mCBFemale.isChecked()) {
                 mCBMale.setChecked(false);
                 mCBOther.setChecked(false);
-                UserSex = "female";
             } else {
                 mCBFemale.setChecked(true);
             }

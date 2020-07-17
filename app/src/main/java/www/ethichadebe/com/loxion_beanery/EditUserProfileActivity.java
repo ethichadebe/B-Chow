@@ -87,6 +87,7 @@ public class EditUserProfileActivity extends AppCompatActivity {
             setUser(loadData(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE)));
         }
 
+        sLocation = getUser().getuLocation();
         myDialog = new Dialog(this);
         //TextView
         tvNumber = findViewById(R.id.tvNumber);
