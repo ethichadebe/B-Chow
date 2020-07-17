@@ -1,21 +1,24 @@
 package SingleItem;
 
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 
+import www.ethichadebe.com.loxion_beanery.R;
+
 import static util.Constants.getIpAddress;
 
 public class ShopItem {
     private Double dblDistance;
-    protected String strShopName, strShortDescript, strFullDescript, strAveTime, strOperatingHRS, strLogoSmall,
+    protected String strShopName, strShortDescript, strFullDescript, strOperatingHRS, strLogoSmall,
             strLogoBig, strAddress;
     protected LatLng llLocation;
     protected int intID = -1, intStatus;
     protected Drawable draLogoSmall, draLogoBig;
-    protected double intRating;
+    protected double intRating, strAveTime;
     private int intLikes = 0, isLiked, intAveTimeColor;
     private ArrayList<IngredientItem> ingredientItems;
     private ArrayList<MenuItem> menuItems;
@@ -24,10 +27,10 @@ public class ShopItem {
     ShopItem() {
     }
 
-    public ShopItem(int intID, String strShopName, String strLogoSmall, String strLogoBig,
+    public ShopItem(Resources resources,int intID, String strShopName, String strLogoSmall, String strLogoBig,
                     String strShortDescript, String strFullDescript, LatLng llLocation, String strAddress,
-                    Double dblDistance, String strAveTime, double intRating, String strOperatingHRS, int intLikes,
-                    int isLiked, int intAveTimeColor, int intStatus,boolean showAd) {
+                    Double dblDistance, double strAveTime, double intRating, String strOperatingHRS, int intLikes,
+                    int isLiked, int intStatus, boolean showAd) {
         this.intID = intID;
         this.strShopName = strShopName;
         this.strLogoSmall = strLogoSmall;
@@ -43,7 +46,15 @@ public class ShopItem {
         this.intStatus = intStatus;
         this.intLikes = intLikes;
         this.isLiked = isLiked;
-        this.intAveTimeColor = intAveTimeColor;
+
+        if (strAveTime < 10) {
+            intAveTimeColor = resources.getColor(R.color.Green);
+        } else if (strAveTime < 15) {
+            intAveTimeColor = resources.getColor(R.color.Yellow);
+        } else if (strAveTime > 15){
+            intAveTimeColor = resources.getColor(R.color.Red);
+        }//Set ave time
+
         this.showAd = showAd;
     }
 
@@ -81,7 +92,13 @@ public class ShopItem {
 
 
     public String getStrAveTime() {
-        return strAveTime;
+        if (strAveTime < 10) {
+            return "less than 10 mins";
+        } else if (strAveTime < 15) {
+            return "10 - 15 mins";
+        } else {
+            return "Longer than 20 mins";
+        }//Set ave time
     }
 
     public double getIntRating() {
@@ -132,7 +149,7 @@ public class ShopItem {
         return intStatus;
     }
 
-    public void setStrAveTime(String strAveTime) {
+    public void setStrAveTime(double strAveTime) {
         this.strAveTime = strAveTime;
     }
 

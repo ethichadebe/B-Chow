@@ -197,7 +197,15 @@ public class HelperMethods extends AppCompatActivity {
             editor.putString(U_NUMBER, Objects.requireNonNull(user.getuNumber()));
             editor.putString(U_PICTURE, Objects.requireNonNull(user.getuPicture()));
             editor.putInt(U_TYPE, user.getuType());
+        }
+        editor.apply();
+    }
 
+    public static void saveShopNames(SharedPreferences sharedPreferences, ArrayList<String> shopNames) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("SIZE", shopNames.size());
+        for (int i = 0; i < shopNames.size(); i++) {
+            editor.putString(String.valueOf(i),shopNames.get(i));
         }
         editor.apply();
     }
@@ -238,6 +246,14 @@ public class HelperMethods extends AppCompatActivity {
                         Double.parseDouble(Objects.requireNonNull(sharedPreferences.getString(U_LATITUDE, "")))),
                 sharedPreferences.getString(U_SEX, ""), sharedPreferences.getString(U_EMAIL, ""), sharedPreferences.getString(U_NUMBER, ""),
                 sharedPreferences.getString(U_PICTURE, ""), sharedPreferences.getInt(U_TYPE, 0));
+    }
+
+    public static ArrayList<String> loadShopNames(SharedPreferences sharedPreferences) {
+        ArrayList<String> shopNames = new ArrayList<>();
+        for (int i = 0;i< sharedPreferences.getInt("SIZE", 0);i++){
+            shopNames.add(sharedPreferences.getString(String.valueOf(i), ""));
+        }
+        return shopNames;
     }
 
     public static boolean checkData(SharedPreferences sharedPreferences) {
@@ -330,7 +346,7 @@ public class HelperMethods extends AppCompatActivity {
         try {
             LoadImage loadImage = new LoadImage(imageView);
             loadImage.execute(url);
-        }catch (Exception e){
+        } catch (Exception e) {
             Log.d(TAG, "DisplayImage: " + e.toString());
         }
     }

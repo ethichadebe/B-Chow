@@ -26,7 +26,7 @@ public class MyShopItem extends ShopItem {
      */
     public MyShopItem(int intID, String strShopName, String strPosition, String intLogoSmall, String intLogoBig,
                       String strShortDescript, String strFullDescript, LatLng llLocation, String strAddress,
-                      String strAveTime, double intRating, String strOperatingHRS, boolean isActive, int intStatus,
+                      double strAveTime, double intRating, String strOperatingHRS, boolean isActive, int intStatus,
                       int intnOrders) {
         this.intID = intID;
         this.strShopName = strShopName;

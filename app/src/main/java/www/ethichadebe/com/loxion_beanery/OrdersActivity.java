@@ -108,7 +108,7 @@ public class OrdersActivity extends AppCompatActivity {
             isPast = !intent.getString(O_PAST).equals("false");
 
             Log.d(TAG, "onCreate: bundle is not empty " + oID);
-            setNewShop(new MyShopItem(shopID, name, "", smallLogo, bigLogo, shortDescript, longDescript, location, address, "", 0,
+            setNewShop(new MyShopItem(shopID, name, "", smallLogo, bigLogo, shortDescript, longDescript, location, address, -1.0, 0,
                     oh, isActive, status, 0));
 
             Log.d(TAG, "payload: " + getNewShop().getStrShopName());

@@ -167,28 +167,14 @@ public class HomeFragment extends Fragment {
                             JSONArray jsonArray = response.getJSONArray("shops");
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject Shops = jsonArray.getJSONObject(i);
-                                String Avetime = "";
-                                int AveTimeColor = 0;
-
-                                if (Shops.getDouble("sAveTime")<10) {
-                                    Avetime = "less than 10 mins";
-                                    AveTimeColor = getResources().getColor(R.color.Green);
-                                }else if (Shops.getDouble("sAveTime")<15) {
-                                        Avetime = "10 - 15 mins";
-                                        AveTimeColor = getResources().getColor(R.color.Yellow);
-                                }else if (Shops.getDouble("sAveTime")>15) {
-                                        Avetime = "Longer than 20 mins";
-                                        AveTimeColor = getResources().getColor(R.color.Red);
-                                }//Set ave time
-
-                                shopItems.add(new ShopItem(Shops.getInt("sID"), Shops.getString("sName"),
+                                shopItems.add(new ShopItem(getResources(), Shops.getInt("sID"), Shops.getString("sName"),
                                         Shops.getString("sSmallPicture"), Shops.getString("sBigPicture"),
                                         Shops.getString("sShortDescrption"), Shops.getString("sFullDescription"),
                                         new LatLng(Shops.getDouble("sLatitude"), Shops.getDouble("sLongitude")),
                                         Shops.getString("sAddress"), Shops.getDouble("distance"),
-                                        Avetime, Shops.getDouble("sRating"),
+                                        Shops.getDouble("sAveTime"), Shops.getDouble("sRating"),
                                         Shops.getString("sOperatingHrs"), Shops.getInt("sLikes"),
-                                        Shops.getInt("isLiked"), AveTimeColor, Shops.getInt("sStatus"),
+                                        Shops.getInt("isLiked"), Shops.getInt("sStatus"),
                                         randomNumber(10)));
                             }
                         } else if (response.getString("message").equals("empty")) {

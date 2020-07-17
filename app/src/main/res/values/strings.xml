@@ -115,5 +115,6 @@
     <string name="status">Status</string>
     <string name="more_information">More information</string>
     <string name="skip">SKIP</string>
+    <string name="search">Search</string>
 
 </resources>
