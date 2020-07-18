@@ -48,11 +48,11 @@ public class SearchFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private ShopItemAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private TextView tvEmpty;
+    private TextView tvSearch;
     private MaterialSearchBar searchBar;
     private CardView cvSearch;
     private static ArrayList<ShopItem> shopItems;
-    private RelativeLayout rlLoad, rlError;
+    private RelativeLayout rlLoad;
     private static ShopItem shopItem;
 
     private static final String TAG = "HomeFragment";
@@ -71,8 +71,7 @@ public class SearchFragment extends Fragment {
         mRecyclerView = v.findViewById(R.id.recyclerView);
         rlLoad = v.findViewById(R.id.rlLoad);
         cvSearch = v.findViewById(R.id.cvSearch);
-        rlError = v.findViewById(R.id.rlError);
-        tvEmpty = v.findViewById(R.id.tvEmpty);
+        tvSearch = v.findViewById(R.id.tvSearch);
         searchBar = v.findViewById(R.id.searchBar);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getActivity());
@@ -101,7 +100,7 @@ public class SearchFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (searchBar.getText().length() > 3) {
+                if (searchBar.getText().length() > 2) {
                     GETShops(v.findViewById(R.id.vLine), v.findViewById(R.id.vLineGrey));
                 }
             }
@@ -119,8 +118,8 @@ public class SearchFragment extends Fragment {
     }
 
     private void GETShops(View vLine, View vLineGrey) {
-        //requestQueue.cancelAll(TAG);
-        rlError.setVisibility(View.GONE);
+        shopItems.removeAll(shopItems);
+        tvSearch.setText("Searching for " + searchBar.getText());
         rlLoad.setVisibility(View.VISIBLE);
         handler(vLine, vLineGrey);
         requestQueue = Volley.newRequestQueue(Objects.requireNonNull(getActivity()));
@@ -148,15 +147,12 @@ public class SearchFragment extends Fragment {
                                         Shops.getInt("isLiked"), Shops.getInt("sStatus"),
                                         randomNumber(10)));
                             }
-                        } else if (response.getString("message").equals("empty")) {
-                            tvEmpty.setVisibility(View.VISIBLE);
                         }
                     } catch (JSONException e) {
                         Log.d(TAG, "GETShops: " + e.toString());
                     }
                 },
                 error -> {
-                    rlError.setVisibility(View.VISIBLE);
                     rlLoad.setVisibility(View.GONE);
                     if (error.toString().equals("com.android.volley.TimeoutError")) {
                         Toast.makeText(getActivity(), "Connection error. Please retry", Toast.LENGTH_SHORT).show();
