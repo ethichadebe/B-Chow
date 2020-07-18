@@ -1,8 +1,9 @@
 package www.ethichadebe.com.loxion_beanery;
 
 import android.content.Intent;
-import android.location.Location;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,31 +19,21 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.airbnb.lottie.LottieAnimationView;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.Places;
-import com.google.android.libraries.places.api.model.Place;
-import com.google.android.libraries.places.widget.Autocomplete;
-import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
-import com.rengwuxian.materialedittext.MaterialEditText;
+import com.mancj.materialsearchbar.MaterialSearchBar;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
 
 import Adapter.ShopItemAdapter;
@@ -50,18 +41,16 @@ import SingleItem.ShopItem;
 
 import static util.Constants.getIpAddress;
 import static util.HelperMethods.handler;
-import static util.HelperMethods.ismLocationGranted;
 import static util.HelperMethods.randomNumber;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 
-public class HomeFragment extends Fragment {
-    private FusedLocationProviderClient mFusedLocationProviderClient;
-
+public class SearchFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private ShopItemAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private TextView tvEmpty, tvAddress;
-    private CardView cvRetry, cvAddress;
+    private TextView tvEmpty;
+    private MaterialSearchBar searchBar;
+    private CardView cvSearch;
     private static ArrayList<ShopItem> shopItems;
     private RelativeLayout rlLoad, rlError;
     private static ShopItem shopItem;
@@ -77,15 +66,14 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.frame_home, container, false);
+        View v = inflater.inflate(R.layout.frame_search, container, false);
         shopItems = new ArrayList<>();
         mRecyclerView = v.findViewById(R.id.recyclerView);
         rlLoad = v.findViewById(R.id.rlLoad);
+        cvSearch = v.findViewById(R.id.cvSearch);
         rlError = v.findViewById(R.id.rlError);
         tvEmpty = v.findViewById(R.id.tvEmpty);
-        tvAddress = v.findViewById(R.id.tvAddress);
-        cvAddress = v.findViewById(R.id.cvAddress);
-        cvRetry = v.findViewById(R.id.cvRetry);
+        searchBar = v.findViewById(R.id.searchBar);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mAdapter = new ShopItemAdapter(shopItems, getActivity(), getString(R.string.AdMob_Native_ID));
@@ -101,31 +89,37 @@ public class HomeFragment extends Fragment {
             startActivity(new Intent(getActivity(), ShopHomeActivity.class));
         });
 
-        tvAddress.setText(getUser().getuAddress());
         //Search for nearby shops
-        GETShops(v.findViewById(R.id.vLine), v.findViewById(R.id.vLineGrey), getUser().getuLocation().latitude,
-                getUser().getuLocation().longitude);
         Places.initialize(Objects.requireNonNull(getActivity()), getResources().getString(R.string.google_maps_api_key));
 
-        //Retry button when network error occurs
-        cvRetry.setOnClickListener(view -> getDeviceLocation(v.findViewById(R.id.vLine), v.findViewById(R.id.vLineGrey)));
+        //Search Button on click
+        searchBar.addTextChangeListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (searchBar.getText().length() > 3) {
+                    GETShops(v.findViewById(R.id.vLine), v.findViewById(R.id.vLineGrey));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         //Initialize maps places
         Places.initialize(getActivity(), getResources().getString(R.string.google_maps_api_key));
 
-        cvAddress.setOnClickListener(view -> {
-            List<Place.Field> fieldList = Arrays.asList(Place.Field.ADDRESS, Place.Field.LAT_LNG, Place.Field.NAME);
-
-            Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY,
-                    fieldList).build(getActivity());
-            startActivityForResult(intent, 100);
-
-        });
-
         return v;
     }
 
-    private void GETShops(View vLine, View vLineGrey, Double latitude, Double longitude) {
+    private void GETShops(View vLine, View vLineGrey) {
+        //requestQueue.cancelAll(TAG);
         rlError.setVisibility(View.GONE);
         rlLoad.setVisibility(View.VISIBLE);
         handler(vLine, vLineGrey);
@@ -133,12 +127,13 @@ public class HomeFragment extends Fragment {
 
         JsonObjectRequest objectRequest = new JsonObjectRequest(
                 Request.Method.GET,
-                getIpAddress() + "/shops/" + getUser().getuID() + "/" + latitude + "/" + longitude, null,
+                getIpAddress() + "/shops/searchShop/" + getUser().getuID() + "/" + getUser().getuLocation().latitude + "/" + getUser().getuLocation().longitude
+                        + "/" + searchBar.getText().toLowerCase(), null,
                 response -> {
-                    //Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
                     rlLoad.setVisibility(View.GONE);
                     //Loads shops starting with the one closest to user
                     try {
+                        //Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
                         if (response.getString("message").equals("shops")) {
                             JSONArray jsonArray = response.getJSONArray("shops");
                             for (int i = 0; i < jsonArray.length(); i++) {
@@ -157,7 +152,7 @@ public class HomeFragment extends Fragment {
                             tvEmpty.setVisibility(View.VISIBLE);
                         }
                     } catch (JSONException e) {
-                        e.printStackTrace();
+                        Log.d(TAG, "GETShops: " + e.toString());
                     }
                 },
                 error -> {
@@ -171,34 +166,6 @@ public class HomeFragment extends Fragment {
                 });
         objectRequest.setTag(TAG);
         requestQueue.add(objectRequest);
-    }
-
-    private void getDeviceLocation(View vLine, View vLineGrey) {
-        Log.d(TAG, "getDeviceLocation: getting current location");
-        mFusedLocationProviderClient =
-                LocationServices.getFusedLocationProviderClient(Objects.requireNonNull(getActivity()));
-
-        try {
-            if (ismLocationGranted()) {
-                Task location = mFusedLocationProviderClient.getLastLocation();
-                location.addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        Log.d(TAG, "onComplete: location found");
-                        Location currentLocation = (Location) task.getResult();
-
-                        GETShops(vLine, vLineGrey, Objects.requireNonNull(currentLocation).getLatitude(),
-                                currentLocation.getLongitude());
-
-                    } else {
-                        Log.d(TAG, "onComplete: Unable to get location");
-                        Toast.makeText(getActivity(), "Unable to get current location",
-                                Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-        } catch (SecurityException e) {
-            Log.e(TAG, "getDeviceLocation: Security exception " + e.getMessage());
-        }
     }
 
     @Override

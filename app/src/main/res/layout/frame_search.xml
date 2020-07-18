@@ -6,17 +6,14 @@
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cvAddress"
+        android:id="@+id/cvSearch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_rowWeight="1"
         android:layout_columnWeight="1"
-        android:layout_toStartOf="@id/cvFilter"
         android:layout_margin="@dimen/_3sdp"
         android:layout_marginStart="@dimen/_3sdp"
         android:layout_marginTop="@dimen/_3sdp"
-        android:layout_marginEnd="@dimen/_3sdp"
-        android:layout_alignParentStart="true"
         app:cardCornerRadius="@dimen/_3sdp"
         app:cardElevation="3dp">
 
@@ -25,63 +22,24 @@
             android:layout_height="wrap_content"
             android:padding="@dimen/_3sdp">
 
-            <View
-                android:id="@+id/tvAddressLbl"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:layout_margin="@dimen/_3sdp"
-                android:background="@drawable/ic_location_on_black_24dp" />
-
-            <TextView
-                android:id="@+id/tvAddress"
-                android:layout_width="wrap_content"
+            <!--Like Layout-->
+            <com.mancj.materialsearchbar.MaterialSearchBar
+                android:id="@+id/searchBar"
+                style="@style/MaterialSearchBarLight"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_toEndOf="@+id/tvAddressLbl"
-                android:fontFamily="sans-serif-medium"
-                android:text="@string/address"
-                android:textSize="@dimen/_10ssp" />
-
+                app:mt_hint="Search shop"
+                app:mt_maxSuggestionsCount="10"
+                app:mt_speechMode="false" />
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cvFilter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_rowWeight="1"
-        android:layout_columnWeight="1"
-        android:layout_alignParentEnd="true"
-        android:layout_margin="@dimen/_3sdp"
-        android:layout_marginStart="@dimen/_3sdp"
-        android:layout_marginTop="@dimen/_3sdp"
-        app:cardCornerRadius="@dimen/_3sdp"
-        app:cardElevation="3dp">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/_3sdp">
-
-            <View
-                android:id="@+id/tvFilterLbl"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:layout_margin="@dimen/_3sdp"
-                android:background="@drawable/ic_filter" />
-        </RelativeLayout>
-
-    </androidx.cardview.widget.CardView>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/cvAddress"
+        android:layout_below="@id/cvSearch"
         android:scrollbars="vertical" />
 
     <LinearLayout
@@ -140,32 +98,6 @@
                 android:text="@string/network_error"
                 android:textColor="@color/Grey"
                 android:textSize="@dimen/_18ssp" />
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cvRetry"
-                android:layout_width="@dimen/_80sdp"
-                android:layout_height="@dimen/_30sdp"
-                android:layout_rowWeight="1"
-                android:layout_columnWeight="1"
-                android:layout_below="@+id/tvError"
-                android:layout_centerHorizontal="true"
-                android:layout_margin="@dimen/_8sdp"
-                android:padding="@dimen/_40sdp"
-                app:cardCornerRadius="@dimen/_8sdp"
-                app:cardElevation="3dp">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/ripple_effect_white"
-                    android:fontFamily="sans-serif-medium"
-                    android:gravity="center"
-                    android:text="@string/retry"
-                    android:textAllCaps="true"
-                    android:textSize="@dimen/_12ssp" />
-            </androidx.cardview.widget.CardView>
-
-
         </RelativeLayout>
 
         <TextView

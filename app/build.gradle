@@ -100,4 +100,7 @@ dependencies {
 
     //Chart
     implementation 'com.github.lecho:hellocharts-android:v1.5.8'
+
+    //Search box
+    implementation 'com.github.mancj:MaterialSearchBar:0.8.5'
 }
