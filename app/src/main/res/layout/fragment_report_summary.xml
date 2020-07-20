@@ -1,0 +1,283 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/rlContents"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_8sdp">
+
+        <RelativeLayout
+            android:id="@+id/rlTotal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ripple_effect_white"
+            android:padding="@dimen/_8sdp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:fontFamily="sans-serif-medium"
+                android:text="Total income"
+                android:textSize="@dimen/_12ssp" />
+
+            <TextView
+                android:id="@+id/tvTotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:fontFamily="sans-serif-medium"
+                android:text="R0"
+                android:textSize="@dimen/_12ssp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rlSold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rlTotal"
+            android:layout_marginTop="@dimen/_3sdp">
+
+            <RelativeLayout
+                android:id="@+id/rlmHeading"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ripple_effect_white"
+                android:padding="@dimen/_8sdp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="Total items sold"
+                    android:textSize="@dimen/_12ssp" />
+
+                <TextView
+                    android:id="@+id/tvnSold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:fontFamily="sans-serif-medium"
+                    android:textSize="@dimen/_12ssp" />
+
+            </RelativeLayout>
+
+            <net.cachapa.expandablelayout.ExpandableLayout
+                android:id="@+id/elm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rlmHeading">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </net.cachapa.expandablelayout.ExpandableLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rlCancelled"
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/_3sdp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rlSold">
+
+            <RelativeLayout
+                android:id="@+id/rlcHeading"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ripple_effect_white"
+                android:padding="@dimen/_8sdp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="Total items cancelled"
+                    android:textSize="@dimen/_12ssp" />
+
+                <TextView
+                    android:id="@+id/tvnCancelled"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="45"
+                    android:textSize="@dimen/_12ssp" />
+            </RelativeLayout>
+
+            <net.cachapa.expandablelayout.ExpandableLayout
+                android:id="@+id/elc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rlcHeading">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvnCancelled"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </net.cachapa.expandablelayout.ExpandableLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rlIngredients"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rlCancelled">
+
+            <RelativeLayout
+                android:id="@+id/rlHeading1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_8sdp"
+                android:layout_marginRight="@dimen/_8sdp">
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_1sdp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginEnd="@dimen/_3sdp"
+                    android:layout_toStartOf="@id/tvHeading3"
+                    android:background="@color/Grey" />
+
+                <TextView
+                    android:id="@+id/tvHeading3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:fontFamily="sans-serif-light"
+                    android:gravity="center"
+                    android:text="Ingredients sold"
+                    android:textSize="@dimen/_12ssp" />
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_1sdp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginStart="@dimen/_3sdp"
+                    android:layout_toEndOf="@id/tvHeading3"
+                    android:background="@color/Grey" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rlHeading1">
+
+                <TextView
+                    android:id="@+id/tviPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginEnd="@dimen/_3sdp"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="R12.50"
+                    android:textSize="@dimen/_12ssp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/tviPrice"
+                    android:fontFamily="sans-serif-light"
+                    android:text="Chips"
+                    android:textSize="@dimen/_12ssp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="45"
+                    android:textSize="@dimen/_12ssp" />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rlExtras"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rlIngredients">
+
+            <RelativeLayout
+                android:id="@+id/rlHeading"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_8sdp"
+                android:layout_marginRight="@dimen/_8sdp">
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_1sdp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginEnd="@dimen/_3sdp"
+                    android:layout_toStartOf="@id/tvHeading"
+                    android:background="@color/Grey" />
+
+                <TextView
+                    android:id="@+id/tvHeading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:fontFamily="sans-serif-light"
+                    android:gravity="center"
+                    android:text="Extra requests"
+                    android:textSize="@dimen/_12ssp" />
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_1sdp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginStart="@dimen/_3sdp"
+                    android:layout_toEndOf="@id/tvHeading"
+                    android:background="@color/Grey" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rlHeading">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:fontFamily="sans-serif-light"
+                    android:text="BBQ sauce"
+                    android:textSize="@dimen/_12ssp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="45"
+                    android:textSize="@dimen/_12ssp" />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+</ScrollView>

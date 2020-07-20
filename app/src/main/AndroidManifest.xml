@@ -41,19 +41,19 @@
             android:value="@string/AdMob_app_ID" />
 
         <provider
-            android:authorities="www.ethichadebe.com.loxion_beanery"
             android:name="androidx.core.content.FileProvider"
+            android:authorities="www.ethichadebe.com.loxion_beanery"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"/>
+                android:resource="@xml/file_paths" />
         </provider>
 
         <activity android:name=".UserTypeActivity" />
         <activity android:name=".ChangePasswordActivity" />
         <activity android:name=".ExtraItemActivity" />
-        <activity android:name=".UserSettingsActivity" />
+        <activity android:name=".ReportsActivity" />
         <activity android:name=".NewExtrasActivity" />
         <activity android:name=".OperatingHoursActivity" />
         <activity android:name=".RatingActivity" />
@@ -72,7 +72,7 @@
         <activity android:name=".RegisterShopActivity" />
         <activity android:name=".UploadPicActivity" />
         <activity android:name=".OrderConfirmationActivity" />
-        <activity android:name=".OrderActivity"/>
+        <activity android:name=".OrderActivity" />
         <activity android:name=".ShopHomeActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>

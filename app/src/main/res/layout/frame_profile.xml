@@ -163,9 +163,9 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/tvDeactivate"
         android:background="@drawable/ripple_effect_white"
+        android:padding="@dimen/_8sdp"
         android:fontFamily="sans-serif-medium"
         android:gravity="center"
-        android:padding="@dimen/_8sdp"
         android:text="@string/logout"
         android:textSize="@dimen/_12ssp"
         android:textStyle="bold" />

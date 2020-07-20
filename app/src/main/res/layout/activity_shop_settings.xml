@@ -74,18 +74,18 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:background="@drawable/ripple_effect_white"
             android:layout_height="wrap_content"
+            android:background="@drawable/ripple_effect_white"
             android:padding="@dimen/_3sdp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/_8sdp"
                 android:layout_marginEnd="@dimen/_8sdp"
                 android:layout_toStartOf="@id/tv4"
-                android:layout_alignParentStart="true"
                 android:fontFamily="sans-serif-medium"
                 android:text="@string/edit_shop_profile"
                 android:textSize="@dimen/_16ssp" />
@@ -125,11 +125,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/_8sdp"
                 android:layout_marginEnd="@dimen/_8sdp"
                 android:layout_toStartOf="@id/tv3"
-                android:layout_alignParentStart="true"
                 android:fontFamily="sans-serif-medium"
                 android:text="@string/edit_operating_hours"
                 android:textSize="@dimen/_16ssp" />
@@ -169,11 +169,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/_8sdp"
                 android:layout_marginEnd="@dimen/_8sdp"
                 android:layout_toStartOf="@id/tv2"
-                android:layout_alignParentStart="true"
                 android:fontFamily="sans-serif-medium"
                 android:text="@string/edit_ingredients"
                 android:textSize="@dimen/_16ssp" />
@@ -213,11 +213,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/_8sdp"
                 android:layout_marginEnd="@dimen/_8sdp"
                 android:layout_toStartOf="@id/tv1"
-                android:layout_alignParentStart="true"
                 android:fontFamily="sans-serif-medium"
                 android:text="@string/edit_menu"
                 android:textSize="@dimen/_16ssp" />
@@ -257,11 +257,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/_8sdp"
                 android:layout_marginEnd="@dimen/_8sdp"
                 android:layout_toStartOf="@id/tv"
-                android:layout_alignParentStart="true"
                 android:fontFamily="sans-serif-medium"
                 android:text="@string/edit_extras"
                 android:textSize="@dimen/_16ssp" />
@@ -279,6 +279,42 @@
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 
+    <RelativeLayout
+        android:id="@+id/rlMoreLbl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/cvExtra"
+        android:layout_marginLeft="@dimen/_8sdp"
+        android:layout_marginRight="@dimen/_8sdp">
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_1sdp"
+            android:layout_alignParentStart="true"
+            android:layout_centerInParent="true"
+            android:layout_marginEnd="@dimen/_3sdp"
+            android:layout_toStartOf="@id/tvHeading1"
+            android:background="@color/Grey" />
+
+        <TextView
+            android:id="@+id/tvHeading1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:fontFamily="sans-serif-medium"
+            android:text="@string/kota_menu"
+            android:textSize="@dimen/_16sdp" />
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_1sdp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="@dimen/_3sdp"
+            android:layout_toEndOf="@id/tvHeading1"
+            android:background="@color/Grey" />
+    </RelativeLayout>
+
     <TextView
         android:id="@+id/tvDeactivate"
         android:layout_width="match_parent"
@@ -288,11 +324,55 @@
         android:background="@drawable/ripple_effect_white"
         android:fontFamily="sans-serif-medium"
         android:gravity="center"
-        android:padding="@dimen/_8sdp"
         android:onClick="Deactivate"
+        android:padding="@dimen/_8sdp"
         android:text="@string/deactivate_shop"
         android:textColor="@color/RedColor"
         android:textSize="@dimen/_12ssp"
         android:textStyle="bold" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvMore"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_rowWeight="1"
+        android:layout_columnWeight="1"
+        android:layout_below="@+id/rlMoreLbl"
+        android:layout_margin="@dimen/_3sdp"
+        android:background="@drawable/ripple_effect_white"
+        android:onClick="More"
+        app:cardCornerRadius="@dimen/_8sdp"
+        app:cardElevation="3dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ripple_effect_white"
+            android:padding="@dimen/_3sdp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:layout_toStartOf="@id/tvLbl"
+                android:fontFamily="sans-serif-medium"
+                android:text="View sales Reports"
+                android:textSize="@dimen/_16ssp" />
+
+            <TextView
+                android:id="@+id/tvLbl"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/_3sdp"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center"
+                android:textSize="@dimen/_18ssp" />
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
 
 </RelativeLayout>

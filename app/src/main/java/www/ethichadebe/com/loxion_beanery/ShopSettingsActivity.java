@@ -135,4 +135,8 @@ public class ShopSettingsActivity extends AppCompatActivity {
             requestQueue.cancelAll(TAG);
         }
     }
+
+    public void More(View view) {
+        startActivity(new Intent(this, ReportsActivity.class));
+    }
 }
