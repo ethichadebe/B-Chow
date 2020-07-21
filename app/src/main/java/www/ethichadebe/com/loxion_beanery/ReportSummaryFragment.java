@@ -31,8 +31,10 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import Adapter.CancelledOrderItemAdapter;
+import Adapter.IngredientReportItemAdapter;
 import Adapter.MenuStatItemAdapter;
 import SingleItem.CancelledOrderItem;
+import SingleItem.IngredientReportItem;
 import SingleItem.MenuStatItem;
 
 import static util.Constants.getIpAddress;
@@ -47,33 +49,56 @@ public class ReportSummaryFragment extends Fragment {
 
     private ArrayList<MenuStatItem> orderItems;
     private ArrayList<CancelledOrderItem> cOrderItems;
-    private RelativeLayout rlmHeading, rlcHeading;
-    private ExpandableLayout[] elm = new ExpandableLayout[2];
+    private ArrayList<IngredientReportItem> ingredientItems;
+    private ArrayList<IngredientReportItem> extraItems;
+    private RelativeLayout rlmHeading, rlcHeading, rliHeading, rleHeading;
+    private ExpandableLayout[] elm = new ExpandableLayout[4];
+    private RecyclerView[] mRecyclerView = new RecyclerView[4];
+    private RecyclerView.LayoutManager[] mLayoutManager = new RecyclerView.LayoutManager[4];
     private MenuStatItemAdapter mAdapter;
     private CancelledOrderItemAdapter cAdapter;
-    private RecyclerView[] mRecyclerView = new RecyclerView[2];
-    private RecyclerView.LayoutManager[] mLayoutManager = new RecyclerView.LayoutManager[2];
+    private IngredientReportItemAdapter iAdapter;
+    private IngredientReportItemAdapter eAdapter;
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_report_summary, container, false);
 
         myDialog = new Dialog(Objects.requireNonNull(getActivity()));
+
         tvTotal = v.findViewById(R.id.tvTotal);
         tvnSold = v.findViewById(R.id.tvnSold);
+        tvnCancelled = v.findViewById(R.id.tvnCancelled);
+
         mRecyclerView[0] = v.findViewById(R.id.rvMenu);
         mRecyclerView[1] = v.findViewById(R.id.rvnCancelled);
-        rlmHeading = v.findViewById(R.id.rlmHeading);
-        rlcHeading = v.findViewById(R.id.rlcHeading);
-        tvnCancelled = v.findViewById(R.id.tvnCancelled);
+        mRecyclerView[2] = v.findViewById(R.id.rvnIngredient);
+        mRecyclerView[3] = v.findViewById(R.id.rvExtra);
+
         elm[0] = v.findViewById(R.id.elm);
         elm[1] = v.findViewById(R.id.elc);
-        orderItems = new ArrayList<>();
-        cOrderItems = new ArrayList<>();
+        elm[2] = v.findViewById(R.id.eli);
+        elm[3] = v.findViewById(R.id.ele);
+
+        rlmHeading = v.findViewById(R.id.rlmHeading);
+        rlcHeading = v.findViewById(R.id.rlcHeading);
+        rliHeading = v.findViewById(R.id.rliHeading);
+        rleHeading = v.findViewById(R.id.rleHeading);
+
         mLayoutManager[0] = new LinearLayoutManager(getActivity());
         mLayoutManager[1] = new LinearLayoutManager(getActivity());
+        mLayoutManager[2] = new LinearLayoutManager(getActivity());
+        mLayoutManager[3] = new LinearLayoutManager(getActivity());
+
+        orderItems = new ArrayList<>();
+        cOrderItems = new ArrayList<>();
+        ingredientItems = new ArrayList<>();
+        extraItems = new ArrayList<>();
+
         mAdapter = new MenuStatItemAdapter(orderItems);
         cAdapter = new CancelledOrderItemAdapter(cOrderItems);
+        iAdapter = new IngredientReportItemAdapter(ingredientItems);
+        eAdapter = new IngredientReportItemAdapter(extraItems);
 
 
         mRecyclerView[0].setHasFixedSize(false);
@@ -84,6 +109,14 @@ public class ReportSummaryFragment extends Fragment {
         mRecyclerView[1].setLayoutManager(mLayoutManager[1]);
         mRecyclerView[1].setAdapter(cAdapter);
 
+        mRecyclerView[2].setHasFixedSize(false);
+        mRecyclerView[2].setLayoutManager(mLayoutManager[2]);
+        mRecyclerView[2].setAdapter(iAdapter);
+
+        mRecyclerView[3].setHasFixedSize(false);
+        mRecyclerView[3].setLayoutManager(mLayoutManager[3]);
+        mRecyclerView[3].setAdapter(eAdapter);
+
         rlmHeading.setOnClickListener(v1 -> {
             if (elm[0].isExpanded()) {
                 elm[0].collapse();
@@ -91,6 +124,7 @@ public class ReportSummaryFragment extends Fragment {
                 elm[0].expand();
             }
         });
+
         rlcHeading.setOnClickListener(v1 -> {
             if (elm[1].isExpanded()) {
                 elm[1].collapse();
@@ -98,6 +132,23 @@ public class ReportSummaryFragment extends Fragment {
                 elm[1].expand();
             }
         });
+
+        rliHeading.setOnClickListener(v1 -> {
+            if (elm[2].isExpanded()) {
+                elm[2].collapse();
+            } else {
+                elm[2].expand();
+            }
+        });
+
+        rleHeading.setOnClickListener(v1 -> {
+            if (elm[3].isExpanded()) {
+                elm[3].collapse();
+            } else {
+                elm[3].expand();
+            }
+        });
+
         GETSuccOrders();
 
         return v;
@@ -116,22 +167,24 @@ public class ReportSummaryFragment extends Fragment {
                         if (response.getString("message").equals("orders")) {
                             JSONArray jsonArray = response.getJSONArray("orders");
                             double totalPrice = 0;
-                            int nSold = 1, nCancelled = 0;
+                            int nSold = 1, nCancelled = 1;
+                            boolean isNew = false;
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject Orders = jsonArray.getJSONObject(i);
                                 Log.d(TAG, "GETSuccOrders: " + Orders.getString("oIngredients"));
                                 if (Orders.getString("oStatus").equals("Cancelled")) {
-                                    nCancelled++;
+                                    tvnCancelled.setText(String.valueOf(nCancelled++));
                                     cOrderItems.add(new CancelledOrderItem(Orders.getDouble("oPrice"), Orders.getString("oIngredients"),
                                             Orders.getString("oFeedback")));
                                 } else if (Orders.getString("oStatus").equals("Collected")) {
                                     tvnSold.setText(String.valueOf(nSold++));
+                                    ingredients(Orders.getString("oIngredients"));
+                                    extras(Orders.getString("oExtras"));
                                     if (orderItems.size() > 0) {
-                                        boolean isNew = false;
                                         for (int a = 0; a < orderItems.size(); a++) {
                                             if (orderItems.get(a).getStrMenu().equals(Orders.getString("oIngredients"))) {
                                                 orderItems.get(a).setIntnItems(orderItems.get(a).getIntnItems() + 1);
-                                                isNew=false;
+                                                isNew = false;
                                                 break;
                                             } else {
                                                 isNew = true;
@@ -151,9 +204,9 @@ public class ReportSummaryFragment extends Fragment {
                                 mAdapter.notifyDataSetChanged();
                                 cAdapter.notifyDataSetChanged();
                                 tvTotal.setText("R" + totalPrice + "0");
-                                tvnCancelled.setText(String.valueOf(nCancelled));
                             }
                             elm[0].expand();
+                            iAdapter.notifyDataSetChanged();
                         }
                     } catch (JSONException e) {
                         Log.d(TAG, "GETSuccOrders: " + e.toString());
@@ -169,6 +222,66 @@ public class ReportSummaryFragment extends Fragment {
                 });
         objectRequest.setTag(TAG);
         requestQueue.add(objectRequest);
+    }
+
+    private void ingredients(String menu) {
+        boolean isNew = false;
+        //In each menu item, get all the ingredients
+        String[] strIngredients = menu.split(", ");
+        for (String strIngredient : strIngredients) {
+            //Check if the arrayList is not empty
+            if (ingredientItems.size() > 0) {
+                //Loop through all the arrayList elements to check if any of the elements match the ingredient
+                for (int i = 0; i < ingredientItems.size(); i++) {
+                    //If it matches then increment the ingredient count in the arrayList
+                    if (ingredientItems.get(i).getStrName().equals(strIngredient)) {
+                        ingredientItems.get(i).setIntCount(ingredientItems.get(i).getIntCount() + 1);
+                        isNew = false;
+                        break;
+                    } else {
+                        isNew = true;
+                    }
+
+                }
+
+                if (isNew) {
+                    ingredientItems.add(new IngredientReportItem(strIngredient, 1));
+                }
+            } else {
+                ingredientItems.add(new IngredientReportItem(strIngredient, 1));
+            }
+        }
+    }
+
+    private void extras(String extras) {
+        boolean isNew = false;
+        if (!extras.isEmpty()) {
+            //In each menu item, get all the ingredients
+            String[] strExtras = extras.split(", ");
+            for (String strExtra : strExtras) {
+                //Check if the arrayList is not empty
+                if (extraItems.size() > 0) {
+                    //Loop through all the arrayList elements to check if any of the elements match the ingredient
+                    for (int i = 0; i < extraItems.size(); i++) {
+                        //If it matches then increment the ingredient count in the arrayList
+                        if (extraItems.get(i).getStrName().equals(strExtra)) {
+                            extraItems.get(i).setIntCount(extraItems.get(i).getIntCount() + 1);
+                            isNew = false;
+                            break;
+                        } else {
+                            isNew = true;
+                        }
+
+                    }
+
+                    if (isNew) {
+                        extraItems.add(new IngredientReportItem(strExtra, 1));
+                    }
+                } else {
+                    extraItems.add(new IngredientReportItem(strExtra, 1));
+                }
+            }
+        }
     }
 
     @Override

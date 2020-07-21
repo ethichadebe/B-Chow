@@ -1,5 +1,4 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -31,7 +30,6 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="@dimen/_3sdp"
                 android:fontFamily="sans-serif-medium"
-                android:text="R0"
                 android:textSize="@dimen/_12ssp" />
 
         </RelativeLayout>
@@ -86,9 +84,9 @@
         <RelativeLayout
             android:id="@+id/rlCancelled"
             android:layout_width="match_parent"
-            android:layout_marginTop="@dimen/_3sdp"
             android:layout_height="wrap_content"
-            android:layout_below="@id/rlSold">
+            android:layout_below="@id/rlSold"
+            android:layout_marginTop="@dimen/_3sdp">
 
             <RelativeLayout
                 android:id="@+id/rlcHeading"
@@ -112,7 +110,6 @@
                     android:layout_alignParentEnd="true"
                     android:layout_marginTop="@dimen/_3sdp"
                     android:fontFamily="sans-serif-medium"
-                    android:text="45"
                     android:textSize="@dimen/_12ssp" />
             </RelativeLayout>
 
@@ -138,11 +135,13 @@
             android:layout_below="@id/rlCancelled">
 
             <RelativeLayout
-                android:id="@+id/rlHeading1"
+                android:id="@+id/rliHeading"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_8sdp"
-                android:layout_marginRight="@dimen/_8sdp">
+                android:layout_marginTop="@dimen/_3sdp"
+                android:background="@drawable/ripple_effect_white"
+                android:padding="@dimen/_5sdp">
+
 
                 <View
                     android:layout_width="wrap_content"
@@ -174,39 +173,18 @@
                     android:background="@color/Grey" />
             </RelativeLayout>
 
-            <RelativeLayout
+            <net.cachapa.expandablelayout.ExpandableLayout
+                android:id="@+id/eli"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/rlHeading1">
+                android:layout_below="@+id/rliHeading">
 
-                <TextView
-                    android:id="@+id/tviPrice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginEnd="@dimen/_3sdp"
-                    android:fontFamily="sans-serif-medium"
-                    android:text="R12.50"
-                    android:textSize="@dimen/_12ssp" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvnIngredient"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toEndOf="@+id/tviPrice"
-                    android:fontFamily="sans-serif-light"
-                    android:text="Chips"
-                    android:textSize="@dimen/_12ssp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginTop="@dimen/_3sdp"
-                    android:fontFamily="sans-serif-medium"
-                    android:text="45"
-                    android:textSize="@dimen/_12ssp" />
-
-            </RelativeLayout>
+            </net.cachapa.expandablelayout.ExpandableLayout>
 
         </RelativeLayout>
 
@@ -217,11 +195,12 @@
             android:layout_below="@id/rlIngredients">
 
             <RelativeLayout
-                android:id="@+id/rlHeading"
+                android:id="@+id/rleHeading"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_8sdp"
-                android:layout_marginRight="@dimen/_8sdp">
+                android:layout_marginTop="@dimen/_3sdp"
+                android:background="@drawable/ripple_effect_white"
+                android:padding="@dimen/_5sdp">
 
                 <View
                     android:layout_width="wrap_content"
@@ -253,29 +232,18 @@
                     android:background="@color/Grey" />
             </RelativeLayout>
 
-            <RelativeLayout
+            <net.cachapa.expandablelayout.ExpandableLayout
+                android:id="@+id/ele"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/rlHeading">
+                android:layout_below="@+id/rleHeading">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:fontFamily="sans-serif-light"
-                    android:text="BBQ sauce"
-                    android:textSize="@dimen/_12ssp" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvExtra"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginTop="@dimen/_3sdp"
-                    android:fontFamily="sans-serif-medium"
-                    android:text="45"
-                    android:textSize="@dimen/_12ssp" />
-
-            </RelativeLayout>
+            </net.cachapa.expandablelayout.ExpandableLayout>
 
         </RelativeLayout>
     </RelativeLayout>
