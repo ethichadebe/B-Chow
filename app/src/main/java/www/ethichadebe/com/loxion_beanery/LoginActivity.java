@@ -117,6 +117,9 @@ public class LoginActivity extends AppCompatActivity {
         //Check if shared prefs are empty
         if (checkData(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE))) {
             user = loadData(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE));
+            Log.d(TAG, "save: LocationData Latitude: " + user.getuLocation().latitude + "Longitude: " +
+                    user.getuLocation().longitude);
+
             turnOnLocation(this, this);
         } else {
             handler.postDelayed(runnable, 3000);
@@ -199,8 +202,8 @@ public class LoginActivity extends AppCompatActivity {
                             //Toast.makeText(LoginActivity.this, userData.toString(), Toast.LENGTH_LONG).show();
 
                             user = new User(userData.getInt("uID"), userData.getString("uName"), userData.getString("uSurname"),
-                                    userData.getString("uAddress"), new LatLng(userData.getDouble("uLongitude"),
-                                    userData.getDouble("uLatitude")), userData.getString("uSex"), userData.getString("uEmail"),
+                                    userData.getString("uAddress"), new LatLng(userData.getDouble("uLatitude"),
+                                    userData.getDouble("uLongitude")), userData.getString("uSex"), userData.getString("uEmail"),
                                     userData.getString("uNumber"), userData.getString("uPicture"), userData.getInt("uType"));
                             if (cbRemember.isChecked()) {//Check if remember me is checked
                                 isLogout = false;

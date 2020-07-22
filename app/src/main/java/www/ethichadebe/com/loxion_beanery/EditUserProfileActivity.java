@@ -191,6 +191,8 @@ public class EditUserProfileActivity extends AppCompatActivity {
                                     Toast.LENGTH_LONG).show();
                             getUser().setuAddress(JSONResponse.getString("uAddress"));
                             getUser().setuLocation(new LatLng(JSONResponse.getDouble("uLatitude"), JSONResponse.getDouble("uLongitude")));
+                            Log.d(TAG, "save: LocationData Latitude: " + getUser().getuLocation().latitude + "Longitude: " +
+                                    getUser().getuLocation().longitude);
                             getUser().setuEmail(JSONResponse.getString("uEmail"));
                             getUser().setuID(JSONResponse.getInt("uID"));
                             getUser().setuName(JSONResponse.getString("uName"));
@@ -484,6 +486,7 @@ public class EditUserProfileActivity extends AppCompatActivity {
     public void save(View view) {
         if (allFieldsEntered(mTextBoxes)) {
             isBack = false;
+            Log.d(TAG, "save: LocationData Latitude: " + sLocation.latitude + "Longitude: " + sLocation.longitude);
             saveProfileAccount();
         }
     }

@@ -40,7 +40,6 @@ import static util.Constants.getIpAddress;
 import static util.HelperMethods.SHARED_PREFS;
 import static util.HelperMethods.ShowLoadingPopup;
 import static util.HelperMethods.allFieldsEntered;
-import static util.HelperMethods.displayDatePicker;
 import static util.HelperMethods.saveData;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -104,7 +103,7 @@ public class RegisterActivity extends AppCompatActivity {
         mCBOther = findViewById(R.id.cbOther);
 
 
-        //Date p[icker
+        //Change location
         mTextBoxes[6].setOnClickListener(view -> {
             List<Place.Field> fieldList = Arrays.asList(Place.Field.ADDRESS, Place.Field.LAT_LNG, Place.Field.NAME);
 
@@ -157,7 +156,7 @@ public class RegisterActivity extends AppCompatActivity {
                 getIpAddress() + "/users/CheckStuff",
                 response -> {
                     ShowLoadingPopup(myDialog, false);
-                    Toast.makeText(RegisterActivity.this, response, Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, response, Toast.LENGTH_LONG).show();
                     try {
                         JSONObject JSONResponse = new JSONObject(response);
 
@@ -178,10 +177,10 @@ public class RegisterActivity extends AppCompatActivity {
                                         sLocation, UserSex, Objects.requireNonNull(mTextBoxes[3].getText()).toString(),
                                         Objects.requireNonNull(mTextBoxes[2].getText()).toString(), 0,
                                         Objects.requireNonNull(mTextBoxes[4].getText()).toString());
-                                startActivity(new Intent(RegisterActivity.this, UserTypeActivity.class));
+                                startActivity(new Intent(this, UserTypeActivity.class));
                                 break;
                             default:
-                                Toast.makeText(RegisterActivity.this, "Something went wrong, try again", Toast.LENGTH_LONG).show();
+                                Toast.makeText(this, "Something went wrong, try again", Toast.LENGTH_LONG).show();
                                 break;
                         }
                     } catch (JSONException e) {
@@ -189,7 +188,7 @@ public class RegisterActivity extends AppCompatActivity {
                     }
                 }, error -> {
             ShowLoadingPopup(myDialog, false);
-            Toast.makeText(RegisterActivity.this, error.toString(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, error.toString(), Toast.LENGTH_LONG).show();
         }) {
             @Override
             protected Map<String, String> getParams() {
@@ -234,7 +233,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     public void login(View view) {
-        startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+        startActivity(new Intent(this, LoginActivity.class));
     }
 
     @Override

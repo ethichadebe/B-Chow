@@ -1,6 +1,6 @@
 package SingleItem;
 
-public class IngredientReportItem{
+public class IngredientReportItem implements Comparable<IngredientReportItem>{
     private String strName;
     private int intCount;
 
@@ -23,6 +23,11 @@ public class IngredientReportItem{
     public IngredientReportItem(String strName, int intCount) {
         this.strName = strName;
         this.intCount = intCount;
+    }
+
+    @Override
+    public int compareTo(IngredientReportItem o) {
+        return o.intCount-this.intCount;
     }
 }
 

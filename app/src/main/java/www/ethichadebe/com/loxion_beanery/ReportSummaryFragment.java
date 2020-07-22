@@ -28,6 +28,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Objects;
 
 import Adapter.CancelledOrderItemAdapter;
@@ -201,6 +202,7 @@ public class ReportSummaryFragment extends Fragment {
                                     }
                                     totalPrice += Orders.getDouble("oPrice");
                                 }
+                                Collections.sort(orderItems);
                                 mAdapter.notifyDataSetChanged();
                                 cAdapter.notifyDataSetChanged();
                                 tvTotal.setText("R" + totalPrice + "0");
@@ -251,6 +253,7 @@ public class ReportSummaryFragment extends Fragment {
                 ingredientItems.add(new IngredientReportItem(strIngredient, 1));
             }
         }
+        Collections.sort(ingredientItems);
     }
 
     private void extras(String extras) {
@@ -282,6 +285,7 @@ public class ReportSummaryFragment extends Fragment {
                 }
             }
         }
+        Collections.sort(extraItems);
     }
 
     @Override

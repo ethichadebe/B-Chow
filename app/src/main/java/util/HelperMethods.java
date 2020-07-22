@@ -57,6 +57,8 @@ import SingleItem.IngredientItemCheckbox;
 import www.ethichadebe.com.loxion_beanery.MainActivity;
 import www.ethichadebe.com.loxion_beanery.R;
 
+import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
+
 
 public class HelperMethods extends AppCompatActivity {
     private static final String TAG = "HelperMethods";
@@ -192,6 +194,8 @@ public class HelperMethods extends AppCompatActivity {
             editor.putString(U_ADDRESS, Objects.requireNonNull(user.getuAddress()));
             editor.putString(U_LATITUDE, String.valueOf(user.getuLocation().latitude));
             editor.putString(U_LONGITUDE, String.valueOf(user.getuLocation().longitude));
+            Log.d(TAG, "save: LocationData Latitude: " + user.getuLocation().latitude + "Longitude: " +
+                    user.getuLocation().longitude);
             editor.putString(U_SEX, Objects.requireNonNull(user.getuSex()));
             editor.putString(U_EMAIL, Objects.requireNonNull(user.getuEmail()));
             editor.putString(U_NUMBER, Objects.requireNonNull(user.getuNumber()));
@@ -242,8 +246,8 @@ public class HelperMethods extends AppCompatActivity {
     public static User loadData(SharedPreferences sharedPreferences) {
         return new User(sharedPreferences.getInt(U_ID, 0), sharedPreferences.getString(U_NAME, ""), sharedPreferences.getString(U_SURNAME, ""),
                 sharedPreferences.getString(U_ADDRESS, ""),
-                new LatLng(Double.parseDouble(Objects.requireNonNull(sharedPreferences.getString(U_LONGITUDE, ""))),
-                        Double.parseDouble(Objects.requireNonNull(sharedPreferences.getString(U_LATITUDE, "")))),
+                new LatLng(Double.parseDouble(Objects.requireNonNull(sharedPreferences.getString(U_LATITUDE, ""))),
+                        Double.parseDouble(Objects.requireNonNull(sharedPreferences.getString(U_LONGITUDE, "")))),
                 sharedPreferences.getString(U_SEX, ""), sharedPreferences.getString(U_EMAIL, ""), sharedPreferences.getString(U_NUMBER, ""),
                 sharedPreferences.getString(U_PICTURE, ""), sharedPreferences.getInt(U_TYPE, 0));
     }

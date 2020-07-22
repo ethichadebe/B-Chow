@@ -1,6 +1,6 @@
 package SingleItem;
 
-public class MenuStatItem {
+public class MenuStatItem implements Comparable<MenuStatItem>{
     protected double dblPrice;
     protected String strMenu;
     private int intnItems = 0;
@@ -36,6 +36,11 @@ public class MenuStatItem {
         this.dblPrice = dblPrice;
         this.strMenu = strMenu;
         this.intnItems = intnItems;
+    }
+
+    @Override
+    public int compareTo(MenuStatItem o) {
+        return o.intnItems - this.intnItems;
     }
 }
 

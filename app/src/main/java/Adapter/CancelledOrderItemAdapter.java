@@ -21,14 +21,13 @@ public class CancelledOrderItemAdapter extends RecyclerView.Adapter<CancelledOrd
 
     static class MenuViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView tvPrice, tvMenu, tvReason, tvnItems;
+        private TextView tvPrice, tvMenu, tvReason;
 
         MenuViewHolder(@NonNull View itemView) {
             super(itemView);
             tvPrice = itemView.findViewById(R.id.tvPrice);
             tvMenu = itemView.findViewById(R.id.tvMenu);
             tvReason = itemView.findViewById(R.id.tvReason);
-            tvnItems = itemView.findViewById(R.id.tvnItems);
         }
     }
 
@@ -51,7 +50,6 @@ public class CancelledOrderItemAdapter extends RecyclerView.Adapter<CancelledOrd
         holder.tvPrice.setText("R" + item.getDblPrice() + "0");
         holder.tvMenu.setText(item.getStrMenu());
         holder.tvReason.setText("Reason: " + item.getStrReason());
-        holder.tvnItems.setText(String.valueOf(item.getIntnItems()));
     }
 
     @Override

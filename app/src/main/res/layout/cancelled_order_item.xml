@@ -18,7 +18,7 @@
         android:id="@+id/tvMenu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toStartOf="@+id/tvnItems"
+        android:layout_alignParentEnd="true"
         android:layout_toEndOf="@+id/tvPrice"
         android:fontFamily="sans-serif-light"
         android:textSize="@dimen/_12ssp" />
@@ -27,19 +27,9 @@
         android:id="@+id/tvReason"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toStartOf="@+id/tvnItems"
+        android:layout_alignParentEnd="true"
         android:layout_toEndOf="@+id/tvPrice"
         android:layout_below="@id/tvMenu"
         android:fontFamily="sans-serif-light"
         android:textSize="@dimen/_12ssp" />
-
-    <TextView
-        android:id="@+id/tvnItems"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="@dimen/_3sdp"
-        android:fontFamily="sans-serif-medium"
-        android:textSize="@dimen/_12ssp" />
-
 </RelativeLayout>
