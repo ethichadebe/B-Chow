@@ -9,6 +9,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -39,7 +40,7 @@ import static www.ethichadebe.com.loxion_beanery.LoginActivity.setUser;
 public class ChangePasswordActivity extends AppCompatActivity {
     private static final String TAG = "ChangePasswordActivity";
     private MaterialEditText etOld, etNew, etCNew;
-    private Button btnSave;
+    private TextView tvSave;
     private Dialog myDialog;
     private RequestQueue requestQueue;
     private StringRequest stringRequest;
@@ -59,9 +60,9 @@ public class ChangePasswordActivity extends AppCompatActivity {
         etOld = findViewById(R.id.etOldPassword);
         etNew = findViewById(R.id.etNewPassword);
         etCNew = findViewById(R.id.etCNewPassword);
-        btnSave = findViewById(R.id.btnSave);
+        tvSave = findViewById(R.id.tvSave);
 
-        btnSave.setOnClickListener(view -> {
+        tvSave.setOnClickListener(view -> {
             if (Objects.requireNonNull(etNew.getText()).toString().
                     equals(Objects.requireNonNull(etCNew.getText()).toString())) {
                 ChangePassword();
@@ -69,11 +70,26 @@ public class ChangePasswordActivity extends AppCompatActivity {
                 etCNew.setError("Password does not match");
             }
         });
-        etNew.setOnClickListener(view -> {
-            if (!etOld.hasFocus() && !Objects.requireNonNull(etOld.getText()).toString().isEmpty()) {
-                CheckPassword();
+
+        etNew.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (charSequence.length() > 3) {
+                    CheckPassword();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
             }
         });
+
     }
 
     private void CheckPassword() {
@@ -86,11 +102,13 @@ public class ChangePasswordActivity extends AppCompatActivity {
                     //Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
                     try {
                         if (response.getString("message").equals("true")) {
-                            btnSave.setVisibility(View.VISIBLE);
+                            tvSave.setClickable(true);
+                            tvSave.setBackground(getResources().getDrawable(R.drawable.ripple_effect));
                             etOld.setError("correct");
                             etOld.setErrorColor(R.color.done);
                         } else {
-                            btnSave.setVisibility(View.GONE);
+                            tvSave.setClickable(false);
+                            tvSave.setBackground(getResources().getDrawable(R.color.Transparent_DarkGrey));
                             etOld.setError("incorrect");
                             etOld.setErrorColor(R.color.RedColor);
                         }

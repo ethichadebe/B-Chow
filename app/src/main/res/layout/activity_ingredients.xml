@@ -292,13 +292,16 @@
             android:visibility="gone" />
     </LinearLayout>
 
-    <Button
+    <TextView
         android:id="@+id/btnNext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="@drawable/ripple_effect"
+        android:clickable="false"
+        android:gravity="center"
         android:onClick="next"
+        android:padding="@dimen/_8sdp"
         android:text="@string/next"
-        android:textColor="@color/White" />
+        android:textColor="@color/white" />
 </RelativeLayout>

@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -56,7 +57,7 @@ public class NewMenuItemActivity extends AppCompatActivity {
     private Double dblPrice = 0.0;
     private MaterialEditText etPrice;
     private Dialog myDialog;
-    private Button btnAdd;
+    private TextView tvAdd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +68,7 @@ public class NewMenuItemActivity extends AppCompatActivity {
             setUser(loadData(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE)));
         }
 
-        btnAdd = findViewById(R.id.btnAdd);
+        tvAdd = findViewById(R.id.tvAdd);
         etPrice = findViewById(R.id.etPrice);
         myDialog = new Dialog(this);
 
@@ -75,7 +76,7 @@ public class NewMenuItemActivity extends AppCompatActivity {
         if (getIngredients().size() > 0) {
             dblPrice = getDblPrice();
             etPrice.setText(String.valueOf(getDblPrice()));
-            btnAdd.setText("Edit");
+            tvAdd.setText("Edit");
             ingredientItems = new ArrayList<>();
             etPrice.setText(String.valueOf(getDblPrice()));
 

@@ -291,12 +291,13 @@
         </RelativeLayout>
     </ScrollView>
 
-    <Button
-        android:id="@+id/btnNext"
+    <TextView
+        android:id="@+id/tvNext"
+        android:gravity="center"
+        android:padding="@dimen/_8sdp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_gravity="center|bottom"
         android:background="@drawable/ripple_effect"
         android:onClick="next"
         android:text="Next"

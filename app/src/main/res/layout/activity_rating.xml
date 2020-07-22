@@ -168,13 +168,15 @@
             android:scrollbars="vertical" />
     </androidx.cardview.widget.CardView>-->
 
-    <Button
-        android:id="@+id/btnNext"
+    <TextView
+        android:gravity="center"
+        android:padding="@dimen/_8sdp"
+        android:id="@+id/tvNext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:clickable="false"
-        android:background="@color/colorPrimaryGrad"
+        android:background="@color/Transparent_DarkGrey"
         android:text="@string/rate"
         android:textColor="@color/White" />
 </RelativeLayout>

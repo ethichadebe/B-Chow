@@ -66,7 +66,7 @@ public class RegisterShopActivity extends AppCompatActivity {
     private Dialog myDialog;
     private TextView tvName, tvLocation, tvAddress;
     private MaterialEditText etName, etShortDescription, etFullDescription;
-    private Button btnNext;
+    private TextView tvNext;
     private ImageView[] ivImages = new ImageView[2];
     private UploadImage uploadImage;
     private LinearLayout llLocation;
@@ -86,7 +86,7 @@ public class RegisterShopActivity extends AppCompatActivity {
         myDialog = new Dialog(this);
         etName = findViewById(R.id.etName);
         tvAddress = findViewById(R.id.tvAddress);
-        btnNext = findViewById(R.id.btnNext);
+        tvNext = findViewById(R.id.btnNext);
         tvName = findViewById(R.id.tvName);
         tvLocation = findViewById(R.id.tvLocation);
         ivImages[0] = findViewById(R.id.civSmall);
@@ -129,7 +129,7 @@ public class RegisterShopActivity extends AppCompatActivity {
         }//If user pressed back from Operation Hours activity
 
         if (isEdit) {
-            btnNext.setText("Save");
+            tvNext.setText("Save");
         } //When user comes from shop settings
 
         etName.addTextChangedListener(new TextWatcher() {

@@ -1,10 +1,5 @@
 package www.ethichadebe.com.loxion_beanery;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -15,6 +10,11 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -39,7 +39,6 @@ import static util.HelperMethods.ShowLoadingPopup;
 import static util.HelperMethods.checkData;
 import static util.HelperMethods.handler;
 import static util.HelperMethods.loadData;
-import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.setUser;
 import static www.ethichadebe.com.loxion_beanery.MyShopsFragment.getNewShop;
 import static www.ethichadebe.com.loxion_beanery.ShopSettingsActivity.isEdit;
@@ -75,6 +74,7 @@ public class MenuActivity extends AppCompatActivity {
         rlLoad = findViewById(R.id.rlLoad);
         rlError = findViewById(R.id.rlError);
         btnNext = findViewById(R.id.btnNext);
+        cvRetry = findViewById(R.id.cvRetry);
 
         GETMenuItems(findViewById(R.id.vLine), findViewById(R.id.vLineGrey));
         cvRetry.setOnClickListener(v -> GETMenuItems(findViewById(R.id.vLine), findViewById(R.id.vLineGrey)));

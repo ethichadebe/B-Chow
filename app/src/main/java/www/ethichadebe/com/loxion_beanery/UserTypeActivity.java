@@ -36,7 +36,7 @@ public class UserTypeActivity extends AppCompatActivity {
     private Dialog myDialog;
     private CardView cvOwner, cvEmployee, cvUser;
     private TextView tvOwner, tvEmployee, tvUser;
-    private Button btnRegister;
+    private TextView tvRegister;
     private int userType = 3;
 
     private RequestQueue requestQueue;
@@ -56,7 +56,7 @@ public class UserTypeActivity extends AppCompatActivity {
         cvEmployee = findViewById(R.id.cvEmployee);
         cvUser = findViewById(R.id.cvUser);
 
-        btnRegister = findViewById(R.id.btnRegister);
+        tvRegister = findViewById(R.id.tvRegister);
 
         tvOwner = findViewById(R.id.tvOwner);
         tvEmployee = findViewById(R.id.tvEmployee);
@@ -73,7 +73,7 @@ public class UserTypeActivity extends AppCompatActivity {
             tvEmployee.setTextColor(Color.GRAY);
             tvUser.setTextColor(Color.GRAY);
 
-            btnRegister.setVisibility(View.VISIBLE);
+            tvRegister.setVisibility(View.VISIBLE);
         });
 
         //When user selects I am employee at a beanery
@@ -87,7 +87,7 @@ public class UserTypeActivity extends AppCompatActivity {
             tvOwner.setTextColor(Color.GRAY);
             tvUser.setTextColor(Color.GRAY);
 
-            btnRegister.setVisibility(View.VISIBLE);
+            tvRegister.setVisibility(View.VISIBLE);
         });
 
         //When user selects I am a customer
@@ -101,7 +101,7 @@ public class UserTypeActivity extends AppCompatActivity {
             tvOwner.setTextColor(Color.GRAY);
             tvEmployee.setTextColor(Color.GRAY);
 
-            btnRegister.setVisibility(View.VISIBLE);
+            tvRegister.setVisibility(View.VISIBLE);
         });
     }
 

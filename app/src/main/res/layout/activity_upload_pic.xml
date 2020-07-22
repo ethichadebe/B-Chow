@@ -33,10 +33,10 @@
             android:layout_height="?attr/actionBarSize"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:onClick="Skip"
             android:layout_alignParentBottom="true"
             android:background="@drawable/ripple_effect_white"
-            android:gravity="center">
+            android:gravity="center"
+            android:onClick="Skip">
 
             <TextView
                 android:id="@+id/tvShops"
@@ -56,9 +56,9 @@
     <androidx.cardview.widget.CardView
         android:layout_width="@dimen/_180sdp"
         android:layout_height="@dimen/_180sdp"
+        android:layout_centerInParent="true"
         android:background="@drawable/ripple_effect_white"
         android:onClick="ProfilePicture"
-        android:layout_centerInParent="true"
         app:cardCornerRadius="@dimen/_80sdp">
 
         <RelativeLayout
@@ -86,12 +86,15 @@
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 
-    <Button
-        android:id="@+id/btnUpload"
+    <TextView
+        android:id="@+id/tvUpload"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/save"
         android:layout_alignParentBottom="true"
         android:background="@drawable/ripple_effect"
-        android:textColor="@color/White"/>
+        android:gravity="center"
+        android:visibility="gone"
+        android:padding="@dimen/_8sdp"
+        android:text="@string/save"
+        android:textColor="@color/White" />
 </RelativeLayout>

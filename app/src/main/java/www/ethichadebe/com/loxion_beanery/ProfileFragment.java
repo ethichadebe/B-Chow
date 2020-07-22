@@ -1,9 +1,5 @@
 package www.ethichadebe.com.loxion_beanery;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,12 +10,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 import com.google.firebase.messaging.FirebaseMessaging;
 
-import static android.content.Context.MODE_PRIVATE;
 import static util.HelperMethods.DisplayImage;
-import static util.HelperMethods.SHARED_PREFS;
-import static util.HelperMethods.saveData;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 
 public class ProfileFragment extends Fragment {

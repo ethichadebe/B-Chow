@@ -66,7 +66,7 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
     private TextView[] tvDays = new TextView[8];
     private int[] intBackground = {0, 0, 0, 0, 0, 0, 0, 0};
     private String DayOfWeek, strTimes = "";
-    private Button btnNext;
+    private TextView tvNext;
     private boolean goBack;
 
     @Override
@@ -80,7 +80,7 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
 
         goBack = false;
         myDialog = new Dialog(this);
-        btnNext = findViewById(R.id.btnNext);
+        tvNext = findViewById(R.id.tvNext);
 
         tvDays[0] = findViewById(R.id.tvMon);
         tvDays[1] = findViewById(R.id.tvTue);
@@ -146,7 +146,7 @@ public class OperatingHoursActivity extends AppCompatActivity implements TimePic
         etOnClick(etClose[7], "cPH");
 
         if (isEdit) {
-            btnNext.setText("Save");
+            tvNext.setText("Save");
             goBack = true;
         }
     }

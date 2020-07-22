@@ -19,14 +19,22 @@
             android:contentDescription="@string/logo"
             android:src="@drawable/food" />
 
-        <TextView
-            android:id="@+id/tvClosed"
+        <LinearLayout
+            android:id="@+id/llClosed"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_155sdp"
             android:background="@color/Transparent_DarkGrey"
             android:gravity="center"
-            android:text="@string/closed"
-            android:textColor="@color/White" />
+            android:layout_height="@dimen/_155sdp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/closed"
+                android:background="@color/Grey"
+                android:padding="@dimen/_3sdp"
+                android:textColor="@color/design_default_color_on_secondary" />
+        </LinearLayout>
 
         <RelativeLayout
             android:id="@+id/rlBody"
@@ -40,7 +48,7 @@
                 android:id="@+id/tvShopName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-medium"
+                android:fontFamily="sans-serif-medium"
                 android:textSize="@dimen/_16ssp" />
 
             <RelativeLayout
@@ -96,8 +104,8 @@
                     android:id="@+id/expandable_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:el_duration="1000"
                     android:layout_below="@+id/tvShortDescript"
+                    app:el_duration="1000"
                     app:el_expanded="false"
                     app:el_parallax="0.5">
 

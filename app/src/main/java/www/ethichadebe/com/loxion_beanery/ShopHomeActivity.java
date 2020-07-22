@@ -1,23 +1,21 @@
 package www.ethichadebe.com.loxion_beanery;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.annotation.SuppressLint;
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.android.volley.Request;
@@ -40,6 +38,7 @@ import java.util.Objects;
 
 import Adapter.MenuItemAdapter;
 import SingleItem.MenuItem;
+import SingleItem.MenuStatItem;
 
 import static util.Constants.getIpAddress;
 import static util.HelperMethods.DisplayImage;
@@ -59,14 +58,13 @@ public class ShopHomeActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager mLayoutManager;
     private static ArrayList<MenuItem> MenuItems;
     private static String[] ingredients;
-    private RelativeLayout rlLoad, rlError,rlShop;
+    private RelativeLayout rlLoad, rlError, rlShop;
     private TextView tvDistance, tvAveTime, tvFullDescrpit;
     private ImageView ivBig;
     private FloatingActionButton fabCustom;
     private RatingBar rbRating;
     private LinearLayout llShop;
-    private CardView cvRetry;
-
+private CardView cvRetry;
     public static ArrayList<MenuItem> getMenuItems() {
         return MenuItems;
     }
@@ -85,7 +83,7 @@ public class ShopHomeActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.tToolBar);
         toolbar.setNavigationOnClickListener(view -> {
-           finish();
+            finish();
         });
         CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.ctlCollapsingToolbar);
         setSupportActionBar(toolbar);
@@ -117,8 +115,8 @@ public class ShopHomeActivity extends AppCompatActivity {
         rbRating = findViewById(R.id.rbRating);
         fabCustom = findViewById(R.id.fabCustom);
         rlLoad = findViewById(R.id.rlLoad);
-        rlShop = findViewById(R.id.rlShop);
         cvRetry = findViewById(R.id.cvRetry);
+        rlShop = findViewById(R.id.rlShop);
         llShop = findViewById(R.id.llShop);
         rlError = findViewById(R.id.rlError);
         tvDistance = findViewById(R.id.tvDistance);
@@ -131,7 +129,9 @@ public class ShopHomeActivity extends AppCompatActivity {
         if (getShopItem() != null) {
             GETMenu(findViewById(R.id.vLine), findViewById(R.id.vLineGrey));
         }
-        rlShop.setOnClickListener(v -> GETMenu(findViewById(R.id.vLine), findViewById(R.id.vLineGrey)));
+        //On network error retry button
+        cvRetry.setOnClickListener(v -> GETMenu(findViewById(R.id.vLine), findViewById(R.id.vLineGrey)));
+
         if (Objects.requireNonNull(getShopItem()).isLiked() == 1) {
             lottieAnimationView.setSpeed(1);
             lottieAnimationView.playAnimation();
@@ -140,6 +140,7 @@ public class ShopHomeActivity extends AppCompatActivity {
         collapsingToolbarLayout.setTitle(getShopItem().getStrShopName());
         tvDistance.setText(getShopItem().getStrAddress());
         tvAveTime.setText(getShopItem().getStrAveTime());
+        tvAveTime.setBackgroundColor(getShopItem().getIntAveTimeColor());
         tvFullDescrpit.setText(getShopItem().getStrFullDescript());
         rbRating.setRating(Float.parseFloat(String.valueOf(getShopItem().getIntRating())));
         DisplayImage(ivBig, getShopItem().getStrLogoBig());
@@ -186,6 +187,7 @@ public class ShopHomeActivity extends AppCompatActivity {
     }
 
     private void GETMenu(View vLine, View vLineGrey) {
+        MenuItems.removeAll(MenuItems);
         rlError.setVisibility(View.GONE);
         rlLoad.setVisibility(View.VISIBLE);
         handler(vLine, vLineGrey);
@@ -227,12 +229,14 @@ public class ShopHomeActivity extends AppCompatActivity {
     public void onBackPressed() {
         startActivity(new Intent(ShopHomeActivity.this, MainActivity.class));
     }
+
     // Back arrow click event to go to the parent Activity
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
     }
+
     public void like(View view) {
         if (getShopItem().isLiked() == 1) {
             DELETELike();
@@ -319,5 +323,8 @@ public class ShopHomeActivity extends AppCompatActivity {
         if (requestQueue != null) {
             requestQueue.cancelAll(TAG);
         }
+    }
+
+    public void retry(View view) {
     }
 }

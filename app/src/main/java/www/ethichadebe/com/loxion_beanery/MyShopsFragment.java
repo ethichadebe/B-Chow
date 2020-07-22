@@ -37,7 +37,6 @@ import Adapter.MyShopItemAdapter;
 import SingleItem.MyShopItem;
 
 import static util.Constants.getIpAddress;
-import static util.HelperMethods.ButtonVisibility;
 import static util.HelperMethods.ShowLoadingPopup;
 import static util.HelperMethods.handler;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;

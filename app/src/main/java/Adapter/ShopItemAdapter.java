@@ -49,10 +49,10 @@ public class ShopItemAdapter extends RecyclerView.Adapter<ShopItemAdapter.ShopVi
 
     static class ShopViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView tvShopName, tvShortDescript, tvDistance, tvAveTime, tvMore, tvClosed;
+        private TextView tvShopName, tvShortDescript, tvDistance, tvAveTime, tvMore;
         private TextView[] tvDays = new TextView[8];
         private ImageView ivLogo;
-        private LinearLayout llOpHours, llDropDown;
+        private LinearLayout llOpHours, llDropDown,llClosed;
         private CardView cdAd;
         private RatingBar rbRating;
         private UnifiedNativeAdView unifiedNativeAdView;
@@ -65,7 +65,7 @@ public class ShopItemAdapter extends RecyclerView.Adapter<ShopItemAdapter.ShopVi
             llOpHours = itemView.findViewById(R.id.llOpHours);
             llDropDown = itemView.findViewById(R.id.llDropDown);
             ivLogo = itemView.findViewById(R.id.ivLogo);
-            tvClosed = itemView.findViewById(R.id.tvClosed);
+            llClosed = itemView.findViewById(R.id.llClosed);
             tvShortDescript = itemView.findViewById(R.id.tvShortDescript);
             cdAd = itemView.findViewById(R.id.cdAd);
             tvDistance = itemView.findViewById(R.id.tvDistance);
@@ -164,9 +164,9 @@ public class ShopItemAdapter extends RecyclerView.Adapter<ShopItemAdapter.ShopVi
         }
 
         if (item.getIntStatus() == 0) {
-            holder.tvClosed.setVisibility(View.VISIBLE);
+            holder.llClosed.setVisibility(View.VISIBLE);
         } else {
-            holder.tvClosed.setVisibility(View.GONE);
+            holder.llClosed.setVisibility(View.GONE);
         }
 
 

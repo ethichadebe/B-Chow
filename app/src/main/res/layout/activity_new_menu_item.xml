@@ -76,7 +76,7 @@
         android:layout_height="wrap_content"
         android:layout_rowWeight="1"
         android:layout_columnWeight="1"
-        android:layout_above="@id/btnAdd"
+        android:layout_above="@id/tvAdd"
         android:layout_margin="@dimen/_3sdp"
         android:background="@drawable/ripple_effect_white"
         app:cardCornerRadius="@dimen/_10sdp"
@@ -123,13 +123,15 @@
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 
-    <Button
-        android:id="@+id/btnAdd"
+    <TextView
+        android:id="@+id/tvAdd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="@drawable/ripple_effect"
+        android:gravity="center"
         android:onClick="add"
+        android:padding="@dimen/_8sdp"
         android:text="Add"
-        android:textColor="@color/White"/>
+        android:textColor="@color/White" />
 </RelativeLayout>

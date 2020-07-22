@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -45,9 +46,10 @@ import static www.ethichadebe.com.loxion_beanery.MainActivity.setIntFragment;
 public class UploadPicActivity extends AppCompatActivity {
     private static final String TAG = "UploadPicActivity";
     private Dialog myDialog;
-    private Button btnUpload;
+    private TextView tvUpload;
     private ImageView civProfilePicture;
     private UploadImage uploadImage;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,9 +60,9 @@ public class UploadPicActivity extends AppCompatActivity {
             setUser(loadData(getSharedPreferences(SHARED_PREFS, MODE_PRIVATE)));
         }
 
-        btnUpload = findViewById(R.id.btnUpload);
+        tvUpload = findViewById(R.id.tvUpload);
 
-        btnUpload.setOnClickListener(v -> saveProfileAccount());
+        tvUpload.setOnClickListener(v -> saveProfileAccount());
         myDialog = new Dialog(this);
         civProfilePicture = findViewById(R.id.civProfilePicture);
 

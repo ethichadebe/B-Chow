@@ -9,8 +9,8 @@
         android:id="@+id/aplAppBar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_185sdp"
-        android:fitsSystemWindows="true"
         android:background="@color/common_google_signin_btn_text_dark_default"
+        android:fitsSystemWindows="true"
         android:theme="@style/ThemeOverlay.MaterialComponents.Dark">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
@@ -33,20 +33,49 @@
                 app:layout_anchorGravity="center"
                 app:layout_collapseMode="parallax" />
 
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_50sdp"
                 android:layout_gravity="bottom"
                 android:background="@drawable/fade_background" />
+
+
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/tToolBar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:theme="@style/ThemeOverlay.MaterialComponents.Light"
                 app:contentInsetStartWithNavigation="0dp"
-                app:layout_collapseMode="pin"
-                app:navigationIcon="?attr/homeAsUpIndicator" />
+                app:layout_collapseMode="pin" />
 
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cvFilter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                app:cardCornerRadius="@dimen/_3sdp"
+                app:cardElevation="3dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <View
+                        android:id="@+id/tvFilterLbl"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:background="@drawable/ic_arrow_left_black_48dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:layout_margin="@dimen/_3sdp" />
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -93,32 +122,33 @@
                     android:padding="@dimen/_1sdp"
                     android:textSize="@dimen/_10sdp" />
 
-                <TextView
-                    android:id="@+id/tvAveTime"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/tvDistance"
-                    android:fontFamily="sans-serif-light"
-                    android:padding="@dimen/_1sdp"
-                    android:textSize="@dimen/_10sdp" />
-
                 <RatingBar
                     android:id="@+id/rbRating"
                     style="?android:attr/ratingBarStyleSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tvDistance"
-                    android:layout_toEndOf="@id/tvAveTime"
+                    android:layout_alignParentStart="true"
                     android:clickable="false"
                     android:numStars="5"
                     android:src="@drawable/star"
                     android:stepSize="0.5" />
 
                 <TextView
-                    android:id="@+id/tvFullDescrpit"
+                    android:id="@+id/tvAveTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/rbRating"
+                    android:fontFamily="sans-serif-light"
+                    android:padding="@dimen/_1sdp"
+                    android:textSize="@dimen/_10sdp" />
+
+
+                <TextView
+                    android:id="@+id/tvFullDescrpit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvAveTime"
                     android:fontFamily="sans-serif-condensed-light"
                     android:textSize="@dimen/_12sdp" />
             </RelativeLayout>
@@ -234,6 +264,7 @@
                     android:layout_below="@+id/tvError"
                     android:layout_centerHorizontal="true"
                     android:layout_margin="@dimen/_8sdp"
+                    android:onClick="retry"
                     android:padding="@dimen/_50sdp"
                     app:cardCornerRadius="@dimen/_8sdp"
                     app:cardElevation="@dimen/_2sdp">

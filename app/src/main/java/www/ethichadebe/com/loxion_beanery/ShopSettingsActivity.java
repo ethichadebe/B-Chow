@@ -1,16 +1,15 @@
 package www.ethichadebe.com.loxion_beanery;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -24,7 +23,6 @@ import static util.HelperMethods.SHARED_PREFS;
 import static util.HelperMethods.ShowLoadingPopup;
 import static util.HelperMethods.checkData;
 import static util.HelperMethods.loadData;
-import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.setUser;
 import static www.ethichadebe.com.loxion_beanery.MyShopsFragment.getNewShop;
 

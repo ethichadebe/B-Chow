@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RatingBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -44,7 +45,7 @@ import static www.ethichadebe.com.loxion_beanery.PastOrderFragmentCustomer.getPa
 public class RatingActivity extends AppCompatActivity {
     private static final String TAG = "RatingActivity";
     private RequestQueue requestQueue;
-    private Button btnNext;
+    private TextView tvNext;
     private Dialog myDialog;
     private MaterialEditText etFeedback;
     private RatingBar rbRating;
@@ -66,17 +67,17 @@ public class RatingActivity extends AppCompatActivity {
 
         myDialog = new Dialog(this);
 
-        btnNext = findViewById(R.id.btnNext);
+        tvNext = findViewById(R.id.tvNext);
         etFeedback = findViewById(R.id.etFeedback);
         rbRating = findViewById(R.id.rbRating);
         rbRating.setOnRatingBarChangeListener((ratingBar, intRating, b) -> {
             if (rbRating.getRating() != 0) {
-                btnNext.setBackground(getResources().getDrawable(R.drawable.ripple_effect));
+                tvNext.setBackground(getResources().getDrawable(R.drawable.ripple_effect));
             } else {
-                btnNext.setBackground(getResources().getDrawable(R.color.colorPrimaryGrad));
+                tvNext.setBackground(getResources().getDrawable(R.color.Transparent_DarkGrey));
             }
         });
-        btnNext.setOnClickListener(view -> PUTRating());
+        tvNext.setOnClickListener(view -> PUTRating());
 
         /*mRecyclerView = findViewById(R.id.recyclerView);
 

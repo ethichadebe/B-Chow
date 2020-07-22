@@ -145,14 +145,15 @@
         </androidx.cardview.widget.CardView>
     </LinearLayout>
 
-    <Button
-        android:id="@+id/btnRegister"
+    <TextView
+        android:id="@+id/tvRegister"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_gravity="center|bottom"
         android:background="@drawable/ripple_effect"
+        android:gravity="center"
         android:onClick="register"
+        android:padding="@dimen/_8sdp"
         android:text="@string/register"
         android:textColor="@color/White"
         android:visibility="gone" />
