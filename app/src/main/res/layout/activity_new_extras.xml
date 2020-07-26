@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -12,8 +13,8 @@
 
         <TextView
             android:id="@+id/tvType"
-            android:layout_width="match_parent"
             style="@style/Base.TextAppearance.AppCompat.Body1"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
@@ -27,17 +28,18 @@
         <LinearLayout
             android:id="@+id/llBack"
             android:layout_width="?attr/actionBarSize"
-            android:layout_alignParentBottom="true"
+            android:layout_height="?attr/actionBarSize"
             android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"
             android:background="@drawable/ripple_effect_white"
             android:gravity="center"
-            android:onClick="back"
-            android:layout_height="?attr/actionBarSize">
+            android:onClick="back">
+
             <TextView
-                android:layout_width="wrap_content"
                 style="@style/Base.TextAppearance.AppCompat.Body1"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/ic_keyboard_backspace_black_24dp"/>
+                android:background="@drawable/ic_keyboard_backspace_black_24dp" />
         </LinearLayout>
     </RelativeLayout>
 
@@ -46,13 +48,14 @@
         android:id="@+id/cvPass"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/llHead"
-        android:layout_columnWeight="1"
         android:layout_rowWeight="1"
+        android:layout_columnWeight="1"
+        android:layout_below="@+id/llHead"
         android:layout_margin="@dimen/_3sdp"
         android:layout_marginBottom="@dimen/_8sdp"
-        app:cardElevation="3dp"
-        app:cardCornerRadius="@dimen/_8sdp">
+        app:cardCornerRadius="@dimen/_8sdp"
+        app:cardElevation="3dp">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -61,8 +64,8 @@
                 android:id="@+id/tvHeading2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_8sdp"
                 android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/_8sdp"
                 android:fontFamily="sans-serif-medium"
                 android:text="@string/add_an_extra"
                 android:textSize="@dimen/_14ssp" />
@@ -71,49 +74,50 @@
                 android:id="@+id/rlTotal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/tvHeading2"
                 android:layout_marginStart="@dimen/_8sdp"
                 android:layout_marginEnd="@dimen/_8sdp"
-                android:layout_marginBottom="@dimen/_8sdp"
-                android:layout_below="@+id/tvHeading2">
+                android:layout_marginBottom="@dimen/_8sdp">
 
                 <com.rengwuxian.materialedittext.MaterialEditText
                     android:id="@+id/etExtra"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:textSize="@dimen/_14ssp"
-                    android:ems="10"
                     android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/_18sdp"
                     android:layout_toStartOf="@id/btnAddOption"
+                    android:ems="10"
                     android:hint="@string/extra_e_g_tomato_sauce"
                     android:inputType="textPersonName"
+                    android:textSize="@dimen/_14ssp"
                     app:met_floatingLabel="highlight" />
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/btnAddOption"
                     android:layout_width="@dimen/_60sdp"
                     android:layout_height="@dimen/_35sdp"
-                    android:layout_columnWeight="1"
                     android:layout_rowWeight="1"
-                    app:cardElevation="3dp"
-                    android:fontFamily="sans-serif-medium"
-                    android:layout_marginBottom="@dimen/_18sdp"
+                    android:layout_columnWeight="1"
                     android:layout_alignParentEnd="true"
-                    android:padding="@dimen/_40sdp"
-                    android:onClick="add"
                     android:layout_centerVertical="true"
-                    app:cardCornerRadius="@dimen/_8sdp">
+                    android:layout_marginBottom="@dimen/_18sdp"
+                    android:fontFamily="sans-serif-medium"
+                    android:onClick="add"
+                    android:padding="@dimen/_40sdp"
+                    app:cardCornerRadius="@dimen/_8sdp"
+                    app:cardElevation="3dp">
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:textSize="@dimen/_14ssp"
                         android:background="@drawable/ripple_effect"
-                        android:gravity="center"
                         android:fontFamily="sans-serif-medium"
-                        android:textAllCaps="false"
+                        android:gravity="center"
                         android:text="@string/add"
-                        android:textColor="@color/White"/>
+                        android:textAllCaps="false"
+                        android:textColor="@color/White"
+                        android:textSize="@dimen/_14ssp" />
                 </androidx.cardview.widget.CardView>
             </RelativeLayout>
         </RelativeLayout>
@@ -123,152 +127,68 @@
         android:id="@+id/rlHeading1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/_8sdp"
         android:layout_below="@id/cvPass"
+        android:layout_marginLeft="@dimen/_8sdp"
         android:layout_marginRight="@dimen/_8sdp">
 
         <View
             android:layout_width="wrap_content"
             android:layout_height="@dimen/_1sdp"
             android:layout_alignParentStart="true"
-            android:layout_toStartOf="@id/tvHeading3"
             android:layout_centerInParent="true"
             android:layout_marginEnd="@dimen/_3sdp"
-            android:background="@color/Grey"/>
+            android:layout_toStartOf="@id/tvHeading3"
+            android:background="@color/Grey" />
 
         <TextView
             android:id="@+id/tvHeading3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
             android:layout_marginTop="@dimen/_10sdp"
             android:fontFamily="sans-serif-light"
             android:gravity="center"
-            android:layout_centerInParent="true"
             android:text="@string/my_extras"
             android:textSize="@dimen/_14ssp" />
 
         <View
             android:layout_width="wrap_content"
+            android:layout_height="@dimen/_1sdp"
             android:layout_alignParentEnd="true"
-            android:layout_toEndOf="@id/tvHeading3"
             android:layout_centerInParent="true"
             android:layout_marginStart="@dimen/_3sdp"
-            android:background="@color/Grey"
-            android:layout_height="@dimen/_1sdp"/>
+            android:layout_toEndOf="@id/tvHeading3"
+            android:background="@color/Grey" />
     </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/btnNext"
+        android:layout_above="@id/tvNext"
         android:layout_below="@id/rlHeading1"
         android:padding="4dp"
-        android:scrollbars="horizontal"/>
+        android:scrollbars="horizontal"
+        tools:listitem="@layout/menu_item" />
 
-    <LinearLayout
+    <include
+        android:id="@+id/iLoading"
+        layout="@layout/loading_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/rlHeading1"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:gravity="center"
-        android:orientation="horizontal">
+        android:layout_centerHorizontal="true" />
 
-        <RelativeLayout
-            android:id="@+id/rlLoad"
-            android:layout_width="@dimen/_140sdp"
-            android:layout_height="wrap_content">
-
-            <View
-                android:id="@+id/vLineGrey"
-                android:layout_width="match_parent"
-                android:layout_height="3dp"
-                android:layout_centerInParent="true"
-                android:layout_gravity="bottom"
-                android:layout_margin="@dimen/_2sdp"
-                android:background="@color/Grey" />
-
-            <View
-                android:id="@+id/vLine"
-                android:layout_width="match_parent"
-                android:layout_height="3dp"
-                android:layout_centerInParent="true"
-                android:layout_gravity="bottom"
-                android:layout_margin="@dimen/_2sdp"
-                android:background="@color/colorPrimary" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/rlError"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="reload"
-            android:visibility="gone">
-
-            <ImageView
-                android:id="@+id/ivError"
-                android:layout_width="@dimen/_70sdp"
-                android:layout_height="@dimen/_70sdp"
-                android:layout_centerHorizontal="true"
-                android:contentDescription="@string/error_symbol"
-                android:src="@drawable/ic_error_outline_black_24dp" />
-
-            <TextView
-                android:id="@+id/tvError"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/ivError"
-                android:layout_centerHorizontal="true"
-                android:fontFamily="sans-serif-medium"
-                android:text="@string/network_error"
-                android:textColor="@color/Grey"
-                android:textSize="@dimen/_18ssp" />
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cvRetry"
-                android:layout_width="@dimen/_60sdp"
-                android:layout_height="@dimen/_35sdp"
-                android:layout_rowWeight="1"
-                android:layout_columnWeight="1"
-                android:layout_below="@+id/tvError"
-                android:layout_centerHorizontal="true"
-                android:layout_margin="@dimen/_8sdp"
-                android:padding="@dimen/_40sdp"
-                app:cardCornerRadius="@dimen/_8sdp"
-                app:cardElevation="3dp">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/ripple_effect_white"
-                    android:fontFamily="sans-serif-medium"
-                    android:gravity="center"
-                    android:text="@string/retry"
-                    android:textAllCaps="true"
-                    android:textSize="@dimen/_14ssp" />
-            </androidx.cardview.widget.CardView>
-        </RelativeLayout>
-
-        <TextView
-            android:id="@+id/tvEmpty"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-medium"
-            android:layout_margin="@dimen/_8sdp"
-            android:gravity="center"
-            android:text="Add the list of all extras"
-            android:textColor="@color/Grey"
-            android:textSize="@dimen/_18ssp"
-            android:visibility="gone" />
-    </LinearLayout>
-    <Button
-        android:id="@+id/btnNext"
+    <TextView
+        android:id="@+id/tvNext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/done"
         android:layout_alignParentBottom="true"
         android:background="@drawable/ripple_effect"
+        android:gravity="center"
         android:onClick="next"
-        android:textColor="@color/White"/>
+        android:padding="@dimen/_8sdp"
+        android:text="@string/next"
+        android:textColor="@color/white" />
 </RelativeLayout>

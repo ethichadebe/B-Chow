@@ -55,11 +55,10 @@ public class IngredientsActivity extends AppCompatActivity {
     private CardView btnAddOption,cvRetry;
     private MaterialEditText etName, etPrice;
     private Dialog myDialog;
-    private TextView tvEmpty;
+    private TextView tvEmpty, tvNext;
     private RelativeLayout rlLoad, rlError;
 
     private RequestQueue requestQueue;
-    private Button btnNext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +70,7 @@ public class IngredientsActivity extends AppCompatActivity {
         }
 
         myDialog = new Dialog(this);
-        btnNext = findViewById(R.id.btnNext);
+        tvNext = findViewById(R.id.tvNext);
         etName = findViewById(R.id.etName);
         btnAddOption = findViewById(R.id.btnAddOption);
         etPrice = findViewById(R.id.etPrice);
@@ -83,7 +82,7 @@ public class IngredientsActivity extends AppCompatActivity {
 
         GETIngredients(findViewById(R.id.vLine), findViewById(R.id.vLineGrey));
         cvRetry.setOnClickListener(v -> GETIngredients(findViewById(R.id.vLine), findViewById(R.id.vLineGrey)));
-        ButtonVisibility(getNewShop().getIngredientItems(), btnNext);
+        ButtonVisibility(getNewShop().getIngredientItems(), tvNext);
 
         btnAddOption.setOnClickListener(view -> {
             if (Objects.requireNonNull(etName.getText()).toString().isEmpty() &&
@@ -108,7 +107,7 @@ public class IngredientsActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(mAdapter);
 
         if (isEdit) {
-            btnNext.setText("Edit Menu List");
+            tvNext.setText("Edit Menu List");
         }
 
         mAdapter.setOnIngredientClickListener(new IngredientItemAdapter.OnIngredientClickListener() {
@@ -166,7 +165,7 @@ public class IngredientsActivity extends AppCompatActivity {
                             mAdapter.notifyItemInserted(getNewShop().getIngredientItems().size());
                             etName.setText("");
                             etPrice.setText("");
-                            ButtonVisibility(getNewShop().getIngredientItems(), btnNext);
+                            ButtonVisibility(getNewShop().getIngredientItems(), tvNext);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -209,7 +208,7 @@ public class IngredientsActivity extends AppCompatActivity {
                         if (JSONData.getString("data").equals("removed")) {
                             getNewShop().getIngredientItems().remove(position);
                             mAdapter.notifyItemRemoved(position);
-                            ButtonVisibility(getNewShop().getIngredientItems(), btnNext);
+                            ButtonVisibility(getNewShop().getIngredientItems(), tvNext);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -327,7 +326,7 @@ public class IngredientsActivity extends AppCompatActivity {
                             JSONArray jsonArray = response.getJSONArray("ingredients");
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject Ingredients = jsonArray.getJSONObject(i);
-                                ButtonVisibility(getNewShop().getIngredientItems(), btnNext);
+                                ButtonVisibility(getNewShop().getIngredientItems(), tvNext);
                                 getNewShop().getIngredientItems().add(new
                                         IngredientItem(Ingredients.getInt("iID"),
                                         Ingredients.getString("iName"),

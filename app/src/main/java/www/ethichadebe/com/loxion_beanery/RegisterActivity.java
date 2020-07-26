@@ -40,6 +40,7 @@ import static util.Constants.getIpAddress;
 import static util.HelperMethods.SHARED_PREFS;
 import static util.HelperMethods.ShowLoadingPopup;
 import static util.HelperMethods.allFieldsEntered;
+import static util.HelperMethods.isEmail;
 import static util.HelperMethods.saveData;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -227,7 +228,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     public void register(View view) {
-        if (allFieldsEntered(mTextBoxes) && sexIsChecked() && passwordMatches()) {
+        if (isEmail(mTextBoxes[3]) && allFieldsEntered(mTextBoxes) && sexIsChecked() && passwordMatches()) {
             POSTRegister();
         }
     }

@@ -50,39 +50,81 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name=".UserTypeActivity" />
-        <activity android:name=".ChangePasswordActivity" />
-        <activity android:name=".ExtraItemActivity" />
-        <activity android:name=".ReportsActivity" />
-        <activity android:name=".NewExtrasActivity" />
-        <activity android:name=".OperatingHoursActivity" />
-        <activity android:name=".RatingActivity" />
-        <activity android:name=".EditUserProfileActivity" />
-        <activity android:name=".ShopSettingsActivity" />
-        <activity android:name=".NewMenuItemActivity" />
-        <activity android:name=".OrdersActivity">
+        <activity
+            android:name=".UserTypeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ChangePasswordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ExtraItemActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ReportsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".NewExtrasActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".OperatingHoursActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".RatingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".EditUserProfileActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ShopSettingsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".NewMenuItemActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".OrdersActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="OrdersActivity" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
 
         </activity>
-        <activity android:name=".MenuActivity" />
-        <activity android:name=".IngredientsActivity" />
-        <activity android:name=".RegisterShopActivity" />
-        <activity android:name=".UploadPicActivity" />
-        <activity android:name=".OrderConfirmationActivity" />
-        <activity android:name=".OrderActivity" />
-        <activity android:name=".ShopHomeActivity" />
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".MenuActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".IngredientsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".RegisterShopActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".UploadPicActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".OrderConfirmationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".OrderActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ShopHomeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="MainActivity" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
 
         </activity>
-        <activity android:name=".RegisterActivity" />
-        <activity android:name=".LoginActivity">
+        <activity
+            android:name=".RegisterActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".LoginActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

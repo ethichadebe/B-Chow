@@ -63,7 +63,7 @@ public class OrderActivity extends AppCompatActivity {
 
     private IngredientItemCheckboxAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private TextView tvTotal;
+    private TextView tvTotal, tvOder;
     private Double dblPrice = 0.0;
     private int nExtras = 0;
     private RelativeLayout rlLoad, rlError;
@@ -84,6 +84,7 @@ public class OrderActivity extends AppCompatActivity {
         }
 
         tvTotal = findViewById(R.id.tvTotal);
+        tvOder = findViewById(R.id.tvOder);
         cvRetry = findViewById(R.id.cvRetry);
         rlLoad = findViewById(R.id.rlLoad);
         rlError = findViewById(R.id.rlError);
@@ -143,6 +144,7 @@ public class OrderActivity extends AppCompatActivity {
                                             isCompulsory(Ingredient.getString("iName"))));
                                 }
                             }
+                            tvOder.setVisibility(VISIBLE);
                             storeCombos();
                         }
                     } catch (JSONException e) {

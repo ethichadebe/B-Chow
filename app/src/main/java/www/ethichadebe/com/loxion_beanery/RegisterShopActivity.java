@@ -86,7 +86,7 @@ public class RegisterShopActivity extends AppCompatActivity {
         myDialog = new Dialog(this);
         etName = findViewById(R.id.etName);
         tvAddress = findViewById(R.id.tvAddress);
-        tvNext = findViewById(R.id.btnNext);
+        tvNext = findViewById(R.id.tvNext);
         tvName = findViewById(R.id.tvName);
         tvLocation = findViewById(R.id.tvLocation);
         ivImages[0] = findViewById(R.id.civSmall);

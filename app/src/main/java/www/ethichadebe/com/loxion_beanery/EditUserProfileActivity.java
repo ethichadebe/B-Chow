@@ -55,6 +55,7 @@ import static util.HelperMethods.SHARED_PREFS;
 import static util.HelperMethods.ShowLoadingPopup;
 import static util.HelperMethods.allFieldsEntered;
 import static util.HelperMethods.checkData;
+import static util.HelperMethods.isEmail;
 import static util.HelperMethods.loadData;
 import static util.HelperMethods.saveData;
 import static util.HelperMethods.sharedPrefsIsEmpty;
@@ -295,7 +296,6 @@ public class EditUserProfileActivity extends AppCompatActivity {
         stringRequest = new StringRequest(Request.Method.PUT,
                 getIpAddress() + "/users/EditEmail",
                 response -> {
-                    Toast.makeText(EditUserProfileActivity.this, response, Toast.LENGTH_LONG).show();
                     tvEdit.setBackground(getResources().getDrawable(R.drawable.ripple_effect));
                     try {
                         JSONObject JSONData = new JSONObject(response);
@@ -431,7 +431,9 @@ public class EditUserProfileActivity extends AppCompatActivity {
                 if (isNum) {
                     EditUserNumber(etExtra, tvEdit, myDialog);
                 } else {
-                    EditUserEmail(etExtra, tvEdit, myDialog);
+                    if (isEmail(etExtra)){
+                        EditUserEmail(etExtra, tvEdit, myDialog);
+                    }
                 }
                 //PUTExtra(position, Objects.requireNonNull(etExtra.getText()).toString());
             }

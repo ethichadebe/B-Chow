@@ -52,6 +52,8 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.TimeZone;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import SingleItem.IngredientItemCheckbox;
 import www.ethichadebe.com.loxion_beanery.MainActivity;
@@ -119,7 +121,7 @@ public class HelperMethods extends AppCompatActivity {
     /**
      * Only display finish button when there's a menu item added
      */
-    public static void ButtonVisibility(ArrayList list, Button btn) {
+    public static void ButtonVisibility(ArrayList list, TextView btn) {
         if (list.isEmpty()) {
             btn.setVisibility(View.GONE);
         } else {
@@ -167,6 +169,7 @@ public class HelperMethods extends AppCompatActivity {
         return allEntered;
     }
 
+
     public static boolean allFieldsEntered(MaterialEditText[] mText, MaterialEditText[] mText2) {
         boolean allEntered = true;
         for (MaterialEditText materialEditText : mText) {
@@ -209,7 +212,7 @@ public class HelperMethods extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt("SIZE", shopNames.size());
         for (int i = 0; i < shopNames.size(); i++) {
-            editor.putString(String.valueOf(i),shopNames.get(i));
+            editor.putString(String.valueOf(i), shopNames.get(i));
         }
         editor.apply();
     }
@@ -254,7 +257,7 @@ public class HelperMethods extends AppCompatActivity {
 
     public static ArrayList<String> loadShopNames(SharedPreferences sharedPreferences) {
         ArrayList<String> shopNames = new ArrayList<>();
-        for (int i = 0;i< sharedPreferences.getInt("SIZE", 0);i++){
+        for (int i = 0; i < sharedPreferences.getInt("SIZE", 0); i++) {
             shopNames.add(sharedPreferences.getString(String.valueOf(i), ""));
         }
         return shopNames;
@@ -377,4 +380,36 @@ public class HelperMethods extends AppCompatActivity {
         };
     }
 
+    public static boolean isEmail(MaterialEditText textView) {
+        Pattern pattern = Pattern.compile("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}");
+        Matcher mat = pattern.matcher(Objects.requireNonNull(textView.getText()).toString());
+
+        if (mat.matches()) {
+            textView.setError("");
+            return true;
+        } else {
+            textView.setError("Invalid email");
+            return false;
+        }
+    }
+
+    public static boolean passwordIsStrong(MaterialEditText textView) {
+        char ch;
+        boolean capitalFlag = false;
+        boolean lowerCaseFlag = false;
+        boolean numberFlag = false;
+        for (int i = 0; i < Objects.requireNonNull(textView.getText()).toString().length(); i++) {
+            ch = textView.getText().toString().charAt(i);
+            if (Character.isDigit(ch)) {
+                numberFlag = true;
+            } else if (Character.isUpperCase(ch)) {
+                capitalFlag = true;
+            } else if (Character.isLowerCase(ch)) {
+                lowerCaseFlag = true;
+            }
+        }
+
+
+        return false;
+    }
 }

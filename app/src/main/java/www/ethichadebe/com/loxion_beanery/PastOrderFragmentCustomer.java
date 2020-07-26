@@ -61,8 +61,8 @@ public class PastOrderFragmentCustomer extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_past_order_customer, container, false);
-
-        rlEmpty = v.findViewById(R.id.rlEmpty);
+        View include = v.findViewById(R.id.iLoading);
+        rlEmpty = include.findViewById(R.id.rlEmpty);
         cvRetry = v.findViewById(R.id.cvRetry);
         rlLoad = v.findViewById(R.id.rlLoad);
         rlError = v.findViewById(R.id.rlError);
@@ -161,7 +161,7 @@ public class PastOrderFragmentCustomer extends Fragment {
                                 Orders.getString("oCreatedAt"), Orders.getString("oIngredients"),
                                 Orders.getString("oExtras"), Orders.getDouble("oPrice"),
                                 Orders.getString("oStatus"), new LatLng(Orders.getDouble("sLatitude"),
-                                Orders.getDouble("sLongitude")),null, getResources().getColor(R.color.done)));
+                                Orders.getDouble("sLongitude")), null, getResources().getColor(R.color.done)));
                         if (getUpcomingOrderItem() != null) {
                             startActivity(new Intent(getActivity(), OrderConfirmationActivity.class));
                         }

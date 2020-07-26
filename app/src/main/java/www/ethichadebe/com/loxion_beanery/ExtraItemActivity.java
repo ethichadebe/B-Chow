@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -33,6 +34,7 @@ import Adapter.IngredientItemCheckboxAdapter;
 import SingleItem.IngredientItemCheckbox;
 import SingleItem.UpcomingOrderItem;
 
+import static android.view.View.VISIBLE;
 import static util.Constants.getIpAddress;
 import static util.HelperMethods.SHARED_PREFS;
 import static util.HelperMethods.ShowLoadingPopup;
@@ -53,7 +55,7 @@ public class ExtraItemActivity extends AppCompatActivity {
     private ArrayList<IngredientItemCheckbox> ingredientItems;
     private Dialog myDialog;
     private CardView cvRetry;
-
+private TextView tvOder;
     private RequestQueue requestQueue;
 
     @Override
@@ -66,6 +68,7 @@ public class ExtraItemActivity extends AppCompatActivity {
         }
 
         rlLoad = findViewById(R.id.rlLoad);
+        tvOder = findViewById(R.id.tvOder);
         rlError = findViewById(R.id.rlError);
         cvRetry = findViewById(R.id.cvRetry);
         RecyclerView mRecyclerView = findViewById(R.id.recyclerView);
@@ -87,7 +90,7 @@ public class ExtraItemActivity extends AppCompatActivity {
 
     private void GETIngredients(View vLine, View vLineGrey) {
         rlError.setVisibility(View.GONE);
-        rlLoad.setVisibility(View.VISIBLE);
+        rlLoad.setVisibility(VISIBLE);
         handler(vLine, vLineGrey);
         requestQueue = Volley.newRequestQueue(this);
 
@@ -109,13 +112,14 @@ public class ExtraItemActivity extends AppCompatActivity {
                                         Extras.getString("eName"), 0.0, false, false,
                                         true));
                             }
+                            tvOder.setVisibility(VISIBLE);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 },
                 error -> {
-                    rlError.setVisibility(View.VISIBLE);
+                    rlError.setVisibility(VISIBLE);
                     rlLoad.setVisibility(View.GONE);
                     if (error.toString().equals("com.android.volley.TimeoutError")) {
                         Toast.makeText(this, "Connection error. Please retry", Toast.LENGTH_SHORT).show();

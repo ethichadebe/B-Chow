@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -189,111 +190,23 @@
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/btnNext"
+        tools:listitem="@layout/menu_item"
+        android:layout_above="@id/tvNext"
         android:layout_below="@id/rlHeading1"
         android:padding="@dimen/_2sdp"
         android:scrollbars="horizontal" />
 
-    <LinearLayout
+    <include
+        android:id="@+id/iLoading"
+        layout="@layout/loading_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/rlHeading1"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:gravity="center"
-        android:orientation="horizontal">
-
-        <RelativeLayout
-            android:id="@+id/rlLoad"
-            android:layout_width="@dimen/_140sdp"
-            android:layout_height="wrap_content">
-
-            <View
-                android:id="@+id/vLineGrey"
-                android:layout_width="match_parent"
-                android:layout_height="3dp"
-                android:layout_centerInParent="true"
-                android:layout_gravity="bottom"
-                android:layout_margin="@dimen/_2sdp"
-                android:background="@color/Grey" />
-
-            <View
-                android:id="@+id/vLine"
-                android:layout_width="match_parent"
-                android:layout_height="3dp"
-                android:layout_centerInParent="true"
-                android:layout_gravity="bottom"
-                android:layout_margin="@dimen/_2sdp"
-                android:background="@color/colorPrimary" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/rlError"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="reload"
-            android:visibility="gone">
-
-            <ImageView
-                android:id="@+id/ivError"
-                android:layout_width="@dimen/_60sdp"
-                android:layout_height="@dimen/_60sdp"
-                android:layout_centerHorizontal="true"
-                android:contentDescription="@string/error_symbol"
-                android:src="@drawable/ic_error_outline_black_24dp" />
-
-            <TextView
-                android:id="@+id/tvError"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/ivError"
-                android:layout_centerHorizontal="true"
-                android:fontFamily="sans-serif-medium"
-                android:text="@string/network_error"
-                android:textColor="@color/Grey"
-                android:textSize="@dimen/_16ssp" />
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cvRetry"
-                android:layout_width="@dimen/_70sdp"
-                android:layout_height="@dimen/_32sdp"
-                android:layout_rowWeight="1"
-                android:layout_columnWeight="1"
-                android:layout_below="@+id/tvError"
-                android:layout_centerHorizontal="true"
-                android:layout_margin="10dp"
-                android:onClick="reload"
-                android:padding="@dimen/_40sdp"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="3dp">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/ripple_effect_white"
-                    android:fontFamily="sans-serif-medium"
-                    android:gravity="center"
-                    android:text="@string/retry"
-                    android:textAllCaps="true"
-                    android:textSize="@dimen/_12ssp" />
-            </androidx.cardview.widget.CardView>
-        </RelativeLayout>
-
-        <TextView
-            android:id="@+id/tvEmpty"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-medium"
-            android:layout_margin="10dp"
-            android:gravity="center"
-            android:text="Add the list of ingredients required to make all your Kotas"
-            android:textColor="@color/Grey"
-            android:textSize="@dimen/_16ssp"
-            android:visibility="gone" />
-    </LinearLayout>
+        android:layout_centerHorizontal="true" />
 
     <TextView
-        android:id="@+id/btnNext"
+        android:id="@+id/tvNext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

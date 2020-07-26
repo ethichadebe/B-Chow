@@ -1,114 +1,21 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
+    <include
+        android:id="@+id/iLoading"
+        layout="@layout/loading_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:gravity="center"
-        android:orientation="horizontal">
-
-        <RelativeLayout
-            android:id="@+id/rlLoad"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content">
-
-            <View
-                android:id="@+id/vLineGrey"
-                android:layout_width="match_parent"
-                android:layout_height="3dp"
-                android:layout_centerInParent="true"
-                android:layout_gravity="bottom"
-                android:layout_margin="@dimen/_1sdp"
-                android:layout_weight="1"
-                android:background="@color/Grey" />
-
-            <View
-                android:id="@+id/vLine"
-                android:layout_width="match_parent"
-                android:layout_height="3dp"
-                android:layout_centerInParent="true"
-                android:layout_gravity="bottom"
-                android:layout_margin="@dimen/_1sdp"
-                android:layout_weight="1"
-                android:background="@color/colorPrimary" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/rlError"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone">
-
-            <ImageView
-                android:id="@+id/ivError"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:contentDescription="TODO"
-                android:src="@drawable/ic_error_outline_black_24dp" />
-
-            <TextView
-                android:id="@+id/tvError"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/ivError"
-                android:layout_centerHorizontal="true"
-                android:fontFamily="sans-serif-medium"
-                android:text="Network error."
-                android:textColor="@color/Grey"
-                android:textSize="@dimen/_18ssp" />
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cvRetry"
-                android:layout_width="100dp"
-                android:layout_height="40dp"
-                android:layout_rowWeight="1"
-                android:layout_columnWeight="1"
-                android:layout_below="@+id/tvError"
-                android:layout_centerHorizontal="true"
-                android:layout_margin="10dp"
-                android:padding="50dp"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="3dp">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/ripple_effect_white"
-                    android:fontFamily="sans-serif-medium"
-                    android:gravity="center"
-                    android:text="Retry"
-                    android:textAllCaps="true"
-                    android:textSize="@dimen/_12ssp" />
-            </androidx.cardview.widget.CardView>
-
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/rlEmpty"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone">
-
-            <TextView
-                android:id="@+id/tvEmpty"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:fontFamily="sans-serif-medium"
-                android:text="No orders available"
-                android:textColor="@color/Grey"
-                android:textSize="@dimen/_18ssp" />
-        </RelativeLayout>
-    </LinearLayout>
+        android:layout_centerHorizontal="true" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/pastRecyclerView"
         android:layout_width="match_parent"
+        tools:listitem="@layout/my_past_order_item"
         android:layout_height="match_parent"
         android:scrollbars="vertical" />
 </RelativeLayout>

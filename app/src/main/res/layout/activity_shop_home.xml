@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -192,95 +193,18 @@
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            tools:listitem="@layout/menu_item"
             android:layout_below="@id/llShop"
             android:padding="4dp"
             android:scrollbars="vertical" />
 
-        <LinearLayout
+        <include
+            android:id="@+id/iLoading"
+            layout="@layout/loading_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/llShop"
-            android:layout_alignParentBottom="true"
-            android:layout_centerInParent="true"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <RelativeLayout
-                android:id="@+id/rlLoad"
-                android:layout_width="@dimen/_140sdp"
-                android:layout_height="wrap_content">
-
-                <View
-                    android:id="@+id/vLineGrey"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_2sdp"
-                    android:layout_centerInParent="true"
-                    android:layout_gravity="bottom"
-                    android:layout_margin="@dimen/_1sdp"
-                    android:background="@color/Grey" />
-
-                <View
-                    android:id="@+id/vLine"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_2sdp"
-                    android:layout_centerInParent="true"
-                    android:layout_gravity="bottom"
-                    android:layout_margin="@dimen/_1sdp"
-                    android:background="@color/colorPrimary" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/rlError"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="gone">
-
-                <ImageView
-                    android:id="@+id/ivError"
-                    android:layout_width="@dimen/_70sdp"
-                    android:layout_height="@dimen/_70sdp"
-                    android:layout_centerHorizontal="true"
-                    android:contentDescription="@string/error_symbol"
-                    android:src="@drawable/ic_error_outline_black_24dp" />
-
-                <TextView
-                    android:id="@+id/tvError"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/ivError"
-                    android:layout_centerHorizontal="true"
-                    android:fontFamily="sans-serif-medium"
-                    android:text="@string/network_error"
-                    android:textColor="@color/Grey"
-                    android:textSize="@dimen/_16sdp" />
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cvRetry"
-                    android:layout_width="@dimen/_60sdp"
-                    android:layout_height="@dimen/_30sdp"
-                    android:layout_rowWeight="1"
-                    android:layout_columnWeight="1"
-                    android:layout_below="@+id/tvError"
-                    android:layout_centerHorizontal="true"
-                    android:layout_margin="@dimen/_8sdp"
-                    android:onClick="retry"
-                    android:padding="@dimen/_50sdp"
-                    app:cardCornerRadius="@dimen/_8sdp"
-                    app:cardElevation="@dimen/_2sdp">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/ripple_effect_white"
-                        android:fontFamily="sans-serif-medium"
-                        android:gravity="center"
-                        android:text="@string/retry"
-                        android:textAllCaps="true"
-                        android:textSize="@dimen/_12sdp" />
-                </androidx.cardview.widget.CardView>
-            </RelativeLayout>
-        </LinearLayout>
+            android:layout_centerHorizontal="true" />
     </RelativeLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

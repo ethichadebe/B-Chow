@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,9 +50,8 @@ public class MenuActivity extends AppCompatActivity {
     private static ArrayList<IngredientItem> Ingredients;
     private static int intPosition;
     private static Double dblPrice;
-    private TextView tvEmpty;
+    private TextView tvEmpty, tvNext;
     private Dialog myDialog;
-    private Button btnNext;
     private RelativeLayout rlLoad, rlError;
     private CardView cvRetry;
     private RequestQueue requestQueue;
@@ -73,7 +71,7 @@ public class MenuActivity extends AppCompatActivity {
         tvEmpty = findViewById(R.id.tvEmpty);
         rlLoad = findViewById(R.id.rlLoad);
         rlError = findViewById(R.id.rlError);
-        btnNext = findViewById(R.id.btnNext);
+        tvNext = findViewById(R.id.tvNext);
         cvRetry = findViewById(R.id.cvRetry);
 
         GETMenuItems(findViewById(R.id.vLine), findViewById(R.id.vLineGrey));
@@ -87,10 +85,10 @@ public class MenuActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(mAdapter);
 
         if (isEdit) {
-            btnNext.setText("Edit Extras");
+            tvNext.setText("Edit Extras");
         }
         //Set Button Visibility False if no menu item
-        ButtonVisibility(getNewShop().getMenuItems(), btnNext);
+        ButtonVisibility(getNewShop().getMenuItems(), tvNext);
 
         mAdapter.setOnItemClickListener(new MenuItemAdapter.OnItemClickListener() {
             @Override
@@ -131,18 +129,18 @@ public class MenuActivity extends AppCompatActivity {
 
     public void back(View view) {
         if (isEdit) {
-            startActivity(new Intent(MenuActivity.this, ShopSettingsActivity.class));
+            startActivity(new Intent(this, ShopSettingsActivity.class));
         } else {
-            startActivity(new Intent(MenuActivity.this, IngredientsActivity.class));
+            startActivity(new Intent(this, IngredientsActivity.class));
         }
     }
 
     public void next(View view) {
-        startActivity(new Intent(MenuActivity.this, NewExtrasActivity.class));
+        startActivity(new Intent(this, NewExtrasActivity.class));
     }
 
     public void AddMenu(View view) {
-        startActivity(new Intent(MenuActivity.this, NewMenuItemActivity.class));
+        startActivity(new Intent(this, NewMenuItemActivity.class));
     }
 
     private void DELETEIngredient(int position) {
@@ -160,7 +158,7 @@ public class MenuActivity extends AppCompatActivity {
                         if (JSONData.getString("data").equals("removed")) {
                             getNewShop().getMenuItems().remove(position);
                             mAdapter.notifyItemRemoved(position);
-                            ButtonVisibility(getNewShop().getMenuItems(), btnNext);
+                            ButtonVisibility(getNewShop().getMenuItems(), tvNext);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -189,9 +187,9 @@ public class MenuActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         if (isEdit) {
-            startActivity(new Intent(MenuActivity.this, ShopSettingsActivity.class));
+            startActivity(new Intent(this, ShopSettingsActivity.class));
         } else {
-            startActivity(new Intent(MenuActivity.this, IngredientsActivity.class));
+            startActivity(new Intent(this, IngredientsActivity.class));
         }
     }
 
@@ -214,7 +212,7 @@ public class MenuActivity extends AppCompatActivity {
                             JSONArray jsonArray = response.getJSONArray("menuItems");
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject Ingredients = jsonArray.getJSONObject(i);
-                                ButtonVisibility(getNewShop().getMenuItems(), btnNext);
+                                ButtonVisibility(getNewShop().getMenuItems(), tvNext);
                                 getNewShop().getMenuItems().add(new MenuItem(Ingredients.getInt("mID"),
                                         Ingredients.getDouble("mPrice"), Ingredients.getString("mList"), true));
                             }
@@ -287,7 +285,7 @@ public class MenuActivity extends AppCompatActivity {
                             JSONArray jsonArray = response.getJSONArray("ingredients");
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject Ingredients = jsonArray.getJSONObject(i);
-                                ButtonVisibility(getNewShop().getIngredientItems(), btnNext);
+                                ButtonVisibility(getNewShop().getIngredientItems(), tvNext);
                                 getNewShop().getIngredientItems().add(new IngredientItem(Ingredients.getInt("iID"),
                                         Ingredients.getString("iName"), Ingredients.getDouble("iPrice")));
                             }

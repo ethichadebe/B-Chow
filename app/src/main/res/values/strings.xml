@@ -69,7 +69,6 @@
     <string name="add_an_extra">Add an extra</string>
     <string name="extras">Extras</string>
     <string name="are_you_sure">Are You Sure</string>
-    <string name="place_order">Place order</string>
     <string name="retry">Retry</string>
     <string name="done">Done</string>
     <string name="cancel">Cancel</string>
@@ -116,5 +115,8 @@
     <string name="more_information">More information</string>
     <string name="skip">SKIP</string>
     <string name="search">Search</string>
+    <string name="total">Total</string>
+    <string name="order">Order</string>
+    <string name="place_order">Place order</string>
 
 </resources>
