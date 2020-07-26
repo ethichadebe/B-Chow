@@ -32,6 +32,7 @@ import Adapter.AdminOrderItemPastAdapter;
 import SingleItem.AdminOrderItemPast;
 
 import static util.Constants.getIpAddress;
+import static util.HelperMethods.getError;
 import static util.HelperMethods.handler;
 import static www.ethichadebe.com.loxion_beanery.MyShopsFragment.getNewShop;
 import static www.ethichadebe.com.loxion_beanery.OrdersActivity.oID;
@@ -43,8 +44,8 @@ public class PastOrderFragment extends Fragment {
     private AdminOrderItemPastAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<AdminOrderItemPast> orderItems;
-private CardView cvRetry;
-    private TextView tvEmpty;
+    private CardView cvRetry;
+    private TextView tvEmpty, tvError;
     private RelativeLayout rlLoad, rlError;
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -55,6 +56,7 @@ private CardView cvRetry;
         cvRetry = v.findViewById(R.id.cvRetry);
         rlLoad = v.findViewById(R.id.rlLoad);
         rlError = v.findViewById(R.id.rlError);
+        tvError = v.findViewById(R.id.tvError);
         mRecyclerView = v.findViewById(R.id.recyclerView);
 
         orderItems = new ArrayList<>();
@@ -94,7 +96,7 @@ private CardView cvRetry;
                                         Orders.getInt("oNumber"), Orders.getString("oRecievedAt"),
                                         Orders.getString("oIngredients"), Orders.getString("oExtras"),
                                         Orders.getInt("oRating"), Orders.getString("oFeedback"),
-                                        Orders.getDouble("oPrice"),getSetSelected(Orders.getInt("oID"))));
+                                        Orders.getDouble("oPrice"), getSetSelected(Orders.getInt("oID"))));
                             }
                             scrollToPosition();
                         } else if (response.getString("message").equals("empty")) {
@@ -107,11 +109,7 @@ private CardView cvRetry;
                 error -> {
                     rlError.setVisibility(View.VISIBLE);
                     rlLoad.setVisibility(View.GONE);
-                    if (error.toString().equals("com.android.volley.TimeoutError")) {
-                        Toast.makeText(getActivity(), "Connection error. Please retry", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show();
-                    }
+                    tvError.setText(getError(error));
                 });
         objectRequest.setTag(TAG);
         requestQueue.add(objectRequest);
@@ -143,6 +141,4 @@ private CardView cvRetry;
         }
         return getResources().getDrawable(R.color.common_google_signin_btn_text_dark_default);
     }
-
-
 }

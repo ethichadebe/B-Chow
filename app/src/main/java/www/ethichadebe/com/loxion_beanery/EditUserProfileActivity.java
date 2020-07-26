@@ -1,10 +1,5 @@
 package www.ethichadebe.com.loxion_beanery;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -18,11 +13,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+
 import com.android.volley.NetworkResponse;
-import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.TimeoutError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.common.api.Status;
@@ -55,6 +53,7 @@ import static util.HelperMethods.SHARED_PREFS;
 import static util.HelperMethods.ShowLoadingPopup;
 import static util.HelperMethods.allFieldsEntered;
 import static util.HelperMethods.checkData;
+import static util.HelperMethods.getError;
 import static util.HelperMethods.isEmail;
 import static util.HelperMethods.loadData;
 import static util.HelperMethods.saveData;
@@ -214,38 +213,7 @@ public class EditUserProfileActivity extends AppCompatActivity {
                 }, error -> {
             ShowLoadingPopup(myDialog, false);
             NetworkResponse networkResponse = error.networkResponse;
-            String errorMessage = "Unknown error";
-            if (networkResponse == null) {
-                if (error.getClass().equals(TimeoutError.class)) {
-                    errorMessage = "Request timeout";
-                } else if (error.getClass().equals(NoConnectionError.class)) {
-                    errorMessage = "Failed to connect server";
-                }
-            } else {
-                String result = new String(networkResponse.data);
-                try {
-                    JSONObject response = new JSONObject(result);
-                    String status = response.getString("status");
-                    String message = response.getString("message");
-
-                    Log.e("Error Status", status);
-                    Log.e("Error Message", message);
-
-                    if (networkResponse.statusCode == 404) {
-                        errorMessage = "Resource not found";
-                    } else if (networkResponse.statusCode == 401) {
-                        errorMessage = message + " Please login again";
-                    } else if (networkResponse.statusCode == 400) {
-                        errorMessage = message + " Check your inputs";
-                    } else if (networkResponse.statusCode == 500) {
-                        errorMessage = message + " Something is getting wrong";
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-            Log.d(TAG, "saveProfileAccount: " + errorMessage);
-            Toast.makeText(this, "Error: " + error.toString(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Error: " + getError(error), Toast.LENGTH_SHORT).show();
             error.printStackTrace();
         }) {
             @Override
@@ -321,11 +289,7 @@ public class EditUserProfileActivity extends AppCompatActivity {
                     }
                 }, error -> {
             tvEdit.setBackground(getResources().getDrawable(R.drawable.ripple_effect));
-            if (error.toString().equals("com.android.volley.TimeoutError")) {
-                Toast.makeText(this, "Connection error. Please retry", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
-            }
+            Toast.makeText(this, "Error: " + getError(error), Toast.LENGTH_SHORT).show();
         }) {
             @Override
             protected Map<String, String> getParams() {
@@ -379,11 +343,7 @@ public class EditUserProfileActivity extends AppCompatActivity {
                     }
                 }, error -> {
             tvEdit.setBackground(getResources().getDrawable(R.drawable.ripple_effect));
-            if (error.toString().equals("com.android.volley.TimeoutError")) {
-                Toast.makeText(this, "Connection error. Please retry", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
-            }
+            Toast.makeText(this, "Error: " + getError(error), Toast.LENGTH_SHORT).show();
         }) {
             @Override
             protected Map<String, String> getParams() {

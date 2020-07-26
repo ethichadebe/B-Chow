@@ -41,6 +41,7 @@ import SingleItem.AdminOrderItem;
 
 import static util.Constants.getIpAddress;
 import static util.HelperMethods.ShowLoadingPopup;
+import static util.HelperMethods.getError;
 import static util.HelperMethods.handler;
 import static www.ethichadebe.com.loxion_beanery.MainActivity.getUpcomingOrderItem;
 import static www.ethichadebe.com.loxion_beanery.MyShopsFragment.getNewShop;
@@ -55,7 +56,7 @@ public class UpcomingOrderFragment extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<AdminOrderItem> orderItems;
     private CardView cvRetry;
-    private TextView tvEmpty;
+    private TextView tvEmpty, tvError;
     private RelativeLayout rlLoad, rlError;
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -65,6 +66,7 @@ public class UpcomingOrderFragment extends Fragment {
         tvEmpty = v.findViewById(R.id.tvEmpty);
         rlLoad = v.findViewById(R.id.rlLoad);
         rlError = v.findViewById(R.id.rlError);
+        tvError = v.findViewById(R.id.tvError);
         mRecyclerView = v.findViewById(R.id.recyclerView);
         cvRetry = v.findViewById(R.id.cvRetry);
         myDialog = new Dialog(Objects.requireNonNull(getActivity()));
@@ -157,11 +159,7 @@ public class UpcomingOrderFragment extends Fragment {
                 error -> {
                     rlError.setVisibility(View.VISIBLE);
                     rlLoad.setVisibility(View.GONE);
-                    if (error.toString().equals("com.android.volley.TimeoutError")) {
-                        Toast.makeText(getActivity(), "Connection error. Please retry", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show();
-                    }
+                    tvError.setText(getError(error));
                 });
         objectRequest.setTag(TAG);
         requestQueue.add(objectRequest);
@@ -179,18 +177,15 @@ public class UpcomingOrderFragment extends Fragment {
                     mAdapter.notifyItemRemoved(position);
                     ShowLoadingPopup(myDialog, false);
                 }, error -> {
-            if (error.toString().equals("com.android.volley.TimeoutError")) {
-                Toast.makeText(getActivity(), "Connection error. Please retry", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show();
-            }
-        }){
+            Toast.makeText(getActivity(), getError(error), Toast.LENGTH_SHORT).show();
+        }) {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 params.put("feedback", Objects.requireNonNull(more));
                 return params;
-            }};
+            }
+        };
 
         requestQueue = Volley.newRequestQueue(Objects.requireNonNull(getActivity()));
         stringRequest.setTag(TAG);
@@ -208,11 +203,7 @@ public class UpcomingOrderFragment extends Fragment {
                     mAdapter.notifyItemChanged(position);
                 }, error -> {
             ShowLoadingPopup(myDialog, false);
-            if (error.toString().equals("com.android.volley.TimeoutError")) {
-                Toast.makeText(getActivity(), "Connection error. Please retry", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show();
-            }
+                Toast.makeText(getActivity(), getError(error), Toast.LENGTH_SHORT).show();
         });
 
         requestQueue = Volley.newRequestQueue(Objects.requireNonNull(getActivity()));
@@ -231,11 +222,7 @@ public class UpcomingOrderFragment extends Fragment {
                     mAdapter.notifyItemRemoved(position);
                     ShowLoadingPopup(myDialog, false);
                 }, error -> {
-            if (error.toString().equals("com.android.volley.TimeoutError")) {
-                Toast.makeText(getActivity(), "Connection error. Please retry", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show();
-            }
+                Toast.makeText(getActivity(), getError(error), Toast.LENGTH_SHORT).show();
         });
 
         requestQueue = Volley.newRequestQueue(Objects.requireNonNull(getActivity()));

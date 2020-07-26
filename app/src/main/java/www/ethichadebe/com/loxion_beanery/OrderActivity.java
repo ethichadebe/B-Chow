@@ -42,6 +42,7 @@ import static util.HelperMethods.SHARED_PREFS;
 import static util.HelperMethods.ShowLoadingPopup;
 import static util.HelperMethods.checkData;
 import static util.HelperMethods.combineString;
+import static util.HelperMethods.getError;
 import static util.HelperMethods.handler;
 import static util.HelperMethods.loadData;
 import static www.ethichadebe.com.loxion_beanery.HomeFragment.getShopItem;
@@ -63,7 +64,7 @@ public class OrderActivity extends AppCompatActivity {
 
     private IngredientItemCheckboxAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private TextView tvTotal, tvOder;
+    private TextView tvTotal, tvOder, tvError;
     private Double dblPrice = 0.0;
     private int nExtras = 0;
     private RelativeLayout rlLoad, rlError;
@@ -88,6 +89,7 @@ public class OrderActivity extends AppCompatActivity {
         cvRetry = findViewById(R.id.cvRetry);
         rlLoad = findViewById(R.id.rlLoad);
         rlError = findViewById(R.id.rlError);
+        tvError = findViewById(R.id.tvError);
         mRecyclerView = findViewById(R.id.recyclerView);
         ingredientItems = new ArrayList<>();
         myDialog = new Dialog(this);
@@ -154,11 +156,7 @@ public class OrderActivity extends AppCompatActivity {
                 error -> {
                     rlError.setVisibility(VISIBLE);
                     rlLoad.setVisibility(GONE);
-                    if (error.toString().equals("com.android.volley.TimeoutError")) {
-                        Toast.makeText(this, "Connection error. Please retry", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
-                    }
+                    tvError.setText(getError(error));
                 });
         objectRequest.setTag(TAG);
         requestQueue.add(objectRequest);
@@ -214,7 +212,7 @@ public class OrderActivity extends AppCompatActivity {
                                 Orders.getDouble("sLongitude")), null, getResources().getColor(R.color.done)));
                         if (getUpcomingOrderItem() != null) {
                             Log.d(TAG, "POSTOrder: Starting activity");
-                            FirebaseMessaging.getInstance().subscribeToTopic(getShopItem().getStrShopName().replaceAll("[^a-zA-Z0-9]","_") +
+                            FirebaseMessaging.getInstance().subscribeToTopic(getShopItem().getStrShopName().replaceAll("[^a-zA-Z0-9]", "_") +
                                     getShopItem().getIntID());
                             FirebaseMessaging.getInstance().subscribeToTopic(String.valueOf(Orders.getInt("oID")));
                             startActivity(new Intent(this, OrderConfirmationActivity.class));
@@ -224,11 +222,7 @@ public class OrderActivity extends AppCompatActivity {
                     }
                 }, error -> {
             ShowLoadingPopup(myDialog, false);
-            if (error.toString().equals("com.android.volley.TimeoutError")) {
-                Toast.makeText(this, "Connection error. Please retry", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
-            }
+                Toast.makeText(this, getError(error), Toast.LENGTH_SHORT).show();
         }) {
             @Override
             protected Map<String, String> getParams() {

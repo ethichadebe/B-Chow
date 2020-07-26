@@ -3,6 +3,11 @@ package www.ethichadebe.com.loxion_beanery;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -10,12 +15,6 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -32,11 +31,10 @@ import java.util.Objects;
 
 import Adapter.UpcomingOrderItemAdapter;
 import SingleItem.UpcomingOrderItem;
-import util.MyFirebaseMessagingService;
 
 import static util.Constants.getIpAddress;
+import static util.HelperMethods.getError;
 import static util.HelperMethods.handler;
-import static util.MyFirebaseMessagingService.O_ID;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 import static www.ethichadebe.com.loxion_beanery.MainActivity.getUpcomingOrderItem;
 import static www.ethichadebe.com.loxion_beanery.MainActivity.setUpcomingOrderItem;
@@ -50,6 +48,7 @@ public class UpcomingOrderFragmentCustomer extends Fragment {
     private ArrayList<UpcomingOrderItem> upcomingOrderItems;
     private RelativeLayout rlLoad, rlError, rlEmpty;
     private CardView cvRetry;
+    private TextView tvError;
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -57,6 +56,7 @@ public class UpcomingOrderFragmentCustomer extends Fragment {
 
         rlLoad = v.findViewById(R.id.rlLoad);
         rlError = v.findViewById(R.id.rlError);
+        tvError = v.findViewById(R.id.tvError);
         rlEmpty = v.findViewById(R.id.rlEmpty);
         cvRetry = v.findViewById(R.id.cvRetry);
         mRecyclerView = v.findViewById(R.id.upcomingRecyclerView);
@@ -119,11 +119,7 @@ public class UpcomingOrderFragmentCustomer extends Fragment {
                 error -> {
                     rlError.setVisibility(View.VISIBLE);
                     rlLoad.setVisibility(View.GONE);
-                    if (error.toString().equals("com.android.volley.TimeoutError")) {
-                        Toast.makeText(getActivity(), "Connection error. Please retry", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show();
-                    }
+                    tvError.setText(getError(error));
                 });
         objectRequest.setTag(TAG);
         requestQueue.add(objectRequest);

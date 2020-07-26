@@ -51,6 +51,7 @@ import static util.Constants.getIpAddress;
 import static util.HelperMethods.SHARED_PREFS;
 import static util.HelperMethods.ShowLoadingPopup;
 import static util.HelperMethods.checkData;
+import static util.HelperMethods.getError;
 import static util.HelperMethods.ismLocationGranted;
 import static util.HelperMethods.loadData;
 import static util.HelperMethods.randomNumber;
@@ -333,7 +334,7 @@ public class OrderConfirmationActivity extends AppCompatActivity implements OnMa
                     handler.postDelayed(runnable1, 0);
                 }, error -> {
             ShowLoadingPopup(myDialog, false);
-            Toast.makeText(this,    error.toString(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getError(error), Toast.LENGTH_LONG).show();
         });
 
         requestQueue = Volley.newRequestQueue(this);
@@ -352,7 +353,7 @@ public class OrderConfirmationActivity extends AppCompatActivity implements OnMa
                     showAd();
                 }, error -> {
             ShowLoadingPopup(myDialog, false);
-            Toast.makeText(this, error.toString(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getError(error), Toast.LENGTH_LONG).show();
         });
 
         requestQueue = Volley.newRequestQueue(this);

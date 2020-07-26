@@ -64,6 +64,7 @@ import static util.HelperMethods.REQUEST_CHECK_SETTINGS;
 import static util.HelperMethods.SHARED_PREFS;
 import static util.HelperMethods.ShowLoadingPopup;
 import static util.HelperMethods.checkData;
+import static util.HelperMethods.getError;
 import static util.HelperMethods.loadData;
 import static util.HelperMethods.saveData;
 import static util.HelperMethods.setmLocationGranted;
@@ -227,15 +228,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 }, error -> {
             Log.d(TAG, "PostLogin: error " + error);
-            if (error.toString().equals("com.android.volley.TimeoutError")) {
-                tvError.setText("Connection timeout, Please try again");
-            } else if (error.toString().equals("com.android.volley.ServerError")) {
-                tvError.setText("Problem from our side, Please try again later");
-            } else if (error.toString().contains("UnknownHostException")) {
-                tvError.setText("Make sure you're connected");
-            } else {
-                Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
-            }
+            tvError.setText(getError(error));
             ShowLoadingPopup(myDialog, false);
             bsbBottomSheetBehavior.setHideable(false);
             bsbBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);

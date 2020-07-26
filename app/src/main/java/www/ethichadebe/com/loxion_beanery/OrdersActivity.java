@@ -35,6 +35,7 @@ import static util.Constants.getIpAddress;
 import static util.HelperMethods.SHARED_PREFS;
 import static util.HelperMethods.ShowLoadingPopup;
 import static util.HelperMethods.checkData;
+import static util.HelperMethods.getError;
 import static util.HelperMethods.loadData;
 import static util.MyFirebaseMessagingService.IS_ACTIVE;
 import static util.MyFirebaseMessagingService.O_ID;
@@ -253,11 +254,7 @@ public class OrdersActivity extends AppCompatActivity {
                     }
                 }, error -> {
             ShowLoadingPopup(myDialog, false);
-            if (error.toString().equals("com.android.volley.TimeoutError")) {
-                Toast.makeText(this, "Connection error. Please retry", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
-            }
+            Toast.makeText(this, "Error: " + getError(error), Toast.LENGTH_SHORT).show();
         }) {
             @Override
             protected Map<String, String> getParams() {

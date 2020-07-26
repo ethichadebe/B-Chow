@@ -24,6 +24,10 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import com.android.volley.NetworkResponse;
+import com.android.volley.NoConnectionError;
+import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.google.android.gms.common.api.ApiException;
@@ -40,6 +44,9 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 
 import net.cachapa.expandablelayout.ExpandableLayout;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.FileNotFoundException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -54,6 +61,8 @@ import java.util.Objects;
 import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import javax.xml.transform.ErrorListener;
 
 import SingleItem.IngredientItemCheckbox;
 import www.ethichadebe.com.loxion_beanery.MainActivity;
@@ -127,6 +136,42 @@ public class HelperMethods extends AppCompatActivity {
         } else {
             btn.setVisibility(View.VISIBLE);
         }
+    }
+
+    public static String getError(VolleyError error) {
+        NetworkResponse networkResponse = error.networkResponse;
+        String errorMessage = "Unknown error";
+        if (networkResponse == null) {
+            if (error.getClass().equals(TimeoutError.class)) {
+                errorMessage = "Request timeout";
+            } else if (error.getClass().equals(NoConnectionError.class)) {
+                errorMessage = "Failed to connect server";
+            }
+        } else {
+            String result = new String(networkResponse.data);
+            try {
+                JSONObject response = new JSONObject(result);
+                String status = response.getString("status");
+                String message = response.getString("message");
+
+                Log.e("Error Status", status);
+                Log.e("Error Message", message);
+
+                if (networkResponse.statusCode == 404) {
+                    errorMessage = "Resource not found";
+                } else if (networkResponse.statusCode == 401) {
+                    errorMessage = message + " Please login again";
+                } else if (networkResponse.statusCode == 400) {
+                    errorMessage = message + " Check your inputs";
+                } else if (networkResponse.statusCode == 500) {
+                    errorMessage = message + " Something is getting wrong";
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return errorMessage;
+
     }
 
     public static String convertedTime(String inputTime) {

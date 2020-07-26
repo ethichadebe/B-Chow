@@ -27,6 +27,7 @@ import static util.Constants.getIpAddress;
 import static util.HelperMethods.SHARED_PREFS;
 import static util.HelperMethods.ShowLoadingPopup;
 import static util.HelperMethods.checkData;
+import static util.HelperMethods.getError;
 import static util.HelperMethods.loadData;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.setUser;
 import static www.ethichadebe.com.loxion_beanery.RegisterActivity.getNewUser;
@@ -35,8 +36,7 @@ public class UserTypeActivity extends AppCompatActivity {
     private static final String TAG = "UserTypeActivity";
     private Dialog myDialog;
     private CardView cvOwner, cvEmployee, cvUser;
-    private TextView tvOwner, tvEmployee, tvUser;
-    private TextView tvRegister;
+    private TextView tvRegister, tvOwner, tvEmployee, tvUser;
     private int userType = 3;
 
     private RequestQueue requestQueue;
@@ -115,18 +115,18 @@ public class UserTypeActivity extends AppCompatActivity {
                     try {
                         JSONObject JSONResponse = new JSONObject(response);
 
-                            if (JSONResponse.getString("data").equals("Registered")){
-                                Toast.makeText(this, "Registered successfully", Toast.LENGTH_LONG).show();
-                                Intent intent = new Intent(this, UploadPicActivity.class);
-                                intent.putExtra("U_ID", JSONResponse.getInt("uID"));
-                                startActivity(intent);
-                            }
+                        if (JSONResponse.getString("data").equals("Registered")) {
+                            Toast.makeText(this, "Registered successfully", Toast.LENGTH_LONG).show();
+                            Intent intent = new Intent(this, UploadPicActivity.class);
+                            intent.putExtra("U_ID", JSONResponse.getInt("uID"));
+                            startActivity(intent);
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }, error -> {
             ShowLoadingPopup(myDialog, false);
-            Toast.makeText(this, error.toString(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getError(error), Toast.LENGTH_LONG).show();
         }) {
             @Override
             protected Map<String, String> getParams() {

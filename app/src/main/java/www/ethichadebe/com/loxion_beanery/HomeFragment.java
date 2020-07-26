@@ -55,6 +55,7 @@ import static android.content.Context.MODE_PRIVATE;
 import static util.Constants.getIpAddress;
 import static util.HelperMethods.SHARED_PREFS;
 import static util.HelperMethods.ShowLoadingPopup;
+import static util.HelperMethods.getError;
 import static util.HelperMethods.handler;
 import static util.HelperMethods.ismLocationGranted;
 import static util.HelperMethods.randomNumber;
@@ -68,7 +69,7 @@ public class HomeFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private ShopItemAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private TextView tvEmpty, tvAddress;
+    private TextView tvEmpty, tvAddress, tvError;
     private CardView cvRetry, cvAddress;
     private static ArrayList<ShopItem> shopItems;
     private RelativeLayout rlLoad, rlError;
@@ -93,11 +94,12 @@ public class HomeFragment extends Fragment {
         mRecyclerView = v.findViewById(R.id.recyclerView);
         rlLoad = v.findViewById(R.id.rlLoad);
         rlError = v.findViewById(R.id.rlError);
+        tvError = v.findViewById(R.id.tvError);
         tvEmpty = v.findViewById(R.id.tvEmpty);
         tvAddress = v.findViewById(R.id.tvAddress);
         cvAddress = v.findViewById(R.id.cvAddress);
         cvRetry = v.findViewById(R.id.cvRetry);
-        vLoaders = new View[] {v.findViewById(R.id.vLine), v.findViewById(R.id.vLineGrey)};
+        vLoaders = new View[]{v.findViewById(R.id.vLine), v.findViewById(R.id.vLineGrey)};
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mAdapter = new ShopItemAdapter(shopItems, getActivity(), getString(R.string.AdMob_Native_ID));
@@ -176,11 +178,7 @@ public class HomeFragment extends Fragment {
                 error -> {
                     rlError.setVisibility(View.VISIBLE);
                     rlLoad.setVisibility(View.GONE);
-                    if (error.toString().equals("com.android.volley.TimeoutError")) {
-                        Toast.makeText(getActivity(), "Connection error. Please retry", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show();
-                    }
+                    tvError.setText(getError(error));
                 });
         objectRequest.setTag(TAG);
         requestQueue.add(objectRequest);
@@ -247,11 +245,7 @@ public class HomeFragment extends Fragment {
                     }
                 }, error -> {
             ShowLoadingPopup(myDialog, false);
-            if (error.toString().equals("com.android.volley.TimeoutError")) {
-                Toast.makeText(getActivity(), "Connection error. Please retry", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show();
-            }
+            Toast.makeText(getActivity(), getError(error), Toast.LENGTH_SHORT).show();
         }) {
             @Override
             protected Map<String, String> getParams() {

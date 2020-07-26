@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -40,6 +41,7 @@ import SingleItem.UpcomingOrderItem;
 
 import static util.Constants.getIpAddress;
 import static util.HelperMethods.ShowLoadingPopup;
+import static util.HelperMethods.getError;
 import static util.HelperMethods.handler;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 import static www.ethichadebe.com.loxion_beanery.MainActivity.getUpcomingOrderItem;
@@ -56,16 +58,17 @@ public class PastOrderFragmentCustomer extends Fragment {
     private static PastOrderItem pastOrderItem;
     private CardView cvRetry;
 
+    private TextView tvError;
     private RelativeLayout rlLoad, rlError, rlEmpty;
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_past_order_customer, container, false);
-        View include = v.findViewById(R.id.iLoading);
-        rlEmpty = include.findViewById(R.id.rlEmpty);
+        rlEmpty = v.findViewById(R.id.rlEmpty);
         cvRetry = v.findViewById(R.id.cvRetry);
         rlLoad = v.findViewById(R.id.rlLoad);
         rlError = v.findViewById(R.id.rlError);
+        tvError = v.findViewById(R.id.tvError);
         mRecyclerView = v.findViewById(R.id.pastRecyclerView);
 
         myDialog = new Dialog(Objects.requireNonNull(getActivity()));
@@ -137,11 +140,7 @@ public class PastOrderFragmentCustomer extends Fragment {
                 error -> {
                     rlError.setVisibility(View.VISIBLE);
                     rlLoad.setVisibility(View.GONE);
-                    if (error.toString().equals("com.android.volley.TimeoutError")) {
-                        Toast.makeText(getActivity(), "Connection error. Please retry", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show();
-                    }
+                    tvError.setText(getError(error));
                 });
         objectRequest.setTag(TAG);
         requestQueue.add(objectRequest);
@@ -170,7 +169,7 @@ public class PastOrderFragmentCustomer extends Fragment {
                     }
                 }, error -> {
             ShowLoadingPopup(myDialog, false);
-            Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), getError(error), Toast.LENGTH_LONG).show();
         }) {
             @Override
             protected Map<String, String> getParams() {

@@ -40,6 +40,7 @@ import SingleItem.MenuStatItem;
 
 import static util.Constants.getIpAddress;
 import static util.HelperMethods.ShowLoadingPopup;
+import static util.HelperMethods.getError;
 import static www.ethichadebe.com.loxion_beanery.MyShopsFragment.getNewShop;
 
 public class ReportSummaryFragment extends Fragment {
@@ -216,11 +217,7 @@ public class ReportSummaryFragment extends Fragment {
                 },
                 error -> {
                     ShowLoadingPopup(myDialog, false);
-                    if (error.toString().equals("com.android.volley.TimeoutError")) {
-                        Toast.makeText(getActivity(), "Connection error. Please retry", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show();
-                    }
+                        Toast.makeText(getActivity(), getError(error), Toast.LENGTH_SHORT).show();
                 });
         objectRequest.setTag(TAG);
         requestQueue.add(objectRequest);

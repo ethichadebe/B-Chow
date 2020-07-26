@@ -40,6 +40,7 @@ import static util.HelperMethods.SHARED_PREFS;
 import static util.HelperMethods.ShowLoadingPopup;
 import static util.HelperMethods.checkData;
 import static util.HelperMethods.combineString;
+import static util.HelperMethods.getError;
 import static util.HelperMethods.handler;
 import static util.HelperMethods.loadData;
 import static www.ethichadebe.com.loxion_beanery.HomeFragment.getShopItem;
@@ -55,7 +56,7 @@ public class ExtraItemActivity extends AppCompatActivity {
     private ArrayList<IngredientItemCheckbox> ingredientItems;
     private Dialog myDialog;
     private CardView cvRetry;
-private TextView tvOder;
+    private TextView tvOder, tvError;
     private RequestQueue requestQueue;
 
     @Override
@@ -70,6 +71,7 @@ private TextView tvOder;
         rlLoad = findViewById(R.id.rlLoad);
         tvOder = findViewById(R.id.tvOder);
         rlError = findViewById(R.id.rlError);
+        tvError = findViewById(R.id.tvError);
         cvRetry = findViewById(R.id.cvRetry);
         RecyclerView mRecyclerView = findViewById(R.id.recyclerView);
         ingredientItems = new ArrayList<>();
@@ -121,11 +123,7 @@ private TextView tvOder;
                 error -> {
                     rlError.setVisibility(VISIBLE);
                     rlLoad.setVisibility(View.GONE);
-                    if (error.toString().equals("com.android.volley.TimeoutError")) {
-                        Toast.makeText(this, "Connection error. Please retry", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
-                    }
+                    tvError.setText(getError(error));
                 });
         objectRequest.setTag(TAG);
         requestQueue.add(objectRequest);
@@ -147,7 +145,7 @@ private TextView tvOder;
                                 Orders.getString("oStatus"), new LatLng(Orders.getDouble("sLatitude"),
                                 Orders.getDouble("sLongitude")), null, getResources().getColor(R.color.done)));
                         if (getUpcomingOrderItem() != null) {
-                            FirebaseMessaging.getInstance().subscribeToTopic(getShopItem().getStrShopName().replaceAll("[^a-zA-Z0-9]","_") +
+                            FirebaseMessaging.getInstance().subscribeToTopic(getShopItem().getStrShopName().replaceAll("[^a-zA-Z0-9]", "_") +
                                     getShopItem().getIntID());
                             FirebaseMessaging.getInstance().subscribeToTopic(String.valueOf(Orders.getInt("oID")));
                             startActivity(new Intent(this, OrderConfirmationActivity.class));
@@ -156,12 +154,7 @@ private TextView tvOder;
                         e.printStackTrace();
                     }
                 }, error -> {
-            ShowLoadingPopup(myDialog, false);
-            if (error.toString().equals("com.android.volley.TimeoutError")) {
-                Toast.makeText(this, "Connection error. Please retry", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
-            }
+                Toast.makeText(this, getError(error), Toast.LENGTH_SHORT).show();
         }) {
             @Override
             protected Map<String, String> getParams() {

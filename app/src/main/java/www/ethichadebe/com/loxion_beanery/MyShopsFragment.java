@@ -38,6 +38,7 @@ import SingleItem.MyShopItem;
 
 import static util.Constants.getIpAddress;
 import static util.HelperMethods.ShowLoadingPopup;
+import static util.HelperMethods.getError;
 import static util.HelperMethods.handler;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 import static www.ethichadebe.com.loxion_beanery.NewExtrasActivity.isNew;
@@ -64,7 +65,7 @@ public class MyShopsFragment extends Fragment {
         }
     };
     private View bsbBottomSheet;
-    private TextView tvEmpty;
+    private TextView tvEmpty, tvError;
     private RequestQueue requestQueue;
     private CardView cvRetry;
 
@@ -102,6 +103,7 @@ public class MyShopsFragment extends Fragment {
         myDialog = new Dialog(Objects.requireNonNull(getActivity()));
         shopItems = new ArrayList<>();
         rlError = v.findViewById(R.id.rlError);
+        tvError = v.findViewById(R.id.tvError);
         rlLoad = v.findViewById(R.id.rlLoad);
         tvEmpty = v.findViewById(R.id.tvEmpty);
         llNewShop = v.findViewById(R.id.llNewShop);
@@ -172,7 +174,7 @@ public class MyShopsFragment extends Fragment {
                                         new LatLng(Shops.getDouble("sLatitude"), Shops.getDouble("sLongitude")),
                                         Shops.getString("sAddress"), Shops.getDouble("sAveTime"),
                                         Shops.getDouble("sRating"), Shops.getString("sOperatingHrs"),
-                                        Shops.getInt("isActive") == 1,Shops.getInt("sStatus"),
+                                        Shops.getInt("isActive") == 1, Shops.getInt("sStatus"),
                                         Shops.getInt("nOrders")));
                             }
                         } else if (response.getString("message").equals("empty")) {
@@ -185,11 +187,7 @@ public class MyShopsFragment extends Fragment {
                 error -> {
                     rlError.setVisibility(View.VISIBLE);
                     rlLoad.setVisibility(View.GONE);
-                    if (error.toString().equals("com.android.volley.TimeoutError")) {
-                        Toast.makeText(getActivity(), "Connection error. Please retry", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show();
-                    }
+                    tvError.setText(getError(error));
                 });
         objectRequest.setTag(TAG);
         requestQueue.add(objectRequest);
@@ -234,11 +232,7 @@ public class MyShopsFragment extends Fragment {
                 },
                 error -> {
                     ShowLoadingPopup(myDialog, false);
-                    if (error.toString().equals("com.android.volley.TimeoutError")) {
-                        Toast.makeText(getActivity(), "Connection error. Please retry", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show();
-                    }
+                    Toast.makeText(getActivity(), getError(error), Toast.LENGTH_SHORT).show();
                 });
         objectRequest.setTag(TAG);
         requestQueue.add(objectRequest);

@@ -40,6 +40,7 @@ import static util.Constants.getIpAddress;
 import static util.HelperMethods.SHARED_PREFS;
 import static util.HelperMethods.ShowLoadingPopup;
 import static util.HelperMethods.allFieldsEntered;
+import static util.HelperMethods.getError;
 import static util.HelperMethods.isEmail;
 import static util.HelperMethods.saveData;
 
@@ -189,7 +190,7 @@ public class RegisterActivity extends AppCompatActivity {
                     }
                 }, error -> {
             ShowLoadingPopup(myDialog, false);
-            Toast.makeText(this, error.toString(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getError(error), Toast.LENGTH_LONG).show();
         }) {
             @Override
             protected Map<String, String> getParams() {

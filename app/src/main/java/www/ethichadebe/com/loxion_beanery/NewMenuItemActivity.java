@@ -38,6 +38,7 @@ import static util.HelperMethods.SHARED_PREFS;
 import static util.HelperMethods.ShowLoadingPopup;
 import static util.HelperMethods.checkData;
 import static util.HelperMethods.combineString;
+import static util.HelperMethods.getError;
 import static util.HelperMethods.loadData;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.setUser;
@@ -156,7 +157,7 @@ public class NewMenuItemActivity extends AppCompatActivity {
 
                 }, error -> {
             ShowLoadingPopup(myDialog, false);
-            Toast.makeText(this, error.toString(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getError(error), Toast.LENGTH_LONG).show();
         }) {
             @Override
             protected Map<String, String> getParams() {
@@ -213,6 +214,7 @@ public class NewMenuItemActivity extends AppCompatActivity {
                     setIngredients(new ArrayList<>());
                     startActivity(new Intent(this, MenuActivity.class));
                 }, error -> {
+            Toast.makeText(this, getError(error), Toast.LENGTH_LONG).show();
         }) {
             @Override
             protected Map<String, String> getParams() {

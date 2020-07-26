@@ -36,6 +36,7 @@ import static util.HelperMethods.ButtonVisibility;
 import static util.HelperMethods.SHARED_PREFS;
 import static util.HelperMethods.ShowLoadingPopup;
 import static util.HelperMethods.checkData;
+import static util.HelperMethods.getError;
 import static util.HelperMethods.handler;
 import static util.HelperMethods.loadData;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.setUser;
@@ -50,13 +51,12 @@ public class MenuActivity extends AppCompatActivity {
     private static ArrayList<IngredientItem> Ingredients;
     private static int intPosition;
     private static Double dblPrice;
-    private TextView tvEmpty, tvNext;
+    private TextView tvEmpty, tvNext, tvError;
     private Dialog myDialog;
     private RelativeLayout rlLoad, rlError;
     private CardView cvRetry;
     private RequestQueue requestQueue;
     private static final String TAG = "MenuActivity";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +71,7 @@ public class MenuActivity extends AppCompatActivity {
         tvEmpty = findViewById(R.id.tvEmpty);
         rlLoad = findViewById(R.id.rlLoad);
         rlError = findViewById(R.id.rlError);
+        tvError = findViewById(R.id.tvError);
         tvNext = findViewById(R.id.tvNext);
         cvRetry = findViewById(R.id.cvRetry);
 
@@ -164,13 +165,7 @@ public class MenuActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 },
-                error -> {
-                    if (error.toString().equals("com.android.volley.TimeoutError")) {
-                        Toast.makeText(this, "Connection error. Please retry", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+                error -> Toast.makeText(this, getError(error), Toast.LENGTH_SHORT).show());
         objectRequest.setTag(TAG);
         requestQueue.add(objectRequest);
 
@@ -232,11 +227,7 @@ public class MenuActivity extends AppCompatActivity {
                 error -> {
                     rlError.setVisibility(View.VISIBLE);
                     rlLoad.setVisibility(View.GONE);
-                    if (error.toString().equals("com.android.volley.TimeoutError")) {
-                        Toast.makeText(this, "Connection error. Please retry", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
-                    }
+                    tvError.setText(getError(error));
                 });
         objectRequest.setTag(TAG);
         requestQueue.add(objectRequest);
@@ -248,7 +239,7 @@ public class MenuActivity extends AppCompatActivity {
     }
 
     public void ShowPopup(int position) {
-        TextView tvCancel, tvMessage,btnYes, btnNo;
+        TextView tvCancel, tvMessage, btnYes, btnNo;
         myDialog.setContentView(R.layout.popup_confirmation);
 
         tvCancel = myDialog.findViewById(R.id.tvCancel);
@@ -296,11 +287,7 @@ public class MenuActivity extends AppCompatActivity {
                 },
                 error -> {
                     ShowLoadingPopup(myDialog, false);
-                    if (error.toString().equals("com.android.volley.TimeoutError")) {
-                        Toast.makeText(this, "Connection error. Please retry", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
-                    }
+                    tvError.setText(getError(error));
                 });
         objectRequest.setTag(TAG);
         requestQueue.add(objectRequest);

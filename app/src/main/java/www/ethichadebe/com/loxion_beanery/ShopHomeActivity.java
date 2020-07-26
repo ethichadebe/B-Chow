@@ -44,6 +44,7 @@ import static util.Constants.getIpAddress;
 import static util.HelperMethods.DisplayImage;
 import static util.HelperMethods.SHARED_PREFS;
 import static util.HelperMethods.checkData;
+import static util.HelperMethods.getError;
 import static util.HelperMethods.handler;
 import static util.HelperMethods.loadData;
 import static www.ethichadebe.com.loxion_beanery.HomeFragment.getShopItem;
@@ -59,12 +60,13 @@ public class ShopHomeActivity extends AppCompatActivity {
     private static ArrayList<MenuItem> MenuItems;
     private static String[] ingredients;
     private RelativeLayout rlLoad, rlError, rlShop;
-    private TextView tvDistance, tvAveTime, tvFullDescrpit;
+    private TextView tvDistance, tvAveTime, tvFullDescrpit, tvError;
     private ImageView ivBig;
     private FloatingActionButton fabCustom;
     private RatingBar rbRating;
     private LinearLayout llShop;
-private CardView cvRetry;
+    private CardView cvRetry;
+
     public static ArrayList<MenuItem> getMenuItems() {
         return MenuItems;
     }
@@ -119,6 +121,7 @@ private CardView cvRetry;
         rlShop = findViewById(R.id.rlShop);
         llShop = findViewById(R.id.llShop);
         rlError = findViewById(R.id.rlError);
+        tvError = findViewById(R.id.tvError);
         tvDistance = findViewById(R.id.tvDistance);
         tvAveTime = findViewById(R.id.tvAveTime);
         tvFullDescrpit = findViewById(R.id.tvFullDescrpit);
@@ -214,11 +217,7 @@ private CardView cvRetry;
                 error -> {
                     rlError.setVisibility(View.VISIBLE);
                     rlLoad.setVisibility(View.GONE);
-                    if (error.toString().equals("com.android.volley.TimeoutError")) {
-                        Toast.makeText(this, "Connection error. Please retry", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
-                    }
+                    tvError.setText(getError(error));
                 });
         objectRequest.setTag(TAG);
         requestQueue.add(objectRequest);

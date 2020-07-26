@@ -40,6 +40,7 @@ import static util.Constants.getIpAddress;
 import static util.HelperMethods.ButtonVisibility;
 import static util.HelperMethods.SHARED_PREFS;
 import static util.HelperMethods.checkData;
+import static util.HelperMethods.getError;
 import static util.HelperMethods.handler;
 import static util.HelperMethods.loadData;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
@@ -52,10 +53,10 @@ public class IngredientsActivity extends AppCompatActivity {
     private IngredientItemAdapter mAdapter;
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
-    private CardView btnAddOption,cvRetry;
+    private CardView btnAddOption, cvRetry;
     private MaterialEditText etName, etPrice;
     private Dialog myDialog;
-    private TextView tvEmpty, tvNext;
+    private TextView tvEmpty, tvNext, tvError;
     private RelativeLayout rlLoad, rlError;
 
     private RequestQueue requestQueue;
@@ -72,6 +73,7 @@ public class IngredientsActivity extends AppCompatActivity {
         myDialog = new Dialog(this);
         tvNext = findViewById(R.id.tvNext);
         etName = findViewById(R.id.etName);
+        tvError = findViewById(R.id.tvError);
         btnAddOption = findViewById(R.id.btnAddOption);
         etPrice = findViewById(R.id.etPrice);
         cvRetry = findViewById(R.id.cvRetry);
@@ -173,11 +175,7 @@ public class IngredientsActivity extends AppCompatActivity {
 
                 }, error -> {
             HelperMethods.ShowLoadingPopup(myDialog, false);
-            if (error.toString().equals("com.android.volley.TimeoutError")) {
-                Toast.makeText(this, "Connection error. Please retry", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
-            }
+            Toast.makeText(this, getError(error), Toast.LENGTH_SHORT).show();
         }) {
             @Override
             protected Map<String, String> getParams() {
@@ -216,11 +214,7 @@ public class IngredientsActivity extends AppCompatActivity {
                     //Loads shops starting with the one closest to user
                 },
                 error -> {
-                    if (error.toString().equals("com.android.volley.TimeoutError")) {
-                        Toast.makeText(this, "Connection error. Please retry", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
-                    }
+                    Toast.makeText(this, getError(error), Toast.LENGTH_SHORT).show();
                 });
         objectRequest.setTag(TAG);
         requestQueue.add(objectRequest);
@@ -231,7 +225,7 @@ public class IngredientsActivity extends AppCompatActivity {
         HelperMethods.ShowLoadingPopup(myDialog, true);
         StringRequest stringRequest = new StringRequest(Request.Method.PUT,
                 getIpAddress() + "/shops/Register/Ingredient/" +
-                        getNewShop().getIngredientItems().get(position).getIntID()+"/"+getNewShop().getIntID(),
+                        getNewShop().getIngredientItems().get(position).getIntID() + "/" + getNewShop().getIntID(),
                 response -> {
                     HelperMethods.ShowLoadingPopup(myDialog, false);
                     getNewShop().getIngredientItems().get(position).setStrIngredientName(IngredientName);
@@ -239,11 +233,7 @@ public class IngredientsActivity extends AppCompatActivity {
                     mAdapter.notifyItemChanged(position);
                 }, error -> {
             HelperMethods.ShowLoadingPopup(myDialog, false);
-            if (error.toString().equals("com.android.volley.TimeoutError")) {
-                Toast.makeText(this, "Connection error. Please retry", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
-            }
+            Toast.makeText(this, getError(error), Toast.LENGTH_SHORT).show();
         }) {
             @Override
             protected Map<String, String> getParams() {
@@ -342,12 +332,7 @@ public class IngredientsActivity extends AppCompatActivity {
                 error -> {
                     rlError.setVisibility(View.VISIBLE);
                     rlLoad.setVisibility(View.GONE);
-                    if (error.toString().equals("com.android.volley.TimeoutError")) {
-                        Toast.makeText(this, "Connection error. Please retry",
-                                Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
-                    }
+                    tvError.setText(getError(error));
                 });
         objectRequest.setTag(TAG);
         requestQueue.add(objectRequest);
@@ -359,7 +344,7 @@ public class IngredientsActivity extends AppCompatActivity {
     }
 
     public void ShowPopup(int position) {
-        TextView tvCancel, tvMessage,btnYes, btnNo;
+        TextView tvCancel, tvMessage, btnYes, btnNo;
         myDialog.setContentView(R.layout.popup_confirmation);
 
         tvCancel = myDialog.findViewById(R.id.tvCancel);

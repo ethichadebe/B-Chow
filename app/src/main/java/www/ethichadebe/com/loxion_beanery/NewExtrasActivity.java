@@ -38,6 +38,7 @@ import static util.Constants.getIpAddress;
 import static util.HelperMethods.SHARED_PREFS;
 import static util.HelperMethods.ShowLoadingPopup;
 import static util.HelperMethods.checkData;
+import static util.HelperMethods.getError;
 import static util.HelperMethods.handler;
 import static util.HelperMethods.loadData;
 import static www.ethichadebe.com.loxion_beanery.LoginActivity.getUser;
@@ -51,7 +52,7 @@ public class NewExtrasActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private ExtraItemAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private TextView tvEmpty;
+    private TextView tvEmpty, tvError;
     private RelativeLayout rlLoad, rlError;
     private RequestQueue requestQueue;
     private Dialog myDialog;
@@ -87,6 +88,7 @@ public class NewExtrasActivity extends AppCompatActivity {
         tvEmpty = findViewById(R.id.tvEmpty);
         rlLoad = findViewById(R.id.rlLoad);
         rlError = findViewById(R.id.rlError);
+        tvError = findViewById(R.id.tvError);
         cvRetry = findViewById(R.id.cvRetry);
 
         GETExtras(findViewById(R.id.vLine), findViewById(R.id.vLineGrey));
@@ -130,9 +132,9 @@ public class NewExtrasActivity extends AppCompatActivity {
     }
 
     private boolean exists() {
-        for(ExtraItem extraItem : extraItems){
+        for (ExtraItem extraItem : extraItems) {
             if (Objects.requireNonNull(etExtra.getText()).toString().toLowerCase().
-                    equals(extraItem.getStrExtraName().toLowerCase())){
+                    equals(extraItem.getStrExtraName().toLowerCase())) {
                 etExtra.setError("already exists");
                 return true;
             }
@@ -162,11 +164,7 @@ public class NewExtrasActivity extends AppCompatActivity {
                     }
                 }, error -> {
             ShowLoadingPopup(myDialog, false);
-            if (error.toString().equals("com.android.volley.TimeoutError")) {
-                Toast.makeText(this, "Connection error. Please retry", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
-            }
+            Toast.makeText(this, getError(error), Toast.LENGTH_LONG).show();
         }) {
             @Override
             protected Map<String, String> getParams() {
@@ -206,11 +204,7 @@ public class NewExtrasActivity extends AppCompatActivity {
                     //Loads shops starting with the one closest to user
                 },
                 error -> {
-                    if (error.toString().equals("com.android.volley.TimeoutError")) {
-                        Toast.makeText(this, "Connection error. Please retry", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
-                    }
+                    Toast.makeText(this, getError(error), Toast.LENGTH_LONG).show();
                 });
         objectRequest.setTag(TAG);
         requestQueue.add(objectRequest);
@@ -227,11 +221,7 @@ public class NewExtrasActivity extends AppCompatActivity {
                     mAdapter.notifyItemChanged(position);
                 }, error -> {
             ShowLoadingPopup(myDialog, false);
-            if (error.toString().equals("com.android.volley.TimeoutError")) {
-                Toast.makeText(this, "Connection error. Please retry", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
-            }
+            Toast.makeText(this, getError(error), Toast.LENGTH_LONG).show();
         }) {
             @Override
             protected Map<String, String> getParams() {
@@ -311,11 +301,7 @@ public class NewExtrasActivity extends AppCompatActivity {
                 error -> {
                     rlError.setVisibility(View.VISIBLE);
                     rlLoad.setVisibility(View.GONE);
-                    if (error.toString().equals("com.android.volley.TimeoutError")) {
-                        Toast.makeText(this, "Connection error. Please retry", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
-                    }
+                    tvError.setText(getError(error));
                 });
         objectRequest.setTag(TAG);
         requestQueue.add(objectRequest);

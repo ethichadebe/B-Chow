@@ -43,19 +43,31 @@
             android:id="@+id/ivError"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:contentDescription="TODO"
+            android:layout_centerHorizontal="true"
+            android:contentDescription="@string/error_symbol"
             android:src="@drawable/ic_error_outline_black_24dp" />
 
+        <TextView
+            android:id="@+id/tvErrorTtl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ivError"
+            android:layout_marginTop="0dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="@string/network_error"
+            android:textColor="@color/Transparent_DarkGrey"
+            android:textSize="@dimen/_18ssp" />
         <TextView
             android:id="@+id/tvError"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/ivError"
             android:layout_centerHorizontal="true"
-            android:fontFamily="sans-serif-medium"
-            android:text="Network error."
-            android:textColor="@color/Grey"
-            android:textSize="@dimen/_18ssp" />
+            android:layout_marginStart="@dimen/_3sdp"
+            android:fontFamily="sans-serif-light"
+            android:layout_below="@id/tvErrorTtl"
+            android:gravity="center_vertical"
+            android:text="@string/network_error"
+            android:textSize="@dimen/_12ssp" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cvRetry"
