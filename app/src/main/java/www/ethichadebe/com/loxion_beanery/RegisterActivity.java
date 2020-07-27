@@ -229,7 +229,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     public void register(View view) {
-        if (isEmail(mTextBoxes[3]) && allFieldsEntered(mTextBoxes) && sexIsChecked() && passwordMatches()) {
+        if (allFieldsEntered(mTextBoxes) && sexIsChecked() && isEmail(mTextBoxes[3]) && passwordMatches()) {
             POSTRegister();
         }
     }
